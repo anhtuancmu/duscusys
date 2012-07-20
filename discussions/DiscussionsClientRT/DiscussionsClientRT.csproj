@@ -57,14 +57,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lite, Version=3.0.15.2544, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\Lite.dll</HintPath>
-    </Reference>
-    <Reference Include="LiteLobby, Version=3.0.15.2544, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\LiteLobby.dll</HintPath>
-    </Reference>
     <Reference Include="Photon3DotNet">
       <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon3DotNet.dll</HintPath>
     </Reference>
@@ -96,6 +88,14 @@
       <Project>{F9AA08F9-C441-4BDA-8029-DC702643B09A}</Project>
       <Name>DiscussionsRT</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+    <ProjectReference Include="..\LiteLobby\LiteLobby.csproj">
+      <Project>{fa7e92f0-41e3-4295-9cb1-1b9a2f0605b5}</Project>
+      <Name>LiteLobby</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lite\Lite.csproj">
+      <Project>{e1f918f4-f581-4280-9d91-3cf77b24c290}</Project>
+      <Name>Lite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

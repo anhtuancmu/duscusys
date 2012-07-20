@@ -62,7 +62,7 @@
       <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\ExitGamesLibs.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\References\log4net.dll</HintPath>
+      <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer">
       <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon.SocketServer.dll</HintPath>
