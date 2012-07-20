@@ -35,8 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExitGamesLibs">
-      <HintPath>..\References\ExitGamesLibs.dll</HintPath>
+    <Reference Include="ExitGamesLibs, Version=0.9.9.3, Culture=neutral, PublicKeyToken=eac0edd9746a4aa0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\ExitGamesLibs.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer">
       <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon.SocketServer.dll</HintPath>
