@@ -1,0 +1,16 @@
+== Core ==
+PhotonSocketServer.2010
+x64 Unicode Release
+BuildDate: 2012-04-27 17:59:35
+Version: 3.0.15.1343
+SVN repository: photon-socketserver
+SVN revisions of...
+... this project: 1343
+... bin-tools: 85
+== SDK ==
+BuildDate: 2012-04-27 18:29:38
+Version: 3.0.24.3243
+SVN repository: photon-socketserver-sdk
+SVN revisions of...
+... this project: 3243
+... bin-tools: 3243
