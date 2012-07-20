@@ -1,0 +1,187 @@
+﻿<Custom:SurfaceWindow 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
+			 xmlns:Microsoft_Windows_Controls="clr-namespace:Microsoft.Windows.Controls"
+             xmlns:local="clr-namespace:Discussions" 
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+             x:Class="Discussions.PrivateCenter3" 
+             mc:Ignorable="d" 
+             d:DesignHeight="851.167" d:DesignWidth="1861.333" 
+             PreviewKeyDown="SurfaceWindow_KeyDown_1"
+             Title="Private dashboard" 
+             Background="{StaticResource frmGrayBg}"
+             Closing="SurfaceWindow_Closing" Icon="discusys%20iconv3.ico">
+
+    <s:SurfaceWindow.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+
+	    <BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
+
+        <DataTemplate x:Key="smallArgPointTemplate">
+            <local:StripBadge/>
+        </DataTemplate>
+
+    </s:SurfaceWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="51.61"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="388*"/>
+            <ColumnDefinition Width="420*"/>
+            <ColumnDefinition Width="1037*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Grid.RowSpan="2" d:LayoutOverrides="Margin">
+        	<Grid.RowDefinitions>
+        		<RowDefinition Height="Auto"/>
+        		<RowDefinition Height="371*"/>
+        		<RowDefinition Height="Auto" MinHeight="32.61"/>
+        		<RowDefinition Height="377*"/>
+        	</Grid.RowDefinitions>
+    		<Label x:Name="Arguments" Content="Arguments" d:LayoutOverrides="Margin" Foreground="Black"/>
+    		<Custom:SurfaceListBox x:Name="lstPoints" 
+    			ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+    			ScrollViewer.VerticalScrollBarVisibility="Auto"            
+    			SelectionChanged="lstPoints_SelectionChanged" Grid.Row="1" 
+			    HorizontalContentAlignment="Stretch" 
+				VerticalContentAlignment="Center" 
+                ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}" 
+                BorderThickness="2">
+
+    			<Custom:SurfaceListBox.ItemTemplate>
+    				<DataTemplate>
+    					   <DockPanel HorizontalAlignment="Stretch">
+    							<Custom:SurfaceCheckBox VerticalAlignment="Center" IsChecked="{Binding SharedToPublic}" 
+    								Click="SurfaceCheckBox_Click" DockPanel.Dock="Left"/>
+                                <local:StripBadge DockPanel.Dock="Right"/>
+                           </DockPanel>
+    				</DataTemplate>
+    			</Custom:SurfaceListBox.ItemTemplate>
+    		</Custom:SurfaceListBox>
+    		<Custom:SurfaceListBox x:Name="lstBadgesOfOtherUser"                           
+    			ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+    			ScrollViewer.VerticalScrollBarVisibility="Auto"            
+    			SelectionChanged="lstOtherUserBadges_SelectionChanged" Margin="0" Grid.Row="3"
+                d:LayoutOverrides="Margin" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" 
+                 ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}">
+
+    			<Custom:SurfaceListBox.ItemTemplate>
+    				<DataTemplate>
+                        <local:StripBadge/>
+    				</DataTemplate>
+    			</Custom:SurfaceListBox.ItemTemplate>
+    		</Custom:SurfaceListBox>
+    		<Label Content="Arguments of other user" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Height="32.61" Width="184.173" d:LayoutOverrides="Margin" Foreground="Black"/>
+    	</Grid>
+        <StackPanel Grid.Column="2" d:LayoutOverrides="Margin">
+            <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center">
+                <Custom:SurfaceButton x:Name="btnAddPoint" Click="btnAddPoint_Click" Background="{x:Null}"
+        			HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="30"
+        					Width="40"
+        					Height="40"		        
+        					BorderThickness="3" Background="{DynamicResource addBrush}"/>
+                        <Label Content="CREATE" Foreground="Black" VerticalAlignment="Center" FontSize="14.667"/>
+                    </StackPanel>
+                </Custom:SurfaceButton>
+                <Custom:SurfaceButton x:Name="btnRemovePoint" Click="btnRemovePoint_Click"
+        			HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Padding="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="30"		        
+        					BorderThickness="3" Background="{DynamicResource minusBrush}" Height="40" Width="40"/>
+                        <Label Content="DELETE" Foreground="Black" VerticalAlignment="Center" FontSize="14.667"/>
+                    </StackPanel>
+                </Custom:SurfaceButton>
+                <Custom:SurfaceButton x:Name="btnCopy" Click="btnCopy_Click_1" Background="{x:Null}"
+                	HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2">
+                	<StackPanel Orientation="Horizontal">
+                		<Border CornerRadius="30"
+                			Width="40"
+                			Height="40"		        
+                			BorderThickness="3" Background="{DynamicResource transferBrush}"/>
+                		<Label Content="TRANSFER" Foreground="Black" VerticalAlignment="Center" FontSize="14.667"/>
+                	</StackPanel>
+                </Custom:SurfaceButton>
+                <Custom:SurfaceButton x:Name="btnDiscInfo" Click="btnDiscInfo_Click"
+        			HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Padding="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="30"
+                    		Width="40"
+                    		Height="40"		        
+                    		BorderThickness="3" Background="{DynamicResource infoBrush}"/>
+                        <Label Content="INFO" Foreground="Black" VerticalAlignment="Center" FontSize="14.667"/>
+                    </StackPanel>
+                </Custom:SurfaceButton>
+                <Custom:SurfaceButton x:Name="btnRefresh1" Click="btnRefresh_Click"
+                	HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Padding="2">
+                	<StackPanel Orientation="Horizontal">
+                		<Border CornerRadius="30"
+                			Width="40"
+                			Height="40"		        
+                			BorderThickness="3" Background="{DynamicResource refreshIcon}"/>
+                		<Label Content="REFRESH" Foreground="Black" VerticalAlignment="Center" FontSize="14.667"/>
+                	</StackPanel>
+                </Custom:SurfaceButton>
+            </StackPanel>
+
+            <Canvas Panel.ZIndex="98" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+
+            <Separator Grid.Column="2"/>
+        </StackPanel>
+
+        <s:SurfaceScrollViewer x:Name="bigBadgeScroller" Grid.Column="2" Grid.Row="1" Grid.RowSpan="1" Margin="0,0,0,86" d:LayoutOverrides="Margin">
+            <local:EditableBadge x:Name="theBadge"/>
+        </s:SurfaceScrollViewer>
+        <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" VerticalAlignment="Bottom" Height="88" d:LayoutOverrides="Margin">
+            <Separator VerticalAlignment="Top" DockPanel.Dock="Top"/>
+            <!--<Custom:SurfaceButton x:Name="btnOk" DockPanel.Dock="Right" Content="OK" HorizontalAlignment="Right" Click="btnOk_Click"/>-->
+            <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="btnSave_Click">
+				<Border Background="{StaticResource save}" Width="70" Height="70"/>
+		    </Custom:SurfaceButton>
+
+            <Custom:SurfaceButton x:Name="btnDiscuBoard"  Background="{x:Null}" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="btnDiscu_Click" Margin="1">
+				<Border Background="{StaticResource keyboard}" Width="70" Height="70"/>
+			</Custom:SurfaceButton>
+
+            <Label x:Name="dragDropTooltip" Content=""/>
+        </DockPanel>
+        <Grid Grid.RowSpan="2" d:LayoutOverrides="Margin">
+            <Grid.RowDefinitions>
+            	<RowDefinition Height="Auto"/>
+            	<RowDefinition Height="185*"/>
+            	<RowDefinition Height="Auto" MinHeight="32.61"/>
+            	<RowDefinition Height="189*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Topics" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment, Margin" RenderTransformOrigin="0.482,-0.632" Height="32.61" Width="58.043" Foreground="Black"/>
+            <Custom:SurfaceListBox x:Name="lstTopics"
+                ItemsSource="{Binding TopicsOfDiscussion}"
+        		SelectionChanged="lstTopics_SelectionChanged" 
+                ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}"       
+                Grid.Row="1" Margin="0" d:LayoutOverrides="Margin">
+                <Custom:SurfaceListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding Name}" Foreground="Black"/>
+                    </DataTemplate>
+                </Custom:SurfaceListBox.ItemTemplate>
+            </Custom:SurfaceListBox>
+            
+            <Label Content="Other users" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Margin="0" Height="32.61" Width="92.423" d:LayoutOverrides="Margin" Foreground="Black"/>
+            <Custom:SurfaceListBox x:Name="lstOtherUsers" ItemsSource="{Binding OtherUsers}"                
+            	SelectionChanged="lstUsers_SelectionChanged" Grid.Row="3" Margin="0,2,0,0" d:LayoutOverrides="Margin" ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}">
+                <Custom:SurfaceListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:StripUser/>
+                    </DataTemplate>
+                </Custom:SurfaceListBox.ItemTemplate>
+            </Custom:SurfaceListBox>                
+        </Grid>
+        <Label x:Name="lblWelcome" Content="Welcome" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,0,0" Foreground="Black" FontSize="18.667" Grid.Column="2" d:LayoutOverrides="Margin"/>
+    </Grid>
+</Custom:SurfaceWindow>

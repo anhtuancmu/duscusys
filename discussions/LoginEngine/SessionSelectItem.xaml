@@ -1,0 +1,33 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Discussions"
+	mc:Ignorable="d"
+	x:Class="Discussions.SessionSelectItem"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<Grid x:Name="LayoutRoot">
+		<Grid.Resources>		
+			<local:TimeslotConverter x:Key="timeSlotConv"/>
+        </Grid.Resources>
+		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="269*"/>
+			<ColumnDefinition Width="162*"/>
+			<ColumnDefinition Width="209*"/>
+		</Grid.ColumnDefinitions>
+
+		<Label x:Name="timeSlot" Content="{Binding EstimatedTimeSlot, Converter={StaticResource timeSlotConv}}" 
+		Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+		<Label x:Name="lblSession" Content="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<Label x:Name="lblDateTime" Content="{Binding EstimatedDateTime}" 
+								    ContentStringFormat="{}{0:D}"
+						Grid.Column="1" 
+						HorizontalAlignment="Center" 
+						VerticalAlignment="Center"/>
+	</Grid>
+</UserControl>

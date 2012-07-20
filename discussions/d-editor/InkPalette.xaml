@@ -1,0 +1,53 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:s="http://schemas.microsoft.com/surface/2008"    
+	mc:Ignorable="d"
+	x:Class="DistributedEditor.InkPalette"
+	x:Name="UserControl"
+	d:DesignWidth="390" d:DesignHeight="164">
+
+	<UserControl.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+    </UserControl.Resources>
+
+	<UserControl.Effect>
+		<DropShadowEffect BlurRadius="40" Color="#FF272727"/>
+    </UserControl.Effect>
+
+	<Grid x:Name="LayoutRoot">
+		<Border x:Name="bdr" CornerRadius="5" Background="#FF747474" BorderThickness="4">
+
+			<Grid>
+				<StackPanel HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Top">
+					<s:SurfaceToggleButton x:Name="radInk" Background="{x:Null}" IsChecked="True" Click="rad_Click" Tag="{x:Static InkCanvasEditingMode.Ink}" Width="100">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90" >
+							<Border Background="{StaticResource pen}" Height="30" Width="30"/>
+							<TextBlock Foreground="White" Text="Ink" d:LayoutOverrides="Width" Margin="13,0,0,0"/>
+						</StackPanel>
+					</s:SurfaceToggleButton>			
+					<s:SurfaceToggleButton x:Name="radErase" Background="{x:Null}" Click="rad_Click"  Tag="{x:Static InkCanvasEditingMode.EraseByStroke}" Width="100">                  
+					    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90">
+							<Border Background="{StaticResource eraser}" Height="30" Width="30"/>
+							<TextBlock Foreground="White" Text="Eraser" Margin="12,0,0,0"/>
+						</StackPanel>
+					</s:SurfaceToggleButton>
+				</StackPanel>
+
+				<StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Right">
+					<Label Content="Brush size" HorizontalAlignment="Center" FontSize="21.333" FontFamily="Segoe UI"/>
+					<StackPanel Orientation="Horizontal">
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" IsChecked="True" Content="RadioButton" x:Name="b_8" FontSize="4" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_10" FontSize="8" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_12" FontSize="10" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_14" FontSize="12" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+					</StackPanel>		
+				</StackPanel>
+
+				<s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="Finish drawing" VerticalAlignment="Bottom" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

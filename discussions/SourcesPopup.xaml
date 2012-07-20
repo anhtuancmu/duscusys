@@ -1,0 +1,27 @@
+﻿<Popup
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Custom="http://schemas.microsoft.com/surface/2008" x:Class="Discussions.SourcesPopup" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" OpacityMask="#FFC4C4C4"         
+             MouseMove="Popup_MouseMove"
+             StaysOpen="False">
+
+    <Grid Background="#FF838383"  MouseLeave="Popup_MouseLeave">
+    	<Grid.RowDefinitions>
+    		<RowDefinition/>
+    		<RowDefinition Height="Auto" MinHeight="25.96"/>
+    	</Grid.RowDefinitions>    
+    	<Label Name="lblEdit" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+			<Hyperlink x:Name="btnEdit" Click="btnEdit_Click">
+				Edit
+			</Hyperlink>
+        </Label>
+                    
+    	<Custom:SurfaceTextBox x:Name="txtBxSources"  TextWrapping="Wrap"
+                               d:LayoutOverrides="Width" IsReadOnly="True" FontSize="13.333" 
+                               Background="#E6525252" Foreground="#CCFFFFFF" Margin="0"/>            
+    </Grid>
+</Popup>
