@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Discussions.SeatItemReadOnly"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             xmlns:local="clr-namespace:Discussions" 
+             mc:Ignorable="d" 
+             d:DesignHeight="45" d:DesignWidth="303">   
+    <UserControl.Resources>
+        <local:ARGBColorBrushConvertor x:Key="argbConverter"/>
+    </UserControl.Resources>    
+
+    <DockPanel>
+        <Label Content="{Binding SeatName}"/>
+		<Rectangle Fill="{Binding Color, Converter={StaticResource argbConverter}}" DockPanel.Dock="Right" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center"/>                  
+	</DockPanel> 
+</UserControl>

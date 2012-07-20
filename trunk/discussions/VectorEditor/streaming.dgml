@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" Layout="ForceDirected" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="11111" Bounds="-4.83078965940258,-21.868754557517,175.49,25.96" Label="shape 1 owner (token holder)" UseManualLocation="True" />
+    <Node Id="Broadcaster" Bounds="23.7208509904738,284.226902416992,82.3656958614596,25.96" />
+    <Node Id="Client" Bounds="308.489495044015,33.3146552267292,122.828020667965,142.880304084834" Group="Expanded" Label="client" UseManualLocation="True" />
+    <Node Id="ClusterEngine" Bounds="144.685712984178,227.575794430917,94.2433333333333,25.96" Label="cluster engine" UseManualLocation="True" />
+    <Node Id="LocalRender" Bounds="328.493578338509,130.234858706015,82.8239373734706,25.9600006055477" Label="Local player" />
+    <Node Id="ObservingClient" Bounds="139.312139930063,59.1507914064296,103.913333333333,25.96" Label="observing client" UseManualLocation="True" />
+    <Node Id="Photon" Bounds="49.7282266869432,58.9417241293155,58.76,25.96" Label="photon" UseManualLocation="True" />
+    <Node Id="Photon1" Bounds="-13.9006801012013,186.615694430917,288.611543052966,145.547565112305" Group="Expanded" Label="photon" UseManualLocation="True" />
+    <Node Id="Server" Bounds="136.162748498431,286.141536765125,118.548114453333,25.96" Label="Streaming channel" />
+    <Node Id="Shape2Owner(tokenHolder)" Bounds="-6.41071044921875,130.655594430917,175.49,25.96" Label="shape 2 owner (token holder)" UseManualLocation="True" />
+    <Node Id="Streamer" Bounds="328.489495044015,74.2747552267292,67.9077875562086,25.9600110309166" Label="Streamer" />
+    <Node Id="TokenResolution" Bounds="6.09931989879864,228.328434201425,108.586393085379,25.96" Label="Token resolution" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="11111" Target="Photon" Bounds="84.3976745605469,4.09124422073364,2.15991973876953,45.8604464530945" />
+    <Link Source="Broadcaster" Target="Server" Bounds="106.086547851563,302.123046875,21.0771713256836,0.30914306640625" />
+    <Link Source="Client" Target="LocalRender" Category="Contains" />
+    <Link Source="Client" Target="Streamer" Category="Contains" />
+    <Link Source="Photon" Target="11111" Bounds="75.46484375,13.0812788009644,2.15991973876953,45.8604440689087" />
+    <Link Source="Photon" Target="ObservingClient" Bounds="108.488222961426,71.9764888900045,21.8239400941561,0.0406800104454845" />
+    <Link Source="Photon" Target="Shape2Owner(tokenHolder)" Bounds="75.2590866088867,84.901725769043,1.14101409912109,36.7582015991211" />
+    <Link Source="Photon1" Target="Broadcaster" Category="Contains" />
+    <Link Source="Photon1" Target="ClusterEngine" Category="Contains" />
+    <Link Source="Photon1" Target="Server" Category="Contains" />
+    <Link Source="Photon1" Target="TokenResolution" Category="Contains" />
+    <Link Source="Server" Target="Broadcaster" Bounds="115.085578918457,293.754119873047,21.0771713256836,0.309173583984375" />
+    <Link Source="Shape2Owner(tokenHolder)" Target="Photon" Bounds="84.0424118041992,93.8973922729492,1.14101409912109,36.7582015991211" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

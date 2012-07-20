@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Discussions.SeatItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             xmlns:local="clr-namespace:Discussions" 
+             xmlns:cp="clr-namespace:DropDownCustomColorPicker;assembly=CustomColorPicker"
+             mc:Ignorable="d" 
+             d:DesignHeight="45" d:DesignWidth="303">
+    <UserControl.Resources>
+        <local:ARGBColorConvertor x:Key="argbConverter"/>
+    </UserControl.Resources>    
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <s:SurfaceTextBox Text="{Binding SeatName}"/>
+        <cp:CustomColorPicker Grid.Column="1" x:Name="customCP" SelectedColor="{Binding Color, Mode=TwoWay,Converter={StaticResource argbConverter}}" d:LayoutOverrides="Margin"/>                            
+    </Grid> 
+</UserControl>

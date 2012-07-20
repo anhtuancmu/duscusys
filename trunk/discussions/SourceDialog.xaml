@@ -1,0 +1,15 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" x:Class="Discussions.SourceDialog"
+        Title="New source?" Height="120" Width="576" WindowStartupLocation="CenterScreen" Background="#FF525252">
+    <Grid>
+        
+    	<Custom:SurfaceTextBox x:Name="txtBxSource" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Background="#E6AFAFAF"/>
+    	<Custom:SurfaceButton x:Name="btnOk" Content="Ok" Height="31.5" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="1,0,1,1" Width="77.18" Click="btnOk_Click" />
+        
+    </Grid>
+</Window>

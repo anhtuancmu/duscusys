@@ -1,0 +1,57 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Discussions"     
+        xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" x:Class="Discussions.LoginDevTypeDlg"
+        Title="Device type selection" Height="676" Width="1000.5" WindowState="Maximized">
+    <Grid>
+	    <Grid.Resources>
+            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform"/>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="87*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle x:Name="MainBgrndRct" Fill="{DynamicResource MainBgrndRctFill}" 
+                   Stroke="{DynamicResource MainBgrndRctStroke}" Grid.ColumnSpan="2" d:LayoutOverrides="Margin"/>
+
+        <Custom:SurfaceListBox x:Name="lstBxDevTypes"
+                               ItemsSource="{Binding DevTypes}"
+                               SelectionChanged="lstBxDevType_SelectionChanged"
+                               Grid.Column="1"
+                               ScrollViewer.VerticalScrollBarVisibility="Hidden">                                 
+        </Custom:SurfaceListBox>
+
+        <StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,109,0,0">
+            <Rectangle Height="4" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusX="3" RadiusY="3" d:LayoutOverrides="GridBox">
+                <Rectangle.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#331E0A80" Offset="1"/>
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#CC45AA98" Offset="0.624"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" d:LayoutOverrides="Height" HorizontalAlignment="Right" VerticalAlignment="Top">
+        	<Custom:SurfaceButton x:Name="btnBack" Click="btnBack_Click"
+        		HorizontalAlignment="Right" VerticalAlignment="Top" Background="{StaticResource backArrow}" Margin="0,1,0,0"/>
+        	<Rectangle Margin="0" RenderTransformOrigin="0.5,0.5" Width="21">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform ScaleX="-1"/>
+        				<SkewTransform/>
+        				<RotateTransform/>
+        				<TranslateTransform/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<Label Content="Select device type" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        </StackPanel>
+        <local:LoginDecoration x:Name="decorations" Margin="0,37.5,0,169.265"/>     		
+    </Grid>
+</Window>

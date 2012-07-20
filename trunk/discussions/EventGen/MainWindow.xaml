@@ -1,0 +1,182 @@
+﻿<s:SurfaceWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:s="http://schemas.microsoft.com/surface/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:stats="clr-namespace:Discussions.stats;assembly=LoginEngine" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:timeline="clr-namespace:TimelineLibrary;assembly=TimelineLibrary"
+        xmlns:local="clr-namespace:Discussions"
+		Background="{DynamicResource MainBgrndRctFill}"
+        mc:Ignorable="d" x:Class="EventGen.MainWindow"
+        KeyDown="SurfaceWindow_KeyDown_1"
+        Title="Event generator" WindowState="Maximized" d:DesignWidth="855" d:DesignHeight="626">
+    <s:SurfaceWindow.Resources>
+        <LinearGradientBrush x:Key="MainBgrndRctFill" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF2CA1CF" Offset="0"/>
+            <GradientStop Color="#FF2CA1CA" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="MainBgrndRctStroke" Color="#FF142841"/>
+    </s:SurfaceWindow.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="122*"/>
+            <ColumnDefinition Width="801*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="193.12"/>
+            <RowDefinition Height="Auto" MinHeight="55.92"/>
+            <RowDefinition Height="Auto" MinHeight="21.96"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="btnBack" Click="btnBack_Click" Content="Back" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Bottom" Margin="1,0,0,0" d:LayoutOverrides="Margin" Height="21.96" Width="30.493"/>
+        <WrapPanel Orientation="Horizontal" Grid.Row="2" d:LayoutOverrides="Margin" Grid.ColumnSpan="2">
+
+            <StackPanel Margin="4" Orientation="Vertical" VerticalAlignment="Top">
+                <Button x:Name="btnLinkCreated" Content="Link created [1]" Margin="1" Click="btnLinkCreated_Click_1"/>
+                <Button x:Name="btnLinkRemoved" Content="Link removed [2]" Margin="1" Click="btnLinkRemoved_Click_1" />
+            </StackPanel>
+
+            <StackPanel Margin="4" Orientation="Vertical"  VerticalAlignment="Top">
+                <Button x:Name="btnBadgeCreated" Content="Badge created [3]" Margin="1" Click="btnBadgeCreated_Click_1"/>
+                <Button x:Name="btnBadgeRemoved" Content="Badge edited [4]" Margin="1" Click="btnBadgeEdited_Click_1"/>
+            </StackPanel>
+
+            <StackPanel Margin="4" Orientation="Vertical" VerticalAlignment="Top">
+                <Button x:Name="btnClusterCreated" Content="Cluster created [5]" Margin="1" Click="btnClusterCreated_Click_1"/>
+                <Button x:Name="btnClusterRemoved" Content="Cluster removed [6]" Margin="1" Click="btnClusterRemoved_Click_1" />
+            </StackPanel>
+
+            <StackPanel Margin="4" Orientation="Vertical"  VerticalAlignment="Top">
+                <Button x:Name="btnDiscussionStarted" Content="Discussion started [7]" Margin="1" Click="btnDiscussionStarted_Click_1"/>
+                <Button x:Name="btnDiscussionStopped" Content="Discussion stopped [8]" Margin="1" Click="btnDiscussionStopped_Click_1"/>
+            </StackPanel>
+
+            <StackPanel Margin="4" Orientation="Vertical"  VerticalAlignment="Top">
+                <Button x:Name="btnFreeDrawingCreated" Content="Free drawing created [9]" Margin="1" Click="btnFreeDrawingCreated_Click_1"/>
+                <Button x:Name="btnFreeDrawingRemoved" Content="Free drawing removed [0]" Margin="1" Click="btnFreeDrawingRemoved_Click_1"/>
+            </StackPanel>
+            <StackPanel Margin="4" Orientation="Vertical"  VerticalAlignment="Top">
+                <Button x:Name="btnChangedTopic" Content="Changed point's topic" Margin="1" Click="btnChangedTopic_Click_1"/>
+                <Button x:Name="btnDeleteEvent" Content="Delete event [Del]" Margin="1" Click="btnDeleteEvent_Click_1"/>
+            </StackPanel>
+
+        </WrapPanel>
+        <Grid x:Name="videoCenter" Background="Black" Grid.Column="1"
+        	Grid.RowSpan="1" >
+        	<Grid.RowDefinitions>
+        		<RowDefinition Height="19*"/>
+        		<RowDefinition Height="Auto"/>
+        		<RowDefinition Height="Auto"/>
+
+        	</Grid.RowDefinitions>
+        	<MediaElement x:Name="myMediaElement" Margin="10" MinHeight="100" LoadedBehavior="Manual" UnloadedBehavior="Stop" 
+        		MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" d:LayoutOverrides="Width, Height, Margin"/>
+        	<Slider x:Name="timelineSlider"                     
+        		ValueChanged="SeekToMediaPosition"
+        		PreviewMouseUp="timelineSlider_PreviewMouseUp_1"
+        		PreviewTouchUp="timelineSlider_PreviewTouchUp_1" Cursor="Arrow" TickPlacement="TopLeft" Grid.Row="1" d:LayoutOverrides="Width" VerticalAlignment="Center" Height="22"/>
+
+        	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Grid.RowSpan="2" Height="60">
+
+        		<!-- Play button. -->
+        		<Image Source="Assets/play.png" MouseDown="OnMouseDownPlayMedia" Margin="5" />
+
+        		<!-- Pause button. -->
+        		<Image Source="Assets/pause.png" MouseDown="OnMouseDownPauseMedia" Margin="5" />
+        		<Image Source="Assets/upload.png" MouseDown="btnUpload_Click_1" Margin="5" />
+
+        		<!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
+        		<TextBlock Foreground="White" VerticalAlignment="Center" Margin="5"  ><Run Text="Volume"/></TextBlock>
+        		<Slider x:Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" 
+        			Minimum="0" Maximum="1" Value="0.5" Width="70"/>
+
+        		<!-- Volume slider. This slider allows you to change the speed of the media playback. -->
+        		<TextBlock Foreground="White" Margin="5"  VerticalAlignment="Center"><Run x:Name="lblSpeed" Text="Speed"/></TextBlock>
+        		<Slider x:Name="speedRatioSlider" Margin="15" VerticalAlignment="Center" ValueChanged="ChangeMediaSpeedRatio" 
+        			Value="1" Width="70" Minimum="0.1" Maximum="2" />
+        	</StackPanel>
+
+        </Grid>
+        <StackPanel Grid.Row="3"  Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" d:LayoutOverrides="Margin" Height="21.96" Width="68.077">
+            <Button x:Name="btnSubmit" Click="btnSubmit_Click_1" Content="Submit" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                    Margin="0" d:LayoutOverrides="HorizontalMargin" ToolTip="Records all marked events to DB"/>
+            <Button  x:Name="btnExit" Click="btnExit_Click" Content="Exit" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0" d:LayoutOverrides="HorizontalMargin"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" d:LayoutOverrides="Height, Margin">
+        	<Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Discussion" d:LayoutOverrides="Margin" Height="32.61" Width="83.507" Visibility="Collapsed"/>
+            <ComboBox x:Name="cbxDiscussion" ItemsSource="{Binding Discussions}" DisplayMemberPath="Subject" VerticalAlignment="Top" Visibility="Collapsed"/>
+        	<Label HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="VerticalMargin" Content="Topic"/>
+            <ComboBox x:Name="cbxTopics" SelectedIndex="0" ItemsSource="{Binding Topics}" DisplayMemberPath="Name" VerticalAlignment="Top" ToolTip="Topic in which event is generated"/>
+        	<Label x:Name="lblUsers" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Users"/>
+        	<ListBox x:Name="lstUsers" ItemsSource="{Binding Persons}" DisplayMemberPath="Name" d:LayoutOverrides="Margin" Height="82" ToolTip="User on whose behalf we generate event"/>
+        </StackPanel>
+
+        <timeline:TimelineTray
+                        x:Name="timeline"
+                        Grid.Row="1"
+                        CalendarType="gregorian"
+                        HorizontalAlignment="Stretch"
+                        CurrentDateChanged="timeline_CurrentDateChanged_1"
+                        PreviewMouseUp="timeline_MouseUp_1"
+                        PreviewTouchUp="timeline_TouchUp_1"
+                        Grid.ColumnSpan="2" d:LayoutOverrides="Margin">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="62*" />
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <timeline:TimelineBand
+                            x:Name="secondTray"
+                            IsMainBand="True"
+                            ItemSourceType="seconds"
+                            TimelineWindowSize="30"/>
+
+            <timeline:TimelineBand
+                            x:Name="minutesTray"
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            ItemSourceType="minutes"
+                            TimelineWindowSize="10"/>
+
+			<StackPanel Orientation="Vertical">
+				 <TextBlock
+					Foreground="White"
+					HorizontalAlignment="Right"                
+					Name="currentDateTimeRel"
+					VerticalAlignment="Top">
+					<Run Text="relative"/>
+					<Run x:Name="relCurrentTime" FontSize="36"/>
+				 </TextBlock>
+				<TextBlock
+					Foreground="White"
+					HorizontalAlignment="Right"                
+					Name="currentDateTimeAbs"
+					VerticalAlignment="Top">
+					<Run Text="absolute"/>
+					<Run Text="{Binding Path=CurrentDateTime, ElementName=timeline, StringFormat={}{0:hh:mm:ss}}" FontSize="36"/>
+				 </TextBlock>				
+			 </StackPanel>
+
+            <timeline:TimelineToolbox Grid.Row="2"/>
+        </timeline:TimelineTray>
+        <StackPanel x:Name="info" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="155.76" Width="10" d:LayoutOverrides="Margin">
+			<StackPanel.Resources>
+				<Style TargetType="Label">
+					<Setter Property="FontSize" Value="12"/>
+					<Setter Property="Foreground" Value="White"/>
+					<Setter Property="FontFamily" Value="Segoe UI Light"/>
+				</Style>
+			</StackPanel.Resources>
+
+        	<Label x:Name="lblSession" Content="" HorizontalAlignment="Left"/>
+        	<Label x:Name="lblDiscussion" Content="" HorizontalAlignment="Left"/>
+        	<Label x:Name="lblDiscStart" Content="" HorizontalAlignment="Left"/>
+			<Label x:Name="lblDiscEnd" Content="" HorizontalAlignment="Left"/>
+			<Label x:Name="lblDiscDuration" Content="" HorizontalAlignment="Left"/>
+			<Label x:Name="lblVideoDuration" Content="" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+    </Grid>
+</s:SurfaceWindow>

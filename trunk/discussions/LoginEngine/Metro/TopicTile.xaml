@@ -1,0 +1,38 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="Discussions.Metro.TopicTile"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480" Width="190" Height="190" Opacity="1">
+	<UserControl.Resources>
+		<Storyboard x:Key="OnMouseEnter1">
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TileSurfaceRct" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.14"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="OnMouseLeave1">
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TileSurfaceRct" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.14"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="Mouse.MouseEnter">
+			<BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="Mouse.MouseLeave">
+			<BeginStoryboard Storyboard="{StaticResource OnMouseLeave1}" x:Name="OnMouseLeave1_BeginStoryboard"/>
+		</EventTrigger>
+	</UserControl.Triggers>
+
+	<Grid x:Name="LayoutRoot" MouseDown="LayoutRoot_MouseDown" TouchDown="LayoutRoot_TouchDown">
+        <Rectangle Stroke="{x:Null}" x:Name="TileBgrndRct" Fill="{DynamicResource TileBgrndRctFill}" RadiusX="5" RadiusY="5"/>
+		<TextBlock Margin="13,13,18,34" x:Name="TileTxtBlck" FontSize="16" Foreground="#FFFFFFFF" Text="Microsoft Visual Web Developer 2010 Express " TextWrapping="Wrap"/>
+        <Rectangle x:Name="TileSurfaceRct" Fill="#FF000000" Opacity="0" Stroke="#FFFBFBFB" RadiusX="5" RadiusY="5"/>
+    </Grid>
+</UserControl>

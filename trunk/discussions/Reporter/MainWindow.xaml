@@ -1,0 +1,14 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="http://schemas.microsoft.com/surface/2008"
+        xmlns:Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI" 
+        x:Class="Reporter.MainWindow"
+        Title="MainWindow" Height="350" Width="525">
+	<Window.Resources>
+	</Window.Resources>
+    <Grid>
+    	<TextBox Name="log" Margin="0,56,0,0" TextWrapping="Wrap" FontSize="13.333"/>
+    	<Button x:Name="btnRun" Click="btnRun_Click_1" Content="Generate" HorizontalAlignment="Left" Height="28" Margin="29,10,0,0" VerticalAlignment="Top" Width="104"/>
+    </Grid>
+</Window>

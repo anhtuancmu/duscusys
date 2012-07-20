@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="Discussions.DetailedArgPointBadge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Discussions" 
+             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+             mc:Ignorable="d" 
+             d:DesignHeight="820" d:DesignWidth="810" 
+             xmlns:yt="clr-namespace:Discussions.YouViewer"   
+             xmlns:my="http://schemas.microsoft.com/surface/2008" 
+             DataContextChanged="UserControl_DataContextChanged">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="CommentItemTemplate">
+            <local:CommentUC/>
+        </DataTemplate>
+        <local:AttachToImageConvertor x:Key="attachImgConverter" />
+        <local:ARGBColorBrushConvertor x:Key="brushConverter" /> 
+        <DataTemplate x:Key="ImageAttachmentTemplate">
+            <Border Margin="2">
+                <Image Source="{Binding Converter={StaticResource attachImgConverter}}" 
+                						HorizontalAlignment="Right" Height="150" 
+                						VerticalAlignment="Bottom" Width="150"
+                                        MouseDown="Image_MouseDown"
+                       />
+            </Border>
+        </DataTemplate>
+
+        <local:AttachmentToVideoConvertor x:Key="attachVideoConverter" />
+        <DataTemplate x:Key="VideoAttachmentTemplate">
+            <Viewbox Width="150" Height="150">
+                <Border Margin="2">
+                    <yt:YouTubeResultControl DataContext="{Binding Converter={StaticResource attachVideoConverter}}"/>
+                </Border>
+            </Viewbox>
+        </DataTemplate>
+
+        <local:AttachmentTemplateSelector 
+             ImageTemplate="{StaticResource ImageAttachmentTemplate}" 
+             VideoTemplate="{StaticResource VideoAttachmentTemplate}" 
+             x:Key="attachmentTemplateSelector"/>
+    </UserControl.Resources>
+
+    <my:SurfaceScrollViewer 
+                Background="Gray" 
+                HorizontalAlignment="Center" 
+                HorizontalScrollBarVisibility="Disabled" 
+                VerticalScrollBarVisibility="Visible" 
+                Name="surfaceScrollViewer1" 
+                VerticalAlignment="Center" Grid.RowSpan="6" Height="595">
+        <StackPanel Width="338" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <Label Content="{Binding Person.Name}" 
+                       Foreground="{Binding Person.Color, Converter={StaticResource brushConverter}}" 
+                       Height="28" Name="lblUserName" />
+                <Label Content="Side" Height="28" Name="lblSide" />
+            </StackPanel>
+            <Separator HorizontalContentAlignment="Stretch"/>
+            <Label Content="Point" Name="label1"/>
+
+            <my:SurfaceTextBox Text="{Binding Point}" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalAlignment="Stretch" Name="surfaceTextBox1Margin" Height="64" />
+            <Label Content="Sources" Name="label2" Background="#00000000" FontFamily="Segoe UI" />
+            <my:SurfaceListBox Name="lstBxAttachments" 
+							   ScrollViewer.VerticalScrollBarVisibility="Hidden"
+							   ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                               ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}" 
+                               ItemsSource="{Binding Attachment}">      
+           		<my:SurfaceListBox.ItemsPanel>
+				    <ItemsPanelTemplate>      
+				      	<WrapPanel Orientation="Horizontal"/>
+				    </ItemsPanelTemplate>
+			    </my:SurfaceListBox.ItemsPanel>
+		    </my:SurfaceListBox>
+
+            <extToolkit:RichTextBox x:Name="pointText" Background="LightGray" Padding="10"
+                                              FontSize="20" 
+                                              Text="{Binding Description.Text, Mode=OneWay}" 
+                                              IsReadOnly="True"
+                                              ScrollViewer.VerticalScrollBarVisibility="Auto" Height="90">                
+            </extToolkit:RichTextBox>
+            <Label HorizontalAlignment="Right" Name="linkAllSources">
+                <Hyperlink Click="AllSources_Click">
+                    All sources
+                </Hyperlink>
+            </Label>
+            <local:SourcesPopup StaysOpen="false" x:Name="allRefsPopup" 
+                                PlacementTarget="{Binding ElementName=linkAllSources}" 
+                                Placement="Bottom"/>
+            <Separator HorizontalContentAlignment="Stretch"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Comments" Name="label3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <my:SurfaceButton x:Name="btnAddComment" Content="Add" Margin="0" Click="btnAddComment_Click" />
+                <my:SurfaceButton x:Name="btnRemoveComment" Content="Remove" Margin="0" Click="btnRemoveComment_Click" />
+            </StackPanel>
+            <my:SurfaceListBox 
+                        x:Name="lstBxComments"                       
+                      ItemsSource="{Binding Comment}" 
+                      ItemTemplate="{StaticResource CommentItemTemplate}" />
+        </StackPanel>
+    </my:SurfaceScrollViewer>
+</UserControl>
