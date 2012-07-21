@@ -54,6 +54,8 @@ namespace Discussions.RTModel.Operations
 
         DEditorReportEvent = 23,
 
-        ClusterStatsEvent = 24
+        ClusterStatsEvent = 24,
+
+        LinkStatsEvent = 25
     }
 }

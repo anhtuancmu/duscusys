@@ -613,6 +613,9 @@ namespace Discussions.RTModel
             pendingChanges = true;
         }
 
+
+        #region reporting
+
         public void HandleDEditorStatsRequest(LitePeer peer,
                                               OperationRequest operationRequest,
                                               SendParameters sendParameters)
@@ -627,6 +630,41 @@ namespace Discussions.RTModel
                             sendParameters,
                             (byte)DiscussionEventCode.DEditorReportEvent,
                             BroadcastTo.RoomAll);                                     
+        }
+
+
+        string TryGetTextCaptionShape(IServerVdShape clusterSh)
+        {
+            var st = clusterSh.GetState();
+            var captionShId = st.ints[0];
+            if (captionShId != -1)
+            {
+                //caption exists
+                var captionSh = _doc.TryGetShape(captionShId);
+                if (captionSh != null)
+                {
+                    var st2 = captionSh.GetState();
+                    if (st2.bytes != null)
+                    {
+                        using (var s = new MemoryStream(st2.bytes))
+                        {
+                            using (var br = new BinaryReader(s))
+                            {
+                                return br.ReadString();
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        int BadgeShapeIdToArgPointId(int badgeShId)
+        {
+            var badgeSh = _doc.TryGetShape(badgeShId);
+            if (badgeSh != null)
+                return badgeSh.Tag();
+            return -1; 
         }
 
         public void HandleClusterStatsRequest(LitePeer peer,
@@ -664,35 +702,15 @@ namespace Discussions.RTModel
             }
             
             //get text caption shape id
-            var st = clusterSh.GetState();
-            var captionShId = st.ints[0];
-            if(captionShId!=-1)
-            {
-                //caption exists
-                var captionSh = _doc.TryGetShape(captionShId);
-                if(captionSh!=null)
-                {
-                    var st2 = captionSh.GetState();
-                    if (st2.bytes != null)
-                    {
-                        using (var s = new MemoryStream(st2.bytes))
-                        {
-                            using (var br = new BinaryReader(s))
-                            {
-                                resp.clusterTextTitle = br.ReadString();
-                            }
-                        }
-                    }
-                }
-            }
+            resp.clusterTextTitle = TryGetTextCaptionShape(clusterSh);
 
             //badge id -> arg.point id
             var clusteredPoints = new List<int>(); 
             for(int i=0;i<resp.points.Length;i++)
             {
-                var badgeSh = _doc.TryGetShape(resp.points[i]);
-                if(badgeSh!=null)
-                    clusteredPoints.Add(badgeSh.Tag());
+                var apId = BadgeShapeIdToArgPointId(resp.points[i]);
+                if (apId != -1)
+                    clusteredPoints.Add(apId);
             }
 
             if (clusteredPoints.Count() == 0)
@@ -713,5 +731,115 @@ namespace Discussions.RTModel
                                 BroadcastTo.RoomAll);
             }
         }
+
+
+        public void HandleLinkReportRequest(LitePeer peer,
+                                             OperationRequest operationRequest,
+                                             SendParameters sendParameters)
+        {
+            var req = LinkReportRequest.Read(operationRequest.Parameters);
+            
+            var linkSh = _doc.TryGetShape(req.LinkShapeId);
+            if(linkSh==null)
+            {
+                _room.Broadcast(peer,
+                                (Dictionary<byte, object>)null,
+                                sendParameters,
+                                (byte)DiscussionEventCode.LinkStatsEvent,
+                                BroadcastTo.RoomAll);
+                return;
+            }
+
+            var resp = default(LinkReportResponse);
+            resp.topicId = req.TopicId;
+            
+            var fwdEdge = _topology.GetForwardEdge(linkSh.Id());
+            
+            //endpoint 1
+            if (fwdEdge.curr is Clusterable)
+            {
+                resp.EndpointArgPoint1 = true;
+                resp.ArgPointId1 = fwdEdge.curr.GetId();
+
+                //badge id -> arg.point id
+                var badgeSh = _doc.TryGetShape(resp.ArgPointId1);
+                if (badgeSh == null)
+                {
+                    _room.Broadcast(peer,
+                                    (Dictionary<byte, object>)null,
+                                    sendParameters,
+                                    (byte)DiscussionEventCode.LinkStatsEvent,
+                                    BroadcastTo.RoomAll);
+                    return;
+                }
+                resp.ArgPointId1 = badgeSh.Tag();
+                resp.ClusterCaption1 = null;
+            }
+            else
+            {
+                resp.EndpointArgPoint1 = false;
+                resp.ArgPointId1 = -1;
+
+                var clusterSh = _doc.TryGetShape(fwdEdge.curr.GetId());
+                if (clusterSh == null)
+                {
+                    _room.Broadcast(peer,
+                                    (Dictionary<byte, object>)null,
+                                    sendParameters,
+                                    (byte)DiscussionEventCode.ClusterStatsEvent,
+                                    BroadcastTo.RoomAll);
+                    return;
+                }
+
+                resp.ClusterCaption1 = TryGetTextCaptionShape(clusterSh);
+            }
+
+            //endpoint 2
+            if (fwdEdge.next is Clusterable)
+            {
+                resp.EndpointArgPoint2 = true;
+                resp.ArgPointId2 = fwdEdge.next.GetId();
+
+                //badge id -> arg.point id
+                var badgeSh = _doc.TryGetShape(resp.ArgPointId2);
+                if (badgeSh == null)
+                {
+                    _room.Broadcast(peer,
+                                    (Dictionary<byte, object>)null,
+                                    sendParameters,
+                                    (byte)DiscussionEventCode.LinkStatsEvent,
+                                    BroadcastTo.RoomAll);
+                    return;
+                }
+                resp.ArgPointId2 = badgeSh.Tag();
+                resp.ClusterCaption2 = null;
+            }
+            else
+            {
+                resp.EndpointArgPoint2 = false;
+                resp.ArgPointId2 = -1;
+
+                var clusterSh = _doc.TryGetShape(fwdEdge.next.GetId());
+                if (clusterSh == null)
+                {
+                    _room.Broadcast(peer,
+                                    (Dictionary<byte, object>)null,
+                                    sendParameters,
+                                    (byte)DiscussionEventCode.ClusterStatsEvent,
+                                    BroadcastTo.RoomAll);
+                    return;
+                }
+
+                resp.ClusterCaption2 = TryGetTextCaptionShape(clusterSh);
+            }
+
+            _room.Broadcast(peer,
+                            resp.ToDict(),
+                            sendParameters,
+                            (byte)DiscussionEventCode.LinkStatsEvent,
+                            BroadcastTo.RoomAll);
+        }
+
+        #endregion reporting
     }
 }

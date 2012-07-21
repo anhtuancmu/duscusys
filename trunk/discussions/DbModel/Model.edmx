@@ -1231,7 +1231,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="data_model" ZoomLevel="86" >
+      <Diagram Name="data_model" ZoomLevel="146" >
         <EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
         <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />

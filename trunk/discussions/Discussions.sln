@@ -36,12 +36,12 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitG
 		Arguments = /debug Instance1
 		AttachLaunchAction = No
 		Environment = Default
-		Executable = C:\projects\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe
+		Executable = C:\projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe
 		LaunchSQLEngine = No
 		LaunchingEngine = fb0d4648-f776-4980-95f8-bb7f36ebc1ee
 		PortSupplier = 00000000-0000-0000-0000-000000000000
 		RemoteMachine = ARENA
-		StartingDirectory = C:\projects\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\
+		StartingDirectory = C:\projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64
 	EndProjectSection
 EndProject
 Global

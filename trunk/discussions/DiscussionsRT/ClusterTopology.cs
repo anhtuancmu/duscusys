@@ -440,21 +440,29 @@ namespace Discussions.RTModel
         public DEditorStatsResponse CollectStats(DEditorStatsRequest req)
         {
             var res = default(DEditorStatsResponse);
-
+            
             res.NumClusteredBadges = 0;
-            var clusterIds = new int[_clusters.Values.Count()];
+            res.ListOfClusterIds = new int[_clusters.Values.Count()];
+            
+            //record clusters
             int i = 0;
             foreach (var cluster in _clusters.Values)
             {
                 res.NumClusteredBadges += cluster.GetClusterables().Count();
-                clusterIds[i++] = cluster.GetId();
+                res.ListOfClusterIds[i++] = cluster.GetId();
+            }
+
+            //record links
+            res.ListOfLinkIds = new int[_forwardEdges.Count()];
+            i = 0;
+            foreach (var edge in _forwardEdges.Values)
+            {
+                res.ListOfLinkIds[i++] = edge.linkShapeId; 
             }
 
             res.NumClusters = _clusters.Count();
 
             res.NumLinks    = _forwardEdges.Count();
-
-            res.ListOfClusterIds = clusterIds;
 
             return res;
         }

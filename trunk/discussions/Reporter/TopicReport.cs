@@ -12,25 +12,39 @@ namespace Reporter
         public int numClusters;
         public int numClusteredBadges;
         public int numLinks;
-        public int numParticipants;
+        public List<Person> participants;
         public int numSources;
         public int numComments;
         public int cumulativeDuration; //in seconds
-        public int[] clusterIds; 
+        public int[] clusterIds;
+        public int[] linkIds; 
 
         public TopicReport(Topic topic, int numClusters, int numClusteredBadges,
-                          int numLinks, int numParticipants, int numSources, 
-                          int numComments, int cumulativeDuration, int[] clusterIds)
+                          int numLinks, IEnumerable<Person> participants, int numSources,
+                          int numComments, int cumulativeDuration, int[] clusterIds, int[] linkIds)
         {
             this.topic              = topic;
             this.numClusters        = numClusters;
             this.numClusteredBadges = numClusteredBadges;
             this.numLinks           = numLinks;
-            this.numParticipants    = numParticipants;
+            this.participants = new List<Person>(participants);
             this.numSources  = numSources;
             this.numComments = numComments;
             this.cumulativeDuration = cumulativeDuration;
             this.clusterIds         = clusterIds;
+            this.linkIds            = linkIds;
+        }
+
+        public int numParticipants
+        {
+            get
+            {
+                var uniqueParticipants = new List<int>(); 
+                foreach(var pers in participants)
+                    if(!uniqueParticipants.Contains(pers.Id))  
+                        uniqueParticipants.Add(pers.Id);
+                return uniqueParticipants.Count();
+            }
         }
     }
 }
