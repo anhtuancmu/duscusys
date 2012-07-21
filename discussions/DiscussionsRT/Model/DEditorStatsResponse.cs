@@ -13,6 +13,7 @@ namespace Discussions.RTModel.Model
         public int NumClusteredBadges;
         public int NumLinks;
         public int[] ListOfClusterIds;
+        public int[] ListOfLinkIds;
 
         public static DEditorStatsResponse Read(Dictionary<byte, object> par)
         {
@@ -21,11 +22,16 @@ namespace Discussions.RTModel.Model
             res.NumClusters = (int)par[(byte)DiscussionParamKey.NumClusters];
             res.NumClusteredBadges = (int)par[(byte)DiscussionParamKey.NumClusteredBadges];
             res.NumLinks    = (int)par[(byte)DiscussionParamKey.NumLinks];
-            res.ListOfClusterIds = (int[])par[(byte)DiscussionParamKey.ArrayOfInts];  
+            res.ListOfClusterIds = (int[])par[(byte)DiscussionParamKey.ArrayOfInts];
+            res.ListOfLinkIds = (int[])par[(byte)DiscussionParamKey.ArrayOfInts2];
+
             return res;
         }
 
-        public static Dictionary<byte, object> Write(int TopicId, int NumClusters, int NumClusteredBadges, int NumLinks, int[] ListOfClusterIds)
+        public static Dictionary<byte, object> Write(int TopicId, int NumClusters, int NumClusteredBadges,
+                                                     int NumLinks, 
+                                                     int[] ListOfClusterIds, 
+                                                     int[] ListOfLinkIds)
         {
             var res = new Dictionary<byte, object>();
             res.Add((byte)DiscussionParamKey.ChangedTopicId, TopicId);
@@ -33,12 +39,13 @@ namespace Discussions.RTModel.Model
             res.Add((byte)DiscussionParamKey.NumClusteredBadges, NumClusteredBadges);
             res.Add((byte)DiscussionParamKey.NumLinks, NumLinks);
             res.Add((byte)DiscussionParamKey.ArrayOfInts, ListOfClusterIds);
+            res.Add((byte)DiscussionParamKey.ArrayOfInts2, ListOfLinkIds);
             return res;      
         }
 
         public Dictionary<byte, object> ToDict()
         {
-            return Write(TopicId, NumClusters, NumClusteredBadges, NumLinks, ListOfClusterIds);            
+            return Write(TopicId, NumClusters, NumClusteredBadges, NumLinks, ListOfClusterIds, ListOfLinkIds);            
         }
     }
 }

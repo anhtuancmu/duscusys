@@ -3,12 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="http://schemas.microsoft.com/surface/2008"
         xmlns:Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" mc:Ignorable="d" 
         x:Class="Reporter.MainWindow"
-        Title="MainWindow" Height="350" Width="525">
-	<Window.Resources>
-	</Window.Resources>
+        Title="MainWindow" Height="350" Width="525" Background="#FF858585">
     <Grid>
-    	<TextBox Name="log" Margin="0,56,0,0" TextWrapping="Wrap" FontSize="13.333"/>
-    	<Button x:Name="btnRun" Click="btnRun_Click_1" Content="Generate" HorizontalAlignment="Left" Height="28" Margin="29,10,0,0" VerticalAlignment="Top" Width="104"/>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="3*"/>
+    		<RowDefinition Height="23*"/>
+    	</Grid.RowDefinitions>
+    	<Button x:Name="btnRun" Click="btnRun_Click_1" Content="Generate" HorizontalAlignment="Left" Height="28" Margin="10,3,0,0" VerticalAlignment="Top" Width="104" RenderTransformOrigin="0.24,0.161"/>
+		<TreeView Name="reportRoot" Grid.Row="1" Background="LightGray" FontSize="21.333">
+    		<TreeViewItem Header="Topics" IsExpanded="True">
+			</TreeViewItem>
+    		<TreeViewItem Header="Users" IsExpanded="True">
+    		</TreeViewItem>
+    	</TreeView>    
     </Grid>
 </Window>

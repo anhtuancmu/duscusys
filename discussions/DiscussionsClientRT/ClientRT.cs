@@ -98,6 +98,9 @@ namespace DiscussionsClientRT
 
         public delegate void ClusterStatsResponseEvent(ClusterStatsResponse resp, bool ok);
         public ClusterStatsResponseEvent clusterStatsResponse;
+
+        public delegate void LinkStatsResponseEvent(LinkReportResponse resp, bool ok);
+        public LinkStatsResponseEvent linkStatsResponseEvent;
         #endregion reporting
 
         LiteLobbyPeer peer;
@@ -304,6 +307,15 @@ namespace DiscussionsClientRT
                             clusterStatsResponse(default(ClusterStatsResponse), false);
                         else
                             clusterStatsResponse(ClusterStatsResponse.Read(eventData.Parameters), true);
+                    }
+                    break;
+                case (byte)DiscussionEventCode.LinkStatsEvent:
+                    if(linkStatsResponseEvent!=null)
+                    {
+                        if (eventData.Parameters == null || eventData.Parameters.Count() == 0)
+                            linkStatsResponseEvent(default(LinkReportResponse), false);
+                        else
+                            linkStatsResponseEvent(LinkReportResponse.Read(eventData.Parameters), true);
                     }
                     break;
                 default:
@@ -687,6 +699,16 @@ namespace DiscussionsClientRT
 
             peer.OpCustom((byte)DiscussionOpCode.ClusterStatsRequest,
                            ClusterStatsRequest.Write(clusterId, topicId),
+                           true);
+        }
+
+        public void SendLinkStatsRequest(int linkId, int topicId)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.LinkReportRequest,
+                           LinkReportRequest.Write(linkId, topicId),
                            true);
         }
     }

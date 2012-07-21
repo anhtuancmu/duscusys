@@ -67,5 +67,9 @@ namespace Discussions.RTModel.Operations
         NumClusteredBadges = 48,
         NumLinks           = 49,
         ClusterCaption     = 50,
+        ArrayOfInts2       = 51,
+        ArrayOfStrings     = 52,
+        ArgPointId2        = 53,
+        ClusterCaption2    = 54
     }
 }

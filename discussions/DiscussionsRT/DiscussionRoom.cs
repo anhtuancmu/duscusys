@@ -122,13 +122,17 @@ namespace Discussions.RTModel
                         topicId = Serializers.ReadChangedTopicId(operationRequest.Parameters);
                         VectEditor(topicId).HandleInkRequest(peer, operationRequest, sendParameters);
                         break;
-                case (byte)DiscussionOpCode.DEditorReport:
+                case (byte)DiscussionOpCode.DEditorReport:            
                         topicId = Serializers.ReadChangedTopicId(operationRequest.Parameters);
                         VectEditor(topicId).HandleDEditorStatsRequest(peer, operationRequest, sendParameters);
                         break;
-                case (byte)DiscussionOpCode.ClusterStatsRequest:
+                case (byte)DiscussionOpCode.ClusterStatsRequest:                        
                         topicId = Serializers.ReadChangedTopicId(operationRequest.Parameters);
                         VectEditor(topicId).HandleClusterStatsRequest(peer, operationRequest, sendParameters);
+                        break;
+                case (byte)DiscussionOpCode.LinkReportRequest:
+                        topicId = Serializers.ReadChangedTopicId(operationRequest.Parameters);
+                        VectEditor(topicId).HandleLinkReportRequest(peer, operationRequest, sendParameters);
                         break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);

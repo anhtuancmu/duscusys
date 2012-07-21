@@ -74,9 +74,11 @@
     <Compile Include="Model\ClusterCreateMessage.cs" />
     <Compile Include="Model\ClusterStatsRequest.cs" />
     <Compile Include="Model\ClusterStatsResponse.cs" />
+    <Compile Include="Model\LinkReportRequest.cs" />
     <Compile Include="Model\DEditorStatsResponse.cs" />
     <Compile Include="Model\DEditorStatsRequest.cs" />
     <Compile Include="Model\InkMessage.cs" />
+    <Compile Include="Model\LinkReportResponse.cs" />
     <Compile Include="Model\UnclusterBadgeMessage.cs" />
     <Compile Include="Model\LinkCreateMessage.cs" />
     <Compile Include="Model\InitialSceneLoadRequest.cs" />

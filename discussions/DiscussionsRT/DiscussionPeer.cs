@@ -69,6 +69,7 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.InkRequest:
                 case DiscussionOpCode.DEditorReport:
                 case DiscussionOpCode.ClusterStatsRequest:
+                case DiscussionOpCode.LinkReportRequest:
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:

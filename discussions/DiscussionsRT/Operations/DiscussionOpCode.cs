@@ -68,9 +68,11 @@ namespace Discussions.RTModel.Operations
 
         InkRequest = 28,
 
-        ///   reporting 
-        DEditorReport = 29,
+        ///   reporting  
+        ClusterStatsRequest = 32,
 
-        ClusterStatsRequest = 30
+        DEditorReport = 33,
+
+        LinkReportRequest = 34
     }
 }
