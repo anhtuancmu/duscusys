@@ -77,10 +77,10 @@ namespace Reporter
                 _linkReports = value;
             }
         }
-
-        //user id to arg point report
-        Dictionary<int,ArgPointReport> _argPointReports = new Dictionary<int,ArgPointReport>();
-        public Dictionary<int, ArgPointReport> ArgPointReports
+        
+        //user id to arg point reports of the user, grouped by topic
+        Dictionary<int, List<ArgPointReport>> _argPointReports = new Dictionary<int, List<ArgPointReport>>();
+        public Dictionary<int, List<ArgPointReport>> ArgPointReports
         {
             get
             {
@@ -108,7 +108,7 @@ namespace Reporter
 
             _allTopicTotalsReady = allTopicTotals;
 
-            _allTopicsReport = new TopicReport(null, 0, 0, 0, new List<Person>(), 0, 0, 0, null, null);
+            _allTopicsReport = new TopicReport(null, 0, 0, 0, new List<Person>(), 0, 0, 0, null, null, 0,0,0);
 
             _reportGenerated = reportGenerated;
 
@@ -228,11 +228,21 @@ namespace Reporter
             _allTopicsReport.numSources         += numSrc;
             _allTopicsReport.numComments        += numComments;
             _allTopicsReport.cumulativeDuration += topic.CumulativeDuration;
+            var numArgPoints = topic.ArgPoint.Count();
+            _allTopicsReport.numPoints += numArgPoints;
+            var numPointsWithDescription = topic.ArgPoint.Where(ap0 => ap0.Description.Text != "Description").Count();
+            _allTopicsReport.numPointsWithDescription += numPointsWithDescription;
+            //num media
+            var nMedia = 0;
+            foreach (var ap in topic.ArgPoint)
+                nMedia += ap.Attachment.Count();
+            _allTopicsReport.numMediaAttachments += nMedia;
 
             var report = new TopicReport(topic, stats.NumClusters, stats.NumClusteredBadges,
                                          stats.NumLinks, topic.Person, numSrc, numComments,
-                                         topic.CumulativeDuration, stats.ListOfClusterIds, 
-                                         stats.ListOfLinkIds);
+                                         topic.CumulativeDuration, stats.ListOfClusterIds,
+                                         stats.ListOfLinkIds, numArgPoints, 
+                                         numPointsWithDescription, nMedia);
 
             _topicReports.Add(report);
             if (_topicReportReady!=null)
@@ -297,15 +307,53 @@ namespace Reporter
             }
         }
 
+        public TimeSpan TotalDiscussionTime
+        {
+            get
+            {
+                TimeSpan res = new TimeSpan(0);
+                foreach (var t in _discussion.Topic)
+                    res.Add(TimeSpan.FromSeconds(t.CumulativeDuration));
+                return res;
+            }  
+        }
+
+        public ObservableCollection<Person> Participants
+        {
+            get
+            {
+                var res = new ObservableCollection<Person>();
+                foreach (var t in _discussion.Topic)
+                    foreach (var usr in t.Person)
+                        if (!res.Contains(usr))
+                            res.Add(usr);
+                return res;
+            }
+        }
+
+        ArgPointReport FindTopicArgPointReport(List<ArgPointReport> reports, int topicId)
+        {
+            foreach (var r in reports)
+                if (r.topic != null && r.topic.Id == topicId)
+                    return r;
+            return null;
+        }
+
         void prepareArgPointReports()
         {
             foreach (var topic in _discussion.Topic)            
                 foreach (var ap in topic.ArgPoint)
                 {
-                    if (!ArgPointReports.ContainsKey(ap.Person.Id))                    
-                        ArgPointReports.Add(ap.Person.Id, new ArgPointReport(0, 0, 0, 0, 0, ap.Person));
+                    if (!ArgPointReports.ContainsKey(ap.Person.Id))
+                        ArgPointReports.Add(ap.Person.Id, new List<ArgPointReport>());
+                    var reportsInTopic = ArgPointReports[ap.Person.Id];
 
-                    var report = ArgPointReports[ap.Person.Id];
+                    var topicReportOfSelf = FindTopicArgPointReport(reportsInTopic, ap.Topic.Id);
+                    if (topicReportOfSelf == null)
+                    {
+                        topicReportOfSelf = new ArgPointReport(0, 0, 0, 0, 0, ap.Person, topic);
+                        reportsInTopic.Add(topicReportOfSelf);
+                    }
 
                     //comments can be by different users
                     foreach (var c in ap.Comment)
@@ -314,28 +362,56 @@ namespace Reporter
                             continue; //for placeholders
                         
                         if (!ArgPointReports.ContainsKey(c.Person.Id))
-                            ArgPointReports.Add(c.Person.Id, new ArgPointReport(0, 0, 0, 0, 0, c.Person));
-
+                            ArgPointReports.Add(c.Person.Id, new List<ArgPointReport>());
+                        var reportsOfCommenter = ArgPointReports[c.Person.Id];
+                      
                         if (c.Text != "New comment")
-                            ArgPointReports[c.Person.Id].numComments += 1;                        
+                        {
+                            var topicReportOfCommener = FindTopicArgPointReport(reportsOfCommenter, ap.Topic.Id);
+                            if (topicReportOfCommener == null)
+                            {
+                                topicReportOfCommener = new ArgPointReport(0, 0, 0, 0, 0, c.Person, topic);
+                                reportsOfCommenter.Add(topicReportOfCommener);
+                            }
+
+                            topicReportOfCommener.numComments += 1;
+                        }                                          
                     }
 
-                    report.numMediaAttachments += ap.Attachment.Count();
-                    report.numPoints += 1;
+                    topicReportOfSelf.numMediaAttachments += ap.Attachment.Count();
+                    topicReportOfSelf.numPoints += 1;
                     if (ap.Description.Text != "Description")
-                        report.numPointsWithDescriptions++;
-                    report.numSources += ap.Description.Source.Count();
-                }   
+                        topicReportOfSelf.numPointsWithDescriptions++;
+                    topicReportOfSelf.numSources += ap.Description.Source.Count();
+                }
+
+            //fill out users who don't have points
+            foreach (var topic in _discussion.Topic)
+            {
+                foreach (var p in topic.Person)
+                {
+                    if (!ArgPointReports.ContainsKey(p.Id))
+                        ArgPointReports.Add(p.Id, new List<ArgPointReport>());
+   
+                    var topicReports = ArgPointReports[p.Id];
+                    var topicReportOfPers = FindTopicArgPointReport(topicReports, topic.Id);
+                    if (topicReportOfPers == null)
+                    {
+                        topicReports.Add(new ArgPointReport(0, 0, 0, 0, 0, p, topic));
+                    }
+                }
+            }
          
             //total over all users
             foreach (var apReport in ArgPointReports.Values)
-            {
-                TotalArgPointReport.numComments += apReport.numComments;
-                TotalArgPointReport.numMediaAttachments += apReport.numMediaAttachments;
-                TotalArgPointReport.numPoints += apReport.numPoints;
-                TotalArgPointReport.numPointsWithDescriptions += apReport.numPointsWithDescriptions;
-                TotalArgPointReport.numSources += apReport.numSources;                
-            }
+                foreach(var userTopicReport in apReport)
+                {
+                    TotalArgPointReport.numComments += userTopicReport.numComments;
+                    TotalArgPointReport.numMediaAttachments += userTopicReport.numMediaAttachments;
+                    TotalArgPointReport.numPoints += userTopicReport.numPoints;
+                    TotalArgPointReport.numPointsWithDescriptions += userTopicReport.numPointsWithDescriptions;
+                    TotalArgPointReport.numSources += userTopicReport.numSources;                
+                }
 
             //avg
             var n = ArgPointReports.Count();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -57,46 +58,49 @@ namespace Reporter
         }
 
         TextBlock GetTopicSummary(TopicReport report)
-        {            
-            var txt = "  Number of clustered badges: " + report.numClusteredBadges + "\n";
-            txt += "  Number of clusters: " + report.numClusters + "\n";
-            txt += "  Number of links: " + report.numLinks + "\n";
+        {
+            var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\n";
             txt += "  Number of users: " + report.numParticipants + "\n";
+            txt += "  Number of arg. points: " + report.numPoints + "\n";
+            txt += "  Number of arg. points with description: " + report.numPointsWithDescription + "\n";
+            txt += "  Number of media attachments: " + report.numMediaAttachments + "\n";
             txt += "  Number of sources: " + report.numSources + "\n";
             txt += "  Number of comments: " + report.numComments + "\n";
-            txt += "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\n";
-
+            txt += "  Number of clustered badges: " + report.numClusteredBadges + "\n";
+            txt += "  Number of clusters: " + report.numClusters + "\n";
+            txt += "  Number of links: " + report.numLinks;
+          
             var res = new TextBlock();
             res.Text = txt;
             return res;
         }
 
-        TextBlock GetCluster(ClusterReport report)
+        TreeViewItem GetCluster(ClusterReport report)
         {
-            var txt = "Cluster " + report.clusterTitle + "\n";            
+            var res = new TreeViewItem();
+            res.Header = "Cluster " + report.clusterTitle;
+
             foreach (var ap in report.points)
-                txt  += "  arg. point:  " + ap.Point + "\n";
-            
-            var res = new TextBlock();
-            res.Text = txt;
+                res.Items.Add(GetPointReport(ap));
+
             return res;
         }
 
-        TextBlock GetLink(LinkReportResponse report)
+        TreeViewItem GetLink(LinkReportResponse report)
         {
-            var txt = "Link \n";
+            var res = new TreeViewItem();
+            res.Header = "Link";
+
             if (report.EndpointArgPoint1)
-                txt += "  endpoint 1 is arg. point: " + report.ArgPoint1.Point + "\n";
+                res.Items.Add(GetPointReport(report.ArgPoint1));
             else
-                txt += "  endpoint 1 is cluster: " + report.ClusterCaption1 + "\n";
+                res.Items.Add(new TextBlock(new Run("Cluster " + report.ClusterCaption1)));
 
             if (report.EndpointArgPoint2)
-                txt += "  endpoint 2 is arg. point: " + report.ArgPoint2.Point + "\n";
+                res.Items.Add(GetPointReport(report.ArgPoint2));
             else
-                txt += "  endpoint 2 is cluster: " + report.ClusterCaption2 + "\n";            
+                res.Items.Add(new TextBlock(new Run("Cluster " + report.ClusterCaption2)));    
 
-            var res = new TextBlock();
-            res.Text = txt;
             return res;
         }
 
@@ -151,44 +155,84 @@ namespace Reporter
             return res;
         }
 
-        TreeViewItem GetUserSummary(ArgPointReport report, bool allUsers)
+        TreeViewItem GetPointReport(ArgPoint ap)
         {
-            var txt = "  Number of comments " + report.numComments + "\n";
-            txt += "  Number of media attachments " + report.numMediaAttachments + "\n";
-            txt += "  Number of points " + report.numPoints + "\n";
-            txt += "  Number of points with description " + report.numPointsWithDescriptions + "\n";
-            txt += "  Number of sources " + report.numSources + "\n";                        
+            var txt = new TextBlock();
+            if (ap.Description.Text != "Description")
+                txt.Text += ap.Description.Text;
+            else
+                txt.Text += "No description";
 
+            var res = new TreeViewItem();
+            res.Header = "Arg. point " + ap.Point;
+            res.Items.Add(txt);
+            return res;
+        }
+
+        TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
+        {
+            var txt = "  Number of points " + report.numPoints + "\n";
+            txt += "  Number of points with description " + report.numPointsWithDescriptions + "\n";
+            txt += "  Number of media attachments " + report.numMediaAttachments + "\n";
+            txt += "  Number of sources " + report.numSources + "\n";   
+            txt += "  Number of comments " + report.numComments;
+           
             var tb = new TextBlock();
             tb.Text = txt;
             var tvi = new TreeViewItem();
             tvi.Items.Add(tb);
-            if (allUsers)
-                tvi.Header = "<all users total>";
+
+            if (!totalUser)
+            {
+                var usrId = report.user.Id;
+                foreach (var ap in report.topic.ArgPoint.Where(ap0=>ap0.Person.Id == usrId))
+                    tvi.Items.Add(GetPointReport(ap));
+            }
+
+            if (report.topic != null && !totalUser)
+                tvi.Header = report.topic.Name;
             else
-                tvi.Header = "User " + report.user.Name;
+                tvi.Header = "<total user, all topics>"; 
 
             return tvi;
         }
 
+        TreeViewItem GetUserSummary(List<ArgPointReport> reportsOfUser)
+        {
+            var res = new TreeViewItem();
+            string usrName = "";
+            foreach (var apReport in reportsOfUser)
+            {
+                res.Items.Add(GetUserOneTopicSummary(apReport,false));
+                if (apReport.user != null)
+                    usrName = apReport.user.Name;
+            }
+
+            res.Header = "User summary for " + usrName;
+
+            return res;
+        }
+
         TreeViewItem GetAvgUserSummary(ArgArgPointReport report)
         {
-            var txt = "  Number of comments " + report.numComments + "\n";
-            txt += "  Number of media attachments " + report.numMediaAttachments + "\n";
-            txt += "  Number of points " + report.numPoints + "\n";
+            var txt = "  Number of points " + report.numPoints + "\n";
             txt += "  Number of points with description " + report.numPointsWithDescriptions + "\n";
+            txt += "  Number of media attachments " + report.numMediaAttachments + "\n";
             txt += "  Number of sources " + report.numSources + "\n";
+            txt += "  Number of comments " + report.numComments;
 
             var tb = new TextBlock();
             tb.Text = txt;
             var tvi = new TreeViewItem();
             tvi.Items.Add(tb);
-            tvi.Header = "<average user>";
+            tvi.Header = "<average user, all topics>";
             return tvi;
         }
 
         public void reportGenerated()
         {
+            txtLastSync.Text = DateTime.Now.ToString();
+            
             topicSection.Items.Clear();
             foreach (var topicReport in _collector.TopicReports)
                 topicSection.Items.Add(GetTopicReport(topicReport));
@@ -197,14 +241,19 @@ namespace Reporter
             topicSection.Items.Add(GetTotalTopicSummary(totals));
 
 
-
             usersSection.Items.Clear();
             foreach(var report in _collector.ArgPointReports.Values)
-                usersSection.Items.Add(GetUserSummary(report, false));
+                usersSection.Items.Add(GetUserSummary(report));
 
-            usersSection.Items.Add(GetUserSummary(_collector.TotalArgPointReport, true));
+            usersSection.Items.Add(GetUserOneTopicSummary(_collector.TotalArgPointReport, true));
 
             usersSection.Items.Add(GetAvgUserSummary(_collector.AvgArgPointReport));
+
+            participants.ItemsSource = _collector.Participants;
+
+            discName.Text = _collector.Discussion.Subject;
+
+            totalTime.Text = _collector.TotalDiscussionTime.ToString();
         }
 
         LoginResult testLoginStub(DiscCtx ctx)

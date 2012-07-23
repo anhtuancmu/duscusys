@@ -17,11 +17,16 @@ namespace Reporter
         public int numComments;
         public int cumulativeDuration; //in seconds
         public int[] clusterIds;
-        public int[] linkIds; 
+        public int[] linkIds;
+        public int numUsers;
+        public int numPoints;
+        public int numPointsWithDescription;
+        public int numMediaAttachments;
 
         public TopicReport(Topic topic, int numClusters, int numClusteredBadges,
                           int numLinks, IEnumerable<Person> participants, int numSources,
-                          int numComments, int cumulativeDuration, int[] clusterIds, int[] linkIds)
+                          int numComments, int cumulativeDuration, int[] clusterIds, int[] linkIds,
+                          int numPoints, int numPointsWithDescription, int numMediaAttachments)
         {
             this.topic              = topic;
             this.numClusters        = numClusters;
@@ -33,6 +38,9 @@ namespace Reporter
             this.cumulativeDuration = cumulativeDuration;
             this.clusterIds         = clusterIds;
             this.linkIds            = linkIds;
+            this.numPoints = numPoints;
+            this.numPointsWithDescription = numPointsWithDescription;
+            this.numMediaAttachments = numMediaAttachments;
         }
 
         public int numParticipants
