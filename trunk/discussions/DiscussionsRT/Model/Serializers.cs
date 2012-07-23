@@ -164,17 +164,21 @@ namespace Discussions.RTModel.Model
             return res;
         }
 
-        public static Dictionary<byte, object> WriteChangedArgPoint(int ArgPointId, int topicId, PointChangedType pointChangeType)                                                                 
+        public static Dictionary<byte, object> WriteChangedArgPoint(int ArgPointId, int topicId, PointChangedType pointChangeType, int editingUserId)                                                                 
         {
             var res = new Dictionary<byte, object>();
+            res[(byte)DiscussionParamKey.UserId] = editingUserId; 
             res[(byte)DiscussionParamKey.PointChangeType] = pointChangeType; 
             res[(byte)DiscussionParamKey.ArgPointId] = ArgPointId;
             res[(byte)DiscussionParamKey.ChangedTopicId] = topicId;
             return res;
         }
 
-        public static int ReadChangedArgPoint(Dictionary<byte, object> dict, out PointChangedType pointChangeType, out int topicId)
+        //editingUserId is optional, can be absent not used now
+        public static int ReadChangedArgPoint(Dictionary<byte, object> dict, out PointChangedType pointChangeType, out int topicId, 
+                                                    out int editingUserId)
         {
+            editingUserId = (int)dict[(byte)DiscussionParamKey.UserId];
             pointChangeType = (PointChangedType)dict[(byte)DiscussionParamKey.PointChangeType];
             topicId = (int)dict[(byte)DiscussionParamKey.ChangedTopicId];
             return (int)dict[(byte)DiscussionParamKey.ArgPointId];            

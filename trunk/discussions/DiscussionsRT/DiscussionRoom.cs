@@ -236,7 +236,8 @@ namespace Discussions.RTModel
         {
             PointChangedType pointChangeType;
             int topicId;
-            var pointId = Serializers.ReadChangedArgPoint(operationRequest.Parameters, out pointChangeType, out topicId);            
+            int editorId;            
+            var pointId = Serializers.ReadChangedArgPoint(operationRequest.Parameters, out pointChangeType, out topicId, out editorId);            
             switch (pointChangeType)
             {
                 case PointChangedType.Created:

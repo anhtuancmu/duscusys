@@ -43,7 +43,10 @@ namespace Discussions.stats
                     {
                         ((ArgPoint)entry.Entity).ChangesPending = false;
                         sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
-                                        si.person.Id, si.discussion.Id, si.currentTopicId, DeviceType.Wpf);
+                                                            SessionInfo.Get().person.Id, 
+                                                            si.discussion.Id, 
+                                                            si.currentTopicId, 
+                                                            DeviceType.Wpf);
                     }
                 }
 

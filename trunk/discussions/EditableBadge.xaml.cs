@@ -550,7 +550,7 @@ namespace Discussions
                     ap.ChangesPending = true;
                     UISharedRTClient.Instance.clienRt.SendStatsEvent(
                                                StEvent.CommentAdded,
-                                               ap.Person.Id,
+                                               SessionInfo.Get().person.Id,
                                                ap.Topic.Discussion.Id,
                                                ap.Topic.Id,
                                                DeviceType.Wpf);

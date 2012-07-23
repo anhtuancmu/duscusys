@@ -448,19 +448,20 @@ namespace Discussions
             List<ArgPoint> deleted = null;
             GetChangeLists(out created, out edited, out deleted);
 
-            //save cahnges 
+            //save changes 
             Ctx2.SaveChangesIgnoreConflicts();
 
             //first notify about deleted point!
+            var editorId = SessionInfo.Get().person.Id;
             if (deletedPt!=null)
-                _sharedClient.clienRt.SendArgPointDeleted(deletedPt.Id, TopicOfDeletedPointId);   
+                _sharedClient.clienRt.SendArgPointDeleted(deletedPt.Id, TopicOfDeletedPointId, editorId);   
 
             //notify about changes
             foreach (var createdPt in created)
-                _sharedClient.clienRt.SendArgPointCreated(createdPt.Id, createdPt.Topic.Id);
+                _sharedClient.clienRt.SendArgPointCreated(createdPt.Id, createdPt.Topic.Id, editorId);
 
             foreach (var editedPt in edited)
-                _sharedClient.clienRt.SendArgPointChanged(editedPt.Id, editedPt.Topic.Id);      
+                _sharedClient.clienRt.SendArgPointChanged(editedPt.Id, editedPt.Topic.Id, editorId);      
         }
 
         //returns lists of IDs of those of own points, which have been changed (added, removed, edited)
@@ -493,6 +494,30 @@ namespace Discussions
                         edited.Add(ap);
                         break;
                 } 
+            }
+            
+            foreach (var ap in ArgPointsOfOtherUser)
+            {
+                //if point is unnatached (removed in UI but preserved for UNDO), 
+                //for this method it's removed
+                if (ap.Person == null || ap.Topic == null)
+                {
+                    deleted.Add(ap);
+                    continue;
+                }
+
+                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap).State)
+                {
+                    case EntityState.Added:
+                        created.Add(ap);
+                        break;
+                    case EntityState.Deleted:
+                        deleted.Add(ap);
+                        break;
+                    case EntityState.Modified:
+                        edited.Add(ap);
+                        break;
+                }
             }
         }
 
