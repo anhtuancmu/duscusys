@@ -663,7 +663,7 @@ namespace DistributedEditor
             DocTools.ToggleBadgeContexts(_doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
         }
 
-        void argPointChanged(int ArgPointId, int topicId, PointChangedType change)
+        void argPointChanged(int ArgPointId, int topicId, PointChangedType change, int editorUsrId)
         {
             if (topicId != _doc.TopicId)
                 return;
