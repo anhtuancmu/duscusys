@@ -4,20 +4,61 @@
         xmlns:s="http://schemas.microsoft.com/surface/2008"
         xmlns:Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" mc:Ignorable="d" 
+	    xmlns:local="clr-namespace:Reporter"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+		xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" mc:Ignorable="d" 
         x:Class="Reporter.MainWindow"
-        Title="MainWindow" Height="350" Width="525" Background="#FF858585">
+        Title="MainWindow" Height="613" Width="835" Background="#FF858585">
+	<Window.Resources>
+		<ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+			<StackPanel IsItemsHost="True" Orientation="Horizontal"/>
+		</ItemsPanelTemplate>
+	</Window.Resources>
     <Grid>
     	<Grid.RowDefinitions>
-    		<RowDefinition Height="3*"/>
-    		<RowDefinition Height="23*"/>
+    		<RowDefinition Height="133"/>
+    		<RowDefinition/>
     	</Grid.RowDefinitions>
-    	<Button x:Name="btnRun" Click="btnRun_Click_1" Content="Generate" HorizontalAlignment="Left" Height="28" Margin="10,3,0,0" VerticalAlignment="Top" Width="104" RenderTransformOrigin="0.24,0.161"/>
-		<TreeView Name="reportRoot" Grid.Row="1" Background="LightGray" FontSize="21.333">
+    	<s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Height="41" Width="121" d:LayoutOverrides="Margin"/>
+		<TreeView Name="reportRoot" Grid.Row="1" Background="LightGray" FontSize="21.333" d:LayoutOverrides="Margin">
     		<TreeViewItem Header="Topics" IsExpanded="True">
 			</TreeViewItem>
     		<TreeViewItem Header="Users" IsExpanded="True">
     		</TreeViewItem>
-    	</TreeView>    
+    	</TreeView>
+		<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Discusys Reporting System" VerticalAlignment="Top" FontSize="29.333" Margin="0,8,21,0" Height="39.017" Width="346.627" d:LayoutOverrides="Margin"/>
+		<Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="673" Height="86" Margin="0,47,0,0" d:LayoutOverrides="Margin">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="33*"/>
+				<RowDefinition Height="36*"/>
+				<RowDefinition Height="40*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="461*"/>
+				<ColumnDefinition Width="134*"/>
+			</Grid.ColumnDefinitions>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Last Sync:" VerticalAlignment="Top" FontSize="16"/>
+				<TextBlock x:Name="txtLastSync" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="lastSync"/>    
+			</StackPanel>
+			<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="version 0.1" VerticalAlignment="Center" FontSize="16" Grid.Column="1"/>
+			<StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="1" d:LayoutOverrides="Height">
+				<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Total time:" VerticalAlignment="Center" FontSize="16"/>
+				<TextBlock x:Name="totalTime" HorizontalAlignment="Center" TextWrapping="Wrap" Text="totalTime" VerticalAlignment="Center" FontSize="16"/>
+			</StackPanel>
+			<StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Grid.Row="2" d:LayoutOverrides="Height, Margin" HorizontalAlignment="Right">
+				<TextBlock TextWrapping="Wrap" Text="Participants: " FontSize="16"/>
+				<HeaderedItemsControl x:Name="participants" 
+					Header="HeaderedItemsControl" 
+					ItemsPanel="{DynamicResource ItemsPanelTemplate1}">  
+					<HeaderedItemsControl.ItemTemplate>
+						<DataTemplate>
+							<local:MiniUserUC/>
+						</DataTemplate>
+					</HeaderedItemsControl.ItemTemplate>
+				</HeaderedItemsControl>  
+			</StackPanel>  
+		</Grid>
+		<TextBlock x:Name="discName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Discussion:" VerticalAlignment="Top" FontSize="29.333" Margin="15,8,0,0"/>    
     </Grid>
 </Window>

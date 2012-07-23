@@ -14,6 +14,7 @@ namespace Reporter
         public int numSources;
         public int numComments;
         public Person user;
+        public Topic topic;
 
         public ArgPointReport()
         {
@@ -21,7 +22,7 @@ namespace Reporter
 
         public ArgPointReport(int numPoints, int numPointsWithDescriptions,
                               int numMediaAttachments, int numSources, int numComments,
-                              Person user)
+                              Person user, Topic topic)
         {
             this.numPoints = numPoints;
             this.numPointsWithDescriptions = numPointsWithDescriptions;
@@ -29,6 +30,7 @@ namespace Reporter
             this.numSources = numSources;
             this.numComments = numComments;
             this.user = user;
+            this.topic = topic;
         }
     }
 }
