@@ -7,10 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input.StylusPlugIns;
 using Discussions.rt;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace DistributedEditor
 {
-    public class DistributedInkCanvas : InkCanvas
+    public class DistributedInkCanvas : SurfaceInkCanvas
     {
         InkInterceptorPlugin interceptor = new InkInterceptorPlugin();
 
@@ -19,10 +20,10 @@ namespace DistributedEditor
         public DistributedInkCanvas()
             : base()
         {
-            this.StylusPlugIns.Add(interceptor);
+            //this.StylusPlugIns.Add(interceptor);
 
-            this.StrokeCollected += strokeCollected;
-            this.StrokeErased += strokeErased;
+            //this.StrokeCollected += strokeCollected;
+            //this.StrokeErased += strokeErased;
         }
 
         void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)

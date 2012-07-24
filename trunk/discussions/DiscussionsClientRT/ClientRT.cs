@@ -39,7 +39,7 @@ namespace DiscussionsClientRT
         //public delegate void SrvGeometryRequest();
         //public SrvGeometryRequest srvGeometryRequest;
 
-        public delegate void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change, int editingUserId);
+        public delegate void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change);
         public ArgPointChanged argPointChanged;
 
         public delegate void InstantSomebodyLeaved();
@@ -231,10 +231,9 @@ namespace DiscussionsClientRT
                 case (byte)DiscussionEventCode.ArgPointChanged:
                     PointChangedType changeType = PointChangedType.Modified;
                     int topicId;
-                    int editingUserId;
-                    int argPointId = Serializers.ReadChangedArgPoint(eventData.Parameters, out changeType, out topicId, out editingUserId);                   
+                    int argPointId = Serializers.ReadChangedArgPoint(eventData.Parameters, out changeType, out topicId);                   
                     if (argPointChanged != null)
-                        argPointChanged(argPointId, topicId, changeType, editingUserId); 
+                        argPointChanged(argPointId, topicId, changeType); 
                     break;                
                 case (byte)DiscussionEventCode.UserAccPlusMinus:
                     if (userAccPlusMinus != null)
@@ -483,28 +482,28 @@ namespace DiscussionsClientRT
 
         ///arg. point 
         ///other users can edit arg.point too, by editing comments
-        public void SendArgPointChanged(int argPointId, int topicId, int editingUserId)
+        public void SendArgPointChanged(int argPointId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Modified, editingUserId);
+            var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Modified);
             peer.OpCustom((byte)DiscussionOpCode.NotifyArgPointChanged, parameter, true);
         }
-        public void SendArgPointCreated(int argPointId, int topicId, int editingUserId)
+        public void SendArgPointCreated(int argPointId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Created, editingUserId);
+            var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Created);
             peer.OpCustom((byte)DiscussionOpCode.NotifyArgPointChanged, parameter, true);
         }
-        public void SendArgPointDeleted(int argPointId, int topicId, int editingUserId)
+        public void SendArgPointDeleted(int argPointId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Deleted, editingUserId);
+            var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Deleted);
             peer.OpCustom((byte)DiscussionOpCode.NotifyArgPointChanged, parameter, true);
         }
 

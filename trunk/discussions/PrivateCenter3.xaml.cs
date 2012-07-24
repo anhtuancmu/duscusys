@@ -227,8 +227,8 @@ namespace Discussions
         {
             var pers = lstOtherUsers.SelectedItem as Person;
             var topic = lstTopics.SelectedItem as Topic;
-            if(!initializing)
-                theBadge.DataContext = null;
+            //if(!initializing)
+            //    theBadge.DataContext = null;
             if (pers != null && topic != null)
             {
                 UpdateBadgesOfOtherUser(pers.Id, topic.Id);                    
@@ -299,7 +299,7 @@ namespace Discussions
 
         private void lstPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lstBadgesOfOtherUser.SelectedItem = null;
+           // lstBadgesOfOtherUser.SelectedItem = null;
             lstPoints.ScrollIntoView(lstPoints.SelectedItem as ArgPoint);  
             selectBigBadge(lstPoints.SelectedItem as ArgPoint);          
         }
@@ -452,16 +452,15 @@ namespace Discussions
             Ctx2.SaveChangesIgnoreConflicts();
 
             //first notify about deleted point!
-            var editorId = SessionInfo.Get().person.Id;
             if (deletedPt!=null)
-                _sharedClient.clienRt.SendArgPointDeleted(deletedPt.Id, TopicOfDeletedPointId, editorId);   
+                _sharedClient.clienRt.SendArgPointDeleted(deletedPt.Id, TopicOfDeletedPointId);   
 
             //notify about changes
             foreach (var createdPt in created)
-                _sharedClient.clienRt.SendArgPointCreated(createdPt.Id, createdPt.Topic.Id, editorId);
+                _sharedClient.clienRt.SendArgPointCreated(createdPt.Id, createdPt.Topic.Id);
 
             foreach (var editedPt in edited)
-                _sharedClient.clienRt.SendArgPointChanged(editedPt.Id, editedPt.Topic.Id, editorId);      
+                _sharedClient.clienRt.SendArgPointChanged(editedPt.Id, editedPt.Topic.Id);      
         }
 
         //returns lists of IDs of those of own points, which have been changed (added, removed, edited)
@@ -523,7 +522,7 @@ namespace Discussions
 
         void onStructChanged(int activeTopic, int initiaterId, DeviceType devType)
         {
-            if (initiaterId == SessionInfo.Get().person.Id && devType == DeviceType.Wpf )
+            if (initiaterId == SessionInfo.Get().person.Id && devType == DeviceType.Wpf)
                 return;
 
             BusyWndSingleton.Show("Fetching changes...");
@@ -535,12 +534,31 @@ namespace Discussions
                 if (sel != null)
                     topicUnderSelectionId = sel.Id;
                
+                //save selected list of points 
+                var selectedAp = theBadge.DataContext as ArgPoint;
+ 
                 ForgetDBDiscussionState();
                 DiscussionSelectionChanged();
 
                 //select previously selected topic
                 if (topicUnderSelectionId != -1)
-                    lstTopics.SelectedItem = Ctx2.Get().Topic.FirstOrDefault(t0 => t0.Id == topicUnderSelectionId);                
+                    lstTopics.SelectedItem = Ctx2.Get().Topic.FirstOrDefault(t0 => t0.Id == topicUnderSelectionId); 
+               
+                //select previously selected point
+                if (selectedAp != null)
+                {
+                    //own list
+                    if (selectedAp.Person.Id == SessionInfo.Get().person.Id)
+                    {
+                        lstPoints.SelectedItem = null;
+                        lstPoints.SelectedItem = OwnArgPoints.FirstOrDefault(ap0 => ap0.Id == selectedAp.Id);
+                    }
+                    else
+                    {
+                        lstOtherUsers.SelectedItem = OtherUsers.FirstOrDefault(u0 => u0.Id == selectedAp.Person.Id);
+                        lstBadgesOfOtherUser.SelectedItem = ArgPointsOfOtherUser.FirstOrDefault(ap0 => ap0.Id == selectedAp.Id);
+                    }
+                }
             }
             finally
             {
@@ -612,11 +630,7 @@ namespace Discussions
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            onStructChanged(-1,-1,DeviceType.Wpf);
-            
-            //fix context of big badge
-            var ap = lstPoints.SelectedItem as ArgPoint;
-            theBadge.DataContext = ap;                       
+            onStructChanged(-1,-1,DeviceType.Wpf);               
         }
 
         private void SurfaceWindow_KeyDown_1(object sender, KeyEventArgs e)

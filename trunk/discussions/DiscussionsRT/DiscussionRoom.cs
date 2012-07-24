@@ -235,9 +235,8 @@ namespace Discussions.RTModel
                                         SendParameters sendParameters)
         {
             PointChangedType pointChangeType;
-            int topicId;
-            int editorId;            
-            var pointId = Serializers.ReadChangedArgPoint(operationRequest.Parameters, out pointChangeType, out topicId, out editorId);            
+            int topicId; 
+            var pointId = Serializers.ReadChangedArgPoint(operationRequest.Parameters, out pointChangeType, out topicId);            
             switch (pointChangeType)
             {
                 case PointChangedType.Created:
