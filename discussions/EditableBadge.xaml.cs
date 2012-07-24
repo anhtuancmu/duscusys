@@ -83,12 +83,12 @@ namespace Discussions
                 plainDescription.IsHitTestVisible = _editingMode;
                 //Drawing.EditingMode = _editingMode;
                 txtPoint.IsHitTestVisible = _editingMode;
-                txtAttachmentURL.IsHitTestVisible = _editingMode;
-                btnChooseFile.IsEnabled = _editingMode;
-                btnAttachFromUrl.IsEnabled = _editingMode;
-                btnAddSrc.IsEnabled = _editingMode;
-                btnAttachScreenshot.IsEnabled = _editingMode;
-                txtSource.IsHitTestVisible = _editingMode;
+                ///txtAttachmentURL.IsHitTestVisible = _editingMode;
+                ///btnChooseFile.IsEnabled = _editingMode;
+                ///btnAttachFromUrl.IsEnabled = _editingMode;
+                ///btnAddSrc.IsEnabled = _editingMode;
+                ///btnAttachScreenshot.IsEnabled = _editingMode;
+                ///txtSource.IsHitTestVisible = _editingMode;
             }
         }
 

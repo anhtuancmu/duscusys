@@ -163,14 +163,14 @@ namespace DistributedEditor
             else
             {
                 _palette.toolSelected -= this.ToolSelected;
-                _palette.removeShape -= this.RemoveShape;
-                _palette.noTool -= this.NoTool;
-                _palette.reset -= this.Reset;               
+                _palette.removeShape  -= this.RemoveShape;
+                _palette.noTool       -= this.NoTool;
+                _palette.reset        -= this.Reset;               
             }
 
             if(doSet)
             {
-                //_canv.AddHandler(TextUC.VdTextDeleteEvent, delCanv_DeleteText);
+                _canv.AddHandler(TextUC.VdTextDeleteEvent, delCanv_DeleteText);
                 //_canv.AddHandler(TextUC.TextShapeCopyEvent, delTextShapeCopy);
                 //_canv.AddHandler(TextUC.TextShapePasteEvent, delTextShapePaste);
 
@@ -190,7 +190,7 @@ namespace DistributedEditor
             }
             else
             {
-                //_canv.RemoveHandler(TextUC.VdTextDeleteEvent, delCanv_DeleteText);
+                _canv.RemoveHandler(TextUC.VdTextDeleteEvent, delCanv_DeleteText);
                 //_canv.RemoveHandler(TextUC.TextShapeCopyEvent, delTextShapeCopy);
                 //_canv.RemoveHandler(TextUC.TextShapePasteEvent, delTextShapePaste);                
 
@@ -215,7 +215,7 @@ namespace DistributedEditor
         Delegate delCanv_DeleteText = null;
         void canv_DeleteText(object sender, RoutedEventArgs e)
         {
-           //// mgr.DeleteRecentlySelectedShape();
+            mgr.RemoveShape(-1);
         }
 
         Delegate delTextShapeCopy = null;

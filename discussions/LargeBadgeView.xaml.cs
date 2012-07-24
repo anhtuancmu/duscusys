@@ -33,14 +33,16 @@ namespace Discussions
 
         UISharedRTClient _sharedClient;
 
-        public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
-         "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
+        public Action CloseRequest;
 
-        public event RoutedEventHandler RequestSmallView
-        {
-            add { AddHandler(RequestSmallViewEvent, value); }
-            remove { RemoveHandler(RequestSmallViewEvent, value); }
-        }
+        //public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
+        // "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
+
+        //public event RoutedEventHandler RequestSmallView
+        //{
+        //    add { AddHandler(RequestSmallViewEvent, value); }
+        //    remove { RemoveHandler(RequestSmallViewEvent, value); }
+        //}
 
         public LargeBadgeView()
         {
@@ -63,9 +65,9 @@ namespace Discussions
         {
             SetListeners(false);
 
-            RaiseEvent(new RoutedEventArgs(RequestSmallViewEvent));
-           // if (closeRequest != null)
-           //     closeRequest();
+            //RaiseEvent(new RoutedEventArgs(RequestSmallViewEvent));
+            if (CloseRequest != null)
+                CloseRequest();
         }
 
         void SetListeners(bool doSet)

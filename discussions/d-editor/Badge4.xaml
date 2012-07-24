@@ -15,7 +15,8 @@
              Width="112" 
              Height="75" Margin="0" FontSize="8">
     <UserControl.Resources>
-        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+        <local:SummaryTextConvertor x:Key="txtSummaryConv"/>
+		<Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
 		<ControlTemplate x:Key="LabelControlTemplate1" TargetType="{x:Type Label}">
             <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True" CornerRadius="3">
                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -71,7 +72,7 @@
     		VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="1">
             <Grid Background="#721D1D1D" VerticalAlignment="Center" HorizontalAlignment="Center">
     			<TextBlock x:Name="txtBxPoint" 
-				    Text="{Binding Point}"
+				    Text="{Binding Point, Converter={StaticResource txtSummaryConv}}"
 					FontFamily="Segoe UI" FontSize="12" TextWrapping="Wrap" 
 				    LineStackingStrategy="MaxHeight" 
     				HorizontalAlignment="Center" 

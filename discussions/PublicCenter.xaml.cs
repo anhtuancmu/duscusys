@@ -155,48 +155,6 @@ namespace Discussions
                                                             DeviceType.Wpf);
         }  
 
-        #region large badge view management
-        LargeBadgeView _lbv = null;
-        void LargeRequest(object sender, RoutedEventArgs e)
-        {
-            var badge = e.OriginalSource as Badge4;
-            if (badge == null)
-                return;
-
-            ShowLargeBadgeView(badge.DataContext as ArgPoint);
-            UISharedRTClient.Instance.clienRt.SendStatsEvent(StEvent.BadgeZoomIn,
-                                                            SessionInfo.Get().person.Id,
-                                                            SessionInfo.Get().discussion.Id,
-                                                            topicNavPanel.selectedTopic.Id,
-                                                            DeviceType.Wpf);
-        }
-        void ShrinkRequest(object sender, RoutedEventArgs e)
-        {
-            HideLargeBadgeView();
-        }
-        void ShowLargeBadgeView(ArgPoint ap)
-        {
-            if (_lbv != null)
-                return;
-
-            _lbv = new LargeBadgeView();
-            _lbv.DataContext = ap;
-            _lbv.SetRt(UISharedRTClient.Instance);
-            mainGrid.Children.Add(_lbv);
-            Grid.SetRowSpan(_lbv, 2);
-            _lbv.HorizontalAlignment = HorizontalAlignment.Center;
-            _lbv.VerticalAlignment = VerticalAlignment.Center;
-        }
-        void HideLargeBadgeView()
-        {
-            if (_lbv==null)
-                return;
-
-            mainGrid.Children.Remove(_lbv);
-            _lbv = null;
-        }
-        #endregion
-
         private void topicSelectionChanged(SelectionChangedEventArgs e)
         {
             CleanipEditCtx();
@@ -484,10 +442,14 @@ namespace Discussions
   
         private void SurfaceWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete)
-            {               
-               //if (layerMode == LayerMode.CreatedInPlaceEditing || layerMode == LayerMode.LoadedLayerEditing)
-               //    graphicsCtx.RemoveShape(SessionInfo.Get().person.Id);
+            if (e.Key == Key.Tab)
+            {
+                btnToggleShapes.IsChecked = !btnToggleShapes.IsChecked;
+                btnToggleShapes_Click(null, null);               
+            }            
+            else if (e.Key == Key.Delete && shapesVisibile)
+            {
+                editCtx.RemoveShape(palette.GetOwnerId());
             }
             else if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {

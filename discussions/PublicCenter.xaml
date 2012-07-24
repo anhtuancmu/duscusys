@@ -51,9 +51,7 @@
         </Storyboard>
     </s:SurfaceWindow.Resources>
     
-    <Grid x:Name="mainGrid"
-          ClipToBounds="False"           
-          local:LargeBadgeView.RequestSmallView="ShrinkRequest">
+    <Grid x:Name="mainGrid" ClipToBounds="False">
         <Grid.Resources>
             <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}">
                 <Setter Property="MinHeight" Value="70"/>
@@ -61,10 +59,7 @@
             </Style>
         </Grid.Resources>
         
-	    <Canvas x:Name="scene" 	
-                 RenderTransformOrigin="0.5 0.5"	              
-				 local:Badge4.RequestLargeView="LargeRequest"                      
-				 Background="#FFAAAAAA"/>
+	    <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#FFAAAAAA"/>
 	    <dedit:DistributedInkCanvas x:Name="inkCanv" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5" Background="{x:Null}">
 	    	<dedit:DistributedInkCanvas.DefaultDrawingAttributes>
 	    		<DrawingAttributes Color="Black" FitToCurve="False" Height="4" IgnorePressure="False" 

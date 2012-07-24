@@ -94,9 +94,9 @@ namespace DistributedEditor
         {
             if (doEnter)
             {
-                _ink.IsHitTestVisible = true;
+                _ink.IsHitTestVisible  = true;
                 _inkPalette.Visibility = Visibility.Visible;
-                _palette.Visibility = Visibility.Hidden;
+                _palette.Visibility    = Visibility.Hidden;
 
                 //set drawing attributes of current palette owner                
                 var da = _ink.DefaultDrawingAttributes.Clone();                

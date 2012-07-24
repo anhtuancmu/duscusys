@@ -126,7 +126,10 @@ namespace Discussions
         void badgeDoubleTap(object sender, InputEventArgs e)
         {
             //toggleZoom();
-            RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
+            //RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
+
+            var zoom = new ZoomWindow(DataContext as ArgPoint);
+            zoom.ShowDialog();
         }
 
         public void SetCursorVisible(bool visible)
