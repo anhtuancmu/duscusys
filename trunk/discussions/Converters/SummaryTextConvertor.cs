@@ -24,13 +24,15 @@ namespace Discussions
 
         public static string ShortenLine(string line)
         {
-            if (line.Length > 20)
-                return line.Substring(0, Math.Min(line.Length - 1, 20)) + "...";
+            const int truncatedLen = 40;
+            if (line.Length > truncatedLen)
+                return line.Substring(0, Math.Min(line.Length - 1, truncatedLen)) + "...";
             else
                 return line;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, 
+                                    System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

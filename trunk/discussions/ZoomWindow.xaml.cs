@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Discussions.DbModel;
+using Discussions.model;
+using Discussions.rt;
 using Microsoft.Surface;
 using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
@@ -18,23 +21,31 @@ using Microsoft.Surface.Presentation.Input;
 
 namespace Discussions
 {
-    /// <summary>
-    /// Interaction logic for ZoomWindow.xaml
-    /// </summary>
     public partial class ZoomWindow : Window
-    {
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public ZoomWindow(Badge4 ap)
+    {    
+        public ZoomWindow(ArgPoint ap)
         {
             InitializeComponent();
 
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
 
-            argumentPointUC1.onToggleZoom += OnToggleZoom;
-            argumentPointUC1.DataContext = ap.DataContext;            
+            largeBadgeView.DataContext = ap;
+            largeBadgeView.SetRt(UISharedRTClient.Instance);
+            largeBadgeView.CloseRequest += CloseRequest;
+
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(StEvent.BadgeZoomIn,
+                                                             SessionInfo.Get().person.Id,
+                                                             SessionInfo.Get().discussion.Id,
+                                                             ap.Topic.Id,
+                                                             DeviceType.Wpf);
+        }
+
+        void CloseRequest()
+        {
+            largeBadgeView.CloseRequest -= CloseRequest;
+            largeBadgeView = null;
+            Close();           
         }
 
         /// <summary>
@@ -105,15 +116,8 @@ namespace Discussions
 
         private void SurfaceWindow_Activated(object sender, EventArgs e)
         {
-            double height = argumentPointUC1.ActualHeight +
-                            argumentPointUC1.ActualHeight;
-            double factor = System.Windows.SystemParameters.PrimaryScreenHeight / height;             
-
-            this.Height = height;
-            this.Width = argumentPointUC1.ActualWidth;            
-
-            scaleTransform.ScaleX = factor;
-            scaleTransform.ScaleY = factor;
+            this.Height = largeBadgeView.ActualHeight;
+            this.Width  = largeBadgeView.ActualWidth;            
         }
 
         void OnToggleZoom()
