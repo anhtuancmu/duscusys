@@ -22,13 +22,13 @@
 
 			<Grid>
 				<StackPanel HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Top">
-					<s:SurfaceToggleButton x:Name="radInk" Background="{x:Null}" IsChecked="True" Click="rad_Click" Tag="{x:Static InkCanvasEditingMode.Ink}" Width="100">
+					<s:SurfaceToggleButton x:Name="radInk" Background="{x:Null}" IsChecked="True" Click="rad_Click" Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Width="100">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90" >
 							<Border Background="{StaticResource pen}" Height="30" Width="30"/>
 							<TextBlock Foreground="White" Text="Ink" d:LayoutOverrides="Width" Margin="13,0,0,0"/>
 						</StackPanel>
-					</s:SurfaceToggleButton>			
-					<s:SurfaceToggleButton x:Name="radErase" Background="{x:Null}" Click="rad_Click"  Tag="{x:Static InkCanvasEditingMode.EraseByStroke}" Width="100">                  
+					</s:SurfaceToggleButton>
+                    <s:SurfaceToggleButton x:Name="radErase" Background="{x:Null}" Click="rad_Click"  Tag="{x:Static s:SurfaceInkEditingMode.EraseByStroke}" Width="100">                  
 					    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90">
 							<Border Background="{StaticResource eraser}" Height="30" Width="30"/>
 							<TextBlock Foreground="White" Text="Eraser" Margin="12,0,0,0"/>

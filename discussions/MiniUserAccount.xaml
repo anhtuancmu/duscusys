@@ -20,12 +20,12 @@
                HorizontalAlignment="Center" Height="50" 
 			   VerticalAlignment="Center" Width="50" Grid.Column="1"
                PreviewTouchDown="avaTouchDown" MouseDown="imgAvatar_MouseDown_1"/>
-        <Label Content="{Binding Name}"
+        <Label x:Name="lblName" Content="{Binding Name}"
                HorizontalAlignment="Right" 
                VerticalAlignment="Center" 
                Background="#00000000"
                PreviewTouchDown="nameTouchDown"
-               MouseDown="nameMouseDown"
+               MouseDown="nameMouseDown" Foreground="White"
                />
         <Rectangle x:Name="colorCode" Fill="{Binding Path=Color, Converter={StaticResource ColorConv}}" 
                    Height="7" VerticalAlignment="Bottom" Grid.Column="1"/>

@@ -1343,7 +1343,7 @@
                           >
             <s:SurfaceListBox.ItemTemplate>
                 <DataTemplate>
-                	<local:MiniUserAccount Height="50" Width="150"/>
+                	<local:MiniUserAccount NameColor="Black" Height="50" Width="150"/>
                 </DataTemplate>
             </s:SurfaceListBox.ItemTemplate>
         </s:SurfaceListBox>

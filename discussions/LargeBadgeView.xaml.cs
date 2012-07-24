@@ -76,7 +76,7 @@ namespace Discussions
                 _sharedClient.clienRt.argPointChanged -= ArgPointChanged;
         }
 
-        void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change, int editorUsrId)
+        void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change)
         {
             if (change == PointChangedType.Modified)
             {

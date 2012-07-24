@@ -28,13 +28,13 @@ namespace DistributedEditor
 
         Action _finishDrawing;
 
-        public void Init(Action finishDrawing, InkCanvas inkCanvas)
+        public void Init(Action finishDrawing, DistributedInkCanvas inkCanvas)
         {
             _finishDrawing = finishDrawing;
             this.InkCanvas = inkCanvas;
         }
 
-        public InkCanvas InkCanvas
+        public DistributedInkCanvas InkCanvas
         {
             get;
             set;
@@ -48,13 +48,14 @@ namespace DistributedEditor
             inkDA.Height = rad.FontSize;
             inkDA.Color = this.InkCanvas.DefaultDrawingAttributes.Color;
             inkDA.IsHighlighter = this.InkCanvas.DefaultDrawingAttributes.IsHighlighter;
-            this.InkCanvas.DefaultDrawingAttributes = inkDA;                 
+            this.InkCanvas.UsesTouchShape = false;
+            this.InkCanvas.DefaultDrawingAttributes = inkDA;  
         }
 
         private void rad_Click(object sender, RoutedEventArgs e)
         {
             var rad = sender as SurfaceToggleButton;
-            this.InkCanvas.EditingMode = (InkCanvasEditingMode)rad.Tag;
+            this.InkCanvas.EditingMode = (SurfaceInkEditingMode)rad.Tag;
 
             if (rad == radInk)
                 radErase.IsChecked = false;
