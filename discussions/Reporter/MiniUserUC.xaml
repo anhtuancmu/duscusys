@@ -16,7 +16,7 @@
     		<ColumnDefinition Width="102*"/>
     		<ColumnDefinition Width="47"/>
     	</Grid.ColumnDefinitions>
-    	<TextBlock Text="{Binding Name}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    	<TextBlock Text="{Binding Name}" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     	<Rectangle Fill="{Binding Color, Converter={StaticResource clrConv}}" Height="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20"/>
     </Grid>
 </UserControl>
