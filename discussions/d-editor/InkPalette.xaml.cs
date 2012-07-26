@@ -44,11 +44,11 @@ namespace DistributedEditor
         {
             RadioButton rad = sender as RadioButton;
             var inkDA = new DrawingAttributes();
+            this.InkCanvas.UsesTouchShape = false;
             inkDA.Width  = rad.FontSize;
             inkDA.Height = rad.FontSize;
             inkDA.Color = this.InkCanvas.DefaultDrawingAttributes.Color;
             inkDA.IsHighlighter = this.InkCanvas.DefaultDrawingAttributes.IsHighlighter;
-            this.InkCanvas.UsesTouchShape = false;
             this.InkCanvas.DefaultDrawingAttributes = inkDA;  
         }
 

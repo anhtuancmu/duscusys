@@ -98,7 +98,8 @@ namespace DistributedEditor
                 _palette.Visibility = Visibility.Hidden;
 
                 //set drawing attributes of current palette owner                
-                var da = _ink.DefaultDrawingAttributes.Clone();                
+                var da = _ink.DefaultDrawingAttributes.Clone();
+                _ink.UsesTouchShape = false;
                 da.Color = DaoUtils.UserIdToColor(_palette.GetOwnerId());
                 _ink.DefaultDrawingAttributes = da;
             }
