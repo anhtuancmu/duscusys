@@ -326,7 +326,8 @@ namespace DistributedEditor
         }
 
         public void BeginCreateLink(int end1Id,
-                                    int end2Id)
+                                    int end2Id,
+                                    LinkHeadType linkHead)
         {
             var end1 = ((LinkableHost)shapes[end1Id]).GetLinkable();
             var end2 = ((LinkableHost)shapes[end2Id]).GetLinkable();
@@ -344,14 +345,16 @@ namespace DistributedEditor
             _rt.clienRt.SendLinkCreateRequest(end1Id, end2Id,
                                               _palette.GetOwnerId(), shapeId,
                                               TopicId,
-                                              true);                     
+                                              true,
+                                              linkHead);                     
         }
 
-        VdClusterLink PlayLinkCreate(ClientLinkable end1, ClientLinkable end2, 
-                                     int shapeId, int initOwnerId, bool takeCursor)
+        VdClusterLink PlayLinkCreate(ClientLinkable end1, ClientLinkable end2,
+                                     int shapeId, int initOwnerId, bool takeCursor, 
+                                     LinkHeadType linkHead)
         {
             ShapeIdGenerator.Instance.CorrectLowBound(initOwnerId, shapeId);
-            var res = new VdClusterLink(end1, end2, shapeId, initOwnerId);
+            var res = new VdClusterLink(end1, end2, shapeId, initOwnerId, linkHead);
             end1.AddEdge(res);
             end2.AddEdge(res);
 
@@ -376,7 +379,8 @@ namespace DistributedEditor
                            ((LinkableHost)shapes[ev.end2Id]).GetLinkable(),
                            ev.shapeId,
                            ev.ownerId,
-                           ev.takeCursor);           
+                           ev.takeCursor,
+                           ev.HeadType);           
         }
 
         //called only locally

@@ -26,7 +26,7 @@ namespace DistributedEditor
             return _ownerId;
         }
 
-        public delegate void ToolSelected(VdShapeType shape, int owner);       
+        public delegate void ToolSelected(VdShapeType shape, int shapeTag, int owner);       
         public ToolSelected toolSelected;
         
         public delegate void RemoveShape(int owner);
@@ -49,9 +49,10 @@ namespace DistributedEditor
         {
             //btnSegment.IsChecked = false;
             btnCluster.IsChecked = false;
-            btnArrow.IsChecked   = false;
+            //btnArrow.IsChecked   = false;
             btnText.IsChecked    = false;
             btnClusterLink.IsChecked = false;
+            btnClusterLink2.IsChecked = false;
             btnFreeForm.IsChecked = false;                                                            
         }
 
@@ -59,7 +60,7 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.Segment;
             if (toolSelected != null)
-                toolSelected(VdShapeType.Segment, _ownerId);
+                toolSelected(VdShapeType.Segment, -1, _ownerId);
 
             //ResetOvers();            
         }
@@ -68,7 +69,7 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.Arrow;
             if (toolSelected != null)
-                toolSelected(VdShapeType.Arrow, _ownerId);
+                toolSelected(VdShapeType.Arrow, -1, _ownerId);
 
             //ResetOvers();            
         }
@@ -77,7 +78,7 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.Text;
             if (toolSelected != null)
-                toolSelected(VdShapeType.Text, _ownerId);
+                toolSelected(VdShapeType.Text, -1, _ownerId);
 
             //ResetOvers();            
         }
@@ -91,7 +92,7 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.FreeForm;
             if (toolSelected != null)
-                toolSelected(VdShapeType.FreeForm, _ownerId);
+                toolSelected(VdShapeType.FreeForm, -1, _ownerId);
 
             //ResetOvers();           
         }
@@ -100,7 +101,7 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.Cluster;
             if (toolSelected != null)
-                toolSelected(VdShapeType.Cluster, _ownerId);
+                toolSelected(VdShapeType.Cluster, -1, _ownerId);
 
             //ResetOvers();            
         }
@@ -109,7 +110,16 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.ClusterLink;
             if (toolSelected != null)
-                toolSelected(VdShapeType.ClusterLink, _ownerId);
+                toolSelected(VdShapeType.ClusterLink, (int)LinkHeadType.SingleHeaded, _ownerId);
+
+            //ResetOvers();            
+        }
+
+        private void btnClusterLink2_Click(object sender, RoutedEventArgs e)
+        {
+            shapeType = VdShapeType.ClusterLink;
+            if (toolSelected != null)
+                toolSelected(VdShapeType.ClusterLink, (int)LinkHeadType.DoubleHeaded, _ownerId);
 
             //ResetOvers();            
         }

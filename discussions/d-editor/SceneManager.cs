@@ -246,7 +246,7 @@ namespace DistributedEditor
             _doc.BeginClearShapesOfOwner();
         }
 
-        public void EnterShapeCreationMode(VdShapeType shapeType)
+        public void EnterShapeCreationMode(VdShapeType shapeType, int shapeTag)
         {
             if (_doc.VolatileCtx.LocalCursor != null)
             {
@@ -259,6 +259,7 @@ namespace DistributedEditor
             {
                 case VdShapeType.ClusterLink:
                     _modeMgr.Mode = ShapeInputMode.LinkedObj1Expected;
+                    linkCreation.headType = (LinkHeadType)shapeTag;
                     break;
                 case VdShapeType.FreeForm:
                     _modeMgr.Mode = ShapeInputMode.CreationExpected;                    
@@ -334,7 +335,7 @@ namespace DistributedEditor
                     GetLinkables(pos, touchDev);
                     if (linkCreation.end1 != null && linkCreation.end2 != null)
                     {
-                        _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId());
+                        _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(), linkCreation.headType);
                         linkCreation.end1 = null;
                         linkCreation.end2 = null;
                         ModeMgr.Mode = ShapeInputMode.ManipulationExpected;
@@ -498,12 +499,12 @@ namespace DistributedEditor
             switch (type)
             {
                 case CaptionType.FreeDraw:
-                    EnterShapeCreationMode(VdShapeType.FreeForm);
+                    EnterShapeCreationMode(VdShapeType.FreeForm, -1);
                     break;
                 case CaptionType.Text:
                     //emulate text creation              
                     _palette.shapeType = VdShapeType.Text;
-                    EnterShapeCreationMode(VdShapeType.Text);                    
+                    EnterShapeCreationMode(VdShapeType.Text, -1);                    
                     var clustBounds = cluster.boundsProvider();
                     InpDeviceDown(new Point(clustBounds.X + 10, clustBounds.Y - 80), null);                   
                     break;

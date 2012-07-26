@@ -476,9 +476,10 @@ namespace Discussions.RTModel
                 var ev = LinkCreateMessage.Write(edge.curr.GetId(), 
                                                  edge.next.GetId(),
                                                  lnk.InitialOwner(), 
-                                                 lnk.Id(),
+                                                 lnk.Id(),                                                
                                                  _topicId, 
-                                                 false);
+                                                 false,
+                                                 (LinkHeadType)lnk.Tag());
                 _room.PublishEventToSingle(peer, ev,sendParameters,(byte)DiscussionEventCode.LinkCreateEvent);
             }
 
@@ -523,8 +524,8 @@ namespace Discussions.RTModel
         {
             var req = LinkCreateMessage.Read(operationRequest.Parameters);            
           
-            //shape 
-            var link = new ServerBaseVdShape(req.shapeId, req.ownerId, VdShapeType.ClusterLink, -1);
+            //shape             
+            var link = new ServerBaseVdShape(req.shapeId, req.ownerId, VdShapeType.ClusterLink, (int)req.HeadType);
             _doc.AddShape(link);
 
             //topology
@@ -533,7 +534,7 @@ namespace Discussions.RTModel
             _room.BroadcastReliableToRoom((byte)DiscussionEventCode.LinkCreateEvent,
                                           LinkCreateMessage.Write(req.end1Id, req.end2Id,
                                                                   req.ownerId, req.shapeId,
-                                                                  _topicId, false));
+                                                                  _topicId, false, req.HeadType));
 
             EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                         _room,

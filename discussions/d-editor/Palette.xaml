@@ -351,11 +351,32 @@
 						Width="15"                          
 						Stroke="Black"                            
 						StrokeThickness="2" Canvas.Left="2"/>
-					<Line 
+					<Petzold:ArrowLine 
 						X1="15" Y1="15" X2="32" Y2="32"
+						Stroke="Black"  
+						ArrowLength="10"                             
+						StrokeThickness="2" Canvas.Top="-25.75" Canvas.Left="-28"/>
+				</Canvas>
+			</Custom:SurfaceToggleButton>
+			<Custom:SurfaceToggleButton x:Name="btnClusterLink2" Background="{x:Null}"  Width="60" Height="60" Click="btnClusterLink2_Click">
+				<Canvas>
+					<Ellipse
+						Height="15"
+						Width="15"                          
 						Stroke="Black"                            
-						StrokeThickness="2" Canvas.Top="-25.75" Canvas.Left="-28"
-                        />
+						StrokeThickness="2" Canvas.Top="-23.75" Canvas.Left="-26"/>
+					<Ellipse
+						Canvas.Top="4.25"
+						Height="15"
+						Width="15"                          
+						Stroke="Black"                            
+						StrokeThickness="2" Canvas.Left="2"/>
+					<Petzold:ArrowLine 
+						X1="15" Y1="15" X2="32" Y2="32"
+						Stroke="Black"  
+						ArrowEnds="Both"  
+						ArrowLength="10"                        
+						StrokeThickness="2" Canvas.Top="-25.75" Canvas.Left="-28"/>
 				</Canvas>
 			</Custom:SurfaceToggleButton>
 			<Custom:SurfaceToggleButton x:Name="btnText" Background="{x:Null}"  Width="60" Height="60" Click="btnText_Click">
@@ -376,6 +397,7 @@
 					StrokeThickness="4"/> 
 			</Custom:SurfaceToggleButton> 
             -->
+			<!--
 			<Custom:SurfaceToggleButton x:Name="btnArrow" Background="{x:Null}" Width="60" Height="60" Click="btnArrow_Click">
 				<Petzold:ArrowLine
 					X1="10" Y1="10"
@@ -383,6 +405,7 @@
 					Stroke="Black"
 					StrokeThickness="4"/>
 			</Custom:SurfaceToggleButton>
+			-->
 			<Custom:SurfaceToggleButton x:Name="btnRemove" Background="Transparent" Width="60" Height="60" Click="btnRemove_Click" Style="{DynamicResource CircularSurfaceToggleButtonStyle1}">
 				<Canvas>
 					<Label Canvas.Left="-15.25" Content="X" FontSize="36" Foreground="DarkRed" Canvas.Top="-38.5" FontFamily="Segoe UI" FontWeight="Bold"/>

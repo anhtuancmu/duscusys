@@ -300,9 +300,9 @@ namespace DistributedEditor
             //e.Handled = true; 
         }
 
-        void ToolSelected(VdShapeType shape, int owner)
+        void ToolSelected(VdShapeType shape, int shapeTag, int owner)
         {
-            mgr.EnterShapeCreationMode(shape);
+            mgr.EnterShapeCreationMode(shape, shapeTag);
         }
         #endregion
 
