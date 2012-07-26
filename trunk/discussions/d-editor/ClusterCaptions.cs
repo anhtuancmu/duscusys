@@ -151,8 +151,8 @@ namespace DistributedEditor
                 var fdHeight = fdWidth * 0.4;
                 _freeDraw.SetWH(fdWidth, fdHeight);
 
-                var fdX = (clustBounds.X + clustBounds.Width / 2) - fdWidth  / 2;
-                var fdY = clustBounds.Y - (fdHeight + 20);
+                var fdX = (clustBounds.X + 0.7*clustBounds.Width) - fdWidth  / 2;
+                var fdY = clustBounds.Y - (fdHeight - 10);
                 _freeDraw.SetPosForCluster(fdX, fdY);
             }
         }

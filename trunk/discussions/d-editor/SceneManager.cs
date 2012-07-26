@@ -506,7 +506,7 @@ namespace DistributedEditor
                     _palette.shapeType = VdShapeType.Text;
                     EnterShapeCreationMode(VdShapeType.Text, -1);                    
                     var clustBounds = cluster.boundsProvider();
-                    InpDeviceDown(new Point(clustBounds.X + 10, clustBounds.Y - 80), null);                   
+                    InpDeviceDown(new Point(clustBounds.X + 70, clustBounds.Y - 40), null);                   
                     break;
             }
         }
