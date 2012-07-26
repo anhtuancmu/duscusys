@@ -138,12 +138,12 @@ namespace Reporter
         {
             if (doSet)
             {
-                UISharedRTClient.Instance.clienRt.clusterStatsResponse += clusterStatsResponse;
+                UISharedRTClient.Instance.clienRt.clusterStatsResponse   += clusterStatsResponse;
                 UISharedRTClient.Instance.clienRt.linkStatsResponseEvent += linkStatsResponse; 
             }
             else
             {
-                UISharedRTClient.Instance.clienRt.clusterStatsResponse -= clusterStatsResponse;
+                UISharedRTClient.Instance.clienRt.clusterStatsResponse   -= clusterStatsResponse;
                 UISharedRTClient.Instance.clienRt.linkStatsResponseEvent -= linkStatsResponse; 
             }
         }

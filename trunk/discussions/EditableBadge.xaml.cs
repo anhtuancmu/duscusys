@@ -566,6 +566,45 @@ namespace Discussions
                 commentText.Focus();
         }
 
+        void onCommentEnd(object sender, CommentRoutedEventArgs e)
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            commentEdit(null, e);       //inject author
+
+            bool needsEvent = false;
+            if (DaoUtils.needCommentPlaceholder(ap))
+            {
+                btnComment_Click(null, null);//add new placeholder and focus it  
+                needsEvent = true;
+            }
+
+            if (newComment != null)
+                needsEvent = true;
+
+            if (needsEvent)
+            {
+
+            }
+        }
+
+        void onCommentDelete(object sender, RoutedEventArgs e)
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            ap.ChangesPending = true;
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                                StEvent.CommentRemoved,
+                                ap.Person.Id,
+                                ap.Topic.Discussion.Id,
+                                ap.Topic.Id,
+                                DeviceType.Wpf);
+        }
+
         private void btnAddSrc_Click(object sender, RoutedEventArgs e)
         {
             if (DataContext == null)
@@ -615,45 +654,6 @@ namespace Discussions
                 }
             });
             screenshotWnd.ShowDialog();
-        }
-
-        void onCommentEnd(object sender, CommentRoutedEventArgs e)
-        {
-            var ap = DataContext as ArgPoint;            
-            if (ap == null)
-                return;
-            
-            commentEdit(null, e);       //inject author
-
-            bool needsEvent = false;
-            if (DaoUtils.needCommentPlaceholder(ap))
-            {
-                btnComment_Click(null, null);//add new placeholder and focus it  
-                needsEvent = true;                
-            }
-
-            if (newComment != null)
-                needsEvent = true;
-
-            if(needsEvent)
-            {
-               
-            }
-        }
-
-        void onCommentDelete(object sender, RoutedEventArgs e)
-        {
-            var ap = DataContext as ArgPoint;
-            if (ap == null)
-                return;
-           
-            ap.ChangesPending = true;
-            UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                StEvent.CommentRemoved,
-                                ap.Person.Id,
-                                ap.Topic.Discussion.Id,
-                                ap.Topic.Id,
-                                DeviceType.Wpf);
         }
 
         private void lstBxAttachments_SelectionChanged_1(object sender, SelectionChangedEventArgs e)

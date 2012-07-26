@@ -73,6 +73,15 @@ namespace Discussions
             InitializeComponent();
         }
 
+        public double MaxCommentWidth
+        {
+            set
+            {
+                txtBxText.MaxWidth = value;
+                lblText.MaxWidth   = value;
+            }
+        }
+
         private void txtBxText_LostFocus(object sender, RoutedEventArgs e)
         {
             checkReadonly(DataContext as Comment);

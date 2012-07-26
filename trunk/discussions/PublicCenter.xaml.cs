@@ -32,6 +32,7 @@ using System.Windows.Media.Animation;
 using DistributedEditor;
 using System.Windows.Input.Manipulations;
 using System.ComponentModel;
+using LoginEngine;
 
 
 namespace Discussions
@@ -230,6 +231,9 @@ namespace Discussions
 
         void SetWorkingAreaTransform(Matrix m, bool left, bool top, bool zoomIn, bool zoomOut)
         {
+            if (blockWorkingAreaTransforms)
+                return;           
+            
             var mt = new MatrixTransform(m);
 
             //var unsolved2Wnd = scene.TransformToVisual(mainGrid);
@@ -619,5 +623,55 @@ namespace Discussions
         {
             CreateEditCtx();
         }
+
+        #region large badge view management
+        LargeBadgeView _lbv = null;
+        bool blockWorkingAreaTransforms = false;
+        void LargeRequest(object sender, RoutedEventArgs e)
+        {
+            var badge = e.OriginalSource as Badge4;
+            if (badge == null)
+                return;
+           
+            ShowLargeBadgeView(badge.DataContext as ArgPoint);
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(StEvent.BadgeZoomIn,
+                                                            SessionInfo.Get().person.Id,
+                                                            SessionInfo.Get().discussion.Id,
+                                                            topicNavPanel.selectedTopic.Id,
+                                                            DeviceType.Wpf);
+        }
+        void ShrinkRequest(object sender, RoutedEventArgs e)
+        {
+            HideLargeBadgeView();
+        }
+        void ShowLargeBadgeView(ArgPoint ap)
+        {
+            if (_lbv != null)
+                return;
+
+            scene.IsHitTestVisible = false;
+            blockWorkingAreaTransforms = true;
+
+            _lbv = new LargeBadgeView();
+             var ArgPointId = ap.Id;
+             _lbv.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
+            _lbv.SetRt(UISharedRTClient.Instance);
+            mainGrid.Children.Add(_lbv);
+            Grid.SetRowSpan(_lbv, 2);
+            _lbv.HorizontalAlignment = HorizontalAlignment.Center;
+            _lbv.VerticalAlignment   = VerticalAlignment.Center;
+        }
+        void HideLargeBadgeView()
+        {
+            if (_lbv == null)
+                return;
+
+            scene.IsHitTestVisible = true;
+            blockWorkingAreaTransforms = false;
+
+            mainGrid.Children.Remove(_lbv);
+            _lbv = null;
+        }
+        #endregion
     }
 }

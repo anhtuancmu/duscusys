@@ -19,6 +19,7 @@ using Microsoft.Surface.Presentation.Input;
 using System.Diagnostics;
 using Discussions.rt;
 using DistributedEditor;
+using LoginEngine;
 
 namespace Discussions
 {
@@ -30,9 +31,6 @@ namespace Discussions
         public delegate void OnToggleZoom();
         public OnToggleZoom onToggleZoom = null;
 
-      ///  public BadgeWrapper clusterable = null;
-      //  public IClusterManager clustMgr = null;
-
         MultiClickRecognizer mediaDoubleClick;
 
         public static readonly RoutedEvent RequestLargeViewEvent = EventManager.RegisterRoutedEvent(
@@ -42,15 +40,6 @@ namespace Discussions
         {
             add { AddHandler(RequestLargeViewEvent, value); }
             remove { RemoveHandler(RequestLargeViewEvent, value); }
-        }
-
-        public void NotifyMoved()
-        {
-            //if (clustMgr == null)
-            //    return;
-
-            //clustMgr.NotifyLinkableMoved(clusterable);
-            //clustMgr.NotifyClusterableMoved(clusterable);
         }
 
         public Badge4()
@@ -125,11 +114,14 @@ namespace Discussions
 
         void badgeDoubleTap(object sender, InputEventArgs e)
         {
-            //toggleZoom();
-            //RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
+            RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
 
-            var zoom = new ZoomWindow(DataContext as ArgPoint);
-            zoom.ShowDialog();
+            //var ap = DataContext as ArgPoint;
+            //var id = ap.Id;
+            //var zoomedAp = DbCtx.Get().ArgPoint.FirstOrDefault(ap0 => ap0.Id == id);
+
+            //var zoom = new ZoomWindow(zoomedAp);
+            //zoom.ShowDialog();
         }
 
         public void SetCursorVisible(bool visible)

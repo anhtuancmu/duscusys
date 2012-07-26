@@ -19,9 +19,8 @@
         Loaded="frmLoaded" 
         Background="#FF898989"
         MouseWheel="unsolved_MouseWheel"
-        MouseMove="SurfaceWindow_MouseMove" Icon="discusys%20iconv3.ico"
-    
-    >
+        MouseMove="SurfaceWindow_MouseMove" 
+        Icon="discusys%20iconv3.ico">
 
     <s:SurfaceWindow.Resources>
         <local:ModeratorToVisibilityConvertor x:Key="moderToVisibilityConv"/>
@@ -50,8 +49,10 @@
         	</DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </s:SurfaceWindow.Resources>
-    
-    <Grid x:Name="mainGrid" ClipToBounds="False">
+
+    <Grid x:Name="mainGrid" ClipToBounds="False" 
+          local:Badge4.RequestLargeView="LargeRequest"
+          local:LargeBadgeView.RequestSmallView="ShrinkRequest">
         <Grid.Resources>
             <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}">
                 <Setter Property="MinHeight" Value="70"/>

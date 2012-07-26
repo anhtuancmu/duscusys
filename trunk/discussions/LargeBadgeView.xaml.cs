@@ -35,14 +35,14 @@ namespace Discussions
 
         public Action CloseRequest;
 
-        //public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
-        // "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
+        public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
+         "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
 
-        //public event RoutedEventHandler RequestSmallView
-        //{
-        //    add { AddHandler(RequestSmallViewEvent, value); }
-        //    remove { RemoveHandler(RequestSmallViewEvent, value); }
-        //}
+        public event RoutedEventHandler RequestSmallView
+        {
+            add { AddHandler(RequestSmallViewEvent, value); }
+            remove { RemoveHandler(RequestSmallViewEvent, value); }
+        }
 
         public LargeBadgeView()
         {
@@ -65,9 +65,9 @@ namespace Discussions
         {
             SetListeners(false);
 
-            //RaiseEvent(new RoutedEventArgs(RequestSmallViewEvent));
-            if (CloseRequest != null)
-                CloseRequest();
+            RaiseEvent(new RoutedEventArgs(RequestSmallViewEvent));
+            //if (CloseRequest != null)
+            //    CloseRequest();
         }
 
         void SetListeners(bool doSet)
@@ -80,15 +80,22 @@ namespace Discussions
 
         void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change)
         {
-            if (change == PointChangedType.Modified)
-            {
-                //using db ctx here from login engine, not to spoil others
-                DbCtx.DropContext();
-                var ap = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
 
-                DataContext = null;
-                DataContext = ap;
-            }
+            if(ArgPointId!=ap.Id)
+                return; //not our point
+
+            if (change != PointChangedType.Modified)
+                return;
+
+            //using db ctx here from login engine, not to spoil others
+            DbCtx.DropContext();
+            var ap2 = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
+
+            DataContext = null;
+            DataContext = ap2;
         }
 
         private void UserControl_Initialized_1(object sender, EventArgs e)
@@ -105,8 +112,10 @@ namespace Discussions
 
         void commentEdit(object sender, CommentRoutedEventArgs e)
         {
-            var commentAuthor = SessionInfo.Get().getPerson(DataContext);
-            ///DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint, commentAuthor);
+            var ownerId = SessionInfo.Get().person.Id;
+            var commentAuthor = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == ownerId);
+            //var commentId = e.Comment.Id;
+            //var comment = DbCtx.Get().Comment.FirstOrDefault(c0 => c0.Id == commentId);
             DaoUtils.InjectAuthorOfComment(e.Comment, commentAuthor);
 
             if (e.RequiresDataRecontext)
@@ -156,6 +165,8 @@ namespace Discussions
                 var ap = (ArgPoint)DataContext;
                 EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
             }
+
+            btnComment_Click(null, null);
 
             commentsViewer.ScrollToBottom();
         }      
@@ -385,23 +396,80 @@ namespace Discussions
         }
         #endregion comment highlight
 
-       /// Comment newComment = null;
+        #region comments
+        Comment newComment = null;
         private void btnComment_Click(object sender, RoutedEventArgs e)
         {
-            //newComment = addCommentRequest(true);
-            //if (newComment != null)
-            //{
-            //    Dispatcher.BeginInvoke(new Action(DefferedFocusSet), System.Windows.Threading.DispatcherPriority.Background, null);
-            //}
+            var ap1 = DataContext as ArgPoint;
+            if (ap1 != null)
+            {
+                var ownerId = SessionInfo.Get().person.Id;
+                var commentAuthor = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == ownerId);
+                newComment = DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint, commentAuthor);
+                if (newComment != null)
+                {
+                    Dispatcher.BeginInvoke(new Action(DeferredFocusSet),
+                                            System.Windows.Threading.DispatcherPriority.Background, null);
+
+                    var ap = (ArgPoint)DataContext;
+                    ap.ChangesPending = true;
+                    UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                                               StEvent.CommentAdded,
+                                               SessionInfo.Get().person.Id,
+                                               ap.Topic.Discussion.Id,
+                                               ap.Topic.Id,
+                                               DeviceType.Wpf);
+                }
+            }
         }
 
-        //void DefferedFocusSet()
-        //{
-        //    var newItem = lstBxComments1.ItemContainerGenerator.ContainerFromItem(newComment);
-        //    var commentText = Utils.FindChild<SurfaceTextBox>(newItem);
-        //    if (commentText != null)
-        //        commentText.Focus();
-        //}
+        void DeferredFocusSet()
+        {
+            var newItem = lstBxComments1.ItemContainerGenerator.ContainerFromItem(newComment);
+            var commentText = Utils.FindChild<SurfaceTextBox>(newItem);
+            if (commentText != null)
+                commentText.Focus();
+        }
+
+        void onCommentEnd(object sender, CommentRoutedEventArgs e)
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            commentEdit(null, e);       //inject author
+
+            bool needsEvent = false;
+            if (DaoUtils.needCommentPlaceholder(ap))
+            {
+                btnComment_Click(null, null);//add new placeholder and focus it  
+                needsEvent = true;
+            }
+
+            if (newComment != null)
+                needsEvent = true;
+
+            if (needsEvent)
+            {
+
+            }
+        }
+
+        void onCommentDelete(object sender, RoutedEventArgs e)
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            ap.ChangesPending = true;
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                                StEvent.CommentRemoved,
+                                ap.Person.Id,
+                                ap.Topic.Discussion.Id,
+                                ap.Topic.Id,
+                                DeviceType.Wpf);
+        }
+        #endregion comments
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)
         {
@@ -421,6 +489,50 @@ namespace Discussions
                 return;
             mediaDoubleClick.Click(sender, e);
         }
-     
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            BusyWndSingleton.Show("Saving argument, please wait...");
+            try
+            {
+                saveProcedure();
+            }
+            finally
+            {
+                BusyWndSingleton.Hide();
+            }
+        }
+
+        void saveProcedure()
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            if (!ap.ChangesPending)
+                return;
+
+            ap.ChangesPending = false;
+
+            //save changes 
+            try
+            {
+                DbCtx.Get().SaveChanges();
+            }
+            catch(Exception)
+            {
+            }
+           
+            _sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
+                                                SessionInfo.Get().person.Id,
+                                                ap.Topic.Discussion.Id,
+                                                ap.Topic.Id,
+                                                DeviceType.Wpf);
+
+            _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id);
+            
+            //update locally 
+            ///ArgPointChanged(ap.Id, ap.Topic.Id, PointChangedType.Modified);
+        }
     }
 }

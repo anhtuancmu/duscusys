@@ -6,7 +6,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	    xmlns:local="clr-namespace:Reporter"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-		xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" mc:Ignorable="d" 
+		xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" 
+        mc:Ignorable="d" 
         x:Class="Reporter.MainWindow"
         Title="MainWindow" Height="613" Width="835" Background="#FF858585">
 	<Window.Resources>
@@ -19,14 +20,16 @@
     		<RowDefinition Height="133"/>
     		<RowDefinition/>
     	</Grid.RowDefinitions>
-    	<s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Height="41" Width="121" d:LayoutOverrides="Margin"/>
+    	<s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh" HorizontalAlignment="Left" 
+                         Margin="10,85,0,0" VerticalAlignment="Top" Height="41" Width="121" d:LayoutOverrides="Margin"/>
 		<TreeView Name="reportRoot" Grid.Row="1" Background="LightGray" FontSize="21.333" d:LayoutOverrides="Margin">
     		<TreeViewItem Header="Topics" IsExpanded="True">
 			</TreeViewItem>
     		<TreeViewItem Header="Users" IsExpanded="True">
     		</TreeViewItem>
     	</TreeView>
-		<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Discusys Reporting System" VerticalAlignment="Top" FontSize="29.333" Margin="0,8,21,0" Height="39.017" Width="346.627" d:LayoutOverrides="Margin"/>
+		<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Discusys Reporting System" 
+                   VerticalAlignment="Top" FontSize="29.333" Margin="0,8,21,0" Height="39.017" Width="346.627" d:LayoutOverrides="Margin"/>
 		<Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="673" Height="86" Margin="0,47,0,0" d:LayoutOverrides="Margin">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="33*"/>

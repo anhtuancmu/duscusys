@@ -200,7 +200,9 @@
             		<ColumnDefinition/>
             		<ColumnDefinition Width="Auto"/>
             	</Grid.ColumnDefinitions>
-            	<Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"  MaxWidth="600" TextWrapping="Wrap" Text="{Binding RecentlyEnteredSource, UpdateSourceTrigger=PropertyChanged}"/>
+            	<Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"  
+							MaxWidth="600" TextWrapping="Wrap" 
+							Text="{Binding RecentlyEnteredSource, UpdateSourceTrigger=PropertyChanged}"/>
             	<Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"  
             		Content="Add source" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
             </Grid>
@@ -220,7 +222,8 @@
 				ItemTemplate="{StaticResource CommentItemTemplate}" 
 				MouseLeave="lstBxComments_MouseLeave"
                 BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch"/>
-                <Custom:SurfaceButton x:Name="btnComment" Focusable="True"  Content="Comment" HorizontalAlignment="Right" Click="btnComment_Click"/>
+                <Custom:SurfaceButton x:Name="btnComment" Focusable="True"  Content="Comment" 
+								HorizontalAlignment="Right" Click="btnComment_Click"/>
 	    </StackPanel>
         <Rectangle x:Name="lblColor" Fill="#FFF4F4F5" HorizontalAlignment="Left" Width="10"/>
     </Grid>

@@ -166,6 +166,11 @@ namespace Reporter
             var res = new TreeViewItem();
             res.Header = "Arg. point " + ap.Point;
             res.Items.Add(txt);
+             
+            var usr = new MiniUserUC();
+            usr.DataContext = ap.Person;
+            res.Items.Add(usr);
+
             return res;
         }
 

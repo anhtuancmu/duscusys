@@ -25,7 +25,7 @@
 		<BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
 
         <DataTemplate x:Key="CommentItemTemplate">
-            <local:ReadOnlyCommentUC/>
+            <local:CommentUC MaxCommentWidth="300"/>
         </DataTemplate>
         
         <local:ARGBColorBrushConvertor x:Key="brushConverter" />
@@ -86,9 +86,10 @@
     	<Grid.RowDefinitions>
     		<RowDefinition Height="Auto" MinHeight="9.903"/>
     		<RowDefinition Height="Auto" MinHeight="40"/>
-    		<RowDefinition Height="227*"/>
+    		<RowDefinition Height="243*"/>
     		<RowDefinition Height="Auto" MinHeight="55"/>
-    		<RowDefinition Height="263*"/>
+    		<RowDefinition Height="148*"/>
+    		<RowDefinition Height="Auto" MinHeight="83"/>
     	</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="421*"/>
@@ -112,9 +113,9 @@
         <Grid x:Name="rightPane" Grid.Column="1" d:LayoutOverrides="Margin" Grid.Row="2" Grid.RowSpan="3">
         	<Grid.RowDefinitions>
         		<RowDefinition Height="Auto"/>
-        		<RowDefinition Height="661*"/>
-        		<RowDefinition Height="Auto" MinHeight="66.193"/>
-        		<RowDefinition Height="308*"/>
+        		<RowDefinition Height="144*"/>
+        		<RowDefinition Height="Auto" MinHeight="56"/>
+        		<RowDefinition Height="191*"/>
         	</Grid.RowDefinitions>
         
             <Custom:SurfaceScrollViewer Grid.Row="1" d:LayoutOverrides="Margin">      
@@ -125,12 +126,12 @@
         		    Background="#00000000" MaxWidth="800" HorizontalContentAlignment="Center" 
         		    VerticalContentAlignment="Center"/>
             </Custom:SurfaceScrollViewer>
-            <StackPanel d:LayoutOverrides="Width, Margin" Margin="0,0,0,532" Grid.RowSpan="2">
+            <StackPanel d:LayoutOverrides="Width, Margin">
         		<Separator/>
 				<Label Content="Media" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black"/>
         	</StackPanel>
         	
-        	<Custom:SurfaceScrollViewer Grid.Row="3" Margin="0,1.807,0,0.193" d:LayoutOverrides="Margin">
+        	<Custom:SurfaceScrollViewer Grid.Row="3" d:LayoutOverrides="Margin">
 			<ItemsControl x:Name="lstBxSources"             
         		ScrollViewer.VerticalScrollBarVisibility="Disabled" 
         		ItemsSource="{Binding Description.Source}" 
@@ -156,21 +157,28 @@
                        Background="#FF7E7E7E" Margin="2"/>
         </Custom:SurfaceScrollViewer>
         
-        <Custom:SurfaceScrollViewer x:Name="commentsViewer" Grid.Row="4" d:LayoutOverrides="Height, Margin" >
+        <Custom:SurfaceScrollViewer x:Name="commentsViewer" Grid.Row="4" d:LayoutOverrides="Height, Margin" Grid.RowSpan="2" >
         	<ItemsControl x:Name="lstBxComments1"   
+				local:CommentUC.CommentEnd="onCommentEnd"       
+                local:CommentUC.CommentDelete="onCommentDelete"  
         		ScrollViewer.VerticalScrollBarVisibility="Auto"           
-        		local:CommentUC.CommentEdit="commentEdit"
         		ItemsSource="{Binding Comment}" 
         		ItemTemplate="{StaticResource CommentItemTemplate}" 
         		BorderThickness="0" HorizontalContentAlignment="Stretch"/>
         </Custom:SurfaceScrollViewer>
         <StackPanel Orientation="Vertical" d:LayoutOverrides="Height, Margin" Grid.Row="3">
         	<Separator/>
-        	<Label Content="Comments" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black" d:LayoutOverrides="Margin"/>
+        	<DockPanel VerticalAlignment="Center">
+        		<Label Content="Comments" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black" d:LayoutOverrides="HorizontalMargin"/>
+        		<Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click" Content="Comment" Margin="0" VerticalAlignment="Center" Width="101" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="35" MinHeight="12"/>
+        	</DockPanel>
         </StackPanel>
-        <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+        <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,1,1,0" Height="72" Width="76" d:LayoutOverrides="Margin">
 			<Border Background="{StaticResource decrease2}" Width="60" Height="60"/>
 	    </Custom:SurfaceButton>
+        <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" HorizontalAlignment="Right" Click="btnSave_Click" Grid.Column="1" VerticalAlignment="Bottom" Height="82" Margin="0,0,1,1" Grid.Row="5" Width="86" d:LayoutOverrides="Margin">
+        	<Border Background="{StaticResource save}" Width="70" Height="70"/>
+        </Custom:SurfaceButton>
     </Grid>
 	</Border>
 </UserControl>
