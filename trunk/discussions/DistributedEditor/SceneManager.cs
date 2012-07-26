@@ -258,7 +258,8 @@ namespace DistributedEditor
             {
                 case VdShapeType.ClusterLink:
                     _modeMgr.Mode = ShapeInputMode.LinkedObj1Expected;
-                    break;
+                    linkCreation.linkHead = LinkHeadType.SingleHeaded;
+                    break;              
                 case VdShapeType.FreeForm:
                     _modeMgr.Mode = ShapeInputMode.CreationExpected;                    
                     FreeDrawingMode(true);
@@ -339,7 +340,7 @@ namespace DistributedEditor
                     GetLinkables(pos, touchDev);
                     if (linkCreation.end1 != null && linkCreation.end2 != null)
                     {
-                        _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId());
+                        _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(), linkCreation.linkHead);
                         linkCreation.end1 = null;
                         linkCreation.end2 = null;
                         ModeMgr.Mode = ShapeInputMode.ManipulationExpected;

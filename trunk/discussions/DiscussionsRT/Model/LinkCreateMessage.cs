@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Discussions.RTModel.Operations;
+using DistributedEditor;
 
 namespace Discussions.RTModel.Model
 {
@@ -14,6 +15,7 @@ namespace Discussions.RTModel.Model
         public int shapeId;
         public int topicId;
         public bool takeCursor;
+        public LinkHeadType HeadType;
        
         public static LinkCreateMessage Read(Dictionary<byte, object> par)
         {
@@ -24,11 +26,13 @@ namespace Discussions.RTModel.Model
             res.shapeId = (int)par[(byte)DiscussionParamKey.ShapeId];
             res.topicId = (int)par[(byte)DiscussionParamKey.ChangedTopicId];
             res.takeCursor = (bool)par[(byte)DiscussionParamKey.AutoTakeCursor];
+            res.HeadType = (LinkHeadType)par[(byte)DiscussionParamKey.LinkHeadTypeKey];
             return res;
         }
 
         public static Dictionary<byte, object> Write(int end1Id, int end2Id, int ownerId,
-                                                     int shapeId, int topicId, bool takeCursor)
+                                                     int shapeId, int topicId, bool takeCursor, 
+                                                     LinkHeadType headType)
         {
             var res = new Dictionary<byte, object>();
             res.Add((byte)DiscussionParamKey.LinkEnd1Id, end1Id);
@@ -36,7 +40,8 @@ namespace Discussions.RTModel.Model
             res.Add((byte)DiscussionParamKey.InitialShapeOwnerId, ownerId);
             res.Add((byte)DiscussionParamKey.ShapeId, shapeId);
             res.Add((byte)DiscussionParamKey.ChangedTopicId, topicId);
-            res.Add((byte)DiscussionParamKey.AutoTakeCursor, takeCursor);   
+            res.Add((byte)DiscussionParamKey.AutoTakeCursor, takeCursor);
+            res.Add((byte)DiscussionParamKey.LinkHeadTypeKey, headType); 
             return res;      
         }
     }

@@ -9,5 +9,6 @@ namespace DistributedEditor
     {
         public ClientLinkable end1;
         public ClientLinkable end2;
+        public LinkHeadType headType;
     }
 }

@@ -28,14 +28,18 @@ namespace DistributedEditor
         public AnchorPoint anchor1;
         public AnchorPoint anchor2;
 
+        LinkHeadType _headType;
+
         public VdClusterLink(ClientLinkable end1, ClientLinkable end2, 
-                             int shapeId, int owner):
+                             int shapeId, int owner, LinkHeadType headType):
             base(owner, shapeId)
         {          
             _end1 = end1;
             _end2 = end2;
 
-            initLine(DaoUtils.UserIdToColor(owner));
+            _headType = headType;
+
+            initLine(DaoUtils.UserIdToColor(owner), headType);
 
             //wait until actual size is set 
             line.Dispatcher.BeginInvoke(new Action(() =>
@@ -48,12 +52,22 @@ namespace DistributedEditor
             updateUserCursor();
         }
 
-        void initLine(Color c)
+        void initLine(Color c, LinkHeadType headType)
         {
             line = new ArrowLine();            
             line.ArrowAngle = 40;            
             line.Stroke = new SolidColorBrush(c);
-            line.ArrowEnds = ArrowEnds.Both;
+            switch(headType)
+            {
+                case LinkHeadType.DoubleHeaded:
+                    line.ArrowEnds = ArrowEnds.Both;
+                    break;
+                case LinkHeadType.SingleHeaded:
+                    line.ArrowEnds = ArrowEnds.End;
+                    break;            
+                default:
+                    throw new NotSupportedException();
+            }
             line.StrokeThickness = ShapeUtils.LINE_WIDTH;
             line.Effect = ShapeUtils.ShadowProvider();
             line.Tag = this;

@@ -301,7 +301,8 @@ namespace DistributedEditor
         }
 
         public void BeginCreateLink(int end1Id,
-                                    int end2Id)
+                                    int end2Id,
+                                    LinkHeadType linkHeadType)
         {
             var end1 = ((LinkableHost)shapes[end1Id]).GetLinkable();
             var end2 = ((LinkableHost)shapes[end2Id]).GetLinkable();
@@ -319,7 +320,8 @@ namespace DistributedEditor
             _rt.clienRt.SendLinkCreateRequest(end1Id, end2Id,
                                               _palette.GetOwnerId(), shapeId,
                                               TopicId,
-                                              true);                     
+                                              true,
+                                              linkHeadType);                     
         }
 
         VdClusterLink PlayLinkCreate(ClientLinkable end1, ClientLinkable end2, 

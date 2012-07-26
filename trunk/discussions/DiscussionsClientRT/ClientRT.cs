@@ -640,13 +640,13 @@ namespace DiscussionsClientRT
                            true);
         }
 
-        public void SendLinkCreateRequest(int end1, int end2, int ownerId, int shapeId, int topicId, bool takeCursor)
+        public void SendLinkCreateRequest(int end1, int end2, int ownerId, int shapeId, int topicId, bool takeCursor, LinkHeadType linkHead)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
             peer.OpCustom((byte)DiscussionOpCode.LinkCreateRequest,
-                           LinkCreateMessage.Write(end1, end2, ownerId, shapeId, topicId, takeCursor),
+                           LinkCreateMessage.Write(end1, end2, ownerId, shapeId, topicId, takeCursor, linkHead),
                            true);
             Service();
         }
