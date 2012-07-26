@@ -83,11 +83,11 @@ namespace DistributedEditor
         public static IVdShape findVdImg(object originalSrc)
         {
             DependencyObject findSource = originalSrc as FrameworkElement;
-            System.Windows.Controls.Image vdImg = null;
+            System.Windows.Controls.Border vdImg = null;
 
             while (vdImg == null && findSource != null)
             {
-                if ((vdImg = findSource as System.Windows.Controls.Image) == null)
+                if ((vdImg = findSource as System.Windows.Controls.Border) == null)
                 {
                     findSource = VisualTreeHelper.GetParent(findSource);
                 }
@@ -98,7 +98,10 @@ namespace DistributedEditor
             else
             {
                 var res = vdImg.Tag as IVdShape;
-                return res.IsVisible() ? res : null;
+                if (res == null)
+                    return null;
+                else
+                    return res.IsVisible() ? res : null;
             }
         }
     }

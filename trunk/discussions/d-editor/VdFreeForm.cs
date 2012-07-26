@@ -20,10 +20,13 @@ namespace DistributedEditor
     {
         public const double MIN_SIZE = 30;
 
+        const double BORDER_THICK = 100;
+
         DrawingGroup drawGrp;
         StrokeCollection _strokes = null;
 
         Image img;
+        Border manipulationBorder;
 
         private Canvas scene;
 
@@ -55,20 +58,21 @@ namespace DistributedEditor
         {
             _bounds = bounds;
 
-            _strokes = strokes.Clone();
+            _strokes = strokes.Clone();    
             foreach (Stroke strk in strokes)
             {                
                 var brush = new SolidColorBrush(strk.DrawingAttributes.Color);             
                 drawGrp.Children.Add(  new GeometryDrawing( brush, null, strk.GetGeometry())  );
             }
-
+         
             SetMarkers();
             SetBounds();
         }
 
         public UIElement UnderlyingControl()
         {
-            return img;
+            //return img;
+            return manipulationBorder;
         }
 
         public StrokeCollection GetStrokes()
@@ -288,19 +292,21 @@ namespace DistributedEditor
 
         void SetBounds()
         {
-            updateUserCursor();
+            updateUserCursor();            
             img.Width  = _bounds.Width;
             img.Height = _bounds.Height;
-            Canvas.SetLeft(img, _bounds.Left);
-            Canvas.SetTop(img, _bounds.Top);
+            //Canvas.SetLeft(img, _bounds.Left);
+            //Canvas.SetTop(img, _bounds.Top);
+            Canvas.SetLeft(manipulationBorder, _bounds.Left - BORDER_THICK);
+            Canvas.SetTop(manipulationBorder, _bounds.Top - BORDER_THICK);
         }
 
         void HandleResizeMultiplicative(double scaleX, double scaleY)
         {
-            double newWidth = _bounds.Width;
+            double newWidth  = _bounds.Width;
             double newHeight = _bounds.Height;
 
-            newWidth *= scaleX;
+            newWidth  *= scaleX;
             newHeight *= scaleY;
 
             if (newWidth < MIN_SIZE && newHeight < MIN_SIZE)
@@ -414,10 +420,16 @@ namespace DistributedEditor
         {
             if (img == null)
             {
-                img = new Image();
-                img.Source = new DrawingImage(drawGrp);
+                img = new Image();                  
+                img.Source = new DrawingImage(drawGrp);                
                 img.Effect = ShapeUtils.ShadowProvider();
                 img.Tag = this;
+
+                manipulationBorder = new Border();
+                manipulationBorder.Tag = this;
+                manipulationBorder.BorderThickness = new Thickness(BORDER_THICK);
+                manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                manipulationBorder.Child = img;
             }
         }
 
@@ -426,12 +438,17 @@ namespace DistributedEditor
             scene = c;
 
             initImg();
-            if (!c.Children.Contains(img))
+            if (!c.Children.Contains(manipulationBorder))
             {
-                c.Children.Add(img);
+                //c.Children.Add(img);
 
-                Canvas.SetLeft(img, _bounds.X);
-                Canvas.SetTop(img, _bounds.Y);
+                //Canvas.SetLeft(img, _bounds.X);
+                //Canvas.SetTop(img, _bounds.Y);
+
+                c.Children.Add(manipulationBorder);
+
+                Canvas.SetLeft(manipulationBorder, _bounds.X);
+                Canvas.SetTop(manipulationBorder,  _bounds.Y);
             }
 
             if (!c.Children.Contains(blMark))
@@ -450,7 +467,8 @@ namespace DistributedEditor
         {
             scene = null;
 
-            c.Children.Remove(img);
+           // c.Children.Remove(img);
+            c.Children.Remove(manipulationBorder);            
 
             c.Children.Remove(blMark);
             c.Children.Remove(tlMark);
