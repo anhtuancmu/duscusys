@@ -12,9 +12,7 @@ namespace Reporter
 {
     public class ReportCollector
     {
-        int _discussionId;
         DiscCtx _ctx;
-        Discussion _discussion;
         List<Topic> topics;
 
         int _processedTopicIdx = -1;
@@ -97,17 +95,13 @@ namespace Reporter
 
         ReportParameters _reportParams;        
 
-        public ReportCollector(int discussionId, TopicReportReady topicReportReady,
+        public ReportCollector(TopicReportReady topicReportReady,
                                TopicReportReady allTopicTotals, Action reportGenerated, 
                                ReportParameters reportParams)
         {
-            _discussionId = discussionId;
-
             _reportParams = reportParams;
 
             _ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
-
-            _discussion = _ctx.Discussion.FirstOrDefault(d0 => d0.Id == _discussionId);
 
             _topicReportReady = topicReportReady;
 
@@ -118,10 +112,11 @@ namespace Reporter
             _reportGenerated = reportGenerated;
 
             setListeners(true);
+           
+            topics = new List<Topic>() { _reportParams.topic }; 
 
             prepareArgPointReports();
 
-            topics = _discussion.Topic.ToList();
             if (topics.Count() > 0)
             {
                 UISharedRTClient.Instance.clienRt.dEditorReportResponse += dEditorReportResponse;
@@ -224,7 +219,7 @@ namespace Reporter
 
             int numSrc;
             int numComments;       
-            ArgPointTotalsOverTopic(topic, out numSrc, out numComments);            
+            ArgPointTotalsOverTopic(_reportParams, topic, out numSrc, out numComments);            
            
             _allTopicsReport.numClusters        += stats.NumClusters;
             _allTopicsReport.numClusteredBadges += stats.NumClusteredBadges;
@@ -285,31 +280,18 @@ namespace Reporter
             }
         }
 
-        public static void ArgPointTotalsOverTopic(Topic topic, out int numSrc, out int numComments)
+        public static void ArgPointTotalsOverTopic(ReportParameters par, Topic topic, out int numSrc, out int numComments)
         {
             numSrc = 0;
             numComments = 0;
             foreach (var pt in topic.ArgPoint)
             {
-                numSrc += pt.Description.Source.Count();
+                if (!par.requiredUsers.Contains(pt.Person.Id))
+                    return;
+
+                numSrc      += pt.Description.Source.Count();
                 numComments += pt.Comment.Where(c0 => c0.Text != "New comment").Count();
             }            
-        }
-
-        public string DiscussionSubject
-        {
-            get
-            {    
-                return _discussion.Subject;
-            }
-        }
-
-        public Discussion Discussion
-        {
-            get
-            {
-                return _discussion;
-            }
         }
 
         public TimeSpan TotalDiscussionTime
@@ -317,8 +299,9 @@ namespace Reporter
             get
             {
                 TimeSpan res = new TimeSpan(0);
-                foreach (var t in _discussion.Topic)
-                    res.Add(TimeSpan.FromSeconds(t.CumulativeDuration));
+                foreach (var t in topics)
+                    if(_reportParams.topic.Id==t.Id)
+                        res.Add(TimeSpan.FromSeconds(t.CumulativeDuration));
                 return res;
             }  
         }
@@ -328,9 +311,9 @@ namespace Reporter
             get
             {
                 var res = new ObservableCollection<Person>();
-                foreach (var t in _discussion.Topic)
+                foreach (var t in topics)
                     foreach (var usr in t.Person)
-                        if (!res.Contains(usr))
+                        if (_reportParams.requiredUsers.Contains(usr.Id) && !res.Contains(usr))
                             res.Add(usr);
                 return res;
             }
@@ -346,7 +329,7 @@ namespace Reporter
 
         void prepareArgPointReports()
         {
-            foreach (var topic in _discussion.Topic)            
+            foreach (var topic in topics)            
                 foreach (var ap in topic.ArgPoint)
                 {
                     if (!_reportParams.requiredUsers.Contains(ap.Person.Id))
@@ -394,7 +377,7 @@ namespace Reporter
                 }
 
             //fill out users who don't have points
-            foreach (var topic in _discussion.Topic)
+            foreach (var topic in topics)
             {
                 foreach (var p in topic.Person)
                 {

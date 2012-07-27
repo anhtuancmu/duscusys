@@ -66,6 +66,15 @@ namespace Reporter
             lstSessions.ItemsSource = _ctx.Session;
         }
 
+        ReportParameters _reportParameters = null;
+        public ReportParameters reportParameters
+        {
+            get
+            {
+                return _reportParameters;
+            }
+        }
+
         /// <summary>
         /// Occurs when the window is about to close. 
         /// </summary>
@@ -150,6 +159,8 @@ namespace Reporter
             _users = new List<int>();
             foreach (var pers in _session.Person)
                 _users.Add(pers.Id);
+
+            _reportParameters = new ReportParameters(Users, session, topic);
 
             Close();
         }
