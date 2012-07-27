@@ -1,0 +1,34 @@
+﻿<s:SurfaceWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:local="clr-namespace:Reporter"       
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" 
+    x:Class="Reporter.SessionTopicDlg"
+    Title="Session and topic selector"   
+    Height="594" 
+    Width="709" 
+    WindowStartupLocation="CenterScreen" 
+    HorizontalAlignment="Center" 
+    VerticalAlignment="Center" Background="#FF858585">
+
+    <Grid>
+    	<Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="193*"/>
+    		<ColumnDefinition Width="185*"/>
+    	</Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*" />
+            <RowDefinition Height="118*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="0.333" />
+        </Grid.RowDefinitions>
+    	<s:SurfaceListBox x:Name="lstSessions" Grid.Row="1" DisplayMemberPath="Name" SelectionChanged="lstSessions_SelectionChanged_1"/>
+    	<s:SurfaceListBox x:Name="lstTopics" Grid.Column="1" DisplayMemberPath="Name" Grid.Row="1"/>
+    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sessions" VerticalAlignment="Top" FontSize="21.333"/>
+    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Topics" VerticalAlignment="Top" FontSize="21.333" Grid.RowSpan="2" Grid.Column="1"/>
+    	<s:SurfaceButton x:Name="btnOk" Click="btnOk_Click_1" Content="Ok" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom"/>
+    </Grid>
+</s:SurfaceWindow>

@@ -76,6 +76,10 @@
     <Compile Include="MiniUserUC.xaml.cs">
       <DependentUpon>MiniUserUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReportParameters.cs" />
+    <Compile Include="SessionTopicDlg.xaml.cs">
+      <DependentUpon>SessionTopicDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReportCollector.cs" />
     <Compile Include="TopicReport.cs" />
     <Page Include="MainWindow.xaml">
@@ -93,6 +97,10 @@
     <Page Include="MiniUserUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SessionTopicDlg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
