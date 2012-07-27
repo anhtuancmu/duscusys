@@ -58,17 +58,24 @@ namespace Reporter
 
             var dlg = new SessionTopicDlg();
             dlg.ShowDialog();
-            parameters = new ReportParameters(dlg.Users, dlg.session, dlg.topic);
-            sessionName.Text = parameters.session.Name;
-            return parameters;
+           
+            if (dlg.reportParameters != null)
+                sessionName.Text = dlg.reportParameters.session.Name;
+            else
+                sessionName.Text = null;
+
+            return dlg.reportParameters;
         }
 
         public void onJoin()
         {
             UISharedRTClient.Instance.clienRt.onJoin -= onJoin;
 
-            var discId = 1;
-            _collector = new ReportCollector(discId, null, null, reportGenerated, getReportParams(false));
+            parameters = getReportParams(false);
+            if (parameters != null)
+            {
+                _collector = new ReportCollector(null, null, reportGenerated, parameters);
+            }
         }
 
         TextBlock GetTopicSummary(TopicReport report)
@@ -272,7 +279,9 @@ namespace Reporter
 
             participants.ItemsSource = _collector.Participants;
 
-            discName.Text = _collector.Discussion.Subject;
+            sessionName.Text = parameters.session.Name;
+
+            topicName.Text = parameters.topic.Name;
 
             totalTime.Text = _collector.TotalDiscussionTime.ToString();
         }
@@ -292,8 +301,15 @@ namespace Reporter
 
         private void btnRun_Click_1(object sender, RoutedEventArgs e)
         {
-            var discId = 1;            
-            _collector = new ReportCollector(discId, null, null, reportGenerated, getReportParams(false));
+            parameters = getReportParams(false);
+            if(parameters!=null)
+                _collector = new ReportCollector(null, null, reportGenerated, parameters);
+        }
+
+        private void btnSelect_Click_1(object sender, RoutedEventArgs e)
+        {
+            parameters = null;
+            btnRun_Click_1(null,null);
         }
     }
 }
