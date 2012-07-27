@@ -805,7 +805,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DbModel\DbModel.csproj">
-      <Project>{A833B419-0DE5-4B12-8C15-31995EB1DC27}</Project>
+      <Project>{a833b419-0de5-4b12-8c15-31995eb1dc27}</Project>
       <Name>DbModel</Name>
     </ProjectReference>
     <ProjectReference Include="DiscussionsClientRT\DiscussionsClientRT.csproj">

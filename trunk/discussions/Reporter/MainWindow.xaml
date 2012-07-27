@@ -17,11 +17,11 @@
 	</Window.Resources>
     <Grid>
     	<Grid.RowDefinitions>
-    		<RowDefinition Height="133"/>
+    		<RowDefinition Height="146"/>
     		<RowDefinition/>
     	</Grid.RowDefinitions>
     	<s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh" HorizontalAlignment="Left" 
-                         Margin="10,85,0,0" VerticalAlignment="Top" Height="41" Width="121" d:LayoutOverrides="Margin"/>
+                         Margin="10,97,0,0" VerticalAlignment="Top" Height="41" Width="121"/>
 		<TreeView Name="reportRoot" Grid.Row="1" Background="LightGray" FontSize="21.333" d:LayoutOverrides="Margin">
     		<TreeViewItem Header="Topics" IsExpanded="True">
 			</TreeViewItem>
@@ -30,7 +30,7 @@
     	</TreeView>
 		<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Discusys Reporting System" 
                    VerticalAlignment="Top" FontSize="29.333" Margin="0,8,21,0" Height="39.017" Width="346.627" d:LayoutOverrides="Margin"/>
-		<Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="673" Height="86" Margin="0,47,0,0" d:LayoutOverrides="Margin">
+		<Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="673" Height="97" Margin="0,47,0,0" d:LayoutOverrides="Margin">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="33*"/>
 				<RowDefinition Height="36*"/>
@@ -62,6 +62,7 @@
 				</HeaderedItemsControl>  
 			</StackPanel>  
 		</Grid>
-		<TextBlock x:Name="discName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Discussion:" VerticalAlignment="Top" FontSize="29.333" Margin="15,8,0,0"/>    
+		<TextBlock x:Name="discName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Discussion:" VerticalAlignment="Top" FontSize="29.333" Margin="15,8,0,0" Height="39.017" Width="142.41" d:LayoutOverrides="Margin"/>
+		<TextBlock x:Name="sessionName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Session:" VerticalAlignment="Top" FontSize="29.333" Margin="15,50,0,0"/>    
     </Grid>
 </Window>

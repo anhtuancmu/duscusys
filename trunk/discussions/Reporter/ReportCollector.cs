@@ -93,12 +93,17 @@ namespace Reporter
         }
 
         public ArgPointReport TotalArgPointReport = new ArgPointReport();
-        public ArgArgPointReport AvgArgPointReport = new ArgArgPointReport(); 
+        public ArgArgPointReport AvgArgPointReport = new ArgArgPointReport();
 
-        public ReportCollector(int discussionId, TopicReportReady topicReportReady, 
-                               TopicReportReady allTopicTotals, Action reportGenerated)
+        ReportParameters _reportParams;        
+
+        public ReportCollector(int discussionId, TopicReportReady topicReportReady,
+                               TopicReportReady allTopicTotals, Action reportGenerated, 
+                               ReportParameters reportParams)
         {
             _discussionId = discussionId;
+
+            _reportParams = reportParams;
 
             _ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
 
@@ -344,6 +349,9 @@ namespace Reporter
             foreach (var topic in _discussion.Topic)            
                 foreach (var ap in topic.ArgPoint)
                 {
+                    if (!_reportParams.requiredUsers.Contains(ap.Person.Id))
+                        continue;
+
                     if (!ArgPointReports.ContainsKey(ap.Person.Id))
                         ArgPointReports.Add(ap.Person.Id, new List<ArgPointReport>());
                     var reportsInTopic = ArgPointReports[ap.Person.Id];
@@ -390,6 +398,9 @@ namespace Reporter
             {
                 foreach (var p in topic.Person)
                 {
+                    if (!_reportParams.requiredUsers.Contains(p.Id))
+                        continue;                   
+
                     if (!ArgPointReports.ContainsKey(p.Id))
                         ArgPointReports.Add(p.Id, new List<ArgPointReport>());
    

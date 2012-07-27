@@ -26,6 +26,8 @@ namespace Reporter
         TreeViewItem topicSection;
         TreeViewItem usersSection;
 
+        ReportParameters parameters = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,12 +51,24 @@ namespace Reporter
             usersSection = ((TreeViewItem)reportRoot.Items[1]);
         }
 
+        ReportParameters getReportParams(bool forceDlg)
+        {
+            if (parameters != null && !forceDlg)
+                return parameters;
+
+            var dlg = new SessionTopicDlg();
+            dlg.ShowDialog();
+            parameters = new ReportParameters(dlg.Users, dlg.session, dlg.topic);
+            sessionName.Text = parameters.session.Name;
+            return parameters;
+        }
+
         public void onJoin()
         {
             UISharedRTClient.Instance.clienRt.onJoin -= onJoin;
 
             var discId = 1;
-            _collector = new ReportCollector(discId, null, null, reportGenerated);
+            _collector = new ReportCollector(discId, null, null, reportGenerated, getReportParams(false));
         }
 
         TextBlock GetTopicSummary(TopicReport report)
@@ -118,32 +132,34 @@ namespace Reporter
             res.Header = report.topic.Name;
 
             //clusters
-            bool hasClusters = false;
+            var clusters = WrapNode("Clusters");
             foreach (var clustReport in _collector.ClusterReports)
             {
                 if (clustReport.topic.Id != report.topic.Id)
                     continue;
 
-                res.Items.Add(GetCluster(clustReport));
-                hasClusters = true;
+                clusters.Items.Add(GetCluster(clustReport));                
             }
-            if (!hasClusters)
-                 res.Items.Add(GetTextBlock("<no clusters in topic>"));
+            res.Items.Add(clusters);          
 
-            //links
-            bool hasLinks = false;
+            //links            
+            var links = WrapNode("Links");
             foreach (var linkReport in _collector.LinkReports)
             {
                 if (linkReport.topicId != report.topic.Id)
                     continue;
 
-                res.Items.Add(GetLink(linkReport));             
-                hasLinks = true;
-            }
-            if (!hasLinks)
-                res.Items.Add(GetTextBlock("<no links in topic>"));
+                links.Items.Add(GetLink(linkReport));                           
+            }            
+            res.Items.Add(links);
 
+            return res;
+        }
 
+        TreeViewItem WrapNode(string nodeHeader)
+        {
+            var res = new TreeViewItem();
+            res.Header = nodeHeader;
             return res;
         }
 
@@ -276,8 +292,8 @@ namespace Reporter
 
         private void btnRun_Click_1(object sender, RoutedEventArgs e)
         {
-            var discId = 1;
-            _collector = new ReportCollector(discId, null, null, reportGenerated);
+            var discId = 1;            
+            _collector = new ReportCollector(discId, null, null, reportGenerated, getReportParams(false));
         }
     }
 }
