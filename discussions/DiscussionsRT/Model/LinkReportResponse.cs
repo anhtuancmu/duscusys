@@ -13,7 +13,9 @@ namespace Discussions.RTModel.Model
         //if endpoint is cluster and it has text caption
         public string ClusterCaption1;
 
-        //id of argpoint if endpoint is arg.point. 
+        public int IdOfCluster1;
+
+        //id of argpoint if endpoint is arg.point.
         public int ArgPointId1;
 
         //true if it's arg.point 
@@ -23,18 +25,19 @@ namespace Discussions.RTModel.Model
         //end 2
 
         public string ClusterCaption2;
+        public int IdOfCluster2;
         public int ArgPointId2;
         public bool EndpointArgPoint2;
 
         public int topicId;
 
-
+        public int initialOwner;
 
         // only used on client-side 
         public ArgPoint ArgPoint1;
         public ArgPoint ArgPoint2;
         public Topic Topic;
-
+        public Person initOwner;
 
         public void Write(Dictionary<byte, object> dto)
         {
@@ -44,6 +47,7 @@ namespace Discussions.RTModel.Model
                 dto.Add((byte)DiscussionParamKey.ArgPointId, ArgPointId1);
             else if(ClusterCaption1!=null && ClusterCaption1!="")
                 dto.Add((byte)DiscussionParamKey.ClusterCaption, ClusterCaption1);
+            dto.Add((byte)DiscussionParamKey.ClusterId, IdOfCluster1);
 
             //second end
             dto.Add((byte)DiscussionParamKey.BoolParameter2, EndpointArgPoint2);
@@ -52,8 +56,10 @@ namespace Discussions.RTModel.Model
                 dto.Add((byte)DiscussionParamKey.ArgPointId2, ArgPointId2);
             else if (ClusterCaption2 != null && ClusterCaption2 != "")
                 dto.Add((byte)DiscussionParamKey.ClusterCaption2, ClusterCaption2);
+            dto.Add((byte)DiscussionParamKey.ClusterId2, IdOfCluster2);
 
             dto.Add((byte)DiscussionParamKey.ChangedTopicId, topicId);
+            dto.Add((byte)DiscussionParamKey.InitialShapeOwnerId, initialOwner);
         }
 
         public static LinkReportResponse Read(Dictionary<byte, object> dto)
@@ -66,7 +72,7 @@ namespace Discussions.RTModel.Model
                 res.ArgPointId1 = (int)dto[(byte)DiscussionParamKey.ArgPointId];
             else if (dto.ContainsKey((byte)DiscussionParamKey.ClusterCaption))
                 res.ClusterCaption1 = (string)dto[(byte)DiscussionParamKey.ClusterCaption];
-
+            res.IdOfCluster1 = (int)dto[(byte)DiscussionParamKey.ClusterId];
 
             //2nd end
 
@@ -76,8 +82,10 @@ namespace Discussions.RTModel.Model
                 res.ArgPointId2 = (int)dto[(byte)DiscussionParamKey.ArgPointId2];
             else if (dto.ContainsKey((byte)DiscussionParamKey.ClusterCaption2))
                 res.ClusterCaption2 = (string)dto[(byte)DiscussionParamKey.ClusterCaption2];
+            res.IdOfCluster2 = (int)dto[(byte)DiscussionParamKey.ClusterId2];
 
             res.topicId = (int)dto[(byte)DiscussionParamKey.ChangedTopicId];
+            res.initialOwner = (int)dto[(byte)DiscussionParamKey.InitialShapeOwnerId];
 
             return res;              
         }

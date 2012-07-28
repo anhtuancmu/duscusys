@@ -81,15 +81,15 @@ namespace Reporter
         TextBlock GetTopicSummary(TopicReport report)
         {
             var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\n";
-            txt += "  Number of users: " + report.numParticipants + "\n";
-            txt += "  Number of arg. points: " + report.numPoints + "\n";
-            txt += "  Number of arg. points with description: " + report.numPointsWithDescription + "\n";
-            txt += "  Number of media attachments: " + report.numMediaAttachments + "\n";
-            txt += "  Number of sources: " + report.numSources + "\n";
-            txt += "  Number of comments: " + report.numComments + "\n";
-            txt += "  Number of clustered badges: " + report.numClusteredBadges + "\n";
-            txt += "  Number of clusters: " + report.numClusters + "\n";
-            txt += "  Number of links: " + report.numLinks;
+            txt += "  No. of users: " + report.numParticipants + "\n";
+            txt += "  No. of arg. points: " + report.numPoints + "\n";
+            txt += "  No. of arg. points with description: " + report.numPointsWithDescription + "\n";
+            txt += "  No. of media attachments: " + report.numMediaAttachments + "\n";
+            txt += "  No. of sources: " + report.numSources + "\n";
+            txt += "  No. of comments: " + report.numComments + "\n";
+            txt += "  No. of clustered badges: " + report.numClusteredBadges + "\n";
+            txt += "  No. of clusters: " + report.numClusters + "\n";
+            txt += "  No. of links: " + report.numLinks;
           
             var res = new TextBlock();
             res.Text = txt;
@@ -100,27 +100,44 @@ namespace Reporter
         {
             var res = new TreeViewItem();
             res.Header = "Cluster " + report.clusterTitle;
+            
+            res.Items.Add(GetUser(report.initialOwner));
 
+            var argPoints = WrapNode("Arg. points");
             foreach (var ap in report.points)
-                res.Items.Add(GetPointReport(ap));
+                argPoints.Items.Add(GetPointReport(ap));
+
+            res.Items.Add(argPoints);
 
             return res;
+        }
+
+        MiniUserUC GetUser(Person owner)
+        {
+            var usr = new MiniUserUC();
+            usr.DataContext = owner;
+            return usr;
         }
 
         TreeViewItem GetLink(LinkReportResponse report)
         {
             var res = new TreeViewItem();
             res.Header = "Link";
+            res.Items.Add(GetUser(report.initOwner));
+
+            var endpoints = WrapNode("Endpoints");
 
             if (report.EndpointArgPoint1)
-                res.Items.Add(GetPointReport(report.ArgPoint1));
+                endpoints.Items.Add(GetPointReport(report.ArgPoint1));
             else
-                res.Items.Add(new TextBlock(new Run("Cluster " + report.ClusterCaption1)));
+                endpoints.Items.Add(GetCluster(_collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster1)));
 
             if (report.EndpointArgPoint2)
-                res.Items.Add(GetPointReport(report.ArgPoint2));
+                endpoints.Items.Add(GetPointReport(report.ArgPoint2));
             else
-                res.Items.Add(new TextBlock(new Run("Cluster " + report.ClusterCaption2)));    
+                endpoints.Items.Add(GetCluster(_collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster2)));
+
+            res.Items.Add(endpoints);
 
             return res;
         }
@@ -189,21 +206,19 @@ namespace Reporter
             var res = new TreeViewItem();
             res.Header = "Arg. point " + ap.Point;
             res.Items.Add(txt);
-             
-            var usr = new MiniUserUC();
-            usr.DataContext = ap.Person;
-            res.Items.Add(usr);
+                    
+            res.Items.Add(GetUser(ap.Person));
 
             return res;
         }
 
         TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
         {
-            var txt = "  Number of points " + report.numPoints + "\n";
-            txt += "  Number of points with description " + report.numPointsWithDescriptions + "\n";
-            txt += "  Number of media attachments " + report.numMediaAttachments + "\n";
-            txt += "  Number of sources " + report.numSources + "\n";   
-            txt += "  Number of comments " + report.numComments;
+            var txt = "  No. of points " + report.numPoints + "\n";
+            txt += "  No. of points with description " + report.numPointsWithDescriptions + "\n";
+            txt += "  No. of media attachments " + report.numMediaAttachments + "\n";
+            txt += "  No. of sources " + report.numSources + "\n";
+            txt += "  No. of comments " + report.numComments;
            
             var tb = new TextBlock();
             tb.Text = txt;
@@ -243,11 +258,11 @@ namespace Reporter
 
         TreeViewItem GetAvgUserSummary(ArgArgPointReport report)
         {
-            var txt = "  Number of points " + report.numPoints + "\n";
-            txt += "  Number of points with description " + report.numPointsWithDescriptions + "\n";
-            txt += "  Number of media attachments " + report.numMediaAttachments + "\n";
-            txt += "  Number of sources " + report.numSources + "\n";
-            txt += "  Number of comments " + report.numComments;
+            var txt = "  No. of points " + report.numPoints + "\n";
+            txt += "  No. of points with description " + report.numPointsWithDescriptions + "\n";
+            txt += "  No. of media attachments " + report.numMediaAttachments + "\n";
+            txt += "  No. of sources " + report.numSources + "\n";
+            txt += "  No. of comments " + report.numComments;
 
             var tb = new TextBlock();
             tb.Text = txt;
