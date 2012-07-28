@@ -71,6 +71,7 @@ namespace Discussions.RTModel.Operations
         ArrayOfStrings     = 52,
         ArgPointId2        = 53,
         ClusterCaption2    = 54,
-        LinkHeadTypeKey    = 55
+        LinkHeadTypeKey    = 55,
+        ClusterId2         = 56,
     }
 }

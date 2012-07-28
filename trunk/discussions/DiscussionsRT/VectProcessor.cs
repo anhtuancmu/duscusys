@@ -704,6 +704,7 @@ namespace Discussions.RTModel
             
             //get text caption shape id
             resp.clusterTextTitle = TryGetTextCaptionShape(clusterSh);
+            resp.initialOwnerId   = clusterSh.InitialOwner();
 
             //badge id -> arg.point id
             var clusteredPoints = new List<int>(); 
@@ -750,10 +751,11 @@ namespace Discussions.RTModel
                                 BroadcastTo.RoomAll);
                 return;
             }
-
+            
             var resp = default(LinkReportResponse);
             resp.topicId = req.TopicId;
-            
+            resp.initialOwner = linkSh.InitialOwner();
+
             var fwdEdge = _topology.GetForwardEdge(linkSh.Id());
             
             //endpoint 1
@@ -774,7 +776,7 @@ namespace Discussions.RTModel
                     return;
                 }
                 resp.ArgPointId1 = badgeSh.Tag();
-                resp.ClusterCaption1 = null;
+                resp.ClusterCaption1 = null;                
             }
             else
             {
@@ -793,6 +795,7 @@ namespace Discussions.RTModel
                 }
 
                 resp.ClusterCaption1 = TryGetTextCaptionShape(clusterSh);
+                resp.IdOfCluster1 = clusterSh.Id();
             }
 
             //endpoint 2
@@ -832,6 +835,7 @@ namespace Discussions.RTModel
                 }
 
                 resp.ClusterCaption2 = TryGetTextCaptionShape(clusterSh);
+                resp.IdOfCluster2 = clusterSh.Id();
             }
 
             _room.Broadcast(peer,
