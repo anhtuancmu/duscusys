@@ -73,15 +73,24 @@
     <Compile Include="ArgPointReport.cs" />
     <Compile Include="ClusterReport.cs" />
     <Compile Include="ArgArgPointReport.cs" />
+    <Compile Include="ItemsPanelOrientationConverter.cs" />
     <Compile Include="MiniUserUC.xaml.cs">
       <DependentUpon>MiniUserUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReportParameters.cs" />
+    <Compile Include="ReportSummaryUC.xaml.cs">
+      <DependentUpon>ReportSummaryUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SessionTopicDlg.xaml.cs">
       <DependentUpon>SessionTopicDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReportCollector.cs" />
+    <Compile Include="StatsUtils.cs" />
     <Compile Include="TopicReport.cs" />
+    <Page Include="GroupedTreeViewItemStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -95,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MiniUserUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReportSummaryUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

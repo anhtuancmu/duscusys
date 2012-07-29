@@ -142,8 +142,7 @@ namespace Reporter
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-           
+        {           
         }
 
         private void btnOk_Click_1(object sender, RoutedEventArgs e)
@@ -167,13 +166,16 @@ namespace Reporter
 
         private void lstSessions_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
+            var topics = new List<Topic>();
             if (e.AddedItems != null && e.AddedItems.Count > 0)
             {
                 var s = (e.AddedItems[0] as Session);
-                lstTopics.Items.Clear();
                 foreach (var pers in s.Person)
                     foreach (var topic in pers.Topic)
-                        lstTopics.Items.Add(topic);
+                        if (!topics.Contains(topic))
+                            topics.Add(topic);
+
+                lstTopics.ItemsSource = topics;            
             }
         }
     }

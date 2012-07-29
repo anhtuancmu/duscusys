@@ -15,7 +15,7 @@ namespace Reporter
         DiscCtx _ctx;
         List<Topic> topics;
 
-        int _processedTopicIdx = -1;
+        int _nProcessedTopics = 0;
         int _clusterReportsGenerated = 0;
         int _linkReportsGenerated = 0;
 
@@ -23,19 +23,7 @@ namespace Reporter
         public delegate void TopicReportReady(TopicReport topicReport);
         TopicReportReady _topicReportReady;
 
-        //totals over all topics
-        TopicReportReady _allTopicTotalsReady;
-
-        TopicReport _allTopicsReport;
-        public TopicReport AllTopicsReport
-        {
-            get
-            {
-                return _allTopicsReport;
-            }
-        }
-
-        Action _reportGenerated;
+        TopicReport _allTopicsReport;      
 
         ObservableCollection<TopicReport> _topicReports = new ObservableCollection<TopicReport>();
         public ObservableCollection<TopicReport> TopicReports
@@ -75,6 +63,19 @@ namespace Reporter
                 _linkReports = value;
             }
         }
+
+        ObservableCollection<StatsEvent> _statsEvents = new ObservableCollection<StatsEvent>();
+        public ObservableCollection<StatsEvent> StatsEvents
+        {
+            get
+            {
+                return _statsEvents;
+            }
+            set
+            {
+                _statsEvents = value;
+            }
+        }
         
         //user id to arg point reports of the user, grouped by topic
         Dictionary<int, List<ArgPointReport>> _argPointReports = new Dictionary<int, List<ArgPointReport>>();
@@ -95,19 +96,25 @@ namespace Reporter
 
         ReportParameters _reportParams;        
 
+        public delegate void ReportReady(ReportCollector sender, object args);
+        ReportReady _reportGenerated;
+
+        public object _param = null;
+
         public ReportCollector(TopicReportReady topicReportReady,
-                               TopicReportReady allTopicTotals, Action reportGenerated, 
-                               ReportParameters reportParams)
+                               ReportReady reportGenerated, 
+                               ReportParameters reportParams,
+                               object param)
         {
             _reportParams = reportParams;
+
+            _param = param;
 
             _ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
 
             _topicReportReady = topicReportReady;
 
-            _allTopicTotalsReady = allTopicTotals;
-
-            _allTopicsReport = new TopicReport(null, 0, 0, 0, new List<Person>(), 0, 0, 0, null, null, 0,0,0);
+            _allTopicsReport = new TopicReport(null, 0, 0, 0, 0, 0, 0, null, null, 0,0,0);
 
             _reportGenerated = reportGenerated;
 
@@ -117,19 +124,15 @@ namespace Reporter
 
             prepareArgPointReports();
 
+            prepareEvents();
+
             if (topics.Count() > 0)
             {
-                UISharedRTClient.Instance.clienRt.dEditorReportResponse += dEditorReportResponse;
-                _processedTopicIdx = 0;
-                UISharedRTClient.Instance.clienRt.SendDEditorRequest(topics[_processedTopicIdx++].Id);
+                UISharedRTClient.Instance.clienRt.dEditorReportResponse += dEditorReportResponse; 
+                UISharedRTClient.Instance.clienRt.SendDEditorRequest(topics.First().Id);
             }
             else
-            {
-                if (_allTopicTotalsReady != null)
-                {
-                    _allTopicTotalsReady(_allTopicsReport);                  
-                }
-
+            {            
                 finalizeReport();
             }
         }
@@ -146,6 +149,11 @@ namespace Reporter
                 UISharedRTClient.Instance.clienRt.clusterStatsResponse   -= clusterStatsResponse;
                 UISharedRTClient.Instance.clienRt.linkStatsResponseEvent -= linkStatsResponse; 
             }
+        }
+
+        public DiscCtx GetCtx() 
+        {
+            return _ctx;
         }
 
         bool ClustersAndLinksDone()
@@ -211,14 +219,83 @@ namespace Reporter
         {
             setListeners(false);
             if (_reportGenerated != null)
-                _reportGenerated();
+                _reportGenerated(this, _param);
+        }
+
+        public static TopicReport GetTotalTopicsReports(TopicReport topic1, TopicReport topic2, List<int> sessionParticipants)
+        {
+            var res = new TopicReport();
+            var topicsDifferent = topic1.topic.Id != topic2.topic.Id;
+
+            if (topicsDifferent)
+                res.cumulativeDuration = topic1.cumulativeDuration + topic2.cumulativeDuration;
+            else
+                res.cumulativeDuration = topic1.cumulativeDuration;
+
+            //what to report?
+            ///res.numClusteredBadges += topic1.numClusteredBadges + topic2.numClusteredBadges;
+
+            //participants
+            res.accumulatedParticipants = new List<int>();
+            foreach (var usr in topic1.topic.Person)
+                if (!res.accumulatedParticipants.Contains(usr.Id) && sessionParticipants.Contains(usr.Id))
+                    res.accumulatedParticipants.Add(usr.Id);
+            foreach (var usr in topic2.topic.Person)
+                if (!res.accumulatedParticipants.Contains(usr.Id) && sessionParticipants.Contains(usr.Id))
+                    res.accumulatedParticipants.Add(usr.Id);
+
+            //number of unique clusters
+            var clusterIds = new List<int>();
+            foreach (var cid in topic1.clusterIds)
+                if (!clusterIds.Contains(cid))
+                    clusterIds.Add(cid);
+            foreach (var cid in topic2.clusterIds)
+                if (!clusterIds.Contains(cid))
+                    clusterIds.Add(cid);
+            res.numClusters = clusterIds.Count();
+           
+            //number of unique links
+            var linkIds = new List<int>();
+            foreach (var lid in topic1.linkIds)
+                if (!linkIds.Contains(lid))
+                    linkIds.Add(lid);
+            foreach (var lid in topic2.linkIds)
+                if (!linkIds.Contains(lid))
+                    linkIds.Add(lid);
+            res.numLinks = linkIds.Count();
+
+            //number of unique points
+            var uniquePoints = new List<ArgPoint>();
+            foreach (var ap in topic1.topic.ArgPoint)
+                if (!uniquePoints.Contains(ap))
+                    uniquePoints.Add(ap);
+            res.numPoints = uniquePoints.Count();
+
+            foreach(var ap in uniquePoints)
+            {
+                if(ap.Description.Text!="Description")
+                    res.numPointsWithDescription += 1;
+
+                foreach (var c in ap.Comment)
+                    if (c.Text != "New comment" && res.accumulatedParticipants.Contains(c.Person.Id))
+                        ++res.numComments;
+                
+                foreach (var a in ap.Attachment)
+                    if (sessionParticipants.Contains(a.Person.Id))
+                        ++res.numMediaAttachments;
+
+                if (res.accumulatedParticipants.Contains(ap.Person.Id))
+                    res.numSources += ap.Description.Source.Count();                      
+            }
+          
+            return res;
         }
 
         void dEditorReportResponse(DEditorStatsResponse stats)
         {
             //process
             var topic = _ctx.Topic.FirstOrDefault(t0 => t0.Id == stats.TopicId);
-
+            
             int numSrc;
             int numComments;       
             ArgPointTotalsOverTopic(_reportParams, topic, out numSrc, out numComments);            
@@ -226,7 +303,6 @@ namespace Reporter
             _allTopicsReport.numClusters        += stats.NumClusters;
             _allTopicsReport.numClusteredBadges += stats.NumClusteredBadges;
             _allTopicsReport.numLinks           += stats.NumLinks;
-            _allTopicsReport.participants.AddRange(topic.Person); 
             _allTopicsReport.numSources         += numSrc;
             _allTopicsReport.numComments        += numComments;
             _allTopicsReport.cumulativeDuration += topic.CumulativeDuration;
@@ -241,7 +317,7 @@ namespace Reporter
             _allTopicsReport.numMediaAttachments += nMedia;
 
             var report = new TopicReport(topic, stats.NumClusters, stats.NumClusteredBadges,
-                                         stats.NumLinks, topic.Person, numSrc, numComments,
+                                         stats.NumLinks, numSrc, numComments,
                                          topic.CumulativeDuration, stats.ListOfClusterIds,
                                          stats.ListOfLinkIds, numArgPoints, 
                                          numPointsWithDescription, nMedia);
@@ -250,12 +326,9 @@ namespace Reporter
             if (_topicReportReady!=null)
                 _topicReportReady(report);            
    
-            if (_processedTopicIdx > topics.Count() - 1)
+            if (++_nProcessedTopics >= topics.Count())
             {
                 UISharedRTClient.Instance.clienRt.dEditorReportResponse -= dEditorReportResponse;
-
-                if (_allTopicTotalsReady != null)
-                    _allTopicTotalsReady(_allTopicsReport);
 
                 //all topics processed, request clusters 
                 bool hasClusters = false;
@@ -276,10 +349,10 @@ namespace Reporter
                 if (!hasClusters && !hasLinks)
                     finalizeReport();
             }
-            else
-            {
-                UISharedRTClient.Instance.clienRt.SendDEditorRequest(topics[_processedTopicIdx++].Id);  
-            }
+            //else
+            //{
+            //    UISharedRTClient.Instance.clienRt.SendDEditorRequest(topics[nextTopicIdx++].Id);  
+            //}
         }
 
         public static void ArgPointTotalsOverTopic(ReportParameters par, Topic topic, out int numSrc, out int numComments)
@@ -288,11 +361,12 @@ namespace Reporter
             numComments = 0;
             foreach (var pt in topic.ArgPoint)
             {
-                if (!par.requiredUsers.Contains(pt.Person.Id))
-                    return;
+                if (par.requiredUsers.Contains(pt.Person.Id))
+                    numSrc += pt.Description.Source.Count();
 
-                numSrc      += pt.Description.Source.Count();
-                numComments += pt.Comment.Where(c0 => c0.Text != "New comment").Count();
+                foreach (var c in pt.Comment)
+                    if (c.Text != "New comment" && par.requiredUsers.Contains(c.Person.Id))
+                        ++numComments;
             }            
         }
 
@@ -360,14 +434,14 @@ namespace Reporter
                       
                         if (c.Text != "New comment")
                         {
-                            var topicReportOfCommener = FindTopicArgPointReport(reportsOfCommenter, ap.Topic.Id);
-                            if (topicReportOfCommener == null)
+                            var topicReportOfCommenter = FindTopicArgPointReport(reportsOfCommenter, ap.Topic.Id);
+                            if (topicReportOfCommenter == null)
                             {
-                                topicReportOfCommener = new ArgPointReport(0, 0, 0, 0, 0, c.Person, topic);
-                                reportsOfCommenter.Add(topicReportOfCommener);
+                                topicReportOfCommenter = new ArgPointReport(0, 0, 0, 0, 0, c.Person, topic);
+                                reportsOfCommenter.Add(topicReportOfCommenter);
                             }
 
-                            topicReportOfCommener.numComments += 1;
+                            topicReportOfCommenter.numComments += 1;
                         }                                          
                     }
 
@@ -416,6 +490,20 @@ namespace Reporter
             AvgArgPointReport.numPoints = (double)TotalArgPointReport.numPoints / n;
             AvgArgPointReport.numPointsWithDescriptions = (double)TotalArgPointReport.numPointsWithDescriptions / n;
             AvgArgPointReport.numSources = (double)TotalArgPointReport.numSources / n;
+        }
+
+        void prepareEvents()
+        {
+            foreach (var e in _ctx.StatsEvent)
+            {
+                if(e.TopicId!=-1 && e.TopicId != _reportParams.topic.Id)
+                    continue;
+
+                if(e.UserId!=-1 && !_reportParams.requiredUsers.Contains(e.UserId))
+                    continue;
+
+                StatsEvents.Add(e);
+            }
         }
     }
 }
