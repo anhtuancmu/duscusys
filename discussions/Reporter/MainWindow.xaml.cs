@@ -17,16 +17,14 @@ using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
+using Discussions.stats;
 
 namespace Reporter
 {   
     public partial class MainWindow : Window
     {
-        ReportCollector _collector;
-        TreeViewItem topicSection;
-        TreeViewItem usersSection;
-
-        ReportParameters parameters = null;
+        ReportCollector _reportCollector1 = null;
+        ReportCollector _reportCollector2 = null;
 
         public MainWindow()
         {
@@ -47,52 +45,67 @@ namespace Reporter
 
             UISharedRTClient.Instance.clienRt.onJoin += onJoin;
 
-            topicSection = ((TreeViewItem)reportRoot.Items[0]);
-            usersSection = ((TreeViewItem)reportRoot.Items[1]);
+            reportHeader1.ParamsChanged += Report1ParamsChanged;
+            reportHeader2.ParamsChanged += Report2ParamsChanged;
         }
 
-        ReportParameters getReportParams(bool forceDlg)
+        void Report1ParamsChanged(ReportParameters param)
         {
-            if (parameters != null && !forceDlg)
-                return parameters;
+            if (param != null)
+                new ReportCollector(null, reportGenerated, param, leftReportTree);
+        }
 
-            var dlg = new SessionTopicDlg();
-            dlg.ShowDialog();
-           
-            if (dlg.reportParameters != null)
-                sessionName.Text = dlg.reportParameters.session.Name;
-            else
-                sessionName.Text = null;
-
-            return dlg.reportParameters;
+        void Report2ParamsChanged(ReportParameters param)
+        {
+            if (param != null)
+                new ReportCollector(null, reportGenerated, param, rightReportTree);
         }
 
         public void onJoin()
         {
-            UISharedRTClient.Instance.clienRt.onJoin -= onJoin;
-
-            parameters = getReportParams(false);
-            if (parameters != null)
-            {
-                _collector = new ReportCollector(null, null, reportGenerated, parameters);
-            }
+            UISharedRTClient.Instance.clienRt.onJoin -= onJoin;       
         }
 
-        TextBlock GetTopicSummary(TopicReport report)
+        TextBlock GetTopicSummary(TopicReport report, bool total)
         {
             var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\n";
-            txt += "  No. of users: " + report.numParticipants + "\n";
+
+            var nUsr = 0;
+            if (total)
+                nUsr = report.GetNumParticipantsAmong2(reportHeader1.getReportParams(false).requiredUsers);
+            else
+                nUsr = report.GetNumParticipantsAmong(reportHeader1.getReportParams(false).requiredUsers);
+            txt += "  No. of users: " + nUsr + "\n";
             txt += "  No. of arg. points: " + report.numPoints + "\n";
             txt += "  No. of arg. points with description: " + report.numPointsWithDescription + "\n";
             txt += "  No. of media attachments: " + report.numMediaAttachments + "\n";
             txt += "  No. of sources: " + report.numSources + "\n";
             txt += "  No. of comments: " + report.numComments + "\n";
-            txt += "  No. of clustered badges: " + report.numClusteredBadges + "\n";
+            if (!total)
+                txt += "  No. of clustered badges: " + report.numClusteredBadges + "\n";
             txt += "  No. of clusters: " + report.numClusters + "\n";
             txt += "  No. of links: " + report.numLinks;
           
             var res = new TextBlock();
             res.Text = txt;
+            return res;
+        }
+
+        TreeViewItem GetEvent(StatsEvent e, DiscCtx ctx)
+        {
+            var res = new TreeViewItem();
+            var eventView = new EventViewModel((StEvent)e.Event, e.UserId, e.Time, (DeviceType)e.DeviceType);
+            res.Header = eventView.evt;
+
+            res.Items.Add(GetUser(ctx.Person.FirstOrDefault(p0 => p0.Id == e.UserId)));
+
+            if (!string.IsNullOrEmpty(e.TopicName))
+                res.Items.Add(e.TopicName); 
+            if(!string.IsNullOrEmpty(e.DiscussionName))
+                res.Items.Add(e.DiscussionName); 
+            res.Items.Add(eventView.dateTime);
+            res.Items.Add(eventView.devType);            
+
             return res;
         }
 
@@ -115,11 +128,19 @@ namespace Reporter
         MiniUserUC GetUser(Person owner)
         {
             var usr = new MiniUserUC();
+
+            if (owner == null)
+            {
+                owner = new Person();
+                owner.Name = "SYSTEM";
+                owner.Color = Utils2.ColorToInt(Colors.Aqua);                                
+            }
+
             usr.DataContext = owner;
             return usr;
         }
 
-        TreeViewItem GetLink(LinkReportResponse report)
+        TreeViewItem GetLink(LinkReportResponse report, ReportCollector collector)
         {
             var res = new TreeViewItem();
             res.Header = "Link";
@@ -130,12 +151,12 @@ namespace Reporter
             if (report.EndpointArgPoint1)
                 endpoints.Items.Add(GetPointReport(report.ArgPoint1));
             else
-                endpoints.Items.Add(GetCluster(_collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster1)));
+                endpoints.Items.Add(GetCluster(collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster1)));
 
             if (report.EndpointArgPoint2)
                 endpoints.Items.Add(GetPointReport(report.ArgPoint2));
             else
-                endpoints.Items.Add(GetCluster(_collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster2)));
+                endpoints.Items.Add(GetCluster(collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster2)));
 
             res.Items.Add(endpoints);
 
@@ -149,15 +170,15 @@ namespace Reporter
             return res;        
         }
 
-        TreeViewItem GetTopicReport(TopicReport report)
+        TreeViewItem GetTopicReport(TopicReport report, ReportCollector collector)
         {            
             var res = new TreeViewItem();
-            res.Items.Add(GetTopicSummary(report));
+            res.Items.Add(GetTopicSummary(report, false));
             res.Header = report.topic.Name;
 
             //clusters
             var clusters = WrapNode("Clusters");
-            foreach (var clustReport in _collector.ClusterReports)
+            foreach (var clustReport in collector.ClusterReports)
             {
                 if (clustReport.topic.Id != report.topic.Id)
                     continue;
@@ -168,12 +189,12 @@ namespace Reporter
 
             //links            
             var links = WrapNode("Links");
-            foreach (var linkReport in _collector.LinkReports)
+            foreach (var linkReport in collector.LinkReports)
             {
                 if (linkReport.topicId != report.topic.Id)
                     continue;
 
-                links.Items.Add(GetLink(linkReport));                           
+                links.Items.Add(GetLink(linkReport, collector));                           
             }            
             res.Items.Add(links);
 
@@ -187,11 +208,18 @@ namespace Reporter
             return res;
         }
 
+        TextBlock WrapText(string txt)
+        {
+            var res = new TextBlock();
+            res.Text = txt;
+            return res;
+        }
+
         TreeViewItem GetTotalTopicSummary(TopicReport report)
         {
             var res = new TreeViewItem();
             res.Header = "<all topics total>";            
-            res.Items.Add(GetTopicSummary(report));
+            res.Items.Add(GetTopicSummary(report, true));
             return res;
         }
 
@@ -271,34 +299,56 @@ namespace Reporter
             tvi.Header = "<average user, all topics>";
             return tvi;
         }
-
-        public void reportGenerated()
+       
+        public void reportGenerated(ReportCollector sender, object args)
         {
             txtLastSync.Text = DateTime.Now.ToString();
-            
-            topicSection.Items.Clear();
-            foreach (var topicReport in _collector.TopicReports)
-                topicSection.Items.Add(GetTopicReport(topicReport));
 
-            var totals = _collector.AllTopicsReport;
-            topicSection.Items.Add(GetTotalTopicSummary(totals));
+            TreeViewItem topicsNode = null;
+            TreeViewItem usersNode = null;
+            TreeViewItem eventsNode = null;
+            if (args == leftReportTree)
+            {
+                _reportCollector1 = sender;
+                topicsNode = topicSection1;
+                usersNode  = usersSection1;
+                eventsNode = eventSection1;
+                reportHeader1.SetParticipants(sender.Participants);
+            }
+            else if (args == rightReportTree)
+            {
+                _reportCollector2 = sender;
+                topicsNode = topicSection2;
+                usersNode = usersSection2;
+                eventsNode = eventSection2;
+                reportHeader2.SetParticipants(sender.Participants);
+            }
+            else
+                throw new NotSupportedException();
 
+            topicsNode.Items.Clear();
+            foreach (var topicReport in sender.TopicReports)
+                topicsNode.Items.Add(GetTopicReport(topicReport, sender));
 
-            usersSection.Items.Clear();
-            foreach(var report in _collector.ArgPointReports.Values)
-                usersSection.Items.Add(GetUserSummary(report));
+            if(_reportCollector1!=null && _reportCollector2!=null)
+            {
+                var requiredUsers = StatsUtils.Union(reportHeader1.getReportParams(false).requiredUsers, 
+                                                     reportHeader2.getReportParams(false).requiredUsers);
+                var totals = ReportCollector.GetTotalTopicsReports(_reportCollector1.TopicReports.First(),
+                                                                   _reportCollector2.TopicReports.First(),
+                                                                   requiredUsers);
+                topicsNode.Items.Add(GetTotalTopicSummary(totals));
+            }
 
-            usersSection.Items.Add(GetUserOneTopicSummary(_collector.TotalArgPointReport, true));
+            usersNode.Items.Clear();
+            foreach (var report in sender.ArgPointReports.Values)
+                usersNode.Items.Add(GetUserSummary(report));
 
-            usersSection.Items.Add(GetAvgUserSummary(_collector.AvgArgPointReport));
+            eventsNode.Items.Clear();
+            foreach (var ev in sender.StatsEvents)
+                eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
 
-            participants.ItemsSource = _collector.Participants;
-
-            sessionName.Text = parameters.session.Name;
-
-            topicName.Text = parameters.topic.Name;
-
-            totalTime.Text = _collector.TotalDiscussionTime.ToString();
+            usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true)); 
         }
 
         LoginResult testLoginStub(DiscCtx ctx)
@@ -316,15 +366,13 @@ namespace Reporter
 
         private void btnRun_Click_1(object sender, RoutedEventArgs e)
         {
-            parameters = getReportParams(false);
-            if(parameters!=null)
-                _collector = new ReportCollector(null, null, reportGenerated, parameters);
-        }
-
-        private void btnSelect_Click_1(object sender, RoutedEventArgs e)
-        {
-            parameters = null;
-            btnRun_Click_1(null,null);
+            var parameters1 = reportHeader1.getReportParams(false);
+            var parameters2 = reportHeader2.getReportParams(false);
+            if (parameters1 == null || parameters2 == null)
+                return;
+            
+            new ReportCollector(null, reportGenerated, parameters1, leftReportTree);
+            new ReportCollector(null, reportGenerated, parameters2, rightReportTree);
         }
     }
 }
