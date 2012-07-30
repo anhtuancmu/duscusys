@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Discussions.DbModel;
+using Discussions.model;
+using Discussions.rt;
 
 namespace Discussions.YouViewer
 {
@@ -103,8 +105,13 @@ namespace Discussions.YouViewer
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
+            var a = DataContext as Attachment;
+            if (a != null)
+               Utils.ReportMediaOpened(StEvent.VideoOpened, a);             
+            
             OnSelectedEvent(new YouTubeResultEventArgs(Info));
         }
+
         #endregion
     }
 }

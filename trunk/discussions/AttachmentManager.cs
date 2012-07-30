@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Discussions.YouViewer;
 using System.Runtime.InteropServices;
 using Discussions.pdf_reader;
+using Discussions.rt;
 
 namespace Discussions
 {
@@ -502,8 +503,9 @@ namespace Discussions
                         fs.Write(a.MediaData.Data, 0, a.MediaData.Data.Length);
                     }
                     //Process.Start(pdfPathName);
+                    Utils.ReportMediaOpened(StEvent.PdfOpened, a);
                     var pdfReader = new ReaderWindow(pdfPathName);
-                    pdfReader.ShowDialog();
+                    pdfReader.ShowDialog();                   
                 }
                 catch (Exception e)
                 {
@@ -512,6 +514,10 @@ namespace Discussions
             }
             else if (MiniAttachmentManager.IsGraphicFormat(a))
             {
+                if(a.Format== (int)AttachmentFormat.PngScreenshot)
+                    Utils.ReportMediaOpened(StEvent.ScreenshotOpened, a);
+                else
+                    Utils.ReportMediaOpened(StEvent.ImageOpened, a);
                 ImageWindow wnd = new ImageWindow();
                 wnd.img.Source = img.Source;
                 wnd.Show();

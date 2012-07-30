@@ -50,6 +50,12 @@ namespace Discussions.model
         MediaRemoved, //done 28
 
         CommentAdded, //done 29
-        CommentRemoved //done 30
+        CommentRemoved, //done 30
+
+        ImageOpened,      //done 31
+        VideoOpened,      //done 32
+        ScreenshotOpened, //done 33
+        PdfOpened,        //done 34
+        SourceOpened,     //done 35
     }
 }

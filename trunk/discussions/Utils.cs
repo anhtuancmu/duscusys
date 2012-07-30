@@ -11,11 +11,30 @@ using Discussions.model;
 using System.Windows.Input;
 using System.IO;
 using System.Reflection;
+using Discussions.rt;
 
 namespace Discussions
 {
     class Utils
     {
+        public static void ReportMediaOpened(StEvent ev, Attachment a) 
+        {
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(ev,
+                                                             SessionInfo.Get().person.Id,
+                                                             a.ArgPoint.Topic.Discussion.Id,
+                                                             a.ArgPoint.Topic.Id,
+                                                             DeviceType.Wpf);
+        }
+
+        public static void ReportMediaOpened(StEvent ev, ArgPoint ap)
+        {
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(ev,
+                                                             SessionInfo.Get().person.Id,
+                                                             ap.Topic.Discussion.Id,
+                                                             ap.Topic.Id,
+                                                             DeviceType.Wpf);
+        }
+
         public static ScatterViewItem WrapWithScatterItem(UserControl uc)
         {
             return WrapWithScatterItem(uc, 300, 180);
