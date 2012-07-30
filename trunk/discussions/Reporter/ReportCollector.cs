@@ -19,6 +19,38 @@ namespace Reporter
         int _clusterReportsGenerated = 0;
         int _linkReportsGenerated = 0;
 
+        int _numImagesInSession = 0;
+        public int NumImagesInSession
+        {
+            get
+            {
+                return _numImagesInSession;
+            }
+        }
+        int _numScreenshotsInSession = 0;
+        public int NumScreenshotsInSession
+        {
+            get
+            {
+                return _numScreenshotsInSession; 
+            }
+        }
+        int _numYoutubeInSession = 0;
+        public int NumYoutubeInSession
+        {
+            get
+            {
+               return _numYoutubeInSession;
+            }
+        }
+        int _numPdfInSession = 0;
+        public int NumPdfInSession
+        {
+            get
+            {
+                return _numPdfInSession;
+            }
+        }
 
         public delegate void TopicReportReady(TopicReport topicReport);
         TopicReportReady _topicReportReady;
@@ -91,10 +123,19 @@ namespace Reporter
             }
         }
 
-        public ArgPointReport TotalArgPointReport = new ArgPointReport();
-        public ArgArgPointReport AvgArgPointReport = new ArgArgPointReport();
+        public ArgPointReport    TotalArgPointReport = new ArgPointReport();
+        public ArgArgPointReport AvgArgPointReport   = new ArgArgPointReport();
 
-        ReportParameters _reportParams;        
+        ReportParameters _reportParams;
+
+        EventTotalsReport _eventTotals = new EventTotalsReport(); 
+        public EventTotalsReport EventTotals
+        {
+            get
+            {
+                return _eventTotals; 
+            }
+        }
 
         public delegate void ReportReady(ReportCollector sender, object args);
         ReportReady _reportGenerated;
@@ -408,6 +449,62 @@ namespace Reporter
             foreach (var topic in topics)            
                 foreach (var ap in topic.ArgPoint)
                 {
+                    //comments can be by different users
+                    foreach (var c in ap.Comment)
+                    {
+                        if (c.Person == null)
+                            continue; //for placeholders
+
+                        if (!_reportParams.requiredUsers.Contains(c.Person.Id))
+                            continue;
+
+                        if (!ArgPointReports.ContainsKey(c.Person.Id))
+                            ArgPointReports.Add(c.Person.Id, new List<ArgPointReport>());
+                        var reportsOfCommenter = ArgPointReports[c.Person.Id];
+
+                        if (c.Text != "New comment")
+                        {
+                            var topicReportOfCommenter = FindTopicArgPointReport(reportsOfCommenter, ap.Topic.Id);
+                            if (topicReportOfCommenter == null)
+                            {
+                                topicReportOfCommenter = new ArgPointReport(0, 0, 0, 0, 0, c.Person, topic);
+                                reportsOfCommenter.Add(topicReportOfCommenter);
+                            }
+
+                            topicReportOfCommenter.numComments += 1;
+                        }
+                    }
+
+                    foreach (var at in ap.Attachment)
+                    {
+                        if (!_reportParams.requiredUsers.Contains(at.Person.Id))
+                            continue;
+                       
+                        switch ((AttachmentFormat)at.Format)
+                        {
+                            case AttachmentFormat.Bmp:
+                                ++_numImagesInSession;
+                                break;
+                            case AttachmentFormat.Jpg:
+                                ++_numImagesInSession;
+                                break;
+                            case AttachmentFormat.Png:
+                                ++_numImagesInSession;
+                                break;
+                            case AttachmentFormat.Pdf:
+                                ++_numPdfInSession;
+                                break;
+                            case AttachmentFormat.PngScreenshot:
+                                ++_numScreenshotsInSession;
+                                break;
+                            case AttachmentFormat.Youtube:
+                                ++_numYoutubeInSession;
+                                break;
+                            default:
+                                throw new NotSupportedException();
+                        }
+                    }
+
                     if (!_reportParams.requiredUsers.Contains(ap.Person.Id))
                         continue;
 
@@ -422,34 +519,11 @@ namespace Reporter
                         reportsInTopic.Add(topicReportOfSelf);
                     }
 
-                    //comments can be by different users
-                    foreach (var c in ap.Comment)
-                    {
-                        if (c.Person == null)
-                            continue; //for placeholders
-                        
-                        if (!ArgPointReports.ContainsKey(c.Person.Id))
-                            ArgPointReports.Add(c.Person.Id, new List<ArgPointReport>());
-                        var reportsOfCommenter = ArgPointReports[c.Person.Id];
-                      
-                        if (c.Text != "New comment")
-                        {
-                            var topicReportOfCommenter = FindTopicArgPointReport(reportsOfCommenter, ap.Topic.Id);
-                            if (topicReportOfCommenter == null)
-                            {
-                                topicReportOfCommenter = new ArgPointReport(0, 0, 0, 0, 0, c.Person, topic);
-                                reportsOfCommenter.Add(topicReportOfCommenter);
-                            }
-
-                            topicReportOfCommenter.numComments += 1;
-                        }                                          
-                    }
-
                     topicReportOfSelf.numMediaAttachments += ap.Attachment.Count();
                     topicReportOfSelf.numPoints += 1;
                     if (ap.Description.Text != "Description")
                         topicReportOfSelf.numPointsWithDescriptions++;
-                    topicReportOfSelf.numSources += ap.Description.Source.Count();
+                    topicReportOfSelf.numSources += ap.Description.Source.Count();                  
                 }
 
             //fill out users who don't have points
@@ -503,6 +577,7 @@ namespace Reporter
                     continue;
 
                 StatsEvents.Add(e);
+                EventTotals.CountEvent((StEvent)e.Event, e.Id); 
             }
         }
     }

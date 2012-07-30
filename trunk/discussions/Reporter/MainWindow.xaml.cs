@@ -18,6 +18,7 @@ using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.stats;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Reporter
 {   
@@ -91,6 +92,17 @@ namespace Reporter
             return res;
         }
 
+        TreeViewItem GetAttachmentsSummary(ReportCollector report)
+        {
+            var res = new TreeViewItem();
+            res.Header = "<media summary>";
+            res.Items.Add("No. of images "      + report.NumImagesInSession);
+            res.Items.Add("No. of PDF "         + report.NumPdfInSession);
+            res.Items.Add("No. of screenshots " + report.NumScreenshotsInSession);
+            res.Items.Add("No. of videos "      + report.NumYoutubeInSession);  
+            return res; 
+        }
+
         TreeViewItem GetEvent(StatsEvent e, DiscCtx ctx)
         {
             var res = new TreeViewItem();
@@ -109,12 +121,55 @@ namespace Reporter
             return res;
         }
 
+        TreeViewItem GetEventTotals(EventTotalsReport eTotals)
+        {
+            var res = new TreeViewItem();
+            res.Header = "<event totals>";
+
+            res.Items.Add("no. arg.point changed " +  eTotals.TotalArgPointTopicChanged);
+            res.Items.Add("no. badge created " +  eTotals.TotalBadgeCreated);
+            res.Items.Add("no. badge edited " + eTotals.TotalBadgeEdited);
+            res.Items.Add("no. badge moved " + eTotals.TotalBadgeMoved);
+            res.Items.Add("no. badge zoom in " + eTotals.TotalBadgeZoomIn);
+            res.Items.Add("no. cluster created " + eTotals.TotalClusterCreated);
+            res.Items.Add("no. cluster deleted " + eTotals.TotalClusterDeleted);
+            res.Items.Add("no. cluster-in " + eTotals.TotalClusterIn);
+            res.Items.Add("no. cluster moved " + eTotals.TotalClusterMoved);
+            res.Items.Add("no. cluster-out " + eTotals.TotalClusterOut);
+            res.Items.Add("no. comment added " + eTotals.TotalCommentAdded);
+            res.Items.Add("no. comment removed " + eTotals.TotalCommentRemoved);
+            res.Items.Add("no. free drawing created " + eTotals.TotalFreeDrawingCreated);
+            res.Items.Add("no. free drawing moved " + eTotals.TotalFreeDrawingMoved);
+            res.Items.Add("no. free drawing removed " + eTotals.TotalFreeDrawingRemoved);
+            res.Items.Add("no. free drawing resize " + eTotals.TotalFreeDrawingResize);
+            res.Items.Add("no. image added " + eTotals.TotalImageAdded);
+            res.Items.Add("no. image opened " + eTotals.TotalImageOpened);
+            res.Items.Add("no. image url added " + eTotals.TotalImageUrlAdded);
+            res.Items.Add("no. link created " + eTotals.TotalLinkCreated);
+            res.Items.Add("no. link removed " + eTotals.TotalLinkRemoved);
+            res.Items.Add("no. media removed " + eTotals.TotalMediaRemoved);
+            res.Items.Add("no. PDF added " + eTotals.TotalPdfAdded);
+            res.Items.Add("no. PDF opened " + eTotals.TotalPdfOpened);
+            res.Items.Add("no. PDF url added " + eTotals.TotalPdfUrlAdded);
+            res.Items.Add("no. source added " + eTotals.TotalSourceAdded);
+            res.Items.Add("no. source opened " + eTotals.TotalSourceOpened);
+            res.Items.Add("no. source removed " + eTotals.TotalSourceRemoved);
+            res.Items.Add("no. video opened " + eTotals.TotalVideoOpened);
+            res.Items.Add("no. video added " + eTotals.TotalYoutubeAdded);
+            res.Items.Add("no. recording started " + eTotals.TotalRecordingStarted);
+            res.Items.Add("no. recording stopped " + eTotals.TotalRecordingStopped);
+            res.Items.Add("no. scene zoom in " + eTotals.TotalSceneZoomedIn);
+            res.Items.Add("no. scene zoom out " + eTotals.TotalSceneZoomedOut);
+            res.Items.Add("no. screenshot added " + eTotals.TotalScreenshotAdded);
+            res.Items.Add("no. screenshot opened " + eTotals.TotalScreenshotOpened);
+
+            return res;
+        }
+
         TreeViewItem GetCluster(ClusterReport report)
         {
             var res = new TreeViewItem();
-            res.Header = "Cluster " + report.clusterTitle;
-            
-            res.Items.Add(GetUser(report.initialOwner));
+            res.Header = GetHeader(report.initialOwner, " cluster " + report.clusterTitle);
 
             var argPoints = WrapNode("Arg. points");
             foreach (var ap in report.points)
@@ -143,9 +198,7 @@ namespace Reporter
         TreeViewItem GetLink(LinkReportResponse report, ReportCollector collector)
         {
             var res = new TreeViewItem();
-            res.Header = "Link";
-            res.Items.Add(GetUser(report.initOwner));
-
+            res.Header = GetHeader(report.initOwner, " link");
             var endpoints = WrapNode("Endpoints");
 
             if (report.EndpointArgPoint1)
@@ -232,12 +285,20 @@ namespace Reporter
                 txt.Text += "No description";
 
             var res = new TreeViewItem();
-            res.Header = "Arg. point " + ap.Point;
+            res.Header = GetHeader(ap.Person, " arg. point " + ap.Point);
             res.Items.Add(txt);
                     
-            res.Items.Add(GetUser(ap.Person));
-
             return res;
+        }
+
+        StackPanel GetHeader(Person pers, string str)
+        {
+            var res = new TreeViewItem();
+            var st = new StackPanel();
+            st.Orientation = Orientation.Horizontal;
+            st.Children.Add(GetUser(pers));
+            st.Children.Add(WrapText(str));
+            return st;           
         }
 
         TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
@@ -340,6 +401,10 @@ namespace Reporter
                 topicsNode.Items.Add(GetTotalTopicSummary(totals));
             }
 
+            topicsNode.Items.Add(GetAttachmentsSummary(sender));
+
+            topicsNode.Items.Add(GetEventTotals(sender.EventTotals));
+
             usersNode.Items.Clear();
             foreach (var report in sender.ArgPointReports.Values)
                 usersNode.Items.Add(GetUserSummary(report));
@@ -347,7 +412,6 @@ namespace Reporter
             eventsNode.Items.Clear();
             foreach (var ev in sender.StatsEvents)
                 eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
-
             usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true)); 
         }
 
@@ -373,6 +437,12 @@ namespace Reporter
             
             new ReportCollector(null, reportGenerated, parameters1, leftReportTree);
             new ReportCollector(null, reportGenerated, parameters2, rightReportTree);
+        }
+
+        private void SurfaceScrollViewer_MouseWheel_1(object sender, MouseWheelEventArgs e)
+        {
+            var ssv =(SurfaceScrollViewer)sender;
+            ssv.ScrollToVerticalOffset(ssv.VerticalOffset - e.Delta);
         }
     }
 }
