@@ -127,6 +127,21 @@ namespace Discussions.stats
                 case StEvent.CommentRemoved:
                     evt = "removed comment";
                     break;
+                case StEvent.ImageOpened:
+                    evt = "opened image";
+                    break;
+                case StEvent.VideoOpened:
+                    evt = "opened video";
+                    break;
+                case StEvent.ScreenshotOpened:
+                    evt = "opened screenshot";
+                    break;
+                case StEvent.PdfOpened:
+                    evt = "opened PDF";
+                    break;
+                case StEvent.SourceOpened:
+                    evt = "opened source";
+                    break;
                 default:
                     throw new NotSupportedException(); 
             }

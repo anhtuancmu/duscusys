@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Discussions.DbModel;
+using Discussions.model;
 using Discussions.rt;
 using Discussions.webkit_host;
 
@@ -135,6 +136,8 @@ namespace Discussions
 
                     //System.Diagnostics.Process.Start(src.Text);    
 
+                    Utils.ReportMediaOpened(StEvent.SourceOpened, src.RichText.ArgPoint);
+            
                     var browser = new WebKitFrm(src.Text);
                     browser.ShowDialog();
                 }

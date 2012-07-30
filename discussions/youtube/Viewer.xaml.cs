@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using Discussions.rt;
+using Discussions.model;
 
 namespace Discussions.YouViewer
 {
@@ -116,7 +118,7 @@ namespace Discussions.YouViewer
         {
             if (video != null)
             {
-                Process.Start(video.LinkUrl);                                            
+                Process.Start(video.LinkUrl);                                          
             }
         }
     }
