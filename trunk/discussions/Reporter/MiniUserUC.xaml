@@ -13,10 +13,9 @@
     <Grid>
     	<Grid.ColumnDefinitions>
     		<ColumnDefinition Width="151*"/>
-    		<ColumnDefinition Width="102*"/>
-    		<ColumnDefinition Width="47"/>
-    	</Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="149*"/>
+        </Grid.ColumnDefinitions>
     	<TextBlock Text="{Binding Name}" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    	<Rectangle Fill="{Binding Color, Converter={StaticResource clrConv}}" Height="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20"/>
+<Rectangle Fill="{Binding Color, Converter={StaticResource clrConv}}" Height="20" Width="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

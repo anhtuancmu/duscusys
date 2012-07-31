@@ -92,15 +92,14 @@ namespace Reporter
             return res;
         }
 
-        TreeViewItem GetAttachmentsSummary(ReportCollector report)
+        TextBlock GetAttachmentsSummary(ReportCollector report)
         {
-            var res = new TreeViewItem();
-            res.Header = "<media summary>";
-            res.Items.Add("No. of images "      + report.NumImagesInSession);
-            res.Items.Add("No. of PDF "         + report.NumPdfInSession);
-            res.Items.Add("No. of screenshots " + report.NumScreenshotsInSession);
-            res.Items.Add("No. of videos "      + report.NumYoutubeInSession);  
-            return res; 
+            var txt = "<media summary>" + "\n";
+            txt += "No. of images " + report.NumImagesInSession + "\n";
+            txt += "No. of PDF "    + report.NumPdfInSession + "\n";
+            txt += "No. of screenshots " + report.NumScreenshotsInSession + "\n"; 
+            txt += "No. of videos " + report.NumYoutubeInSession;
+            return WrapText(txt);            
         }
 
         TreeViewItem GetEvent(StatsEvent e, DiscCtx ctx)
@@ -121,55 +120,126 @@ namespace Reporter
             return res;
         }
 
-        TreeViewItem GetEventTotals(EventTotalsReport eTotals)
-        {
-            var res = new TreeViewItem();
-            res.Header = "<event totals>";
+        TextBlock GetEventTotals(EventTotalsReport eTotals)
+        {           
+            var sb = new StringBuilder();
+            sb.AppendLine("<event totals>");
 
-            res.Items.Add("no. arg.point changed " +  eTotals.TotalArgPointTopicChanged);
-            res.Items.Add("no. badge created " +  eTotals.TotalBadgeCreated);
-            res.Items.Add("no. badge edited " + eTotals.TotalBadgeEdited);
-            res.Items.Add("no. badge moved " + eTotals.TotalBadgeMoved);
-            res.Items.Add("no. badge zoom in " + eTotals.TotalBadgeZoomIn);
-            res.Items.Add("no. cluster created " + eTotals.TotalClusterCreated);
-            res.Items.Add("no. cluster deleted " + eTotals.TotalClusterDeleted);
-            res.Items.Add("no. cluster-in " + eTotals.TotalClusterIn);
-            res.Items.Add("no. cluster moved " + eTotals.TotalClusterMoved);
-            res.Items.Add("no. cluster-out " + eTotals.TotalClusterOut);
-            res.Items.Add("no. comment added " + eTotals.TotalCommentAdded);
-            res.Items.Add("no. comment removed " + eTotals.TotalCommentRemoved);
-            res.Items.Add("no. free drawing created " + eTotals.TotalFreeDrawingCreated);
-            res.Items.Add("no. free drawing moved " + eTotals.TotalFreeDrawingMoved);
-            res.Items.Add("no. free drawing removed " + eTotals.TotalFreeDrawingRemoved);
-            res.Items.Add("no. free drawing resize " + eTotals.TotalFreeDrawingResize);
-            res.Items.Add("no. image added " + eTotals.TotalImageAdded);
-            res.Items.Add("no. image opened " + eTotals.TotalImageOpened);
-            res.Items.Add("no. image url added " + eTotals.TotalImageUrlAdded);
-            res.Items.Add("no. link created " + eTotals.TotalLinkCreated);
-            res.Items.Add("no. link removed " + eTotals.TotalLinkRemoved);
-            res.Items.Add("no. media removed " + eTotals.TotalMediaRemoved);
-            res.Items.Add("no. PDF added " + eTotals.TotalPdfAdded);
-            res.Items.Add("no. PDF opened " + eTotals.TotalPdfOpened);
-            res.Items.Add("no. PDF url added " + eTotals.TotalPdfUrlAdded);
-            res.Items.Add("no. source added " + eTotals.TotalSourceAdded);
-            res.Items.Add("no. source opened " + eTotals.TotalSourceOpened);
-            res.Items.Add("no. source removed " + eTotals.TotalSourceRemoved);
-            res.Items.Add("no. video opened " + eTotals.TotalVideoOpened);
-            res.Items.Add("no. video added " + eTotals.TotalYoutubeAdded);
-            res.Items.Add("no. recording started " + eTotals.TotalRecordingStarted);
-            res.Items.Add("no. recording stopped " + eTotals.TotalRecordingStopped);
-            res.Items.Add("no. scene zoom in " + eTotals.TotalSceneZoomedIn);
-            res.Items.Add("no. scene zoom out " + eTotals.TotalSceneZoomedOut);
-            res.Items.Add("no. screenshot added " + eTotals.TotalScreenshotAdded);
-            res.Items.Add("no. screenshot opened " + eTotals.TotalScreenshotOpened);
+            sb.Append("no. arg.point changed "); 
+            sb.AppendLine(eTotals.TotalArgPointTopicChanged.ToString());
 
-            return res;
+            sb.Append("no. badge created ");
+            sb.AppendLine(eTotals.TotalBadgeCreated.ToString());
+          
+            sb.Append("no. badge edited ");
+            sb.AppendLine(eTotals.TotalBadgeEdited.ToString());
+         
+            sb.Append("no. badge moved ");
+            sb.AppendLine(eTotals.TotalBadgeMoved.ToString());
+           
+            sb.Append("no. badge zoom in ");
+            sb.AppendLine(eTotals.TotalBadgeZoomIn.ToString());
+
+            sb.Append("no. cluster created ");
+            sb.AppendLine( eTotals.TotalClusterCreated.ToString());
+
+            sb.Append("no. cluster deleted ");
+            sb.AppendLine(eTotals.TotalClusterDeleted.ToString());
+
+            sb.Append("no. cluster-in ");
+            sb.AppendLine(eTotals.TotalClusterIn.ToString());
+
+            sb.Append("no. cluster moved ");
+            sb.AppendLine(eTotals.TotalClusterMoved.ToString());
+
+            sb.Append("no. cluster-out ");
+            sb.AppendLine(eTotals.TotalClusterOut.ToString());
+
+            sb.Append("no. comment added ");
+            sb.AppendLine(eTotals.TotalCommentAdded.ToString());
+
+            sb.Append("no. comment removed ");
+            sb.AppendLine(eTotals.TotalCommentRemoved.ToString());
+
+            sb.Append("no. free drawing created ");
+            sb.AppendLine(eTotals.TotalFreeDrawingCreated.ToString());
+
+            sb.Append("no. free drawing moved ");
+            sb.AppendLine(eTotals.TotalFreeDrawingMoved.ToString());
+
+            sb.Append("no. free drawing removed ");
+            sb.AppendLine(eTotals.TotalFreeDrawingRemoved.ToString());
+
+            sb.Append("no. free drawing resize ");
+            sb.AppendLine(eTotals.TotalFreeDrawingResize.ToString());
+
+            sb.Append("no. image added ");
+            sb.AppendLine(eTotals.TotalImageAdded.ToString());
+
+            sb.Append("no. image opened ");
+            sb.AppendLine(eTotals.TotalImageOpened.ToString());
+
+            sb.Append("no. image url added ");
+            sb.AppendLine(eTotals.TotalImageUrlAdded.ToString());
+
+            sb.Append("no. link created ");
+            sb.AppendLine(eTotals.TotalLinkCreated.ToString());
+
+            sb.Append("no. link removed ");
+            sb.AppendLine(eTotals.TotalLinkRemoved.ToString());
+
+            sb.Append("no. media removed ");
+            sb.AppendLine(eTotals.TotalMediaRemoved.ToString());
+
+            sb.Append("no. PDF added ");
+            sb.AppendLine(eTotals.TotalPdfAdded.ToString());
+
+            sb.Append("no. PDF opened ");
+            sb.AppendLine(eTotals.TotalPdfOpened.ToString());
+
+            sb.Append("no. PDF url added ");
+            sb.AppendLine(eTotals.TotalPdfUrlAdded.ToString());
+
+            sb.Append("no. source added ");
+            sb.AppendLine(eTotals.TotalSourceAdded.ToString());
+
+            sb.Append("no. source opened ");
+            sb.AppendLine(eTotals.TotalSourceOpened.ToString());
+
+            sb.Append("no. source removed ");
+            sb.AppendLine(eTotals.TotalSourceRemoved.ToString());
+
+            sb.Append("no. video opened ");
+            sb.AppendLine(eTotals.TotalVideoOpened.ToString());
+
+            sb.Append("no. video added ");
+            sb.AppendLine(eTotals.TotalYoutubeAdded.ToString());
+
+            sb.Append("no. recording started ");
+            sb.AppendLine(eTotals.TotalRecordingStarted.ToString());
+
+            sb.Append("no. recording stopped ");
+            sb.AppendLine(eTotals.TotalRecordingStopped.ToString());
+
+            sb.Append("no. scene zoom in ");
+            sb.AppendLine(eTotals.TotalSceneZoomedIn.ToString());
+
+            sb.Append("no. scene zoom out ");
+            sb.AppendLine(eTotals.TotalSceneZoomedOut.ToString());
+
+            sb.Append("no. screenshot added ");
+            sb.AppendLine(eTotals.TotalScreenshotAdded.ToString());
+
+            sb.Append("no. screenshot opened ");
+            sb.AppendLine(eTotals.TotalScreenshotOpened.ToString());
+
+            return WrapText(sb.ToString());            
         }
 
         TreeViewItem GetCluster(ClusterReport report)
         {
             var res = new TreeViewItem();
-            res.Header = GetHeader(report.initialOwner, " cluster " + report.clusterTitle);
+            res.Header = GetHeader(report.initialOwner, " - cluster " + report.clusterTitle);
 
             var argPoints = WrapNode("Arg. points");
             foreach (var ap in report.points)
@@ -198,7 +268,7 @@ namespace Reporter
         TreeViewItem GetLink(LinkReportResponse report, ReportCollector collector)
         {
             var res = new TreeViewItem();
-            res.Header = GetHeader(report.initOwner, " link");
+            res.Header = GetHeader(report.initOwner, " - link");
             var endpoints = WrapNode("Endpoints");
 
             if (report.EndpointArgPoint1)
@@ -285,7 +355,7 @@ namespace Reporter
                 txt.Text += "No description";
 
             var res = new TreeViewItem();
-            res.Header = GetHeader(ap.Person, " arg. point " + ap.Point);
+            res.Header = GetHeader(ap.Person, " - " + ap.Point);
             res.Items.Add(txt);
                     
             return res;
@@ -367,13 +437,13 @@ namespace Reporter
 
             TreeViewItem topicsNode = null;
             TreeViewItem usersNode = null;
-            TreeViewItem eventsNode = null;
+            //TreeViewItem eventsNode = null;
             if (args == leftReportTree)
             {
                 _reportCollector1 = sender;
                 topicsNode = topicSection1;
                 usersNode  = usersSection1;
-                eventsNode = eventSection1;
+               // eventsNode = eventSection1;
                 reportHeader1.SetParticipants(sender.Participants);
             }
             else if (args == rightReportTree)
@@ -381,7 +451,7 @@ namespace Reporter
                 _reportCollector2 = sender;
                 topicsNode = topicSection2;
                 usersNode = usersSection2;
-                eventsNode = eventSection2;
+               // eventsNode = eventSection2;
                 reportHeader2.SetParticipants(sender.Participants);
             }
             else
@@ -409,9 +479,9 @@ namespace Reporter
             foreach (var report in sender.ArgPointReports.Values)
                 usersNode.Items.Add(GetUserSummary(report));
 
-            eventsNode.Items.Clear();
-            foreach (var ev in sender.StatsEvents)
-                eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
+            //eventsNode.Items.Clear();
+            //foreach (var ev in sender.StatsEvents)
+            //    eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
             usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true)); 
         }
 
