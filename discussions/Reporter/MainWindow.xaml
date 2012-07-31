@@ -41,7 +41,7 @@
             
     		    <TreeViewItem Name="topicSection1" Header="Topic" IsExpanded="True"/>
                 <TreeViewItem Name="usersSection1" Header="Users"  IsExpanded="True"/>
-                <TreeViewItem Name="eventSection1" Header="Events" IsExpanded="True"/>
+                <!--<TreeViewItem Name="eventSection1" Header="Events" IsExpanded="True"/>-->
     	    </TreeView>
         </s:SurfaceScrollViewer>
 		<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Discusys Reporting System" 
@@ -75,7 +75,7 @@
             
                 <TreeViewItem x:Name="topicSection2" Header="Topic"  IsExpanded="True"/>
                 <TreeViewItem x:Name="usersSection2" Header="Users"  IsExpanded="True"/>
-                <TreeViewItem x:Name="eventSection2" Header="Events" IsExpanded="True"/>
+                <!--<TreeViewItem x:Name="eventSection2" Header="Events" IsExpanded="True"/>-->
             </TreeView>
         </s:SurfaceScrollViewer>
     </Grid>
