@@ -127,6 +127,13 @@ namespace Reporter
         public ArgArgPointReport AvgArgPointReport   = new ArgArgPointReport();
 
         ReportParameters _reportParams;
+        public ReportParameters ReportParams
+        {
+            get
+            {
+                return _reportParams;
+            }
+        }
 
         EventTotalsReport _eventTotals = new EventTotalsReport(); 
         public EventTotalsReport EventTotals

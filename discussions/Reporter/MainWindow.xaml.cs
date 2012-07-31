@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -19,13 +20,14 @@ using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.stats;
 using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Win32;
 
 namespace Reporter
 {   
     public partial class MainWindow : Window
     {
         ReportCollector _reportCollector1 = null;
-        ReportCollector _reportCollector2 = null;
+        ReportCollector _reportCollector2 = null;     
 
         public MainWindow()
         {
@@ -67,15 +69,15 @@ namespace Reporter
             UISharedRTClient.Instance.clienRt.onJoin -= onJoin;       
         }
 
-        TextBlock GetTopicSummary(TopicReport report, bool total)
+        TextBlock GetTopicSummary(TopicReport report, ReportParameters param,  bool total)
         {
             var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\n";
 
             var nUsr = 0;
             if (total)
-                nUsr = report.GetNumParticipantsAmong2(reportHeader1.getReportParams(false).requiredUsers);
+                nUsr = report.GetNumAccumulatedParticipantsAmong();
             else
-                nUsr = report.GetNumParticipantsAmong(reportHeader1.getReportParams(false).requiredUsers);
+                nUsr = report.GetNumParticipantsAmong(param.requiredUsers);
             txt += "  No. of users: " + nUsr + "\n";
             txt += "  No. of arg. points: " + report.numPoints + "\n";
             txt += "  No. of arg. points with description: " + report.numPointsWithDescription + "\n";
@@ -292,13 +294,13 @@ namespace Reporter
             res.Text = txt;
             return res;        
         }
-
+        
         TreeViewItem GetTopicReport(TopicReport report, ReportCollector collector)
         {            
             var res = new TreeViewItem();
-            res.Items.Add(GetTopicSummary(report, false));
+            res.Items.Add(GetTopicSummary(report, collector.ReportParams, false));
             res.Header = report.topic.Name;
-
+            
             //clusters
             var clusters = WrapNode("Clusters");
             foreach (var clustReport in collector.ClusterReports)
@@ -342,7 +344,7 @@ namespace Reporter
         {
             var res = new TreeViewItem();
             res.Header = "<all topics total>";            
-            res.Items.Add(GetTopicSummary(report, true));
+            res.Items.Add(GetTopicSummary(report, null, true));
             return res;
         }
 
@@ -461,9 +463,9 @@ namespace Reporter
             foreach (var topicReport in sender.TopicReports)
                 topicsNode.Items.Add(GetTopicReport(topicReport, sender));
 
-            if(_reportCollector1!=null && _reportCollector2!=null)
-            {
-                var requiredUsers = StatsUtils.Union(reportHeader1.getReportParams(false).requiredUsers, 
+            if (_reportCollector1 != null && _reportCollector2 != null)
+            {            
+                var requiredUsers = StatsUtils.Union(reportHeader1.getReportParams(false).requiredUsers,
                                                      reportHeader2.getReportParams(false).requiredUsers);
                 var totals = ReportCollector.GetTotalTopicsReports(_reportCollector1.TopicReports.First(),
                                                                    _reportCollector2.TopicReports.First(),
@@ -482,7 +484,7 @@ namespace Reporter
             //eventsNode.Items.Clear();
             //foreach (var ev in sender.StatsEvents)
             //    eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
-            usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true)); 
+            usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true));
         }
 
         LoginResult testLoginStub(DiscCtx ctx)
@@ -513,6 +515,55 @@ namespace Reporter
         {
             var ssv =(SurfaceScrollViewer)sender;
             ssv.ScrollToVerticalOffset(ssv.VerticalOffset - e.Delta);
+        }
+
+        private void btnSpss_Click(object sender, RoutedEventArgs e)
+        {        
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "CSV files (.csv)|*.csv";
+            dlg.CheckFileExists = false;
+            dlg.Title = "Report name and folder?";                
+
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                var generated = false;
+                
+                if (_reportCollector1 != null && _reportCollector2 == null)
+                {
+                    generated = true;
+                    CsvExporter.Export(dlg.FileName,
+                                       _reportCollector1.TopicReports.First(), reportHeader1.getReportParams(false), _reportCollector1.EventTotals,
+                                       null, null, null);
+                }
+                else if (_reportCollector1 == null && _reportCollector2 != null)
+                {
+                    generated = true;
+                    CsvExporter.Export(dlg.FileName,
+                                       _reportCollector2.TopicReports.First(), reportHeader2.getReportParams(false), _reportCollector2.EventTotals,
+                                       null, null, null);
+                }
+                else if (_reportCollector1 != null && _reportCollector2 != null)
+                {
+                    generated = true;
+                    CsvExporter.Export(dlg.FileName,
+                                      _reportCollector1.TopicReports.First(), reportHeader1.getReportParams(false), _reportCollector1.EventTotals,
+                                      _reportCollector2.TopicReports.First(), reportHeader2.getReportParams(false), _reportCollector2.EventTotals);
+                }
+                var dirName = System.IO.Path.GetDirectoryName(dlg.FileName);
+                if (generated)
+                    try
+                    {
+                        Process.Start("explorer.exe", dirName);
+                    }
+                    catch (Exception) 
+                    {}
+            }
         }
     }
 }

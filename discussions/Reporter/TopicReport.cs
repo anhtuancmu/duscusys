@@ -54,15 +54,9 @@ namespace Reporter
             return uniqueParticipants.Count();
         }
 
-        public int GetNumParticipantsAmong2(List<int> amongUserIds) 
+        public int GetNumAccumulatedParticipantsAmong() 
         {
-            var res = new List<int>();
-
-            foreach (var usr in accumulatedParticipants)
-                if (amongUserIds.Contains(usr) && !res.Contains(usr))
-                    res.Add(usr);
-
-            return res.Count();
+            return accumulatedParticipants.Count; 
         }
     }
 }
