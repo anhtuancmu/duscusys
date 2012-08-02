@@ -73,6 +73,11 @@ namespace Discussions.RTModel.Operations
 
         DEditorReport = 33,
 
-        LinkReportRequest = 34
+        LinkReportRequest = 34,
+
+        //
+        // explanation mode 
+        //
+        BadgeViewRequest = 35
     }
 }

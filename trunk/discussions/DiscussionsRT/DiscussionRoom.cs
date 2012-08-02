@@ -134,6 +134,9 @@ namespace Discussions.RTModel
                         topicId = Serializers.ReadChangedTopicId(operationRequest.Parameters);
                         VectEditor(topicId).HandleLinkReportRequest(peer, operationRequest, sendParameters);
                         break;
+                case (byte)DiscussionOpCode.BadgeViewRequest:
+                        HandleBadgeView(peer, operationRequest, sendParameters);
+                        break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
                     break;
@@ -288,6 +291,14 @@ namespace Discussions.RTModel
         {                        
             Broadcast(peer, operationRequest, sendParameters,
                      (byte)DiscussionEventCode.StatsEvent, BroadcastTo.RoomAll);
+        }
+
+        void HandleBadgeView(LitePeer peer,
+                             OperationRequest operationRequest,
+                             SendParameters sendParameters)
+        {                        
+            Broadcast(peer, operationRequest, sendParameters,
+                     (byte)DiscussionEventCode.BadgeViewEvent, BroadcastTo.RoomExceptSelf);
         }
     }
 }
