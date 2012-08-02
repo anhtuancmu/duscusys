@@ -21,6 +21,7 @@ using Discussions.RTModel.Model;
 using Discussions.stats;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Win32;
+using System.Windows;
 
 namespace Reporter
 {   
@@ -52,6 +53,11 @@ namespace Reporter
             reportHeader2.ParamsChanged += Report2ParamsChanged;
         }
 
+        void copyToClipboard(string text)
+        {     
+            Clipboard.SetData(DataFormats.Text, text);            
+        }
+
         void Report1ParamsChanged(ReportParameters param)
         {
             if (param != null)
@@ -71,22 +77,22 @@ namespace Reporter
 
         TextBlock GetTopicSummary(TopicReport report, ReportParameters param,  bool total)
         {
-            var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\n";
+            var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\r\n";
 
             var nUsr = 0;
             if (total)
                 nUsr = report.GetNumAccumulatedParticipantsAmong();
             else
                 nUsr = report.GetNumParticipantsAmong(param.requiredUsers);
-            txt += "  No. of users: " + nUsr + "\n";
-            txt += "  No. of arg. points: " + report.numPoints + "\n";
-            txt += "  No. of arg. points with description: " + report.numPointsWithDescription + "\n";
-            txt += "  No. of media attachments: " + report.numMediaAttachments + "\n";
-            txt += "  No. of sources: " + report.numSources + "\n";
-            txt += "  No. of comments: " + report.numComments + "\n";
+            txt += "  No. of users: " + nUsr + "\r\n";
+            txt += "  No. of arg. points: " + report.numPoints + "\r\n";
+            txt += "  No. of arg. points with description: " + report.numPointsWithDescription + "\r\n";
+            txt += "  No. of media attachments: " + report.numMediaAttachments + "\r\n";
+            txt += "  No. of sources: " + report.numSources + "\r\n";
+            txt += "  No. of comments: " + report.numComments + "\r\n";
             if (!total)
-                txt += "  No. of clustered badges: " + report.numClusteredBadges + "\n";
-            txt += "  No. of clusters: " + report.numClusters + "\n";
+                txt += "  No. of clustered badges: " + report.numClusteredBadges + "\r\n";
+            txt += "  No. of clusters: " + report.numClusters + "\r\n";
             txt += "  No. of links: " + report.numLinks;
           
             var res = new TextBlock();
@@ -96,10 +102,10 @@ namespace Reporter
 
         TextBlock GetAttachmentsSummary(ReportCollector report)
         {
-            var txt = "<media summary>" + "\n";
-            txt += "No. of images " + report.NumImagesInSession + "\n";
-            txt += "No. of PDF "    + report.NumPdfInSession + "\n";
-            txt += "No. of screenshots " + report.NumScreenshotsInSession + "\n"; 
+            var txt = "<media summary>\r\n";
+            txt += "No. of images " + report.NumImagesInSession + "\r\n";
+            txt += "No. of PDF " + report.NumPdfInSession + "\r\n";
+            txt += "No. of screenshots " + report.NumScreenshotsInSession + "\r\n";
             txt += "No. of videos " + report.NumYoutubeInSession;
             return WrapText(txt);            
         }
@@ -375,10 +381,10 @@ namespace Reporter
 
         TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
         {
-            var txt = "  No. of points " + report.numPoints + "\n";
-            txt += "  No. of points with description " + report.numPointsWithDescriptions + "\n";
-            txt += "  No. of media attachments " + report.numMediaAttachments + "\n";
-            txt += "  No. of sources " + report.numSources + "\n";
+            var txt = "  No. of points " + report.numPoints + "\r\n";
+            txt += "  No. of points with description " + report.numPointsWithDescriptions + "\r\n";
+            txt += "  No. of media attachments " + report.numMediaAttachments + "\r\n";
+            txt += "  No. of sources " + report.numSources + "\r\n";
             txt += "  No. of comments " + report.numComments;
            
             var tb = new TextBlock();
@@ -419,10 +425,10 @@ namespace Reporter
 
         TreeViewItem GetAvgUserSummary(ArgArgPointReport report)
         {
-            var txt = "  No. of points " + report.numPoints + "\n";
-            txt += "  No. of points with description " + report.numPointsWithDescriptions + "\n";
-            txt += "  No. of media attachments " + report.numMediaAttachments + "\n";
-            txt += "  No. of sources " + report.numSources + "\n";
+            var txt = "  No. of points " + report.numPoints + "\r\n";
+            txt += "  No. of points with description " + report.numPointsWithDescriptions + "\r\n";
+            txt += "  No. of media attachments " + report.numMediaAttachments + "\r\n";
+            txt += "  No. of sources " + report.numSources + "\r\n";
             txt += "  No. of comments " + report.numComments;
 
             var tb = new TextBlock();
@@ -563,6 +569,78 @@ namespace Reporter
                     }
                     catch (Exception) 
                     {}
+            }
+        }
+
+        string getIndentStr(int offset)
+        {          
+            switch (offset)
+            {
+                case 0:
+                    return "";
+                case 1:
+                    return " ";
+                case 2:
+                    return "  ";
+                case 3:
+                    return  "   ";
+                case 4:
+                    return "    ";
+                case 5:
+                   return  "     ";
+            }
+            return "      ";
+        }
+
+        void buildTextTree(object root, StringBuilder sb, int offset)
+        {
+            if (root == null)
+                return;
+
+            var child = root as TextBlock;
+            if (child != null)
+            {
+                sb.AppendLine(getIndentStr(offset) + child.Text);
+                return;
+            }
+
+            var childTvi = root as TreeViewItem;
+            if (childTvi == null)
+                return;
+            
+            var skipSubtree = false;
+            var hdrStr = childTvi.Header as string;
+            if (hdrStr != null)
+            {
+                sb.AppendLine(getIndentStr(offset) + hdrStr);
+                if (hdrStr == "Links" || hdrStr == "Clusters")
+                    skipSubtree = true; 
+            }
+
+            var hdrStk = childTvi.Header as StackPanel;
+            if (hdrStk != null)
+            {
+                var muc = hdrStk.Children[0] as MiniUserUC;
+                if (muc != null)
+                {
+                    sb.AppendLine(getIndentStr(offset) + ((Person)muc.DataContext).Name);
+                }
+            }
+
+            if (skipSubtree)
+                return;
+
+            foreach (var c in childTvi.Items)
+                buildTextTree(c, sb, offset + 1);
+        }
+
+        private void MainWindow_KeyDown_1(object sender, KeyEventArgs e)
+        {           
+            if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))            
+            {
+                var sb = new StringBuilder();
+                buildTextTree(leftReportTree.SelectedItem, sb, 0);
+                copyToClipboard(sb.ToString());
             }
         }
     }

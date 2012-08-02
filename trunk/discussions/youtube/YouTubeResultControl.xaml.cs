@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
+using Discussions.webkit_host;
 
 namespace Discussions.YouViewer
 {
@@ -34,7 +35,6 @@ namespace Discussions.YouViewer
     {
         #region Data
         public event SelectedEventHandler SelectedEvent;
-        VideoWindow wnd = null;
         #endregion
 
         #region Ctor
@@ -71,19 +71,22 @@ namespace Discussions.YouViewer
                 SelectedEvent(this, e); 
             }
 
-            wnd = new VideoWindow();            
-            wnd.viewer.ClosedEvent += OnBrowserClosed;
-            wnd.viewer.Video = e.Info;
-            wnd.ShowDialog();            
+            //wnd = new VideoWindow();            
+            //wnd.viewer.ClosedEvent += OnBrowserClosed;
+            //wnd.viewer.Video = e.Info;
+            //wnd.ShowDialog();            
+
+            var browser = new WebKitFrm(e.Info.EmbedUrl);
+            browser.ShowDialog();
         }
 
         void OnBrowserClosed(object sender, EventArgs e)
         {
-            if (wnd != null)
-            {
-                wnd.Close();
-                wnd = null; 
-            }
+            //if (wnd != null)
+            //{
+            //    wnd.Close();
+            //    wnd = null; 
+            //}
         }
         #endregion
 
