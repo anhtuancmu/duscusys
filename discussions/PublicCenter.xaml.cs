@@ -352,6 +352,11 @@ namespace Discussions
             var clienRt = sharedClient.clienRt;
             if (clienRt == null)
                 return;
+
+            if (doSet)
+                clienRt.onBadgeViewRequest += __badgeViewEvent;
+            else
+                clienRt.onBadgeViewRequest -= __badgeViewEvent;
         }
 
         void ForgetDBDiscussionState()
@@ -627,6 +632,21 @@ namespace Discussions
         #region large badge view management
         LargeBadgeView _lbv = null;
         bool blockWorkingAreaTransforms = false;
+
+        void __badgeViewEvent(BadgeViewMessage bv)
+        {         
+            if(!btnExplanationMode.IsChecked.HasValue || !btnExplanationMode.IsChecked.Value)
+                return;
+
+            if (bv.doExpand)
+            {
+                ShowLargeBadgeView(CtxSingleton.Get().ArgPoint.FirstOrDefault(ap0 => ap0.Id == bv.argPointId));
+            }
+            else
+            {
+                HideLargeBadgeView();
+            }
+        }
         void LargeRequest(object sender, RoutedEventArgs e)
         {
             var badge = e.OriginalSource as Badge4;
@@ -639,10 +659,12 @@ namespace Discussions
                                                             SessionInfo.Get().discussion.Id,
                                                             topicNavPanel.selectedTopic.Id,
                                                             DeviceType.Wpf);
+            UISharedRTClient.Instance.clienRt.SendBadgeViewRequest((badge.DataContext as ArgPoint).Id, true);
         }
         void ShrinkRequest(object sender, RoutedEventArgs e)
         {
             HideLargeBadgeView();
+            UISharedRTClient.Instance.clienRt.SendBadgeViewRequest(-1, false);
         }
         void ShowLargeBadgeView(ArgPoint ap)
         {
@@ -673,5 +695,9 @@ namespace Discussions
             _lbv = null;
         }
         #endregion
+
+        private void btnExplanationMode_Click_1(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

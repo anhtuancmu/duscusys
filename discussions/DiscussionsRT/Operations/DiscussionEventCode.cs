@@ -56,6 +56,12 @@ namespace Discussions.RTModel.Operations
 
         ClusterStatsEvent = 24,
 
-        LinkStatsEvent = 25
+        LinkStatsEvent = 25,
+
+
+        //
+        // explanation mode 
+        //
+        BadgeViewEvent = 26 
     }
 }

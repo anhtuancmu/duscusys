@@ -125,7 +125,10 @@
 
     	<StackPanel Orientation="Horizontal" Grid.Row="1" d:LayoutOverrides="Height" 
 					VerticalAlignment="Bottom" HorizontalAlignment="Right">			
-			<s:SurfaceToggleButton x:Name="btnToggleShapes" Click="btnToggleShapes_Click" Background="{x:Null}">
+            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="{x:Null}">
+                <Border Background="{StaticResource explanation}" Width="70" Height="70"/>
+            </s:SurfaceToggleButton>
+            <s:SurfaceToggleButton x:Name="btnToggleShapes" Click="btnToggleShapes_Click" Background="{x:Null}">
 				<Border Background="{StaticResource annotations}" Width="70" Height="70"/>
 			</s:SurfaceToggleButton>
 			<s:SurfaceButton x:Name="btnToPrivate" Background="{x:Null}" Click="btnGoPrivate_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" Padding="6,2,10,8" Margin="1,5,1,1">  				  		

@@ -211,6 +211,7 @@
                 </Style.BasedOn>
             </Style>
 
+            <ImageBrush x:Key="explanation" ImageSource="Resources/profile_group.png" Stretch="Uniform"/>
             <ImageBrush x:Key="keyboard" ImageSource="Resources/keyboard.png" Stretch="Uniform"/> 
             <ImageBrush x:Key="save" ImageSource="Resources/save.png" Stretch="Uniform"/>
             <ImageBrush x:Key="eraser" ImageSource="Resources/eraser.png" Stretch="Uniform"/>
