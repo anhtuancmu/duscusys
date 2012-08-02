@@ -9,6 +9,7 @@
 		xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" 
         mc:Ignorable="d" 
         x:Class="Reporter.MainWindow"
+        KeyDown="MainWindow_KeyDown_1"
         Title="Discusys reporting" Height="613" Width="835" Background="#FF858585" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -62,7 +63,7 @@
                 <TextBlock Text=" "/>
 				<TextBlock x:Name="txtLastSync" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="" Foreground="White"/>    
 			</StackPanel>
-			<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="version 0.4" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Foreground="White"/>
+			<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="version 0.5" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Foreground="White"/>
 		</Grid>
        
         <s:SurfaceScrollViewer Grid.Row="2"  Grid.Column="1" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">

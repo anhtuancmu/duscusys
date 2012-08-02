@@ -36,7 +36,7 @@ namespace Discussions
                 return _pdfIcon;
             }
         }
-
+      
         //recognizes format of attachment by URL's structure
         public static AttachCmd DeriveCmdFromUrl(string Url)
         {
@@ -270,7 +270,7 @@ namespace Discussions
                     return null;
 
                 res.Format = (int)AttachmentFormat.Youtube;
-                res.VideoEmbedURL = videoInfo.EmbedUrl;
+                res.VideoEmbedURL = videoInfo.EmbedUrl; 
                 res.VideoThumbURL = videoInfo.ThumbNailUrl;
                 res.VideoLinkURL = videoInfo.LinkUrl;
                 res.Link = videoInfo.LinkUrl;

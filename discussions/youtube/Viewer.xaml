@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    Height="600" Width="800" Name="controlVideo">
+    Width="800" Height="600"
+    Name="controlVideo">
    
-
     <UserControl.Resources>
 
         <!--<Storyboard x:Key="OnMouseEnter">
