@@ -57,5 +57,9 @@ namespace Discussions.model
         ScreenshotOpened, //done 33
         PdfOpened,        //done 34
         SourceOpened,     //done 35
+
+        //this event is only for internal use in WPF client.
+        //such events are never sent to photon
+        LocalIgnorableEvent // 36
     }
 }

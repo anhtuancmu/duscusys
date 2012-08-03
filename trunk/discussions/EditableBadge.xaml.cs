@@ -429,7 +429,7 @@ namespace Discussions
                 case AttachmentFormat.Youtube:
                     return StEvent.YoutubeAdded;
                 default:
-                    throw new NotSupportedException();
+                    return StEvent.LocalIgnorableEvent;
             }
         }
 

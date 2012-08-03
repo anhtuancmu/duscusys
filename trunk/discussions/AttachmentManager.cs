@@ -36,6 +36,49 @@ namespace Discussions
                 return _pdfIcon;
             }
         }
+
+        static BitmapImage _excelIcon = null;
+        public static BitmapImage ExcelIcon
+        {
+            get
+            {
+                if (_excelIcon == null)
+                {
+                    _excelIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/ExcelIcon.png"));
+                }
+
+                return _excelIcon;
+            }
+        }
+
+        static BitmapImage _wordIcon = null;
+        public static BitmapImage WordIcon
+        {
+            get
+            {
+                if (_wordIcon == null)
+                {
+                    _wordIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/WordIcon.png"));
+                }
+
+                return _wordIcon;
+            }
+        }
+
+        static BitmapImage _powerPointIcon = null;
+        public static BitmapImage PowerPointIcon
+        {
+            get
+            {
+                if (_powerPointIcon == null)
+                {
+                    _powerPointIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/PowerPointIcon.png"));
+                }
+
+                return _powerPointIcon;
+            }
+        }
+
       
         //recognizes format of attachment by URL's structure
         public static AttachCmd DeriveCmdFromUrl(string Url)
@@ -70,6 +113,12 @@ namespace Discussions
                         return LoadImageFromBlob(a.Thumb);
                     else
                         return PdfIcon;
+                case (int)AttachmentFormat.ExcelDocSet:
+                    return ExcelIcon;
+                case (int)AttachmentFormat.WordDocSet:
+                    return WordIcon;
+                case (int)AttachmentFormat.PowerPointDocSet:
+                    return PowerPointIcon;
                 case (int)AttachmentFormat.Jpg:
                 case (int)AttachmentFormat.Png:
                 case (int)AttachmentFormat.PngScreenshot:
@@ -116,7 +165,7 @@ namespace Discussions
                 switch (cmd)
                 {
                     case AttachCmd.ATTACH_IMG_OR_PDF:
-                        a = AttachmentManager.AttachPictureOrPdf(Point);
+                        a = AttachmentManager.AttachLocalFile(Point);
                         if (a != null)
                             return GetAttachmentBitmap3(a);
                         break;
@@ -168,17 +217,27 @@ namespace Discussions
 
         public static Attachment AttachPicture(ArgPoint Point)
         {
-            return AttachAsBlob("Graphics |*.jpg;*.jpeg;*.bmp;*.png", Point);
+            return AttachAsBlob("Graphics |*.jpg;*.jpeg;*.bmp;*.png", AttachmentFormat.None, true, Point);
         }
 
         public static Attachment AttachPDF(ArgPoint Point)
         {
-            return AttachAsBlob("PDF |*.pdf", Point);
+            return AttachAsBlob("PDF |*.pdf", AttachmentFormat.Pdf, true, Point);
         }
 
-        public static Attachment AttachPictureOrPdf(ArgPoint Point)
+        public static Attachment AttachLocalFile(ArgPoint Point)
         {
-            return AttachAsBlob("Graphics or PDF |*.jpg;*.jpeg;*.bmp;*.png;*.pdf", Point);
+            var filterSb = new StringBuilder();
+            filterSb.Append("Local file|");
+            filterSb.Append("*.jpg;*.jpeg;*.bmp;*.png;");
+            filterSb.Append("*.docx;*.docm;*.dotx;*.dotm;*.doc;*.rtf;*.odt;");
+            filterSb.Append("*.xlsx;*.xlsm;*.xlsb;*.xltx;*.xltm;*.xls;*.xlt");
+            filterSb.Append("*.pptx;*.ppt;*.pptm;*.ppsx;*.pps;*.potx;*.pot*;*.potm;*.odp");
+
+            return AttachAsBlob(filterSb.ToString(), 
+                                AttachmentFormat.None, 
+                                true, 
+                                Point);
         }
 
         //if URL==null, shows URL input dialog. else uses provided URL, no dialog
@@ -235,7 +294,7 @@ namespace Discussions
             Attachment res = new Attachment();
             res.Name = UrlToUse;
             res.Format = (int)AttachmentFormat.Pdf;
-            res.MediaData = DaoUtils.CreateMediaData(PdfFileToBytes(tmpFile));
+            res.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(tmpFile));
             res.Title = "";
             res.Thumb = TryCreatePdfThumb(tmpFile);
             res.Link = Url;
@@ -341,7 +400,50 @@ namespace Discussions
             }
         }
 
-        static Attachment AttachAsBlob(string filter, ArgPoint Point)
+        static Dictionary<string, AttachmentFormat> extToFmt = null;
+        static AttachmentFormat GetImgFmt(string pathName)
+        {
+            if (extToFmt == null)
+            {
+                extToFmt = new Dictionary<string, AttachmentFormat>();
+                extToFmt.Add(".jpg", AttachmentFormat.Jpg);
+                extToFmt.Add(".jpeg", AttachmentFormat.Jpg);
+                extToFmt.Add(".bmp", AttachmentFormat.Bmp);
+                extToFmt.Add(".png", AttachmentFormat.Png);
+                extToFmt.Add(".pdf", AttachmentFormat.Pdf);
+
+                extToFmt.Add(".docx", AttachmentFormat.WordDocSet);
+                extToFmt.Add(".docm", AttachmentFormat.WordDocSet);
+                extToFmt.Add(".dotx", AttachmentFormat.WordDocSet);
+                extToFmt.Add(".dotm", AttachmentFormat.WordDocSet);
+                extToFmt.Add(".doc", AttachmentFormat.WordDocSet);
+                extToFmt.Add(".rtf", AttachmentFormat.WordDocSet);
+                extToFmt.Add(".odt", AttachmentFormat.WordDocSet);
+
+                extToFmt.Add(".xlsx", AttachmentFormat.ExcelDocSet);
+                extToFmt.Add(".xlsm", AttachmentFormat.ExcelDocSet);
+                extToFmt.Add(".xlsb", AttachmentFormat.ExcelDocSet);
+                extToFmt.Add(".xltx", AttachmentFormat.ExcelDocSet);
+                extToFmt.Add(".xltm", AttachmentFormat.ExcelDocSet);
+                extToFmt.Add(".xls", AttachmentFormat.ExcelDocSet);
+                extToFmt.Add(".xlt", AttachmentFormat.ExcelDocSet);
+
+                extToFmt.Add(".pptx", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".ppt", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".pptm", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".ppsx", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".pps", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".ppsm", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".potx", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".pot", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".potm", AttachmentFormat.PowerPointDocSet);
+                extToFmt.Add(".odp", AttachmentFormat.PowerPointDocSet);
+            }
+            var ext = Path.GetExtension(pathName).ToLower();
+            return extToFmt[ext];
+        }
+
+        static Attachment AttachAsBlob(string filter, AttachmentFormat format, bool autoInferenceOfFormat, ArgPoint Point)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -353,46 +455,42 @@ namespace Discussions
                 string attachmentName = Path.GetFileName(openFileDialog1.FileName);
                 
                 Attachment a = new Attachment();
-                a.Name = attachmentName;
+                a.Name  = attachmentName;
                 a.Title = attachmentName; 
-                a.Link = openFileDialog1.FileName;                
-                switch (Path.GetExtension(a.Name).ToLower())
+                a.Link  = openFileDialog1.FileName;
+
+                if (autoInferenceOfFormat)
+                    format = GetImgFmt(openFileDialog1.FileName);
+                switch (format)
                 {
-                    case ".pdf":
-                        a.MediaData = DaoUtils.CreateMediaData(PdfFileToBytes(openFileDialog1.FileName));                       
-                        a.Thumb = TryCreatePdfThumb(openFileDialog1.FileName);
-                        a.Format = (int)AttachmentFormat.Pdf;
+                    case AttachmentFormat.Pdf:
+                        a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));                       
+                        a.Thumb = TryCreatePdfThumb(openFileDialog1.FileName);                        
                         break;
-                    case ".jpg":
-                        a.Format = (int)AttachmentFormat.Jpg;
+                    case AttachmentFormat.Jpg:                        
+                        a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
+                        break;                 
+                    case AttachmentFormat.Png:                        
                         a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
                         break;
-                    case ".jpeg":
-                        a.Format = (int)AttachmentFormat.Jpg;
+                    case AttachmentFormat.Bmp:                       
                         a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
                         break;
-                    case ".png":
-                        a.Format = (int)AttachmentFormat.Png;
-                        a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
+                    case AttachmentFormat.ExcelDocSet:
+                        a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));
                         break;
-                    case ".bmp":
-                        a.Format = (int)AttachmentFormat.Bmp;
-                        a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
+                    case AttachmentFormat.WordDocSet:
+                        a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));
+                        break;
+                    case AttachmentFormat.PowerPointDocSet:
+                        a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));
                         break;
                 }
+                a.Format = (int)format;
                 a.Name = attachmentName;
 
-                if (Point != null)
-                {
-                    //todo: it's ok for multiple attachments
-                    //if (Point.Attachment.Count > 0)
-                    //    Point.Attachment.Clear();
-
-                    Point.Attachment.Add(a);
-                }
-
-                // var ctx = CtxSingleton.Get();                
-                //ctx.SaveChanges();
+                if (Point != null)               
+                    Point.Attachment.Add(a);                
 
                 return a;
             }
@@ -440,7 +538,7 @@ namespace Discussions
             return bmp;
         }
 
-        static byte[] PdfFileToBytes(string PathName)
+        static byte[] AnyFileToBytes(string PathName)
         {
             using (FileStream fs = new FileStream(PathName, FileMode.Open, FileAccess.Read))
             {
@@ -514,13 +612,31 @@ namespace Discussions
             }
             else if (MiniAttachmentManager.IsGraphicFormat(a))
             {
-                if(a.Format== (int)AttachmentFormat.PngScreenshot)
+                if (a.Format == (int)AttachmentFormat.PngScreenshot)
                     Utils.ReportMediaOpened(StEvent.ScreenshotOpened, a);
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
                 ImageWindow wnd = new ImageWindow();
                 wnd.img.Source = img.Source;
                 wnd.Show();
+            }
+            else
+            {
+                //office file
+                var ext = Path.GetExtension(a.Link).ToLower();
+                string pathName = Utils.RandomFilePath(ext);
+                try
+                {
+                    using (var fs = new FileStream(pathName, FileMode.Create))
+                    {
+                        fs.Write(a.MediaData.Data, 0, a.MediaData.Data.Length);
+                    }
+                    Process.Start(pathName);                  
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
