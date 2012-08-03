@@ -62,6 +62,8 @@ namespace Discussions.RTModel.Operations
         //
         // explanation mode 
         //
-        BadgeViewEvent = 26 
+        BadgeViewEvent = 26,
+            
+        SourceViewEvent = 27
     }
 }

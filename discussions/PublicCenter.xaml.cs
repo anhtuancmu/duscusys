@@ -33,6 +33,7 @@ using DistributedEditor;
 using System.Windows.Input.Manipulations;
 using System.ComponentModel;
 using LoginEngine;
+using Discussions.webkit_host;
 
 
 namespace Discussions
@@ -103,7 +104,7 @@ namespace Discussions
         Discussions.Main.OnDiscFrmClosing _closing;
 
         DispatcherTimer stopWatchTimer = null;
-
+        
         public PublicCenter(UISharedRTClient sharedClient,
                             Discussions.Main.OnDiscFrmClosing closing)
         {
@@ -357,6 +358,16 @@ namespace Discussions
                 clienRt.onBadgeViewRequest += __badgeViewEvent;
             else
                 clienRt.onBadgeViewRequest -= __badgeViewEvent;
+
+            if (doSet)
+                clienRt.onSourceViewRequest += __sourceView;
+            else
+                clienRt.onSourceViewRequest -= __sourceView;
+
+            if (doSet)
+                WebKitFrm.userRequestedClosing += localUserRequestedClosing;
+            else
+                WebKitFrm.userRequestedClosing -= localUserRequestedClosing;
         }
 
         void ForgetDBDiscussionState()
@@ -696,8 +707,44 @@ namespace Discussions
         }
         #endregion
 
-        private void btnExplanationMode_Click_1(object sender, RoutedEventArgs e)
+
+        #region explanation mode browser
+        void sourceView(object sender, RoutedEventArgs e)
         {
+            //some source already opened locally, notify all other clients
+            
+            var sourceUC = e.OriginalSource as SourceUC;
+            if (sourceUC == null)
+                return;
+
+            var src = sourceUC.DataContext as Source;
+            if (src == null)
+                return;            
+
+            UISharedRTClient.Instance.clienRt.SendSourceViewRequest(src.Text, true);                                                         
         }
+
+        //local source viewer is about to close 
+        void localUserRequestedClosing()
+        {
+            UISharedRTClient.Instance.clienRt.SendSourceViewRequest("http://google.com", false);           
+        }
+
+        void __sourceView(SourceViewMessage sv)
+        {
+            if (!btnExplanationMode.IsChecked.HasValue || !btnExplanationMode.IsChecked.Value)
+                return;
+
+            if (sv.doExpand)
+            {
+                var browser = new WebKitFrm(sv.url);
+                browser.Show();
+            }
+            else
+            {
+                WebKitFrm.EnsureInstanceClosed();
+            }
+        }
+        #endregion explanation mode browser
     }
 }

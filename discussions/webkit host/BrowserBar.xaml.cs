@@ -19,7 +19,8 @@ namespace Discussions.webkit_host
     {
         public WebKit.WebKitBrowser Browser{get;set;}
         public Form WinForm { get; set; }
-        
+
+
         public BrowserBar()
         {
             InitializeComponent();

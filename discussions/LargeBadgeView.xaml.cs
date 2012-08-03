@@ -534,5 +534,6 @@ namespace Discussions
             //update locally 
             ///ArgPointChanged(ap.Id, ap.Topic.Id, PointChangedType.Modified);
         }
+
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="Model\ClusterStatsRequest.cs" />
     <Compile Include="Model\ClusterStatsResponse.cs" />
     <Compile Include="Model\BadgeViewMessage.cs" />
+    <Compile Include="Model\SourceViewMessage.cs" />
     <Compile Include="Model\LinkHeadType.cs" />
     <Compile Include="Model\LinkReportRequest.cs" />
     <Compile Include="Model\DEditorStatsResponse.cs" />

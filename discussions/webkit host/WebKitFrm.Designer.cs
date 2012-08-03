@@ -70,6 +70,8 @@
             this.Text = "Web viewer";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WebKitFrm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WebKitFrm_FormClosed);
             this.Load += new System.EventHandler(this.WebKitFrm_Load);
             this.ResumeLayout(false);
 

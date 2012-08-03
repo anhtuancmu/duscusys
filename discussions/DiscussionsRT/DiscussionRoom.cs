@@ -137,6 +137,9 @@ namespace Discussions.RTModel
                 case (byte)DiscussionOpCode.BadgeViewRequest:
                         HandleBadgeView(peer, operationRequest, sendParameters);
                         break;
+                case (byte)DiscussionOpCode.SourceViewRequest:
+                        HandleSourceView(peer, operationRequest, sendParameters);
+                        break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
                     break;
@@ -300,5 +303,13 @@ namespace Discussions.RTModel
             Broadcast(peer, operationRequest, sendParameters,
                      (byte)DiscussionEventCode.BadgeViewEvent, BroadcastTo.RoomExceptSelf);
         }
+
+        void HandleSourceView(LitePeer peer,
+                             OperationRequest operationRequest,
+                             SendParameters sendParameters)
+        {                                    
+            Broadcast(peer, operationRequest, sendParameters,
+                     (byte)DiscussionEventCode.SourceViewEvent, BroadcastTo.RoomExceptSelf);
+        }        
     }
 }

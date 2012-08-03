@@ -73,5 +73,7 @@ namespace Discussions.RTModel.Operations
         ClusterCaption2 = 54,
         LinkHeadTypeKey = 55,
         ClusterId2 = 56,
+
+        StringKey = 57
     }
 }

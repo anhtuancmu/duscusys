@@ -73,6 +73,7 @@
     <Compile Include="ArgPointReport.cs" />
     <Compile Include="ClusterReport.cs" />
     <Compile Include="ArgArgPointReport.cs" />
+    <Compile Include="EventUserReport.cs" />
     <Compile Include="CsvExporter.cs" />
     <Compile Include="EventTotalsReport.cs" />
     <Compile Include="ItemsPanelOrientationConverter.cs" />
