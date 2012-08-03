@@ -560,6 +560,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
+            if (e == StEvent.LocalIgnorableEvent)
+                return;
+
             var par = Serializers.WriteStatEventParams(e, userId, discussionId, topicId, devType);
             peer.OpCustom((byte)DiscussionOpCode.StatsEvent, par, true);
         }

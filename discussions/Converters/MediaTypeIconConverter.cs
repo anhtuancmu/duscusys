@@ -29,7 +29,13 @@ namespace Discussions
                 case AttachmentFormat.Pdf:
                     return Application.Current.TryFindResource("book");
                 case AttachmentFormat.Youtube:
-                    return Application.Current.TryFindResource("ytIcon");                                     
+                    return Application.Current.TryFindResource("ytIcon");
+                case AttachmentFormat. WordDocSet:
+                    return Application.Current.TryFindResource("msOffice");
+                case AttachmentFormat.PowerPointDocSet:
+                    return Application.Current.TryFindResource("msOffice");
+                case AttachmentFormat.ExcelDocSet:
+                    return Application.Current.TryFindResource("msOffice");
             }
 
             return null;

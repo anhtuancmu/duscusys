@@ -211,6 +211,10 @@
                 </Style.BasedOn>
             </Style>
 
+            <ImageBrush x:Key="msOffice" ImageSource="Resources/office.png" Stretch="Uniform"/>
+            <ImageBrush x:Key="msWord" ImageSource="Resources/WordIcon.png" Stretch="Uniform"/>
+            <ImageBrush x:Key="msPowerPoint" ImageSource="Resources/PowerpointIcon.png" Stretch="Uniform"/>
+            <ImageBrush x:Key="msExcel" ImageSource="Resources/ExcelIcon.png" Stretch="Uniform"/>   
             <ImageBrush x:Key="explanation" ImageSource="Resources/profile_group.png" Stretch="Uniform"/>
             <ImageBrush x:Key="keyboard" ImageSource="Resources/keyboard.png" Stretch="Uniform"/> 
             <ImageBrush x:Key="save" ImageSource="Resources/save.png" Stretch="Uniform"/>
