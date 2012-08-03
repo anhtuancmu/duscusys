@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="http://schemas.microsoft.com/surface/2008"
         xmlns:local="clr-namespace:Discussions" 
+        xmlns:browser="clr-namespace:Discussions.webkit_host"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:dedit="clr-namespace:DistributedEditor" 
@@ -52,7 +53,8 @@
 
     <Grid x:Name="mainGrid" ClipToBounds="False" 
           local:Badge4.RequestLargeView="LargeRequest"
-          local:LargeBadgeView.RequestSmallView="ShrinkRequest">
+          local:LargeBadgeView.RequestSmallView="ShrinkRequest"
+          local:SourceUC.SourceView="sourceView">
         <Grid.Resources>
             <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}">
                 <Setter Property="MinHeight" Value="70"/>

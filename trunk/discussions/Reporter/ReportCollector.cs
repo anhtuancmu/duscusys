@@ -108,6 +108,22 @@ namespace Reporter
                 _statsEvents = value;
             }
         }
+
+        Dictionary<int, EventUserReport> perUserEventReport = new Dictionary<int, EventUserReport>();
+        public IEnumerable<EventUserReport> PerUserEventReport
+        {
+            get
+            {
+                return perUserEventReport.Values;
+            }
+        }
+        public Dictionary<int, EventUserReport> PerUserEventReportDict
+        {
+            get
+            {
+                return perUserEventReport;
+            }
+        }
         
         //user id to arg point reports of the user, grouped by topic
         Dictionary<int, List<ArgPointReport>> _argPointReports = new Dictionary<int, List<ArgPointReport>>();
@@ -585,6 +601,25 @@ namespace Reporter
 
                 StatsEvents.Add(e);
                 EventTotals.CountEvent((StEvent)e.Event, e.Id); 
+
+                //count per user stats 
+                if (e.UserId != -1)
+                {
+                    if (perUserEventReport.ContainsKey(e.UserId))
+                        perUserEventReport[e.UserId].CountEvent((StEvent)e.Event, e.Id);
+                    else
+                    {
+                        var report = new EventUserReport();
+                        report.personId = e.UserId;
+                        perUserEventReport.Add(e.UserId, report);
+                        report.CountEvent((StEvent)e.Event, e.Id);
+                    }
+                }
+            }
+            
+            foreach (var e in PerUserEventReport)
+            {
+                e.person = _ctx.Person.FirstOrDefault(p0 => p0.Id == e.personId);
             }
         }
     }

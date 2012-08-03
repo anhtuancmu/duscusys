@@ -67,6 +67,15 @@ namespace Discussions
             remove { RemoveHandler(SourceRemovedEvent, value); }
         }
 
+        public static readonly RoutedEvent SourceViewEvent = EventManager.RegisterRoutedEvent(
+         "SourceView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SourceUC));
+
+        public event RoutedEventHandler SourceView
+        {
+            add { AddHandler(SourceViewEvent, value); }
+            remove { RemoveHandler(SourceViewEvent, value); }
+        }
+
         public string TruncatedLink
         {
             get
@@ -137,7 +146,9 @@ namespace Discussions
                     //System.Diagnostics.Process.Start(src.Text);    
 
                     Utils.ReportMediaOpened(StEvent.SourceOpened, src.RichText.ArgPoint);
-            
+
+                    RaiseEvent(new RoutedEventArgs(SourceViewEvent));
+
                     var browser = new WebKitFrm(src.Text);
                     browser.ShowDialog();
                 }

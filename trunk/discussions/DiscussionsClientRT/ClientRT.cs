@@ -55,6 +55,9 @@ namespace DiscussionsClientRT
         public delegate void OnBadgeViewRequest(BadgeViewMessage bv);
         public OnBadgeViewRequest onBadgeViewRequest;
 
+        public delegate void OnSourceViewRequest(SourceViewMessage sv);
+        public OnSourceViewRequest onSourceViewRequest;
+
         #region vector editor
 
         public delegate void OnLinkCreateEvent(LinkCreateMessage ev);
@@ -324,6 +327,10 @@ namespace DiscussionsClientRT
                 case (byte)DiscussionEventCode.BadgeViewEvent:
                     if (onBadgeViewRequest != null)
                         onBadgeViewRequest(BadgeViewMessage.Read(eventData.Parameters));
+                    break;
+                case (byte)DiscussionEventCode.SourceViewEvent:
+                    if (onSourceViewRequest != null)
+                        onSourceViewRequest(SourceViewMessage.Read(eventData.Parameters));
                     break;
                 default:
                     Console.WriteLine("Unhandled event " + eventData.Code);
@@ -727,6 +734,16 @@ namespace DiscussionsClientRT
 
             peer.OpCustom((byte)DiscussionOpCode.BadgeViewRequest,
                            BadgeViewMessage.Write(argPointId, doExpand),
+                           true);
+        }
+
+        public void SendSourceViewRequest(string url, bool doExpand)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.SourceViewRequest,
+                           SourceViewMessage.Write(url, doExpand),
                            true);
         }
     }

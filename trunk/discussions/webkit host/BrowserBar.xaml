@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="http://schemas.microsoft.com/surface/2008"
              mc:Ignorable="d" 
-             Background="#66292929" 
+             Background="#66292929"              
              d:DesignHeight="295" d:DesignWidth="674">
     <Grid>
         <Grid.ColumnDefinitions>

@@ -244,6 +244,116 @@ namespace Reporter
             return WrapText(sb.ToString());            
         }
 
+        TextBlock GetUserEventTotals(EventUserReport eTotals)
+        {           
+            var sb = new StringBuilder();
+            sb.AppendLine("<user event totals>");
+
+            sb.Append("no. arg.point changed "); 
+            sb.AppendLine(eTotals.TotalArgPointTopicChanged.ToString());
+
+            sb.Append("no. badge created ");
+            sb.AppendLine(eTotals.TotalBadgeCreated.ToString());
+          
+            sb.Append("no. badge edited ");
+            sb.AppendLine(eTotals.TotalBadgeEdited.ToString());
+         
+            sb.Append("no. badge moved ");
+            sb.AppendLine(eTotals.TotalBadgeMoved.ToString());
+           
+            sb.Append("no. badge zoom in ");
+            sb.AppendLine(eTotals.TotalBadgeZoomIn.ToString());
+
+            sb.Append("no. cluster created ");
+            sb.AppendLine( eTotals.TotalClusterCreated.ToString());
+
+            sb.Append("no. cluster deleted ");
+            sb.AppendLine(eTotals.TotalClusterDeleted.ToString());
+
+            sb.Append("no. cluster-in ");
+            sb.AppendLine(eTotals.TotalClusterIn.ToString());
+
+            sb.Append("no. cluster moved ");
+            sb.AppendLine(eTotals.TotalClusterMoved.ToString());
+
+            sb.Append("no. cluster-out ");
+            sb.AppendLine(eTotals.TotalClusterOut.ToString());
+
+            sb.Append("no. comment added ");
+            sb.AppendLine(eTotals.TotalCommentAdded.ToString());
+
+            sb.Append("no. comment removed ");
+            sb.AppendLine(eTotals.TotalCommentRemoved.ToString());
+
+            sb.Append("no. free drawing created ");
+            sb.AppendLine(eTotals.TotalFreeDrawingCreated.ToString());
+
+            sb.Append("no. free drawing moved ");
+            sb.AppendLine(eTotals.TotalFreeDrawingMoved.ToString());
+
+            sb.Append("no. free drawing removed ");
+            sb.AppendLine(eTotals.TotalFreeDrawingRemoved.ToString());
+
+            sb.Append("no. free drawing resize ");
+            sb.AppendLine(eTotals.TotalFreeDrawingResize.ToString());
+
+            sb.Append("no. image added ");
+            sb.AppendLine(eTotals.TotalImageAdded.ToString());
+
+            sb.Append("no. image opened ");
+            sb.AppendLine(eTotals.TotalImageOpened.ToString());
+
+            sb.Append("no. image url added ");
+            sb.AppendLine(eTotals.TotalImageUrlAdded.ToString());
+
+            sb.Append("no. link created ");
+            sb.AppendLine(eTotals.TotalLinkCreated.ToString());
+
+            sb.Append("no. link removed ");
+            sb.AppendLine(eTotals.TotalLinkRemoved.ToString());
+
+            sb.Append("no. media removed ");
+            sb.AppendLine(eTotals.TotalMediaRemoved.ToString());
+
+            sb.Append("no. PDF added ");
+            sb.AppendLine(eTotals.TotalPdfAdded.ToString());
+
+            sb.Append("no. PDF opened ");
+            sb.AppendLine(eTotals.TotalPdfOpened.ToString());
+
+            sb.Append("no. PDF url added ");
+            sb.AppendLine(eTotals.TotalPdfUrlAdded.ToString());
+
+            sb.Append("no. source added ");
+            sb.AppendLine(eTotals.TotalSourceAdded.ToString());
+
+            sb.Append("no. source opened ");
+            sb.AppendLine(eTotals.TotalSourceOpened.ToString());
+
+            sb.Append("no. source removed ");
+            sb.AppendLine(eTotals.TotalSourceRemoved.ToString());
+
+            sb.Append("no. video opened ");
+            sb.AppendLine(eTotals.TotalVideoOpened.ToString());
+
+            sb.Append("no. video added ");
+            sb.AppendLine(eTotals.TotalYoutubeAdded.ToString());
+
+            sb.Append("no. scene zoom in ");
+            sb.AppendLine(eTotals.TotalSceneZoomedIn.ToString());
+
+            sb.Append("no. scene zoom out ");
+            sb.AppendLine(eTotals.TotalSceneZoomedOut.ToString());
+
+            sb.Append("no. screenshot added ");
+            sb.AppendLine(eTotals.TotalScreenshotAdded.ToString());
+
+            sb.Append("no. screenshot opened ");
+            sb.AppendLine(eTotals.TotalScreenshotOpened.ToString());
+
+            return WrapText(sb.ToString());            
+        }
+
         TreeViewItem GetCluster(ClusterReport report)
         {
             var res = new TreeViewItem();
@@ -407,7 +517,7 @@ namespace Reporter
             return tvi;
         }
 
-        TreeViewItem GetUserSummary(List<ArgPointReport> reportsOfUser)
+        TreeViewItem GetUserSummary(List<ArgPointReport> reportsOfUser, EventUserReport eventUserReport)
         {
             var res = new TreeViewItem();
             string usrName = "";
@@ -415,8 +525,11 @@ namespace Reporter
             {
                 res.Items.Add(GetUserOneTopicSummary(apReport,false));
                 if (apReport.user != null)
-                    usrName = apReport.user.Name;
+                    usrName = apReport.user.Name;              
             }
+
+            if (eventUserReport != null)
+                res.Items.Add(GetUserEventTotals(eventUserReport));
 
             res.Header = "User summary for " + usrName;
 
@@ -485,7 +598,15 @@ namespace Reporter
 
             usersNode.Items.Clear();
             foreach (var report in sender.ArgPointReports.Values)
-                usersNode.Items.Add(GetUserSummary(report));
+            {
+                EventUserReport eventReport = null;
+                if (report.Count > 0)
+                {
+                    eventReport = sender.PerUserEventReportDict.ContainsKey(report.First().user.Id) ?
+                                             sender.PerUserEventReportDict[report.First().user.Id] : null;
+                }              
+                usersNode.Items.Add(GetUserSummary(report, eventReport));
+            }
 
             //eventsNode.Items.Clear();
             //foreach (var ev in sender.StatsEvents)
@@ -639,9 +760,20 @@ namespace Reporter
             if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))            
             {
                 var sb = new StringBuilder();
-                buildTextTree(leftReportTree.SelectedItem, sb, 0);
+                buildTextTree(recentlySelectedLeftTree ? leftReportTree.SelectedItem : rightReportTree.SelectedItem, sb, 0);
                 copyToClipboard(sb.ToString());
             }
+        }
+
+        bool recentlySelectedLeftTree = false;
+        private void leftReportTree_SelectedItemChanged_1(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
+            recentlySelectedLeftTree = true;
+        }
+
+        private void rightReportTree_SelectedItemChanged_1(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
+            recentlySelectedLeftTree = false;
         }
     }
 }

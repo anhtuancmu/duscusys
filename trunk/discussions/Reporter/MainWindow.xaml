@@ -33,7 +33,7 @@
         </StackPanel>
 
         <s:SurfaceScrollViewer Grid.Row="2" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">
-            <TreeView Name="leftReportTree" Background="LightGray" FontSize="21.333">
+            <TreeView Name="leftReportTree" Background="LightGray" FontSize="21.333" SelectedItemChanged="leftReportTree_SelectedItemChanged_1">
                 <TreeView.Resources>
                     <ResourceDictionary Source="GroupedTreeViewItemStyle.xaml" />
                 </TreeView.Resources>
@@ -67,7 +67,7 @@
 		</Grid>
        
         <s:SurfaceScrollViewer Grid.Row="2"  Grid.Column="1" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">
-            <TreeView Name="rightReportTree"  Background="LightGray" FontSize="21.333">
+            <TreeView Name="rightReportTree"  Background="LightGray" FontSize="21.333" SelectedItemChanged="rightReportTree_SelectedItemChanged_1">
                 <TreeView.Resources>
                     <ResourceDictionary Source="GroupedTreeViewItemStyle.xaml" />
                 </TreeView.Resources>
