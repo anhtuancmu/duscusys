@@ -631,7 +631,9 @@ namespace Discussions
                     {
                         fs.Write(a.MediaData.Data, 0, a.MediaData.Data.Length);
                     }
-                    Process.Start(pathName);                  
+                    //Process.Start(pathName);   
+                    var officeWnd = new OfficeWnd(pathName);
+                    officeWnd.ShowDialog();
                 }
                 catch (Exception e)
                 {
