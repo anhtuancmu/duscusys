@@ -558,13 +558,13 @@ namespace Reporter
 
             TreeViewItem topicsNode = null;
             TreeViewItem usersNode = null;
-            //TreeViewItem eventsNode = null;
+            TreeViewItem eventsNode = null;
             if (args == leftReportTree)
             {
                 _reportCollector1 = sender;
                 topicsNode = topicSection1;
                 usersNode  = usersSection1;
-               // eventsNode = eventSection1;
+                eventsNode = eventSection1;
                 reportHeader1.SetParticipants(sender.Participants);
             }
             else if (args == rightReportTree)
@@ -572,7 +572,7 @@ namespace Reporter
                 _reportCollector2 = sender;
                 topicsNode = topicSection2;
                 usersNode = usersSection2;
-               // eventsNode = eventSection2;
+                eventsNode = eventSection2;
                 reportHeader2.SetParticipants(sender.Participants);
             }
             else
@@ -608,9 +608,9 @@ namespace Reporter
                 usersNode.Items.Add(GetUserSummary(report, eventReport));
             }
 
-            //eventsNode.Items.Clear();
-            //foreach (var ev in sender.StatsEvents)
-            //    eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
+            eventsNode.Items.Clear();
+            foreach (var ev in sender.StatsEvents)
+                eventsNode.Items.Add(GetEvent(ev, sender.GetCtx()));
             usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true));
         }
 
@@ -664,23 +664,24 @@ namespace Reporter
                 if (_reportCollector1 != null && _reportCollector2 == null)
                 {
                     generated = true;
-                    CsvExporter.Export(dlg.FileName,
-                                       _reportCollector1.TopicReports.First(), reportHeader1.getReportParams(false), _reportCollector1.EventTotals,
-                                       null, null, null);
+
+                    CsvEventExporter.Export(dlg.FileName,
+                                            reportHeader1.getReportParams(false), 
+                                            null);
                 }
                 else if (_reportCollector1 == null && _reportCollector2 != null)
                 {
                     generated = true;
-                    CsvExporter.Export(dlg.FileName,
-                                       _reportCollector2.TopicReports.First(), reportHeader2.getReportParams(false), _reportCollector2.EventTotals,
-                                       null, null, null);
+                    CsvEventExporter.Export(dlg.FileName,
+                                       reportHeader2.getReportParams(false), 
+                                       null);
                 }
                 else if (_reportCollector1 != null && _reportCollector2 != null)
                 {
                     generated = true;
-                    CsvExporter.Export(dlg.FileName,
-                                      _reportCollector1.TopicReports.First(), reportHeader1.getReportParams(false), _reportCollector1.EventTotals,
-                                      _reportCollector2.TopicReports.First(), reportHeader2.getReportParams(false), _reportCollector2.EventTotals);
+                    CsvEventExporter.Export(dlg.FileName,
+                                       reportHeader1.getReportParams(false),
+                                       reportHeader2.getReportParams(false));
                 }
                 var dirName = System.IO.Path.GetDirectoryName(dlg.FileName);
                 if (generated)

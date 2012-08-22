@@ -428,7 +428,7 @@ namespace DistributedEditor
                 manipulationBorder = new Border();
                 manipulationBorder.Tag = this;
                 manipulationBorder.BorderThickness = new Thickness(BORDER_THICK);
-                manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);                
                 manipulationBorder.Child = img;
             }
         }
@@ -489,12 +489,15 @@ namespace DistributedEditor
         {
             base.SetFocus();
             ShowMarkers();
+            manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Gray);            
+            manipulationBorder.Opacity = 0.5;
         }
 
         public override void RemoveFocus()
         {
             base.RemoveFocus();
             HideMarkers();
+            manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
         }
 
         public ShapeZ ShapeZLevel()

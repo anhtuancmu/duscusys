@@ -165,6 +165,9 @@
     <Compile Include="BusyWndSingleton.cs" />
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
+    <Compile Include="OfficeWnd.xaml.cs">
+      <DependentUpon>OfficeWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="d-editor\AnchorPoint.cs" />
     <Compile Include="d-editor\ArrowEnds.cs" />
     <Compile Include="d-editor\ArrowLine.cs" />
@@ -453,6 +456,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AvatarBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OfficeWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
