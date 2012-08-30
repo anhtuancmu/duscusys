@@ -360,6 +360,8 @@ Source: ..\bin\Debug\CFLite.resources\CFUniCharPropertyDatabase.data; DestDir: {
 Source: ..\bin\Debug\CFLite.resources\CFUnicodeData-L.mapping; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\Debug\CFLite.resources\Info.plist; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\Debug\JavaScriptCore.resources\Info.plist; DestDir: {app}\JavaScriptCore.resources\; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\TimelineExLib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\TimelineLibrary.dll; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
