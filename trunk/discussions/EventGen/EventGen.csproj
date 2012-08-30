@@ -60,6 +60,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>lib\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -71,6 +74,9 @@
     <Compile Include="EventInfo.cs" />
     <Compile Include="TimelineWnd.xaml.cs">
       <DependentUpon>TimelineWnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeRangeWnd.xaml.cs">
+      <DependentUpon>TimeRangeWnd.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -85,6 +91,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="TimelineWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeRangeWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

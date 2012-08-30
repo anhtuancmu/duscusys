@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:local="clr-namespace:Discussions"   
 			 xmlns:yt="clr-namespace:Discussions.YouViewer"  
-		     xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended" 
-			 xmlns:Microsoft_Windows_Controls="clr-namespace:Microsoft.Windows.Controls" 
              xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
 			 xmlns:System="clr-namespace:System;assembly=mscorlib" 
 			 x:Class="Discussions.EditableBadge" 

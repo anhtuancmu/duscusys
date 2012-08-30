@@ -66,7 +66,7 @@ namespace Discussions
 
             //background
             Paragraph p = new Paragraph();
-            p.Add(TextRefsAggregater.PlainifyRichText(discussion.Background));
+            ///p.Add(TextRefsAggregater.PlainifyRichText(discussion.Background));
             p.Add(new Chunk("\n"));
             document.Add(p);
 

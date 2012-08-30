@@ -338,10 +338,6 @@
     <Compile Include="ReadOnlyParticipantSelector.xaml.cs">
       <DependentUpon>ReadOnlyParticipantSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RichText\RichTextBoxFormatBarManagerStatic.cs" />
-    <Compile Include="RichText\RichTextBoxStaticFormatBar.xaml.cs">
-      <DependentUpon>RichTextBoxStaticFormatBar.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Screenshot.cs" />
     <Compile Include="SessionInfo.cs" />
     <Compile Include="SideSelectorWnd.xaml.cs">
@@ -355,9 +351,6 @@
     </Compile>
     <Compile Include="DataConnectionConfiguration.cs" />
     <Compile Include="DataItem.cs" />
-    <Compile Include="DetailedArgPointBadge.xaml.cs">
-      <DependentUpon>DetailedArgPointBadge.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ContactTimer.cs" />
     <Compile Include="DragCursorState.cs" />
     <Compile Include="GuiHelpers.cs" />
@@ -393,7 +386,6 @@
     <Compile Include="TestForm.xaml.cs">
       <DependentUpon>TestForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TextRefsAggregater.cs" />
     <Compile Include="TopicNavPanel.xaml.cs">
       <DependentUpon>TopicNavPanel.xaml</DependentUpon>
     </Compile>
@@ -600,10 +592,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RichText\RichTextBoxStaticFormatBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SideSelectorWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -617,10 +605,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dashboard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DetailedArgPointBadge.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,25 +9,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Discussions.DbModel;
 
-namespace Discussions
+namespace EventGen
 {
     /// <summary>
-    /// Interaction logic for SessionView.xaml
+    /// Interaction logic for TimeRangeWnd.xaml
     /// </summary>
-    public partial class SessionView : UserControl
+    public partial class TimeRangeWnd : Window
     {
-        public SessionView()
+        public TimeRangeWnd()
         {
             InitializeComponent();
-        }
-
-        private void DatePicker_DateValidationError_1(object sender, DatePickerDateValidationErrorEventArgs e)
-        {
-            e.ThrowException = false;
         }
     }
 }

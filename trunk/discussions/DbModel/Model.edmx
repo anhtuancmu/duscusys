@@ -242,6 +242,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="EstimatedDateTime" Type="datetime" Nullable="false" />
     <Property Name="EstimatedTimeSlot" Type="int" Nullable="false" />
+    <Property Name="EstimatedEndDateTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Seat">
     <Key>
@@ -849,6 +850,7 @@
           <Property Type="DateTime" Name="EstimatedDateTime" Nullable="false" />
           <Property Type="Int32" Name="EstimatedTimeSlot" Nullable="false" />
           <NavigationProperty Name="Person" Relationship="db.PersonSession" FromRole="Session" ToRole="Person" />
+          <Property Type="DateTime" Name="EstimatedEndDateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Seat">
           <Key>
@@ -1031,6 +1033,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="EstimatedDateTime" ColumnName="EstimatedDateTime" />
           <ScalarProperty Name="EstimatedTimeSlot" ColumnName="EstimatedTimeSlot" />
+          <ScalarProperty Name="EstimatedEndDateTime" ColumnName="EstimatedEndDateTime" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1231,7 +1234,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="data_model" ZoomLevel="97" >
+      <Diagram Name="data_model" ZoomLevel="111" >
         <EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
         <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />
@@ -1302,7 +1305,7 @@
         </AssociationConnector>
         <AssociationConnector Association="db.PersonAttachment1" ></AssociationConnector>
         <EntityTypeShape EntityType="db.StatsEvent" Width="1.5" PointX="13.5" PointY="2.75" />
-        <EntityTypeShape EntityType="db.Session" Width="1.625" PointX="3.75" PointY="0.5" />
+        <EntityTypeShape EntityType="db.Session" Width="1.875" PointX="3.75" PointY="0.5" />
         <EntityTypeShape EntityType="db.Seat" Width="1.5" PointX="8.5" PointY="0.5" />
         <AssociationConnector Association="db.PersonSeat" />
         <AssociationConnector Association="db.PersonSession" ManuallyRouted="false" >
