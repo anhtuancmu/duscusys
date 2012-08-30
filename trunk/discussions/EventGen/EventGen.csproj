@@ -75,9 +75,6 @@
     <Compile Include="TimelineWnd.xaml.cs">
       <DependentUpon>TimelineWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeRangeWnd.xaml.cs">
-      <DependentUpon>TimeRangeWnd.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,10 +88,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="TimelineWnd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeRangeWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -29,5 +29,29 @@ namespace Discussions
         {
             e.ThrowException = false;
         }
+
+        private void dateTime_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            checkDateTimes();
+        }
+
+        private void dateTime2_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            checkDateTimes();
+        }
+
+        void checkDateTimes()
+        {
+            if (dateTime.Value == null || dateTime2.Value==null)
+                return;
+
+            var start = dateTime.Value.Value;
+            var end   = dateTime2.Value.Value;
+            if (end.CompareTo(start) <= 0)
+            {
+                MessageBox.Show("End date/time of session should be greater than start date/time");
+                dateTime2.Value = start.Add(TimeSpan.FromHours(1));
+            }
+        }
     }
 }

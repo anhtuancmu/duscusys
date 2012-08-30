@@ -63,11 +63,11 @@ namespace EventGen
             }
         }
 
-       // public ObservableCollection<Discussion> Discussions {get;set;}
-          
-        public ObservableCollection<Person> Persons{get;set;}
+        // public ObservableCollection<Discussion> Discussions {get;set;}
 
-        public ObservableCollection<Topic> Topics{get;set;}
+        public ObservableCollection<Person> Persons { get; set; }
+
+        public ObservableCollection<Topic> Topics { get; set; }
 
         public MainWindow()
         {
@@ -80,7 +80,7 @@ namespace EventGen
             _timer = new DispatcherTimer();
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
             _timer.Tick += setUpdateTrackPos;
-            _timer.Start();  
+            _timer.Start();
         }
 
         void LoginProcedure()
@@ -92,15 +92,15 @@ namespace EventGen
                 return;
             }
 
-            if (login.discussion==null)
+            if (login.discussion == null)
             {
                 System.Windows.MessageBox.Show("In this application even moderator should select real, existing discussion");
                 System.Windows.Application.Current.Shutdown();
                 return;
             }
 
-           // Discussions = new ObservableCollection<Discussion>(DaoHelpers.discussionsOfSession(login.session));
-            
+            // Discussions = new ObservableCollection<Discussion>(DaoHelpers.discussionsOfSession(login.session));
+
             Topics = new ObservableCollection<Topic>(login.discussion.Topic);
 
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
@@ -110,9 +110,9 @@ namespace EventGen
             FillTopics(login.discussion);
 
             sharedClient.start(login, DbCtx.Get().Connection.DataSource, login.devType);
-            sharedClient.clienRt.onStatsEvent += OnStatsEvent;            
+            sharedClient.clienRt.onStatsEvent += OnStatsEvent;
         }
-         
+
         void LogoutProcedure()
         {
             if (sharedClient.clienRt != null)
@@ -122,10 +122,10 @@ namespace EventGen
             }
         }
 
-        void FillTopics(Discussion d) 
+        void FillTopics(Discussion d)
         {
-            topics.Clear();    
-            foreach (var t in d.Topic) 
+            topics.Clear();
+            foreach (var t in d.Topic)
             {
                 topics.Add(t);
             }
@@ -143,7 +143,7 @@ namespace EventGen
             LoginProcedure();
         }
 
-        void FireStatsEvent(StEvent e)
+        void FireStatsEvent(StEvent e, int personId = -2)
         {
             if (cbxTopics.SelectedItem == null)
             {
@@ -151,70 +151,148 @@ namespace EventGen
                 return;
             }
 
-            if (lstUsers.SelectedItem == null)
+            if (personId == -2)
             {
-                MessageBox.Show("Please first select user who initiates the event");
-                return;
+                if (lstUsers.SelectedItem == null)
+                {
+                    MessageBox.Show("Please first select user who initiates the event");
+                    return;
+                }
+                personId = ((Person)lstUsers.SelectedItem).Id;
+            }
+            else
+            {
+                //we use given personId
             }
 
             var eventTimestamp = timeline.CurrentDateTime;
-            var eventViewModel = new EventViewModel(e, ((Person)lstUsers.SelectedItem).Id, eventTimestamp, login.devType); 
-            
+            var eventViewModel = new EventViewModel(e, personId, eventTimestamp, login.devType);
+
             var te = new TimelineLibrary.TimelineEvent();
             te.StartDate = eventTimestamp;
             te.EndDate = eventTimestamp;
-            te.IsDuration = false;            
+            te.IsDuration = false;
             te.Title = eventViewModel.userName + " " + eventViewModel.evt;
             te.Description = eventViewModel.devType + ", " + eventViewModel.dateTime;
-            te.Tag = new EventInfo(e, ((Person)lstUsers.SelectedItem).Id, login.discussion.Id,
+            te.Tag = new EventInfo(e, personId, login.discussion.Id,
                                    eventTimestamp, ((Topic)cbxTopics.SelectedItem).Id,
                                    login.devType);
 
             timeline.TimelineEvents.Add(te);
-            timeline.ResetEvents(timeline.TimelineEvents);            
+            timeline.ResetEvents(timeline.TimelineEvents);
         }
-    
-        #region eventgen handlers 
+
+        #region eventgen handlers
         private void SurfaceWindow_KeyDown_1(object sender, KeyEventArgs e)
         {
-            throw new NotSupportedException("broken by new event system");
-            
-            //switch (e.Key)
-            //{
-            //    case Key.D1:
-            //        FireStatsEvent(StatsEvent.LinkCreated);
-            //        break;
-            //    case Key.D2:
-            //        FireStatsEvent(StatsEvent.LinkRemoved);
-            //        break;
-            //    case Key.D3:
-            //        FireStatsEvent(StatsEvent.BadgeCreated);
-            //        break;
-            //    case Key.D4:
-            //        FireStatsEvent(StatsEvent.BadgeEdited);
-            //        break;
-            //    case Key.D5:
-            //        FireStatsEvent(StatsEvent.ClusterCreated);
-            //        break;
-            //    case Key.D6:
-            //        FireStatsEvent(StatsEvent.ClusterRemoved);
-            //        break;
-            //    case Key.D7:
-            //        FireStatsEvent(StatsEvent.DiscussionSessionStarted);
-            //        break;
-            //    case Key.D8:
-            //        FireStatsEvent(StatsEvent.DiscussionSessionStopped);
-            //        break;
-            //    case Key.D9:
-            //        FireStatsEvent(StatsEvent.FreeDrawingCreated);
-            //        break;
-            //    case Key.D0:
-            //        FireStatsEvent(StatsEvent.FreeDrawingRemoved);
-            //        break;  
-            //    case Key.Delete:
-            //        DeleteSelectedEvents();
-            //        break;
-            //}
+            switch (e.Key)
+            {
+                case Key.D1:
+                    FireStatsEvent(StEvent.RecordingStarted);
+                    break;
+                case Key.D2:
+                    FireStatsEvent(StEvent.RecordingStopped);
+                    break;
+                case Key.D3:
+                    FireStatsEvent(StEvent.BadgeCreated);
+                    break;
+                case Key.D4:
+                    FireStatsEvent(StEvent.BadgeEdited);
+                    break;
+                case Key.D5:
+                    FireStatsEvent(StEvent.BadgeMoved);
+                    break;
+                case Key.D6:
+                    FireStatsEvent(StEvent.BadgeZoomIn);
+                    break;
+                case Key.D7:
+                    FireStatsEvent(StEvent.ClusterCreated);
+                    break;
+                case Key.D8:
+                    FireStatsEvent(StEvent.ClusterDeleted);
+                    break;
+                case Key.D9:
+                    FireStatsEvent(StEvent.ClusterIn);
+                    break;
+                case Key.Q:
+                    FireStatsEvent(StEvent.ClusterOut);
+                    break;
+                case Key.W:
+                    FireStatsEvent(StEvent.ClusterMoved);
+                    break;
+                case Key.E:
+                    FireStatsEvent(StEvent.LinkCreated);
+                    break;
+                case Key.R:
+                    FireStatsEvent(StEvent.LinkRemoved);
+                    break;
+                case Key.T:
+                    FireStatsEvent(StEvent.FreeDrawingCreated);
+                    break;
+                case Key.Y:
+                    FireStatsEvent(StEvent.FreeDrawingRemoved);
+                    break;
+                case Key.U:
+                    FireStatsEvent(StEvent.FreeDrawingResize);
+                    break;
+                case Key.I:
+                    FireStatsEvent(StEvent.FreeDrawingMoved);
+                    break;
+                case Key.O:
+                    FireStatsEvent(StEvent.SceneZoomedIn);
+                    break;
+                case Key.P:
+                    FireStatsEvent(StEvent.SceneZoomedOut);
+                    break;
+                case Key.A:
+                    FireStatsEvent(StEvent.ArgPointTopicChanged);
+                    break;
+                case Key.S:
+                    FireStatsEvent(StEvent.SourceAdded);
+                    break;
+                case Key.D:
+                    FireStatsEvent(StEvent.SourceRemoved);
+                    break;
+                case Key.F:
+                    FireStatsEvent(StEvent.ImageAdded);
+                    break;
+                case Key.H:
+                    FireStatsEvent(StEvent.PdfAdded);
+                    break;
+                case Key.K:
+                    FireStatsEvent(StEvent.YoutubeAdded);
+                    break;
+                case Key.L:
+                    FireStatsEvent(StEvent.ScreenshotAdded);
+                    break;
+                case Key.Z:
+                    FireStatsEvent(StEvent.MediaRemoved);
+                    break;
+                case Key.X:
+                    FireStatsEvent(StEvent.CommentAdded);
+                    break;
+                case Key.C:
+                    FireStatsEvent(StEvent.CommentRemoved);
+                    break;
+                case Key.V:
+                    FireStatsEvent(StEvent.ImageOpened);
+                    break;
+                case Key.B:
+                    FireStatsEvent(StEvent.VideoOpened);
+                    break;
+                case Key.N:
+                    FireStatsEvent(StEvent.ScreenshotOpened);
+                    break;
+                case Key.M:
+                    FireStatsEvent(StEvent.PdfOpened);
+                    break;
+                case Key.D0:
+                    FireStatsEvent(StEvent.SourceOpened);
+                    break;
+                case Key.Delete:
+                    DeleteSelectedEvents();
+                    break;
+            }
         }
 
         private void btnLinkCreated_Click_1(object sender, RoutedEventArgs e)
@@ -244,20 +322,7 @@ namespace EventGen
 
         private void btnClusterRemoved_Click_1(object sender, RoutedEventArgs e)
         {
-            throw new NotSupportedException();
-            //FireStatsEvent(StatsEvent.ClusterRemoved);
-        }
-
-        private void btnDiscussionStarted_Click_1(object sender, RoutedEventArgs e)
-        {
-            throw new NotSupportedException();
-            //FireStatsEvent(StatsEvent.DiscussionSessionStarted);
-        }
-
-        private void btnDiscussionStopped_Click_1(object sender, RoutedEventArgs e)
-        {
-            throw new NotSupportedException();
-            //FireStatsEvent(StatsEvent.DiscussionSessionStopped);
+            FireStatsEvent(StEvent.ClusterDeleted);
         }
 
         private void btnFreeDrawingCreated_Click_1(object sender, RoutedEventArgs e)
@@ -285,16 +350,156 @@ namespace EventGen
             DeleteSelectedEvents();
         }
 
-        #endregion 
+        private void btnRecordingStarted_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.RecordingStarted);
+        }
+
+        private void btnRecordingStopped_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.RecordingStopped);
+        }
+
+        private void btnBadgeEdited_Click_2(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.BadgeEdited);
+        }
+
+        private void btnBadgeMoved_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.BadgeMoved);
+        }
+
+        private void btnBadgeZoomIn_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.BadgeZoomIn);
+        }
+
+        private void btnClusterIn_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ClusterIn);
+        }
+
+        private void btnClusterOut_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ClusterOut);
+        }
+
+        private void btnClusterMoved_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ClusterMoved);
+        }
+
+        private void btnFreeDrawingResize_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.FreeDrawingResize);
+        }
+
+        private void btnFreeDrawingMoved_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.FreeDrawingMoved);
+        }
+
+        private void btnSceneZoomIn_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.SceneZoomedIn);
+        }
+
+        private void btnSceneZoomOut_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.SceneZoomedOut);
+        }
+
+        private void btnArgPointTopicChanged_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ArgPointTopicChanged);
+        }
+
+        private void btnSourceAdded_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.SourceAdded);
+        }
+
+        private void btnSourceRemoved_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.SourceRemoved);
+        }
+
+        private void btnImageAdded_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ImageAdded);
+        }
+
+        private void btnPdfAdded_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.PdfAdded);
+        }
+
+        private void btnYoutubeAdded_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.YoutubeAdded);
+        }
+
+        private void btnScreenshotAdded_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ScreenshotAdded);
+        }
+
+        private void btnMediaRemoved_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.MediaRemoved);
+        }
+
+        private void btnCommentAdded_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.CommentAdded);
+        }
+
+        private void btnCommentRemoved_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.CommentRemoved);
+        }
+
+        private void btnImageOpened_Click(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ImageOpened);
+        }
+
+        private void btnVideoOpened_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.VideoOpened);
+        }
+
+        private void btnScreenshotOpened_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.ScreenshotAdded);
+        }
+
+        private void btnPdfOpened_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.PdfOpened);
+        }
+
+        private void btnSourceOpened_Click_1(object sender, RoutedEventArgs e)
+        {
+            FireStatsEvent(StEvent.SourceOpened);
+        }
+
+        private void btnDeleteEvent_Click_2(object sender, RoutedEventArgs e)
+        {
+            DeleteSelectedEvents();
+        }
+
+        #endregion
 
         void DeleteSelectedEvents()
         {
             foreach (var se in timeline.SelectedTimelineEvents)
             {
-                timeline.TimelineEvents.Remove(se);                
+                timeline.TimelineEvents.Remove(se);
             }
 
-            timeline.ResetEvents(timeline.TimelineEvents);            
+            timeline.ResetEvents(timeline.TimelineEvents);
         }
 
         private void btnUpload_Click_1(object sender, RoutedEventArgs e)
@@ -310,7 +515,7 @@ namespace EventGen
 
         // Play the media.
         void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
-        {  
+        {
             myMediaElement.Play();
 
             // Initialize the MediaElement property values.
@@ -345,7 +550,7 @@ namespace EventGen
         // When the media opens, initialize the "Seek To" slider maximum value
         // to the total number of miliseconds in the length of the media clip.
         private void Element_MediaOpened(object sender, EventArgs e)
-        {        
+        {
         }
 
         // When the media playback is finished. Stop() the media to seek to media start.
@@ -368,8 +573,8 @@ namespace EventGen
 
         private void btnUpload_Click_1(object sender, MouseButtonEventArgs e)
         {
-            var dlg = new System.Windows.Forms.OpenFileDialog(); 
-            if(dlg.ShowDialog()== System.Windows.Forms.DialogResult.OK)
+            var dlg = new System.Windows.Forms.OpenFileDialog();
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 myMediaElement.Source = new Uri(dlg.FileName);
                 _timer.Tick += setMaxTrackValue;
@@ -383,7 +588,7 @@ namespace EventGen
             {
                 _timer.Tick -= setMaxTrackValue;
                 timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalSeconds;
-                lblVideoDuration.Content = "Video duration: " + formatTimeSpan(myMediaElement.NaturalDuration.TimeSpan);
+                lblVideoDuration.Text = "Video duration: " + formatTimeSpan(myMediaElement.NaturalDuration.TimeSpan);
             }
         }
 
@@ -398,26 +603,26 @@ namespace EventGen
             finally
             {
                 sliderBeingUpdatedFromPlayer = false;
-            }            
+            }
         }
 
         static string formatTimeSpan(TimeSpan s)
-        {            
+        {
             return string.Format("{0:00.}:{1:00.}:{2:00.}", s.Hours, s.Minutes, s.Seconds);
         }
 
         bool sliderBeingUpdatedFromPlayer = false;
-        bool miniTimelinePending = false; 
+        bool miniTimelinePending = false;
         private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
             if (sliderBeingUpdatedFromPlayer)
                 return;
-           
+
             miniTimelinePending = true;
             int SliderValue = (int)timelineSlider.Value;
             TimeSpan ts = new TimeSpan(0, 0, 0, SliderValue, 0);
             myMediaElement.Stop();
-            myMediaElement.Position = ts;      
+            myMediaElement.Position = ts;
         }
 
         void finalizeMiniTimelineChange()
@@ -443,49 +648,26 @@ namespace EventGen
 
         void setPostLoginInfo()
         {
-            lblSession.Content = "Session: " + login.session.Name;
-            lblDiscussion.Content = "Discussion: " + login.discussion.Subject;
-            
+            lblSession.Text = "Session: " + login.session.Name;
+            lblDiscussion.Text = "Discussion: " + login.discussion.Subject;
+
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
 
-            var tr = new TimeRangeWnd();
-            tr.ShowDialog();
+            timeline.MinDateTime = login.session.EstimatedDateTime;
+            timeline.MaxDateTime = login.session.EstimatedEndDateTime;
+            timeline.CurrentDateTime = timeline.MinDateTime;
+            timeline_CurrentDateChanged_1(null, null);
 
-            //var discSession = new DiscussionSession(login.discussion.Id);
-            //DateTime startTime;
-            //if (!discSession.GetStartTime(out startTime))
-            //{
-            //    MessageBox.Show("Cannot find start event for this discussion in DB. Start and end events are used to compute discussion duration. " +
-            //                    "Will not be able to submit events",
-            //                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    Application.Current.Shutdown();
-            //    return;
-            //}
-
-            //DateTime endTime;
-            //if (!discSession.GetEndTime(out endTime))
-            //{
-            //    MessageBox.Show("Cannot find start event for this discussion in DB. Start and end events are used to compute discussion duration. " +
-            //                    "Will not be able to submit events",
-            //                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    Application.Current.Shutdown();                
-            //}
-
-            //timeline.MinDateTime = startTime;
-            //timeline.MaxDateTime = endTime;
-            //timeline.CurrentDateTime = startTime;
-            //timeline_CurrentDateChanged_1(null,null);
-
-            //lblDiscStart.Content = "Discussion start: " + startTime.ToString();
-            //lblDiscEnd.Content = "Discussion end: " + endTime.ToString();
-            //lblDiscDuration.Content = "Discussion duration: " + formatTimeSpan(endTime.Subtract(startTime));
+            lblDiscStart.Text = "Session start: " + timeline.MinDateTime.ToString();
+            lblDiscEnd.Text = "Session end: " + timeline.MaxDateTime.ToString();
+            lblDiscDuration.Text = "Session duration: " + formatTimeSpan(timeline.MaxDateTime.Subtract(timeline.MinDateTime));
         }
 
         #region big timeline
 
         bool bigTimelinePending = false;
         private void timeline_CurrentDateChanged_1(object sender, EventArgs e)
-        {            
+        {
             var timeSpanFromStart = timeline.CurrentDateTime.Subtract(timeline.MinDateTime);
             relCurrentTime.Text = formatTimeSpan(timeSpanFromStart); //update relative label 
 
@@ -516,7 +698,7 @@ namespace EventGen
             finalizeTimelineChange();
         }
 
-        #endregion  big timeline   
+        #endregion  big timeline
 
         private void btnSubmit_Click_1(object sender, RoutedEventArgs e)
         {
@@ -528,8 +710,8 @@ namespace EventGen
             }
             catch (Exception e1)
             {
-                MessageBox.Show(e1.ToString(),"Cannot submit events due to error", 
-                                MessageBoxButton.OK, MessageBoxImage.Error);                
+                MessageBox.Show(e1.ToString(), "Cannot submit events due to error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             Close();
@@ -537,11 +719,26 @@ namespace EventGen
 
         void submitEvents()
         {
-            foreach(var te in timeline.TimelineEvents)
+            foreach (var te in timeline.TimelineEvents)
             {
                 var evInfo = (EventInfo)te.Tag;
                 DaoHelpers.recordEvent(evInfo);
             }
+        }
+
+        private void btnMoveEvent_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (timeline.SelectedTimelineEvents.Count != 1)
+            {
+                MessageBox.Show("1. Select event to move;\n2. Move timeline to new position of event;\n3. Click this button");
+                return;
+            }
+            var moved = timeline.SelectedTimelineEvents.First();
+          
+
+            DeleteSelectedEvents();
+            var ei = moved.Tag as EventInfo;
+            FireStatsEvent(ei.e, ei.userId);
         }
     }
 }
