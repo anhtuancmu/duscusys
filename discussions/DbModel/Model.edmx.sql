@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 07/09/2012 13:18:49
--- Generated from EDMX file: C:\projects\discussions\DbModel\Model.edmx
+-- Date Created: 08/30/2012 12:39:37
+-- Generated from EDMX file: C:\projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -268,7 +268,8 @@ CREATE TABLE [dbo].[Session] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [EstimatedDateTime] datetime  NOT NULL,
-    [EstimatedTimeSlot] int  NOT NULL
+    [EstimatedTimeSlot] int  NOT NULL,
+    [EstimatedEndDateTime] datetime  NOT NULL
 );
 GO
 

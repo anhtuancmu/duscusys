@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d" x:Class="Discussions.SessionManagerWnd"
     Title="Session manager" Closing="SurfaceWindow_Closing" 
-    Height="594" Width="615" WindowStartupLocation="CenterScreen" 
+    Height="600" Width="1091" WindowStartupLocation="CenterScreen" 
     HorizontalAlignment="Center" 
     Background="{StaticResource frmGrayBg}"
     VerticalAlignment="Center">

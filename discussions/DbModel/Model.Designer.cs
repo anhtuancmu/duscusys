@@ -3043,13 +3043,15 @@ namespace Discussions.DbModel
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="estimatedDateTime">Initial value of the EstimatedDateTime property.</param>
         /// <param name="estimatedTimeSlot">Initial value of the EstimatedTimeSlot property.</param>
-        public static Session CreateSession(global::System.Int32 id, global::System.String name, global::System.DateTime estimatedDateTime, global::System.Int32 estimatedTimeSlot)
+        /// <param name="estimatedEndDateTime">Initial value of the EstimatedEndDateTime property.</param>
+        public static Session CreateSession(global::System.Int32 id, global::System.String name, global::System.DateTime estimatedDateTime, global::System.Int32 estimatedTimeSlot, global::System.DateTime estimatedEndDateTime)
         {
             Session session = new Session();
             session.Id = id;
             session.Name = name;
             session.EstimatedDateTime = estimatedDateTime;
             session.EstimatedTimeSlot = estimatedTimeSlot;
+            session.EstimatedEndDateTime = estimatedEndDateTime;
             return session;
         }
 
@@ -3155,6 +3157,30 @@ namespace Discussions.DbModel
         private global::System.Int32 _EstimatedTimeSlot;
         partial void OnEstimatedTimeSlotChanging(global::System.Int32 value);
         partial void OnEstimatedTimeSlotChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime EstimatedEndDateTime
+        {
+            get
+            {
+                return _EstimatedEndDateTime;
+            }
+            set
+            {
+                OnEstimatedEndDateTimeChanging(value);
+                ReportPropertyChanging("EstimatedEndDateTime");
+                _EstimatedEndDateTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EstimatedEndDateTime");
+                OnEstimatedEndDateTimeChanged();
+            }
+        }
+        private global::System.DateTime _EstimatedEndDateTime;
+        partial void OnEstimatedEndDateTimeChanging(global::System.DateTime value);
+        partial void OnEstimatedEndDateTimeChanged();
 
         #endregion
 

@@ -1,0 +1,19 @@
+﻿<Window x:Class="EventGen.TimeRangeWnd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="Enter session time range" Height="300" Width="481">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <TextBlock Text="Start time of session"/>
+                <extToolkit:DateTimePicker IsOpen="True"/>                
+                <Calendar Name="start" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="End time of session"/>
+                <Calendar Name="end" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

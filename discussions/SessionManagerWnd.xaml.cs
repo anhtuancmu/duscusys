@@ -65,6 +65,7 @@ namespace Discussions
             var s = new Session();
             s.Name = "<Session>";
             s.EstimatedDateTime = DateTime.Now;
+            s.EstimatedEndDateTime = DateTime.Now.Add(TimeSpan.FromHours(1));
             s.EstimatedTimeSlot = (int)TimeSlot.Morning;
 
             Sessions.Add(s);

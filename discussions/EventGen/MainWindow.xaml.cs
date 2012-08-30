@@ -448,34 +448,37 @@ namespace EventGen
             
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
 
-            var discSession = new DiscussionSession(login.discussion.Id);
-            DateTime startTime;
-            if (!discSession.GetStartTime(out startTime))
-            {
-                MessageBox.Show("Cannot find start event for this discussion in DB. Start and end events are used to compute discussion duration. " +
-                                "Will not be able to submit events",
-                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
-                return;
-            }
+            var tr = new TimeRangeWnd();
+            tr.ShowDialog();
 
-            DateTime endTime;
-            if (!discSession.GetEndTime(out endTime))
-            {
-                MessageBox.Show("Cannot find start event for this discussion in DB. Start and end events are used to compute discussion duration. " +
-                                "Will not be able to submit events",
-                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();                
-            }
+            //var discSession = new DiscussionSession(login.discussion.Id);
+            //DateTime startTime;
+            //if (!discSession.GetStartTime(out startTime))
+            //{
+            //    MessageBox.Show("Cannot find start event for this discussion in DB. Start and end events are used to compute discussion duration. " +
+            //                    "Will not be able to submit events",
+            //                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    Application.Current.Shutdown();
+            //    return;
+            //}
 
-            timeline.MinDateTime = startTime;
-            timeline.MaxDateTime = endTime;
-            timeline.CurrentDateTime = startTime;
-            timeline_CurrentDateChanged_1(null,null);
+            //DateTime endTime;
+            //if (!discSession.GetEndTime(out endTime))
+            //{
+            //    MessageBox.Show("Cannot find start event for this discussion in DB. Start and end events are used to compute discussion duration. " +
+            //                    "Will not be able to submit events",
+            //                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    Application.Current.Shutdown();                
+            //}
 
-            lblDiscStart.Content = "Discussion start: " + startTime.ToString();
-            lblDiscEnd.Content = "Discussion end: " + endTime.ToString();
-            lblDiscDuration.Content = "Discussion duration: " + formatTimeSpan(endTime.Subtract(startTime));
+            //timeline.MinDateTime = startTime;
+            //timeline.MaxDateTime = endTime;
+            //timeline.CurrentDateTime = startTime;
+            //timeline_CurrentDateChanged_1(null,null);
+
+            //lblDiscStart.Content = "Discussion start: " + startTime.ToString();
+            //lblDiscEnd.Content = "Discussion end: " + endTime.ToString();
+            //lblDiscDuration.Content = "Discussion duration: " + formatTimeSpan(endTime.Subtract(startTime));
         }
 
         #region big timeline
