@@ -6,6 +6,7 @@
         xmlns:stats="clr-namespace:Discussions.stats;assembly=LoginEngine" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:timeline="clr-namespace:TimelineLibrary;assembly=TimelineLibrary"
+        xmlns:evenGenNs="clr-namespace:EventGen"
         xmlns:local="clr-namespace:Discussions"
 		Background="{DynamicResource MainBgrndRctFill}"
         mc:Ignorable="d" x:Class="EventGen.MainWindow"
@@ -124,7 +125,7 @@
         		<RowDefinition Height="Auto"/>
 
         	</Grid.RowDefinitions>
-        	<MediaElement x:Name="myMediaElement" Margin="10" MinHeight="100" LoadedBehavior="Manual" UnloadedBehavior="Stop" 
+            <MediaElement x:Name="myMediaElement" Margin="10" MinHeight="100" LoadedBehavior="Manual" UnloadedBehavior="Stop" 
         		MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" d:LayoutOverrides="Width, Height, Margin"/>
         	<Slider x:Name="timelineSlider"                     
         		ValueChanged="SeekToMediaPosition"

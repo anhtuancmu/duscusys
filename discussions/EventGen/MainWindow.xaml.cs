@@ -73,6 +73,9 @@ namespace EventGen
         {
             InitializeComponent();
 
+            (new CustomTimelineWnd()).ShowDialog();
+            Application.Current.Shutdown();
+
             LoginProcedure();
 
             DataContext = this;
@@ -81,6 +84,8 @@ namespace EventGen
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
             _timer.Tick += setUpdateTrackPos;
             _timer.Start();
+
+            myMediaElement.MediaEnded += mediaEnded;
         }
 
         void LoginProcedure()
@@ -176,8 +181,7 @@ namespace EventGen
             te.Description = eventViewModel.devType + ", " + eventViewModel.dateTime;
             te.Tag = new EventInfo(e, personId, login.discussion.Id,
                                    eventTimestamp, ((Topic)cbxTopics.SelectedItem).Id,
-                                   login.devType);
-
+                                   login.devType);            
             timeline.TimelineEvents.Add(te);
             timeline.ResetEvents(timeline.TimelineEvents);
         }
@@ -188,30 +192,39 @@ namespace EventGen
             switch (e.Key)
             {
                 case Key.D1:
+                case Key.NumPad1:
                     FireStatsEvent(StEvent.RecordingStarted);
                     break;
                 case Key.D2:
+                case Key.NumPad2:
                     FireStatsEvent(StEvent.RecordingStopped);
                     break;
                 case Key.D3:
+                case Key.NumPad3:
                     FireStatsEvent(StEvent.BadgeCreated);
                     break;
                 case Key.D4:
+                case Key.NumPad4:
                     FireStatsEvent(StEvent.BadgeEdited);
                     break;
                 case Key.D5:
+                case Key.NumPad5:
                     FireStatsEvent(StEvent.BadgeMoved);
                     break;
                 case Key.D6:
+                case Key.NumPad6:
                     FireStatsEvent(StEvent.BadgeZoomIn);
                     break;
                 case Key.D7:
+                case Key.NumPad7:
                     FireStatsEvent(StEvent.ClusterCreated);
                     break;
                 case Key.D8:
+                case Key.NumPad8:
                     FireStatsEvent(StEvent.ClusterDeleted);
                     break;
                 case Key.D9:
+                case Key.NumPad9:
                     FireStatsEvent(StEvent.ClusterIn);
                     break;
                 case Key.Q:
@@ -287,11 +300,18 @@ namespace EventGen
                     FireStatsEvent(StEvent.PdfOpened);
                     break;
                 case Key.D0:
+                case Key.NumPad0:
                     FireStatsEvent(StEvent.SourceOpened);
                     break;
                 case Key.Delete:
                     DeleteSelectedEvents();
                     break;
+                case Key.Space:
+                    if (IsPlaying)
+                        Pause();
+                    else
+                        Play();
+                    break; 
             }
         }
 
@@ -513,10 +533,42 @@ namespace EventGen
 
         #region media player
 
+        bool _isPlaying = false;
+        public bool IsPlaying
+        {
+            get
+            {
+                return _isPlaying;
+            }
+        }
+
+        void mediaEnded(object sender, EventArgs e)
+        {
+            _isPlaying = false;
+        }
+
+        public void Play()
+        {
+            _isPlaying = true;
+            myMediaElement.Play();
+        }
+
+        public void Pause()
+        {
+            _isPlaying = false;
+            myMediaElement.Pause();
+        }
+
+        public void Stop()
+        {
+            _isPlaying = false;
+            myMediaElement.Stop();
+        }
+
         // Play the media.
         void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
         {
-            myMediaElement.Play();
+            Play();
 
             // Initialize the MediaElement property values.
             InitializePropertyValues();
@@ -525,13 +577,13 @@ namespace EventGen
         // Pause the media.
         void OnMouseDownPauseMedia(object sender, MouseButtonEventArgs args)
         {
-            myMediaElement.Pause();
+            Pause();
         }
 
         // Stop the media.
         void OnMouseDownStopMedia(object sender, MouseButtonEventArgs args)
         {
-            myMediaElement.Stop();
+            Stop();
         }
 
         // Change the volume of the media.
@@ -556,7 +608,7 @@ namespace EventGen
         // When the media playback is finished. Stop() the media to seek to media start.
         private void Element_MediaEnded(object sender, EventArgs e)
         {
-            myMediaElement.Stop();
+            Stop();
         }
 
         void InitializePropertyValues()
@@ -578,7 +630,7 @@ namespace EventGen
             {
                 myMediaElement.Source = new Uri(dlg.FileName);
                 _timer.Tick += setMaxTrackValue;
-                myMediaElement.Play();
+                Play();
             }
         }
 
@@ -621,7 +673,7 @@ namespace EventGen
             miniTimelinePending = true;
             int SliderValue = (int)timelineSlider.Value;
             TimeSpan ts = new TimeSpan(0, 0, 0, SliderValue, 0);
-            myMediaElement.Stop();
+            Stop();
             myMediaElement.Position = ts;
         }
 
@@ -630,7 +682,7 @@ namespace EventGen
             if (miniTimelinePending)
             {
                 miniTimelinePending = false;
-                myMediaElement.Play();
+                //Play();
             }
         }
 
@@ -674,7 +726,7 @@ namespace EventGen
             if (!sliderBeingUpdatedFromPlayer)
             {
                 bigTimelinePending = true;
-                myMediaElement.Stop();
+                Stop();
                 myMediaElement.Position = timeSpanFromStart;
             }
         }
@@ -684,7 +736,7 @@ namespace EventGen
             if (bigTimelinePending)
             {
                 bigTimelinePending = false;
-                myMediaElement.Play();
+               // Play();
             }
         }
 
