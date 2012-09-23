@@ -69,12 +69,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomTimelineWnd.xaml.cs">
+      <DependentUpon>CustomTimelineWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DaoHelpers.cs" />
     <Compile Include="DiscussionSession.cs" />
     <Compile Include="EventInfo.cs" />
-    <Compile Include="TimelineWnd.xaml.cs">
-      <DependentUpon>TimelineWnd.xaml</DependentUpon>
+    <Compile Include="timeline\CurrentMarker.xaml.cs">
+      <DependentUpon>CurrentMarker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="timeline\Timeline.cs" />
+    <Compile Include="timeline\TimelineEvent.cs" />
+    <Compile Include="timeline\TimelineEventView.xaml.cs">
+      <DependentUpon>TimelineEventView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="timeline\TimelineView.xaml.cs">
+      <DependentUpon>TimelineView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="timeline\TimeScale.cs" />
+    <Page Include="CustomTimelineWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,7 +103,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TimelineWnd.xaml">
+    <Page Include="timeline\CurrentMarker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="timeline\TimelineEventView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="timeline\TimelineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
