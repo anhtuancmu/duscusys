@@ -24,7 +24,8 @@ namespace EventGen
             InitializeComponent();
 
             _timelineModel = new Timeline(TimeSpan.FromMinutes(2));
-            timelineView.SetModel(_timelineModel);       
+            timelineView.SetModel(_timelineModel);
+            currentTime.DataContext = _timelineModel;
         }      
 
         private void AddEvent_Click_1(object sender, RoutedEventArgs e)

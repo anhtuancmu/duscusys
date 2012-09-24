@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace EventGen.timeline
 {
@@ -74,6 +75,13 @@ namespace EventGen.timeline
 
         public void RemoveSelectedEvents()
         {
+            var numSelected = _events.Where(ev => ev.IsEvSelected).Count();
+            if (numSelected > 1)
+            {
+                if (MessageBox.Show("Delete " + numSelected + " events?", "Bulk delete", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                    return;
+            }
+
             foreach (var selected in _events.ToArray())
                 if (selected.IsEvSelected)
                     _events.Remove(selected);

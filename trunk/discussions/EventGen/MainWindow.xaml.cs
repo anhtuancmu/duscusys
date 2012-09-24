@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -18,6 +19,7 @@ using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.stats;
+using EventGen.timeline;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls;
 using TimelineLibrary;
@@ -30,6 +32,8 @@ namespace EventGen
     public partial class MainWindow : SurfaceWindow
     {
         LoginResult login = null;
+
+        Timeline _timelineModel;
 
         UISharedRTClient sharedClient = new UISharedRTClient();
 
@@ -63,8 +67,6 @@ namespace EventGen
             }
         }
 
-        // public ObservableCollection<Discussion> Discussions {get;set;}
-
         public ObservableCollection<Person> Persons { get; set; }
 
         public ObservableCollection<Topic> Topics { get; set; }
@@ -73,18 +75,22 @@ namespace EventGen
         {
             InitializeComponent();
 
-            (new CustomTimelineWnd()).ShowDialog();
-            Application.Current.Shutdown();
+            _timelineModel = new Timeline(TimeSpan.FromMinutes(2));
+            timelineView.SetModel(_timelineModel);
+            currentTime.DataContext   = _timelineModel;
+            videoProgress.Maximum     = _timelineModel.Range.TotalSeconds;
+            videoProgress.DataContext = _timelineModel;
+
+            _timelineModel.PropertyChanged += TimelinePropertyChanged; 
 
             LoginProcedure();
 
             DataContext = this;
 
             _timer = new DispatcherTimer();
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
-            _timer.Tick += setUpdateTrackPos;
-            _timer.Start();
-
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timer.Tick += onUpdateCurrentTimeFromVideo;
+            
             myMediaElement.MediaEnded += mediaEnded;
         }
 
@@ -103,8 +109,6 @@ namespace EventGen
                 System.Windows.Application.Current.Shutdown();
                 return;
             }
-
-            // Discussions = new ObservableCollection<Discussion>(DaoHelpers.discussionsOfSession(login.session));
 
             Topics = new ObservableCollection<Topic>(login.discussion.Topic);
 
@@ -142,12 +146,6 @@ namespace EventGen
             Close();
         }
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
-        {
-            LogoutProcedure();
-            LoginProcedure();
-        }
-
         void FireStatsEvent(StEvent e, int personId = -2)
         {
             if (cbxTopics.SelectedItem == null)
@@ -170,20 +168,14 @@ namespace EventGen
                 //we use given personId
             }
 
-            var eventTimestamp = timeline.CurrentDateTime;
-            var eventViewModel = new EventViewModel(e, personId, eventTimestamp, login.devType);
-
-            var te = new TimelineLibrary.TimelineEvent();
-            te.StartDate = eventTimestamp;
-            te.EndDate = eventTimestamp;
-            te.IsDuration = false;
-            te.Title = eventViewModel.userName + " " + eventViewModel.evt;
-            te.Description = eventViewModel.devType + ", " + eventViewModel.dateTime;
-            te.Tag = new EventInfo(e, personId, login.discussion.Id,
-                                   eventTimestamp, ((Topic)cbxTopics.SelectedItem).Id,
-                                   login.devType);            
-            timeline.TimelineEvents.Add(te);
-            timeline.ResetEvents(timeline.TimelineEvents);
+            var newEvent = new TimelineEvent(e, 
+                                            personId, 
+                                            login.discussion.Id,
+                                            _timelineModel, 
+                                            TimeSpan.FromSeconds(0), //taken from timeline 
+                                            ((Topic)cbxTopics.SelectedItem).Id, 
+                                            login.devType);
+            _timelineModel.AddEvent(newEvent);       
         }
 
         #region eventgen handlers
@@ -304,7 +296,7 @@ namespace EventGen
                     FireStatsEvent(StEvent.SourceOpened);
                     break;
                 case Key.Delete:
-                    DeleteSelectedEvents();
+                    _timelineModel.RemoveSelectedEvents();    
                     break;
                 case Key.Space:
                     if (IsPlaying)
@@ -367,7 +359,7 @@ namespace EventGen
 
         private void btnDeleteEvent_Click_1(object sender, RoutedEventArgs e)
         {
-            DeleteSelectedEvents();
+            _timelineModel.RemoveSelectedEvents();    
         }
 
         private void btnRecordingStarted_Click_1(object sender, RoutedEventArgs e)
@@ -507,20 +499,10 @@ namespace EventGen
 
         private void btnDeleteEvent_Click_2(object sender, RoutedEventArgs e)
         {
-            DeleteSelectedEvents();
+            _timelineModel.RemoveSelectedEvents();            
         }
 
         #endregion
-
-        void DeleteSelectedEvents()
-        {
-            foreach (var se in timeline.SelectedTimelineEvents)
-            {
-                timeline.TimelineEvents.Remove(se);
-            }
-
-            timeline.ResetEvents(timeline.TimelineEvents);
-        }
 
         private void btnUpload_Click_1(object sender, RoutedEventArgs e)
         {
@@ -548,19 +530,22 @@ namespace EventGen
         }
 
         public void Play()
-        {
-            _isPlaying = true;
+        {            
             myMediaElement.Play();
+            _isPlaying = true;
+            _timer.Start();
         }
 
         public void Pause()
         {
+            _timer.Stop();
             _isPlaying = false;
             myMediaElement.Pause();
         }
 
         public void Stop()
         {
+            _timer.Stop();
             _isPlaying = false;
             myMediaElement.Stop();
         }
@@ -599,12 +584,6 @@ namespace EventGen
             lblSpeed.Text = string.Format("Speed {0:0.0}x", (double)speedRatioSlider.Value);
         }
 
-        // When the media opens, initialize the "Seek To" slider maximum value
-        // to the total number of miliseconds in the length of the media clip.
-        private void Element_MediaOpened(object sender, EventArgs e)
-        {
-        }
-
         // When the media playback is finished. Stop() the media to seek to media start.
         private void Element_MediaEnded(object sender, EventArgs e)
         {
@@ -621,6 +600,8 @@ namespace EventGen
 
         private void Element_MediaOpened(object sender, RoutedEventArgs e)
         {
+            _timelineModel.Range = myMediaElement.NaturalDuration.TimeSpan;
+            videoProgress.Maximum = _timelineModel.Range.TotalSeconds;            
         }
 
         private void btnUpload_Click_1(object sender, MouseButtonEventArgs e)
@@ -628,72 +609,20 @@ namespace EventGen
             var dlg = new System.Windows.Forms.OpenFileDialog();
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                myMediaElement.Source = new Uri(dlg.FileName);
-                _timer.Tick += setMaxTrackValue;
-                Play();
+                try
+                {
+                    myMediaElement.Source = new Uri(dlg.FileName);
+                    Play();
+                }
+                catch(Exception e1)
+                {
+                    myMediaElement.Source = null;
+                    MessageBox.Show("Problem with video: " + e1.ToString() + "  Ensure that selected video file can be played with Windows Media Player",
+                                     "Error",
+                                     MessageBoxButton.OK,
+                                     MessageBoxImage.Error);                    
+                }
             }
-        }
-
-        void setMaxTrackValue(object sender, EventArgs e)
-        {
-            if (myMediaElement.NaturalDuration.HasTimeSpan)
-            {
-                _timer.Tick -= setMaxTrackValue;
-                timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalSeconds;
-                lblVideoDuration.Text = "Video duration: " + formatTimeSpan(myMediaElement.NaturalDuration.TimeSpan);
-            }
-        }
-
-        void setUpdateTrackPos(object sender, EventArgs e)
-        {
-            sliderBeingUpdatedFromPlayer = true;
-            try
-            {
-                timelineSlider.Value = myMediaElement.Position.TotalSeconds;
-                timeline.CurrentDateTime = timeline.MinDateTime.AddSeconds(myMediaElement.Position.TotalSeconds);
-            }
-            finally
-            {
-                sliderBeingUpdatedFromPlayer = false;
-            }
-        }
-
-        static string formatTimeSpan(TimeSpan s)
-        {
-            return string.Format("{0:00.}:{1:00.}:{2:00.}", s.Hours, s.Minutes, s.Seconds);
-        }
-
-        bool sliderBeingUpdatedFromPlayer = false;
-        bool miniTimelinePending = false;
-        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            if (sliderBeingUpdatedFromPlayer)
-                return;
-
-            miniTimelinePending = true;
-            int SliderValue = (int)timelineSlider.Value;
-            TimeSpan ts = new TimeSpan(0, 0, 0, SliderValue, 0);
-            Stop();
-            myMediaElement.Position = ts;
-        }
-
-        void finalizeMiniTimelineChange()
-        {
-            if (miniTimelinePending)
-            {
-                miniTimelinePending = false;
-                //Play();
-            }
-        }
-
-        private void timelineSlider_PreviewMouseUp_1(object sender, MouseButtonEventArgs e)
-        {
-            finalizeMiniTimelineChange();
-        }
-
-        private void timelineSlider_PreviewTouchUp_1(object sender, TouchEventArgs e)
-        {
-            finalizeMiniTimelineChange();
         }
 
         #endregion media player
@@ -704,52 +633,44 @@ namespace EventGen
             lblDiscussion.Text = "Discussion: " + login.discussion.Subject;
 
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
-
-            timeline.MinDateTime = login.session.EstimatedDateTime;
-            timeline.MaxDateTime = login.session.EstimatedEndDateTime;
-            timeline.CurrentDateTime = timeline.MinDateTime;
-            timeline_CurrentDateChanged_1(null, null);
-
-            lblDiscStart.Text = "Session start: " + timeline.MinDateTime.ToString();
-            lblDiscEnd.Text = "Session end: " + timeline.MaxDateTime.ToString();
-            lblDiscDuration.Text = "Session duration: " + formatTimeSpan(timeline.MaxDateTime.Subtract(timeline.MinDateTime));
+         
+            ///lblDiscDuration.Text = "Session duration: " + formatTimeSpan(timeline.MaxDateTime.Subtract(timeline.MinDateTime));
         }
 
         #region big timeline
-
-        bool bigTimelinePending = false;
-        private void timeline_CurrentDateChanged_1(object sender, EventArgs e)
+        void TimelinePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var timeSpanFromStart = timeline.CurrentDateTime.Subtract(timeline.MinDateTime);
-            relCurrentTime.Text = formatTimeSpan(timeSpanFromStart); //update relative label 
-
-            if (!sliderBeingUpdatedFromPlayer)
-            {
-                bigTimelinePending = true;
-                Stop();
-                myMediaElement.Position = timeSpanFromStart;
+            //if video is not playing and current time changed => it's changed due to manual drag, update video seek position
+            if(!IsPlaying && e.PropertyName == "CurrentTime")                           
+            {                  
+                myMediaElement.Position = _timelineModel.CurrentTime;
             }
         }
 
-        void finalizeTimelineChange()
+        void onUpdateCurrentTimeFromVideo(object sender, EventArgs e)
         {
-            if (bigTimelinePending)
-            {
-                bigTimelinePending = false;
-               // Play();
-            }
+            if(Mouse.LeftButton==MouseButtonState.Released && Mouse.RightButton==MouseButtonState.Released)
+                _timelineModel.CurrentTime = myMediaElement.Position;
         }
 
-        private void timeline_MouseUp_1(object sender, MouseButtonEventArgs e)
+        private void timelineView_MouseWheel_1(object sender, MouseWheelEventArgs e)
         {
-            finalizeTimelineChange();
+            var delta = e.Delta < 0 ? 0.5 : -0.5;
+            var newZoom = zoomSlider.Value + delta;
+            if (zoomSlider.Minimum <= newZoom && newZoom <= zoomSlider.Maximum)
+                zoomSlider.Value = newZoom;
         }
 
-        private void timeline_TouchUp_1(object sender, TouchEventArgs e)
+        private void zoomSlider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            finalizeTimelineChange();
+            timelineView.ChangeZoom(e.NewValue);
         }
 
+        private void timelineView_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            //stop the playback before manual manipulations with timeline 
+            Pause();
+        }      
         #endregion  big timeline
 
         private void btnSubmit_Click_1(object sender, RoutedEventArgs e)
@@ -771,26 +692,11 @@ namespace EventGen
 
         void submitEvents()
         {
-            foreach (var te in timeline.TimelineEvents)
-            {
-                var evInfo = (EventInfo)te.Tag;
-                DaoHelpers.recordEvent(evInfo);
-            }
-        }
-
-        private void btnMoveEvent_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (timeline.SelectedTimelineEvents.Count != 1)
-            {
-                MessageBox.Show("1. Select event to move;\n2. Move timeline to new position of event;\n3. Click this button");
-                return;
-            }
-            var moved = timeline.SelectedTimelineEvents.First();
-          
-
-            DeleteSelectedEvents();
-            var ei = moved.Tag as EventInfo;
-            FireStatsEvent(ei.e, ei.userId);
+            MessageBox.Show("Not implemented");
+            //foreach (var te in _timelineModel.Events)
+            //{
+            //   // DaoHelpers.recordEvent(evInfo);
+            //}
         }
     }
 }
