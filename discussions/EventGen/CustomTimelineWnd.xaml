@@ -24,5 +24,6 @@
             <TextBlock Text="Zoom" Foreground="White"/>
             <s:SurfaceSlider Name="zoomSlider" Minimum="1" Maximum="300" SmallChange="1" Width="400" ValueChanged="Slider_ValueChanged_1" VerticalAlignment="Center"/>
         </StackPanel>
+        <TextBlock Name="currentTime" Text="{Binding CurrentTime, Mode=OneWay, StringFormat={}{0:hh\\:mm\\:ss}}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" FontSize="34" Foreground="White"/>
     </Grid>
 </s:SurfaceWindow>

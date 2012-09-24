@@ -7,8 +7,7 @@
              d:DesignHeight="230" 
 			 d:DesignWidth="320">
     <Grid>
-    	<StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center">
-		
+    	<StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center">	
     		<TextBlock x:Name="txt" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
     			d:LayoutOverrides="Margin"><Run FontWeight="Bold" Text="{Binding userName}" Foreground="{Binding userColor}" />
                 <Run Text=" "/>
@@ -24,8 +23,7 @@
     				Foreground="LightGreen" TextWrapping="Wrap" 
 					FontSize="15" VerticalAlignment="Bottom" 
 					HorizontalAlignment="Left" Margin="14,0,0,0"/>		
-    		</DockPanel>
-		
+    		</DockPanel>		
     	</StackPanel>
     </Grid>
 </UserControl>

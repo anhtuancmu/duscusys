@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -28,16 +29,26 @@ namespace EventGen.timeline
             if (_timeline == null)
                 throw new NotSupportedException("no timeline model");
 
+            _timeline.PropertyChanged += propertyChanged;
+
             addToScene();
+        }
+
+        void propertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CurrentTime")
+            {
+                updatePositionByModel();
+            }
         }
 
         void CurrentMarker_SizeChanged_1(object sender, SizeChangedEventArgs e)
         {
             //sets current marker at correct zero position 
-            UpdatePositionByModel();
+            updatePositionByModel();
         }
 
-        public void UpdatePositionByModel()
+        public void updatePositionByModel()
         {
             Canvas.SetLeft(this, TimeScale.TimeToPosition(_timeline.CurrentTime, _timelineView.Zoom)-this.ActualWidth*0.5);                
         }
@@ -65,9 +76,6 @@ namespace EventGen.timeline
             //change model's time
             var pos = e.MouseDevice.GetPosition(_timelineView.Scene);
             _timeline.CurrentTime = TimeScale.PositionToTime(pos.X, _timelineView.Zoom);
-
-            //update position by model
-            UpdatePositionByModel();
 
             e.Handled = true;
         }

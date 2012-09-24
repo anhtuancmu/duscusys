@@ -8,11 +8,6 @@
         mc:Ignorable="d" 
         d:DesignHeight="300" d:DesignWidth="300" Background="Black">     
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Canvas x:Name="eventScene" Grid.ColumnSpan="2">
-        </Canvas>
+        <Canvas x:Name="eventScene"/>
     </Grid>
 </UserControl>
