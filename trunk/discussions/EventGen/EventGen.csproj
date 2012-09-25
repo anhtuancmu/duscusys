@@ -76,6 +76,9 @@
     <Compile Include="DaoHelpers.cs" />
     <Compile Include="DiscussionSession.cs" />
     <Compile Include="EventInfo.cs" />
+    <Compile Include="SubmitionWnd.xaml.cs">
+      <DependentUpon>SubmitionWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="timeline\CommandBase.cs" />
     <Compile Include="timeline\CommandManager.cs" />
     <Compile Include="timeline\CreateEventCommand.cs" />
@@ -84,6 +87,7 @@
     </Compile>
     <Compile Include="timeline\DeleteEventCommand.cs" />
     <Compile Include="timeline\EventMoveCommand.cs" />
+    <Compile Include="timeline\Session.cs" />
     <Compile Include="timeline\Timeline.cs" />
     <Compile Include="timeline\ICommand.cs" />
     <Compile Include="timeline\TimelineEvent.cs" />
@@ -110,6 +114,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SubmitionWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="timeline\CurrentMarker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +176,10 @@
     <ProjectReference Include="..\LoginEngine\LoginEngine.csproj">
       <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
       <Name>LoginEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reporter\Reporter.csproj">
+      <Project>{5204d876-80f1-48cf-b1e9-36bb44e55640}</Project>
+      <Name>Reporter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

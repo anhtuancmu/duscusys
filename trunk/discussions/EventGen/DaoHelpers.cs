@@ -27,7 +27,7 @@ namespace EventGen
             return q;
         }
 
-        public static void recordEvent(EventInfo evt)
+        public static void recordEvent(TimelineEvent evt, DateTime startTime)
         {
             var _ctx = DbCtx.Get();
 
@@ -52,7 +52,7 @@ namespace EventGen
             s.UserId = evt.userId;
             s.UserName = pers.Name;
             s.Event = (int)evt.e;
-            s.Time = evt.timestamp;
+            s.Time = startTime.Add(evt.Span);
             s.DeviceType = (int)evt.devType;
 
             _ctx.StatsEvent.AddObject(s);            
