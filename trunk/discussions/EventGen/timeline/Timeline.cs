@@ -68,12 +68,16 @@ namespace EventGen.timeline
         }
 
         public void AddEvent(TimelineEvent ev)
-        {
-            ev.Span = CurrentTime;
+        {            
             _events.Add(ev);
         }
+        
+        public void RemoveEvent(TimelineEvent ev)
+        {
+            _events.Remove(ev);
+        }
 
-        public void RemoveSelectedEvents()
+        public void RemoveSelectedEvents(CommandManager cmdMgr)
         {
             var numSelected = _events.Where(ev => ev.IsEvSelected).Count();
             if (numSelected > 1)
@@ -84,7 +88,9 @@ namespace EventGen.timeline
 
             foreach (var selected in _events.ToArray())
                 if (selected.IsEvSelected)
-                    _events.Remove(selected);
+                {
+                    cmdMgr.RegisterDoneCommand(new DeleteEventCommand(selected, true));                   
+                }
         }
     }
 }

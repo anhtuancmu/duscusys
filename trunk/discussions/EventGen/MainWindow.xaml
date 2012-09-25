@@ -32,12 +32,12 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-         <s:SurfaceScrollViewer Grid.ColumnSpan="3">
+         <s:SurfaceScrollViewer Name="timelineScroller" Grid.ColumnSpan="3">
             <customTimeline:TimelineView x:Name="timelineView" Grid.RowSpan="1" MouseWheel="timelineView_MouseWheel_1" MouseDown="timelineView_MouseDown_1"/>
          </s:SurfaceScrollViewer >
          <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Grid.ColumnSpan="3">
             <TextBlock Text="Zoom" Foreground="White"/>
-            <s:SurfaceSlider Name="zoomSlider" Minimum="1" Maximum="300" SmallChange="1" Width="400" ValueChanged="zoomSlider_ValueChanged_1" VerticalAlignment="Center"/>
+            <s:SurfaceSlider Name="zoomSlider" Minimum="3" Maximum="300" SmallChange="1" Width="400" ValueChanged="zoomSlider_ValueChanged_1" VerticalAlignment="Center"/>
          </StackPanel>
          <TextBlock Name="currentTime" Text="{Binding CurrentTime, Mode=OneWay, StringFormat={}{0:hh\\:mm\\:ss}}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" FontSize="34" Foreground="White" Grid.Column="3"/>
         

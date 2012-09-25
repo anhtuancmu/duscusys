@@ -19,7 +19,24 @@ namespace EventGen
         public int discussionId;
         public int topicId;
         public DeviceType devType;
-        public Timeline timeline; 
+        public Timeline timeline;
+
+        double stickHeigth = (new Random()).Next(50);//only used by event view 
+        public double StickHeight
+        {
+            get
+            {
+                return stickHeigth;
+            }
+            set
+            {
+                if (value != stickHeigth)
+                {
+                    stickHeigth = value;
+                    NotifyPropertyChanged("StickHeight");
+                }
+            }
+        }
 
         bool _isEvSelected = false;
         public bool IsEvSelected

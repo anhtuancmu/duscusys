@@ -28,6 +28,6 @@
                 </TextBlock>
             </StackPanel> 
         </Border>
-        <Rectangle Name="stick" Height="20" Fill="{Binding UserColor}" Grid.Row="1" Width="2" HorizontalAlignment="Left"/> 
+        <Rectangle Height="{Binding StickHeight}" Fill="{Binding UserColor}" Grid.Row="1" Width="2" HorizontalAlignment="Left"/> 
     </Grid>
 </UserControl>
