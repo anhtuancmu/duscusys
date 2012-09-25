@@ -76,10 +76,16 @@
     <Compile Include="DaoHelpers.cs" />
     <Compile Include="DiscussionSession.cs" />
     <Compile Include="EventInfo.cs" />
+    <Compile Include="timeline\CommandBase.cs" />
+    <Compile Include="timeline\CommandManager.cs" />
+    <Compile Include="timeline\CreateEventCommand.cs" />
     <Compile Include="timeline\CurrentMarker.xaml.cs">
       <DependentUpon>CurrentMarker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="timeline\DeleteEventCommand.cs" />
+    <Compile Include="timeline\EventMoveCommand.cs" />
     <Compile Include="timeline\Timeline.cs" />
+    <Compile Include="timeline\ICommand.cs" />
     <Compile Include="timeline\TimelineEvent.cs" />
     <Compile Include="timeline\TimelineEventView.xaml.cs">
       <DependentUpon>TimelineEventView.xaml</DependentUpon>

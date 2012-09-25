@@ -23,6 +23,8 @@ namespace EventGen.timeline
 
         TimelineView _timeline;
 
+        EventMoveCommand _currentMoveCommand = null;
+
         public TimelineEventView(Canvas scene, double timelineBottomY, TimelineEvent te, TimelineView timeline)
         {
             InitializeComponent();
@@ -34,7 +36,7 @@ namespace EventGen.timeline
             DataContext = te;
             te.view = this;
             AddToScene();
-            stick.Height = (new Random()).Next(50);
+
             UpdatePositionByModel(te);
         }
 
@@ -51,7 +53,7 @@ namespace EventGen.timeline
 
         public void UpdatePositionByModel(TimelineEvent te)
         {
-            var totalHeight = this.stick.Height + border.Height;
+            var totalHeight = te.StickHeight + border.Height;
             Canvas.SetTop(this, _timelineBottomY - totalHeight);
             Canvas.SetLeft(this, TimeScale.TimeToPosition(te.Span, _timeline.Zoom));                      
         }
@@ -66,6 +68,8 @@ namespace EventGen.timeline
             if (model == null)
                 return;
             model.IsEvSelected = !model.IsEvSelected;
+
+            _currentMoveCommand = new EventMoveCommand(model);
 
             Mouse.Capture(this);
 
@@ -93,9 +97,11 @@ namespace EventGen.timeline
             model.Span = newTime;
 
             //y
-            var newStickHeight = this.stick.Height - yDelta;
+            var newStickHeight = model.StickHeight - yDelta;
             if (newStickHeight > 0)
-                this.stick.Height = newStickHeight; 
+            {
+                model.StickHeight = newStickHeight;
+            }
 
             //update position by model
             UpdatePositionByModel(model);
@@ -105,6 +111,12 @@ namespace EventGen.timeline
 
         private void TimelineEventView_MouseUp_1(object sender, MouseButtonEventArgs e)
         {
+            if (_currentMoveCommand!=null && _currentMoveCommand.EndCommand())
+            {
+                CommandManager.Instance.RegisterDoneCommand(_currentMoveCommand);
+            }
+            _currentMoveCommand = null;
+
             ReleaseMouseCapture();
             e.Handled = true;
         }

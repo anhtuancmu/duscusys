@@ -77,6 +77,7 @@ namespace EventGen
 
             _timelineModel = new Timeline(TimeSpan.FromMinutes(2));
             timelineView.SetModel(_timelineModel);
+            timelineView.ChangeZoom(zoomSlider.Value);
             currentTime.DataContext   = _timelineModel;
             videoProgress.Maximum     = _timelineModel.Range.TotalSeconds;
             videoProgress.DataContext = _timelineModel;
@@ -92,7 +93,16 @@ namespace EventGen
             _timer.Tick += onUpdateCurrentTimeFromVideo;
             
             myMediaElement.MediaEnded += mediaEnded;
+
+            //timelineScroller.Scroll ToHorizontalOffset(timelineView.Width/2);
         }
+
+        //bool NeedsScroll()
+        //{
+        //    var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);
+        //    currentTimePos.
+        //    timelineScroller.scrollto
+        //}
 
         void LoginProcedure()
         {
@@ -167,20 +177,34 @@ namespace EventGen
             {
                 //we use given personId
             }
-
+            
             var newEvent = new TimelineEvent(e, 
                                             personId, 
                                             login.discussion.Id,
-                                            _timelineModel, 
-                                            TimeSpan.FromSeconds(0), //taken from timeline 
+                                            _timelineModel,
+                                            _timelineModel.CurrentTime, 
                                             ((Topic)cbxTopics.SelectedItem).Id, 
                                             login.devType);
-            _timelineModel.AddEvent(newEvent);       
+            EventGen.timeline.CommandManager.Instance.RegisterDoneCommand(new CreateEventCommand(newEvent, true));    
         }
 
         #region eventgen handlers
         private void SurfaceWindow_KeyDown_1(object sender, KeyEventArgs e)
         {
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                if (e.Key == Key.Z)
+                {
+                    EventGen.timeline.CommandManager.Instance.Undo();
+                    return;
+                }
+                else if (e.Key == Key.Y)
+                {
+                    EventGen.timeline.CommandManager.Instance.Redo();
+                    return;
+                }
+            }
+
             switch (e.Key)
             {
                 case Key.D1:
@@ -296,7 +320,7 @@ namespace EventGen
                     FireStatsEvent(StEvent.SourceOpened);
                     break;
                 case Key.Delete:
-                    _timelineModel.RemoveSelectedEvents();    
+                    _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);    
                     break;
                 case Key.Space:
                     if (IsPlaying)
@@ -355,11 +379,6 @@ namespace EventGen
         void OnStatsEvent(StEvent e, int userId, int discussionId, int topicId, DeviceType devType)
         {
             RecentEvents.Add(new EventViewModel(e, userId, DateTime.Now, devType));
-        }
-
-        private void btnDeleteEvent_Click_1(object sender, RoutedEventArgs e)
-        {
-            _timelineModel.RemoveSelectedEvents();    
         }
 
         private void btnRecordingStarted_Click_1(object sender, RoutedEventArgs e)
@@ -499,7 +518,7 @@ namespace EventGen
 
         private void btnDeleteEvent_Click_2(object sender, RoutedEventArgs e)
         {
-            _timelineModel.RemoveSelectedEvents();            
+            _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);            
         }
 
         #endregion
@@ -697,6 +716,6 @@ namespace EventGen
             //{
             //   // DaoHelpers.recordEvent(evInfo);
             //}
-        }
+        }    
     }
 }

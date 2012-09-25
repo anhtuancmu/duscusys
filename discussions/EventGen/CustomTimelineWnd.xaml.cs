@@ -36,8 +36,7 @@ namespace EventGen
         }
 
         private void RemoveEvent_Click_1(object sender, RoutedEventArgs e)
-        {
-            _timelineModel.RemoveSelectedEvents();
+        {           
         }
 
         private void Slider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
