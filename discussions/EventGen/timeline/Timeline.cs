@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -91,6 +92,28 @@ namespace EventGen.timeline
                 {
                     cmdMgr.RegisterDoneCommand(new DeleteEventCommand(selected, true));                   
                 }
+        }
+
+        public void Write(BinaryWriter w)
+        {
+            w.Write(Range.TotalSeconds);
+            w.Write(CurrentTime.TotalSeconds);            
+            w.Write(Events.Count());
+            foreach (var ev in Events)
+            {
+                ev.Write(w);
+            }
+        }
+
+        public void Read(BinaryReader r)
+        {
+            Range = TimeSpan.FromSeconds(r.ReadDouble());
+            CurrentTime = TimeSpan.FromSeconds(r.ReadDouble());
+            var nEvents = r.ReadInt32();
+            for (int i = 0; i < nEvents; i++)
+            {
+                AddEvent(new TimelineEvent(r, this));
+            }
         }
     }
 }

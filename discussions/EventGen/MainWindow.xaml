@@ -11,7 +11,7 @@
 		Background="Black"
         mc:Ignorable="d" x:Class="EventGen.MainWindow"
         KeyDown="SurfaceWindow_KeyDown_1"
-        Title="Event generator" WindowState="Maximized" Height="714" Width="874">
+        Title="Event generator v0.1" WindowState="Maximized" Height="975" Width="883">
     <s:SurfaceWindow.Resources>
         <LinearGradientBrush x:Key="MainBgrndRctFill" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF2CA1CF" Offset="0"/>
@@ -39,7 +39,17 @@
             <TextBlock Text="Zoom" Foreground="White"/>
             <s:SurfaceSlider Name="zoomSlider" Minimum="3" Maximum="300" SmallChange="1" Width="400" ValueChanged="zoomSlider_ValueChanged_1" VerticalAlignment="Center"/>
          </StackPanel>
-         <TextBlock Name="currentTime" Text="{Binding CurrentTime, Mode=OneWay, StringFormat={}{0:hh\\:mm\\:ss}}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" FontSize="34" Foreground="White" Grid.Column="3"/>
+         
+         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical">
+            <TextBlock FontSize="34" Foreground="White" HorizontalAlignment="Right">
+                <Run Text="Video duration:"/>   
+                <Run Name="videoLen"/>
+            </TextBlock>
+            <TextBlock Name="currentTime" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="34" Foreground="White">
+                <Run Text="     Current:"/>
+                <Run Text="{Binding CurrentTime, Mode=OneWay, StringFormat={}{0:hh\\:mm\\:ss}}" />
+            </TextBlock>
+        </StackPanel>
         
          <s:SurfaceListBox Grid.Column="1"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.Row="2">
                 <s:SurfaceListBox.ItemsPanel>
@@ -133,7 +143,6 @@
         		<RowDefinition Height="19*"/>
         		<RowDefinition Height="Auto"/>
         		<RowDefinition Height="Auto"/>
-
         	</Grid.RowDefinitions>
             <MediaElement x:Name="myMediaElement" Margin="10" MinHeight="100" LoadedBehavior="Manual" UnloadedBehavior="Stop" 
         		MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" d:LayoutOverrides="Width, Height, Margin"/>
@@ -177,12 +186,20 @@
 
                 <TextBlock x:Name="lblSession"       Text="" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="lblDiscussion"    Text="" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="lblDiscDuration"  Text="" HorizontalAlignment="Left"/>
-                <TextBlock x:Name="lblVideoDuration" Text="" HorizontalAlignment="Left"/>
-                
-                <s:SurfaceButton Name="btnDeleteEvent" Content="Delete event[Delete]" Click="btnDeleteEvent_Click_2" Height="30"/>
-                <s:SurfaceButton x:Name="btnSubmit" Click="btnSubmit_Click_1" Height="30" Content="Submit" ToolTip="Records all marked events to DB"/>
             </StackPanel>
         </StackPanel>
+        <Menu VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2">
+            <MenuItem Header="File">
+                <MenuItem Name="menuOpen" Header="Open (Ctrl+O)" Click="menuOpen_Click_1"/>
+                <MenuItem Name="menuSave" Header="Save (Ctrl+S)" Click="menuSave_Click_1"/>
+                <MenuItem Name="menuSaveAs" Header="Save As" Click="menuSaveAs_Click_1"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Name="menuSubmit" Header="Submit timeline" Click="menuSubmit_Click_1"/>
+                <MenuItem Name="menuDelete" Header="Delete event (Delete)" Click="menuDelete_Click_1"/>
+                <MenuItem Name="menuUndo" Header="Undo (Ctrl+Z)" Click="menuUndo_Click_1"/>
+                <MenuItem Name="menuRedo" Header="Redo (Ctrl+Y)" Click="menuRedo_Click_1"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </s:SurfaceWindow>

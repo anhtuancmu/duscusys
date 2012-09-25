@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -38,6 +39,8 @@ namespace EventGen
         UISharedRTClient sharedClient = new UISharedRTClient();
 
         DispatcherTimer _timer;
+
+        EventGen.timeline.Session _session;
 
         ObservableCollection<Topic> _topics = null;
         public ObservableCollection<Topic> topics
@@ -82,7 +85,9 @@ namespace EventGen
             videoProgress.Maximum     = _timelineModel.Range.TotalSeconds;
             videoProgress.DataContext = _timelineModel;
 
-            _timelineModel.PropertyChanged += TimelinePropertyChanged; 
+            _timelineModel.PropertyChanged += TimelinePropertyChanged;
+
+            _session = new EventGen.timeline.Session(_timelineModel);
 
             LoginProcedure();
 
@@ -93,16 +98,26 @@ namespace EventGen
             _timer.Tick += onUpdateCurrentTimeFromVideo;
             
             myMediaElement.MediaEnded += mediaEnded;
-
-            //timelineScroller.Scroll ToHorizontalOffset(timelineView.Width/2);
         }
 
-        //bool NeedsScroll()
-        //{
-        //    var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);
-        //    currentTimePos.
-        //    timelineScroller.scrollto
-        //}
+        void ensureCurrentTimeInView()
+        {
+            if (needsScroll())
+                scrollCurrentTimeIntoView();
+        }
+
+        void scrollCurrentTimeIntoView()
+        {
+            var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);
+            timelineScroller.ScrollToHorizontalOffset(currentTimePos - 50);
+        }
+
+        bool needsScroll()
+        {
+            var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);           
+            return (currentTimePos < timelineScroller.ContentHorizontalOffset ||
+                    currentTimePos > timelineScroller.ViewportWidth + timelineScroller.ContentHorizontalOffset);                 
+        }
 
         void LoginProcedure()
         {
@@ -193,19 +208,23 @@ namespace EventGen
         {
             if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
-                if (e.Key == Key.Z)
+                switch (e.Key)
                 {
-                    EventGen.timeline.CommandManager.Instance.Undo();
-                    return;
-                }
-                else if (e.Key == Key.Y)
-                {
-                    EventGen.timeline.CommandManager.Instance.Redo();
-                    return;
-                }
+                    case Key.Z:
+                        menuUndo_Click_1(null,null);                       
+                        break;
+                    case Key.Y:
+                        menuRedo_Click_1(null, null);   
+                        break;
+                    case Key.S:
+                        menuSave_Click_1(null, null);
+                        break;
+                    case Key.O:
+                        menuOpen_Click_1(null, null);
+                        break;
+                }                            
             }
-
-            switch (e.Key)
+            else switch (e.Key)
             {
                 case Key.D1:
                 case Key.NumPad1:
@@ -516,11 +535,6 @@ namespace EventGen
             FireStatsEvent(StEvent.SourceOpened);
         }
 
-        private void btnDeleteEvent_Click_2(object sender, RoutedEventArgs e)
-        {
-            _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);            
-        }
-
         #endregion
 
         private void btnUpload_Click_1(object sender, RoutedEventArgs e)
@@ -619,7 +633,10 @@ namespace EventGen
 
         private void Element_MediaOpened(object sender, RoutedEventArgs e)
         {
+            _timelineModel.CurrentTime = TimeSpan.FromSeconds(0);
             _timelineModel.Range = myMediaElement.NaturalDuration.TimeSpan;
+            videoLen.Text = _timelineModel.Range.ToString("hh\\:mm\\:ss");
+            timelineView.ChangeZoom(timelineView.Zoom);
             videoProgress.Maximum = _timelineModel.Range.TotalSeconds;            
         }
 
@@ -628,19 +645,25 @@ namespace EventGen
             var dlg = new System.Windows.Forms.OpenFileDialog();
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                try
-                {
-                    myMediaElement.Source = new Uri(dlg.FileName);
-                    Play();
-                }
-                catch(Exception e1)
-                {
-                    myMediaElement.Source = null;
-                    MessageBox.Show("Problem with video: " + e1.ToString() + "  Ensure that selected video file can be played with Windows Media Player",
-                                     "Error",
-                                     MessageBoxButton.OK,
-                                     MessageBoxImage.Error);                    
-                }
+                HandleOnMediaOpened(dlg.FileName);
+            }
+        }
+
+        void HandleOnMediaOpened(string mediaPathName)
+        {
+            try
+            {
+                myMediaElement.Source = new Uri(mediaPathName);
+                Play();
+                _session.videoPathName = mediaPathName;
+            }
+            catch (Exception e1)
+            {
+                myMediaElement.Source = null;
+                MessageBox.Show("Problem with video: " + e1.ToString() + "  Ensure that selected video file can be played with Windows Media Player",
+                                 "Error",
+                                 MessageBoxButton.OK,
+                                 MessageBoxImage.Error);
             }
         }
 
@@ -648,8 +671,7 @@ namespace EventGen
 
         void setPostLoginInfo()
         {
-            lblSession.Text = "Session: " + login.session.Name;
-            lblDiscussion.Text = "Discussion: " + login.discussion.Subject;
+            Title += ":   " + login.discussion.Subject + ",   " + login.session.Name;
 
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
          
@@ -668,8 +690,11 @@ namespace EventGen
 
         void onUpdateCurrentTimeFromVideo(object sender, EventArgs e)
         {
-            if(Mouse.LeftButton==MouseButtonState.Released && Mouse.RightButton==MouseButtonState.Released)
+            if (Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
+            {
                 _timelineModel.CurrentTime = myMediaElement.Position;
+                ensureCurrentTimeInView();
+            }
         }
 
         private void timelineView_MouseWheel_1(object sender, MouseWheelEventArgs e)
@@ -692,30 +717,88 @@ namespace EventGen
         }      
         #endregion  big timeline
 
-        private void btnSubmit_Click_1(object sender, RoutedEventArgs e)
+        private void btnUndo_Click_1(object sender, RoutedEventArgs e)
         {
-            submitEvents();
-
-            try
-            {
-                DbCtx.Get().SaveChanges();
-            }
-            catch (Exception e1)
-            {
-                MessageBox.Show(e1.ToString(), "Cannot submit events due to error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            Close();
+            EventGen.timeline.CommandManager.Instance.Undo();
         }
 
-        void submitEvents()
+        private void btnRedo_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented");
-            //foreach (var te in _timelineModel.Events)
-            //{
-            //   // DaoHelpers.recordEvent(evInfo);
-            //}
+            EventGen.timeline.CommandManager.Instance.Redo();
+        }
+
+        private void menuOpen_Click_1(object sender, RoutedEventArgs e)
+        {
+            var dlg = new System.Windows.Forms.OpenFileDialog();
+            dlg.Filter = "MEG timeline file |*.meg";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _session.Read(dlg.FileName);
+
+                if (!File.Exists(_session.videoPathName))
+                {
+                    MessageBox.Show("Cannot find video file " + _session.videoPathName + ". Selected MEG timeline references it");
+                    return;
+                }
+
+                HandleOnMediaOpened(_session.videoPathName);
+            }
+        }
+
+        void SaveTimeline(bool saveAs)
+        {
+            if (_session.videoPathName == "")
+            {
+                MessageBox.Show("Cannot save timeline, no video selected");
+                return;
+            }
+
+            var megPathName = _session.megFilePathName;
+            if (megPathName == "" || saveAs)
+            {
+                var dlg = new System.Windows.Forms.SaveFileDialog();
+                dlg.CheckFileExists = false;
+                dlg.Filter = "MEG timeline file |*.meg";
+                // dlg.DefaultExt = ".meg";
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    megPathName = dlg.FileName;
+                }
+            }
+
+            if (megPathName != "")
+                _session.Write(megPathName);
+        }
+
+        private void menuSave_Click_1(object sender, RoutedEventArgs e)
+        {
+            SaveTimeline(false);
+        }
+
+        private void menuSaveAs_Click_1(object sender, RoutedEventArgs e)
+        {
+            SaveTimeline(true);
+        }
+
+        private void menuSubmit_Click_1(object sender, RoutedEventArgs e)
+        {            
+            var baseStamp = login.session.EstimatedDateTime;
+            (new SubmitionWnd(_timelineModel, baseStamp)).ShowDialog();
+        }
+
+        private void menuDelete_Click_1(object sender, RoutedEventArgs e)
+        {
+            _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);   
+        }
+
+        private void menuUndo_Click_1(object sender, RoutedEventArgs e)
+        {
+            EventGen.timeline.CommandManager.Instance.Undo();
+        }
+
+        private void menuRedo_Click_1(object sender, RoutedEventArgs e)
+        {
+            EventGen.timeline.CommandManager.Instance.Redo();
         }    
     }
 }

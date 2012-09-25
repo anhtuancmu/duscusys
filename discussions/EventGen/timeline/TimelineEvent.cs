@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,28 @@ namespace EventGen
         public DeviceType devType;
         public Timeline timeline;
 
+        public void Write(BinaryWriter w)
+        {
+            w.Write((int)e);
+            w.Write(userId);
+            w.Write(discussionId);
+            w.Write(topicId);            
+            w.Write((int)devType);
+            w.Write(StickHeight);
+            w.Write(Span.TotalSeconds);
+        }
+
+        public void Read(BinaryReader r)
+        {
+            e = (StEvent)r.ReadInt32();
+            userId = r.ReadInt32();
+            discussionId = r.ReadInt32();
+            topicId = r.ReadInt32();
+            devType = (DeviceType)r.ReadInt32();
+            StickHeight = r.ReadDouble();
+            Span = TimeSpan.FromSeconds(r.ReadDouble());
+        }
+            
         double stickHeigth = (new Random()).Next(50);//only used by event view 
         public double StickHeight
         {
@@ -159,7 +182,22 @@ namespace EventGen
             _userColor = evm.userColor;
             _userName  = evm.userName;
             _devName   = evm.devType;
-            _eventName = evm.evt;       
-        } 
+            _eventName = evm.evt;
+        }
+
+        public TimelineEvent(BinaryReader r, Timeline timeline)
+        {
+            this.timeline = timeline;
+            
+            Read(r);
+
+            //update view params
+            var evm = new EventViewModel(e, userId, DateTime.Now, devType);
+            _userColor = evm.userColor;
+            _userName  = evm.userName;
+            _devName   = evm.devType;
+            _eventName = evm.evt;
+        }
     }
 }
+
