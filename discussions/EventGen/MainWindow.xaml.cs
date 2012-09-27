@@ -23,6 +23,7 @@ using Discussions.stats;
 using EventGen.timeline;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls;
+using Reporter;
 using TimelineLibrary;
 
 namespace EventGen
@@ -41,6 +42,9 @@ namespace EventGen
         DispatcherTimer _timer;
 
         EventGen.timeline.Session _session;
+
+        EventTotalsReport _totalsReport = new EventTotalsReport();
+        int fakeEventId = 0;
 
         ObservableCollection<Topic> _topics = null;
         public ObservableCollection<Topic> topics
@@ -171,12 +175,12 @@ namespace EventGen
             Close();
         }
 
-        void FireStatsEvent(StEvent e, int personId = -2)
+        bool FireStatsEvent(StEvent e, int personId = -2)
         {
             if (cbxTopics.SelectedItem == null)
             {
                 MessageBox.Show("Please first select topic");
-                return;
+                return false;
             }
 
             if (personId == -2)
@@ -184,7 +188,7 @@ namespace EventGen
                 if (lstUsers.SelectedItem == null)
                 {
                     MessageBox.Show("Please first select user who initiates the event");
-                    return;
+                    return false;
                 }
                 personId = ((Person)lstUsers.SelectedItem).Id;
             }
@@ -200,7 +204,9 @@ namespace EventGen
                                             _timelineModel.CurrentTime, 
                                             ((Topic)cbxTopics.SelectedItem).Id, 
                                             login.devType);
-            EventGen.timeline.CommandManager.Instance.RegisterDoneCommand(new CreateEventCommand(newEvent, true));    
+            EventGen.timeline.CommandManager.Instance.RegisterDoneCommand(new CreateEventCommand(newEvent, true));
+            UpdateEventCounts();
+            return true;
         }
 
         #region eventgen handlers
@@ -228,118 +234,118 @@ namespace EventGen
             {
                 case Key.D1:
                 case Key.NumPad1:
-                    FireStatsEvent(StEvent.RecordingStarted);
+                    btnRecordingStarted_Click_1(null, null);                    
                     break;
                 case Key.D2:
                 case Key.NumPad2:
-                    FireStatsEvent(StEvent.RecordingStopped);
+                    btnRecordingStopped_Click_1(null, null);                      
                     break;
                 case Key.D3:
                 case Key.NumPad3:
-                    FireStatsEvent(StEvent.BadgeCreated);
+                    btnBadgeCreated_Click_1(null, null);                      
                     break;
                 case Key.D4:
                 case Key.NumPad4:
-                    FireStatsEvent(StEvent.BadgeEdited);
+                    btnBadgeEdited_Click_1(null, null);                          
                     break;
                 case Key.D5:
                 case Key.NumPad5:
-                    FireStatsEvent(StEvent.BadgeMoved);
+                    btnBadgeMoved_Click_1(null, null);                      
                     break;
                 case Key.D6:
                 case Key.NumPad6:
-                    FireStatsEvent(StEvent.BadgeZoomIn);
+                    btnBadgeZoomIn_Click_1(null, null);                     
                     break;
                 case Key.D7:
                 case Key.NumPad7:
-                    FireStatsEvent(StEvent.ClusterCreated);
+                    btnClusterCreated_Click_1(null,null);                    
                     break;
                 case Key.D8:
                 case Key.NumPad8:
-                    FireStatsEvent(StEvent.ClusterDeleted);
+                    btnClusterRemoved_Click_1(null, null);                        
                     break;
                 case Key.D9:
                 case Key.NumPad9:
-                    FireStatsEvent(StEvent.ClusterIn);
+                    btnClusterIn_Click_1(null, null);                           
                     break;
-                case Key.Q:
-                    FireStatsEvent(StEvent.ClusterOut);
+                case Key.Q:                    
+                    btnClusterOut_Click_1(null,null);
                     break;
                 case Key.W:
-                    FireStatsEvent(StEvent.ClusterMoved);
+                    btnClusterMoved_Click_1(null, null);                    
                     break;
                 case Key.E:
-                    FireStatsEvent(StEvent.LinkCreated);
+                    btnLinkCreated_Click_1(null, null);                        
                     break;
                 case Key.R:
-                    FireStatsEvent(StEvent.LinkRemoved);
+                    btnLinkRemoved_Click_1(null, null);                    
                     break;
                 case Key.T:
-                    FireStatsEvent(StEvent.FreeDrawingCreated);
+                    btnFreeDrawingCreated_Click_1(null, null);                    
                     break;
                 case Key.Y:
-                    FireStatsEvent(StEvent.FreeDrawingRemoved);
+                    btnFreeDrawingRemoved_Click_1(null, null);                           
                     break;
                 case Key.U:
-                    FireStatsEvent(StEvent.FreeDrawingResize);
+                    btnFreeDrawingResize_Click_1(null, null);                            
                     break;
                 case Key.I:
-                    FireStatsEvent(StEvent.FreeDrawingMoved);
+                    btnFreeDrawingMoved_Click_1(null, null);                         
                     break;
                 case Key.O:
-                    FireStatsEvent(StEvent.SceneZoomedIn);
+                    btnSceneZoomIn_Click_1(null, null);                        
                     break;
                 case Key.P:
-                    FireStatsEvent(StEvent.SceneZoomedOut);
+                    btnSceneZoomOut_Click_1(null, null);
                     break;
                 case Key.A:
-                    FireStatsEvent(StEvent.ArgPointTopicChanged);
+                    btnArgPointTopicChanged_Click_1(null, null);                   
                     break;
                 case Key.S:
-                    FireStatsEvent(StEvent.SourceAdded);
+                    btnSourceAdded_Click_1(null,null);                    
                     break;
                 case Key.D:
-                    FireStatsEvent(StEvent.SourceRemoved);
+                    btnSourceRemoved_Click_1(null, null);                        
                     break;
                 case Key.F:
-                    FireStatsEvent(StEvent.ImageAdded);
+                    btnImageAdded_Click_1(null, null);                          
                     break;
                 case Key.H:
-                    FireStatsEvent(StEvent.PdfAdded);
+                    btnPdfAdded_Click_1(null, null);                         
                     break;
                 case Key.K:
-                    FireStatsEvent(StEvent.YoutubeAdded);
+                    btnYoutubeAdded_Click_1(null,null);                    
                     break;
                 case Key.L:
-                    FireStatsEvent(StEvent.ScreenshotAdded);
+                    btnScreenshotAdded_Click_1(null,null);
                     break;
                 case Key.Z:
-                    FireStatsEvent(StEvent.MediaRemoved);
+                    btnMediaRemoved_Click_1(null, null);                    
                     break;
                 case Key.X:
-                    FireStatsEvent(StEvent.CommentAdded);
+                    btnCommentAdded_Click_1(null, null);                          
                     break;
                 case Key.C:
-                    FireStatsEvent(StEvent.CommentRemoved);
+                    btnCommentRemoved_Click_1(null, null);                         
                     break;
                 case Key.V:
-                    FireStatsEvent(StEvent.ImageOpened);
+                    btnImageOpened_Click(null, null);                         
                     break;
                 case Key.B:
-                    FireStatsEvent(StEvent.VideoOpened);
+                    btnVideoOpened_Click_1(null, null);                    
                     break;
                 case Key.N:
-                    FireStatsEvent(StEvent.ScreenshotOpened);
+                    btnScreenshotOpened_Click_1(null, null);                     
                     break;
                 case Key.M:
-                    FireStatsEvent(StEvent.PdfOpened);
+                    btnPdfOpened_Click_1(null, null);                     
                     break;
                 case Key.D0:
                 case Key.NumPad0:
-                    FireStatsEvent(StEvent.SourceOpened);
+                    btnSourceOpened_Click_1(null, null);                          
                     break;
                 case Key.Delete:
-                    _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);    
+                    btnDeleteClick(null, null);                            
                     break;
                 case Key.Space:
                     if (IsPlaying)
@@ -482,7 +488,7 @@ namespace EventGen
 
         private void btnPdfAdded_Click_1(object sender, RoutedEventArgs e)
         {
-            FireStatsEvent(StEvent.PdfAdded);
+            FireStatsEvent(StEvent.PdfAdded);       
         }
 
         private void btnYoutubeAdded_Click_1(object sender, RoutedEventArgs e)
@@ -517,12 +523,12 @@ namespace EventGen
 
         private void btnVideoOpened_Click_1(object sender, RoutedEventArgs e)
         {
-            FireStatsEvent(StEvent.VideoOpened);
+            FireStatsEvent(StEvent.VideoOpened);          
         }
 
         private void btnScreenshotOpened_Click_1(object sender, RoutedEventArgs e)
         {
-            FireStatsEvent(StEvent.ScreenshotAdded);
+            FireStatsEvent(StEvent.ScreenshotOpened);
         }
 
         private void btnPdfOpened_Click_1(object sender, RoutedEventArgs e)
@@ -535,6 +541,57 @@ namespace EventGen
             FireStatsEvent(StEvent.SourceOpened);
         }
 
+        static string countToString(int cnt)
+        {
+            if (cnt == 0)
+                return "";
+            else
+                return "+" + cnt.ToString();
+        }
+
+        void UpdateEventCounts()
+        {
+            var fakeEventId = 0;
+            foreach (var te in _timelineModel.Events)
+            {
+                _totalsReport.CountEvent(te.e, fakeEventId++);
+            }
+            btnArgPointTopicChanged.eventCount.Text = countToString(_totalsReport.TotalArgPointTopicChanged);
+            btnBadgeCreated.eventCount.Text = countToString(_totalsReport.TotalBadgeCreated);
+            btnBadgeEdited.eventCount.Text = countToString(_totalsReport.TotalBadgeEdited);
+            btnBadgeMoved.eventCount.Text = countToString(_totalsReport.TotalBadgeMoved);
+            btnBadgeZoomIn.eventCount.Text = countToString(_totalsReport.TotalBadgeZoomIn);
+            btnClusterCreated.eventCount.Text = countToString(_totalsReport.TotalClusterCreated);
+            btnClusterRemoved.eventCount.Text = countToString(_totalsReport.TotalClusterDeleted);
+            btnClusterIn.eventCount.Text = countToString(_totalsReport.TotalClusterIn);
+            btnClusterMoved.eventCount.Text = countToString(_totalsReport.TotalClusterMoved);
+            btnClusterOut.eventCount.Text = countToString(_totalsReport.TotalClusterOut);
+            btnCommentAdded.eventCount.Text = countToString(_totalsReport.TotalCommentAdded);
+            btnCommentRemoved.eventCount.Text = countToString(_totalsReport.TotalCommentRemoved);
+            btnFreeDrawingCreated.eventCount.Text = countToString(_totalsReport.TotalFreeDrawingCreated);
+            btnFreeDrawingMoved.eventCount.Text = countToString(_totalsReport.TotalFreeDrawingMoved);
+            btnFreeDrawingRemoved.eventCount.Text = countToString(_totalsReport.TotalFreeDrawingRemoved);
+            btnFreeDrawingResize.eventCount.Text = countToString(_totalsReport.TotalFreeDrawingResize);
+            btnImageAdded.eventCount.Text = countToString(_totalsReport.TotalImageAdded);
+            btnImageOpened.eventCount.Text = countToString(_totalsReport.TotalImageOpened);
+            btnLinkCreated.eventCount.Text = countToString(_totalsReport.TotalLinkCreated);
+            btnLinkRemoved.eventCount.Text = countToString(_totalsReport.TotalLinkRemoved);
+            btnMediaRemoved.eventCount.Text = countToString(_totalsReport.TotalMediaRemoved);
+            btnPdfAdded.eventCount.Text = countToString(_totalsReport.TotalPdfAdded);
+            btnPdfOpened.eventCount.Text = countToString(_totalsReport.TotalPdfOpened);
+            btnRecordingStarted.eventCount.Text = countToString(_totalsReport.TotalRecordingStarted);
+            btnRecordingStopped.eventCount.Text = countToString(_totalsReport.TotalRecordingStopped);
+            btnSceneZoomIn.eventCount.Text = countToString(_totalsReport.TotalSceneZoomedIn);
+            btnSceneZoomOut.eventCount.Text = countToString(_totalsReport.TotalSceneZoomedOut);
+            btnScreenshotAdded.eventCount.Text = countToString(_totalsReport.TotalScreenshotAdded);
+            btnScreenshotOpened.eventCount.Text = countToString(_totalsReport.TotalScreenshotOpened);
+            btnSourceAdded.eventCount.Text = countToString(_totalsReport.TotalSourceAdded);
+            btnSourceOpened.eventCount.Text = countToString(_totalsReport.TotalSourceOpened);
+            btnSourceRemoved.eventCount.Text = countToString(_totalsReport.TotalSourceRemoved);
+            btnSourceOpened.eventCount.Text = countToString(_totalsReport.TotalSourceOpened);
+            btnYoutubeAdded.eventCount.Text = countToString(_totalsReport.TotalYoutubeAdded);
+            btnVideoOpened.eventCount.Text = countToString(_totalsReport.TotalVideoOpened);
+        }
         #endregion
 
         private void btnUpload_Click_1(object sender, RoutedEventArgs e)
@@ -671,7 +728,7 @@ namespace EventGen
 
         void setPostLoginInfo()
         {
-            Title += ":   " + login.discussion.Subject + ",   " + login.session.Name;
+            Title += "  |  " + login.discussion.Subject + "  |  " + login.session.Name;
 
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
          
@@ -745,6 +802,11 @@ namespace EventGen
             }
         }
 
+        void btnOpenClick(object sender, RoutedEventArgs e)
+        {
+            menuOpen_Click_1(null,null);
+        }
+
         void SaveTimeline(bool saveAs)
         {
             if (_session.videoPathName == "")
@@ -775,9 +837,19 @@ namespace EventGen
             SaveTimeline(false);
         }
 
+        void btnSaveClick(object sender, RoutedEventArgs e)
+        {
+            menuSave_Click_1(null, null);
+        }
+
         private void menuSaveAs_Click_1(object sender, RoutedEventArgs e)
         {
             SaveTimeline(true);
+        }
+
+        void btnSaveAsClick(object sender, RoutedEventArgs e)
+        {
+            menuSaveAs_Click_1(null, null);
         }
 
         private void menuSubmit_Click_1(object sender, RoutedEventArgs e)
@@ -786,19 +858,42 @@ namespace EventGen
             (new SubmitionWnd(_timelineModel, baseStamp)).ShowDialog();
         }
 
+        void btnSubmitClick(object sender, RoutedEventArgs e)
+        {
+            menuSubmit_Click_1(null, null);
+        }
+
         private void menuDelete_Click_1(object sender, RoutedEventArgs e)
         {
-            _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);   
+            _timelineModel.RemoveSelectedEvents(EventGen.timeline.CommandManager.Instance);
+            UpdateEventCounts();
+        }
+
+        void btnDeleteClick(object sender, RoutedEventArgs e)
+        {
+            menuDelete_Click_1(null, null);
         }
 
         private void menuUndo_Click_1(object sender, RoutedEventArgs e)
         {
             EventGen.timeline.CommandManager.Instance.Undo();
+            UpdateEventCounts();
+        }
+        
+        void btnUndoClick(object sender, RoutedEventArgs e)
+        {
+            menuUndo_Click_1(null, null);
         }
 
         private void menuRedo_Click_1(object sender, RoutedEventArgs e)
         {
             EventGen.timeline.CommandManager.Instance.Redo();
-        }    
+            UpdateEventCounts();
+        }
+
+        void btnRedoClick(object sender, RoutedEventArgs e)
+        {
+            menuRedo_Click_1(null, null);
+        }
     }
 }

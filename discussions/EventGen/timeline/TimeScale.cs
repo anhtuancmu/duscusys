@@ -15,7 +15,7 @@ namespace EventGen.timeline
         //distance between second ticks at lowest scale
         const double SECOND_TICK_DISTANCE = 180;
 
-        public const double TIMELINE_HEIGHT = 140;
+        public const double TIMELINE_HEIGHT = 300;
         
         //position in scene to relative time
         public static TimeSpan PositionToTime(double pos, double zoom)
