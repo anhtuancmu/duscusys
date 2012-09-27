@@ -75,6 +75,9 @@
     </Compile>
     <Compile Include="DaoHelpers.cs" />
     <Compile Include="DiscussionSession.cs" />
+    <Compile Include="EventButton.xaml.cs">
+      <DependentUpon>EventButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventInfo.cs" />
     <Compile Include="SubmitionWnd.xaml.cs">
       <DependentUpon>SubmitionWnd.xaml</DependentUpon>
@@ -99,6 +102,10 @@
     </Compile>
     <Compile Include="timeline\TimeScale.cs" />
     <Page Include="CustomTimelineWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EventButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
