@@ -9,12 +9,11 @@
              PreviewTouchDown="EventButton_PreviewTouchDown_1"
              PreviewMouseUp="EventButton_MouseUp_1"
              PreviewTouchUp="EventButton_TouchUp_1"
-             MouseLeave="EventButton_MouseLeave_1"
-             >
+             MouseLeave="EventButton_MouseLeave_1">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock Name="eventName" Text="eventName"></TextBlock>    
-            <TextBlock Name="eventCount" Text="eventCount"></TextBlock>    
+            <TextBlock Name="eventCount" FontWeight="Bold"></TextBlock>    
         </StackPanel>
     </Grid>
 </UserControl>

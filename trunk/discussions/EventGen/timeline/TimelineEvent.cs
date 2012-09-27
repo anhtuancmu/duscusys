@@ -44,7 +44,7 @@ namespace EventGen
             Span = TimeSpan.FromSeconds(r.ReadDouble());
         }
             
-        double stickHeigth = (new Random()).Next(50);//only used by event view 
+        double stickHeigth = (new Random()).Next(250) + 20;//only used by event view 
         public double StickHeight
         {
             get

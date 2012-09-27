@@ -35,6 +35,30 @@ namespace EventGen
             InitializeComponent();
         }
 
+        public string EventName
+        {
+            get
+            {
+                return eventName.Text;
+            }
+            set
+            {
+                eventName.Text = value;
+            }
+        }
+
+        public string EventCount
+        {
+            get
+            {
+                return eventCount.Text;
+            }
+            set
+            {
+                eventCount.Text = value;
+            }
+        }
+
         private void EventButton_MouseUp_1(object sender, MouseButtonEventArgs e)
         {
             Background = null;
