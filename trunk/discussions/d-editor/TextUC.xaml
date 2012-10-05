@@ -11,7 +11,7 @@
         <Color x:Key="TextToolOverlay">#33535353</Color> 
     </UserControl.Resources>
     <StackPanel>
-		<Border x:Name="handle" BorderThickness="20" CornerRadius="4"
+		<Border x:Name="handle" BorderThickness="10" CornerRadius="4"
                 TouchDown="handleTouchDown"
                 MouseDown="handleMouseDown"
                 HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.995">

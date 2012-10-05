@@ -20,7 +20,7 @@ namespace DistributedEditor
     {
         public const double MIN_SIZE = 30;
 
-        const double BORDER_THICK = 100;
+        const double BORDER_THICK = 50;
 
         DrawingGroup drawGrp;
         StrokeCollection _strokes = null;
@@ -428,7 +428,7 @@ namespace DistributedEditor
                 manipulationBorder = new Border();
                 manipulationBorder.Tag = this;
                 manipulationBorder.BorderThickness = new Thickness(BORDER_THICK);
-                manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);                
+                //manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);                
                 manipulationBorder.Child = img;
             }
         }
@@ -490,7 +490,7 @@ namespace DistributedEditor
             base.SetFocus();
             ShowMarkers();
             manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Gray);            
-            manipulationBorder.Opacity = 0.5;
+           // manipulationBorder.Opacity = 0.5;
         }
 
         public override void RemoveFocus()
