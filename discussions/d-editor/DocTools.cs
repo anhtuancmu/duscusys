@@ -180,6 +180,10 @@ namespace DistributedEditor
                     continue;
 
                 double d_i = sh.distToFigure(point);
+
+                if (sh.ShapeCode() == VdShapeType.Arrow)
+                    d_i /= 2.0;
+
                 if (d_i < minDist)
                 {
                     minDist = d_i;

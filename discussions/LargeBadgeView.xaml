@@ -110,13 +110,13 @@
         </Grid>
         <Grid x:Name="rightPane" Grid.Column="1" d:LayoutOverrides="Margin" Grid.Row="2" Grid.RowSpan="3">
         	<Grid.RowDefinitions>
-        		<RowDefinition Height="Auto"/>
-        		<RowDefinition Height="144*"/>
-        		<RowDefinition Height="Auto" MinHeight="56"/>
-        		<RowDefinition Height="191*"/>
+        		<RowDefinition Height="58*" />
+                    <RowDefinition Height="224*"/>
+                    <RowDefinition Height="Auto" MinHeight="35.156"/>
+                    <RowDefinition Height="109*"/>
         	</Grid.RowDefinitions>
         
-            <Custom:SurfaceScrollViewer Grid.Row="1" d:LayoutOverrides="Margin">      
+            <Custom:SurfaceScrollViewer Grid.Row="1">      
         	    <ItemsControl x:Name="lstBxAttachments"                                   
         		    IsManipulationEnabled="False"
 				    ItemsSource="{Binding Attachment}"  
@@ -124,17 +124,17 @@
         		    Background="#00000000" MaxWidth="800" HorizontalContentAlignment="Center" 
         		    VerticalContentAlignment="Center"/>
             </Custom:SurfaceScrollViewer>
-            <StackPanel d:LayoutOverrides="Width, Margin">
+            <StackPanel>
         		<Separator/>
 				<Label Content="Media" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black"/>
         	</StackPanel>
         	
-        	<Custom:SurfaceScrollViewer Grid.Row="3" d:LayoutOverrides="Margin">
+        	<Custom:SurfaceScrollViewer Grid.Row="3">
 			<ItemsControl x:Name="lstBxSources"             
         		ScrollViewer.VerticalScrollBarVisibility="Disabled" 
         		ItemsSource="{Binding Description.Source}" 
         		HorizontalContentAlignment="Stretch" 
-        		BorderThickness="0" d:LayoutOverrides="Height, Margin" >
+        		BorderThickness="0" d:LayoutOverrides="Height">
         		<ItemsControl.ItemTemplate>
         			<DataTemplate>
         				<local:SourceUC PermitsEdit="False"/>
@@ -142,7 +142,7 @@
         		</ItemsControl.ItemTemplate>
         	</ItemsControl>
 			</Custom:SurfaceScrollViewer>
-        	<StackPanel Orientation="Vertical" Grid.Row="2" d:LayoutOverrides="Width, Margin" Grid.RowSpan="2">
+        	<StackPanel Orientation="Vertical" Grid.Row="2">
         		<Separator/>
 				<Label Content="Sources" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black" d:LayoutOverrides="Margin"/>
         	</StackPanel>    
