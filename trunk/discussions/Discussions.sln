@@ -42,6 +42,8 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitG
 		StartingDirectory = C:\projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage", "CloudStorage\CloudStorage.csproj", "{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Manager = AnkhSVN - Subversion Support for Visual Studio
@@ -62,6 +64,24 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug on Surface|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug on Surface|Any CPU.Build.0 = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug on Surface|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug on Surface|Mixed Platforms.Build.0 = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug on Surface|x64.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug on Surface|x86.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|x64.ActiveCfg = Release|Any CPU
+		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|x86.ActiveCfg = Release|Any CPU
 		{5204D876-80F1-48CF-B1E9-36BB44E55640}.Debug on Surface|Any CPU.ActiveCfg = Debug|Any CPU
 		{5204D876-80F1-48CF-B1E9-36BB44E55640}.Debug on Surface|Any CPU.Build.0 = Debug|Any CPU
 		{5204D876-80F1-48CF-B1E9-36BB44E55640}.Debug on Surface|Mixed Platforms.ActiveCfg = Debug|Any CPU

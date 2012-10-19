@@ -101,6 +101,15 @@ namespace Discussions
                 a.Format == (int)AttachmentFormat.PngScreenshot;
         }
 
+        public static bool IsGraphicFormat(AttachmentFormat af)
+        {
+            return
+                af == AttachmentFormat.Bmp ||
+                af == AttachmentFormat.Jpg ||
+                af == AttachmentFormat.Png ||
+                af == AttachmentFormat.PngScreenshot;
+        }
+
         public static BitmapSource GetAttachmentBitmap3(Attachment a)
         {
             if (a == null)
@@ -514,6 +523,31 @@ namespace Discussions
             return a;
         }
 
+        public class IncorrectAttachmentFormat : Exception { };
+        public static Attachment AttachCloudEntry(ArgPoint Point, CloudStorage.StorageWnd.StorageSelectionEntry selEntry)
+        {
+            Attachment a = new Attachment();
+            a.Name = selEntry.Title;
+            try
+            {
+                a.Format = (int)GetImgFmt(selEntry.Title); //may throw exception in case of unsupported file format
+            }
+            catch (Exception)
+            {
+                throw new IncorrectAttachmentFormat();
+            }
+                   
+            a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(selEntry.PathName));
+            a.Title = selEntry.Title;
+            a.Link  = selEntry.Title;
+            if(a.Format == (int)AttachmentFormat.Pdf)
+                a.Thumb = TryCreatePdfThumb(selEntry.PathName);    
+
+            if (Point != null)
+                a.ArgPoint = Point;
+            return a;
+        }
+
         public static byte[] ImgFileToBytes(string PathName)
         {
             BitmapEncoder enc = GetEncoder(PathName);
@@ -638,6 +672,25 @@ namespace Discussions
                     MessageBox.Show(e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        public static void RunViewer(string pathName)
+        {
+            var ext = Path.GetExtension(pathName).ToLower();
+            if(ext ==".pdf")
+            {                
+                var pdfReader = new ReaderWindow(pathName);
+                pdfReader.ShowDialog();                   
+            }
+            else if(ext==".jpg" || ext==".jpeg" || ext==".bmp" || ext==".png")
+            {                
+                ImageWindow wnd = new ImageWindow();
+                var bi = new BitmapImage(new Uri(pathName));
+                wnd.img.Source = bi;
+                wnd.Show();
+            }
+            else
+                Process.Start(pathName);  
         }
 
         //returns bytes stream of image or null

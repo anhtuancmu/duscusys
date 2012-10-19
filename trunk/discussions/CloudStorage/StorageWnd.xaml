@@ -1,0 +1,172 @@
+﻿<s:SurfaceWindow 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
+        x:Class="CloudStorage.StorageWnd"
+        KeyDown="MainWindow_KeyDown_1"
+        xmlns:s="http://schemas.microsoft.com/surface/2008"   
+        Title="Cloud storage viewer" 
+        Height="389" Width="931.5" Background="{DynamicResource WndBg}">
+    <s:SurfaceWindow.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+
+        <ImageBrush x:Key="view" ImageSource="Resources/enlarge2.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="home" ImageSource="Resources/home.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="navUp" ImageSource="Resources/nav_up.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="attach" ImageSource="Resources/attachment.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="letter" ImageSource="Resources/letter.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="clock" ImageSource="Resources/clock.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="refresh" ImageSource="Resources/refresh.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="next" ImageSource="Resources/next.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="back" ImageSource="Resources/back.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="dropbox" ImageSource="Resources/dropbox.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="gdrive" ImageSource="Resources/drive_icon.png" Stretch="Uniform"/>
+        <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
+
+        <DataTemplate x:Key="FileEntryTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="130"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Stretch="Uniform" Source="{Binding Image}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <TextBlock Text="{Binding Title}"  HorizontalAlignment="Center"/>
+                    <!--<TextBlock Text="{Binding IdString}" HorizontalAlignment="Center"/>-->
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="FilePanelTemplate">
+            <UniformGrid IsItemsHost="True" Columns="4"/>
+        </ItemsPanelTemplate>
+    </s:SurfaceWindow.Resources>
+    <Grid>       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+            <s:SurfaceButton x:Name="btnLoginDropbox" HorizontalAlignment="Left" 
+                                 VerticalAlignment="Bottom" 
+                                 Background="{x:Null}"
+                                 Click="btnLoginDropbox_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="45" Height="45" Background="{DynamicResource dropbox}"/>
+                    <Label Content="Login to Dropbox"/>
+                </StackPanel>
+            </s:SurfaceButton> 
+            <s:SurfaceButton x:Name="btnLoginGDrive" 
+                                 HorizontalAlignment="Left" 
+                                 VerticalAlignment="Bottom" 
+                                 Background="{x:Null}"
+                                 Click="btnLoginGDrive_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="45" Height="45" Background="{DynamicResource gdrive}"/>
+                    <Label Content="Login to Google Drive"/>
+                </StackPanel>
+            </s:SurfaceButton>
+        </StackPanel>
+
+        <s:SurfaceListBox x:Name="fileList" Grid.Row="2" ItemTemplate="{DynamicResource FileEntryTemplate}"
+                          SelectionMode="Multiple"
+                          SelectionChanged="SurfaceListBox_SelectionChanged_1"
+                          ItemsSource="{Binding Entries}" Background="{x:Null}" 
+                          ItemsPanel="{DynamicResource FilePanelTemplate}"/>
+        <TextBlock x:Name="txtAdress" Text="{Binding NavState.CurrentAddress}"   
+                   HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+        <StackPanel Orientation="Vertical">
+            <TextBlock x:Name="progressInfo" Visibility="Collapsed" HorizontalAlignment="Center" TextWrapping="Wrap" 
+        		VerticalAlignment="Center" FontSize="24" Foreground="#FF97FF92"><Run Text="Connecting, this might take a while!"/></TextBlock>
+            
+            <TextBlock x:Name="downloadProgress" Visibility="Collapsed" HorizontalAlignment="Center" TextWrapping="Wrap" 
+        		VerticalAlignment="Center" FontSize="24" Foreground="#FF97FF92"><Run Text="Processing attachments "/>
+                <Run Name="attachmentsProcessed"/>
+            </TextBlock>
+                <StackPanel Name="fetchProgress" Orientation="Horizontal" Visibility="Collapsed" 
+                            VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock  TextWrapping="Wrap" Foreground="#FF95EEB5" VerticalAlignment="Center">
+                        <Run Name="numFetched"/>
+                    </TextBlock>    
+                    <s:SurfaceButton Name="btnCancelFetch" Content="Cancel" Click="btnCancelFetch_Click_1" Margin="10,1,1,1"/>
+                </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="navigation" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Orientation="Vertical" Margin="0,9,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <s:SurfaceButton x:Name="btnRootFolder" HorizontalAlignment="Center"
+            			Click="btnRootFolder_Click_1"
+            			VerticalAlignment="Top" Background="{x:Null}">
+                        <Border Width="45" Height="45" Background="{DynamicResource home}"/>
+                    </s:SurfaceButton>
+
+                    <s:SurfaceButton x:Name="btnUp" HorizontalAlignment="Center"
+            			Click="btnUp_Click_1"
+            			VerticalAlignment="Top" Background="{x:Null}" Grid.Column="1">
+                        <Border Width="45" Height="45" Background="{DynamicResource navUp}"/>
+                    </s:SurfaceButton>
+                </Grid>            
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Navigate" Foreground="White"/>
+            </StackPanel>
+                
+            <Grid Margin="30,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <s:SurfaceToggleButton x:Name="btnSortAlphab" Click="btnSortAlphab_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}">
+                    <Border Width="45" Height="45" Background="{DynamicResource letter}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </s:SurfaceToggleButton>
+                <s:SurfaceToggleButton x:Name="btnSortByTime" Click="btnSortByTime_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Margin="0" Grid.Column="1">
+                    <Border Width="45" Height="45" Background="{DynamicResource clock}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </s:SurfaceToggleButton>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Sort" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Grid.ColumnSpan="2"/>
+            </Grid>
+            <StackPanel Orientation="Vertical" Margin="0,9,0,0">
+               <s:SurfaceButton x:Name="btnView" Click="btnView_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
+               <Border Width="45" Height="45" Background="{StaticResource view}"/>
+            </s:SurfaceButton>
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="View" Foreground="White"/>
+            
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0,9,0,0">
+                <s:SurfaceButton x:Name="btnRefresh" Click="btnRefresh_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
+                    <Border Width="45" Height="45" Background="{DynamicResource refresh}"/>
+                </s:SurfaceButton>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Refresh" Foreground="White"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0,9,0,0">
+                <s:SurfaceButton x:Name="btnAttach" Click="btnAttach_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
+                    <Border Width="45" Height="45" Background="{DynamicResource attach}"/>
+                </s:SurfaceButton>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Attach" Foreground="White"/>
+            </StackPanel>
+        </StackPanel>    
+    </Grid>
+</s:SurfaceWindow>
