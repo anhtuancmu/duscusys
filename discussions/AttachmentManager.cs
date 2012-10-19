@@ -682,15 +682,23 @@ namespace Discussions
                 var pdfReader = new ReaderWindow(pathName);
                 pdfReader.ShowDialog();                   
             }
-            else if(ext==".jpg" || ext==".jpeg" || ext==".bmp" || ext==".png")
-            {                
+            else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
+            {
                 ImageWindow wnd = new ImageWindow();
                 var bi = new BitmapImage(new Uri(pathName));
                 wnd.img.Source = bi;
                 wnd.Show();
             }
             else
-                Process.Start(pathName);  
+            {
+                try
+                {
+                    Process.Start(pathName);
+                }
+                catch(Exception)
+                {
+                }
+            }
         }
 
         //returns bytes stream of image or null

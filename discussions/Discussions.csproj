@@ -325,7 +325,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>discDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="MultiClickRecognizer.cs" />
     <Compile Include="PersonDiscConfigWnd.xaml.cs">
       <DependentUpon>PersonDiscConfigWnd.xaml</DependentUpon>
     </Compile>

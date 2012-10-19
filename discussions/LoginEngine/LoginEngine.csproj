@@ -178,6 +178,7 @@
       <DependentUpon>LoginSessionDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="Metro\MetroFiller.cs" />
+    <Compile Include="MultiClickRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

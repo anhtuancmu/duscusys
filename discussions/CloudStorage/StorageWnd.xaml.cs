@@ -265,6 +265,35 @@ namespace CloudStorage
             }
         }
 
+        void fileRequestView(object sender, RoutedEventArgs e)
+        {
+            var fec = e.OriginalSource as FileEntryControl;
+            if(fec==null)
+                return;
+
+            var fe = fec.DataContext as FileEntry;
+            if (fe == null)
+                return;
+
+            if (fe.IsFolder)
+                return;
+
+            OpenFileViewer(fe);
+        }
+
+        void custSelectionEvent(object sender, RoutedEventArgs e)
+        {
+            var fec = e.OriginalSource as FileEntryControl;
+            if (fec == null)
+                return;
+                
+            //invert selection
+            if(fileList.SelectedItems.Contains(fec.DataContext))
+                fileList.SelectedItems.Remove(fec.DataContext);
+            else
+                fileList.SelectedItems.Add(fec.DataContext);
+        }
+
         private void btnView_Click_1(object sender, RoutedEventArgs e)
         {
             if (fileViewCallback == null)
@@ -278,16 +307,21 @@ namespace CloudStorage
                 return;
             }
 
+            OpenFileViewer(entries.First());
+        }
+
+        void OpenFileViewer(FileEntry entry)
+        {
             var tempDir = TempDir();
 
-            var pathName = System.IO.Path.Combine(tempDir, Guid.NewGuid().ToString() + entries.First().Title);
-            _storage.Download(entries.First().IdString, 
+            var pathName = System.IO.Path.Combine(tempDir, Guid.NewGuid().ToString() + entry.Title);
+            _storage.Download(entry.IdString,
                               pathName,
                               Dispatcher,
                               () =>
                               {
-                                 if (File.Exists(pathName))//some files are empty
-                                     fileViewCallback(pathName);
+                                  if (File.Exists(pathName))//some files are empty
+                                      fileViewCallback(pathName);
                               });
         }
 

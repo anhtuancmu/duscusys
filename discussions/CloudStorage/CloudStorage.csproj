@@ -76,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="FileEntryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StorageWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,6 +91,9 @@
     <Compile Include="Converters\PathToName.cs" />
     <Compile Include="DropStorage.cs" />
     <Compile Include="FileEntry.cs" />
+    <Compile Include="FileEntryControl.xaml.cs">
+      <DependentUpon>FileEntryControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileViewState.cs" />
     <Compile Include="GDriveStorage.cs" />
     <Compile Include="Icons\FileToIcon.cs" />
@@ -177,6 +184,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\enlarge2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\accept-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoginEngine\LoginEngine.csproj">
+      <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
+      <Name>LoginEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
