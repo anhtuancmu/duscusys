@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Discussions
 {
-    class MultiClickRecognizer
+    public class MultiClickRecognizer
     {
         DispatcherTimer aTimer = new DispatcherTimer();
 
@@ -16,12 +16,14 @@ namespace Discussions
         public delegate void OnMultiClick(object sender, InputEventArgs e);
 
         OnMultiClick _onDoubleClick = null;
-        OnMultiClick _onTripleClick = null; 
+        OnMultiClick _onTripleClick = null;
+        OnMultiClick _onSingleClick = null;
 
-        public MultiClickRecognizer(OnMultiClick OnDoubleClick, OnMultiClick OnTripleClick)
+        public MultiClickRecognizer(OnMultiClick OnDoubleClick, OnMultiClick OnTripleClick, OnMultiClick onSingleClick = null)
         {
             _onDoubleClick = OnDoubleClick;
             _onTripleClick = OnTripleClick;
+            _onSingleClick = onSingleClick;
 
             aTimer.Tick += OnTimer;
             aTimer.Interval = TimeSpan.FromSeconds(0.5);
@@ -30,7 +32,10 @@ namespace Discussions
 
         void OnTimer(object sender, EventArgs e)
         {
-            numConseqClicks = 0;
+            if (numConseqClicks == 1 && _onSingleClick != null)
+                _onSingleClick(null, null);
+
+            numConseqClicks = 0;            
         }
 
         public void Click(object sender, InputEventArgs e)
@@ -39,7 +44,7 @@ namespace Discussions
             aTimer.Start();
             numConseqClicks++;
 
-            Console.WriteLine("click {0}",numConseqClicks);
+            Console.WriteLine("click {0}", numConseqClicks);
 
             if (numConseqClicks == 2)
             {

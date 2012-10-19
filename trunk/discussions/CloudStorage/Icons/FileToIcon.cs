@@ -134,7 +134,7 @@ namespace QuickZip.Tools
                     {
                         target.WritePixels(outRect, bits, stride, 0);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         System.Diagnostics.Debugger.Break();
                     }
@@ -150,7 +150,7 @@ namespace QuickZip.Tools
                 {
                     target.WritePixels(outRect, bits, stride, 0);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     System.Diagnostics.Debugger.Break();
                 }
