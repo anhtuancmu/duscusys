@@ -44,7 +44,6 @@ namespace EventGen
         EventGen.timeline.Session _session;
 
         EventTotalsReport _totalsReport = new EventTotalsReport();
-        int fakeEventId = 0;
 
         ObservableCollection<Topic> _topics = null;
         public ObservableCollection<Topic> topics
@@ -353,6 +352,12 @@ namespace EventGen
                     else
                         Play();
                     break; 
+                case Key.Left:
+                    btnTimeLeftClick(null,null);
+                    break;
+                case Key.Right:
+                    btnTimeRightClick(null, null);
+                    break;
             }
         }
 
@@ -551,6 +556,9 @@ namespace EventGen
 
         void UpdateEventCounts()
         {
+            //reset prec values
+            _totalsReport = new EventTotalsReport();
+
             var fakeEventId = 0;
             foreach (var te in _timelineModel.Events)
             {
@@ -894,6 +902,16 @@ namespace EventGen
         void btnRedoClick(object sender, RoutedEventArgs e)
         {
             menuRedo_Click_1(null, null);
+        }
+
+        void btnTimeLeftClick(object sender, RoutedEventArgs e)
+        {
+            _timelineModel.CurrentTime -= TimeSpan.FromSeconds(0.2);
+        }
+
+        void btnTimeRightClick(object sender, RoutedEventArgs e)
+        {
+            _timelineModel.CurrentTime += TimeSpan.FromSeconds(0.2);
         }
     }
 }

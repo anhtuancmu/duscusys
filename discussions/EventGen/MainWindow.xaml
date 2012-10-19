@@ -12,9 +12,9 @@
         mc:Ignorable="d" 
         x:Class="EventGen.MainWindow"
         KeyDown="SurfaceWindow_KeyDown_1"
-        Title="MEG v0.2" 
+        Title="MEG v0.3" 
         WindowState="Maximized" 
-        Height="975" Width="883">
+        Height="873" Width="1228">
     <s:SurfaceWindow.Resources>
         <LinearGradientBrush x:Key="MainBgrndRctFill" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF2CA1CF" Offset="0"/>
@@ -25,26 +25,25 @@
     </s:SurfaceWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="463"/>
+            <ColumnDefinition Width="Auto" MinWidth="70"/>
+            <ColumnDefinition Width="529"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="360"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="283.847333333333"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <s:SurfaceScrollViewer Name="timelineScroller" Grid.ColumnSpan="3" Grid.Row="1">
             <customTimeline:TimelineView x:Name="timelineView" Grid.RowSpan="1" MouseWheel="timelineView_MouseWheel_1" MouseDown="timelineView_MouseDown_1"/>
         </s:SurfaceScrollViewer >
-        <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" Width="430">
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" Width="430" Height="40">
             <TextBlock Text="Zoom" Foreground="White"/>
             <s:SurfaceSlider Name="zoomSlider" Minimum="5" Maximum="300" SmallChange="1" Width="400" ValueChanged="zoomSlider_ValueChanged_1" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" Margin="0,0.242,0,0" Grid.RowSpan="2">
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" >
             <TextBlock FontSize="34" Foreground="White" HorizontalAlignment="Right">
                 <Run Text="Video duration:"/>   
                 <Run Name="videoLen"/>
@@ -55,7 +54,7 @@
             </TextBlock>
         </StackPanel>
 
-        <s:SurfaceListBox Grid.Column="2"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,0,359.758" Grid.RowSpan="2">
+        <s:SurfaceListBox Grid.Column="2"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,0,0,282.565" Grid.RowSpan="2">
             <s:SurfaceListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Orientation="Vertical"/>
@@ -141,13 +140,13 @@
                 <evenGenNs:EventButton x:Name="btnSourceOpened" EventName="Source opened[0]" Margin="1" Click="btnSourceOpened_Click_1" />
             </StackPanel>
         </s:SurfaceListBox>
-        <Grid x:Name="videoCenter" Background="Black" Grid.Column="1" Margin="0,0,0,359.758" Grid.RowSpan="2" >
+        <Grid x:Name="videoCenter" Background="Black" Grid.Column="1" Margin="0,0,0,282.565" Grid.RowSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="19*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <MediaElement x:Name="myMediaElement" Margin="10" MinHeight="100" LoadedBehavior="Manual" UnloadedBehavior="Stop" 
+            <MediaElement x:Name="myMediaElement" Margin="10" MinHeight="150" LoadedBehavior="Manual" UnloadedBehavior="Stop" 
         		MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded" d:LayoutOverrides="Width, Height, Margin"/>
             <ProgressBar x:Name="videoProgress"  Grid.Row="1" Value="{Binding CurrentTime, Converter={StaticResource timeSpanToTotalSeconds}}" Height="10" Foreground="#FF73F9FF" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}"/>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Grid.RowSpan="2" Height="60">
@@ -171,7 +170,7 @@
             </StackPanel>
 
         </Grid>
-        <StackPanel Orientation="Vertical" Margin="0,0,0,359.758" Grid.RowSpan="2">
+        <StackPanel Orientation="Vertical" Grid.RowSpan="2">
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Content="Discussion" d:LayoutOverrides="Margin" Height="32.61" Width="83.507" Visibility="Collapsed"/>
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="VerticalMargin" Content="Topic"/>
             <ComboBox x:Name="cbxTopics" SelectedIndex="0" ItemsSource="{Binding Topics}" DisplayMemberPath="Name" VerticalAlignment="Top" ToolTip="Topic in which event is generated"/>
@@ -205,7 +204,8 @@
             </MenuItem>
         </Menu>-->
         
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                    Orientation="Horizontal" Height="40" Width="776" Grid.Column="1">
            <s:SurfaceButton x:Name="btnOpen" Content="Open (Ctrl+O)" Click="btnOpenClick" />
            <s:SurfaceButton x:Name="btnSave" Content="Save (Ctrl+S)" Click="btnSaveClick"/> 
            <s:SurfaceButton x:Name="btnSaveAs" Content="Save As" Click="btnSaveAsClick"/>        
@@ -213,6 +213,12 @@
            <s:SurfaceButton x:Name="btnRedo" Content="Redo (Ctrl+Y)" Click="btnRedoClick"/>  
            <s:SurfaceButton x:Name="btnDelete" Content="Delete (Delete)" Click="btnDeleteClick"/>
            <s:SurfaceButton x:Name="btnSubmit" Content="Submit dialog" Click="btnSubmitClick"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <s:SurfaceButton x:Name="btnTimeLeft" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" 
+                             Click="btnTimeLeftClick"/>
+            <s:SurfaceButton x:Name="btnTimeRight" Content="&gt;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0"
+                             Click="btnTimeRightClick"/>
         </StackPanel>
     </Grid>
 </s:SurfaceWindow>

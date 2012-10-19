@@ -12,9 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CloudStorage;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
+using Discussions.webkit_host;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using VE2;
@@ -28,6 +30,7 @@ namespace Discussions
     {
         MultiClickRecognizer mediaDoubleClick;
 
+        StorageWnd _storageWnd = null; 
 
         public EditableBadge()
         {
@@ -708,5 +711,95 @@ namespace Discussions
 
             ap.ChangesPending = true;
         }
+
+        #region cloud storage 
+
+        void RunCloudStorageViewer(StorageType storageType)
+        {
+            if (_storageWnd != null)
+            {
+                _storageWnd.Activate();
+                return;
+            }
+
+            _storageWnd = new StorageWnd();
+            _storageWnd.Show();
+            _storageWnd.webViewCallback  += onWebViewerRequest;
+            _storageWnd.fileViewCallback += onCloudViewerRequest;
+            _storageWnd.Closed += onStorageWndClosed;
+            _storageWnd.LoginAndEnumFiles(storageType);
+        }
+
+        void onWebViewerRequest(string Uri)
+        {
+            var browser = new WebKitFrm(Uri);
+            browser.ShowDialog();
+        }
+
+        void onStorageWndClosed(object sender, EventArgs e)
+        {
+            ArgPoint ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            if (_storageWnd.filesToAttach!=null)
+                foreach (CloudStorage.StorageWnd.StorageSelectionEntry entry in _storageWnd.filesToAttach)
+                {
+                    try
+                    {
+                        var attach = AttachmentManager.AttachCloudEntry(ap, entry);
+                        var seldId = SessionInfo.Get().person.Id;
+                        attach.Person = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
+
+                        ap.ChangesPending = true;
+
+                        StEvent ev = StEvent.ArgPointTopicChanged;
+                        switch ((AttachmentFormat)attach.Format)
+                        {
+                            case AttachmentFormat.Bmp:
+                            case AttachmentFormat.Jpg:
+                            case AttachmentFormat.Png:
+                                ev = StEvent.ImageAdded;
+                                break;
+                            case AttachmentFormat.Pdf:
+                                ev = StEvent.PdfAdded;
+                                break;
+                        }
+                        if (ev != StEvent.ArgPointTopicChanged)
+                        {
+                            UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                                                        ev,
+                                                        ap.Person.Id,
+                                                        ap.Topic.Discussion.Id,
+                                                        ap.Topic.Id,
+                                                        DeviceType.Wpf);
+                        }
+                    }
+                    catch (Discussions.AttachmentManager.IncorrectAttachmentFormat)
+                    {
+                    }
+                }
+
+            _storageWnd.fileViewCallback -= onCloudViewerRequest;
+            _storageWnd.Closed -= onStorageWndClosed;
+            _storageWnd = null;
+        }
+
+        void onCloudViewerRequest(string pathName)
+        {
+            AttachmentManager.RunViewer(pathName);
+        }
+
+        private void chooseDropboxFiles(object sender, RoutedEventArgs e)
+        {
+            RunCloudStorageViewer(StorageType.Dropbox);            
+        }
+
+        private void chooseGDriveFiles(object sender, RoutedEventArgs e)
+        {
+            RunCloudStorageViewer(StorageType.GoogleDrive);
+        }
+
+        #endregion
     }
 }

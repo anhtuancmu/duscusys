@@ -795,6 +795,10 @@
     <Folder Include="Fonts\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="CloudStorage\CloudStorage.csproj">
+      <Project>{33a42676-f8b1-4c3c-b88a-d78de9d0ef4c}</Project>
+      <Name>CloudStorage</Name>
+    </ProjectReference>
     <ProjectReference Include="DbModel\DbModel.csproj">
       <Project>{a833b419-0de5-4b12-8c15-31995eb1dc27}</Project>
       <Name>DbModel</Name>
@@ -912,6 +916,17 @@
     <Resource Include="Resources\ExcelIcon.png" />
     <Resource Include="Resources\PowerpointIcon.png" />
     <Resource Include="Resources\WordIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\attachment.png" />
+    <Resource Include="Resources\clock.png" />
+    <Resource Include="Resources\drive_icon.png" />
+    <Resource Include="Resources\dropbox.png" />
+    <Resource Include="Resources\folder.png" />
+    <Resource Include="Resources\folder128.png" />
+    <Resource Include="Resources\folder64.png" />
+    <Resource Include="Resources\letter.png" />
+    <Resource Include="Resources\nav_up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

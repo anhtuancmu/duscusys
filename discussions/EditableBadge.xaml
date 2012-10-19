@@ -170,6 +170,10 @@
             	<Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap" Text="{Binding RecentlyEnteredMediaUrl, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height, HorizontalMargin" 
             		KeyDown="txtAttachmentURL_KeyDown_1" Margin="1,1,1,0.999" />
             	<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                    <Custom:SurfaceButton x:Name="btnDropbox" Click="chooseDropboxFiles" Content="Dropbox" 
+            			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
+                    <Custom:SurfaceButton x:Name="btnGDrive" Click="chooseGDriveFiles" Content="Google Drive" 
+            			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
             		<Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 
             			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
             		<Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>

@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"      
     xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
+    xmlns:t="clr-namespace:QuickZip.Tools;assembly=CloudStorage"    
     Startup="Application_Startup"
     xmlns:local="clr-namespace:Discussions" 
     StartupUri="Main.xaml">
@@ -15,7 +16,10 @@
                 <ResourceDictionary Source="pack://application:,,,/LoginEngine;component/Metro/RedSkin.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/LoginEngine;component/Metro/Blue2Skin.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+          
+            <SolidColorBrush x:Key="WndBg" Color="#FF2B2B2B"/>
+            <t:FileToIconConverter x:Key="iconConv"/>           
+            
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="17"/>
                 <Setter Property="Foreground" Value="White"/>
@@ -210,7 +214,8 @@
                     </Style>
                 </Style.BasedOn>
             </Style>
-
+            
+            <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
             <ImageBrush x:Key="msOffice" ImageSource="Resources/office.png" Stretch="Uniform"/>
             <ImageBrush x:Key="msWord" ImageSource="Resources/WordIcon.png" Stretch="Uniform"/>
             <ImageBrush x:Key="msPowerPoint" ImageSource="Resources/PowerpointIcon.png" Stretch="Uniform"/>
@@ -239,6 +244,7 @@
             <ImageBrush x:Key="addBrush" ImageSource="Resources/add.png" Stretch="Uniform"/>
             <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform"/>
             <ImageBrush x:Key="nextArrow" ImageSource="Resources/next.png" Stretch="Uniform"/>
+            <ImageBrush x:Key="next" ImageSource="Resources/next.png" Stretch="Uniform"/>
             <ImageBrush x:Key="refresh" ImageSource="Resources/refresh.png" Stretch="Uniform"/>
             <ImageBrush x:Key="RecBin" ImageSource="Resources/Image1.png" Stretch="Uniform"/>
             <ImageBrush x:Key="Globe" ImageSource="Resources/globe.png"  Stretch="Uniform"/>

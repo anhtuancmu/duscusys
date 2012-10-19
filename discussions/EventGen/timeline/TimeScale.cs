@@ -13,9 +13,10 @@ namespace EventGen.timeline
     class TimeScale
     {
         //distance between second ticks at lowest scale
-        const double SECOND_TICK_DISTANCE = 180;
+        //const double SECOND_TICK_DISTANCE = 180;
+        const double SECOND_TICK_DISTANCE = 260;
 
-        public const double TIMELINE_HEIGHT = 300;
+        public const double TIMELINE_HEIGHT = 200;
         
         //position in scene to relative time
         public static TimeSpan PositionToTime(double pos, double zoom)
@@ -46,7 +47,7 @@ namespace EventGen.timeline
             }
 
             //add new ticks and text
-            if (zoom < 5)
+            if (zoom < 3)
             {
                 var numSecondTicks = Math.Round(range.TotalSeconds) + 1;
                 for (int i = 0; i < numSecondTicks; i++)
@@ -56,10 +57,10 @@ namespace EventGen.timeline
             }
             else if (zoom < 25)
             {
-                var num5SecondTicks = Math.Round(range.TotalSeconds / 5) + 1;
-                for (int i = 0; i < num5SecondTicks; i++)
+                var num3SecondTicks = Math.Round(range.TotalSeconds / 3) + 1;
+                for (int i = 0; i < num3SecondTicks; i++)
                 {
-                    addTick(scene, 5 * i, zoom, tickLevelY);
+                    addTick(scene, 3 * i, zoom, tickLevelY);
                 }
             }
             else if (zoom < 100)
