@@ -322,7 +322,11 @@ namespace CloudStorage
                               {
                                   if (File.Exists(pathName))//some files are empty
                                       fileViewCallback(pathName);
-                              });
+                                  else if (entry.IsGDrive && !string.IsNullOrEmpty(entry.GdocWebUrl))
+                                  {                                      
+                                      webViewCallback(entry.GdocWebUrl);
+                                  }
+                              });            
         }
 
         public static string TempDir()

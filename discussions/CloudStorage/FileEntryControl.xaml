@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <Image Stretch="Uniform" Source="{Binding Image}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
         <StackPanel Grid.Column="0" Grid.Row="1">
-            <TextBlock Text="{Binding Title}"  HorizontalAlignment="Center" Foreground="White"/>
+            <TextBlock Text="{Binding Title}" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="White" MaxWidth="300" Margin="20,0,0,0"/>
             <!--<TextBlock Text="{Binding IdString}" HorizontalAlignment="Center"/>-->
         </StackPanel>
     </Grid>

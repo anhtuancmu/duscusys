@@ -37,7 +37,7 @@
         <ImageBrush x:Key="back" ImageSource="Resources/back.png" Stretch="Uniform"/>
         <ImageBrush x:Key="dropbox" ImageSource="Resources/dropbox.png" Stretch="Uniform"/>
         <ImageBrush x:Key="gdrive" ImageSource="Resources/drive_icon.png" Stretch="Uniform"/>
-        <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
+        <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" /> 
 
         <ItemsPanelTemplate x:Key="FilePanelTemplate">
             <UniformGrid IsItemsHost="True" Columns="4"/>
