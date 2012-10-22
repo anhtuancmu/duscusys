@@ -40,6 +40,9 @@ namespace CloudStorage
 
         Action<string> _webViewCallback = null;
 
+        volatile List<TaskCompletionSource<byte[]>> _thumbDownloaders = new List<TaskCompletionSource<byte[]>>();
+        int numFilesBeingFetched = 0;
+
         public GDriveStorage(Action<string> webViewCallback)
         {            
             _webViewCallback = webViewCallback;
@@ -110,8 +113,7 @@ namespace CloudStorage
                     }
                     else
                     {
-                        Console.WriteLine(
-                            "An error occurred: " + response.StatusDescription);
+                        Console.WriteLine("An error occurred: " + response.StatusDescription);
                         return null;
                     }
                 }
@@ -128,10 +130,12 @@ namespace CloudStorage
             }
         }
 
-        public void Children(string folder,
+        public void Children(int folderRequestId,
+                             string folder,
                              Dispatcher dispatch,
-                             Func<int, FileEntry, bool> addEntry)
+                             Func<int, FileEntry, int, bool> addEntry)
         {
+            numFilesBeingFetched = 0;
             ChildrenResource.ListRequest request = _service.Children.List(folder);
             do
             {
@@ -143,26 +147,49 @@ namespace CloudStorage
 
                     foreach (ChildReference child in children.Items)
                     {
+                        do
+                        {
+                            lock (_thumbDownloaders)
+                            {
+                                if (_thumbDownloaders.Count < 12)
+                                    break;
+                            }
+
+                            System.Threading.Thread.Sleep(100);
+                        } while (true);
+
                         var doContinue = true;
                         dispatch.Invoke(new Action(() =>
                         {
-                            doContinue = addEntry(expectedCount, null);
+                            doContinue = addEntry(expectedCount, null, folderRequestId);
                         }));
                         if (!doContinue)
-                           break;                                                                                                    
+                            break;
+
+                        do
+                        {
+                            lock (this)
+                            {
+                                if (numFilesBeingFetched < 20)
+                                    break;
+                            }
+                            System.Threading.Thread.Sleep(100);
+                        } while (true);
 
                         FilesResource.GetRequest getReq = _service.Files.Get(child.Id);
+                        ++numFilesBeingFetched;
                         getReq.FetchAsync((LazyResult<Google.Apis.Drive.v2.Data.File> response) =>
                         {
+                            --numFilesBeingFetched;
                             Google.Apis.Drive.v2.Data.File file = response.GetResult();
                             
                             doContinue = true;
                             dispatch.Invoke(new Action(() =>
                             {
-                                doContinue = addEntry(expectedCount, null);
+                                doContinue = addEntry(expectedCount, null, folderRequestId);
                             }));
                             if (!doContinue)
-                            {
+                            {   
                                 return;
                             }
 
@@ -173,47 +200,59 @@ namespace CloudStorage
                                 {
                                     dispatch.BeginInvoke(new Action(() =>
                                     {
-                                        addEntry(expectedCount, new FileEntry(file, _thumbCache[file.Id], file.AlternateLink));                                      
+                                        addEntry(expectedCount, new FileEntry(file, _thumbCache[file.Id], file.AlternateLink),
+                                                folderRequestId);                                      
                                     }));
                                 }
                                 else
                                 {
-                                    try
+                                    TaskCompletionSource<byte[]> thumbTaskSrc = null;
+                                    lock (_thumbDownloaders)
                                     {
-                                        using (WebClient client = new WebClient())
-                                        {
-                                            // Download data
-                                            byte[] thumbData = client.DownloadData(file.ThumbnailLink);
+                                        thumbTaskSrc = DownloadThumb(file.ThumbnailLink);
+                                        _thumbDownloaders.Add(thumbTaskSrc);
+                                    }
 
-                                            dispatch.BeginInvoke(new Action(() =>
+                                    thumbTaskSrc.Task.ContinueWith(
+                                        (Task<byte[]> thumbTask) =>
+                                        {
+                                            if (thumbTask.Result != null)
                                             {
-                                                var thumb = new BitmapImage();
-                                                thumb.BeginInit();
-                                                thumb.StreamSource = new MemoryStream(thumbData);
-                                                thumb.EndInit();
+                                                dispatch.BeginInvoke(new Action(() =>
+                                                {
+                                                    var thumb = new BitmapImage();
+                                                    thumb.BeginInit();
+                                                    thumb.StreamSource = new MemoryStream(thumbTask.Result);
+                                                    thumb.EndInit();
 
-                                                if(!_thumbCache.ContainsKey(file.Id))
-                                                    _thumbCache.Add(file.Id, thumb);
+                                                    if (!_thumbCache.ContainsKey(file.Id))
+                                                        _thumbCache.Add(file.Id, thumb);
 
-                                                addEntry(expectedCount, new FileEntry(file, thumb, file.AlternateLink));                                                                                               
-                                            }));
-                                        }
-                                    }
-                                    catch(Exception)
-                                    {
-                                        //thumbnails may be absent
-                                        dispatch.BeginInvoke(new Action(() =>
-                                        {
-                                            addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink));                               
-                                        }));
-                                    }
+                                                    addEntry(expectedCount, new FileEntry(file, thumb, file.AlternateLink),
+                                                            folderRequestId);
+                                                }));
+                                            }
+                                            else
+                                            {
+                                                //thumbnails may be absent
+                                                dispatch.BeginInvoke(new Action(() =>
+                                                {
+                                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink),
+                                                            folderRequestId);
+                                                }));
+                                            }
+
+                                            lock (_thumbDownloaders)
+                                                _thumbDownloaders.Remove(thumbTaskSrc);
+                                        });
                                 }
                             }
                             else
                             {
                                 dispatch.BeginInvoke(new Action(() =>
                                 {
-                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink));                                      
+                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink),
+                                            folderRequestId);                                      
                                 }));
                             }
                         });
@@ -229,11 +268,32 @@ namespace CloudStorage
                 var doContinue2 = true;
                 dispatch.Invoke(new Action(() =>
                 {
-                    doContinue2 = addEntry(1, null);//1 anything != 0
+                    doContinue2 = addEntry(1, null, folderRequestId);//1 anything != 0
                 }));
                 if (!doContinue2)
                     break;
             } while (!String.IsNullOrEmpty(request.PageToken));
+        }
+
+        TaskCompletionSource<byte[]> DownloadThumb(string thumbUrl)
+        {
+            var tcs = new TaskCompletionSource<byte[]>();
+
+            using (WebClient client = new WebClient())
+            {
+                // Download data
+                try
+                {
+                    byte[] thumbData = client.DownloadData(thumbUrl);
+                    tcs.SetResult(thumbData);
+                }
+                catch(Exception)
+                {
+                    tcs.SetResult(null);
+                }            
+            }
+
+            return tcs;
         }
 
         ImageSource GetFileIcon(Google.Apis.Drive.v2.Data.File file)

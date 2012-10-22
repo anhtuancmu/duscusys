@@ -11,9 +11,10 @@ namespace CloudStorage
     interface IStorageClient
     {
         void Download(string file, string saveWhere, Dispatcher dispatch, Action done);
-        void Children(string folder,
+        void Children(int folderRequestId,
+                      string folder,
                       Dispatcher dispatch,
-                      Func<int, FileEntry, bool> addEntry);
+                      Func<int, FileEntry, int, bool> addEntry);
         string RootFolder();
     }
 

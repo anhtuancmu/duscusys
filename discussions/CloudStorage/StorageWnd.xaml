@@ -26,6 +26,7 @@
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
+        <ImageBrush x:Key="mselect" ImageSource="Resources/notepad_list3.png" Stretch="Uniform"/>
         <ImageBrush x:Key="view" ImageSource="Resources/enlarge2.png" Stretch="Uniform"/>
         <ImageBrush x:Key="home" ImageSource="Resources/home.png" Stretch="Uniform"/>
         <ImageBrush x:Key="navUp" ImageSource="Resources/nav_up.png" Stretch="Uniform"/>
@@ -129,7 +130,7 @@
 
         <s:SurfaceListBox x:Name="fileList" 
                           Grid.Row="2" 
-                          SelectionMode="Multiple"
+                          SelectionMode="Single"
                           SelectionChanged="SurfaceListBox_SelectionChanged_1"
                           ItemsSource="{Binding Entries}" 
                           Background="{x:Null}" 
@@ -174,9 +175,7 @@
                         <Border Width="45" Height="45" Background="{DynamicResource home}"/>
                     </s:SurfaceButton>
 
-                    <s:SurfaceButton x:Name="btnUp" HorizontalAlignment="Center"
-            			Click="btnUp_Click_1"
-            			VerticalAlignment="Top" Background="{x:Null}" Grid.Column="1">
+                    <s:SurfaceButton x:Name="btnUp" HorizontalAlignment="Center" Click="btnUp_Click_1" VerticalAlignment="Top" Background="{x:Null}" Grid.Column="1">
                         <Border Width="45" Height="45" Background="{DynamicResource navUp}"/>
                     </s:SurfaceButton>
                 </Grid>            
@@ -204,10 +203,17 @@
             <StackPanel Orientation="Vertical" Margin="0,9,0,0">
                <s:SurfaceButton x:Name="btnView" Click="btnView_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
                <Border Width="45" Height="45" Background="{StaticResource view}"/>
-            </s:SurfaceButton>
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="View" Foreground="White"/>
-            
+               </s:SurfaceButton>  
+               <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="View" Foreground="White"/>
             </StackPanel>
+           
+            <StackPanel Orientation="Vertical" Margin="0,5,0,0">
+                <s:SurfaceToggleButton x:Name="btnSelMode" Click="btnSelMode_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Margin="0" Grid.Column="1">
+                    <Border Width="45" Height="45" Background="{DynamicResource mselect}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </s:SurfaceToggleButton>    
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Multiselect" Foreground="White" Margin="0,2,0,0"/>
+            </StackPanel>
+                  
             <StackPanel Orientation="Vertical" Margin="0,9,0,0">
                 <s:SurfaceButton x:Name="btnRefresh" Click="btnRefresh_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
                     <Border Width="45" Height="45" Background="{DynamicResource refresh}"/>

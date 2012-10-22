@@ -49,6 +49,7 @@ namespace CloudStorage
 
         bool _isBusy = false;
         bool _cancelled = false;
+        int _folderRequestId = 0;
 
         public struct StorageSelectionEntry
         {
@@ -160,8 +161,9 @@ namespace CloudStorage
             var worker = new Action(() =>
             {
                 _isBusy = true;
-                _cancelled = false; 
-                _storage.Children(_navState.CurrentFolderId,
+                _cancelled = false;
+                _storage.Children(++_folderRequestId,
+                                  _navState.CurrentFolderId,
                                    this.Dispatcher,
                                    addEntry);
             });
@@ -172,20 +174,20 @@ namespace CloudStorage
                 new Task(worker).Start();
         }
 
-        bool addEntry (int expected, FileEntry entry)
+        bool addEntry(int expected, FileEntry entry, int folderRequestId)
         {
             if (entry != null)
             {
                 _entries.Add(entry);
                 numFetched.Text = _entries.Count + " of " + expected + " (" + ((int)(100 * _entries.Count / expected)) + "%)";
             }
-            var doContinue = _entries.Count < expected && !_cancelled;
+            var doContinue = _entries.Count < expected && !_cancelled && folderRequestId == _folderRequestId;
             if (!doContinue)
             {
                 _isBusy = false;
                 fetchProgress.Visibility = Visibility.Collapsed;
             }
-            return doContinue;    
+            return doContinue;
         }
 
         private void SurfaceListBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -211,13 +213,6 @@ namespace CloudStorage
                 case Key.Back:
                     btnUp_Click_1(null,null);
                     break;
-                //case Key.D:
-                //    foreach (var selected in SelectedEntries())
-                //    {
-                //        _storage.Download(selected.IdString, @"C:\projects\TDS\discussions\CloudStorage\bin\Debug\theFile.png", () => { });
-                //        break;
-                //    }
-                //    break;
             }
         }
 
@@ -288,10 +283,18 @@ namespace CloudStorage
                 return;
                 
             //invert selection
-            if(fileList.SelectedItems.Contains(fec.DataContext))
-                fileList.SelectedItems.Remove(fec.DataContext);
+            if (fileList.SelectedItems.Contains(fec.DataContext))
+            {
+                if (fileList.SelectionMode == SelectionMode.Multiple)
+                    fileList.SelectedItems.Remove(fec.DataContext);
+            }
             else
-                fileList.SelectedItems.Add(fec.DataContext);
+            {
+                if (fileList.SelectionMode == SelectionMode.Multiple)
+                    fileList.SelectedItems.Add(fec.DataContext);
+                else
+                    fileList.SelectedItem = fec.DataContext;
+            }
         }
 
         private void btnView_Click_1(object sender, RoutedEventArgs e)
@@ -403,6 +406,18 @@ namespace CloudStorage
         private void btnCancelFetch_Click_1(object sender, RoutedEventArgs e)
         {                
             _cancelled = true;
+        }
+
+        private void btnSelMode_Click_1(object sender, RoutedEventArgs e)
+        {
+            if ((bool)btnSelMode.IsChecked)
+            {
+                fileList.SelectionMode = SelectionMode.Multiple;
+            }
+            else
+            {
+                fileList.SelectionMode = SelectionMode.Single;
+            }
         }
     }
 }
