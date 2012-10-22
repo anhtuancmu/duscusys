@@ -68,10 +68,11 @@ namespace CloudStorage
             }
         }
 
-        public void Children(string folder, 
+        public void Children(int folderRequestId,
+                             string folder, 
                              Dispatcher dispatch,
-                             Func<int, FileEntry, bool> addEntry)  
-        {            
+                             Func<int, FileEntry, int, bool> addEntry)  
+        {
             var expectedLen = _client.GetMetaData(folder).Contents.Count();
            
             foreach(var md in _client.GetMetaData(folder).Contents)  
@@ -79,7 +80,7 @@ namespace CloudStorage
                 var doContinue = true;
                 dispatch.Invoke(new Action(() =>
                 {
-                    doContinue = addEntry(expectedLen, null);
+                    doContinue = addEntry(expectedLen, null, folderRequestId);
                 }));
                 if (!doContinue)
                     break;              
@@ -90,7 +91,7 @@ namespace CloudStorage
                     {
                         dispatch.Invoke(new Action(() =>
                         {
-                            doContinue = addEntry(expectedLen, new FileEntry(md, _thumbCache[md.Path]));
+                            doContinue = addEntry(expectedLen, new FileEntry(md, _thumbCache[md.Path]), folderRequestId);
                         }));
                         if (!doContinue)
                             break;
@@ -110,7 +111,7 @@ namespace CloudStorage
                      
                         dispatch.Invoke(new Action(() =>
                         {
-                            doContinue = addEntry(expectedLen, null);
+                            doContinue = addEntry(expectedLen, null, folderRequestId);
                         }));
                         if (!doContinue)
                             break;
@@ -136,14 +137,14 @@ namespace CloudStorage
 
                                             if (!_thumbCache.ContainsKey(md.Path))
                                                 _thumbCache.Add(md.Path, bmp);
-                                            addEntry(expectedLen, new FileEntry(md, bmp));  
+                                            addEntry(expectedLen, new FileEntry(md, bmp), folderRequestId);  
                                         }));
                                     }
                                     else
                                     {
                                         dispatch.BeginInvoke(new Action(() =>
                                         {
-                                            addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)));
+                                            addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)), folderRequestId);
                                         }));
                                        
                                     }
@@ -156,7 +157,7 @@ namespace CloudStorage
                 {                
                     dispatch.Invoke(new Action(() =>
                     {
-                        doContinue = addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)));                       
+                        doContinue = addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)), folderRequestId);                       
                     }));
                     if (!doContinue)
                         break;
