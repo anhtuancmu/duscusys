@@ -24,7 +24,6 @@ using EventGen.timeline;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls;
 using Reporter;
-using TimelineLibrary;
 
 namespace EventGen
 {

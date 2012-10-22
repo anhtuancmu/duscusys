@@ -172,14 +172,6 @@
       <Project>{d27f5b02-47d2-4036-8703-05435ec2511d}</Project>
       <Name>DiscussionsClientRT</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Library\WPF\TimelineExLib\TimelineExLib.csproj">
-      <Project>{bb090a20-ff73-4aed-b74a-92ad7e9586d9}</Project>
-      <Name>TimelineExLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Library\WPF\TimelineLib\TimelineLib.csproj">
-      <Project>{d2188e92-117c-4e93-a759-5cc251dc226d}</Project>
-      <Name>TimelineLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LoginEngine\LoginEngine.csproj">
       <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
       <Name>LoginEngine</Name>

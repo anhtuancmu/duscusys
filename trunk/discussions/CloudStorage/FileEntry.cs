@@ -14,6 +14,8 @@ namespace CloudStorage
         public ImageSource Image { get; set; }
         public string IdString {get;set;}        
         public bool IsFolder { get; set; }
+        public string GdocWebUrl { get; set; }
+        public bool IsGDrive { get; set; } //true iif it's gdrive's file
 
         public FileEntry(DateTime modified, string title, ImageSource img, string idString, bool isFolder)
         {
@@ -31,15 +33,18 @@ namespace CloudStorage
             Image = thumb;
             IdString = md.Path;
             IsFolder = md.Is_Dir;
+            IsGDrive = false;
         }
 
-        public FileEntry(Google.Apis.Drive.v2.Data.File file, ImageSource thumb)
+        public FileEntry(Google.Apis.Drive.v2.Data.File file, ImageSource thumb, string gdocWebUrl)
         {
             Modified = DateTime.Parse(file.ModifiedDate);
             Title = file.Title;
             Image = thumb;
             IdString = file.Id;
-            IsFolder = GDriveStorage.IsFolder(file);                                                       
+            IsFolder = GDriveStorage.IsFolder(file);
+            GdocWebUrl = gdocWebUrl;
+            IsGDrive = true;                              
         }
     }
 }

@@ -26,6 +26,11 @@ namespace CloudStorage
     {
         string GOOGLE_DRIVE_CLIENT_ID = "579103823915.apps.googleusercontent.com";
         string GOOGLE_DRIVE_CLIENT_SECRET = "7RxhbcWlt8qfw1Siy58D4xl8";
+ 
+        const string GDOC_DOCUMENT_MIME = "application/vnd.google-apps.document";
+        const string GDOC_PRESENTATION_MIME = "application/vnd.google-apps.presentation";
+        const string GDOC_SPREADSHEET_MIME = "application/vnd.google-apps.spreadsheet";
+        const string FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
 
         Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
 
@@ -168,7 +173,7 @@ namespace CloudStorage
                                 {
                                     dispatch.BeginInvoke(new Action(() =>
                                     {
-                                        addEntry(expectedCount, new FileEntry(file, _thumbCache[file.Id]));                                      
+                                        addEntry(expectedCount, new FileEntry(file, _thumbCache[file.Id], file.AlternateLink));                                      
                                     }));
                                 }
                                 else
@@ -190,7 +195,7 @@ namespace CloudStorage
                                                 if(!_thumbCache.ContainsKey(file.Id))
                                                     _thumbCache.Add(file.Id, thumb);
 
-                                                addEntry(expectedCount, new FileEntry(file, thumb));                                                                                               
+                                                addEntry(expectedCount, new FileEntry(file, thumb, file.AlternateLink));                                                                                               
                                             }));
                                         }
                                     }
@@ -199,7 +204,7 @@ namespace CloudStorage
                                         //thumbnails may be absent
                                         dispatch.BeginInvoke(new Action(() =>
                                         {
-                                            addEntry(expectedCount, new FileEntry(file, GetFileIcon(file)));                               
+                                            addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink));                               
                                         }));
                                     }
                                 }
@@ -208,7 +213,7 @@ namespace CloudStorage
                             {
                                 dispatch.BeginInvoke(new Action(() =>
                                 {
-                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file)));                                      
+                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink));                                      
                                 }));
                             }
                         });
@@ -241,23 +246,37 @@ namespace CloudStorage
             }
             else
             {
-                if (file.FileExtension == null)
+                if (file.MimeType == GDOC_DOCUMENT_MIME)
                 {
-                    file.FileExtension = "";
-                    var lastDot = file.Title.LastIndexOf(".");
-                    if (lastDot != -1)
-                        file.FileExtension = file.Title.Substring(lastDot, file.Title.Length - lastDot);
+                    src = (BitmapImage)App.Current.FindResource("gdocWord");
                 }
+                else if (file.MimeType == GDOC_PRESENTATION_MIME)
+                {
+                    src = (BitmapImage)App.Current.FindResource("gdocPowerPoint");
+                }
+                else if (file.MimeType == GDOC_SPREADSHEET_MIME)
+                {
+                    src = (BitmapImage)App.Current.FindResource("gdocExcel");
+                }
+                else
+                {
+                    if (file.FileExtension == null)
+                    {
+                        file.FileExtension = "";
+                        var lastDot = file.Title.LastIndexOf(".");
+                        if (lastDot != -1)
+                            file.FileExtension = file.Title.Substring(lastDot, file.Title.Length - lastDot);
+                    }
 
-                FileToIconConverter conv = (FileToIconConverter)App.Current.FindResource("iconConv");
-                src = conv.GetImage(file.FileExtension, 64);
+                    FileToIconConverter conv = (FileToIconConverter)App.Current.FindResource("iconConv");
+                    src = conv.GetImage(file.FileExtension, 64);
+                }
             }
             return src;
         }
 
         public static bool IsFolder(Google.Apis.Drive.v2.Data.File file)
         {
-            const string FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
             return file.MimeType == FOLDER_MIME_TYPE;
         }
 
