@@ -616,12 +616,8 @@ namespace Discussions
             return Path.Combine(GetAppDir(), "Resources");
         }
 
-        public static void RunViewer(System.Windows.Controls.Image img)
+        public static void RunViewer(Attachment a)
         {
-            if (img == null)
-                return;
-
-            var a = img.DataContext as Attachment;
             if (a == null)
                 return;
 
@@ -650,8 +646,9 @@ namespace Discussions
                     Utils.ReportMediaOpened(StEvent.ScreenshotOpened, a);
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
-                ImageWindow wnd = new ImageWindow();
-                wnd.img.Source = img.Source;
+
+                ImageWindow wnd = new ImageWindow(a.Id);
+                wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
                 wnd.Show();
             }
             else
@@ -684,7 +681,7 @@ namespace Discussions
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {
-                ImageWindow wnd = new ImageWindow();
+                ImageWindow wnd = new ImageWindow(-1);
                 var bi = new BitmapImage(new Uri(pathName));
                 wnd.img.Source = bi;
                 wnd.Show();

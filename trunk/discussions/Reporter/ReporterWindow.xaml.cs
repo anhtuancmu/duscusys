@@ -25,12 +25,12 @@ using System.Windows;
 
 namespace Reporter
 {   
-    public partial class MainWindow : Window
+    public partial class ReporterWindow : Window
     {
         ReportCollector _reportCollector1 = null;
-        ReportCollector _reportCollector2 = null;     
+        ReportCollector _reportCollector2 = null;
 
-        public MainWindow()
+        public ReporterWindow()
         {
             InitializeComponent();
 

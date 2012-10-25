@@ -80,16 +80,9 @@ namespace DistributedEditor
 
         void TextChanged(string text)
         {
-            if (text == "")
-            {
-                _cleanupRequest(Id());
-                //no onChanged, cleanup will do
-            }
-            else
-            {
-                serializeText = true;
-                onChanged(this);
-            }
+           _txt = text;
+            serializeText = true;
+            onChanged(this);
         }
 
         public void Hide()
@@ -117,6 +110,11 @@ namespace DistributedEditor
         public override void RemoveFocus()
         {
             base.RemoveFocus();
+
+            if (_txt == "")
+            {
+                _cleanupRequest(Id());
+            }
 
             _textEnterUC.RemoveFocus();            
         }

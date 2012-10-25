@@ -353,21 +353,26 @@ namespace Discussions
             var clienRt = sharedClient.clienRt;
             if (clienRt == null)
                 return;
+    
+           
 
+            //explanation mode functions
             if (doSet)
+            {
                 clienRt.onBadgeViewRequest += __badgeViewEvent;
-            else
-                clienRt.onBadgeViewRequest -= __badgeViewEvent;
-
-            if (doSet)
                 clienRt.onSourceViewRequest += __sourceView;
+                WebKitFrm.userRequestedClosing += onLocalSourceViewerClosed;         
+                ExplanationModeMediator.Inst.CloseReq -= onImgViewerClosed;
+                ExplanationModeMediator.Inst.OpenReq  += onImgViewerOpened;
+            }
             else
+            {
+                clienRt.onBadgeViewRequest -= __badgeViewEvent;
                 clienRt.onSourceViewRequest -= __sourceView;
-
-            if (doSet)
-                WebKitFrm.userRequestedClosing += localUserRequestedClosing;
-            else
-                WebKitFrm.userRequestedClosing -= localUserRequestedClosing;
+                WebKitFrm.userRequestedClosing -= onLocalSourceViewerClosed;
+                ExplanationModeMediator.Inst.CloseReq -= onImgViewerClosed;
+                ExplanationModeMediator.Inst.OpenReq  -= onImgViewerOpened;                
+            }
         }
 
         void ForgetDBDiscussionState()
@@ -709,40 +714,84 @@ namespace Discussions
 
 
         #region explanation mode browser
+        //some source already opened locally, notify all other clients    
         void sourceView(object sender, RoutedEventArgs e)
         {
-            //some source already opened locally, notify all other clients
-            
-            var sourceUC = e.OriginalSource as SourceUC;
+            var sourceUC = e.OriginalSource as FrameworkElement;
             if (sourceUC == null)
                 return;
 
-            var src = sourceUC.DataContext as Source;
-            if (src == null)
-                return;            
+            var src   = sourceUC.DataContext as Source;
+            var att = sourceUC.DataContext as Attachment;
 
-            UISharedRTClient.Instance.clienRt.SendSourceViewRequest(src.Text, true);                                                         
+            if (src != null)
+                UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.SourceView, src.Id, true); 
+            else if(att!=null)
+                UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.YoutubeView, att.Id, true);                         
         }
-
+        
         //local source viewer is about to close 
-        void localUserRequestedClosing()
+        void onLocalSourceViewerClosed()
         {
-            UISharedRTClient.Instance.clienRt.SendSourceViewRequest("http://google.com", false);           
+            UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.SourceView, -1, false);           
         }
 
-        void __sourceView(SourceViewMessage sv)
+        void onImgViewerClosed()
+        {
+            UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, -1, false);    
+        }
+
+        void onImgViewerOpened(int attachId)
+        {
+            UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, attachId, true);     
+        }
+
+        //message from remote client
+        void __sourceView(ExplanationModeSyncMsg sm)
         {
             if (!btnExplanationMode.IsChecked.HasValue || !btnExplanationMode.IsChecked.Value)
                 return;
 
-            if (sv.doExpand)
+            if (sm.doExpand)
             {
-                var browser = new WebKitFrm(sv.url);
-                browser.Show();
+                switch (sm.syncMsgType)
+                {
+                    case SyncMsgType.SourceView:
+                        var src = CtxSingleton.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
+                        var browser = new WebKitFrm(src.Text);
+                        browser.Show();
+                        break;
+                    case SyncMsgType.YoutubeView:
+                        var attach = CtxSingleton.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
+                        var embedUrl = AttachmentToVideoConvertor.AttachToYtInfo(attach).EmbedUrl;
+                        browser = new WebKitFrm(embedUrl);
+                        browser.Show();
+                        break;
+                    case SyncMsgType.ImageView:
+                        attach = CtxSingleton.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
+                        if(attach!=null && !ExplanationModeMediator.Inst.IsViewerOpened(attach.Id))
+                            AttachmentManager.RunViewer(attach);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }              
             }
             else
             {
-                WebKitFrm.EnsureInstanceClosed();
+                switch (sm.syncMsgType)
+                {
+                    case SyncMsgType.SourceView:
+                        WebKitFrm.EnsureInstanceClosed();
+                        break;
+                    case SyncMsgType.ImageView:
+                        ExplanationModeMediator.Inst.EnsureInstanceClosed(sm.viewObjectId);
+                        break;
+                    case SyncMsgType.YoutubeView:
+                        WebKitFrm.EnsureInstanceClosed();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }    
             }
         }
         #endregion explanation mode browser

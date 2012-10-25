@@ -4,7 +4,8 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" x:Class="Discussions.ImageWindow"
+    mc:Ignorable="d" 
+    x:Class="Discussions.ImageWindow"
     Title="Image viewer" 
     Loaded="SurfaceWindow_Loaded_1"
     WindowStartupLocation="CenterScreen"
@@ -13,11 +14,14 @@
     ManipulationStarting="img_ManipulationStarting_1"
     ManipulationDelta="img_ManipulationDelta_1" 
     MouseWheel="SurfaceWindow_MouseWheel_1"
+    Closed="ImageWindow_Closed_1"
     Width="500"
     Height="500"
     Topmost="True" 
     d:DesignWidth="657.233" 
-    d:DesignHeight="574" Background="#FFCBCBCB" Icon="discusys%20iconv3.ico">
+    d:DesignHeight="574" 
+    Background="#FFCBCBCB" 
+    Icon="discusys%20iconv3.ico">
   <Grid>
       <Image x:Name="img" 
                 d:LayoutOverrides="Width, Height"

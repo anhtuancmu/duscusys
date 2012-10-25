@@ -137,7 +137,7 @@ namespace Discussions.RTModel
                 case (byte)DiscussionOpCode.BadgeViewRequest:
                         HandleBadgeView(peer, operationRequest, sendParameters);
                         break;
-                case (byte)DiscussionOpCode.SourceViewRequest:
+                case (byte)DiscussionOpCode.ExplanationModeSyncViewRequest:
                         HandleSourceView(peer, operationRequest, sendParameters);
                         break;
                 default:

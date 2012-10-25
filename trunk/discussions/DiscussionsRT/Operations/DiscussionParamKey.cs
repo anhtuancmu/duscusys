@@ -29,7 +29,7 @@ namespace Discussions.RTModel.Operations
         AnnotationId = 19,
 
         //structure change notification not fired on initiating client. but when 
-        //moderator dashboad is open, and moderator adds/removes topic, and private board is open,
+        //moderator dashboad is opened, and moderator adds/removes topic, and private board is open,
         //we want the list of topics in private board to be updated. 
         ForceSelfNotification = 20,
 
@@ -74,6 +74,8 @@ namespace Discussions.RTModel.Operations
         LinkHeadTypeKey = 55,
         ClusterId2 = 56,
 
-        StringKey = 57
+        StringKey = 57,
+        IntParameter1 = 58,
+        IntParameter2 = 59
     }
 }

@@ -76,6 +76,8 @@ namespace Discussions.YouViewer
             //wnd.viewer.Video = e.Info;
             //wnd.ShowDialog();            
 
+            RaiseEvent(new RoutedEventArgs(SourceUC.SourceViewEvent));
+
             var browser = new WebKitFrm(e.Info.EmbedUrl);
             browser.ShowDialog();
         }

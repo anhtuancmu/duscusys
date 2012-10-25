@@ -6,7 +6,7 @@
              xmlns:Custom="http://schemas.microsoft.com/surface/2008" x:Class="DistributedEditor.ClusterButton" 
              mc:Ignorable="d" 
              d:DesignHeight="46.667" d:DesignWidth="51.333">
-    <Grid Height="20" Width="20">  
+    <Grid Height="40" Width="40">  
     	<Custom:SurfaceButton x:Name="btn" MinHeight="10" MinWidth="10" Content="" Background="{DynamicResource editBrush}"/>   
     </Grid>
 </UserControl>

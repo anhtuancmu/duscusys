@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Reporter"
 		xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" 
         mc:Ignorable="d" 
-        x:Class="Reporter.MainWindow"
+        x:Class="Reporter.ReporterWindow"
         KeyDown="MainWindow_KeyDown_1"
         Title="Discusys reporting" Height="613" Width="835" Background="#FF858585" WindowState="Maximized">
     <Grid>
