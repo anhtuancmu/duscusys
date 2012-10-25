@@ -217,7 +217,7 @@ namespace Discussions
 
         void MediaDoubleClick(object sender, InputEventArgs e)
         {
-            AttachmentManager.RunViewer(sender as Image);
+            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)

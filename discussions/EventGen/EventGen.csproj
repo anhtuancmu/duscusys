@@ -109,7 +109,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="EventGenWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -117,8 +117,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="EventGenWnd.xaml.cs">
+      <DependentUpon>EventGenWnd.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SubmitionWnd.xaml">

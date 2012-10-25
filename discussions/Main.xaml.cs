@@ -172,6 +172,8 @@ namespace Discussions
                 btnUserManager.LaunchDel = startUserManager;
                 btnSessionManager.LaunchDel = startSessionMgr;
                 btnSessionViewer.LaunchDel = startSessionViewer;
+                btnReporter.LaunchDel = startReporter;
+                btnMeg.LaunchDel = startMeg;
             }
             else
             {
@@ -180,6 +182,8 @@ namespace Discussions
                 btnUserManager.LaunchDel = null;
                 btnSessionManager.LaunchDel = null;
                 btnSessionViewer.LaunchDel = null;
+                btnReporter.LaunchDel = null;
+                btnMeg.LaunchDel = null;
             }
 
             btnLogOut.LaunchDel = startLogOut;
@@ -211,6 +215,30 @@ namespace Discussions
             }
             else
                 MessageBox.Show("No default discussion");
+        }
+
+        //void startMeg()
+        //{
+        //    if (discWindows.resViewer != null)
+        //        return;
+
+        //    if (SessionInfo.Get().discussion != null)
+        //    {
+        //        discWindows.resViewer = new ResultViewer(SessionInfo.Get().discussion, () => { discWindows.resViewer = null; });
+        //        discWindows.resViewer.Show();
+        //    }
+        //    else
+        //        MessageBox.Show("No default discussion");
+        //}
+
+        void startReporter()
+        {
+            System.Diagnostics.Process.Start("Reporter.exe");
+        }
+
+        void startMeg()
+        {
+            System.Diagnostics.Process.Start("EventGen.exe");
         }
 
         void startSeatMgr()
@@ -364,6 +392,8 @@ namespace Discussions
             btnSessionManager.BtnTitle = "Session manager";
             btnSessionViewer.BtnTitle = "Session/user viewer";
             btnDiscussionInfo.BtnTitle = "About this discussion";
+            btnReporter.BtnTitle = "Reports";
+            btnMeg.BtnTitle = "MEG";
         } 
 
         void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e )

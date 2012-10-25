@@ -84,12 +84,12 @@ namespace Discussions
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            AttachmentManager.RunViewer(sender as Image);
+            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
         }
 
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
-            AttachmentManager.RunViewer(sender as Image);
+            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
         }
 
         private void lstBxAttachments_SelectionChanged_1(object sender, SelectionChangedEventArgs e)

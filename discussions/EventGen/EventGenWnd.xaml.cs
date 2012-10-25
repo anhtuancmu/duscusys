@@ -30,7 +30,7 @@ namespace EventGen
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : SurfaceWindow
+    public partial class EventGenWnd : SurfaceWindow
     {
         LoginResult login = null;
 
@@ -76,7 +76,7 @@ namespace EventGen
 
         public ObservableCollection<Topic> Topics { get; set; }
 
-        public MainWindow()
+        public EventGenWnd()
         {
             InitializeComponent();
 

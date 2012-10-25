@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Discussions.DbModel;
 using Microsoft.Surface;
 using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
@@ -71,17 +72,19 @@ namespace Discussions
             img.RenderTransform = mt;
         }
 
-        public ImageWindow()
+        public ImageWindow(int attachId)
         {
             InitializeComponent();
 
             DataContext = this;
 
-            Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
+            Width  = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
             Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
             this.WindowState = WindowState.Normal;
-        }
 
+            ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
+        }
+     
         private void btnZoom_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -174,6 +177,11 @@ namespace Discussions
         private void SurfaceWindow_Loaded_1(object sender, RoutedEventArgs e)
         {
            
+        }
+
+        private void ImageWindow_Closed_1(object sender, EventArgs e)
+        {
+            ExplanationModeMediator.Inst.OnWndClosed(this);
         }
     }
 }

@@ -114,11 +114,11 @@ namespace DistributedEditor
 
             //btn draw 
             Canvas.SetLeft(btnDraw, clustOrg.X + 20);
-            Canvas.SetTop(btnDraw,  clustOrg.Y - 20);
+            Canvas.SetTop(btnDraw,  clustOrg.Y - 45);
 
             //btn type
-            Canvas.SetLeft(btnType, clustOrg.X + 60);
-            Canvas.SetTop(btnType, clustOrg.Y  - 20);
+            Canvas.SetLeft(btnType, clustOrg.X + 70);
+            Canvas.SetTop(btnType, clustOrg.Y  - 45);
         }
 
         //caption can be moved independently from cluster. when cluster beings movements,

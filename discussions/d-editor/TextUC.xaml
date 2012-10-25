@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
-             x:Class="DistributedEditor.TextUC" 
+             x:Class="DistributedEditor.TextUC"     
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" LostFocus="UserControl_LostFocus">
     <UserControl.Resources>

@@ -280,6 +280,8 @@
             <metro:TopicTile x:Name="btnPrivate" Height="Auto" Margin="0,0,12.25,11"/>
             <metro:TopicTile x:Name="btnPublic" Height="Auto" Margin="0,0,12.25,11"/>
             <metro:TopicTile x:Name="btnLogOut" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <metro:TopicTile x:Name="btnReporter" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <metro:TopicTile x:Name="btnMeg" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </UniformGrid>
 
         <Button Style="{DynamicResource CloseButtonStyle}" Width="11.195" Content="Button" x:Name="CloseButton" Click="CloseButton_Click" Cursor="Hand" HorizontalAlignment="Right" Margin="0,5.583,126,0" VerticalAlignment="Top" Height="12.77" Visibility="Collapsed"/>
