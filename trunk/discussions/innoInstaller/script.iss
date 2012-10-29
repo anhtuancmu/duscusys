@@ -360,8 +360,15 @@ Source: ..\bin\Debug\CFLite.resources\CFUniCharPropertyDatabase.data; DestDir: {
 Source: ..\bin\Debug\CFLite.resources\CFUnicodeData-L.mapping; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\Debug\CFLite.resources\Info.plist; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\Debug\JavaScriptCore.resources\Info.plist; DestDir: {app}\JavaScriptCore.resources\; Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\TimelineExLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\TimelineLibrary.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EventGen.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\DropNet.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\DotNetOpenAuth.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\Google.Apis.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\Google.Apis.Drive.v2.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\Newtonsoft.Json.Net35.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\RestSharp.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\CloudStorage.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\Reporter\bin\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion; Tasks: ; Languages: 
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
