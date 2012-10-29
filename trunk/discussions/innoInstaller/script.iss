@@ -369,6 +369,7 @@ Source: ..\bin\Debug\Newtonsoft.Json.Net35.dll; DestDir: {app}; Flags: ignorever
 Source: ..\bin\Debug\RestSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\CloudStorage.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\Reporter\bin\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion; Tasks: ; Languages: 
+Source: ..\bin\Debug\Google.Apis.Authentication.OAuth2.dll; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
