@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Discussions;
+using Discussions.d_editor;
 using Discussions.rt;
 
 namespace DistributedEditor
@@ -16,18 +17,16 @@ namespace DistributedEditor
     {
         public const int TAG_UNDEFINED = -1;
 
-        public static VdCluster GetCaptionHost(IEnumerable<IVdShape> shapes, IVdShape captionShape)
+        public static ICaptionHost GetCaptionHost(IEnumerable<IVdShape> shapes, IVdShape captionShape)
         {
             foreach (var s in shapes)
             {
-                if (s.ShapeCode() != VdShapeType.Cluster)
+                var capHost = s as ICaptionHost;
+                if (capHost==null)
                     continue;
 
-                var captions = ((VdCluster)s).Captions;
-                if (captions.text == captionShape)
-                    return (VdCluster)s;
-                else if (captions.FreeDraw == captionShape)
-                    return (VdCluster)s;
+                if (capHost.CapMgr().text == captionShape || capHost.CapMgr().FreeDraw == captionShape)
+                    return capHost;               
             }
             return null;
         }

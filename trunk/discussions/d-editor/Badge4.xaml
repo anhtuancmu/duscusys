@@ -84,6 +84,6 @@
     	</Label>
 
 		<TextBlock Background="#721D1D1D" Grid.Row="1" Text="{Binding OrderNumber}" 
-				HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="16"/>		
+				HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11"/>		
     </Grid>
 </UserControl>

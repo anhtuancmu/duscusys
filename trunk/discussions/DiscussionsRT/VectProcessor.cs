@@ -136,8 +136,8 @@ namespace Discussions.RTModel
         }
 
         public void HandleCreateShape(LitePeer peer,
-                                    OperationRequest operationRequest,
-                                    SendParameters sendParameters)
+                                      OperationRequest operationRequest,
+                                      SendParameters sendParameters)
         {
             var req = CreateShape.Read(operationRequest.Parameters);
 
@@ -422,7 +422,7 @@ namespace Discussions.RTModel
             
             CleanupEmptyClusters();
 
-            //1st phase, send creation events for simple shapes (+cluster)   in the scene
+            //1st phase, send creation events for simple shapes (+cluster)  in the scene
             var simpleShapes = _doc.GetShapes().Where(sh=>sh.ShapeCode() != VdShapeType.ClusterLink);                
             foreach (var sh in simpleShapes)
             {
@@ -481,7 +481,17 @@ namespace Discussions.RTModel
                                                  false,
                                                  (LinkHeadType)lnk.Tag());
                 _room.PublishEventToSingle(peer, ev,sendParameters,(byte)DiscussionEventCode.LinkCreateEvent);
-            }
+
+                //send link state update
+                var st = lnk.GetState();
+                if (st != null)
+                {
+                    _room.PublishEventToSingle(peer,
+                                               st.ToDict(),
+                                               sendParameters,
+                                               (byte)DiscussionEventCode.StateSyncEvent);
+                }
+            }    
 
             //5th phase, send cursor events
             foreach (var sh in _doc.GetShapes())
@@ -541,8 +551,9 @@ namespace Discussions.RTModel
                                         model.StEvent.LinkCreated,
                                         req.ownerId,
                                         req.topicId);
-
-            pendingChanges = true;
+          
+          //transient state until link state update, don't save 
+          //pendingChanges = true;
         }
 
         public void HandleUnclusterBadgeRequest(LitePeer peer,

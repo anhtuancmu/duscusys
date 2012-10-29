@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Discussions;
+using Discussions.d_editor;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
@@ -52,7 +53,7 @@ namespace DistributedEditor
 
         LinkCreationRecord linkCreation;
 
-        VdCluster clusterAwaitingCaption = null;
+        ICaptionHost hostAwaitingCaption = null;
 
         bool touchDevice = false;
 
@@ -135,7 +136,7 @@ namespace DistributedEditor
                     var notOwnStrokes = _ink.Strokes.Where(st => st.DrawingAttributes.Color != ownColor);
                     _ink.Strokes = new StrokeCollection(notOwnStrokes);
 
-                    TryEndClusterCaption(freeFrmSh, CaptionType.FreeDraw);
+                    TryEndHostCaption(freeFrmSh, CaptionType.FreeDraw);
                 }
 
                 //update ink on other clients
@@ -143,53 +144,53 @@ namespace DistributedEditor
             }
         }
 
-        void BeginClusterCaption(VdCluster cluster, CaptionType type)
-        {            
-            clusterAwaitingCaption = cluster;
-
-            RemovePreviousCaption(cluster, type);
-        }
-        void RemovePreviousCaption(VdCluster cluster, CaptionType type)
+        void BeginHostCaption(ICaptionHost host, CaptionType type)
         {
-            if (clusterAwaitingCaption.Captions.FreeDraw != null)
-                _doc.BeginRemoveSingleShape(clusterAwaitingCaption.Captions.FreeDraw.Id());
-            if (clusterAwaitingCaption.Captions.text != null)
-                _doc.BeginRemoveSingleShape(clusterAwaitingCaption.Captions.text.Id());
+            hostAwaitingCaption = host;
+
+            RemovePreviousCaption(host, type);
+        }
+        void RemovePreviousCaption(ICaptionHost cluster, CaptionType type)
+        {
+            if (hostAwaitingCaption.CapMgr().FreeDraw != null)
+                _doc.BeginRemoveSingleShape(hostAwaitingCaption.CapMgr().FreeDraw.Id());
+            if (hostAwaitingCaption.CapMgr().text != null)
+                _doc.BeginRemoveSingleShape(hostAwaitingCaption.CapMgr().text.Id());
         }
 
-        void TryEndClusterCaption(IVdShape caption, CaptionType type)
+        void TryEndHostCaption(IVdShape caption, CaptionType type)
         {
             //inject caption
-            if (clusterAwaitingCaption == null)
+            if (hostAwaitingCaption == null)
                 return;
 
-            RemovePreviousCaption(clusterAwaitingCaption, type);
+            RemovePreviousCaption(hostAwaitingCaption, type);
 
             if (caption is VdFreeForm)
             {
-                clusterAwaitingCaption.Captions.FreeDraw = (VdFreeForm)caption;
+                hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm)caption;
                 
                 //initial resize of free form
-                clusterAwaitingCaption.Captions.InitialResizeOfFreeForm();
+                hostAwaitingCaption.CapMgr().InitialResizeOfFreeForm();
 
                 //send resized free form 
-                SendSyncState(clusterAwaitingCaption.Captions.FreeDraw);
+                SendSyncState(hostAwaitingCaption.CapMgr().FreeDraw);
             }
             else if (caption is VdText)
             {
-                clusterAwaitingCaption.Captions.text = (VdText)caption;
-                SendSyncState(clusterAwaitingCaption.Captions.text);
+                hostAwaitingCaption.CapMgr().text = (VdText)caption;
+                SendSyncState(hostAwaitingCaption.CapMgr().text);
             }
             else
                 throw new NotSupportedException();
 
             //update first time after build
-            clusterAwaitingCaption.Captions.UpdateRelatives();
+            hostAwaitingCaption.CapMgr().UpdateRelatives();
 
             //send state of cluster to attach captions on other clients 
-            SendSyncState(clusterAwaitingCaption);
+            SendSyncState(hostAwaitingCaption);
                
-            clusterAwaitingCaption = null;            
+            hostAwaitingCaption = null;            
         }
 
         //we have editing permission if either shape is free or if shape is cursored by us
@@ -280,7 +281,7 @@ namespace DistributedEditor
             var sh = _doc.BeginCreateShape(shapeType, startX, startY, true, DocTools.TAG_UNDEFINED);
 
             if (shapeType == VdShapeType.FreeForm || shapeType == VdShapeType.Text)
-                TryEndClusterCaption(sh, shapeType == VdShapeType.FreeForm ? CaptionType.FreeDraw : CaptionType.Text);
+                TryEndHostCaption(sh, shapeType == VdShapeType.FreeForm ? CaptionType.FreeDraw : CaptionType.Text);
 
             CaptureAndStartManip(sh, new Point(startX, startY), null, null);            
             _modeMgr.Mode = ShapeInputMode.Manipulating;
@@ -389,9 +390,10 @@ namespace DistributedEditor
         {
             touchDevice = td != null;
 
-            if (sh.ShapeCode() == VdShapeType.Cluster)
+            var capHost = sh as ICaptionHost;
+            if (capHost!=null)
             {
-                ((VdCluster)sh).Captions.UpdateRelatives();
+                capHost.CapMgr().UpdateRelatives();
             }
            
             sh.StartManip(pt, sender);
@@ -488,14 +490,15 @@ namespace DistributedEditor
                     ((VdText)sh).onChanged += onTextChanged;
                     break;
                 case VdShapeType.Cluster:
-                    ((VdCluster)sh).InitCaptions(CaptionCreationRequested);
+                case VdShapeType.ClusterLink:
+                    ((ICaptionHost)sh).InitCaptions(CaptionCreationRequested);
                     break;
             }           
         }
 
-        void CaptionCreationRequested(CaptionType type, VdCluster cluster)
+        void CaptionCreationRequested(CaptionType type, ICaptionHost host)
         {
-            BeginClusterCaption(cluster, type);
+            BeginHostCaption(host, type);
             switch (type)
             {
                 case CaptionType.FreeDraw:
@@ -504,9 +507,10 @@ namespace DistributedEditor
                 case CaptionType.Text:
                     //emulate text creation              
                     _palette.shapeType = VdShapeType.Text;
-                    EnterShapeCreationMode(VdShapeType.Text, -1);                    
-                    var clustBounds = cluster.boundsProvider();
-                    InpDeviceDown(new Point(clustBounds.X + 70, clustBounds.Y - 40), null);                   
+                    EnterShapeCreationMode(VdShapeType.Text, -1);
+                    
+                    var clickLocation = host.capOrgProvider();
+                    InpDeviceDown(new Point(clickLocation.X, clickLocation.Y), null);                   
                     break;
             }
         }
@@ -544,7 +548,7 @@ namespace DistributedEditor
             NotifyClusterableMoved(localCurs);
 
             if (localCurs.ShapeCode() == VdShapeType.Cluster)
-                updateClusterCaptions((VdCluster)localCurs);
+                updateHostCaptions((VdCluster)localCurs);
         }
         void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
@@ -564,9 +568,9 @@ namespace DistributedEditor
             _rt.clienRt.SendSyncState(sh.Id(), sh.GetState(_doc.TopicId));
         }
 
-        void updateClusterCaptions(VdCluster cluster)
+        void updateHostCaptions(ICaptionHost capHost)
         {
-            cluster.Captions.SetBounds();
+            capHost.CapMgr().SetBounds();
         }
 
         #endregion multitouch manipulations
@@ -597,8 +601,7 @@ namespace DistributedEditor
                     throw new NotSupportedException();
             }
 
-            if (sh.ShapeCode() != VdShapeType.ClusterLink)
-                SendSyncState(sh);                
+            SendSyncState(sh);                
 
             switch (sh.ShapeCode())
             {
@@ -606,7 +609,8 @@ namespace DistributedEditor
                     NotifyClusterableMoved(sh);
                     break;
                 case VdShapeType.Cluster:
-                    updateClusterCaptions((VdCluster)sh);
+                case VdShapeType.ClusterLink:
+                    updateHostCaptions((ICaptionHost)sh);
                     break;
             }        
         }

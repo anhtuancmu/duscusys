@@ -118,16 +118,14 @@ namespace Discussions.RTModel
             annotation.Write((int)_shapeType);
             annotation.Write(_tag);
 
-            //for shapes except links, state should be present
+            //for all shapes state should be present. if it is not, 
+            //we are in transient state when some shape has been created but not state-updated. 
+            //we fail its write and thus write of whole document
             if (_state == null)
-            {
-                return _shapeType == VdShapeType.ClusterLink;
-            }
-            else
-            {
-                _state.Write(annotation);
-                return true;
-            }
+                return false;
+
+            _state.Write(annotation);
+            return true;
         }
 
         public void Read(BinaryReader annotation)
@@ -137,15 +135,8 @@ namespace Discussions.RTModel
             _shapeType = (VdShapeType)annotation.ReadInt32();
             _tag = annotation.ReadInt32();
 
-            if (_shapeType != VdShapeType.ClusterLink)
-            {
-                _state = new Model.ShapeState();
-                _state.Read(annotation);
-            }
-            else
-            {
-                _state = null;
-            }
+            _state = new Model.ShapeState();
+            _state.Read(annotation);
         }
     }
 }

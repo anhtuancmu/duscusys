@@ -64,6 +64,9 @@ namespace Discussions
             if (DataContext != null && DataContext is ArgPoint)
             {
                 ArgPoint p = (ArgPoint)DataContext;
+                if (p.Person == null)
+                    return;
+
                 mask.Background = new SolidColorBrush(Utils.IntToColor(p.Person.Color));
                 switch ((SideCode)p.SideCode)
                 {

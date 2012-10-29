@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Discussions.d_editor;
 
 namespace DistributedEditor
 {
@@ -14,9 +15,20 @@ namespace DistributedEditor
         FreeDraw
     }
     
-    public class ClusterCaptions
+    public class ShapeCaptionsManager
     {
-        public VdCluster cluster;
+        ICaptionHost _hostShape = null;
+        public ICaptionHost HostShape
+        {
+            get
+            {
+                return _hostShape;
+            }
+            set
+            {
+                _hostShape = value;
+            }
+        }
         
         VdFreeForm _freeDraw = null;
         public VdFreeForm FreeDraw
@@ -43,12 +55,12 @@ namespace DistributedEditor
         public ClusterButton btnDraw;
         public ClusterButton btnType;
 
-        public delegate void CaptionCreationRequested(CaptionType type, VdCluster cluster);
+        public delegate void CaptionCreationRequested(CaptionType type, ICaptionHost hostShape);
         CaptionCreationRequested _captionCreationRequested;
 
-        public ClusterCaptions(VdCluster cluster, CaptionCreationRequested captionCreationRequested)
+        public ShapeCaptionsManager(ICaptionHost host, CaptionCreationRequested captionCreationRequested)
         {
-            this.cluster = cluster;
+            _hostShape = host;
 
             _captionCreationRequested = captionCreationRequested;
 
@@ -63,14 +75,14 @@ namespace DistributedEditor
 
         void __bntDraw(object sender, RoutedEventArgs e)
         {
-            _captionCreationRequested(CaptionType.FreeDraw, cluster);
+            _captionCreationRequested(CaptionType.FreeDraw, _hostShape);
         }
 
         void __bntType(object sender, RoutedEventArgs e)
         {
-            _captionCreationRequested(CaptionType.Text, cluster);        
+            _captionCreationRequested(CaptionType.Text, _hostShape);        
         }
-
+        
         //caption was removed
         public void InvalidateCaption(IVdShape caption)
         {
@@ -98,61 +110,61 @@ namespace DistributedEditor
 
         public void SetBounds()
         {
-            var clustOrg = cluster.boundsProvider().TopLeft;
-            
+            var capOrg = _hostShape.capOrgProvider();
             if (text != null)
             {
-                text.SetPosForCluster(clustOrg.X + textX,
-                                      clustOrg.Y + textY);
+                text.SetPosForCluster(capOrg.X + textX,
+                                      capOrg.Y + textY);
             }
 
             if (_freeDraw != null)
             {
-                _freeDraw.SetPosForCluster(clustOrg.X + freeDrawX,
-                                          clustOrg.Y + freeDrawY);
+                _freeDraw.SetPosForCluster(capOrg.X + freeDrawX,
+                                           capOrg.Y + freeDrawY);
             }
 
+            var btnOrg = HostShape.btnOrgProvider();
             //btn draw 
-            Canvas.SetLeft(btnDraw, clustOrg.X + 20);
-            Canvas.SetTop(btnDraw,  clustOrg.Y - 45);
+            Canvas.SetLeft(btnDraw, btnOrg.X);
+            Canvas.SetTop(btnDraw,  btnOrg.Y);
 
             //btn type
-            Canvas.SetLeft(btnType, clustOrg.X + 70);
-            Canvas.SetTop(btnType, clustOrg.Y  - 45);
+            Canvas.SetLeft(btnType, btnOrg.X + 50);
+            Canvas.SetTop(btnType,  btnOrg.Y);
         }
 
-        //caption can be moved independently from cluster. when cluster beings movements,
+        //caption can be moved independently from cluster. when cluster begins movements,
         //we save relative positions of caption to update them accordingly
         public void UpdateRelatives()
         {
-            var clustOrg = cluster.boundsProvider().TopLeft;
+            var clustOrg = _hostShape.capOrgProvider();
 
             if (text != null)
             {
                 var textOrg = text.GetOrigin();
                 textX = textOrg.X - clustOrg.X;
-                textY = textOrg.Y - clustOrg.Y;             
+                textY = textOrg.Y - clustOrg.Y;
             }
 
             if (_freeDraw != null)
             {
                 var freeDrawOrg = _freeDraw.GetOrigin();
                 freeDrawX = freeDrawOrg.X - clustOrg.X;
-                freeDrawY = freeDrawOrg.Y - clustOrg.Y;             
+                freeDrawY = freeDrawOrg.Y - clustOrg.Y;
             }
         }
 
         public void InitialResizeOfFreeForm()
-        {
-            var clustBounds = cluster.boundsProvider();
+        {            
             if (_freeDraw != null)
             {
-                var fdWidth  = clustBounds.Width * 0.6;
-                var fdHeight = fdWidth * 0.4;
+                var capOrg   = _hostShape.capOrgProvider();
+                var fdWidth  = 200;
+                var fdHeight = 100;
                 _freeDraw.SetWH(fdWidth, fdHeight);
 
-                var fdX = (clustBounds.X + 0.7*clustBounds.Width) - fdWidth  / 2;
-                var fdY = clustBounds.Y - (fdHeight - 10);
+                var fdX = capOrg.X - fdWidth  * 0.5;
+                var fdY = capOrg.Y - fdHeight * 0.5;
                 _freeDraw.SetPosForCluster(fdX, fdY);
             }
         }
