@@ -11,10 +11,11 @@ using System.Windows.Input;
 using Discussions;
 using Petzold.Media2D;
 using Discussions.RTModel.Model;
+using Discussions.d_editor;
 
 namespace DistributedEditor
 {
-    public class VdClusterLink : VdBaseShape, IVdShape
+    public class VdClusterLink : VdBaseShape, IVdShape, ICaptionHost
     {
         ArrowLine line;
         System.Windows.Shapes.Ellipse selMarker1;
@@ -30,10 +31,21 @@ namespace DistributedEditor
 
         LinkHeadType _headType;
 
+        VdDocument _doc;
+        ShapeCaptionsManager _captions;
+        public ShapeCaptionsManager CapMgr()
+        {
+            return _captions;
+        }
+
         public VdClusterLink(ClientLinkable end1, ClientLinkable end2, 
-                             int shapeId, int owner, LinkHeadType headType):
+                             int shapeId, int owner,
+                             VdDocument doc, 
+                             LinkHeadType headType):
             base(owner, shapeId)
-        {          
+        {
+            _doc = doc;
+            
             _end1 = end1;
             _end2 = end2;
 
@@ -81,11 +93,21 @@ namespace DistributedEditor
             line.MouseWheel += MouseWheel;
         }
 
+        public void InitCaptions(ShapeCaptionsManager.CaptionCreationRequested captionCreationRequested)
+        {
+            _captions = new ShapeCaptionsManager(this, captionCreationRequested);           
+        }
+
         public void Hide()
         {
             _cursorView.Visibility = Visibility.Hidden;
             line.Visibility = Visibility.Hidden;
-            VdSegmentUtil.HideMarkers(selMarker1, selMarker2);            
+            VdSegmentUtil.HideMarkers(selMarker1, selMarker2);
+            if (_captions != null)
+            {
+                _captions.btnDraw.Visibility = Visibility.Hidden;
+                _captions.btnType.Visibility = Visibility.Hidden;
+            }
         }
 
         public void Show()
@@ -93,6 +115,11 @@ namespace DistributedEditor
             _cursorView.Visibility = Visibility.Visible;
             line.Visibility = Visibility.Visible;
             VdSegmentUtil.ShowMarkers(selMarker1, selMarker2);
+            if (_captions != null)
+            {
+                _captions.btnDraw.Visibility = Visibility.Visible;
+                _captions.btnType.Visibility = Visibility.Visible;
+            }
         }
 
         public bool IsVisible()
@@ -160,6 +187,11 @@ namespace DistributedEditor
             Canvas.SetZIndex(selMarker1, z + 1);
             Canvas.SetZIndex(selMarker2, z + 2);
             Canvas.SetZIndex(_cursorView, z + 3);
+            if (_captions != null)
+            {
+                Canvas.SetZIndex(_captions.btnDraw, z + 4);
+                Canvas.SetZIndex(_captions.btnType, z + 5);
+            }
         }
 
         public void AttachToCanvas(Canvas c)
@@ -172,6 +204,9 @@ namespace DistributedEditor
             c.Children.Add(selMarker1);
             c.Children.Add(selMarker2);
             c.Children.Add(_cursorView);
+
+            c.Children.Add(_captions.btnDraw);
+            c.Children.Add(_captions.btnType);
         }
 
         public void DetachFromCanvas(Canvas c)
@@ -183,6 +218,9 @@ namespace DistributedEditor
             c.Children.Remove(selMarker1);
             c.Children.Remove(selMarker2);
             c.Children.Remove(_cursorView);
+
+            c.Children.Remove(_captions.btnDraw);
+            c.Children.Remove(_captions.btnType);
         }
 
         public VdShapeType ShapeCode()
@@ -192,12 +230,31 @@ namespace DistributedEditor
 
         public ShapeState GetState(int topicId)
         {
-            throw new NotSupportedException("links follow linkables");
+            var res = new ShapeState(ShapeCode(),
+                                    InitialOwner(),
+                                    Id(),
+                                    null,
+                                    new int[] { _captions.GetTextId(), _captions.GetFreeDrawId() },
+                                    new double[] {_captions.textX, _captions.textY, 
+                                                  _captions.freeDrawX, _captions.freeDrawY },
+                                    topicId);
+            return res;
         }
 
         public void ApplyState(ShapeState st)
         {
-            throw new NotSupportedException("links follow linkables");
+            //bind caption shapes if not already bound 
+            if (st.ints[0] != -1 && _captions.text == null)
+                _captions.text = (VdText)_doc.IdToShape(st.ints[0]);
+
+            if (st.ints[1] != -1 && _captions.FreeDraw == null)
+                _captions.FreeDraw = (VdFreeForm)_doc.IdToShape(st.ints[1]);
+
+            //update relative caption positions
+            _captions.textX = st.doubles[0];
+            _captions.textY = st.doubles[1];
+            _captions.freeDrawX = st.doubles[2];
+            _captions.freeDrawY = st.doubles[3];
         }
 
         public void StartManip(Point p, object sender)
@@ -275,35 +332,35 @@ namespace DistributedEditor
             }
         }
 
-        void RefreshContactSide(VdSegmentUtil.SegmentMarker side)
-        {
-            if (_end1 == null || _end2 == null)
-                return;
+        //void RefreshContactSide(VdSegmentUtil.SegmentMarker side)
+        //{
+        //    if (_end1 == null || _end2 == null)
+        //        return;
 
-            switch (side)
-            {
-                case VdSegmentUtil.SegmentMarker.Side1:
-                    double minDist;
-                    Point minAnchorPt;
-                    ShapeUtils.NearestAnchor(new Point(line.X2, line.Y2),
-                                            _end1,
-                                            out anchor1,
-                                            out minAnchorPt,
-                                            out minDist);
-                    line.X1 = minAnchorPt.X;
-                    line.Y1 = minAnchorPt.Y;
-                    break;
-                case VdSegmentUtil.SegmentMarker.Side2:
-                    ShapeUtils.NearestAnchor(new Point(line.X1, line.Y1), 
-                                             _end2,
-                                             out anchor2,
-                                             out minAnchorPt,
-                                             out minDist);
-                    line.X2 = minAnchorPt.X;
-                    line.Y2 = minAnchorPt.Y;
-                    break;
-            }
-        }
+        //    switch (side)
+        //    {
+        //        case VdSegmentUtil.SegmentMarker.Side1:
+        //            double minDist;
+        //            Point minAnchorPt;
+        //            ShapeUtils.NearestAnchor(new Point(line.X2, line.Y2),
+        //                                    _end1,
+        //                                    out anchor1,
+        //                                    out minAnchorPt,
+        //                                    out minDist);
+        //            line.X1 = minAnchorPt.X;
+        //            line.Y1 = minAnchorPt.Y;
+        //            break;
+        //        case VdSegmentUtil.SegmentMarker.Side2:
+        //            ShapeUtils.NearestAnchor(new Point(line.X1, line.Y1), 
+        //                                     _end2,
+        //                                     out anchor2,
+        //                                     out minAnchorPt,
+        //                                     out minDist);
+        //            line.X2 = minAnchorPt.X;
+        //            line.Y2 = minAnchorPt.Y;
+        //            break;
+        //    }
+        //}
 
         void RefreshLinkLayout()
         {
@@ -343,10 +400,12 @@ namespace DistributedEditor
                 RefreshLinkLayout();
             //}
 
+            _captions.SetBounds();
+
             SetMarkers();
             updateUserCursor();
         }
-
+        
         public ClientLinkable GetLinkable1()
         { 
             return _end1;
@@ -355,6 +414,27 @@ namespace DistributedEditor
         public ClientLinkable GetLinkable2()
         {
             return _end2;
+        }
+
+        public Rect boundsProvider()
+        {
+            return new Rect(new Point(line.X1, line.Y1), new Point(line.X2, line.Y2));
+        }
+
+        public Point capOrgProvider()
+        {
+            var bounds = boundsProvider();
+            var res = bounds.Location;
+            res.Offset(bounds.Width * 0.5, bounds.Height * 0.5 - 40);
+            return res;
+        }
+
+        public Point btnOrgProvider()
+        {
+            var bounds = boundsProvider();
+            var res = bounds.Location;
+            res.Offset(bounds.Width * 0.5, bounds.Height * 0.5);
+            return res;
         }
     }
 }

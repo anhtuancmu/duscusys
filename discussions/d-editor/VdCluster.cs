@@ -13,10 +13,11 @@ using Discussions;
 using System.Windows.Threading;
 using VectorEngine;
 using Discussions.RTModel.Model;
+using Discussions.d_editor;
 
 namespace DistributedEditor 
 {
-    public class VdCluster : VdBaseShape, IVdShape, LinkableHost
+    public class VdCluster : VdBaseShape, IVdShape, LinkableHost, ICaptionHost
     {
         const int UNDEFINED_CLUSTER = -1;
         
@@ -31,13 +32,10 @@ namespace DistributedEditor
         
         VdDocument _doc;
 
-        ClusterCaptions _captions;
-        public ClusterCaptions Captions
+        ShapeCaptionsManager _captions;     
+        public ShapeCaptionsManager CapMgr()
         {
-            get
-            {
-                return _captions;
-            }
+            return _captions;
         }
 
         //start/reset drawing
@@ -86,9 +84,9 @@ namespace DistributedEditor
             init(DaoUtils.UserIdToColor(owner));
         }
 
-        public void InitCaptions(ClusterCaptions.CaptionCreationRequested captionCreationRequested)
+        public void InitCaptions(ShapeCaptionsManager.CaptionCreationRequested captionCreationRequested)
         {
-            _captions = new ClusterCaptions(this, captionCreationRequested);
+            _captions = new ShapeCaptionsManager(this, captionCreationRequested);
         }
 
         public ShapeZ ShapeZLevel()
@@ -678,7 +676,7 @@ namespace DistributedEditor
         {
             return _endpoint;
         }
-
+        
         public Rect boundsProvider()
         {
             if (bezierBorder.Data == null)
@@ -686,6 +684,22 @@ namespace DistributedEditor
             var res = bezierBorder.Data.Bounds;
             res.Offset(_offset.X, _offset.Y);
             return res;      
+        }
+
+        public Point capOrgProvider()
+        {
+            var bounds = boundsProvider();
+            var res = bounds.Location;
+            res.Offset(0,-70);
+            return res;
+        }
+
+        public Point btnOrgProvider()
+        {
+            var bounds = boundsProvider();
+            var res = bounds.Location;                   
+            res.Offset(20, -45);
+            return res;
         }
     }
 }

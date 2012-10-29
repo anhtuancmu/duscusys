@@ -135,7 +135,7 @@ namespace Discussions
 
         //EnterName:
             //name
-            var nameDlg = new LoginName();
+            var nameDlg = new LoginName(seatDlg.SelectedSeat);
             nameDlg.ShowDialog();
             if (nameDlg.BackClicked)
                 goto SelectSeat;

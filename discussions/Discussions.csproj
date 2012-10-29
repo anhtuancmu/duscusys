@@ -165,6 +165,7 @@
     <Compile Include="BusyWndSingleton.cs" />
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
+    <Compile Include="d-editor\ICaptionHost.cs" />
     <Compile Include="ExplanationModeMediator.cs" />
     <Compile Include="OfficeWnd.xaml.cs">
       <DependentUpon>OfficeWnd.xaml</DependentUpon>
@@ -180,7 +181,7 @@
     <Compile Include="d-editor\ClientClusterable.cs" />
     <Compile Include="d-editor\ClientLinkable.cs" />
     <Compile Include="d-editor\ClusterButton.xaml.cs" />
-    <Compile Include="d-editor\ClusterCaptions.cs" />
+    <Compile Include="d-editor\ShapeCaptionsManager.cs" />
     <Compile Include="d-editor\Palette.xaml.cs">
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>

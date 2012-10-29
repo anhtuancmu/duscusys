@@ -33,14 +33,24 @@ namespace Discussions
             }
         }
 
-        public LoginName()
+        public LoginName(Seat selectedSeat)
         {
             InitializeComponent();
 
             DataContext = this;
 
             //SkinManager.ChangeSkin("GreenSkin.xaml", this.Resources);
-            SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);          
+            SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);
+
+            if (selectedSeat != null && selectedSeat.Person != null)
+            {
+                var pers = selectedSeat.Person.LastOrDefault();
+                if(pers!=null)
+                {
+                    EnteredName  = pers.Name;
+                    tbxName.Text = pers.Name;
+                }
+            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

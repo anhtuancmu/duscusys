@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using Discussions.d_editor;
 using Discussions.rt;
 using Discussions.RTModel;
 using Discussions.RTModel.Model;
@@ -183,6 +184,7 @@ namespace DistributedEditor
             {
                 case VdShapeType.ClusterLink:
                     var link = (VdClusterLink)sh;
+                    CleanupClusterCaptions(sh, indirectOwner);
                     link.GetLinkable1().RemoveEdge(link);
                     link.GetLinkable2().RemoveEdge(link); 
                     break;
@@ -201,49 +203,50 @@ namespace DistributedEditor
         //shape can be either cluster, text, free draw
         void CleanupClusterCaptions(IVdShape shape, int indirectOwner)
         {
-            VdCluster changedCluster = null;
+            ICaptionHost capHost = null;
             switch (shape.ShapeCode())
             {               
                 case VdShapeType.FreeForm:
-                    changedCluster = DocTools.GetCaptionHost(GetShapes(), shape);
-                    if (changedCluster != null)
-                        changedCluster.Captions.InvalidateCaption(shape);   
+                    capHost = DocTools.GetCaptionHost(GetShapes(), shape);
+                    if (capHost != null)
+                        capHost.CapMgr().InvalidateCaption(shape);   
                    
                     //caption removed locally, update cluster 
-                    if (changedCluster != null && shape.Id() == recentLocallyRemovedShapeId)
+                    if (capHost != null && shape.Id() == recentLocallyRemovedShapeId)
                     {                                
-                        _rt.clienRt.SendSyncState(changedCluster.Id(),
-                                                  changedCluster.GetState(TopicId));
+                        _rt.clienRt.SendSyncState(capHost.Id(),
+                                                  capHost.GetState(TopicId));
                     }                     
                     break;
                 case VdShapeType.Text:
-                    changedCluster = DocTools.GetCaptionHost(GetShapes(), shape);
-                    if (changedCluster != null)
-                        changedCluster.Captions.InvalidateCaption(shape);    
+                    capHost = DocTools.GetCaptionHost(GetShapes(), shape);
+                    if (capHost != null)
+                        capHost.CapMgr().InvalidateCaption(shape);    
                     
                     //caption removed locally, update cluster 
-                    if (changedCluster != null && shape.Id() == recentLocallyRemovedShapeId)
+                    if (capHost != null && shape.Id() == recentLocallyRemovedShapeId)
                     {                                
-                        _rt.clienRt.SendSyncState(changedCluster.Id(),
-                                                  changedCluster.GetState(TopicId));
+                        _rt.clienRt.SendSyncState(capHost.Id(),
+                                                  capHost.GetState(TopicId));
                     }  
                     break;
                 case VdShapeType.Cluster:
+                case VdShapeType.ClusterLink:
                     //cluster removed locally, remove captions
-                    changedCluster = (VdCluster)shape;
+                    capHost = (ICaptionHost)shape;
                     if (indirectOwner == _palette.GetOwnerId())                   
                     {
-                        if (changedCluster.Captions.text!=null)
+                        if (capHost.CapMgr().text != null)
                         {
-                            BeginRemoveSingleShape(changedCluster.Captions.text.Id());                       
+                            BeginRemoveSingleShape(capHost.CapMgr().text.Id());                       
                         }
 
-                        if (changedCluster.Captions.FreeDraw != null)
+                        if (capHost.CapMgr().FreeDraw != null)
                         {
-                            BeginRemoveSingleShape(changedCluster.Captions.FreeDraw.Id());                      
+                            BeginRemoveSingleShape(capHost.CapMgr().FreeDraw.Id());                      
                         }    
                     }
-                    break;
+                    break;             
             }   
         }
 
@@ -354,7 +357,8 @@ namespace DistributedEditor
                                      LinkHeadType linkHead)
         {
             ShapeIdGenerator.Instance.CorrectLowBound(initOwnerId, shapeId);
-            var res = new VdClusterLink(end1, end2, shapeId, initOwnerId, linkHead);
+            var res = new VdClusterLink(end1, end2, shapeId, initOwnerId, this, linkHead);
+            _shapePostHandler(res, VdShapeType.ClusterLink);
             end1.AddEdge(res);
             end2.AddEdge(res);
 
