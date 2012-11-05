@@ -49,7 +49,8 @@
     			DataContext="{Binding}"  d:LayoutOverrides="Margin"/>
 		</s:SurfaceScrollViewer>
 
-    	<StackPanel x:Name="buttons" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2" d:LayoutOverrides="Margin" Height="38" Width="87.137">
+    	<StackPanel x:Name="buttons" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2" d:LayoutOverrides="Margin" Height="38">
+            <s:SurfaceButton Content="Batch wizard" x:Name="btnBatch" Click="btnBatch_Click_1" Margin="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
     		<s:SurfaceButton Content="Save" x:Name="btnSave" Click="btnSave_Click" Margin="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
     		<s:SurfaceButton Content="Ok" x:Name="btnConfirm" Click="btnConfirm_Click" Margin="0" />				
     	</StackPanel>                	

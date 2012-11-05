@@ -145,6 +145,7 @@
             </StackPanel>
 
             <Custom:SurfaceListBox x:Name="lstBxAttachments" 
+                PreviewMouseWheel="lstBxAttachments_PreviewMouseWheel_1"
                 SelectionChanged="lstBxAttachments_SelectionChanged_1"
             	ScrollViewer.PanningMode="HorizontalOnly"                  
             	ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  

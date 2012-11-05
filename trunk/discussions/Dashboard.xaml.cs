@@ -419,5 +419,11 @@ namespace Discussions
         {
             confirm();
         }
+
+        private void btnBatch_Click_1(object sender, RoutedEventArgs e)
+        {
+            (new DiscussionAutoCreatorWnd()).ShowDialog();
+            discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
+        }
     }
 }
