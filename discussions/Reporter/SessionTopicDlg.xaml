@@ -8,27 +8,29 @@
     mc:Ignorable="d" 
     x:Class="Reporter.SessionTopicDlg"
     Title="Session and topic selector"   
-    Height="594" 
-    Width="709" 
     WindowStartupLocation="CenterScreen" 
     HorizontalAlignment="Center" 
-    VerticalAlignment="Center" Background="#FF858585">
+    VerticalAlignment="Center" 
+    Background="#FF858585">
 
     <Grid>
     	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="193*"/>
-    		<ColumnDefinition Width="185*"/>
-    	</Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="309*"/>
+    		<ColumnDefinition Width="373*"/>
+            <ColumnDefinition Width="302*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*" />
             <RowDefinition Height="118*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" MinHeight="0.333" />
         </Grid.RowDefinitions>
-    	<s:SurfaceListBox x:Name="lstSessions" Grid.Row="1" DisplayMemberPath="Name" SelectionChanged="lstSessions_SelectionChanged_1"/>
-    	<s:SurfaceListBox x:Name="lstTopics" Grid.Column="1" DisplayMemberPath="Name" Grid.Row="1"/>
-    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sessions" VerticalAlignment="Top" FontSize="21.333"/>
-    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Topics" VerticalAlignment="Top" FontSize="21.333" Grid.RowSpan="2" Grid.Column="1"/>
-    	<s:SurfaceButton x:Name="btnOk" Click="btnOk_Click_1" Content="Ok" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom"/>
+    	<s:SurfaceListBox x:Name="lstSessions" Grid.Row="1" DisplayMemberPath="Name" SelectionChanged="lstSessions_SelectionChanged_1" Margin="0,0.048,0,1"/>
+    	<s:SurfaceListBox x:Name="lstTopics" Grid.Column="2" DisplayMemberPath="Name" Grid.Row="1" Margin="0,0.048,0,1"/>
+        <s:SurfaceListBox x:Name="lstDiscussions" Grid.Column="1" DisplayMemberPath="Subject" Grid.Row="1" SelectionChanged="lstDiscussions_SelectionChanged_1"/>
+    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Sessions" VerticalAlignment="Top" FontSize="21.333" Height="28" Width="79"/>
+    	<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Topics" VerticalAlignment="Top" FontSize="21.333" Grid.Column="2" Height="28" Width="60"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Discussion" VerticalAlignment="Top" FontSize="21.333" Grid.Column="1"/>
+    	<s:SurfaceButton x:Name="btnOk" Click="btnOk_Click_1" Content="Ok" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Bottom" Height="38" Margin="0,0,1,0.667" Width="38"/>
     </Grid>
 </s:SurfaceWindow>

@@ -137,20 +137,20 @@ namespace DistributedEditor
         //we save relative positions of caption to update them accordingly
         public void UpdateRelatives()
         {
-            var clustOrg = _hostShape.capOrgProvider();
+            var capOrg = _hostShape.capOrgProvider();
 
             if (text != null)
             {
                 var textOrg = text.GetOrigin();
-                textX = textOrg.X - clustOrg.X;
-                textY = textOrg.Y - clustOrg.Y;
+                textX = textOrg.X - capOrg.X;
+                textY = textOrg.Y - capOrg.Y;
             }
 
             if (_freeDraw != null)
             {
                 var freeDrawOrg = _freeDraw.GetOrigin();
-                freeDrawX = freeDrawOrg.X - clustOrg.X;
-                freeDrawY = freeDrawOrg.Y - clustOrg.Y;
+                freeDrawX = freeDrawOrg.X - capOrg.X;
+                freeDrawY = freeDrawOrg.Y - capOrg.Y;
             }
         }
 

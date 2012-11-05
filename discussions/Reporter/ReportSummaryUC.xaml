@@ -18,12 +18,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="sessionName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Session:" VerticalAlignment="Center" FontSize="29.333" Foreground="White"/>
-        <TextBlock x:Name="topicName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Topic:" VerticalAlignment="Center" FontSize="29.333" Grid.Row="1" Foreground="White"/>
+        <TextBlock x:Name="discussionName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Discussion:" VerticalAlignment="Center" FontSize="29.333" Foreground="White" Grid.Row="1"/>        
+        <TextBlock x:Name="topicName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Topic:" VerticalAlignment="Center" FontSize="29.333" Grid.Row="2" Foreground="White"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="2">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="3">
             <TextBlock TextWrapping="Wrap" Text="Participants: " FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
             <HeaderedItemsControl x:Name="participants" 
                     FontSize="16"              
@@ -37,8 +39,8 @@
             </HeaderedItemsControl>
         </StackPanel>
 
-        <Custom:SurfaceButton Name="btnSessionTopic" Content="Set session/topic" Click="btnSessionTopic_Click_1" 
-                              HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Height="38" Margin="1,0.994,0,0" Width="151"/>
+        <Custom:SurfaceButton Name="btnSessionTopic" Content="Session=>discussion=>topic" Click="btnSessionTopic_Click_1" 
+                              HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Top" Margin="1,0.687,0,0"/>
 
     </Grid>
 </UserControl>

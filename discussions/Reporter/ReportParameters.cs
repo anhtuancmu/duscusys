@@ -11,12 +11,14 @@ namespace Reporter
         public List<int> requiredUsers;
         public Session session;
         public Topic topic;
+        public Discussion discussion;
 
-        public ReportParameters(List<int> requiredUsers, Session session, Topic topic)
+        public ReportParameters(List<int> requiredUsers, Session session, Topic topic, Discussion discussion)
         {
             this.requiredUsers = requiredUsers;
             this.session = session;
             this.topic = topic;
+            this.discussion = discussion;
         }
     }
 }

@@ -362,7 +362,7 @@ namespace Discussions
                 clienRt.onBadgeViewRequest += __badgeViewEvent;
                 clienRt.onSourceViewRequest += __sourceView;
                 WebKitFrm.userRequestedClosing += onLocalSourceViewerClosed;         
-                ExplanationModeMediator.Inst.CloseReq -= onImgViewerClosed;
+                ExplanationModeMediator.Inst.CloseReq += onImgViewerClosed;
                 ExplanationModeMediator.Inst.OpenReq  += onImgViewerOpened;
             }
             else
@@ -736,9 +736,9 @@ namespace Discussions
             UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.SourceView, -1, false);           
         }
 
-        void onImgViewerClosed()
+        void onImgViewerClosed(int attachId)
         {
-            UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, -1, false);    
+            UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, attachId, false);    
         }
 
         void onImgViewerOpened(int attachId)

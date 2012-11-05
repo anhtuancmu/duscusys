@@ -116,7 +116,7 @@ namespace DistributedEditor
 
                 //while we have been drawing, somebody else could draw and still hasn't finalized drawing, so ink canvas can contain
                 //strokes from multiple authors
-                var ownStrokes = _ink.Strokes.Where(st => st.DrawingAttributes.Color == ownColor);
+                var ownStrokes = _ink.Strokes.Where(st => st.DrawingAttributes.Color == ownColor);                
                 if (ownStrokes.Count() > 0)
                 {
                     //don't take cursor for free draw
@@ -390,12 +390,6 @@ namespace DistributedEditor
         {
             touchDevice = td != null;
 
-            var capHost = sh as ICaptionHost;
-            if (capHost!=null)
-            {
-                capHost.CapMgr().UpdateRelatives();
-            }
-           
             sh.StartManip(pt, sender);
             sh.UnderlyingControl().CaptureMouse();
             if (td != null)
@@ -408,6 +402,14 @@ namespace DistributedEditor
             sh.UnderlyingControl().ReleaseMouseCapture();
             sh.UnderlyingControl().ReleaseAllTouchCaptures();
             sh.FinishManip();
+
+            //if the moved shape is a caption of caption host, save caption host to save new relative position of caption
+            var capHost = DocTools.GetCaptionHost(_doc.GetShapes(), sh);
+            if (capHost != null)
+            {
+                capHost.CapMgr().UpdateRelatives();
+                SendSyncState(capHost);
+            }
         }
 
         public void InpDeviceUp(Point pos)
@@ -691,13 +693,14 @@ namespace DistributedEditor
             var s = new MemoryStream();
             s.Write(ink.inkData, 0, ink.inkData.Length);
             s.Position = 0;
-            _ink.Strokes = new StrokeCollection(s);
+
+            _ink.Strokes.Add(new StrokeCollection(s));
         }
 
-        void OnLocalInkChanged()
-        {
-            sendLocalInk();
-        }
+        //void OnLocalInkChanged()
+        //{
+        //    sendLocalInk();
+        //}
 
         void sendLocalInk()
         {
@@ -714,11 +717,11 @@ namespace DistributedEditor
             if (doSet)
             {
                 _doc.VolatileCtx.localCursorChanged += localCursorChanged;
-                _ink.OnInkChanged += OnLocalInkChanged;
+                //_ink.OnInkChanged += OnLocalInkChanged;
             }
             else
             {
-                _ink.OnInkChanged -= OnLocalInkChanged;
+               // _ink.OnInkChanged -= OnLocalInkChanged;
                 _doc.VolatileCtx.localCursorChanged -= localCursorChanged;
             }
 
