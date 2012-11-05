@@ -62,14 +62,22 @@ namespace CloudStorage
             _state.Callback = new Uri(NativeApplicationClient.OutOfBandCallbackUrl);
             Uri authUri = arg.RequestUserAuthorization(_state);
 
+            //Show Login UI. It's tip for user 
+            var dlg = new AuthDlg(StorageType.GoogleDrive);
+            dlg.Top = 0;
+            dlg.Show();  
+
             // Request authorization from the user (by opening a browser window):
             //Process.Start(authUri.ToString());    
             _webViewCallback(authUri.ToString());
 
-            //show Login UI
-            var dlg = new AuthDlg(StorageType.GoogleDrive);
-            dlg.ShowDialog();            
-           
+            dlg.Close(); //close non-modal stub dialog 
+
+            //open another, modal dialog to block execution until user clicks OK
+            dlg = new AuthDlg(StorageType.GoogleDrive);
+            dlg.Top = 0;          
+            dlg.ShowDialog();  
+                                         
             // Retrieve the access token by using the authorization code:
             return arg.ProcessUserAuthorization(dlg.AuthCode, _state);
         }

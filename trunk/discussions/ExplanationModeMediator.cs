@@ -29,7 +29,7 @@ namespace Discussions
         List<ViewerRecord> _openedViewers = new List<ViewerRecord>();
         
         //called when window is closed by any initiator 
-        public Action CloseReq;
+        public Action<int> CloseReq;
 
         //called when window is opened by any initiator 
         public Action<int> OpenReq;
@@ -42,7 +42,7 @@ namespace Discussions
             {
                 _openedViewers.Remove(viewRec);
                 if (CloseReq != null)
-                    CloseReq();
+                    CloseReq(viewRec.attachId);
             }
         }
 

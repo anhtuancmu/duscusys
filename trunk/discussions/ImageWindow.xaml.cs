@@ -175,8 +175,7 @@ namespace Discussions
         }
 
         private void SurfaceWindow_Loaded_1(object sender, RoutedEventArgs e)
-        {
-           
+        {           
         }
 
         private void ImageWindow_Closed_1(object sender, EventArgs e)

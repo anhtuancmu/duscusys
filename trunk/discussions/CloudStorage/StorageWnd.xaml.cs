@@ -98,10 +98,10 @@ namespace CloudStorage
                   
                     NavigateTo(_storage.RootFolder(), null, NavitionType.LevelDown, true);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    downloadProgress.Visibility = Visibility.Collapsed; 
-                    MessageBox.Show("Authentication error. Please try to connect again", "Error",
+                    downloadProgress.Visibility = Visibility.Collapsed;
+                    MessageBox.Show("Authentication error. Please try to connect again: " + e.ToString(), "Error",
                                     MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 finally

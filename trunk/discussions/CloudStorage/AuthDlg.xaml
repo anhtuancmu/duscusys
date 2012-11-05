@@ -8,7 +8,7 @@
     x:Class="CloudStorage.AuthDlg" 
     Title="Cloud storage login" 
     Height="173" Width="442"     
-    WindowStartupLocation="CenterScreen" 
+    WindowStartupLocation="Manual" 
     HorizontalAlignment="Center" 
     VerticalAlignment="Center" Background="{DynamicResource WndBg}">
 

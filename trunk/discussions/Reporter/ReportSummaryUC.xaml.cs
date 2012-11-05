@@ -39,12 +39,14 @@ namespace Reporter
             if (dlg.reportParameters != null)
             {
                 Session = dlg.reportParameters.session.Name;
-                Topic   = dlg.reportParameters.topic.Name;               
+                Topic   = dlg.reportParameters.topic.Name;
+                Discussion = dlg.reportParameters.discussion.Subject;  
             }
             else
             {
                 Session = "";
                 Topic = "";
+                Discussion = "";
             }
 
             _parameters = dlg.reportParameters;
@@ -65,6 +67,14 @@ namespace Reporter
             set
             {
                 sessionName.Text = value;
+            }
+        }
+
+        public string Discussion
+        {
+            set
+            {
+                discussionName.Text = value;
             }
         }
 

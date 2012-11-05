@@ -19,6 +19,9 @@ namespace Discussions
     {
         public static void ReportMediaOpened(StEvent ev, Attachment a) 
         {
+            if (a == null || a.ArgPoint == null)
+                return;
+
             UISharedRTClient.Instance.clienRt.SendStatsEvent(ev,
                                                              SessionInfo.Get().person.Id,
                                                              a.ArgPoint.Topic.Discussion.Id,
@@ -28,6 +31,9 @@ namespace Discussions
 
         public static void ReportMediaOpened(StEvent ev, ArgPoint ap)
         {
+            if (ap == null)
+                return;
+
             UISharedRTClient.Instance.clienRt.SendStatsEvent(ev,
                                                              SessionInfo.Get().person.Id,
                                                              ap.Topic.Discussion.Id,

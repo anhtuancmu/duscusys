@@ -159,23 +159,41 @@ namespace Reporter
             foreach (var pers in _session.Person)
                 _users.Add(pers.Id);
 
-            _reportParameters = new ReportParameters(Users, session, topic);
+            _reportParameters = new ReportParameters(Users, session, topic, lstDiscussions.SelectedItem as Discussion);
 
             Close();
         }
 
         private void lstSessions_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-            var topics = new List<Topic>();
             if (e.AddedItems != null && e.AddedItems.Count > 0)
             {
                 var s = (e.AddedItems[0] as Session);
+
+                var discussions = new List<Discussion>();
+
                 foreach (var pers in s.Person)
                     foreach (var topic in pers.Topic)
-                        if (!topics.Contains(topic))
-                            topics.Add(topic);
+                        if (!discussions.Contains(topic.Discussion))
+                            discussions.Add(topic.Discussion);
 
-                lstTopics.ItemsSource = topics;            
+                lstDiscussions.ItemsSource = discussions;            
+            }
+        }
+
+        private void lstDiscussions_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count > 0)
+            {
+                var d = (e.AddedItems[0] as Discussion);
+
+                var topics = new List<Topic>();
+                
+                foreach (var topic in d.Topic)                     
+                    if (!topics.Contains(topic))
+                        topics.Add(topic);
+
+                lstTopics.ItemsSource = topics; 
             }
         }
     }
