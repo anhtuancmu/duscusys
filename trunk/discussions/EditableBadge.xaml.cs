@@ -176,13 +176,13 @@ namespace Discussions
             if (ap == null)
                 return;
 
-            if ((string)args.Parameter == "Remove selected")
-            {
-                Attachment a = lstBxAttachments.SelectedItem as Attachment;
-                if (a != null)
-                    ap.Attachment.Remove(a);
-            }
-            else
+            //if ((string)args.Parameter == "Remove selected")
+            //{
+            //    Attachment a = lstBxAttachments.SelectedItem as Attachment;
+            //    if (a != null)
+            //        ap.Attachment.Remove(a);
+            //}
+            //else
             {
                 Attachment a = new Attachment();                
                 ImageSource src = AttachmentManager.ProcessAttachCmd(ap, AttachCmd.ATTACH_IMG_OR_PDF, ref a);
@@ -691,15 +691,15 @@ namespace Discussions
             screenshotWnd.ShowDialog();
         }
 
-        private void lstBxAttachments_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-            var a = lstBxAttachments.SelectedItem as Attachment;
-            if (a == null)
-                return;
+        //private void lstBxAttachments_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var a = lstBxAttachments.SelectedItem as Attachment;
+        //    if (a == null)
+        //        return;
 
-            if (a.Link != null)
-                txtAttachmentURL.Text = a.Link;
-        }
+        //    if (a.Link != null)
+        //        txtAttachmentURL.Text = a.Link;
+        //}
 
         void onSourceRemoved(object sender, RoutedEventArgs e)
         {

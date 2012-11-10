@@ -144,7 +144,21 @@
             	<Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
             </StackPanel>
 
-            <Custom:SurfaceListBox x:Name="lstBxAttachments"                                    
+            <ItemsControl x:Name="lstBxAttachments"                                             
+            	ScrollViewer.PanningMode="HorizontalOnly"                  
+            	ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
+            	IsManipulationEnabled="False"
+            	ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}" 
+            	ItemsSource="{Binding Attachment}"                
+            	Background="#00B2B2B2" MaxWidth="800" Margin="0" HorizontalContentAlignment="Center" 
+            	VerticalContentAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <!--<Custom:SurfaceListBox x:Name="lstBxAttachments"                                    
                 PreviewMouseWheel="lstBxAttachments_PreviewMouseWheel_1"
                 SelectionChanged="lstBxAttachments_SelectionChanged_1"
             	ScrollViewer.PanningMode="HorizontalOnly"                  
@@ -159,7 +173,7 @@
             			<WrapPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
             		</ItemsPanelTemplate>
             	</Custom:SurfaceListBox.ItemsPanel>
-            </Custom:SurfaceListBox>
+            </Custom:SurfaceListBox>-->
             <Grid d:LayoutOverrides="Margin" Margin="0">
             	<Grid.RowDefinitions>
             		<RowDefinition Height="91*"/>
