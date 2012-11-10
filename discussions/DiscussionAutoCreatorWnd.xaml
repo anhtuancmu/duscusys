@@ -24,22 +24,11 @@
         </Grid.ColumnDefinitions>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Describe the structure" VerticalAlignment="Top" FontSize="24" Height="32" Margin="75,0" Width="220"/>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Example" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
-        <StackPanel Grid.Row="1" Margin="0,0,0,4.917">            
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Text="You can use '#' symbol in name of discussion or topic. The symbol will be replaced with actual number of discussion" FontSize="16" Margin="0,30,0,0" Height="64"/>
-            <s:SurfaceTextBox x:Name="discName" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Discussion#A" TextChanged="discName_TextChanged_1" VerticalAlignment="Top" Margin="1,1,0,1"/>
+        <StackPanel Grid.Row="1">            
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Text="Create new discussion in moderator dashboard as you'd normally do. Fill up topics, discussion background, discussion media. You can use '#' in name of discussion or in name of a topic. Then select the discussion and open this wizard. It will use selected discussion as a template and spawn required number of new discussions." FontSize="16"/>
 
-            <StackPanel Orientation="Horizontal" Margin="0,70,0,0">
-                <s:SurfaceButton x:Name="btnAddTopic" Content="+" Click="btnAddTopic_Click_1" HorizontalAlignment="Left" Margin="0"/>
-                <s:SurfaceButton x:Name="btnRemoveTopic" Content="-" Click="btnRemoveTopic_Click_1" HorizontalAlignment="Left" Margin="0"/>
-            </StackPanel>
-            <s:SurfaceListBox x:Name="topics" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding Topics}">
-                <s:SurfaceListBox.ItemTemplate>
-                    <DataTemplate>
-                        <s:SurfaceTextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" TextChanged="SurfaceTextBox_TextChanged_1"/>
-                    </DataTemplate>
-                </s:SurfaceListBox.ItemTemplate>
-            </s:SurfaceListBox>
-            
+            <StackPanel Orientation="Horizontal" Margin="0,70,0,0"/>
+
             <StackPanel Orientation="Horizontal" Margin="0,60,0,0">
                 <TextBlock Text="Run # from" FontSize="18" Margin="0"/>
                 <s:SurfaceTextBox Name="from" Text="1" HorizontalAlignment="Left" Margin="0" TextChanged="from_TextChanged_1"/>

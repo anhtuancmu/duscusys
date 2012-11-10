@@ -485,6 +485,7 @@ namespace Discussions
                 attach.VideoEmbedURL = media.VideoEmbedURL;
                 attach.VideoLinkURL = media.VideoLinkURL;
                 attach.VideoThumbURL = media.VideoThumbURL;
+                attach.OrderNumber = media.OrderNumber;
 
                 if (media.Thumb != null)
                     attach.Thumb = (byte[])media.Thumb.Clone();
