@@ -19,6 +19,7 @@ using Discussions.DbModel;
 using Discussions.rt;
 using LoginEngine;
 using Discussions.RTModel.Model;
+using System.Collections.ObjectModel;
 
 namespace Discussions
 {
@@ -44,6 +45,29 @@ namespace Discussions
             remove { RemoveHandler(RequestSmallViewEvent, value); }
         }
 
+        ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        public ObservableCollection<Source> Sources
+        {
+            get
+            {
+                return sources;
+            }
+        }
+
+        //if source order or data context changes, we update 
+        void UpdateOrderedSources()
+        {
+            Sources.Clear();
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            foreach (var orderedSrc in ap.Description.Source.OrderBy(s => s.OrderNumber))
+            {
+                Sources.Add(orderedSrc);
+            }
+        }
+
         public LargeBadgeView()
         {
             InitializeComponent();
@@ -53,6 +77,8 @@ namespace Discussions
             //  Drawing.dataContextHandled += DrawingDataContextHandled; 
 
             mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
+
+            lstBxSources.DataContext = this;
         }
 
         public void SetRt(UISharedRTClient sharedClient)
@@ -96,6 +122,26 @@ namespace Discussions
 
             DataContext = null;
             DataContext = ap2;
+        }
+
+        void BeginSrcNumberInjection()
+        {
+            Dispatcher.BeginInvoke(new Action(_injectSourceNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+        }
+
+        void _injectSourceNumbers()
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            for (int i = 0; i < ap.Description.Source.Count(); i++)
+            {
+                var item = lstBxSources.ItemContainerGenerator.ContainerFromIndex(i);
+                var srcUC = Utils.FindChild<SourceUC>(item);
+                if (srcUC != null)
+                    srcUC.SrcNumber = i + 1;
+            }
         }
 
         private void UserControl_Initialized_1(object sender, EventArgs e)
@@ -167,6 +213,9 @@ namespace Discussions
             }
 
             btnComment_Click(null, null);
+
+            BeginSrcNumberInjection();
+            UpdateOrderedSources();
 
             commentsViewer.ScrollToBottom();
         }      

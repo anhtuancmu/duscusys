@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 08/30/2012 12:39:37
+-- Date Created: 11/09/2012 03:22:25
 -- Generated from EDMX file: C:\projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
 
@@ -201,6 +201,7 @@ CREATE TABLE [dbo].[Attachment] (
     [Link] nvarchar(max)  NOT NULL,
     [Title] nvarchar(max)  NOT NULL,
     [Thumb] varbinary(max)  NULL,
+    [OrderNumber] int  NOT NULL,
     [ArgPoint_Id] int  NULL,
     [Person_Id] int  NULL,
     [Discussion_Id] int  NULL,
@@ -221,6 +222,7 @@ GO
 CREATE TABLE [dbo].[Source] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Text] nvarchar(max)  NOT NULL,
+    [OrderNumber] int  NOT NULL,
     [RichText_Id] int  NULL
 );
 GO
