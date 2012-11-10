@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -32,6 +34,29 @@ namespace Discussions
 
         StorageWnd _storageWnd = null; 
 
+        ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        public ObservableCollection<Source> Sources
+        {
+            get
+            {
+                return sources;
+            }
+        }
+
+        //if source order or data context changes, we update 
+        void UpdateOrderedSources()
+        {
+            Sources.Clear();
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            foreach(var orderedSrc in ap.Description.Source.OrderBy(s => s.OrderNumber))
+            {
+                Sources.Add(orderedSrc);
+            }
+        }
+
         public EditableBadge()
         {
             InitializeComponent();
@@ -41,6 +66,10 @@ namespace Discussions
             //  Drawing.dataContextHandled += DrawingDataContextHandled;
 
             mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
+
+            lstBxSources.DataContext = this;
+
+            srcMover = new SourceMover(srcRepositionPopup);
         }        
 
         public SurfaceScrollViewer MainScroller
@@ -137,6 +166,7 @@ namespace Discussions
             if (ap != null)
                 DaoUtils.RemoveDuplicateComments(ap);
 
+            UpdateOrderedSources();
             BeginSrcNumberInjection();
         }
 
@@ -279,6 +309,7 @@ namespace Discussions
                 return;
 
             DaoUtils.AddSource("New source", ap.Description);
+            UpdateOrderedSources();
         }
 
         #region drawing
@@ -624,6 +655,7 @@ namespace Discussions
                                 ap.Topic.Id,
                                 DeviceType.Wpf);
 
+            UpdateOrderedSources();
             BeginSrcNumberInjection();
         }
 
@@ -671,16 +703,22 @@ namespace Discussions
 
         void onSourceRemoved(object sender, RoutedEventArgs e)
         {
-            BeginSrcNumberInjection();
-
+            srcRepositionPopup.IsOpen = false;
+            
             //report event 
             var ap = (ArgPoint)DataContext;
+            
+            (((FrameworkElement)e.OriginalSource).DataContext as Source).RichText = null;
+
+            BeginSrcNumberInjection();
+            UpdateOrderedSources();
+
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(StEvent.SourceRemoved,
                                                              ap.Person.Id,
                                                              ap.Topic.Discussion.Id,
                                                              ap.Topic.Id,
-                                                             DeviceType.Wpf);
+                                                             DeviceType.Wpf);  
         }
 
         void BeginSrcNumberInjection()
@@ -740,6 +778,9 @@ namespace Discussions
         {
             ArgPoint ap = DataContext as ArgPoint;
             if (ap == null)
+                return;
+
+            if (_storageWnd == null)
                 return;
 
             if (_storageWnd.filesToAttach!=null)
@@ -839,5 +880,48 @@ namespace Discussions
             }
             return null;
         }
+
+        #region source up/down
+
+        SourceMover srcMover = null;
+
+        void processSrcUpDown(bool up, Source current)
+        {
+            if (current == null)
+                return;
+
+            if (srcMover.swapWithNeib(up, current))
+            {
+                current.RichText.ArgPoint.ChangesPending = true;
+                BeginSrcNumberInjection();
+                UpdateOrderedSources();    
+            }
+        }
+
+        void onSourceUpDown(object sender, RoutedEventArgs e)
+        {
+            srcMover.onSourceUpDown(sender,e);
+        }
+
+        private void btnSrcDown_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (srcMover._srcToReposition == null)
+                return;
+            processSrcUpDown(false, srcMover._srcToReposition);         
+        }
+
+        private void btnSrcUp_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (srcMover._srcToReposition == null)
+                return;
+            processSrcUpDown(true, srcMover._srcToReposition);       
+        }
+
+        private void btnClosePopup_Click_1(object sender, RoutedEventArgs e)
+        {
+            srcRepositionPopup.IsOpen = false;
+        }
+        
+        #endregion
     }
 }

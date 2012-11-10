@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Linq;
 using Discussions.DbModel;
+using System.Collections.ObjectModel;
 
 namespace Discussions
 {
@@ -24,11 +25,38 @@ namespace Discussions
         public delegate void OnInitNewDiscussion();
         public OnInitNewDiscussion onInitNewDiscussion = null;
 
+        ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        public ObservableCollection<Source> Sources
+        {
+            get
+            {
+                return sources;
+            }
+        }
+
+        //if source order or data context changes, we update 
+        void UpdateOrderedSources()
+        {
+            Sources.Clear();
+            var disc = DataContext as Discussion;
+            if (disc == null)
+                return;
+
+            foreach (var orderedSrc in disc.Background.Source.OrderBy(s => s.OrderNumber))
+            {
+                Sources.Add(orderedSrc);
+            }
+        }
+
         public Background()
         {
             this.InitializeComponent();
 
             this.Visibility = Visibility.Hidden;
+
+            lstBxSources.DataContext = this;
+
+            srcMover = new SourceMover(srcRepositionPopup);
         }
 
         public void ToViewMode()
@@ -49,26 +77,6 @@ namespace Discussions
         private void txtBxBackground_LostFocus(object sender, RoutedEventArgs e)
         {
             SaveChanges();
-        }
-
-        void BeginSrcNumberInjection()
-        {
-            Dispatcher.BeginInvoke(new Action(_injectSourceNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
-        }
-
-        void _injectSourceNumbers()
-        {
-            var d = DataContext as Discussion;
-            if (d == null)
-                return;
-
-            for (int i = 0; i < d.Background.Source.Count(); i++)
-            {
-                var item = lstBxSources.ItemContainerGenerator.ContainerFromIndex(i);
-                var srcUC = Utils.FindChild<SourceUC>(item);
-                if (srcUC != null)
-                    srcUC.SrcNumber = i + 1;
-            }
         }
 
         public void SaveChanges()
@@ -207,12 +215,21 @@ namespace Discussions
                 return;
 
             DaoUtils.AddSource(txtSource.Text, d.Background);
-            BeginSrcNumberInjection();
+            BeginDeferredItemTemplateHandle();
+            UpdateOrderedSources();
         }
 
         void onSourceRemoved(object sender, RoutedEventArgs e)
         {
-            BeginSrcNumberInjection();
+            srcRepositionPopup.IsOpen = false;
+
+            //report event 
+            var ap = (Discussion)DataContext;
+
+            (((FrameworkElement)e.OriginalSource).DataContext as Source).RichText = null;
+
+            BeginDeferredItemTemplateHandle();
+            UpdateOrderedSources();
         }
 
         private void txtSource_KeyDown_1(object sender, KeyEventArgs e)
@@ -241,7 +258,79 @@ namespace Discussions
                     txtSource.Text = d.Background.Source.Last().Text;
             }
 
-            BeginSrcNumberInjection();
+            BeginDeferredItemTemplateHandle();
+            UpdateOrderedSources();
         }
+
+        #region source up/down
+
+        SourceMover srcMover = null;
+
+        void processSrcUpDown(bool up, Source current)
+        {
+            if (current == null)
+                return;
+
+            if (srcMover.swapWithNeib(up, current))
+            {
+                BeginDeferredItemTemplateHandle();
+                UpdateOrderedSources();
+            }
+        }
+
+        void onSourceUpDown(object sender, RoutedEventArgs e)
+        {
+            srcMover.onSourceUpDown(sender, e);
+        }
+
+        private void btnSrcDown_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (srcMover._srcToReposition == null)
+                return;
+            processSrcUpDown(false, srcMover._srcToReposition);
+        }
+
+        private void btnSrcUp_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (srcMover._srcToReposition == null)
+                return;
+            processSrcUpDown(true, srcMover._srcToReposition);
+        }
+
+        private void btnClosePopup_Click_1(object sender, RoutedEventArgs e)
+        {
+            srcRepositionPopup.IsOpen = false;
+        }
+
+        bool _canReorder = true;
+        public void SetCanReorderItems(bool canReorder)
+        {
+            _canReorder = canReorder;
+            BeginDeferredItemTemplateHandle();
+        }
+
+        void BeginDeferredItemTemplateHandle()
+        {
+            Dispatcher.BeginInvoke(new Action(_deferredItemTemplateHandle), System.Windows.Threading.DispatcherPriority.Background, null);
+        }
+
+        void _deferredItemTemplateHandle()
+        {
+            var d = DataContext as Discussion;
+            if (d == null)
+                return;
+
+            for (int i = 0; i < d.Background.Source.Count(); i++)
+            {
+                var item = lstBxSources.ItemContainerGenerator.ContainerFromIndex(i);
+                var srcUC = Utils.FindChild<SourceUC>(item);
+                if (srcUC != null)
+                {
+                    srcUC.CanReorder = _canReorder;
+                    srcUC.SrcNumber = i + 1;
+                }
+            }
+        }
+        #endregion
     }
 }

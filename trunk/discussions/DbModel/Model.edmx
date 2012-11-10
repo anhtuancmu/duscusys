@@ -174,6 +174,7 @@
     <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Thumb" Type="varbinary(max)" Nullable="true" />
+    <Property Name="OrderNumber" Type="int" Nullable="false" />
     <Property Name="ArgPoint_Id" Type="int" Nullable="true" />
     <Property Name="Person_Id" Type="int" Nullable="true" />
     <Property Name="Discussion_Id" Type="int" Nullable="true" />
@@ -194,6 +195,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OrderNumber" Type="int" Nullable="false" />
     <Property Name="RichText_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="RichText">
@@ -728,6 +730,7 @@
           <Property Type="String" Name="Title" Nullable="false" />
           <Property Type="Binary" Name="Thumb" Nullable="true" />
           <NavigationProperty Name="MediaData" Relationship="db.AttachmentMediaData" FromRole="Attachment" ToRole="MediaData" />
+          <Property Type="Int32" Name="OrderNumber" Nullable="false" />
         </EntityType>
         <Association Name="ArgPointAttachment">
           <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1" />
@@ -777,6 +780,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Text" Nullable="false" />
           <NavigationProperty Name="RichText" Relationship="db.RichTextSource" FromRole="Source" ToRole="RichText" />
+          <Property Type="Int32" Name="OrderNumber" Nullable="false" />
         </EntityType>
         <EntityType Name="RichText">
           <Key>
@@ -970,6 +974,7 @@
           <ScalarProperty Name="Link" ColumnName="Link" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Thumb" ColumnName="Thumb" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -986,6 +991,7 @@
         <MappingFragment StoreEntitySet="Source">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1234,7 +1240,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="data_model" ZoomLevel="83" >
+      <Diagram Name="data_model" ZoomLevel="81" >
         <EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
         <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />

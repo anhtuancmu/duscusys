@@ -1148,7 +1148,8 @@ namespace Discussions.DbModel
         /// <param name="format">Initial value of the Format property.</param>
         /// <param name="link">Initial value of the Link property.</param>
         /// <param name="title">Initial value of the Title property.</param>
-        public static Attachment CreateAttachment(global::System.Int32 id, global::System.String name, global::System.Int32 format, global::System.String link, global::System.String title)
+        /// <param name="orderNumber">Initial value of the OrderNumber property.</param>
+        public static Attachment CreateAttachment(global::System.Int32 id, global::System.String name, global::System.Int32 format, global::System.String link, global::System.String title, global::System.Int32 orderNumber)
         {
             Attachment attachment = new Attachment();
             attachment.Id = id;
@@ -1156,6 +1157,7 @@ namespace Discussions.DbModel
             attachment.Format = format;
             attachment.Link = link;
             attachment.Title = title;
+            attachment.OrderNumber = orderNumber;
             return attachment;
         }
 
@@ -1381,6 +1383,30 @@ namespace Discussions.DbModel
         private global::System.Byte[] _Thumb;
         partial void OnThumbChanging(global::System.Byte[] value);
         partial void OnThumbChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OrderNumber
+        {
+            get
+            {
+                return _OrderNumber;
+            }
+            set
+            {
+                OnOrderNumberChanging(value);
+                ReportPropertyChanging("OrderNumber");
+                _OrderNumber = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("OrderNumber");
+                OnOrderNumberChanged();
+            }
+        }
+        private global::System.Int32 _OrderNumber;
+        partial void OnOrderNumberChanging(global::System.Int32 value);
+        partial void OnOrderNumberChanged();
 
         #endregion
 
@@ -3228,11 +3254,13 @@ namespace Discussions.DbModel
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="text">Initial value of the Text property.</param>
-        public static Source CreateSource(global::System.Int32 id, global::System.String text)
+        /// <param name="orderNumber">Initial value of the OrderNumber property.</param>
+        public static Source CreateSource(global::System.Int32 id, global::System.String text, global::System.Int32 orderNumber)
         {
             Source source = new Source();
             source.Id = id;
             source.Text = text;
+            source.OrderNumber = orderNumber;
             return source;
         }
 
@@ -3290,6 +3318,30 @@ namespace Discussions.DbModel
         private global::System.String _Text;
         partial void OnTextChanging(global::System.String value);
         partial void OnTextChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OrderNumber
+        {
+            get
+            {
+                return _OrderNumber;
+            }
+            set
+            {
+                OnOrderNumberChanging(value);
+                ReportPropertyChanging("OrderNumber");
+                _OrderNumber = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("OrderNumber");
+                OnOrderNumberChanged();
+            }
+        }
+        private global::System.Int32 _OrderNumber;
+        partial void OnOrderNumberChanging(global::System.Int32 value);
+        partial void OnOrderNumberChanged();
 
         #endregion
 

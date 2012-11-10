@@ -36,6 +36,7 @@ namespace Discussions
 
             DataContext = d;
             bg.ToViewMode();
+            bg.SetCanReorderItems(false);
         }
 
         /// <summary>

@@ -144,7 +144,7 @@
             	<Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
             </StackPanel>
 
-            <Custom:SurfaceListBox x:Name="lstBxAttachments" 
+            <Custom:SurfaceListBox x:Name="lstBxAttachments"                                    
                 PreviewMouseWheel="lstBxAttachments_PreviewMouseWheel_1"
                 SelectionChanged="lstBxAttachments_SelectionChanged_1"
             	ScrollViewer.PanningMode="HorizontalOnly"                  
@@ -186,15 +186,44 @@
             	<Label Content="Sources" d:LayoutOverrides="Margin"/>
             	<Label Content="Tips : Paste web url and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
             </StackPanel>
-            <ItemsControl x:Name="lstBxSources"
-                local:SourceUC.SourceRemoved="onSourceRemoved"
-            	ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-            	ItemsSource="{Binding Description.Source}" 
+            
+            <Popup Name="srcRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
+                <StackPanel Orientation="Horizontal">
+                    <Custom:SurfaceButton x:Name="btnSrcUp" 
+						          FontSize="70"
+                                  FontFamily="Segoe UI Symbol"
+                                  Content="&#x2191;"
+                                  Foreground="White"
+                                  VerticalAlignment="Center" 
+                                  HorizontalAlignment="Center" 
+                                  Click="btnSrcUp_Click_1" 
+                                  Background="{x:Null}"/>
+                    <Custom:SurfaceButton x:Name="btnSrcDown"
+						          FontFamily="Segoe UI Symbol"
+                                  Content="&#x2193;"
+                                  FontSize="70"
+                                  Foreground="White"
+                                  VerticalAlignment="Center" 
+                                  HorizontalAlignment="Center" 
+                                  Click="btnSrcDown_Click_1"
+                                  Background="{x:Null}"/>
+                    <Custom:SurfaceButton x:Name="btnClosePopup" Foreground="DarkRed" Content=" X" 
+						          FontWeight="Bold" FontFamily="Segoe360" FontSize="70"                                  
+                                  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                  Click="btnClosePopup_Click_1" Background="{x:Null}"/>
+                </StackPanel>
+            </Popup>
+            
+            <ItemsControl x:Name="lstBxSources"                
+                local:SourceUC.SourceRemoved="onSourceRemoved"        
+                local:SourceUC.SourceUpDown="onSourceUpDown" 
+            	ScrollViewer.VerticalScrollBarVisibility="Disabled"                 
+            	ItemsSource="{Binding Sources}" 
             	HorizontalContentAlignment="Stretch" 
             	BorderThickness="0">
                 <ItemsControl.ItemTemplate>
             		<DataTemplate>
-                        <local:SourceUC TruncateUrls="True"/>
+                        <local:SourceUC TruncateUrls="True" CanReorder="True"/>
             		</DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

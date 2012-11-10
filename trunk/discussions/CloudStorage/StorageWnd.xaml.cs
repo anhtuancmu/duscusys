@@ -382,8 +382,6 @@ namespace CloudStorage
 
         private void btnRefresh_Click_1(object sender, RoutedEventArgs e)
         {
-            if (IsBusy())
-                return;
             FetchEntries(false);
         }
 

@@ -273,6 +273,7 @@
     <Compile Include="ScreenshotCaptureWnd.xaml.cs">
       <DependentUpon>ScreenshotCaptureWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SourceMover.cs" />
     <Compile Include="SourceUC.xaml.cs">
       <DependentUpon>SourceUC.xaml</DependentUpon>
     </Compile>

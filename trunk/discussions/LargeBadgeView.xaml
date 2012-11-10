@@ -132,7 +132,7 @@
         	<Custom:SurfaceScrollViewer Grid.Row="3">
 			<ItemsControl x:Name="lstBxSources"             
         		ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-        		ItemsSource="{Binding Description.Source}" 
+        		ItemsSource="{Binding Sources}" 
         		HorizontalContentAlignment="Stretch" 
         		BorderThickness="0" d:LayoutOverrides="Height">
         		<ItemsControl.ItemTemplate>
