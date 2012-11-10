@@ -24,47 +24,16 @@ using Discussions.rt;
 namespace Discussions 
 {
     public partial class DiscussionAutoCreatorWnd : SurfaceWindow
-    {
-        public ObservableCollection<Topic> Topics
-        {
-            get;
-            set;
-        }
+    {    
+        Discussion _d = null;
 
-        public DiscussionAutoCreatorWnd()
+        public DiscussionAutoCreatorWnd(Discussion d)
         {
             InitializeComponent();
 
-            Topics = new ObservableCollection<Topic>();
+            _d = d;            
             
-            var t1 = new Topic(); 
-            t1.Name = "Topic1";
-            Topics.Add(t1);
-            
-            var t2 = new Topic(); 
-            t2.Name = "Topic2";
-            Topics.Add(t2);            
-
             DataContext = this;          
-        }
-
-        private void btnAddTopic_Click_1(object sender, RoutedEventArgs e)
-        {          
-            var t = new Topic(); 
-            t.Name = "<Topic>"; 
-            Topics.Add(t);
-
-            FillExample();
-        }
-
-        private void btnRemoveTopic_Click_1(object sender, RoutedEventArgs e)
-        {
-            var top = topics.SelectedItem;
-            if (top == null)
-                return;
-
-            Topics.Remove(topics.SelectedItem as Topic);
-            FillExample();
         }
 
         private void btnRun_Click_1(object sender, RoutedEventArgs e)
@@ -100,26 +69,26 @@ namespace Discussions
 
         void FillExample()
         {
-            if (from == null || to == null || txtExample == null)
+            if (from == null || to == null || txtExample == null || _d==null)
                 return;
 
-            Tuple<int, int,string> range = GetRange();
-            if (range.Item3!="")
+            Tuple<int, int, string> range = GetRange();
+            if (range.Item3 != "")
             {
                 txtExample.Text = range.Item3;
                 return;
             }
 
-            var discTemplate = discName.Text;
+            var discTemplate = _d.Subject;
 
             var sb = new StringBuilder();
 
-            for(int i=range.Item1;i<=range.Item2;i++)
+            for (int i = range.Item1; i <= range.Item2; i++)
             {
                 //create discussion
-             
+
                 sb.AppendLine(injectNumber(discTemplate, i));
-                foreach(var topic in Topics)                
+                foreach (var topic in _d.Topic)
                 {
                     sb.Append("       ");
                     sb.AppendLine(injectNumber(topic.Name, i));
@@ -130,43 +99,85 @@ namespace Discussions
         }
 
         void Run()
-        {           
+        {
+            if (_d == null)
+                return; 
+
             Tuple<int, int, string> range = GetRange();
             if (range.Item3 != "")
                 return;
 
             var ctx = CtxSingleton.Get();
 
-            var moderator = ctx.Person.FirstOrDefault(p=>p.Name=="moderator");
+            var moderator = ctx.Person.FirstOrDefault(p => p.Name == "moderator");
             if (moderator == null)
             {
                 MessageBox.Show("Cannot find moderator in DB");
-                return; 
+                return;
             }
-
-            var discTemplate = discName.Text;
 
             for (int i = range.Item1; i <= range.Item2; i++)
             {
-                //create discussion
-
-                var d = new Discussion();
-                d.Subject = injectNumber(discTemplate, i);
-                d.Background = new RichText();
-                d.Background.Text = "";                
-
-                foreach (var topic in Topics)
-                {
-                    var t = new Topic();
-                    t.Name = injectNumber(topic.Name, i);
-                    t.Person.Add(moderator);
-                    d.Topic.Add(t);
-                }
-                ctx.AddToDiscussion(d);
+                ctx.AddToDiscussion(cloneDiscussion(ctx, _d, moderator, i));
             }
             ctx.SaveChanges();
 
             MessageBox.Show("Done");
+        }
+
+        public Discussion cloneDiscussion(DiscCtx ctx, Discussion original, Person moderator, int i)
+        {
+            var d = new Discussion();
+            d.Subject = injectNumber(original.Subject, i);
+
+            //copy background
+            d.Background = new RichText();
+            d.Background.Text = original.Background.Text;
+            foreach (var src in original.Background.Source)
+            {
+                var s = new Source();
+                s.Text = src.Text;
+                s.OrderNumber = src.OrderNumber;                
+                d.Background.Source.Add(s);
+            }
+
+            foreach (var media in original.Attachment)
+            {
+                var attach = new Attachment();
+                attach.Discussion = d;
+                attach.Format = media.Format;
+                attach.Link = media.Link;
+                attach.Name = media.Name;
+                attach.Title = media.Title;
+                attach.VideoEmbedURL = media.VideoEmbedURL;
+                attach.VideoLinkURL = media.VideoLinkURL;
+                attach.VideoThumbURL = media.VideoThumbURL;
+                attach.OrderNumber = media.OrderNumber;
+
+                if (media.Thumb != null)
+                    attach.Thumb = (byte[])media.Thumb.Clone();
+
+                if (media.MediaData != null && media.MediaData.Data != null)
+                {
+                    var mediaClone = new MediaData();
+                    mediaClone.Data = (byte[])media.MediaData.Data.Clone();
+                    attach.MediaData = mediaClone;
+                }
+
+                attach.Person = moderator;
+
+                d.Attachment.Add(attach);
+            }
+
+            foreach (var topic in original.Topic)
+            {
+                var t = new Topic();
+                t.Name = injectNumber(topic.Name, i);
+                t.Person.Add(moderator);
+                d.Topic.Add(t);
+            }
+
+            return d;
         }
 
         private void from_TextChanged_1(object sender, TextChangedEventArgs e)
