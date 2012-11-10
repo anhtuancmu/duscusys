@@ -115,16 +115,18 @@ namespace Discussions
                 MessageBox.Show("Cannot find moderator in DB");
                 return;
             }
-
+           
             for (int i = range.Item1; i <= range.Item2; i++)
             {
-                ctx.AddToDiscussion(cloneDiscussion(ctx, _d, moderator, i));
+                var disc = cloneDiscussion(ctx, _d, moderator, i);
+                DaoUtils.SetGeneralSide(moderator, disc, (int)SideCode.Neutral);
+                ctx.AddToDiscussion(disc);
             }
             ctx.SaveChanges();
 
             MessageBox.Show("Done");
         }
-
+        
         public Discussion cloneDiscussion(DiscCtx ctx, Discussion original, Person moderator, int i)
         {
             var d = new Discussion();
