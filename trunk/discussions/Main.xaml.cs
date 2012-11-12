@@ -161,6 +161,8 @@ namespace Discussions
             else
             {
                // btnResults.LaunchDel = null;
+                btnPrivate.LaunchDel = null;
+                btnPublic.LaunchDel = null;
                 btnDiscussionInfo.LaunchDel = null;
                 DiscWindows.Get().CloseUserDashboards();
             }

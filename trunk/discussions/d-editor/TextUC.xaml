@@ -31,7 +31,7 @@
 					FontFamily="Arial Black" FontSize="18.667" 
 					HorizontalAlignment="Center" 
 					FontWeight="Bold" 
-					Text="{Binding Text}" 
+					Text="{Binding ElementName=field, Path=Text}" 
 					VerticalAlignment="Top" 
 					MouseDown="txtLabel_MouseDown" 
 					TouchDown="txtLabel_TouchDown"/>

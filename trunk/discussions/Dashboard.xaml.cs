@@ -281,13 +281,16 @@ namespace Discussions
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (EditedDiscussion != null && Ctors.DiscussionExists(EditedDiscussion) && SessionInfo.Get().discussion!=null)
+            if (EditedDiscussion != null && Ctors.DiscussionExists(EditedDiscussion))
             {
                 BusyWndSingleton.Show("Deleting discussion...");
                 try
                 {
-                    if (SessionInfo.Get().discussion.Id == EditedDiscussion.Id)
-                        SessionInfo.Get().discussion = null;
+                    if(SessionInfo.Get().discussion!=null)
+                    {
+                        if (SessionInfo.Get().discussion.Id == EditedDiscussion.Id)
+                            SessionInfo.Get().discussion = null;
+                    }
 
                     DaoUtils.DeleteDiscussion(EditedDiscussion);
                     discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");

@@ -28,13 +28,11 @@ namespace Discussions
     /// </summary>
     public partial class LargeBadgeView : UserControl
     {
-        public Action closeRequest = null;
-
         MultiClickRecognizer mediaDoubleClick;
 
         UISharedRTClient _sharedClient;
 
-        public Action CloseRequest;
+        public Action CloseRequest = null;
 
         public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
          "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
@@ -525,20 +523,6 @@ namespace Discussions
             badgeDoubleTap(sender,null);
         }
 
-        private void Border_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
-        {
-            if (e.OriginalSource is Image)
-                return;
-            mediaDoubleClick.Click(sender, e);
-        }
-
-        private void Border_PreviewTouchDown_1(object sender, TouchEventArgs e)
-        {
-            if (e.OriginalSource is Image)
-                return;
-            mediaDoubleClick.Click(sender, e);
-        }
-
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             BusyWndSingleton.Show("Saving argument, please wait...");
@@ -584,5 +568,20 @@ namespace Discussions
             ///ArgPointChanged(ap.Id, ap.Topic.Id, PointChangedType.Modified);
         }
 
+        private void stkHeader_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is Image)
+                return;
+            mediaDoubleClick.Click(sender, e);
+            e.Handled = true;
+        }
+        
+        private void stkHeader_PreviewTouchDown_1(object sender, TouchEventArgs e)
+        {
+            if (e.OriginalSource is Image)
+                return;
+            mediaDoubleClick.Click(sender, e);
+            e.Handled = true;
+        }
     }
 }
