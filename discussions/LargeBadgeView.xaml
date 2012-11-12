@@ -76,8 +76,6 @@
 
     <Border x:Name="border"
             BorderBrush="{Binding Path=Person.Color, Converter={StaticResource colorConv}}"
-            PreviewMouseDown="Border_PreviewMouseDown_1"
-            PreviewTouchDown="Border_PreviewTouchDown_1"
             BorderThickness="8" 
             CornerRadius="3">
 	<Grid >
@@ -93,7 +91,10 @@
             <ColumnDefinition Width="421*"/>
             <ColumnDefinition Width="420*"/>
         </Grid.ColumnDefinitions>     
-        <StackPanel x:Name="stkHeader" Orientation="Horizontal" d:LayoutOverrides="Height, Margin" Margin="2" Grid.ColumnSpan="2">
+        <StackPanel x:Name="stkHeader" Orientation="Horizontal"
+                    PreviewMouseDown="stkHeader_PreviewMouseDown_1"
+                    PreviewTouchDown="stkHeader_PreviewTouchDown_1"
+                    d:LayoutOverrides="Height, Margin" Margin="2" Grid.ColumnSpan="2">
             <Label Content="BY:  " HorizontalAlignment="Left"/>
         	<Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             <Label Content="                                                                               "/>

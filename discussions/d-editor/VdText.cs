@@ -80,7 +80,7 @@ namespace DistributedEditor
 
         void TextChanged(string text)
         {
-           _txt = text;
+            _txt = text;
             serializeText = true;
             onChanged(this);
         }
