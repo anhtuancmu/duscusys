@@ -425,7 +425,7 @@ namespace Discussions
 
         private void btnBatch_Click_1(object sender, RoutedEventArgs e)
         {
-            (new DiscussionAutoCreatorWnd(EditedDiscussion)).ShowDialog();
+            (new DiscussionAutoCreatorWnd()).ShowDialog();
             discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
         }
     }
