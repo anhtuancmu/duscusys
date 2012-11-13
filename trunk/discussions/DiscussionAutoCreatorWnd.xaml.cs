@@ -25,25 +25,37 @@ namespace Discussions
 {
     public partial class DiscussionAutoCreatorWnd : SurfaceWindow
     {    
-        Discussion _d = null;
-
-        public DiscussionAutoCreatorWnd(Discussion d)
+        public DiscussionAutoCreatorWnd()
         {
             InitializeComponent();
 
-            _d = d;            
-            
-            DataContext = this;          
+            DataContext = this;
+
+            lstDiscussions.ItemsSource = CtxSingleton.Get().Discussion;
+        }
+
+        Tuple<Discussion, Discussion> GetTemplates()
+        {
+            if (lstDiscussions.SelectedItems.Count != 2)
+            {
+                return new Tuple<Discussion, Discussion>(null, null);
+            }
+            else
+            {
+                return new Tuple<Discussion, Discussion>((Discussion)lstDiscussions.SelectedItems[0],
+                                                         (Discussion)lstDiscussions.SelectedItems[1]);
+            }
         }
 
         private void btnRun_Click_1(object sender, RoutedEventArgs e)
         {
-            Run();
+            var ab = GetTemplates();
+            Run(ab.Item1, ab.Item2);
         }
 
         private void discName_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            FillExample();
+            FillExample(GetTemplates());
         }
 
         Tuple<int, int,string> GetRange()
@@ -67,9 +79,12 @@ namespace Discussions
             return template.Replace("#", number.ToString()); 
         }
 
-        void FillExample()
+        void FillExample(Tuple<Discussion,Discussion> ab)
         {
-            if (from == null || to == null || txtExample == null || _d==null)
+            if (txtExample!=null)
+                txtExample.Text = "";
+            
+            if (from == null || to == null || txtExample == null || ab.Item1 == null || ab.Item2 == null)
                 return;
 
             Tuple<int, int, string> range = GetRange();
@@ -79,16 +94,22 @@ namespace Discussions
                 return;
             }
 
-            var discTemplate = _d.Subject;
-
             var sb = new StringBuilder();
 
             for (int i = range.Item1; i <= range.Item2; i++)
             {
                 //create discussion
+                sb.AppendLine(injectNumber(ab.Item1.Subject, i));
+                foreach (var topic in ab.Item1.Topic)
+                {
+                    sb.Append("       ");
+                    sb.AppendLine(injectNumber(topic.Name, i));
+                }
+                sb.AppendLine();
 
-                sb.AppendLine(injectNumber(discTemplate, i));
-                foreach (var topic in _d.Topic)
+
+                sb.AppendLine(injectNumber(ab.Item2.Subject, i));
+                foreach (var topic in ab.Item2.Topic)
                 {
                     sb.Append("       ");
                     sb.AppendLine(injectNumber(topic.Name, i));
@@ -98,9 +119,9 @@ namespace Discussions
             txtExample.Text = sb.ToString();
         }
 
-        void Run()
+        void Run(Discussion A, Discussion B)
         {
-            if (_d == null)
+            if (A == null || B==null)
                 return; 
 
             Tuple<int, int, string> range = GetRange();
@@ -118,9 +139,13 @@ namespace Discussions
            
             for (int i = range.Item1; i <= range.Item2; i++)
             {
-                var disc = cloneDiscussion(ctx, _d, moderator, i);
+                var disc = cloneDiscussion(ctx, A, moderator, i);
                 DaoUtils.SetGeneralSide(moderator, disc, (int)SideCode.Neutral);
                 ctx.AddToDiscussion(disc);
+
+                var disc2 = cloneDiscussion(ctx, B, moderator, i);
+                DaoUtils.SetGeneralSide(moderator, disc2, (int)SideCode.Neutral);
+                ctx.AddToDiscussion(disc2);
             }
             ctx.SaveChanges();
 
@@ -183,23 +208,28 @@ namespace Discussions
         }
 
         private void from_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-            FillExample();
+        {            
+            FillExample(GetTemplates());
         }
 
         private void to_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            FillExample();
+            FillExample(GetTemplates());
         }
 
         private void DiscussionAutoCreatorWnd_Loaded_1(object sender, RoutedEventArgs e)
         {
-            FillExample();
+            FillExample(GetTemplates());
         }
 
         private void SurfaceTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            FillExample();
+            FillExample(GetTemplates());
+        }
+
+        private void lstDiscussions_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            FillExample(GetTemplates());
         }
     }
 }

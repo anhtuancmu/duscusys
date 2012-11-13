@@ -25,9 +25,15 @@
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Describe the structure" VerticalAlignment="Top" FontSize="24" Height="32" Margin="75,0" Width="220"/>
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Example" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
         <StackPanel Grid.Row="1">            
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Text="Create new discussion in moderator dashboard as you'd normally do. Fill up topics, discussion background, discussion media. You can use '#' in name of discussion or in name of a topic. Then select the discussion and open this wizard. It will use selected discussion as a template and spawn required number of new discussions." FontSize="16"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Text="Create 2 discussion templates in moderator dashboard as you'd normally do. Fill up topics, discussion background, discussion media. You can use '#' in name of discussion or in name of a topic. Then select exactly 2 discussions in the list below and generate discussions." FontSize="16"/>
 
-            <StackPanel Orientation="Horizontal" Margin="0,70,0,0"/>
+            <StackPanel Orientation="Vertical" Margin="0,70,0,0">
+                <TextBlock Text="Select 2 discussions. First select A, then B" FontSize="16"/>
+                <s:SurfaceListBox Name="lstDiscussions" SelectionMode="Multiple" DisplayMemberPath="Subject"
+                                 MaxHeight="400"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 SelectionChanged="lstDiscussions_SelectionChanged_1"/>                     
+            </StackPanel>    
 
             <StackPanel Orientation="Horizontal" Margin="0,60,0,0">
                 <TextBlock Text="Run # from" FontSize="18" Margin="0"/>
