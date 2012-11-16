@@ -196,6 +196,8 @@ namespace Discussions
                 d.Attachment.Add(attach);
             }
 
+            d.HtmlBackground = original.HtmlBackground;
+
             foreach (var topic in original.Topic)
             {
                 var t = new Topic();

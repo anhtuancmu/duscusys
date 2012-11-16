@@ -140,6 +140,8 @@ namespace Discussions
                 DiscWindows.Get().privateDiscBoard.Hide();
             if (DiscWindows.Get().moderDashboard!=null)
                 DiscWindows.Get().moderDashboard.Hide();
+            if (DiscWindows.Get().htmlBackgroundWnd!= null)
+                DiscWindows.Get().htmlBackgroundWnd.Hide();
         }
 
         void ShowOwnWindows()
@@ -149,6 +151,8 @@ namespace Discussions
                 DiscWindows.Get().privateDiscBoard.Show();
             if (DiscWindows.Get().moderDashboard != null)
                 DiscWindows.Get().moderDashboard.Show();
+            if (DiscWindows.Get().htmlBackgroundWnd != null)
+                DiscWindows.Get().htmlBackgroundWnd.Show();
         }
 
         //touch

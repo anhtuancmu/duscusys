@@ -21,7 +21,6 @@ using Discussions.RTModel.Model;
 using Discussions.stats;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Win32;
-using System.Windows;
 
 namespace Reporter
 {   

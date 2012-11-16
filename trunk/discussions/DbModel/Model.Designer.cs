@@ -1847,6 +1847,30 @@ namespace Discussions.DbModel
         private global::System.String _Subject;
         partial void OnSubjectChanging(global::System.String value);
         partial void OnSubjectChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String HtmlBackground
+        {
+            get
+            {
+                return _HtmlBackground;
+            }
+            set
+            {
+                OnHtmlBackgroundChanging(value);
+                ReportPropertyChanging("HtmlBackground");
+                _HtmlBackground = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("HtmlBackground");
+                OnHtmlBackgroundChanged();
+            }
+        }
+        private global::System.String _HtmlBackground;
+        partial void OnHtmlBackgroundChanging(global::System.String value);
+        partial void OnHtmlBackgroundChanged();
 
         #endregion
 

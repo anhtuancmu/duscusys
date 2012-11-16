@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/09/2012 03:22:25
+-- Date Created: 11/15/2012 23:20:19
 -- Generated from EDMX file: C:\projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
 
@@ -151,7 +151,8 @@ GO
 -- Creating table 'Discussion'
 CREATE TABLE [dbo].[Discussion] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Subject] nvarchar(max)  NOT NULL
+    [Subject] nvarchar(max)  NOT NULL,
+    [HtmlBackground] nvarchar(max)  NULL
 );
 GO
 
