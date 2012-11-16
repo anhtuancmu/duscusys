@@ -125,6 +125,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HtmlBackground" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="ArgPoint">
     <Key>
@@ -654,6 +655,7 @@
           <NavigationProperty Name="Attachment" Relationship="db.DiscussionAttachment" FromRole="Discussion" ToRole="Attachment" />
           <NavigationProperty Name="GeneralSide" Relationship="db.DiscussionGeneralSide" FromRole="Discussion" ToRole="GeneralSide" />
           <NavigationProperty Name="Background" Relationship="db.DiscussionRichText" FromRole="Discussion" ToRole="RichText" />
+          <Property Type="String" Name="HtmlBackground" Nullable="true" />
         </EntityType>
         <EntityType Name="ArgPoint">
           <Key>
@@ -926,6 +928,7 @@
         <MappingFragment StoreEntitySet="Discussion">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="HtmlBackground" ColumnName="HtmlBackground" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1240,7 +1243,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="data_model" ZoomLevel="81" >
+      <Diagram Name="data_model" ZoomLevel="95" >
         <EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
         <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />

@@ -170,6 +170,9 @@
     </Compile>
     <Compile Include="d-editor\ICaptionHost.cs" />
     <Compile Include="ExplanationModeMediator.cs" />
+    <Compile Include="HtmlEditWnd.xaml.cs">
+      <DependentUpon>HtmlEditWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OfficeWnd.xaml.cs">
       <DependentUpon>OfficeWnd.xaml</DependentUpon>
     </Compile>
@@ -459,6 +462,10 @@
     <Page Include="DiscussionAutoCreatorWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HtmlEditWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OfficeWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -945,6 +952,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\gdocWord.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DiscussionHTMLPage.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="NoBackgroundPage.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

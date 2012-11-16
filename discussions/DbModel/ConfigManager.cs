@@ -32,6 +32,14 @@ namespace Discussions
             }
         }
 
+        public static string ServiceServer
+        {
+            get
+            {
+                return PhotonSrv.Substring(0, PhotonSrv.Length-5);                
+            }
+        }
+
         static RegistryKey hkDiscusystem = null;
         static RegistryKey getDiscusysKey()
         {

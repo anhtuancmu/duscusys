@@ -9,6 +9,7 @@
 	mc:Ignorable="d"
 	x:Class="Discussions.Background"
 	x:Name="UserControl"
+    Unloaded="UserControl_Unloaded_1"
     xmlns:yt="clr-namespace:Discussions.YouViewer"  
     DataContextChanged="UserControl_DataContextChanged_1"
 	d:DesignWidth="858.5" d:DesignHeight="826.5">
@@ -116,103 +117,117 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Custom:SurfaceScrollViewer x:Name="rtbDescription" 
-                        Grid.ColumnSpan="1" 
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled" d:LayoutOverrides="Margin" Grid.Row="1">
-            <Custom:SurfaceTextBox x:Name="txtBxBackground" 
+        <!--<Custom:SurfaceTextBox x:Name="txtBxBackground" 
 						TextWrapping="Wrap"
 						MinHeight="135" 
                         FontSize="20" 
 						Foreground="Black"
                         Text="{Binding Background.Text, UpdateSourceTrigger=Explicit}"
                         Background="LightGray"                       
-                        AcceptsReturn="True" Margin="3"/>
-        </Custom:SurfaceScrollViewer>
+                        AcceptsReturn="True" Margin="3"/>-->
+
+        <Border Grid.ColumnSpan="1" Grid.Row="1" BorderBrush="#FF08E4E4" BorderThickness="2">
+            <WebBrowser x:Name="htmlBackground" Height="500"/>
+        </Border>
+        <!--<Custom:SurfaceTextBox x:Name="txtBxBackground" 
+						TextWrapping="Wrap"
+						MinHeight="135" 
+                        FontSize="20" 
+						Foreground="Black"
+                        Text="{Binding Background.Text, UpdateSourceTrigger=Explicit}"
+                        Background="LightGray"                       
+                        AcceptsReturn="True" Margin="3"/>-->
+
         <Label Content="Media" VerticalAlignment="Center" d:LayoutOverrides="Width, Margin" Grid.Row="2"/>
         <Custom:SurfaceListBox x:Name="lstBxAttachments" 
-        	SelectionChanged="lstBxAttachments_SelectionChanged_1"
-        	ScrollViewer.PanningMode="HorizontalOnly"                  
-        	ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
-        	IsManipulationEnabled="False"
-        	ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}" 
-        	ItemsSource="{Binding Attachment}"                
-        	Background="#00B2B2B2" MaxWidth="1000" HorizontalContentAlignment="Center" 
-        	VerticalContentAlignment="Center" Grid.Row="3" d:LayoutOverrides="Margin">
-        	<Custom:SurfaceListBox.ItemsPanel>
-        		<ItemsPanelTemplate>
-        			<WrapPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-        		</ItemsPanelTemplate>
-        	</Custom:SurfaceListBox.ItemsPanel>
+    		SelectionChanged="lstBxAttachments_SelectionChanged_1"
+    		ScrollViewer.PanningMode="HorizontalOnly"                  
+    		ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
+    		IsManipulationEnabled="False"
+    		ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}" 
+    		ItemsSource="{Binding Attachment}"                
+    		Background="#00B2B2B2" MaxWidth="1000" HorizontalContentAlignment="Center" 
+    		VerticalContentAlignment="Center" Grid.Row="3" d:LayoutOverrides="Margin">
+            <Custom:SurfaceListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                </ItemsPanelTemplate>
+            </Custom:SurfaceListBox.ItemsPanel>
         </Custom:SurfaceListBox>
         <Grid x:Name="mediaButtons" Grid.Row="4" d:LayoutOverrides="Height, Margin">
-        	<Grid.RowDefinitions>
-        		<RowDefinition/>
-        		<RowDefinition Height="Auto"/>
-        	</Grid.RowDefinitions>
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition/>
-        	</Grid.ColumnDefinitions>
-        	<Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap" KeyDown="txtAttachmentURL_KeyDown_1"/>
-        	<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Width="194.287" d:LayoutOverrides="Margin">
-        		<Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 
-        			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
-        		<Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
-        		<Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1" Content="Screenshot" 
-        			HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2"/>
-        	</StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap" KeyDown="txtAttachmentURL_KeyDown_1"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Width="194.287" d:LayoutOverrides="Margin">
+                <Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 
+    				HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
+                <Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
+                <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1" Content="Screenshot" 
+    				HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2"/>
+            </StackPanel>
         </Grid>
-        
-        <Popup Name="srcRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
+
+        <Popup x:Name="srcRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
             <StackPanel Orientation="Horizontal">
                 <Custom:SurfaceButton x:Name="btnSrcUp" 
-						          FontSize="70"
-                                  FontFamily="Segoe UI Symbol"
-                                  Content="&#x2191;"
-                                  Foreground="White"
-                                  VerticalAlignment="Center" 
-                                  HorizontalAlignment="Center" 
-                                  Click="btnSrcUp_Click_1" 
-                                  Background="{x:Null}"/>
+    				FontSize="70"
+    				FontFamily="Segoe UI Symbol"
+    				Content="↑"
+    				Foreground="White"
+    				VerticalAlignment="Center" 
+    				HorizontalAlignment="Center" 
+    				Click="btnSrcUp_Click_1" 
+    				Background="{x:Null}"/>
                 <Custom:SurfaceButton x:Name="btnSrcDown"
-						          FontFamily="Segoe UI Symbol"
-                                  Content="&#x2193;"
-                                  FontSize="70"
-                                  Foreground="White"
-                                  VerticalAlignment="Center" 
-                                  HorizontalAlignment="Center" 
-                                  Click="btnSrcDown_Click_1"
-                                  Background="{x:Null}"/>
+    				FontFamily="Segoe UI Symbol"
+    				Content="↓"
+    				FontSize="70"
+    				Foreground="White"
+    				VerticalAlignment="Center" 
+    				HorizontalAlignment="Center" 
+    				Click="btnSrcDown_Click_1"
+    				Background="{x:Null}"/>
                 <Custom:SurfaceButton x:Name="btnClosePopup" Foreground="DarkRed" Content=" X" 
-						          FontWeight="Bold" FontFamily="Segoe360" FontSize="70"                                  
-                                  VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                  Click="btnClosePopup_Click_1" Background="{x:Null}"/>
+    				FontWeight="Bold" FontFamily="Segoe360" FontSize="70"                                  
+    				VerticalAlignment="Center" HorizontalAlignment="Center" 
+    				Click="btnClosePopup_Click_1" Background="{x:Null}"/>
             </StackPanel>
         </Popup>
-        
+
         <Label Content="Sources" d:LayoutOverrides="Width, Height, Margin" Grid.Row="5"/>
         <ItemsControl x:Name="lstBxSources" 
-            local:SourceUC.SourceRemoved="onSourceRemoved"
-            local:SourceUC.SourceUpDown="onSourceUpDown" 
-        	ScrollViewer.VerticalScrollBarVisibility="Disabled"             
-        	ItemsSource="{Binding Sources}" 
-        	HorizontalContentAlignment="Stretch" 
-        	BorderThickness="0" Grid.Row="6" d:LayoutOverrides="Height, Margin">
-        	<ItemsControl.ItemTemplate>
-        		<DataTemplate>
+    		local:SourceUC.SourceRemoved="onSourceRemoved"
+    		local:SourceUC.SourceUpDown="onSourceUpDown" 
+    		ScrollViewer.VerticalScrollBarVisibility="Disabled"             
+    		ItemsSource="{Binding Sources}" 
+    		HorizontalContentAlignment="Stretch" 
+    		BorderThickness="0" Grid.Row="6" d:LayoutOverrides="Height, Margin">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
                     <local:SourceUC CanReorder="True"/>
-        		</DataTemplate>
-        	</ItemsControl.ItemTemplate>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
         </ItemsControl>
         <Grid x:Name="srcButtons" Grid.Row="7" d:LayoutOverrides="Width, Height, Margin">
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition/>
-        		<ColumnDefinition Width="Auto"/>
-        	</Grid.ColumnDefinitions>
-        	<Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"  MaxWidth="650" TextWrapping="Wrap"/>
-        	<Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"  
-        		Content="Add source" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"  MaxWidth="650" TextWrapping="Wrap"/>
+            <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"  
+    			Content="Add source" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
         </Grid>
         <Label x:Name="Background1" Content="Background" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="Margin"/>
+       
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Custom:SurfaceButton x:Name="btnSystemBrowser" Content="System browser" Click="btnSystemBrowserClick" VerticalAlignment="Bottom"/>            
+            <Custom:SurfaceButton x:Name="btnOpenInInternalBrowser" Content="Internal browser" Click="btnInternalBrowser_Click_1" VerticalAlignment="Bottom"/>            
+            <Custom:SurfaceButton x:Name="btnEditBg" Content="Edit html" Click="btnEditBg_Click" VerticalAlignment="Bottom"/>
+        </StackPanel>
     </Grid>
 </UserControl>

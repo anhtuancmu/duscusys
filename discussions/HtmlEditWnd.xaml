@@ -1,0 +1,30 @@
+﻿<Window x:Class="Discussions.HtmlEditWnd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+        Title="Discussion background editor" Height="350" 
+        Unloaded="UserControl_Unloaded_1"
+        Closing="SurfaceWindow_Closing"       
+        WindowState="Maximized" Background="#FF3C3C3C">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <WebBrowser x:Name="webView" Grid.Column="1"/>
+        <Custom:SurfaceTextBox Name="plainHtml" AcceptsReturn="True" TextWrapping="Wrap" Text="" Background="{x:Null}"/>
+   
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 
+        			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
+            <Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
+            <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1" Content="Screenshot" 
+        			HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2"/>                  
+        </StackPanel>
+        <Custom:SurfaceButton Content="Update" HorizontalAlignment="Right" Click="SurfaceButton_Click_1" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

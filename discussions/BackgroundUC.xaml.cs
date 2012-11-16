@@ -13,6 +13,8 @@ using System.Windows.Shapes;
 using System.Linq;
 using Discussions.DbModel;
 using System.Collections.ObjectModel;
+using Discussions.webkit_host;
+using System.Reflection;
 
 namespace Discussions
 {
@@ -62,10 +64,10 @@ namespace Discussions
         public void ToViewMode()
         {
             txtAttachmentURL.Visibility = Visibility.Hidden;
-            mediaButtons.Visibility = Visibility.Hidden;                
-            srcButtons.Visibility = Visibility.Hidden; 
+            mediaButtons.Visibility = Visibility.Hidden;
+            srcButtons.Visibility = Visibility.Hidden;
 
-            txtBxBackground.IsReadOnly = true;
+            btnEditBg.Visibility = Visibility.Collapsed;
         }
 
         private void txtBxBackground_GotFocus(object sender, RoutedEventArgs e)
@@ -80,13 +82,13 @@ namespace Discussions
         }
 
         public void SaveChanges()
-        { 
+        {
             Discussion discussion = DataContext as Discussion;
-  
+
             if (discussion != null)
             {
                 DaoUtils.EnsureBgExists(discussion);
-                discussion.Background.Text = txtBxBackground.Text;
+                //discussion.Background.Text = txtBxBackground.Text;
             }
         }
 
@@ -111,7 +113,7 @@ namespace Discussions
         }
 
         private void btnAttachFromUrl_Click_1(object sender, RoutedEventArgs e)
-        {            
+        {
             var discussion = DataContext as Discussion;
             if (discussion == null)
                 return;
@@ -128,7 +130,7 @@ namespace Discussions
                 a.Discussion = discussion;
                 a.Person = getFreshPerson();
             }
-         }
+        }
 
         private void btnAttachScreenshot_Click_1(object sender, RoutedEventArgs e)
         {
@@ -140,7 +142,7 @@ namespace Discussions
             {
                 var attach = AttachmentManager.AttachScreenshot(null, b);
                 if (attach != null)
-                {                    
+                {
                     attach.Person = getFreshPerson();
                     attach.Discussion = d;
                 }
@@ -182,7 +184,7 @@ namespace Discussions
             if (d == null)
                 return;
 
-            Attachment a = new Attachment();            
+            Attachment a = new Attachment();
             if (AttachmentManager.ProcessAttachCmd(null, AttachCmd.ATTACH_IMG_OR_PDF, ref a) != null)
             {
                 a.Discussion = d;
@@ -200,7 +202,7 @@ namespace Discussions
         {
             var at = ((ContentControl)sender).DataContext as Attachment;
 
-            at.Discussion = null;       
+            at.Discussion = null;
             var mediaData = at.MediaData;
             at.MediaData = null;
             if (mediaData != null)
@@ -245,18 +247,24 @@ namespace Discussions
             else
                 this.Visibility = Visibility.Hidden;
 
-
             txtAttachmentURL.Text = "URL or path here";
             txtSource.Text = "Source here";
             var d = DataContext as Discussion;
             if (d != null)
             {
                 if (d.Attachment.Count() > 0)
-                    txtAttachmentURL.Text = d.Attachment.Last().Link;                
+                    txtAttachmentURL.Text = d.Attachment.Last().Link;
 
                 if (d.Background.Source.Count > 0)
                     txtSource.Text = d.Background.Source.Last().Text;
+
+                if (d.HtmlBackground != null)
+                    htmlBackground.NavigateToString(d.HtmlBackground);
+                else
+                    htmlBackground.NavigateToString(NoBackground());
             }
+            else if (htmlBackground.IsLoaded)
+                htmlBackground.NavigateToString(NoBackground());
 
             BeginDeferredItemTemplateHandle();
             UpdateOrderedSources();
@@ -332,5 +340,72 @@ namespace Discussions
             }
         }
         #endregion
+
+        private void btnEditBg_Click(object sender, RoutedEventArgs e)
+        {
+            DiscWindows.Get().htmlBackgroundWnd = new HtmlEditWnd(DataContext as Discussion,
+                                                                  () =>
+                                                                  {
+                                                                      DiscWindows.Get().htmlBackgroundWnd = null;
+
+                                                                      var d = DataContext as Discussion;
+                                                                      if (d != null)
+                                                                      {
+                                                                          if (d.HtmlBackground != null)
+                                                                              htmlBackground.NavigateToString(d.HtmlBackground);
+                                                                      }
+                                                                  }
+                                                                  );
+            DiscWindows.Get().htmlBackgroundWnd.Show();
+        }
+
+        private void btnInternalBrowser_Click_1(object sender, RoutedEventArgs e)
+        {
+            var d = DataContext as Discussion;
+            if (d != null)
+            {
+                if (d.HtmlBackground != null)
+                {
+                    var browser = new WebKitFrm(getDiscussionBackgroundUrl(d));
+                    browser.ShowDialog();
+                }
+            }
+        }
+
+        private void btnSystemBrowserClick(object sender, RoutedEventArgs e)
+        {
+            var d = DataContext as Discussion;
+            if (d != null)
+            {
+                if (d.HtmlBackground != null)
+                {
+                    System.Diagnostics.Process.Start(getDiscussionBackgroundUrl(d));
+                }
+            }
+        }
+
+        static string getDiscussionBackgroundUrl(Discussion d)
+        {
+            return string.Format("http://{0}/discsvc/bgpage?id={1}", ConfigManager.ServiceServer, d.Id);
+        }
+
+        private void UserControl_Unloaded_1(object sender, RoutedEventArgs e)
+        {
+            htmlBackground.Dispose();
+        }
+
+        static string noBackgroundHtml = null;
+        static string NoBackground()
+        {
+            if (noBackgroundHtml == null)
+            {
+                var htmlTemplatePathName = System.IO.Path.Combine(
+                                System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                                "NoBackgroundPage.html");
+
+                noBackgroundHtml = System.IO.File.ReadAllText(htmlTemplatePathName);
+            }
+            return noBackgroundHtml;
+        }
     }
 }

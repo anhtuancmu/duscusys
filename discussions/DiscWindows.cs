@@ -16,6 +16,7 @@ namespace Discussions
         public Dashboard moderDashboard = null;      
         public ResultViewer resViewer = null;
         public PersonManagerWnd persMgr = null;
+        public HtmlEditWnd htmlBackgroundWnd = null;
 
         public static DiscWindows Get()
         {
@@ -40,6 +41,12 @@ namespace Discussions
             {
                 discDashboard.Close();
                 discDashboard = null;
+            }
+
+            if (htmlBackgroundWnd != null)
+            {
+                htmlBackgroundWnd.Close();
+                htmlBackgroundWnd = null;
             }
 
             MessageBox.Show("Moderator is offline or selected session is not running. User dashboards have been closed",
@@ -80,7 +87,13 @@ namespace Discussions
             {
                 persMgr.Close();
                 persMgr = null;
-            }         
+            }
+
+            if (htmlBackgroundWnd != null)
+            {
+                htmlBackgroundWnd.Close();
+                htmlBackgroundWnd = null;
+            }  
         }
     }
 }
