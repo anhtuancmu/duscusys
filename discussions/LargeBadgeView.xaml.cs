@@ -52,6 +52,15 @@ namespace Discussions
             }
         }
 
+        ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        public ObservableCollection<Attachment> Attachments
+        {
+            get
+            {
+                return attachments;
+            }
+        }
+
         //if source order or data context changes, we update 
         void UpdateOrderedSources()
         {
@@ -66,6 +75,46 @@ namespace Discussions
             }
         }
 
+        void UpdateOrderedMedia()
+        {
+            Attachments.Clear();
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            foreach (var orderedAtt in ap.Attachment.OrderBy(a0 => a0.OrderNumber))
+            {
+                Attachments.Add(orderedAtt);
+            }
+        }
+
+        void BeginAttachmentNumberInjection()
+        {
+            Dispatcher.BeginInvoke(new Action(_injectMediaNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+        }
+
+        void _injectMediaNumbers()
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            for (int i = 0; i < ap.Attachment.Count(); i++)
+            {
+                var item = lstBxAttachments.ItemContainerGenerator.ContainerFromIndex(i);
+
+                var video = Utils.FindChild<LargeVideoUC>(item);
+                if (video != null)
+                    video.number.Text = (i + 1).ToString();
+                else
+                {
+                    var image = Utils.FindChild<LargeImageUC>(item);
+                    if(image!=null)
+                        image.number.Text = (i + 1).ToString();
+                }
+            }
+        }
+
         public LargeBadgeView()
         {
             InitializeComponent();
@@ -77,6 +126,9 @@ namespace Discussions
             mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
 
             lstBxSources.DataContext = this;
+            lstBxAttachments.DataContext = this;
+
+            BeginAttachmentNumberInjection();
         }
 
         public void SetRt(UISharedRTClient sharedClient)
@@ -214,6 +266,8 @@ namespace Discussions
 
             BeginSrcNumberInjection();
             UpdateOrderedSources();
+            BeginAttachmentNumberInjection();
+            UpdateOrderedMedia();
 
             commentsViewer.ScrollToBottom();
         }      

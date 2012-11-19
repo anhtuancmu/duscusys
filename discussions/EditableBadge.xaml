@@ -15,9 +15,9 @@
              DataContextChanged="UserControl_DataContextChanged" 
              Margin="4,9,0,2">
     <UserControl.Resources>
-        <local:LinkTruncater x:Key="linkTruncater"/> 
+        <local:LinkTruncater x:Key="linkTruncater"/>
         <BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
-		<local:MediaTypeIconConverter x:Key="mediaTypeIconConv"/>
+        <local:MediaTypeIconConverter x:Key="mediaTypeIconConv"/>
         <local:AttachmentToVisibilityConverter x:Key="owner2Visibility"/>
         <DataTemplate x:Key="CommentItemTemplate">
             <local:CommentUC/>
@@ -25,38 +25,48 @@
         <local:AttachToImageConvertor x:Key="attachImgConverter" />
         <local:ARGBColorBrushConvertor x:Key="brushConverter" />
         <DataTemplate x:Key="ImageAttachmentTemplate">
-            <Grid>
+            <Grid Margin="15" Name="mediaTemplRoot">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Border Margin="2">
-                    <Image Source="{Binding Converter={StaticResource attachImgConverter}}" 
-                						    HorizontalAlignment="Center" Height="150" 
-                						    VerticalAlignment="Center" Width="150"
-                                            MouseDown="Image_MouseDown"
-                                            TouchDown="Image_TouchDown"/>
-                </Border>
+
+                <Image Source="{Binding Converter={StaticResource attachImgConverter}}" 
+                					    HorizontalAlignment="Center" Height="150" 
+                					    VerticalAlignment="Center" Width="150"
+                                        MouseDown="Image_MouseDown"
+                                        TouchDown="Image_TouchDown"/>
+
 
                 <StackPanel Grid.Column="1">
-				    <Custom:SurfaceButton Foreground="DarkRed" VerticalAlignment="Top"
+                    <Custom:SurfaceButton Foreground="DarkRed" VerticalAlignment="Top"
 							FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                             Visibility="{Binding Converter={StaticResource owner2Visibility}}" 
 						    Content="X" Background="{x:Null}" Click="removeMedia_Click"/>
-				    <Rectangle Width="40" Height="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}"/>
+                    <Custom:SurfaceButton x:Name="btnReposition" 
+                                Background="{x:Null}"
+						        FontSize="26.667"
+                                FontFamily="Segoe UI Symbol"
+                                Content="&#x21c5;"
+                                Foreground="White"
+                                VerticalAlignment="Top"                                                       
+                                HorizontalAlignment="Right"   
+                                Click="btnReposition_Click_1"/>
+                    <Rectangle Width="40" Height="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}"/>
+                    <Label Name="number" Content="1" FontSize="20" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
 
         <local:AttachmentToVideoConvertor x:Key="attachVideoConverter" />
         <DataTemplate x:Key="VideoAttachmentTemplate">
-            <Grid>
+            <Grid Margin="15"  Name="mediaTemplRoot">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Border Margin="2">
-                   <yt:YouTubeResultControl VerticalAlignment="Center" DataContext="{Binding}"/>					
+                    <yt:YouTubeResultControl VerticalAlignment="Center" DataContext="{Binding}"/>
                 </Border>
 
                 <StackPanel Grid.Column="1">
@@ -66,7 +76,17 @@
                                           Background="{x:Null}"
                                           Visibility="{Binding Converter={StaticResource owner2Visibility}}" 
                                           Click="removeMedia_Click"/>
-                    <Rectangle Width="40" Height="40" Fill="{StaticResource ytIcon}"/>  
+                    <Custom:SurfaceButton x:Name="btnReposition" 
+                                                Background="{x:Null}"
+						                        FontSize="26.667"
+                                                FontFamily="Segoe UI Symbol"
+                                                Content="&#x21c5;"
+                                                Foreground="White"
+                                                VerticalAlignment="Top"                                                       
+                                                HorizontalAlignment="Right"
+                                                Click="btnReposition_Click_1"/>
+                    <Rectangle Width="40" Height="40" Fill="{StaticResource ytIcon}"/>
+                    <Label Name="number" Content="1" FontSize="20" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -82,7 +102,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
-        
+
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -120,7 +140,7 @@
 
         <Border CornerRadius="12" x:Name="mask" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="White"/>
 
-        <StackPanel Grid.Column="1" x:Name="root"  Background="#FF787878"> 
+        <StackPanel Grid.Column="1" x:Name="root"  Background="#FF787878">
             <StackPanel x:Name="stkHeader" Orientation="Horizontal" d:LayoutOverrides="HorizontalMargin">
                 <Label Content="BY:  "/>
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
@@ -140,8 +160,8 @@
                         KeyDown="plainDescription_KeyDown_1"         
 						TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Orientation="Horizontal">
-            	<Label Content="Media" d:LayoutOverrides="Margin" VerticalAlignment="Center"/>
-            	<Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                <Label Content="Media" d:LayoutOverrides="Margin" VerticalAlignment="Center"/>
+                <Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
             </StackPanel>
 
             <ItemsControl x:Name="lstBxAttachments"                                             
@@ -149,7 +169,7 @@
             	ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
             	IsManipulationEnabled="False"
             	ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}" 
-            	ItemsSource="{Binding Attachment}"                
+            	ItemsSource="{Binding Attachments}"                
             	Background="#00B2B2B2" MaxWidth="800" Margin="0" HorizontalContentAlignment="Center" 
             	VerticalContentAlignment="Center">
                 <ItemsControl.ItemsPanel>
@@ -175,32 +195,32 @@
             	</Custom:SurfaceListBox.ItemsPanel>
             </Custom:SurfaceListBox>-->
             <Grid d:LayoutOverrides="Margin" Margin="0">
-            	<Grid.RowDefinitions>
-            		<RowDefinition Height="91*"/>
-            		<RowDefinition Height="44*"/>
-            	</Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="91*"/>
+                    <RowDefinition Height="44*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                	<ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-            	<Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap" Text="{Binding RecentlyEnteredMediaUrl, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height, HorizontalMargin" 
+                <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap" Text="{Binding RecentlyEnteredMediaUrl, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height, HorizontalMargin" 
             		KeyDown="txtAttachmentURL_KeyDown_1" Margin="1,1,1,0.999" />
-            	<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
                     <Custom:SurfaceButton x:Name="btnDropbox" Click="chooseDropboxFiles" Content="Dropbox" 
             			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
                     <Custom:SurfaceButton x:Name="btnGDrive" Click="chooseGDriveFiles" Content="Google Drive" 
             			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
-            		<Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 
+                    <Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 
             			HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
-            		<Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
-            		<Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1" Content="Screenshot" 
+                    <Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2"/>
+                    <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1" Content="Screenshot" 
             			HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2"/>
-            	</StackPanel>
+                </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,1,0,0">
-            	<Label Content="Sources" d:LayoutOverrides="Margin"/>
-            	<Label Content="Tips : Paste web url and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                <Label Content="Sources" d:LayoutOverrides="Margin"/>
+                <Label Content="Tips : Paste web url and press enter" FontSize="18.667" VerticalAlignment="Center" Margin="0,8,0,0"/>
             </StackPanel>
-            
+
             <Popup Name="srcRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
                 <StackPanel Orientation="Horizontal">
                     <Custom:SurfaceButton x:Name="btnSrcUp" 
@@ -227,7 +247,34 @@
                                   Click="btnClosePopup_Click_1" Background="{x:Null}"/>
                 </StackPanel>
             </Popup>
-            
+
+            <Popup Name="mediaRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
+                <StackPanel Orientation="Horizontal">
+                    <Custom:SurfaceButton x:Name="btnMediaUp" 
+						          FontSize="70"
+                                  FontFamily="Segoe UI Symbol"
+                                  Content="&#x2191;"
+                                  Foreground="White"
+                                  VerticalAlignment="Center" 
+                                  HorizontalAlignment="Center" 
+                                  Click="btnMediaUp_Click_1" 
+                                  Background="{x:Null}"/>
+                    <Custom:SurfaceButton x:Name="btnMediaDown"
+						          FontFamily="Segoe UI Symbol"
+                                  Content="&#x2193;"
+                                  FontSize="70"
+                                  Foreground="White"
+                                  VerticalAlignment="Center" 
+                                  HorizontalAlignment="Center" 
+                                  Click="btnMediaDown_Click_1"
+                                  Background="{x:Null}"/>
+                    <Custom:SurfaceButton x:Name="btnCloseMediaRepositionPopup" Foreground="DarkRed" Content=" X" 
+						          FontWeight="Bold" FontFamily="Segoe360" FontSize="70"                                  
+                                  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                  Click="btnCloseMediaRepositionPopup_Click_1" Background="{x:Null}"/>
+                </StackPanel>
+            </Popup>
+
             <ItemsControl x:Name="lstBxSources"                
                 local:SourceUC.SourceRemoved="onSourceRemoved"        
                 local:SourceUC.SourceUpDown="onSourceUpDown" 
@@ -236,20 +283,20 @@
             	HorizontalContentAlignment="Stretch" 
             	BorderThickness="0">
                 <ItemsControl.ItemTemplate>
-            		<DataTemplate>
+                    <DataTemplate>
                         <local:SourceUC TruncateUrls="True" CanReorder="True"/>
-            		</DataTemplate>
+                    </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <Grid d:LayoutOverrides="Width">
-            	<Grid.ColumnDefinitions>
-            		<ColumnDefinition/>
-            		<ColumnDefinition Width="Auto"/>
-            	</Grid.ColumnDefinitions>
-            	<Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"  
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"  
 							MaxWidth="600" TextWrapping="Wrap" 
 							Text="{Binding RecentlyEnteredSource, UpdateSourceTrigger=PropertyChanged}"/>
-            	<Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"  
+                <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"  
             		Content="Add source" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
             </Grid>
 
@@ -268,9 +315,9 @@
 				ItemTemplate="{StaticResource CommentItemTemplate}" 
 				MouseLeave="lstBxComments_MouseLeave"
                 BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch"/>
-                <Custom:SurfaceButton x:Name="btnComment" Focusable="True"  Content="Comment" 
+            <Custom:SurfaceButton x:Name="btnComment" Focusable="True"  Content="Comment" 
 								HorizontalAlignment="Right" Click="btnComment_Click"/>
-	    </StackPanel>
+        </StackPanel>
         <Rectangle x:Name="lblColor" Fill="#FFF4F4F5" HorizontalAlignment="Left" Width="10"/>
     </Grid>
 </UserControl>

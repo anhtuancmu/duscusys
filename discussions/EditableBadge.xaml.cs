@@ -43,6 +43,15 @@ namespace Discussions
             }
         }
 
+        ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        public ObservableCollection<Attachment> Attachments
+        {
+            get
+            {
+                return attachments;
+            }
+        }
+
         //if source order or data context changes, we update 
         void UpdateOrderedSources()
         {
@@ -57,6 +66,19 @@ namespace Discussions
             }
         }
 
+        void UpdateOrderedMedia()
+        {
+            Attachments.Clear();
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            foreach (var orderedAtt in ap.Attachment.OrderBy(a0 => a0.OrderNumber))
+            {
+                Attachments.Add(orderedAtt);
+            }
+        }
+
         public EditableBadge()
         {
             InitializeComponent();
@@ -68,8 +90,10 @@ namespace Discussions
             mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
 
             lstBxSources.DataContext = this;
+            lstBxAttachments.DataContext = this;
 
             srcMover = new SourceMover(srcRepositionPopup);
+            mediaMover = new MediaMover(mediaRepositionPopup);
         }        
 
         public SurfaceScrollViewer MainScroller
@@ -167,7 +191,9 @@ namespace Discussions
                 DaoUtils.RemoveDuplicateComments(ap);
 
             UpdateOrderedSources();
+            UpdateOrderedMedia();
             BeginSrcNumberInjection();
+            BeginAttachmentNumberInjection();
         }
 
         void Attach(object sender, ExecutedRoutedEventArgs args)
@@ -382,6 +408,8 @@ namespace Discussions
                                          ap.Topic.Discussion.Id,
                                          ap.Topic.Id,
                                          DeviceType.Wpf);
+                    UpdateOrderedMedia();
+                    BeginAttachmentNumberInjection();
                 }
             }
         }
@@ -414,6 +442,8 @@ namespace Discussions
                      ap.Topic.Discussion.Id,
                      ap.Topic.Id,
                      DeviceType.Wpf);
+                UpdateOrderedMedia();
+                BeginAttachmentNumberInjection();
             }
         }
 
@@ -443,6 +473,8 @@ namespace Discussions
                      ap.Topic.Discussion.Id,
                      ap.Topic.Id,
                      DeviceType.Wpf);
+                UpdateOrderedMedia();
+                BeginAttachmentNumberInjection();
             }
         }
 
@@ -565,6 +597,8 @@ namespace Discussions
                                  ap.Topic.Discussion.Id,
                                  ap.Topic.Id,
                                  DeviceType.Wpf);
+            UpdateOrderedMedia();
+            BeginAttachmentNumberInjection();
         }
 
         Comment newComment = null;
@@ -724,6 +758,27 @@ namespace Discussions
         void BeginSrcNumberInjection()
         {
             Dispatcher.BeginInvoke(new Action(_injectSourceNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+        }
+
+        void BeginAttachmentNumberInjection()
+        {
+            Dispatcher.BeginInvoke(new Action(_injectMediaNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+        }
+
+        void _injectMediaNumbers()
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            for (int i = 0; i < ap.Attachment.Count(); i++)
+            {
+                var item = lstBxAttachments.ItemContainerGenerator.ContainerFromIndex(i);
+                
+                var numberText = Utils.FindChild<Label>(item);
+                if (numberText != null)
+                    numberText.Content = (i + 1).ToString();
+            }
         }
 
         void _injectSourceNumbers()
@@ -922,6 +977,50 @@ namespace Discussions
             srcRepositionPopup.IsOpen = false;
         }
         
+        #endregion
+
+
+        #region media up/down
+
+        MediaMover mediaMover = null;
+
+        void processAttachmentUpDown(bool up, Attachment current)
+        {
+            if (current == null)
+                return;
+
+            if (mediaMover.swapWithNeib(up, current))
+            {
+                current.ArgPoint.ChangesPending = true;
+                BeginAttachmentNumberInjection();
+                UpdateOrderedMedia();                
+            }
+        }
+
+        private void btnReposition_Click_1(object sender, RoutedEventArgs e)
+        {
+            mediaMover.onAttachmentUpDown(sender, e);            
+        }
+
+        private void btnMediaUp_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (mediaMover._attachmentToReposition == null)
+                return;
+            processAttachmentUpDown(true, mediaMover._attachmentToReposition);   
+        }
+
+        private void btnMediaDown_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (mediaMover._attachmentToReposition == null)
+                return;
+            processAttachmentUpDown(false, mediaMover._attachmentToReposition);   
+        }
+
+        private void btnCloseMediaRepositionPopup_Click_1(object sender, RoutedEventArgs e)
+        {
+            mediaRepositionPopup.IsOpen = false;
+        }
+
         #endregion
     }
 }

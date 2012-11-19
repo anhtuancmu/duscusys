@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008" 
     xmlns:local="clr-namespace:Discussions"   
-    Height="150" Width="150">
+    Height="90" Width="150">
 	<UserControl.Resources>
         
         <ControlTemplate x:Key="btnPlay">
