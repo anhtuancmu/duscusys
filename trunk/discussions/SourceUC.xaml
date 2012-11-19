@@ -27,7 +27,7 @@
                                   Foreground="White"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
-                                  Click="btnReposition_Click_1" Background="{x:Null}"/>
+                                  Click="btnReposition_Click_1"/>
             <Custom:SurfaceButton x:Name="btnRemoveComment" Foreground="DarkRed" Content=" X" 
 						          FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"                                  
                                   VerticalAlignment="Center" HorizontalAlignment="Center" 

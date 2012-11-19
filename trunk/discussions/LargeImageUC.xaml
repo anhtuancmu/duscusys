@@ -31,5 +31,6 @@
 				<Hyperlink Click="Hyperlink_Click_1" TouchDown="Hyperlink_TouchDown_1"><Run x:Name="linkTarget" Text="{Binding Link}"/></Hyperlink>
             </TextBlock>-->
         </StackPanel>
+        <TextBlock Name="number" Grid.Column="2" FontSize="20" Foreground="Black" Text="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

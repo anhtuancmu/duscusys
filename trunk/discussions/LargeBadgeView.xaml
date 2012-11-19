@@ -120,7 +120,7 @@
             <Custom:SurfaceScrollViewer Grid.Row="1">      
         	    <ItemsControl x:Name="lstBxAttachments"                                   
         		    IsManipulationEnabled="False"
-				    ItemsSource="{Binding Attachment}"  
+				    ItemsSource="{Binding Attachments}"  
         		    ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}"                
         		    Background="#00000000" MaxWidth="800" HorizontalContentAlignment="Center" 
         		    VerticalContentAlignment="Center"/>

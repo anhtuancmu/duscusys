@@ -1263,7 +1263,7 @@
           <ConnectorPoint PointX="10" PointY="3.125" />
           <ConnectorPoint PointX="10" PointY="2.2879850260416665" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="db.Attachment" Width="1.5" PointX="11.375" PointY="7.25" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="db.Attachment" Width="1.5" PointX="11.5" PointY="7.25" Height="2.7494921874999996" />
         <AssociationConnector Association="db.ArgPointAttachment">
           <ConnectorPoint PointX="10.625" PointY="5.9804996744791659" />
           <ConnectorPoint PointX="11.5" PointY="5.9804996744791659" />
