@@ -720,6 +720,9 @@ namespace Discussions
                                           ap.Topic.Discussion.Id,
                                           ap.Topic.Id,
                                           DeviceType.Wpf);
+
+                    UpdateOrderedMedia();
+                    BeginAttachmentNumberInjection();
                 }
             });
             screenshotWnd.ShowDialog();
@@ -838,7 +841,8 @@ namespace Discussions
             if (_storageWnd == null)
                 return;
 
-            if (_storageWnd.filesToAttach!=null)
+            if (_storageWnd.filesToAttach != null)
+            {
                 foreach (CloudStorage.StorageWnd.StorageSelectionEntry entry in _storageWnd.filesToAttach)
                 {
                     try
@@ -875,6 +879,10 @@ namespace Discussions
                     {
                     }
                 }
+
+                UpdateOrderedMedia();
+                BeginAttachmentNumberInjection();
+            }
 
             _storageWnd.fileViewCallback -= onCloudViewerRequest;
             _storageWnd.Closed -= onStorageWndClosed;
