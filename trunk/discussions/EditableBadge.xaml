@@ -30,15 +30,24 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
                 <Image Source="{Binding Converter={StaticResource attachImgConverter}}" 
-                					    HorizontalAlignment="Center" Height="150" 
-                					    VerticalAlignment="Center" Width="150"
-                                        MouseDown="Image_MouseDown"
-                                        TouchDown="Image_TouchDown"/>
+                        Grid.Row="1"
+                        VerticalAlignment="Top"
+                	    HorizontalAlignment="Center" Height="150" 
+                	    Width="150"
+                        MouseDown="Image_MouseDown"
+                        TouchDown="Image_TouchDown"/>
 
-
-                <StackPanel Grid.Column="1">
+                <Label Name="number" Content="1" FontSize="20" 
+                       VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                
+                <StackPanel Grid.Column="1" Grid.RowSpan="2">
                     <Custom:SurfaceButton Foreground="DarkRed" VerticalAlignment="Top"
 							FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                             Visibility="{Binding Converter={StaticResource owner2Visibility}}" 
@@ -47,13 +56,12 @@
                                 Background="{x:Null}"
 						        FontSize="26.667"
                                 FontFamily="Segoe UI Symbol"
-                                Content="&#x21c5;"
+                                Content="&#x21c6;"
                                 Foreground="White"
                                 VerticalAlignment="Top"                                                       
                                 HorizontalAlignment="Right"   
                                 Click="btnReposition_Click_1"/>
                     <Rectangle Width="40" Height="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}"/>
-                    <Label Name="number" Content="1" FontSize="20" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -65,11 +73,19 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Border Margin="2">
-                    <yt:YouTubeResultControl VerticalAlignment="Center" DataContext="{Binding}"/>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                
+                <Border Margin="2" Grid.Row="1">
+                    <yt:YouTubeResultControl VerticalAlignment="Top" DataContext="{Binding}"/>
                 </Border>
 
-                <StackPanel Grid.Column="1">
+                <Label Name="number" Content="1" FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                
+                <StackPanel Grid.Column="1" Grid.RowSpan="2">
                     <Custom:SurfaceButton VerticalAlignment="Top" Content="X" 											 								      
 										  FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
 										  Foreground="DarkRed"
@@ -80,13 +96,12 @@
                                                 Background="{x:Null}"
 						                        FontSize="26.667"
                                                 FontFamily="Segoe UI Symbol"
-                                                Content="&#x21c5;"
+                                                Content="&#x21c6;"
                                                 Foreground="White"
                                                 VerticalAlignment="Top"                                                       
                                                 HorizontalAlignment="Right"
                                                 Click="btnReposition_Click_1"/>
                     <Rectangle Width="40" Height="40" Fill="{StaticResource ytIcon}"/>
-                    <Label Name="number" Content="1" FontSize="20" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -253,7 +268,7 @@
                     <Custom:SurfaceButton x:Name="btnMediaUp" 
 						          FontSize="70"
                                   FontFamily="Segoe UI Symbol"
-                                  Content="&#x2191;"
+                                  Content="&#x2190;"
                                   Foreground="White"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
@@ -261,7 +276,7 @@
                                   Background="{x:Null}"/>
                     <Custom:SurfaceButton x:Name="btnMediaDown"
 						          FontFamily="Segoe UI Symbol"
-                                  Content="&#x2193;"
+                                  Content="&#x2192;"
                                   FontSize="70"
                                   Foreground="White"
                                   VerticalAlignment="Center" 
