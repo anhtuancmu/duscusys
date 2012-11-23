@@ -60,7 +60,7 @@ namespace Discussions
             InsertLine();
 
             //subject
-            document.Add(makeHeader(discussion.Subject,true));
+            document.Add(makeHeader(discussion.Subject, true));
            
             InsertLine();
 

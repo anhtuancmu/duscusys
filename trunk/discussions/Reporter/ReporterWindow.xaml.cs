@@ -652,5 +652,15 @@ namespace Reporter
         {
             recentlySelectedLeftTree = false;
         }
+
+        private void btnPdf_Click_1(object sender, RoutedEventArgs e)
+        {
+            var ctx = new DiscCtx(ConfigManager.ConnStr);
+            var disc = ctx.Discussion.First();            
+            var topic = disc.Topic.First();
+            var session = ctx.Session.FirstOrDefault();
+            var pers = session.Person.First();
+            var pdf = new pdf.PdfAssembler(disc, topic, pers, @"C:\projects\TDS\pdfasm.pdf");            
+        }
     }
 }

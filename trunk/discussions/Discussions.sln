@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionsRT", "Discussion
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionsClientRT", "DiscussionsClientRT\DiscussionsClientRT.csproj", "{D27F5B02-47D2-4036-8703-05435EC2511D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscSvc", "DiscSvc\DiscSvc.csproj", "{924E8BC5-8337-43E0-9A5F-18C2850F0CC2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbModel", "DbModel\DbModel.csproj", "{A833B419-0DE5-4B12-8C15-31995EB1DC27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lite", "Lite\Lite.csproj", "{E1F918F4-F581-4280-9D91-3CF77B24C290}"
@@ -39,6 +37,8 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitG
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage", "CloudStorage\CloudStorage.csproj", "{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscSvc", "DiscSvc\DiscSvc.csproj", "{924E8BC5-8337-43E0-9A5F-18C2850F0CC2}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
