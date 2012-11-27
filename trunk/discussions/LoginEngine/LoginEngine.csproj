@@ -208,6 +208,7 @@
       <DependentUpon>UserAccount.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils2.cs" />
+    <Compile Include="WebScreenshoter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

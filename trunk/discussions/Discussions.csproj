@@ -77,6 +77,9 @@
     <Reference Include="itextsharp">
       <HintPath>References\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4">
+      <HintPath>packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\net40\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.ConnectionUI">
       <HintPath>References\Microsoft.Data.ConnectionUI.dll</HintPath>
     </Reference>
@@ -97,6 +100,21 @@
     <Reference Include="Microsoft.Surface.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Surface.Presentation, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Surface.Presentation.Generic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="MigraDoc.DocumentObjectModel-WPF">
+      <HintPath>References\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering-WPF">
+      <HintPath>References\MigraDoc.Rendering-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.RtfRendering-WPF">
+      <HintPath>References\MigraDoc.RtfRendering-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp-WPF">
+      <HintPath>References\PdfSharp-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting-WPF">
+      <HintPath>References\PdfSharp.Charting-WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Photon3DotNet">
       <HintPath>ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon3DotNet.dll</HintPath>
     </Reference>
@@ -259,6 +277,9 @@
     <Compile Include="BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reporter.pdf\PdfAssembler2.cs" />
+    <Compile Include="Reporter.pdf\PdfReportDriver.cs" />
+    <Compile Include="Reporter.pdf\PdfTools2.cs" />
     <Compile Include="ReadOnlyCommentUC.xaml.cs">
       <DependentUpon>ReadOnlyCommentUC.xaml</DependentUpon>
     </Compile>
@@ -762,6 +783,7 @@
     <None Include="discDataSet.xss">
       <DependentUpon>discDataSet.xsd</DependentUpon>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\DiscussionContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -831,6 +853,10 @@
     <ProjectReference Include="LoginEngine\LoginEngine.csproj">
       <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
       <Name>LoginEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="Reporter\Reporter.csproj">
+      <Project>{5204d876-80f1-48cf-b1e9-36bb44e55640}</Project>
+      <Name>Reporter</Name>
     </ProjectReference>
     <ProjectReference Include="WPFColorPicker\DropDownCustomColorPicker\DropDownCustomColorPicker.csproj">
       <Project>{FD2EC7D4-4316-4F8F-8108-8381F0B4B340}</Project>

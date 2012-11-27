@@ -248,6 +248,10 @@ namespace Discussions
             }
             return inp;
         }
-    }
 
+        public static string RandomFilePath(string extension)
+        {
+            return Path.Combine(TempDir(), Guid.NewGuid().ToString() + extension);
+        }
+    }
 }

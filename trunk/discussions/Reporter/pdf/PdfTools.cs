@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Linq;
+using iTextSharp.text.pdf;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
 
 namespace Reporter.pdf
 {
@@ -25,6 +25,15 @@ namespace Reporter.pdf
         public static void LeftParagraph(string str, Font font, Document document)
         {
             Paragraph p = new Paragraph(str, font);
+            p.SpacingAfter = 7f;
+            document.Add(p);
+        }
+
+        public static void SingleLine(string str, Document document)
+        {
+            //document.Add(new Chunk(str));
+            var p = new Paragraph(str);
+            p.SpacingAfter = 7f;
             document.Add(p);
         }
 
@@ -54,22 +63,44 @@ namespace Reporter.pdf
             document.SetPageSize(pageSize);
         }
 
+        public static PdfPTable TableDefaults(PdfPTable table)
+        {
+            table.WidthPercentage = 100.0f;
+            table.HorizontalAlignment = Element.ALIGN_LEFT;
+            return table;
+        }
+
         public static PdfPCell ColoredTxtCell(string content, BaseColor color = null)
         {
             PdfPCell c = new PdfPCell(new Phrase(content));
+       //     c.Border = PdfPCell.BOTTOM_BORDER | PdfPCell.TOP_BORDER | PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
+            c.Padding = 4;
+            c.BorderWidth = 1;
+            c.BorderColor = new BaseColor(System.Drawing.Color.Transparent);
             _getColoredCell(c, color);
+            return c;
+        }
+        public static PdfPCell TxtCell(string content)
+        {
+            PdfPCell c = new PdfPCell(new Phrase(content));
+            c.Padding = 4;
+            c.BorderWidth = 1;           
+            c.BorderColor = new BaseColor(System.Drawing.Color.Transparent);
             return c;
         }
         public static PdfPCell ColoredImgCell(Image img, BaseColor color = null)
         {
             PdfPCell c = new PdfPCell(img);
+            c.Padding = 4;
+            c.BorderWidth = 1;
+            c.BorderColor = new BaseColor(System.Drawing.Color.Transparent);
             _getColoredCell(c, color);
             return c;
         }
         public static PdfPCell _getColoredCell(PdfPCell c, BaseColor color = null)
         {
             if (color == null)
-                c.BackgroundColor = new BaseColor(170, 170, 170);
+                c.BackgroundColor = new BaseColor(230, 230, 240);
             else
                 c.BackgroundColor = color;
 

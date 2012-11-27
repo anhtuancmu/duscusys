@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Discussions.model;
 using Discussions.DbModel;
 using System.IO;
-using System.Data.Objects;
 using System.Windows.Media;
 using Discussions.stats;
+using System.Linq;
+using System.Data.Objects;
 
 namespace Discussions
 {
@@ -523,6 +523,17 @@ namespace Discussions
                 return false;
 
             return ap.Topic.Id == topicId;
+        }
+
+        public static IEnumerable<Person> Participants(Topic topic, Session session)
+        {
+            var topId = topic.Id;
+            return session.Person.Where(p => p.Topic.Any(t => t.Id == topId));
+        }
+
+        public static IEnumerable<ArgPoint> ArgPointsOf(Person pers, Discussion d)
+        {
+            return pers.ArgPoint.Where(ap => ap.Topic.Discussion.Id == d.Id);
         }
     }
 

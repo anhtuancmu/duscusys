@@ -645,9 +645,14 @@ namespace Discussions.RTModel
         }
 
 
-        string TryGetTextCaptionShape(IServerVdShape clusterSh)
+        /// <summary>
+        /// Both cluster and link keep Id of text caption in ints[0]
+        /// </summary>
+        /// <param name="captionHostSh"></param>
+        /// <returns></returns>
+        string TryGetTextCaption(IServerVdShape captionHostSh)
         {
-            var st = clusterSh.GetState();
+            var st = captionHostSh.GetState();
             var captionShId = st.ints[0];
             if (captionShId != -1)
             {
@@ -714,7 +719,7 @@ namespace Discussions.RTModel
             }
             
             //get text caption shape id
-            resp.clusterTextTitle = TryGetTextCaptionShape(clusterSh);
+            resp.clusterTextTitle = TryGetTextCaption(clusterSh);
             resp.initialOwnerId   = clusterSh.InitialOwner();
 
             //badge id -> arg.point id
@@ -764,6 +769,7 @@ namespace Discussions.RTModel
             }
             
             var resp = default(LinkReportResponse);
+            resp.Caption = TryGetTextCaption(linkSh);
             resp.topicId = req.TopicId;
             resp.initialOwner = linkSh.InitialOwner();
 
@@ -805,7 +811,7 @@ namespace Discussions.RTModel
                     return;
                 }
 
-                resp.ClusterCaption1 = TryGetTextCaptionShape(clusterSh);
+                resp.ClusterCaption1 = TryGetTextCaption(clusterSh);
                 resp.IdOfCluster1 = clusterSh.Id();
             }
 
@@ -845,7 +851,7 @@ namespace Discussions.RTModel
                     return;
                 }
 
-                resp.ClusterCaption2 = TryGetTextCaptionShape(clusterSh);
+                resp.ClusterCaption2 = TryGetTextCaption(clusterSh);
                 resp.IdOfCluster2 = clusterSh.Id();
             }
 

@@ -260,6 +260,7 @@ namespace DistributedEditor
             {
                 case VdShapeType.ClusterLink:
                     _modeMgr.Mode = ShapeInputMode.LinkedObj1Expected;
+                    linkCreation.linkId = -1; //reset Id of previously locally created link
                     linkCreation.headType = (LinkHeadType)shapeTag;
                     break;
                 case VdShapeType.FreeForm:
@@ -327,7 +328,7 @@ namespace DistributedEditor
                     if (_palette != null)
                         _palette.ResetOvers();
                     return true;                    
-                case ShapeInputMode.LinkedObj1Expected:
+                case ShapeInputMode.LinkedObj1Expected:                   
                     GetLinkables(pos, touchDev);
                     if (linkCreation.end1 != null)
                         ModeMgr.Mode = ShapeInputMode.LinkedObj2Expected;
@@ -336,7 +337,7 @@ namespace DistributedEditor
                     GetLinkables(pos, touchDev);
                     if (linkCreation.end1 != null && linkCreation.end2 != null)
                     {
-                        _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(), linkCreation.headType);
+                        linkCreation.linkId = _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(), linkCreation.headType);                    
                         linkCreation.end1 = null;
                         linkCreation.end2 = null;
                         ModeMgr.Mode = ShapeInputMode.ManipulationExpected;
@@ -492,8 +493,17 @@ namespace DistributedEditor
                     ((VdText)sh).onChanged += onTextChanged;
                     break;
                 case VdShapeType.Cluster:
+                    ((ICaptionHost)sh).InitCaptions(CaptionCreationRequested);
+                    break;
                 case VdShapeType.ClusterLink:
                     ((ICaptionHost)sh).InitCaptions(CaptionCreationRequested);
+                   
+                    //if the link was created locally, send its state 
+                    if (sh.Id() == linkCreation.linkId)
+                    {
+                        SendSyncState(sh);
+                        linkCreation.linkId = -1; 
+                    }
                     break;
             }           
         }

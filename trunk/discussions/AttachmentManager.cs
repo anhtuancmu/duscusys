@@ -606,6 +606,16 @@ namespace Discussions
             return memStream.GetBuffer();
         }
 
+        public static void SaveBitmapSource(BitmapSource src, string pathName)
+        {
+            using(var fs = new FileStream(pathName, FileMode.Create))
+            {
+                var enc = new PngBitmapEncoder();                
+                enc.Frames.Add(BitmapFrame.Create(src));                                
+                enc.Save(fs);                
+            }
+        }
+
         public static string GetAppDir()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -731,7 +741,7 @@ namespace Discussions
                         // get image from clipboard as bitmap
                         IDataObject data = Clipboard.GetDataObject();
                         var bmp = (System.Drawing.Bitmap)data.GetData(DataFormats.Bitmap);
-                        var thumb = bmp.GetThumbnailImage(pt.x/6,pt.y/6, null, IntPtr.Zero);
+                        var thumb = bmp.GetThumbnailImage(pt.x/3,pt.y/3, null, IntPtr.Zero);
                         var ms = new MemoryStream();
                         thumb.Save(ms, ImageFormat.Jpeg);
                         return ms.ToArray();                            

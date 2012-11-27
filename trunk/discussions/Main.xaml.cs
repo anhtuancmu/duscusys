@@ -29,6 +29,7 @@ using Discussions.stats;
 using System.Runtime.InteropServices;
 using System.IO;
 using Discussions.pdf_reader;
+using Reporter.pdf;
 
 namespace Discussions
 {
@@ -153,14 +154,14 @@ namespace Discussions
         {                        
             if (session.discussion != null)
             {
-               // btnResults.LaunchDel = startViewer;
+                btnResults.LaunchDel = startResultViewer;
                 btnDiscussionInfo.LaunchDel = ShowDiscussionInfo;              
                 btnPrivate.LaunchDel = startPrivateBoard;
                 btnPublic.LaunchDel  = startPublicBoard;
             }
             else
             {
-               // btnResults.LaunchDel = null;
+                btnResults.LaunchDel = null;
                 btnPrivate.LaunchDel = null;
                 btnPublic.LaunchDel = null;
                 btnDiscussionInfo.LaunchDel = null;
@@ -205,15 +206,14 @@ namespace Discussions
             discWindows.moderDashboard.Show();
         }
 
-        void startViewer()
+        async void startResultViewer()
         {
             if (discWindows.resViewer != null)
                 return;
-
+          
             if (SessionInfo.Get().discussion != null)
             {
-                discWindows.resViewer = new ResultViewer(SessionInfo.Get().discussion, () => { discWindows.resViewer = null; });
-                discWindows.resViewer.Show();
+                await (new PdfReportDriver()).Run();
             }
             else
                 MessageBox.Show("No default discussion");

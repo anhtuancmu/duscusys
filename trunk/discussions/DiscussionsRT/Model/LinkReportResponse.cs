@@ -10,6 +10,9 @@ namespace Discussions.RTModel.Model
     //endpoint for reporting needs only
     public struct LinkReportResponse
     {
+        //link title, if any
+        public string Caption;
+
         //if endpoint is cluster and it has text caption
         public string ClusterCaption1;
 
@@ -41,6 +44,9 @@ namespace Discussions.RTModel.Model
 
         public void Write(Dictionary<byte, object> dto)
         {
+            if (!string.IsNullOrEmpty(Caption))
+                dto.Add((byte)DiscussionParamKey.LinkCaption, Caption); 
+                
             dto.Add((byte)DiscussionParamKey.BoolParameter1, EndpointArgPoint1);
             
             if (EndpointArgPoint1)
@@ -65,6 +71,9 @@ namespace Discussions.RTModel.Model
         public static LinkReportResponse Read(Dictionary<byte, object> dto)
         {
             var res = default(LinkReportResponse);
+
+            if(dto.ContainsKey((byte)DiscussionParamKey.LinkCaption))
+                res.Caption = (string)dto[(byte)DiscussionParamKey.LinkCaption];
 
             res.EndpointArgPoint1 = (bool)dto[(byte)DiscussionParamKey.BoolParameter1];
 
