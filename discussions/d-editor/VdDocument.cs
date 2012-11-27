@@ -328,9 +328,9 @@ namespace DistributedEditor
             }
         }
 
-        public void BeginCreateLink(int end1Id,
-                                    int end2Id,
-                                    LinkHeadType linkHead)
+        public int BeginCreateLink(int end1Id,
+                                   int end2Id,
+                                   LinkHeadType linkHead)
         {
             var end1 = ((LinkableHost)shapes[end1Id]).GetLinkable();
             var end2 = ((LinkableHost)shapes[end2Id]).GetLinkable();
@@ -341,7 +341,7 @@ namespace DistributedEditor
                                 "Info",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
-                return;
+                return -1;
             }
             
             var shapeId = ShapeIdGenerator.Instance.NextId(_palette.GetOwnerId());
@@ -349,7 +349,8 @@ namespace DistributedEditor
                                               _palette.GetOwnerId(), shapeId,
                                               TopicId,
                                               true,
-                                              linkHead);                     
+                                              linkHead);
+            return shapeId;        
         }
 
         VdClusterLink PlayLinkCreate(ClientLinkable end1, ClientLinkable end2,
@@ -378,7 +379,7 @@ namespace DistributedEditor
         {
             if (ev.topicId != TopicId)
                 return;
-
+            
             PlayLinkCreate(((LinkableHost)shapes[ev.end1Id]).GetLinkable(),
                            ((LinkableHost)shapes[ev.end2Id]).GetLinkable(),
                            ev.shapeId,

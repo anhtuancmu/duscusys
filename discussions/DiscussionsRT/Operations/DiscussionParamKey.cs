@@ -76,6 +76,7 @@ namespace Discussions.RTModel.Operations
 
         StringKey = 57,
         IntParameter1 = 58,
-        IntParameter2 = 59
+        IntParameter2 = 59, 
+        LinkCaption = 60
     }
 }

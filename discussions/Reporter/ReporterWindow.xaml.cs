@@ -23,7 +23,7 @@ using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Win32;
 
 namespace Reporter
-{   
+{
     public partial class ReporterWindow : Window
     {
         ReportCollector _reportCollector1 = null;
@@ -41,9 +41,9 @@ namespace Reporter
                 Application.Current.Shutdown();
                 return;
             }
-         
+
             UISharedRTClient.Instance.start(loginInfo,
-                                            discCtx.Connection.DataSource, 
+                                            discCtx.Connection.DataSource,
                                             DeviceType.Wpf);
 
             UISharedRTClient.Instance.clienRt.onJoin += onJoin;
@@ -53,8 +53,8 @@ namespace Reporter
         }
 
         void copyToClipboard(string text)
-        {     
-            Clipboard.SetData(DataFormats.Text, text);            
+        {
+            Clipboard.SetData(DataFormats.Text, text);
         }
 
         void Report1ParamsChanged(ReportParameters param)
@@ -71,10 +71,10 @@ namespace Reporter
 
         public void onJoin()
         {
-            UISharedRTClient.Instance.clienRt.onJoin -= onJoin;       
+            UISharedRTClient.Instance.clienRt.onJoin -= onJoin;
         }
 
-        TextBlock GetTopicSummary(TopicReport report, ReportParameters param,  bool total)
+        TextBlock GetTopicSummary(TopicReport report, ReportParameters param, bool total)
         {
             var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\r\n";
 
@@ -93,7 +93,7 @@ namespace Reporter
                 txt += "  No. of clustered badges: " + report.numClusteredBadges + "\r\n";
             txt += "  No. of clusters: " + report.numClusters + "\r\n";
             txt += "  No. of links: " + report.numLinks;
-          
+
             var res = new TextBlock();
             res.Text = txt;
             return res;
@@ -106,7 +106,7 @@ namespace Reporter
             txt += "No. of PDF " + report.NumPdfInSession + "\r\n";
             txt += "No. of screenshots " + report.NumScreenshotsInSession + "\r\n";
             txt += "No. of videos " + report.NumYoutubeInSession;
-            return StatsUtils.WrapText(txt);            
+            return StatsUtils.WrapText(txt);
         }
 
         TreeViewItem GetEvent(StatsEvent e, DiscCtx ctx)
@@ -118,37 +118,37 @@ namespace Reporter
             res.Items.Add(GetUser(ctx.Person.FirstOrDefault(p0 => p0.Id == e.UserId)));
 
             if (!string.IsNullOrEmpty(e.TopicName))
-                res.Items.Add(e.TopicName); 
-            if(!string.IsNullOrEmpty(e.DiscussionName))
-                res.Items.Add(e.DiscussionName); 
+                res.Items.Add(e.TopicName);
+            if (!string.IsNullOrEmpty(e.DiscussionName))
+                res.Items.Add(e.DiscussionName);
             res.Items.Add(eventView.dateTime);
-            res.Items.Add(eventView.devType);            
+            res.Items.Add(eventView.devType);
 
             return res;
         }
 
         TextBlock GetUserEventTotals(EventUserReport eTotals)
-        {           
+        {
             var sb = new StringBuilder();
             sb.AppendLine("<user event totals>");
 
-            sb.Append("no. arg.point changed "); 
+            sb.Append("no. arg.point changed ");
             sb.AppendLine(eTotals.TotalArgPointTopicChanged.ToString());
 
             sb.Append("no. badge created ");
             sb.AppendLine(eTotals.TotalBadgeCreated.ToString());
-          
+
             sb.Append("no. badge edited ");
             sb.AppendLine(eTotals.TotalBadgeEdited.ToString());
-         
+
             sb.Append("no. badge moved ");
             sb.AppendLine(eTotals.TotalBadgeMoved.ToString());
-           
+
             sb.Append("no. badge zoom in ");
             sb.AppendLine(eTotals.TotalBadgeZoomIn.ToString());
 
             sb.Append("no. cluster created ");
-            sb.AppendLine( eTotals.TotalClusterCreated.ToString());
+            sb.AppendLine(eTotals.TotalClusterCreated.ToString());
 
             sb.Append("no. cluster deleted ");
             sb.AppendLine(eTotals.TotalClusterDeleted.ToString());
@@ -234,7 +234,7 @@ namespace Reporter
             sb.Append("no. screenshot opened ");
             sb.AppendLine(eTotals.TotalScreenshotOpened.ToString());
 
-            return StatsUtils.WrapText(sb.ToString());            
+            return StatsUtils.WrapText(sb.ToString());
         }
 
         TreeViewItem GetCluster(ClusterReport report)
@@ -259,7 +259,7 @@ namespace Reporter
             {
                 owner = new Person();
                 owner.Name = "SYSTEM";
-                owner.Color = Utils2.ColorToInt(Colors.Aqua);                                
+                owner.Color = Utils2.ColorToInt(Colors.Aqua);
             }
 
             usr.DataContext = owner;
@@ -291,15 +291,15 @@ namespace Reporter
         {
             var res = new TextBlock();
             res.Text = txt;
-            return res;        
+            return res;
         }
-        
+
         TreeViewItem GetTopicReport(TopicReport report, ReportCollector collector)
-        {            
+        {
             var res = new TreeViewItem();
             res.Items.Add(GetTopicSummary(report, collector.ReportParams, false));
             res.Header = report.topic.Name;
-            
+
             //clusters
             var clusters = WrapNode("Clusters");
             foreach (var clustReport in collector.ClusterReports)
@@ -307,9 +307,9 @@ namespace Reporter
                 if (clustReport.topic.Id != report.topic.Id)
                     continue;
 
-                clusters.Items.Add(GetCluster(clustReport));                
+                clusters.Items.Add(GetCluster(clustReport));
             }
-            res.Items.Add(clusters);          
+            res.Items.Add(clusters);
 
             //links            
             var links = WrapNode("Links");
@@ -318,8 +318,8 @@ namespace Reporter
                 if (linkReport.topicId != report.topic.Id)
                     continue;
 
-                links.Items.Add(GetLink(linkReport, collector));                           
-            }            
+                links.Items.Add(GetLink(linkReport, collector));
+            }
             res.Items.Add(links);
 
             return res;
@@ -335,7 +335,7 @@ namespace Reporter
         TreeViewItem GetTotalTopicSummary(TopicReport report)
         {
             var res = new TreeViewItem();
-            res.Header = "<all topics total>";            
+            res.Header = "<all topics total>";
             res.Items.Add(GetTopicSummary(report, null, true));
             return res;
         }
@@ -351,7 +351,7 @@ namespace Reporter
             var res = new TreeViewItem();
             res.Header = GetHeader(ap.Person, " - " + ap.Point);
             res.Items.Add(txt);
-                    
+
             return res;
         }
 
@@ -362,7 +362,7 @@ namespace Reporter
             st.Orientation = Orientation.Horizontal;
             st.Children.Add(GetUser(pers));
             st.Children.Add(StatsUtils.WrapText(str));
-            return st;           
+            return st;
         }
 
         TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
@@ -372,7 +372,7 @@ namespace Reporter
             txt += "  No. of media attachments " + report.numMediaAttachments + "\r\n";
             txt += "  No. of sources " + report.numSources + "\r\n";
             txt += "  No. of comments " + report.numComments;
-           
+
             var tb = new TextBlock();
             tb.Text = txt;
             var tvi = new TreeViewItem();
@@ -381,14 +381,14 @@ namespace Reporter
             if (!totalUser)
             {
                 var usrId = report.user.Id;
-                foreach (var ap in report.topic.ArgPoint.Where(ap0=>ap0.Person.Id == usrId))
+                foreach (var ap in report.topic.ArgPoint.Where(ap0 => ap0.Person.Id == usrId))
                     tvi.Items.Add(GetPointReport(ap));
             }
 
             if (report.topic != null && !totalUser)
                 tvi.Header = report.topic.Name;
             else
-                tvi.Header = "<total user, all topics>"; 
+                tvi.Header = "<total user, all topics>";
 
             return tvi;
         }
@@ -399,9 +399,9 @@ namespace Reporter
             string usrName = "";
             foreach (var apReport in reportsOfUser)
             {
-                res.Items.Add(GetUserOneTopicSummary(apReport,false));
+                res.Items.Add(GetUserOneTopicSummary(apReport, false));
                 if (apReport.user != null)
-                    usrName = apReport.user.Name;              
+                    usrName = apReport.user.Name;
             }
 
             if (eventUserReport != null)
@@ -427,7 +427,7 @@ namespace Reporter
             tvi.Header = "<average user, all topics>";
             return tvi;
         }
-       
+
         public void reportGenerated(ReportCollector sender, object args)
         {
             txtLastSync.Text = DateTime.Now.ToString();
@@ -439,7 +439,7 @@ namespace Reporter
             {
                 _reportCollector1 = sender;
                 topicsNode = topicSection1;
-                usersNode  = usersSection1;
+                usersNode = usersSection1;
                 eventsNode = eventSection1;
                 reportHeader1.SetParticipants(sender.Participants);
             }
@@ -459,7 +459,7 @@ namespace Reporter
                 topicsNode.Items.Add(GetTopicReport(topicReport, sender));
 
             if (_reportCollector1 != null && _reportCollector2 != null)
-            {            
+            {
                 var requiredUsers = StatsUtils.Union(reportHeader1.getReportParams(false).requiredUsers,
                                                      reportHeader2.getReportParams(false).requiredUsers);
                 var totals = ReportCollector.GetTotalTopicsReports(_reportCollector1.TopicReports.First(),
@@ -480,7 +480,7 @@ namespace Reporter
                 {
                     eventReport = sender.PerUserEventReportDict.ContainsKey(report.First().user.Id) ?
                                              sender.PerUserEventReportDict[report.First().user.Id] : null;
-                }              
+                }
                 usersNode.Items.Add(GetUserSummary(report, eventReport));
             }
 
@@ -494,7 +494,7 @@ namespace Reporter
         {
             var loginRes = new LoginResult();
             loginRes.discussion = ctx.Discussion.First();
-            loginRes.person     = ctx.Person.FirstOrDefault(p0 => p0.Name.StartsWith("moder"));
+            loginRes.person = ctx.Person.FirstOrDefault(p0 => p0.Name.StartsWith("moder"));
             return loginRes;
         }
 
@@ -509,26 +509,26 @@ namespace Reporter
             var parameters2 = reportHeader2.getReportParams(false);
             if (parameters1 == null || parameters2 == null)
                 return;
-            
+
             new ReportCollector(null, reportGenerated, parameters1, leftReportTree);
             new ReportCollector(null, reportGenerated, parameters2, rightReportTree);
         }
 
         private void SurfaceScrollViewer_MouseWheel_1(object sender, MouseWheelEventArgs e)
         {
-            var ssv =(SurfaceScrollViewer)sender;
+            var ssv = (SurfaceScrollViewer)sender;
             ssv.ScrollToVerticalOffset(ssv.VerticalOffset - e.Delta);
         }
 
         private void btnSpss_Click(object sender, RoutedEventArgs e)
-        {        
+        {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             // Set filter for file extension and default file extension
             dlg.DefaultExt = ".csv";
             dlg.Filter = "CSV files (.csv)|*.csv";
             dlg.CheckFileExists = false;
-            dlg.Title = "Report name and folder?";                
+            dlg.Title = "Report name and folder?";
 
             // Display OpenFileDialog by calling ShowDialog method
             bool? result = dlg.ShowDialog();
@@ -536,20 +536,20 @@ namespace Reporter
             if (result.HasValue && result.Value)
             {
                 var generated = false;
-                
+
                 if (_reportCollector1 != null && _reportCollector2 == null)
                 {
                     generated = true;
 
                     CsvEventExporter.Export(dlg.FileName,
-                                            reportHeader1.getReportParams(false), 
+                                            reportHeader1.getReportParams(false),
                                             null);
                 }
                 else if (_reportCollector1 == null && _reportCollector2 != null)
                 {
                     generated = true;
                     CsvEventExporter.Export(dlg.FileName,
-                                       reportHeader2.getReportParams(false), 
+                                       reportHeader2.getReportParams(false),
                                        null);
                 }
                 else if (_reportCollector1 != null && _reportCollector2 != null)
@@ -565,13 +565,13 @@ namespace Reporter
                     {
                         Process.Start("explorer.exe", dirName);
                     }
-                    catch (Exception) 
-                    {}
+                    catch (Exception)
+                    { }
             }
         }
 
         string getIndentStr(int offset)
-        {          
+        {
             switch (offset)
             {
                 case 0:
@@ -581,11 +581,11 @@ namespace Reporter
                 case 2:
                     return "  ";
                 case 3:
-                    return  "   ";
+                    return "   ";
                 case 4:
                     return "    ";
                 case 5:
-                   return  "     ";
+                    return "     ";
             }
             return "      ";
         }
@@ -605,14 +605,14 @@ namespace Reporter
             var childTvi = root as TreeViewItem;
             if (childTvi == null)
                 return;
-            
+
             var skipSubtree = false;
             var hdrStr = childTvi.Header as string;
             if (hdrStr != null)
             {
                 sb.AppendLine(getIndentStr(offset) + hdrStr);
                 if (hdrStr == "Links" || hdrStr == "Clusters")
-                    skipSubtree = true; 
+                    skipSubtree = true;
             }
 
             var hdrStk = childTvi.Header as StackPanel;
@@ -633,8 +633,8 @@ namespace Reporter
         }
 
         private void MainWindow_KeyDown_1(object sender, KeyEventArgs e)
-        {           
-            if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))            
+        {
+            if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
                 var sb = new StringBuilder();
                 buildTextTree(recentlySelectedLeftTree ? leftReportTree.SelectedItem : rightReportTree.SelectedItem, sb, 0);
@@ -653,14 +653,15 @@ namespace Reporter
             recentlySelectedLeftTree = false;
         }
 
-        private void btnPdf_Click_1(object sender, RoutedEventArgs e)
+        private async void btnPdf_Click_1(object sender, RoutedEventArgs e)
         {
-            var ctx = new DiscCtx(ConfigManager.ConnStr);
-            var disc = ctx.Discussion.First();            
-            var topic = disc.Topic.First();
-            var session = ctx.Session.FirstOrDefault();
-            var pers = session.Person.First();
-            var pdf = new pdf.PdfAssembler(disc, topic, pers, @"C:\projects\TDS\pdfasm.pdf");            
+        }
+
+        private void btnReport_Click_1(object sender, RoutedEventArgs e)
+        {
+            new WebScreenshoter("http://localhost/discsvc/bgpage?id=1",
+                pathName => { },
+                400);
         }
     }
 }
