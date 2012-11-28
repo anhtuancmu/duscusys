@@ -17,7 +17,8 @@
                 <ResourceDictionary Source="pack://application:,,,/LoginEngine;component/Metro/Blue2Skin.xaml"/>
             </ResourceDictionary.MergedDictionaries>
           
-            <SolidColorBrush x:Key="WndBg" Color="#FF2B2B2B"/>
+<SolidColorBrush x:Key="WndBg" Color="#FFE8E8E8"/>
+
             <t:FileToIconConverter x:Key="iconConv"/>           
             
             <BitmapImage x:Key="gdocExcel" UriSource="Resources/gdocExcel.png"/>
@@ -231,6 +232,7 @@
             <ImageBrush x:Key="pen" ImageSource="Resources/pen.png" Stretch="Uniform"/>
             <ImageBrush x:Key="home" ImageSource="Resources/home.png" Stretch="Uniform"/>
             <ImageBrush x:Key="enlarge2" ImageSource="Resources/enlarge2.png" Stretch="Uniform"/>
+            <ImageBrush x:Key="enlarge2white" ImageSource="Resources/enlarge2white.png" Stretch="Uniform"/> 
             <ImageBrush x:Key="decrease2" ImageSource="Resources/decrease2.png" Stretch="Uniform"/>
             <ImageBrush x:Key="private" ImageSource="Resources/private.png" Stretch="Uniform"/>
             <ImageBrush x:Key="book" ImageSource="Resources/book.png" Stretch="Uniform"/>

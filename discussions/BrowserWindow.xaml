@@ -7,14 +7,14 @@
     xmlns:PdfViewer="clr-namespace:Discussions"  
     mc:Ignorable="d" x:Class="Discussions.BrowserWindow"
     Title="Web viewer" 
-    ResizeMode="CanResize"  
+    ResizeMode="CanResize"
+    Background="{StaticResource WndBg}" 
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"
     Topmost="True"     
     d:DesignWidth="657.233" 
     d:DesignHeight="574" 
-    Closing="SurfaceWindow_Closing_1"
-    Background="#FFCBCBCB">
+    Closing="SurfaceWindow_Closing_1">
   <Grid>
       <WebBrowser x:Name="browser"/>
 

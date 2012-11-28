@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:local="clr-namespace:Discussions" xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
         mc:Ignorable="d" x:Class="Discussions.PersonDiscConfigWnd"
-        Title="Speaker options " Height="481.208" Width="336" WindowStartupLocation="CenterScreen" Background="#FF787878">
+        Background="{StaticResource WndBg}" 
+        Title="Speaker options " Height="481.208" Width="336" WindowStartupLocation="CenterScreen">
        
        <s:SurfaceWindow.Resources>
          <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>

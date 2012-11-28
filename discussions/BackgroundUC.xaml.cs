@@ -104,12 +104,12 @@ namespace Discussions
 
         private void lstBxAttachments_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-            var a = lstBxAttachments.SelectedItem as Attachment;
-            if (a == null)
-                return;
+            //var a = lstBxAttachments.SelectedItem as Attachment;
+            //if (a == null)
+            //    return;
 
-            if (a.Link != null)
-                txtAttachmentURL.Text = a.Link;
+            //if (a.Link != null)
+            //    txtAttachmentURL.Text = a.Link;
         }
 
         private void btnAttachFromUrl_Click_1(object sender, RoutedEventArgs e)

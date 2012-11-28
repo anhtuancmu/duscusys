@@ -15,12 +15,12 @@
     ManipulationDelta="img_ManipulationDelta_1" 
     MouseWheel="SurfaceWindow_MouseWheel_1"
     Closed="ImageWindow_Closed_1"
+    Background="{StaticResource WndBg}" 
     Width="500"
     Height="500"
     Topmost="True" 
     d:DesignWidth="657.233" 
     d:DesignHeight="574" 
-    Background="#FFCBCBCB" 
     Icon="discusys%20iconv3.ico">
   <Grid>
       <Image x:Name="img" 
@@ -36,7 +36,7 @@
       	</Image.RenderTransform>
       </Image>
       <s:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
-						 Click="btnZoom_Click" Content="X" FontSize="48" Foreground="White" MinWidth="137" MinHeight="107" BorderThickness="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#66000000"/>
+						 Click="btnZoom_Click" Content="X" FontSize="48" Foreground="Black" MinWidth="137" MinHeight="107" BorderThickness="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#66000000"/>
       <StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#662B2B2B" Margin="0,0,8,0">
       	<TextBlock x:Name="txtZoom" HorizontalAlignment="Left" FontSize="25" TextWrapping="Wrap" Text="{Binding Value, ElementName=zoomSlider, StringFormat=x\{0:0.0\}}" VerticalAlignment="Top"/>
       	<s:SurfaceSlider x:Name="zoomSlider" HorizontalAlignment="Right" VerticalAlignment="Center" 

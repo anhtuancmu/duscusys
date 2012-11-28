@@ -34,7 +34,7 @@
                          VerticalAlignment="Top"                         
 						 Click="btnClose_Click_1" 
                          Content="X"
-                         FontSize="48" Foreground="White" 
+                         FontSize="48"
                          MinWidth="137" MinHeight="107" BorderThickness="0" 
                          HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center" 

@@ -3,16 +3,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:local="clr-namespace:Discussions"        
-    xmlns:yt="clr-namespace:Discussions.YouViewer"               
+    xmlns:yt="clr-namespace:Discussions.YouViewer"   
+    Background="{StaticResource WndBg}" 
     Title="Session viewer" mc:Ignorable="d" 
-    Background="{StaticResource frmGrayBg}"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     d:DesignHeight="746" d:DesignWidth="900"
     Width="879" Height="525" WindowStartupLocation="CenterScreen">
 
     <s:SurfaceWindow.Resources>
-        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+<Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
     </s:SurfaceWindow.Resources>
 
     <Grid>
@@ -39,7 +52,7 @@
 		</s:SurfaceListBox>
 
     	<Label Content="Seats" Grid.Column="1" HorizontalAlignment="Left" 
-				VerticalAlignment="Top" Height="32.61" Width="47.08" Margin="23,0,0,0"/>
+				VerticalAlignment="Top" Margin="23,0,0,0"/>
     	<StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="1" d:LayoutOverrides="Width" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <s:SurfaceButton x:Name="btnRefresh" Content="Refresh" Click="btnRefresh_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0"/>
     		<s:SurfaceButton x:Name="btnOk" Content="Ok" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0"/>

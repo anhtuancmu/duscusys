@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.IO;
 using System.Reflection;
 using Discussions.rt;
+using System.Threading.Tasks;
 
 namespace Discussions
 {
@@ -289,6 +290,15 @@ namespace Discussions
         {
             int iCol = (c.A << 24) | (c.R << 16) | (c.G << 8) | c.B;
             return iCol;
+        }
+
+        public static Task Delay(int ms)
+        {
+            var tcs = new TaskCompletionSource<object>();
+            var timer = new System.Timers.Timer(ms) { AutoReset = false };
+            timer.Elapsed += delegate { timer.Dispose(); tcs.SetResult(null); };
+            timer.Start();
+            return tcs.Task;
         }
     }
 

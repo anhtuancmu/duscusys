@@ -30,9 +30,11 @@ namespace Reporter.pdf
         Person _person;
         Session _session;
         Task<ReportCollector> _hardReportTask;
+        Task<string> _finalScene;
         
         public PdfAssembler2(Discussion discussion, Topic topic, Person person, 
-                             Session session, string PdfPathName, Task<ReportCollector> hardReportTask)
+                             Session session, string PdfPathName, Task<ReportCollector> hardReportTask,
+                             Task<string> finalScene)
         {
             _discussion = discussion;
             _topic = topic;
@@ -40,6 +42,7 @@ namespace Reporter.pdf
             _person = person;
             _session = session;
             _hardReportTask = hardReportTask;
+            _finalScene = finalScene;
         }
 
         public async Task Run()
@@ -49,6 +52,8 @@ namespace Reporter.pdf
             SetStyles();
 
             CoverPage();
+
+            TableOfContents();
 
             BasicInfo();
 
@@ -66,11 +71,13 @@ namespace Reporter.pdf
 
             Summary(_hardReportTask.Result);
 
+            await FinalScene();
+
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always);
             pdfRenderer.Document = _document;
             pdfRenderer.RenderDocument();
-
             pdfRenderer.PdfDocument.Save(_PdfPathName);
+            
 
             Process.Start(_PdfPathName);
         }
@@ -82,24 +89,20 @@ namespace Reporter.pdf
             //blue background
             PdfTools2.AddPageBg(section, _document, 0x2C, 0xA1, 0xCF);          
 
-            var p0 = PdfTools2.SectionHeader(section.AddParagraph("Tohoku University"));
-            p0.Format.SpaceBefore = Unit.FromPoint(10);
-            p0.Format.Alignment = ParagraphAlignment.Center;
-            p0.Format.Font.Color = Colors.White;
-
+            var p0 = section.AddParagraph("Tohoku University");
+            p0.SubsectionStyle();
+            p0.Format.SpaceBefore = Unit.FromPoint(40);
+           
             var p = section.AddParagraph("Discussion Support System");
             p.Format.Alignment = ParagraphAlignment.Center;
             p.Format.Font.Color = Colors.White;
             p.Format.Font.Size = 40;
-            p.Format.SpaceBefore = Unit.FromPoint(250);
+            p.Format.SpaceBefore = Unit.FromPoint(210);
 
-            var p2 = section.AddParagraph("Discussion report");
-            p2.Format.Alignment = ParagraphAlignment.Center;
-            p2.Format.Font.Color = Colors.White;
-            p2.Format.Font.Size = 30;
-            p2.Format.SpaceBefore = Unit.FromPoint(100);
+            var p2 = section.AddParagraph("Topic report");
+            p2.SubsectionStyle();
 
-            var p3 = PdfTools2.SectionHeader(section.AddParagraph(DateTime.Now.Date.ToShortDateString()));           
+            var p3 = section.AddParagraph(DateTime.Now.Date.ToShortDateString());           
             p3.Format.Alignment = ParagraphAlignment.Center;
             p3.Format.Font.Color = Colors.White;
             p3.Format.SpaceBefore = Unit.FromPoint(280);
@@ -109,7 +112,7 @@ namespace Reporter.pdf
         {
             var s = _document.AddSection();
 
-            PdfTools2.SectionHeader(s.AddParagraph("Basic information"));
+            PdfTools2.SectionHeader(s.AddParagraph("Basic information")).AddBookmark("BasicInfo");           
 
             var t = PdfTools2.TableDefaults(s.AddTable());
 
@@ -185,7 +188,9 @@ namespace Reporter.pdf
             _document.DefaultPageSetup.TopMargin = 20;
             _document.DefaultPageSetup.BottomMargin = 20;
 
-            ///   s.ParagraphFormat.Shading.Color = Color.FromRgbColor(0xff, new Color(34,100,200));                            
+            var style = _document.Styles.AddStyle("TOC", "Normal");
+            style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right, TabLeader.Dots);
+            style.ParagraphFormat.Font.Color = Colors.Blue;                          
         }
 
         Unit ContentWidth()
@@ -203,17 +208,18 @@ namespace Reporter.pdf
                 bgUrl,
                 pathName =>
                 {
-                    Section section = _document.AddSection();
-                    PdfTools2.SectionHeader(section.AddParagraph("Discussion Background"));
+                    var section = _document.LastSection;
+                    //Section section = _document.AddSection();
+                    //PdfTools2.SectionHeader(section.AddParagraph("Discussion Background"));
 
                     var slices = PdfTools2.SliceImage(pathName);
                     foreach (var slice in slices)
                     {
-                        section = _document.AddSection();
-                        var img = section.AddImage(slice);
-                        img.Width = PdfTools2.PAGE_WIDTH;
-                        img.RelativeHorizontal = RelativeHorizontal.Page;
-                        img.RelativeVertical = RelativeVertical.Page;
+                         section = _document.AddSection();
+                         var img = section.AddImage(slice);
+                         img.Width = PdfTools2.PAGE_WIDTH;
+                         img.RelativeHorizontal = RelativeHorizontal.Page;
+                         img.RelativeVertical = RelativeVertical.Page;
                     }
 
                     tcs.SetResult(0);//ok, done
@@ -227,7 +233,8 @@ namespace Reporter.pdf
         {
             var s = _document.AddSection();
 
-            s.AddParagraph("Media of discussion background").SectionHeader();
+            s.AddParagraph("Media of discussion background").SectionHeader().AddBookmark("discbgmedia");
+
             MediaTable(s, _discussion.Attachment);            
         }
 
@@ -244,8 +251,8 @@ namespace Reporter.pdf
             var c1 = t.AddColumn(colWidth);
 
             var r0 = t.AddRow();
-            r0.Cells[0].AddParagraph("Number");
-            r0.Cells[1].AddParagraph("Media");
+            r0.Cells[0].AddParagraph().AddBold("Number");
+            r0.Cells[1].AddParagraph().AddBold("Media");
 
             double maxImgWidth = colWidth - 10; 
             int number = 1;
@@ -295,7 +302,7 @@ namespace Reporter.pdf
             var colWidth = ContentWidth();
             var c0 = t.AddColumn(colWidth);
 
-            t.AddRow().Cells[0].AddParagraph("Sources");
+            t.AddRow().Cells[0].AddParagraph().AddBold("Sources");
 
             int number = 1;
             foreach (var src in sources)
@@ -319,7 +326,7 @@ namespace Reporter.pdf
 
             foreach (var pers in _session.Person)
             {
-                var para = s.AddParagraph("Argument points of " + pers.Name);                                
+                var para = s.AddParagraph().AddBold("Argument points of " + pers.Name);                             
                 
                 var argPointsOf = DaoUtils.ArgPointsOf(pers, _discussion);
                 if (argPointsOf.Count() > 0)
@@ -381,8 +388,8 @@ namespace Reporter.pdf
             t2.AddColumn(0.8 * ContentWidth());
 
             var hdrRow = t2.AddRow();
-            hdrRow.Cells[0].AddParagraph("Author");
-            hdrRow.Cells[1].AddParagraph("Comment");
+            hdrRow.Cells[0].AddParagraph().AddBold("Author");
+            hdrRow.Cells[1].AddParagraph().AddBold("Comment");
 
             foreach (var comment in comments)
             {
@@ -453,7 +460,7 @@ namespace Reporter.pdf
                
             var hdrRow = t.AddRow();
             hdrRow.Shading.Color = clustReport.initialOwner.PersonToColor();
-            hdrRow.Cells[0].AddParagraph("Cluster");
+            hdrRow.Cells[0].AddParagraph().AddBold("Cluster");
 
             ClusterTableLine(t, clustReport.clusterTitle, clustReport.clusterId, false, clustReport.initialOwner);
 
@@ -463,7 +470,7 @@ namespace Reporter.pdf
 
         void LinkInformation(ReportCollector hardReport)
         {
-            var s = _document.AddSection();
+            var s = _document.AddSection();  
 
             PdfTools2.SectionHeader(s.AddParagraph("Link information"));
 
@@ -488,7 +495,7 @@ namespace Reporter.pdf
 
             var hdrRow = t.AddRow();
             hdrRow.Cells[0].Shading.Color = link.initOwner.PersonToColor();
-            hdrRow.Cells[0].AddParagraph("Link");
+            hdrRow.Cells[0].AddParagraph().AddBold("Link");
 
             if (!string.IsNullOrEmpty(link.Caption))
             {                
@@ -546,6 +553,38 @@ namespace Reporter.pdf
             var r5 = t.AddRow();
             r5.Cells[0].AddParagraph("Comments");
             r5.Cells[1].AddParagraph(hardReport.TotalArgPointReport.numComments.ToString());
+        }
+
+        async Task FinalScene()
+        {
+            var s = _document.AddSection();
+                
+            PdfTools2.SectionHeader(s.AddParagraph("Final Public Dashboard"));
+            var screenshot = await _finalScene;
+            var imgPara = s.AddParagraph();
+            var img = imgPara.AddImage(screenshot);
+            img.Width = ContentWidth();
+        }
+
+        /// <summary>
+        /// Defines the cover page.
+        /// </summary>
+        public void TableOfContents()
+        {
+            //var section = _document.LastSection;             
+            //Paragraph paragraph = PdfTools2.SectionHeader(section.AddParagraph("Table of Contents"));
+            
+            //paragraph = section.AddParagraph();
+            //paragraph.Style = "TOC"; 
+            //Hyperlink hyperlink = paragraph.AddHyperlink("Basic information", HyperlinkType.Bookmark);         
+            //hyperlink.AddText("Basic information\t");
+            //hyperlink.AddPageRefField("BasicInfo");
+
+            //paragraph = section.AddParagraph();
+            //paragraph.Style = "TOC";
+            //Hyperlink hyperlink2 = paragraph.AddHyperlink("Discussion background media", HyperlinkType.Bookmark);
+            //hyperlink2.AddText("Basic information\t");
+            //hyperlink2.AddPageRefField("discbgmedia");            
         }
     }
 }

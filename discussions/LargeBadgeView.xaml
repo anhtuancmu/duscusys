@@ -13,7 +13,7 @@
 			 d:DesignWidth="841"
 			 Width="900"
 			 Height="686"  
-			 Background="{StaticResource frmGrayBg}"
+			 Background="#FFE8E8E8"
              Initialized="UserControl_Initialized_1"
              DataContextChanged="UserControl_DataContextChanged">
     <UserControl.Resources>
@@ -43,33 +43,25 @@
 
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
         
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
 
         <Style TargetType="{x:Type ContentControl}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
         <Style TargetType="{x:Type Custom:SurfaceTextBox}" BasedOn="{StaticResource {x:Type Custom:SurfaceTextBox}}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Segoe UI Light" />
-        </Style>
-
-        <Style TargetType="{x:Type TextElement}">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
     </UserControl.Resources>
@@ -107,7 +99,7 @@
         	<TextBlock x:Name="txtPoint" 
 				TextAlignment="Center"
         		Text="{Binding Point}" 
-        		TextWrapping="Wrap" VerticalAlignment="Center" d:LayoutOverrides="Width" Background="#FF7E7E7E" Margin="2" FontSize="48"/>
+        		TextWrapping="Wrap" VerticalAlignment="Center" d:LayoutOverrides="Width" Margin="2" FontSize="48"/>
         </Grid>
         <Grid x:Name="rightPane" Grid.Column="1" d:LayoutOverrides="Margin" Grid.Row="2" Grid.RowSpan="3">
         	<Grid.RowDefinitions>
@@ -153,7 +145,7 @@
             <TextBlock x:Name="plainDescription"
                        TextWrapping="Wrap" 
                        Text="{Binding Description.Text}" 
-                       Background="#FF7E7E7E" Margin="2"/>
+                       Margin="2"/>
         </Custom:SurfaceScrollViewer>
         
         <Custom:SurfaceScrollViewer x:Name="commentsViewer" Grid.Row="4" d:LayoutOverrides="Height, Margin" Grid.RowSpan="2" >

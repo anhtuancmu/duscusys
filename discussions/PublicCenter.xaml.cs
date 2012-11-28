@@ -34,6 +34,7 @@ using System.Windows.Input.Manipulations;
 using System.ComponentModel;
 using LoginEngine;
 using Discussions.webkit_host;
+using System.Threading.Tasks;
 
 
 namespace Discussions
@@ -132,8 +133,8 @@ namespace Discussions
                 startStopWatch();
             }
 
-            scene.Height = 0.6 * System.Windows.SystemParameters.PrimaryScreenHeight;
-            inkCanv.Height = scene.Height;
+          //  scene.Height = 0.6 * System.Windows.SystemParameters.PrimaryScreenHeight;
+          //  inkCanv.Height = scene.Height;
       
             //var scaleTr = Matrix.Identity;
             //scaleTr.Translate(0, -scene.Height / 2);
@@ -156,11 +157,11 @@ namespace Discussions
                                                             topicNavPanel.selectedTopic.Id,
                                                             DeviceType.Wpf);
         }  
-
+       
         private void topicSelectionChanged(SelectionChangedEventArgs e)
         {
-            CleanipEditCtx();
-                        
+            CleanupEditCtx();
+              
             if (topicNavPanel.selectedTopic == null)
                 return;
 
@@ -383,7 +384,7 @@ namespace Discussions
             DataContext = this;            
         }
 
-        void CleanipEditCtx()
+        void CleanupEditCtx()
         {
             if (editCtx != null)
             {                
@@ -398,7 +399,7 @@ namespace Discussions
         {
             SetListeners(_sharedClient, false);            
             avaBar.Deinit();
-            CleanipEditCtx();
+            CleanupEditCtx();
             cleanupStopWatch();
             if (_closing != null)
                 _closing();
@@ -441,28 +442,30 @@ namespace Discussions
             this.shapesVisibile = shVisible; //save to preserve selected option between topics 
         }
 
-        void CreateEditCtx()
+        void CreateEditCtx(int topicId = -1, int discussionId = -1)
         {
-            CleanipEditCtx();        
+            CleanupEditCtx();
 
-            if (CurrentTopic != null)
-            {
-                avaBar.SelectCurrentUser();          
+            if (topicId == -1)
+                topicId = CurrentTopic.Id;
+            if (discussionId == -1)
+                discussionId = CurrentTopic.Discussion.Id;
 
-                editCtx = new EditorWndCtx(scene,
-                                            inkCanv,
-                                            palette,
-                                            inkPalette,
-                                            this,//surface window for focus fix                                      
-                                            CurrentTopic.Id,
-                                            CurrentTopic.Discussion.Id,
-                                            shapesVisibile);
+            avaBar.SelectCurrentUser();
 
-                editCtx.ZoomManipulator.Delta += SurfaceWindow_ManipulationDelta;
+            editCtx = new EditorWndCtx(scene,
+                                        inkCanv,
+                                        palette,
+                                        inkPalette,
+                                        this,//surface window for focus fix                                      
+                                        topicId,
+                                        discussionId,
+                                        shapesVisibile);
 
-                DataContext = this;
-                _sharedClient.clienRt.SendInitialSceneLoadRequest(CurrentTopic.Id);
-            }          
+            editCtx.ZoomManipulator.Delta += SurfaceWindow_ManipulationDelta;
+
+            DataContext = this;
+            _sharedClient.clienRt.SendInitialSceneLoadRequest(topicId);        
         }
   
         private void SurfaceWindow_KeyDown(object sender, KeyEventArgs e)
@@ -795,5 +798,27 @@ namespace Discussions
             }
         }
         #endregion explanation mode browser
+
+        #region screenshot of final scene
+        TaskCompletionSource<string> finalSceneTcs = null;
+        public Task<string> FinalSceneScreenshot(int topicId, int discussionId)
+        {
+            ToggleShapes(true);
+
+            finalSceneTcs = new TaskCompletionSource<string>();
+            _sharedClient.clienRt.loadingDoneEvent += shapeLoadingDone;
+            return finalSceneTcs.Task;
+        }
+        async void shapeLoadingDone()
+        {
+            _sharedClient.clienRt.loadingDoneEvent -= shapeLoadingDone;
+            
+            //even though all d-editor objects are loaded, their visuals on canvas are created asynchronously
+            await Utils.Delay(3000);
+
+            finalSceneTcs.SetResult(Screenshot.Take(scene, 200));
+            finalSceneTcs = null;
+        }
+        #endregion
     }
 }

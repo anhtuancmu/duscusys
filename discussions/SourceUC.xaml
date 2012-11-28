@@ -24,7 +24,8 @@
 						          FontSize="26.667"
                                   FontFamily="Segoe UI Symbol"
                                   Content="&#x21c5;"
-                                  Foreground="White"
+                                  Foreground="Black"
+                                  Background="{x:Null}"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Click="btnReposition_Click_1"/>
