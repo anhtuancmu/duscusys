@@ -16,7 +16,20 @@
              Height="75" Margin="0" FontSize="8">
     <UserControl.Resources>
         <local:SummaryTextConvertor x:Key="txtSummaryConv"/>
-		<Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
 		<ControlTemplate x:Key="LabelControlTemplate1" TargetType="{x:Type Label}">
             <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True" CornerRadius="3">
                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -61,7 +74,7 @@
         			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">	
         				<s:SurfaceButton x:Name="btnZoom" Background="{x:Null}"
         					Click="btnZoom_Click" MinWidth="1" MinHeight="1" BorderThickness="0" Padding="0" HorizontalContentAlignment="Center">    					
-        					<Border Background="{StaticResource enlarge2}" Width="18" Height="18"/>
+        					<Border Background="{StaticResource enlarge2white}" Width="18" Height="18"/>
         				</s:SurfaceButton>
         			</StackPanel>
         		</DockPanel>        

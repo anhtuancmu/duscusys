@@ -9,15 +9,29 @@
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
              x:Class="Discussions.PrivateCenter3" 
              mc:Ignorable="d" 
+             Background="{StaticResource WndBg}" 
              d:DesignHeight="851.167" d:DesignWidth="1861.333" 
              PreviewKeyDown="SurfaceWindow_KeyDown_1"
              Title="Private dashboard" 
-             Background="{StaticResource frmGrayBg}"
              Closing="SurfaceWindow_Closing" Icon="discusys%20iconv3.ico">
 
     <s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
 
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+        
 	    <BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
 
         <DataTemplate x:Key="smallArgPointTemplate">

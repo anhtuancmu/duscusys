@@ -45,6 +45,9 @@ namespace Reporter.pdf
         public static Paragraph SectionHeader(this Paragraph p)
         {
             p.Format.Font.Size = Unit.FromPoint(20);
+            p.Format.Font.Name = "Segoe UI";
+            p.Format.Font.Color = new MigraDoc.DocumentObjectModel.Color(0x49, 0x89, 0xFF);
+            p.Format.Font.Bold = true;
             return p;
         }
 
@@ -128,6 +131,23 @@ namespace Reporter.pdf
         public static MigraDoc.DocumentObjectModel.Color PersonToColor(this Person p)
         {
             return new MigraDoc.DocumentObjectModel.Color((uint)p.Color);
+        }
+
+        public static Paragraph SubsectionStyle(this Paragraph p2)
+        {
+            p2.Format.Alignment = ParagraphAlignment.Center;
+            p2.Format.Font.Color = Colors.White;
+            p2.Format.Font.Size = 30;
+            p2.Format.SpaceBefore = Unit.FromPoint(100);
+            return p2;
+        }
+
+        public static Paragraph AddBold(this Paragraph p2, string text)
+        {            
+            p2.Format.Font.Name = "Segoe UI";
+            p2.AddFormattedText(text, TextFormat.Bold);
+            p2.Format.Font.Color = new MigraDoc.DocumentObjectModel.Color(0x46, 0x42, 0x60);
+            return p2;
         }
     }
 }

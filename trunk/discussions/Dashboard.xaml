@@ -7,9 +7,11 @@
     Title="Moderator dashboard" mc:Ignorable="d" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    Closing="SurfaceWindow_Closing"              
+    Closing="SurfaceWindow_Closing"   
+    Background="{StaticResource WndBg}"             
     WindowStyle="SingleBorderWindow" ResizeMode="CanResize" WindowState="Maximized" Topmost="False"
-    d:DesignHeight="785" d:DesignWidth="910" Background="#FF939393" WindowStartupLocation="CenterScreen">
+    d:DesignHeight="785" d:DesignWidth="910" 
+    WindowStartupLocation="CenterScreen">
 
     <s:SurfaceWindow.Resources>
         <DataTemplate x:Key="ImageAttachmentTemplate">
@@ -30,6 +32,20 @@
              x:Key="attachmentTemplateSelector"/>
 
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+       
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+        
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
     </s:SurfaceWindow.Resources>
 
     <Grid>
@@ -110,7 +126,7 @@
     			</s:SurfaceListBox>
     		</Grid>
         </Grid>
-    	<Grid Background="#FF545454" d:LayoutOverrides="Margin">
+    	<Grid d:LayoutOverrides="Margin">
     		<Grid.ColumnDefinitions>
     			<ColumnDefinition/>
     			<ColumnDefinition Width="Auto"/>
@@ -129,7 +145,7 @@
         <local:SourcesPopup  StaysOpen="false" 
                             x:Name="allRefsPopup" Placement="Bottom"
                             PlacementTarget="{Binding ElementName=background}" d:LayoutOverrides="Margin" Grid.ColumnSpan="2"/>
-        <Rectangle Grid.Column="1" Fill="#FF4D4D4D" Grid.RowSpan="3" d:LayoutOverrides="Margin"/>
+        <Rectangle Grid.Column="1" Grid.RowSpan="3" d:LayoutOverrides="Margin"/>
       
     </Grid>
 </s:SurfaceWindow>

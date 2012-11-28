@@ -210,10 +210,31 @@ namespace Discussions
         {
             if (discWindows.resViewer != null)
                 return;
-          
+
             if (SessionInfo.Get().discussion != null)
             {
-                await (new PdfReportDriver()).Run();
+                if (SessionInfo.Get().person.Session == null)
+                {
+                    MessageBox.Show(string.Format("Current person ({0}) doesn't have associated session. PDF reporting works only with experimental login users", SessionInfo.Get().person.Name));
+                    return;
+                }
+                var tsd = new TopicSelectionDlg(SessionInfo.Get().discussion);
+                tsd.ShowDialog();
+                if(tsd.topic==null)
+                    return;
+
+                BusyWndSingleton.Show("Exporting, please wait...");
+                try
+                {
+                    await (new PdfReportDriver()).Run(SessionInfo.Get().person.Session,
+                                                      tsd.topic,
+                                                      SessionInfo.Get().discussion,
+                                                      SessionInfo.Get().person);
+                }
+                finally
+                {
+                    BusyWndSingleton.Hide();
+                }
             }
             else
                 MessageBox.Show("No default discussion");
@@ -396,6 +417,7 @@ namespace Discussions
             btnDiscussionInfo.BtnTitle = "About this discussion";
             btnReporter.BtnTitle = "Reports";
             btnMeg.BtnTitle = "MEG";
+            btnResults.BtnTitle = "Export to PDF";
         } 
 
         void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e )

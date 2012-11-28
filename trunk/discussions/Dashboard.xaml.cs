@@ -305,8 +305,8 @@ namespace Discussions
 
         private void btnRemoveAttach_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (EditedDiscussion != null && background.lstBxAttachments.SelectedItem != null)
-                EditedDiscussion.Attachment.Remove((Attachment)background.lstBxAttachments.SelectedItem);
+            //if (EditedDiscussion != null && background.lstBxAttachments.SelectedItem != null)
+            //    EditedDiscussion.Attachment.Remove((Attachment)background.lstBxAttachments.SelectedItem);
         }
 
         private void btnAddDiscussion_Click(object sender, RoutedEventArgs e)

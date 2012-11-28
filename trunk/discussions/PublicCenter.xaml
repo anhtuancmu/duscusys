@@ -16,14 +16,29 @@
         WindowState="Normal" Topmost="False"       
         Title="Public discussion dashboard"
 		ClipToBounds="False"  
+        Background="{StaticResource WndBg}" 
 		d:DesignWidth="1128" d:DesignHeight="718"
         Loaded="frmLoaded" 
-        Background="#FF898989"
         MouseWheel="unsolved_MouseWheel"
         MouseMove="SurfaceWindow_MouseMove" 
         Icon="discusys%20iconv3.ico">
 
     <s:SurfaceWindow.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        
         <local:ModeratorToVisibilityConvertor x:Key="moderToVisibilityConv"/>
         <Storyboard x:Key="SideBarShow">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="sideGrid">
@@ -62,7 +77,7 @@
             </Style>
         </Grid.Resources>
         
-	    <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#FFAAAAAA"/>
+	    <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#FFC9C9C9"/>
 	    <dedit:DistributedInkCanvas x:Name="inkCanv" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5" Background="{x:Null}">
 	    	<dedit:DistributedInkCanvas.DefaultDrawingAttributes>
 	    		<DrawingAttributes Color="Black" FitToCurve="False" Height="4" IgnorePressure="False" 
@@ -106,7 +121,7 @@
 			<s:SurfaceSlider x:Name="zoomSlider" Orientation="Vertical" Height="320" Minimum="0.5" Value="{Binding ZoomFactor}" d:LayoutOverrides="VerticalMargin" Maximum="5"/>
 		</StackPanel>
 
-    	<Grid x:Name="sideGrid" Width="300" Height="500" Background="#FF9B9B9B" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Visibility="Hidden">
+    	<Grid x:Name="sideGrid" Width="300" Height="500" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Visibility="Hidden">
     		<Grid.RenderTransform>
     			<TransformGroup>
     				<ScaleTransform/>

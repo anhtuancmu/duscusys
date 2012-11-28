@@ -57,7 +57,6 @@
 						        FontSize="26.667"
                                 FontFamily="Segoe UI Symbol"
                                 Content="&#x21c6;"
-                                Foreground="White"
                                 VerticalAlignment="Top"                                                       
                                 HorizontalAlignment="Right"   
                                 Click="btnReposition_Click_1"/>
@@ -97,7 +96,6 @@
 						                        FontSize="26.667"
                                                 FontFamily="Segoe UI Symbol"
                                                 Content="&#x21c6;"
-                                                Foreground="White"
                                                 VerticalAlignment="Top"                                                       
                                                 HorizontalAlignment="Right"
                                                 Click="btnReposition_Click_1"/>
@@ -111,17 +109,17 @@
              VideoTemplate="{StaticResource VideoAttachmentTemplate}" 
              x:Key="attachmentTemplateSelector"/>
 
+        <Style TargetType="{x:Type Custom:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+        
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
 
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
 
@@ -132,14 +130,13 @@
         </Style>
 
         <Style TargetType="{x:Type Custom:SurfaceTextBox}" BasedOn="{StaticResource {x:Type Custom:SurfaceTextBox}}">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="30"/>  
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
         <Style TargetType="{x:Type TextElement}">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
     </UserControl.Resources>
@@ -155,7 +152,7 @@
 
         <Border CornerRadius="12" x:Name="mask" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="White"/>
 
-        <StackPanel Grid.Column="1" x:Name="root"  Background="#FF787878">
+        <StackPanel Grid.Column="1" x:Name="root"  Background="LightGray">
             <StackPanel x:Name="stkHeader" Orientation="Horizontal" d:LayoutOverrides="HorizontalMargin">
                 <Label Content="BY:  "/>
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
@@ -237,12 +234,12 @@
             </StackPanel>
 
             <Popup Name="srcRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Background="LightSlateGray">
                     <Custom:SurfaceButton x:Name="btnSrcUp" 
 						          FontSize="70"
                                   FontFamily="Segoe UI Symbol"
                                   Content="&#x2191;"
-                                  Foreground="White"
+                                  Foreground="Black"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Click="btnSrcUp_Click_1" 
@@ -251,7 +248,7 @@
 						          FontFamily="Segoe UI Symbol"
                                   Content="&#x2193;"
                                   FontSize="70"
-                                  Foreground="White"
+                                  Foreground="Black"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Click="btnSrcDown_Click_1"
@@ -264,12 +261,12 @@
             </Popup>
 
             <Popup Name="mediaRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Background="LightSlateGray">
                     <Custom:SurfaceButton x:Name="btnMediaUp" 
 						          FontSize="70"
                                   FontFamily="Segoe UI Symbol"
                                   Content="&#x2190;"
-                                  Foreground="White"
+                                  Foreground="Black"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Click="btnMediaUp_Click_1" 
@@ -278,7 +275,7 @@
 						          FontFamily="Segoe UI Symbol"
                                   Content="&#x2192;"
                                   FontSize="70"
-                                  Foreground="White"
+                                  Foreground="Black"
                                   VerticalAlignment="Center" 
                                   HorizontalAlignment="Center" 
                                   Click="btnMediaDown_Click_1"

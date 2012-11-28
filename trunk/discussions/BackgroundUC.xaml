@@ -18,21 +18,22 @@
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
 
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
 
 
         <Style TargetType="{x:Type ContentControl}">
-            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontSize" Value="30"/> 
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
@@ -139,7 +140,21 @@
                         AcceptsReturn="True" Margin="3"/>-->
 
         <Label Content="Media" VerticalAlignment="Center" d:LayoutOverrides="Width, Margin" Grid.Row="2"/>
-        <Custom:SurfaceListBox x:Name="lstBxAttachments" 
+        <ItemsControl x:Name="lstBxAttachments" 
+    		ScrollViewer.PanningMode="HorizontalOnly"                  
+    		ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
+    		IsManipulationEnabled="False"
+    		ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}" 
+    		ItemsSource="{Binding Attachment}"                
+    		Background="#00B2B2B2" MaxWidth="1000" HorizontalContentAlignment="Center" 
+    		VerticalContentAlignment="Center" Grid.Row="3" d:LayoutOverrides="Margin">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <!--<Custom:SurfaceListBox x:Name="lstBxAttachments" 
     		SelectionChanged="lstBxAttachments_SelectionChanged_1"
     		ScrollViewer.PanningMode="HorizontalOnly"                  
     		ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
@@ -153,7 +168,7 @@
                     <WrapPanel Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
                 </ItemsPanelTemplate>
             </Custom:SurfaceListBox.ItemsPanel>
-        </Custom:SurfaceListBox>
+        </Custom:SurfaceListBox>-->
         <Grid x:Name="mediaButtons" Grid.Row="4" d:LayoutOverrides="Height, Margin">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -173,12 +188,12 @@
         </Grid>
 
         <Popup x:Name="srcRepositionPopup" FocusManager.IsFocusScope = "True" Placement="MousePoint" StaysOpen="False">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Background="LightSlateGray">
                 <Custom:SurfaceButton x:Name="btnSrcUp" 
     				FontSize="70"
     				FontFamily="Segoe UI Symbol"
     				Content="↑"
-    				Foreground="White"
+    				Foreground="Black"
     				VerticalAlignment="Center" 
     				HorizontalAlignment="Center" 
     				Click="btnSrcUp_Click_1" 
@@ -187,7 +202,7 @@
     				FontFamily="Segoe UI Symbol"
     				Content="↓"
     				FontSize="70"
-    				Foreground="White"
+    				Foreground="Black"
     				VerticalAlignment="Center" 
     				HorizontalAlignment="Center" 
     				Click="btnSrcDown_Click_1"

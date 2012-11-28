@@ -8,8 +8,8 @@
     mc:Ignorable="d" x:Class="Discussions.SeatManagerWnd"
     Title="Seat manager" Closing="SurfaceWindow_Closing" 
     Height="594" Width="394" WindowStartupLocation="CenterScreen" 
+    Background="{StaticResource WndBg}" 
     HorizontalAlignment="Center" 
-    Background="{StaticResource frmGrayBg}"
     VerticalAlignment="Center">
 	<s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>

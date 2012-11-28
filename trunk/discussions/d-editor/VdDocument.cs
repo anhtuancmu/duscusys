@@ -46,6 +46,15 @@ namespace DistributedEditor
             }
         }
 
+        bool _isLoaded = false;
+        public bool IsLoaded
+        {
+            get
+            {
+                return _isLoaded;
+            }
+        }
+
         int _topicId;
         public int TopicId
         {
@@ -93,6 +102,8 @@ namespace DistributedEditor
 
         void shapeLoadingDone()
         {
+            _isLoaded = true;
+
             if (!_shapeVisibility)
                 HideShapes(); 
         }

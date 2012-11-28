@@ -23,10 +23,8 @@
         <Label x:Name="lblName" Content="{Binding Name}"
                HorizontalAlignment="Right" 
                VerticalAlignment="Center" 
-               Background="#00000000"
                PreviewTouchDown="nameTouchDown"
-               MouseDown="nameMouseDown" Foreground="White"
-               />
+               MouseDown="nameMouseDown"/>
         <Rectangle x:Name="colorCode" Fill="{Binding Path=Color, Converter={StaticResource ColorConv}}" 
                    Height="7" VerticalAlignment="Bottom" Grid.Column="1"/>
     </Grid>

@@ -5,7 +5,7 @@
         Title="Discussion background editor" Height="350" 
         Unloaded="UserControl_Unloaded_1"
         Closing="SurfaceWindow_Closing"       
-        WindowState="Maximized" Background="#FF3C3C3C">
+        WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

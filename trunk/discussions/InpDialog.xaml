@@ -4,10 +4,10 @@
         xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        Background="{StaticResource WndBg}" 
         mc:Ignorable="d" x:Class="Discussions.InpDialog"
         Title="URL?" Height="120" Width="576"
-        WindowStartupLocation="CenterScreen" 
-        Background="#FF7C7C7C">
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Resources>
             <Style TargetType="{x:Type Custom:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>

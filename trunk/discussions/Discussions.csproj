@@ -298,6 +298,9 @@
     <Compile Include="ScreenshotCaptureWnd.xaml.cs">
       <DependentUpon>ScreenshotCaptureWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TopicSelectionDlg.xaml.cs">
+      <DependentUpon>TopicSelectionDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SourceMover.cs" />
     <Compile Include="SourceUC.xaml.cs">
       <DependentUpon>SourceUC.xaml</DependentUpon>
@@ -406,9 +409,6 @@
       <DependentUpon>SpeakerLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="stats\StatsTrackingDbCtx.cs" />
-    <Compile Include="StatusWnd.xaml.cs">
-      <DependentUpon>StatusWnd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\SummaryTextConvertor.cs" />
     <Compile Include="SurfaceCombobox.xaml.cs">
       <DependentUpon>SurfaceCombobox.xaml</DependentUpon>
@@ -548,6 +548,10 @@
     <Page Include="ScreenshotCaptureWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TopicSelectionDlg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SourceUC.xaml">
       <SubType>Designer</SubType>
@@ -689,10 +693,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SpeakerLogin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StatusWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -987,6 +987,7 @@
     <Content Include="NoBackgroundPage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\enlarge2white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

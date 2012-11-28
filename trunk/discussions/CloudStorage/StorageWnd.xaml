@@ -7,22 +7,25 @@
         KeyDown="MainWindow_KeyDown_1"
         xmlns:s="http://schemas.microsoft.com/surface/2008"   
         Title="Cloud storage viewer" 
-        Height="389" Width="931.5" Background="{DynamicResource WndBg}">
+        Height="389" Width="931.5" 
+        Background="{DynamicResource WndBg}">
     <s:SurfaceWindow.Resources>
         <ImageBrush x:Key="greenTick" ImageSource="Resources/accept-icon.png" Stretch="Uniform"/>
         
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="17"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
 
         <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
@@ -145,18 +148,18 @@
             </s:SurfaceListBox.ItemTemplate>
         </s:SurfaceListBox>
         <TextBlock x:Name="txtAdress" Text="{Binding NavState.CurrentAddress}"   
-                   HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" FontSize="24"/>
+                   HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24"/>
         <StackPanel Orientation="Vertical">
             <TextBlock x:Name="progressInfo" Visibility="Collapsed" HorizontalAlignment="Center" TextWrapping="Wrap" 
-        		VerticalAlignment="Center" FontSize="24" Foreground="#FF97FF92"><Run Text="Connecting, this might take a while!"/></TextBlock>
+        		VerticalAlignment="Center" FontSize="24"><Run Text="Connecting, this might take a while!"/></TextBlock>
             
             <TextBlock x:Name="downloadProgress" Visibility="Collapsed" HorizontalAlignment="Center" TextWrapping="Wrap" 
-        		VerticalAlignment="Center" FontSize="24" Foreground="#FF97FF92"><Run Text="Processing attachments "/>
+        		VerticalAlignment="Center" FontSize="24"><Run Text="Processing attachments "/>
                 <Run Name="attachmentsProcessed"/>
             </TextBlock>
                 <StackPanel Name="fetchProgress" Orientation="Horizontal" Visibility="Collapsed" 
                             VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock  TextWrapping="Wrap" Foreground="#FF95EEB5" VerticalAlignment="Center">
+                    <TextBlock  TextWrapping="Wrap" VerticalAlignment="Center">
                         <Run Name="numFetched"/>
                     </TextBlock>    
                     <s:SurfaceButton Name="btnCancelFetch" Content="Cancel" Click="btnCancelFetch_Click_1" Margin="10,1,1,1"/>
@@ -179,7 +182,7 @@
                         <Border Width="45" Height="45" Background="{DynamicResource navUp}"/>
                     </s:SurfaceButton>
                 </Grid>            
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Navigate" Foreground="White"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Navigate"/>
             </StackPanel>
                 
             <Grid Margin="30,0">
@@ -198,33 +201,33 @@
                 <s:SurfaceToggleButton x:Name="btnSortByTime" Click="btnSortByTime_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Margin="0" Grid.Column="1">
                     <Border Width="45" Height="45" Background="{DynamicResource clock}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </s:SurfaceToggleButton>
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Sort" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Sort" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
             </Grid>
             <StackPanel Orientation="Vertical" Margin="0,9,0,0">
                <s:SurfaceButton x:Name="btnView" Click="btnView_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
                <Border Width="45" Height="45" Background="{StaticResource view}"/>
                </s:SurfaceButton>  
-               <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="View" Foreground="White"/>
+               <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="View"/>
             </StackPanel>
            
             <StackPanel Orientation="Vertical" Margin="0,5,0,0">
                 <s:SurfaceToggleButton x:Name="btnSelMode" Click="btnSelMode_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Margin="0" Grid.Column="1">
                     <Border Width="45" Height="45" Background="{DynamicResource mselect}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </s:SurfaceToggleButton>    
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Multiselect" Foreground="White" Margin="0,2,0,0"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Multiselect" Margin="0,2,0,0"/>
             </StackPanel>
                   
             <StackPanel Orientation="Vertical" Margin="0,9,0,0">
                 <s:SurfaceButton x:Name="btnRefresh" Click="btnRefresh_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
                     <Border Width="45" Height="45" Background="{DynamicResource refresh}"/>
                 </s:SurfaceButton>
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Refresh" Foreground="White"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Refresh"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="0,9,0,0">
                 <s:SurfaceButton x:Name="btnAttach" Click="btnAttach_Click_1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Margin="0">
                     <Border Width="45" Height="45" Background="{DynamicResource attach}"/>
                 </s:SurfaceButton>
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Attach" Foreground="White"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Attach"/>
             </StackPanel>
         </StackPanel>    
     </Grid>

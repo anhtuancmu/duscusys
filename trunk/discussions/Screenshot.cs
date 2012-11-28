@@ -23,8 +23,8 @@ namespace Discussions
             if (uiElement == null)
                 return null;
 
-            int width = (int)uiElement.RenderSize.Width;
-            int height = (int)uiElement.RenderSize.Height;
+            int width = (int)(uiElement.RenderSize.Width * dpi / 96);
+            int height = (int)(uiElement.RenderSize.Height * dpi / 96);
 
             // Render
             var bmp = new RenderTargetBitmap(width,height,
