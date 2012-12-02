@@ -531,9 +531,9 @@ namespace Discussions
             return session.Person.Where(p => p.Topic.Any(t => t.Id == topId));
         }
 
-        public static IEnumerable<ArgPoint> ArgPointsOf(Person pers, Discussion d)
+        public static IEnumerable<ArgPoint> ArgPointsOf(Person pers, Discussion d, Topic t)
         {
-            return pers.ArgPoint.Where(ap => ap.Topic.Discussion.Id == d.Id);
+            return pers.ArgPoint.Where(ap => ap.Topic.Id==t.Id);
         }
     }
 

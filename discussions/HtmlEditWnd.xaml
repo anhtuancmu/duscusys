@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Custom="http://schemas.microsoft.com/surface/2008"
         Title="Discussion background editor" Height="350" 
+        Background="{StaticResource WndBg}"     
         Unloaded="UserControl_Unloaded_1"
         Closing="SurfaceWindow_Closing"       
         WindowState="Maximized">
@@ -16,7 +17,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <WebBrowser x:Name="webView" Grid.Column="1"/>
-        <Custom:SurfaceTextBox Name="plainHtml" AcceptsReturn="True" TextWrapping="Wrap" Text="" Background="{x:Null}"/>
+        <Custom:SurfaceTextBox Name="plainHtml" Foreground="Black" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}"/>
    
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File" 

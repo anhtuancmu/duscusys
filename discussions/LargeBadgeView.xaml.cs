@@ -269,7 +269,7 @@ namespace Discussions
             BeginAttachmentNumberInjection();
             UpdateOrderedMedia();
 
-            commentsViewer.ScrollToBottom();
+            ///commentsViewer.ScrollToBottom();
         }      
 
         void SetStyle()

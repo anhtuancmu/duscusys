@@ -47,13 +47,14 @@ namespace Reporter.pdf
             }               
             
             PublicCenter pubCenter = new PublicCenter(UISharedRTClient.Instance,
-                                                      () => {}
+                                                      () => {},
+                                                      topicId, discId                                                    
                                                       );
         
             pubCenter.Show();
             pubCenter.Hide();
      
-            Task<string> t = pubCenter.FinalSceneScreenshot(topicId, discId);
+            Task<string> t = pubCenter.FinalSceneScreenshot();
             t.GetAwaiter().OnCompleted(() =>
                 {
                     pubCenter.Close();

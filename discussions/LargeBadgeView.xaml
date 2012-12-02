@@ -12,28 +12,28 @@
              d:DesignHeight="1133" 
 			 d:DesignWidth="841"
 			 Width="900"
-			 Height="686"  
-			 Background="#FFE8E8E8"
+			 Height="686" 
+             Background="{StaticResource WndBg}"
              Initialized="UserControl_Initialized_1"
              DataContextChanged="UserControl_DataContextChanged">
     <UserControl.Resources>
-		
+
         <local:ARGBColorBrushConvertor x:Key="colorConv"/>
-		
-		<BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
+
+        <BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
 
         <DataTemplate x:Key="CommentItemTemplate">
-            <local:CommentUC MaxCommentWidth="300"/>
+            <local:CommentUC Width="820"/>
         </DataTemplate>
-        
+
         <local:ARGBColorBrushConvertor x:Key="brushConverter" />
-        
+
         <DataTemplate x:Key="ImageAttachmentTemplate">
-           <local:LargeImageUC/>
+            <local:LargeImageUC MaxWidth="400"/>
         </DataTemplate>
 
         <DataTemplate x:Key="VideoAttachmentTemplate">
-           <local:LargeVideoUC/>       
+            <local:LargeVideoUC MaxWidth="400"/>
         </DataTemplate>
 
         <local:AttachmentTemplateSelector 
@@ -46,7 +46,7 @@
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
         </Style>
-        
+
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="Foreground" Value="Black"/>
@@ -70,106 +70,88 @@
             BorderBrush="{Binding Path=Person.Color, Converter={StaticResource colorConv}}"
             BorderThickness="8" 
             CornerRadius="3">
-	<Grid >
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="Auto" MinHeight="9.903"/>
-    		<RowDefinition Height="Auto" MinHeight="40"/>
-    		<RowDefinition Height="243*"/>
-    		<RowDefinition Height="Auto" MinHeight="55"/>
-    		<RowDefinition Height="148*"/>
-    		<RowDefinition Height="Auto" MinHeight="83"/>
-    	</Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="421*"/>
-            <ColumnDefinition Width="420*"/>
-        </Grid.ColumnDefinitions>     
-        <StackPanel x:Name="stkHeader" Orientation="Horizontal"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="stkHeader" Orientation="Horizontal" 
                     PreviewMouseDown="stkHeader_PreviewMouseDown_1"
-                    PreviewTouchDown="stkHeader_PreviewTouchDown_1"
-                    d:LayoutOverrides="Height, Margin" Margin="2" Grid.ColumnSpan="2">
-            <Label Content="BY:  " HorizontalAlignment="Left"/>
-        	<Label x:Name="lblPerson" Content="{Binding Person.Name}" />
-            <Label Content="                                                                               "/>
-        </StackPanel>
-        <Grid x:Name="topPane" Grid.ColumnSpan="2" Grid.Row="1" d:LayoutOverrides="Width, Margin" >
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition/>
-        		<ColumnDefinition Width="Auto"/>
-        	</Grid.ColumnDefinitions>
-        	<TextBlock x:Name="txtPoint" 
-				TextAlignment="Center"
-        		Text="{Binding Point}" 
-        		TextWrapping="Wrap" VerticalAlignment="Center" d:LayoutOverrides="Width" Margin="2" FontSize="48"/>
-        </Grid>
-        <Grid x:Name="rightPane" Grid.Column="1" d:LayoutOverrides="Margin" Grid.Row="2" Grid.RowSpan="3">
-        	<Grid.RowDefinitions>
-        		<RowDefinition Height="58*" />
-                    <RowDefinition Height="224*"/>
-                    <RowDefinition Height="Auto" MinHeight="35.156"/>
-                    <RowDefinition Height="109*"/>
-        	</Grid.RowDefinitions>
-        
-            <Custom:SurfaceScrollViewer Grid.Row="1">      
-        	    <ItemsControl x:Name="lstBxAttachments"                                   
-        		    IsManipulationEnabled="False"
-				    ItemsSource="{Binding Attachments}"  
-        		    ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}"                
-        		    Background="#00000000" MaxWidth="800" HorizontalContentAlignment="Center" 
-        		    VerticalContentAlignment="Center"/>
-            </Custom:SurfaceScrollViewer>
-            <StackPanel>
-        		<Separator/>
-				<Label Content="Media" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black"/>
-        	</StackPanel>
-        	
-        	<Custom:SurfaceScrollViewer Grid.Row="3">
-			<ItemsControl x:Name="lstBxSources"             
-        		ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-        		ItemsSource="{Binding Sources}" 
-        		HorizontalContentAlignment="Stretch" 
-        		BorderThickness="0" d:LayoutOverrides="Height">
-        		<ItemsControl.ItemTemplate>
-        			<DataTemplate>
-        				<local:SourceUC PermitsEdit="False"/>
-        			</DataTemplate>
-        		</ItemsControl.ItemTemplate>
-        	</ItemsControl>
-			</Custom:SurfaceScrollViewer>
-        	<StackPanel Orientation="Vertical" Grid.Row="2">
-        		<Separator/>
-				<Label Content="Sources" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black" d:LayoutOverrides="Margin"/>
-        	</StackPanel>    
-        </Grid>
+                    PreviewTouchDown="stkHeader_PreviewTouchDown_1">
+                <Label Content="BY:  " HorizontalAlignment="Left"/>
+                <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
+            </StackPanel>
 
-        <Custom:SurfaceScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="2" VerticalScrollBarVisibility="Auto" d:LayoutOverrides="Margin">
-            <TextBlock x:Name="plainDescription"
-                       TextWrapping="Wrap" 
-                       Text="{Binding Description.Text}" 
-                       Margin="2"/>
-        </Custom:SurfaceScrollViewer>
-        
-        <Custom:SurfaceScrollViewer x:Name="commentsViewer" Grid.Row="4" d:LayoutOverrides="Height, Margin" Grid.RowSpan="2" >
-        	<ItemsControl x:Name="lstBxComments1"   
-				local:CommentUC.CommentEnd="onCommentEnd"       
-                local:CommentUC.CommentDelete="onCommentDelete"  
-        		ScrollViewer.VerticalScrollBarVisibility="Auto"           
-        		ItemsSource="{Binding Comment}" 
-        		ItemTemplate="{StaticResource CommentItemTemplate}" 
-        		BorderThickness="0" HorizontalContentAlignment="Stretch"/>
-        </Custom:SurfaceScrollViewer>
-        <StackPanel Orientation="Vertical" d:LayoutOverrides="Height, Margin" Grid.Row="3">
-        	<Separator/>
-        	<DockPanel VerticalAlignment="Center">
-        		<Label Content="Comments" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black" d:LayoutOverrides="HorizontalMargin"/>
-        		<Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click" Content="Comment" Margin="0" VerticalAlignment="Center" Width="101" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="35" MinHeight="12"/>
-        	</DockPanel>
-        </StackPanel>
-        <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,1,1,0" Height="72" Width="76" d:LayoutOverrides="Margin">
-			<Border Background="{StaticResource decrease2}" Width="60" Height="60"/>
-	    </Custom:SurfaceButton>
-        <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" HorizontalAlignment="Right" Click="btnSave_Click" Grid.Column="1" VerticalAlignment="Bottom" Height="82" Margin="0,0,1,1" Grid.Row="5" Width="86" d:LayoutOverrides="Margin">
-        	<Border Background="{StaticResource save}" Width="70" Height="70"/>
-        </Custom:SurfaceButton>
-    </Grid>
-	</Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" HorizontalAlignment="Right" Click="btnSave_Click" VerticalAlignment="Bottom" Height="75" Width="75">
+                    <Border Background="{StaticResource save}" Width="60" Height="60"/>
+                </Custom:SurfaceButton>
+                <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75">
+                    <Border Background="{StaticResource decrease2}" Width="60" Height="60"/>
+                </Custom:SurfaceButton>
+            </StackPanel>
+
+            <Custom:SurfaceScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                <StackPanel>
+                   <TextBlock x:Name="txtPoint" 
+			            TextAlignment="Center"
+        	            Text="{Binding Point}" 
+        	            TextWrapping="Wrap" VerticalAlignment="Center" 
+                        d:LayoutOverrides="Width" FontSize="48"/>
+                    <TextBlock x:Name="plainDescription"
+                   	    TextWrapping="Wrap" 
+                   	    Text="{Binding Description.Text}"/>
+                    <StackPanel x:Name="media">
+                        <Separator/>
+                        <Label Content="Media" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black"/>
+                        <ItemsControl x:Name="lstBxAttachments"                                 
+                			IsManipulationEnabled="False"
+                			ItemsSource="{Binding Attachments}"  
+                			ItemTemplateSelector = "{StaticResource attachmentTemplateSelector}"                
+                			Background="#00000000" HorizontalContentAlignment="Center" 
+                			VerticalContentAlignment="Center">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel x:Name="stackSources" Orientation="Vertical">
+                        <Label Content="Sources" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="Black" d:LayoutOverrides="Margin"/>
+                        <ItemsControl x:Name="lstBxSources"             
+                			ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                			ItemsSource="{Binding Sources}" 
+                			HorizontalContentAlignment="Stretch" 
+                			BorderThickness="0" d:LayoutOverrides="Height">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:SourceUC PermitsEdit="False"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">                                        
+                        <Label Content="Comments" HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" Background="#00000000" 
+                                Foreground="Black" d:LayoutOverrides="HorizontalMargin"/>
+                        <ItemsControl x:Name="lstBxComments1"
+			                        local:CommentUC.CommentEnd="onCommentEnd"       
+                                    local:CommentUC.CommentDelete="onCommentDelete"  
+        	                        ScrollViewer.VerticalScrollBarVisibility="Auto"           
+        	                        ItemsSource="{Binding Comment}" 
+        	                        ItemTemplate="{StaticResource CommentItemTemplate}" 
+        	                        BorderThickness="0" 
+                                    HorizontalContentAlignment="Stretch"/>
+                        <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click" 
+                                                Content="Comment" Margin="0" VerticalAlignment="Center"
+                                                Width="101" DockPanel.Dock="Right" 
+                                                HorizontalAlignment="Right" Height="35" MinHeight="12"/>
+                    </StackPanel>
+                </StackPanel>
+            </Custom:SurfaceScrollViewer>
+        </Grid>
+    </Border>
 </UserControl>
