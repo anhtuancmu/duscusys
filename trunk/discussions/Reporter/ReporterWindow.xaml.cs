@@ -522,6 +522,11 @@ namespace Reporter
 
         private void btnSpss_Click(object sender, RoutedEventArgs e)
         {
+            CsvExport(true);
+        }
+
+        private void CsvExport(bool perEvent)
+        {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             // Set filter for file extension and default file extension
@@ -541,23 +546,61 @@ namespace Reporter
                 {
                     generated = true;
 
-                    CsvEventExporter.Export(dlg.FileName,
-                                            reportHeader1.getReportParams(false),
-                                            null);
+                    if (perEvent)
+                    {
+                        CsvEventExporter.Export(dlg.FileName,
+                                                reportHeader1.getReportParams(false),
+                                                null);
+                    }
+                    else
+                    {
+                        CsvExporter.Export(dlg.FileName,
+                                           _reportCollector1.TopicReports.First(),
+                                           reportHeader1.getReportParams(false),
+                                           _reportCollector1.EventTotals,
+                                           null, null, null);
+                    }
                 }
                 else if (_reportCollector1 == null && _reportCollector2 != null)
                 {
                     generated = true;
-                    CsvEventExporter.Export(dlg.FileName,
-                                       reportHeader2.getReportParams(false),
-                                       null);
+
+                    if (perEvent)
+                    {
+                        CsvEventExporter.Export(dlg.FileName,
+                                                reportHeader2.getReportParams(false),
+                                                null);
+                    }
+                    else
+                    {
+                        CsvExporter.Export(dlg.FileName,
+                                           _reportCollector2.TopicReports.First(),
+                                           reportHeader2.getReportParams(false),
+                                           _reportCollector2.EventTotals,
+                                           null, null, null);
+                    }
                 }
                 else if (_reportCollector1 != null && _reportCollector2 != null)
                 {
                     generated = true;
-                    CsvEventExporter.Export(dlg.FileName,
-                                       reportHeader1.getReportParams(false),
-                                       reportHeader2.getReportParams(false));
+
+                    if (perEvent)
+                    {
+                        CsvEventExporter.Export(dlg.FileName,
+                                           reportHeader1.getReportParams(false),
+                                           reportHeader2.getReportParams(false));
+                    }
+                    else
+                    {
+                        CsvExporter.Export(dlg.FileName,
+                                           _reportCollector1.TopicReports.First(),
+                                           reportHeader1.getReportParams(false),
+                                           _reportCollector1.EventTotals,
+                                        
+                                          _reportCollector2.TopicReports.First(),
+                                          reportHeader2.getReportParams(false),
+                                          _reportCollector2.EventTotals);
+                    }
                 }
                 var dirName = System.IO.Path.GetDirectoryName(dlg.FileName);
                 if (generated)
@@ -653,15 +696,9 @@ namespace Reporter
             recentlySelectedLeftTree = false;
         }
 
-        private async void btnPdf_Click_1(object sender, RoutedEventArgs e)
+        private void btnExcel_Click_1(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void btnReport_Click_1(object sender, RoutedEventArgs e)
-        {
-            new WebScreenshoter("http://localhost/discsvc/bgpage?id=1",
-                pathName => { },
-                400);
+            CsvExport(false);
         }
     }
 }

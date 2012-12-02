@@ -178,7 +178,7 @@ namespace Reporter
 
             _topicReportReady = topicReportReady;
 
-            _allTopicsReport = new TopicReport(null, 0, 0, 0, 0, 0, 0, null, null, 0,0,0);
+            _allTopicsReport = new TopicReport(null, 0, 0, 0, 0, 0, 0, null, null, 0,0,0,0,0,0,0);
 
             _reportGenerated = reportGenerated;
 
@@ -361,14 +361,23 @@ namespace Reporter
             var topic = _ctx.Topic.FirstOrDefault(t0 => t0.Id == stats.TopicId);
             
             int numSrc;
-            int numComments;       
-            ArgPointTotalsOverTopic(_reportParams, topic, out numSrc, out numComments);            
+            int numComments;
+            int numImages;
+            int numScreenshots;
+            int numPdfs;
+            int numYoutubes;
+            ArgPointTotalsOverTopic(_reportParams, topic, out numSrc, out numComments,
+                                    out numImages, out numPdfs, out numScreenshots, out numYoutubes);            
            
             _allTopicsReport.numClusters        += stats.NumClusters;
             _allTopicsReport.numClusteredBadges += stats.NumClusteredBadges;
             _allTopicsReport.numLinks           += stats.NumLinks;
             _allTopicsReport.numSources         += numSrc;
             _allTopicsReport.numComments        += numComments;
+            _allTopicsReport.numImages          += numImages;
+            _allTopicsReport.numPDFs            += numPdfs;
+            _allTopicsReport.numYoutubes        += numYoutubes;
+            _allTopicsReport.numScreenshots     += numScreenshots; 
             _allTopicsReport.cumulativeDuration += topic.CumulativeDuration;
             var numArgPoints = topic.ArgPoint.Count();
             _allTopicsReport.numPoints += numArgPoints;
@@ -384,7 +393,8 @@ namespace Reporter
                                          stats.NumLinks, numSrc, numComments,
                                          topic.CumulativeDuration, stats.ListOfClusterIds,
                                          stats.ListOfLinkIds, numArgPoints, 
-                                         numPointsWithDescription, nMedia);
+                                         numPointsWithDescription, nMedia,
+                                         numImages, numPdfs, numScreenshots, numYoutubes);
 
             _topicReports.Add(report);
             if (_topicReportReady!=null)
@@ -419,14 +429,59 @@ namespace Reporter
             //}
         }
 
-        public static void ArgPointTotalsOverTopic(ReportParameters par, Topic topic, out int numSrc, out int numComments)
+        public static void ArgPointTotalsOverTopic(ReportParameters par, Topic topic, 
+                                                   out int numSrc, out int numComments, out int numImages,
+                                                   out int numPdfs, out int numScreenshots, out int numYoutubes)
         {
             numSrc = 0;
             numComments = 0;
+            numImages = 0;
+            numPdfs = 0;
+            numScreenshots = 0;
+            numYoutubes = 0;
             foreach (var pt in topic.ArgPoint)
             {
                 if (par.requiredUsers.Contains(pt.Person.Id))
+                {                    
                     numSrc += pt.Description.Source.Count();
+
+                    foreach(var a in pt.Attachment)
+                    {
+                        switch ((AttachmentFormat)a.Format)
+                        {
+                            case AttachmentFormat.None:                                
+                                break;
+                            case AttachmentFormat.Jpg:
+                                numImages++;
+                                break;
+                            case AttachmentFormat.Png:
+                                numImages++;
+                                break;
+                            case AttachmentFormat.Bmp:
+                                numImages++;
+                                break;
+                            case AttachmentFormat.Pdf:
+                                numPdfs++;
+                                break;
+                            case AttachmentFormat.Youtube:
+                                numYoutubes++;
+                                break;
+                            case AttachmentFormat.GeneralWebLink:
+                                break;
+                            case AttachmentFormat.PngScreenshot:
+                                numScreenshots++;
+                                break;
+                            case AttachmentFormat.WordDocSet:
+                                break;
+                            case AttachmentFormat.ExcelDocSet:
+                                break;
+                            case AttachmentFormat.PowerPointDocSet:
+                                break;
+                            default:
+                                throw new NotSupportedException();
+                        }
+                    }
+                }
 
                 foreach (var c in pt.Comment)
                     if (c.Text != "New comment" && par.requiredUsers.Contains(c.Person.Id))
