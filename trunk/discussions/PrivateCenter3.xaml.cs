@@ -585,7 +585,7 @@ namespace Discussions
                 return;
             }
 
-            wnd.discDashboard = new PublicCenter(_sharedClient, () => { wnd.discDashboard = null; });
+            wnd.discDashboard = new PublicCenter(_sharedClient, () => { wnd.discDashboard = null; }, -1, -1);
             wnd.discDashboard.Show();
 
            // Close();
@@ -668,6 +668,12 @@ namespace Discussions
             lstPoints.SelectedItem = np;
 
             saveProcedure(null, -1);
+        }
+
+        private void btnHome_Click_1(object sender, RoutedEventArgs e)
+        {
+            DiscWindows.Get().mainWnd.Activate();
+            //this.Close();
         }
     }
 }

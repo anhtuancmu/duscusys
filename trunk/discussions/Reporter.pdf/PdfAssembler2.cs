@@ -63,15 +63,19 @@ namespace Reporter.pdf
 
             DiscussionBgSourcesTable();
 
+            await FinalScene();
+
+            Summary(_hardReportTask.Result);
+
             AllArgPoints();
      
             ClusterInformation(await _hardReportTask);
 
             LinkInformation(_hardReportTask.Result);
 
-            Summary(_hardReportTask.Result);
+         
 
-            await FinalScene();
+          
 
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always);
             pdfRenderer.Document = _document;
@@ -328,7 +332,7 @@ namespace Reporter.pdf
             {
                 var para = s.AddParagraph().AddBold("Argument points of " + pers.Name);                             
                 
-                var argPointsOf = DaoUtils.ArgPointsOf(pers, _discussion);
+                var argPointsOf = DaoUtils.ArgPointsOf(pers, _discussion, _topic);
                 if (argPointsOf.Count() > 0)
                 {
                     foreach (var ap in argPointsOf)

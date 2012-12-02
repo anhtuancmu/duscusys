@@ -163,6 +163,10 @@
 				<Border Background="{StaticResource keyboard}" Width="70" Height="70"/>
 			</Custom:SurfaceButton>
 
+            <s:SurfaceButton x:Name="btnHome" Background="{x:Null}" Click="btnHome_Click_1" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" Padding="6,2,10,8" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0">
+                <Border Background="{StaticResource home}" Width="70" Height="70"/>
+            </s:SurfaceButton>
+            
             <Label x:Name="dragDropTooltip" Content=""/>
         </DockPanel>
         <Grid Grid.RowSpan="2" d:LayoutOverrides="Margin">

@@ -62,6 +62,10 @@ namespace Discussions
             }
         }
 
+        //only used for final screenshot 
+        int _topicId = -1;
+        int _discussionId = -1;
+
         const double MIN_ZOOM = 0.5;
         const double MAX_ZOOM = 5;
 
@@ -107,12 +111,15 @@ namespace Discussions
         DispatcherTimer stopWatchTimer = null;
         
         public PublicCenter(UISharedRTClient sharedClient,
-                            Discussions.Main.OnDiscFrmClosing closing)
+                            Discussions.Main.OnDiscFrmClosing closing, 
+                            int screenshotTopicId, int screenshotDiscussionId)
         {
             this._discussion = SessionInfo.Get().discussion;
             _sharedClient = sharedClient;
             _closing = closing;
-       
+            _topicId = screenshotTopicId;
+            _discussionId = screenshotDiscussionId; 
+
             InitializeComponent();
 
             topicNavPanel.topicChanged += topicSelectionChanged;
@@ -442,14 +449,9 @@ namespace Discussions
             this.shapesVisibile = shVisible; //save to preserve selected option between topics 
         }
 
-        void CreateEditCtx(int topicId = -1, int discussionId = -1)
+        void CreateEditCtx()
         {
             CleanupEditCtx();
-
-            if (topicId == -1)
-                topicId = CurrentTopic.Id;
-            if (discussionId == -1)
-                discussionId = CurrentTopic.Discussion.Id;
 
             avaBar.SelectCurrentUser();
 
@@ -458,14 +460,14 @@ namespace Discussions
                                         palette,
                                         inkPalette,
                                         this,//surface window for focus fix                                      
-                                        topicId,
-                                        discussionId,
+                                        _topicId != -1 ? _topicId : CurrentTopic.Id,
+                                        _discussionId != -1 ? _discussionId : CurrentTopic.Discussion.Id,
                                         shapesVisibile);
 
             editCtx.ZoomManipulator.Delta += SurfaceWindow_ManipulationDelta;
 
             DataContext = this;
-            _sharedClient.clienRt.SendInitialSceneLoadRequest(topicId);        
+            _sharedClient.clienRt.SendInitialSceneLoadRequest(_topicId != -1 ? _topicId : CurrentTopic.Id);        
         }
   
         private void SurfaceWindow_KeyDown(object sender, KeyEventArgs e)
@@ -801,7 +803,7 @@ namespace Discussions
 
         #region screenshot of final scene
         TaskCompletionSource<string> finalSceneTcs = null;
-        public Task<string> FinalSceneScreenshot(int topicId, int discussionId)
+        public Task<string> FinalSceneScreenshot()
         {
             ToggleShapes(true);
 

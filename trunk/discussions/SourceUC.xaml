@@ -12,7 +12,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="1">
+        <Label Grid.Column="1" VerticalAlignment="Center">
             <Hyperlink Click="Hyperlink_Click_1" TouchDown="Hyperlink_TouchDown_1">
                 <Run x:Name="linkTarget" Text="{Binding Path=TruncatedLink}"/>
             </Hyperlink>
@@ -34,6 +34,6 @@
                                   VerticalAlignment="Center" HorizontalAlignment="Center" 
                                   Click="btnRemove_Click" Background="{x:Null}"/>
         </StackPanel>
-        <TextBlock x:Name="txtNumber" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center"><Run x:Name="number"/><Run Text=".  "/></TextBlock>
+        <TextBlock x:Name="txtNumber" HorizontalAlignment="Left" VerticalAlignment="Center"><Run x:Name="number"/><Run Text=".  "/></TextBlock>
     </Grid>
 </UserControl>

@@ -317,7 +317,8 @@ namespace Discussions
             else
             {
                 wnd.discDashboard = new PublicCenter(UISharedRTClient.Instance,
-                                                    () => { wnd.discDashboard = null; }
+                                                    () => { wnd.discDashboard = null; },
+                                                    -1, -1
                                                     );
                 wnd.discDashboard.Show();
             }            

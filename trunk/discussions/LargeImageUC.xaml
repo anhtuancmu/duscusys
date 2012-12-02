@@ -26,7 +26,7 @@
                                             PreviewTouchDown="Image_TouchDown" Grid.Column="1"/>
         <Rectangle Width="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center"/>       
         <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <Label FontSize="21.333" Content="{Binding Title}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock FontSize="18" Text="{Binding Title}" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 			<!--<TextBlock TextWrapping="Wrap" FontSize="20" MaxWidth="600" HorizontalAlignment="Center" VerticalAlignment="Center">               
 				<Hyperlink Click="Hyperlink_Click_1" TouchDown="Hyperlink_TouchDown_1"><Run x:Name="linkTarget" Text="{Binding Link}"/></Hyperlink>
             </TextBlock>-->

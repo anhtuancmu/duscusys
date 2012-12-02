@@ -22,8 +22,8 @@
         <Rectangle Width="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Grid.Row="1"/>
 
         <StackPanel Grid.Column="2" VerticalAlignment="Center">
-            <Label Content="{Binding Title}" FontSize="21.333" Foreground="Green" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <TextBlock FontSize="21.333" TextWrapping="Wrap" MaxWidth="600" HorizontalAlignment="Left" VerticalAlignment="Center">               
+            <TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="18" Foreground="Green" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center">               
 						<Hyperlink Click="Hyperlink_Click_1" TouchDown="Hyperlink_TouchDown_1"><Run x:Name="linkTarget" Text="{Binding Link}"/></Hyperlink>
             </TextBlock>
         </StackPanel>
