@@ -9,26 +9,31 @@ namespace Reporter
     public class CsvExporter
     {
         public static void Export(string reportPathName,
-                                  TopicReport topicReport1, ReportParameters params1,
-                                  EventTotalsReport eventTotals1,
+                            TopicReport topicReport1, ReportParameters params1,
+                            EventTotalsReport eventTotals1,
 
-                                  TopicReport topicReport2, ReportParameters params2,
-                                  EventTotalsReport eventTotals2)
+                            TopicReport topicReport2, ReportParameters params2,
+                            EventTotalsReport eventTotals2)
         {
             System.IO.File.WriteAllText(reportPathName, Export(topicReport1, params1, eventTotals1,
                                                                topicReport2, params2, eventTotals2));
         }
       
-        public static string Export(TopicReport topicReport1, ReportParameters params1,
-                                    EventTotalsReport eventTotals1,
+        static string Export(TopicReport topicReport1, ReportParameters params1,
+                            EventTotalsReport eventTotals1,
 
-                                    TopicReport topicReport2, ReportParameters params2,
-                                    EventTotalsReport eventTotals2)
+                            TopicReport topicReport2, ReportParameters params2,
+                            EventTotalsReport eventTotals2)
         {
             //write header
             var sb = new StringBuilder();
             sb.Append("SessionName;");
             sb.Append("TopicName;");
+            sb.Append("NumUsers;");
+            sb.Append("NumImages;");
+            sb.Append("NumScreenshots;");
+            sb.Append("NumPDFs;");
+            sb.Append("NumVideos;");
             sb.Append("CumulativeDuration;");
             sb.Append("NumClusteredBadges;");
             sb.Append("NumClusters;");
@@ -73,50 +78,13 @@ namespace Reporter
             sb.Append("TotalVideoOpened;");
             sb.Append("TotalScreenshotOpened;");
             sb.Append("TotalPdfOpened;");
-            sb.AppendLine("TotalSourceOpened");
-
-            //user event report
-            //sb.AppendLine("TotalArgPointTopicChanged");
-            //sb.AppendLine("TotalBadgeCreated");
-            //sb.AppendLine("TotalBadgeEdited;");
-            //sb.AppendLine("TotalBadgeMoved;");
-            //sb.AppendLine("TotalBadgeZoomIn;");
-            //sb.AppendLine("TotalClusterCreated;");
-            //sb.AppendLine("TotalClusterDeleted;");
-            //sb.AppendLine("TotalClusterIn;");
-            //sb.AppendLine("TotalClusterMoved;");
-            //sb.AppendLine("TotalClusterOut;");
-            //sb.AppendLine("TotalCommentAdded;");
-            //sb.AppendLine("TotalCommentRemoved;");
-            //sb.AppendLine("TotalFreeDrawingCreated;");
-            //sb.AppendLine("TotalFreeDrawingMoved;");
-            //sb.AppendLine("TotalFreeDrawingRemoved;");
-            //sb.AppendLine("TotalFreeDrawingResize;");
-            //sb.AppendLine("TotalImageAdded;");
-            //sb.AppendLine("TotalImageOpened;");
-            //sb.AppendLine("TotalImageUrlAdded;");
-            //sb.AppendLine("TotalLinkCreated;");
-            //sb.AppendLine("TotalLinkRemoved;");
-            //sb.AppendLine("TotalMediaRemoved;");
-            //sb.AppendLine("TotalPdfAdded;");
-            //sb.AppendLine("TotalPdfOpened;");
-            //sb.AppendLine("TotalPdfUrlAdded;");
-            //sb.AppendLine("TotalSourceAdded;");
-            //sb.AppendLine("TotalSourceOpened;");
-            //sb.AppendLine("TotalSourceRemoved;");
-            //sb.AppendLine("TotalVideoOpened;");
-            //sb.AppendLine("TotalYoutubeAdded;");
-            //sb.AppendLine("TotalRecordingStarted;");
-            //sb.AppendLine("TotalRecordingStopped;");
-            //sb.AppendLine("TotalSceneZoomedIn;");
-            //sb.AppendLine("TotalSceneZoomedOut;");
-            //sb.AppendLine("TotalScreenshotAdded;");
-            //sb.AppendLine("TotalScreenshotOpened;");
-            //---------------------------------------
-
+            sb.AppendLine("TotalSourceOpened;");
+           
+            //first line
             AddSessionTopicRow(sb, topicReport1, params1, eventTotals1);
 
-            if(topicReport2!=null && params2!=null && eventTotals1!=null)
+            //second line
+            if(topicReport2!=null && params2!=null && eventTotals2!=null)
                 AddSessionTopicRow(sb, topicReport2, params2, eventTotals2);
 
             return sb.ToString();
@@ -129,6 +97,16 @@ namespace Reporter
             sb.Append("\"" + params1.session.Name + "\"");
             sb.Append(";");
             sb.Append("\"" + params1.topic.Name + "\"");
+            sb.Append(";");
+            sb.Append(params1.sessionTopicUsers.Count());
+            sb.Append(";");
+            sb.Append(topicReport1.numImages);
+            sb.Append(";");
+            sb.Append(topicReport1.numScreenshots);
+            sb.Append(";");
+            sb.Append(topicReport1.numPDFs);
+            sb.Append(";");
+            sb.Append(topicReport1.numYoutubes);
             sb.Append(";");
             sb.Append(TimeSpan.FromSeconds(topicReport1.cumulativeDuration).ToString());
             sb.Append(";");
@@ -202,10 +180,6 @@ namespace Reporter
             sb.Append(";");
             sb.Append(eventTotals1.TotalYoutubeAdded.ToString());
             sb.Append(";");
-            sb.Append(eventTotals1.TotalRecordingStarted.ToString());
-            sb.Append(";");
-            sb.Append(eventTotals1.TotalRecordingStopped.ToString());
-            sb.Append(";");
             sb.Append(eventTotals1.TotalScreenshotAdded.ToString());
             sb.Append(";");
             sb.Append(eventTotals1.TotalMediaRemoved.ToString());
@@ -222,76 +196,7 @@ namespace Reporter
             sb.Append(";");
             sb.Append(eventTotals1.TotalPdfOpened.ToString());
             sb.Append(";");
-            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString());
-            sb.Append(";");
-
-            //sb.AppendLine(eventUserReport.TotalArgPointTopicChanged.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalBadgeCreated.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalBadgeEdited.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalBadgeMoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalBadgeZoomIn.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalClusterCreated.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalClusterDeleted.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalClusterIn.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalClusterMoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalClusterOut.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalCommentAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalCommentRemoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalFreeDrawingCreated.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalFreeDrawingMoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalFreeDrawingRemoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalFreeDrawingResize.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalImageAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalImageOpened.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalImageUrlAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalLinkCreated.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalLinkRemoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalMediaRemoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalPdfAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalPdfOpened.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalPdfUrlAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalSourceAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalSourceOpened.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalSourceRemoved.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalVideoOpened.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalYoutubeAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalSceneZoomedIn.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalSceneZoomedOut.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalScreenshotAdded.ToString());
-            //sb.Append(";");
-            //sb.AppendLine(eventUserReport.TotalScreenshotOpened.ToString());
+            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString()+";");
         }
     }
 }

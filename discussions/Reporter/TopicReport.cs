@@ -20,12 +20,17 @@ namespace Reporter
         public int numPoints;
         public int numPointsWithDescription;
         public int numMediaAttachments;
+        public int numImages;
+        public int numPDFs;
+        public int numScreenshots;
+        public int numYoutubes;
         public List<int> accumulatedParticipants;//only used for totals/avg etc, more than single topic
 
         public TopicReport(Topic topic, int numClusters, int numClusteredBadges,
                           int numLinks, int numSources,
                           int numComments, int cumulativeDuration, int[] clusterIds, int[] linkIds,
-                          int numPoints, int numPointsWithDescription, int numMediaAttachments)
+                          int numPoints, int numPointsWithDescription, int numMediaAttachments,
+                          int numImages, int numPDFs, int numScreenshots, int numYoutubes)
         {
             this.topic              = topic;
             this.numClusters        = numClusters;
@@ -39,6 +44,10 @@ namespace Reporter
             this.numPoints = numPoints;
             this.numPointsWithDescription = numPointsWithDescription;
             this.numMediaAttachments = numMediaAttachments;
+            this.numImages = numImages;
+            this.numPDFs = numPDFs;
+            this.numScreenshots = numScreenshots;
+            this.numYoutubes = numYoutubes;
         }
 
         public TopicReport()

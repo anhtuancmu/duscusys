@@ -26,12 +26,11 @@
         <local:ReportSummaryUC x:Name="reportHeader2" Grid.Row="1" Grid.Column="1"/>
         <StackPanel Orientation="Horizontal">
 
-            <s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh both" 
+            <s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh" 
         		HorizontalAlignment="Left" VerticalAlignment="Top" 
         		Height="50" Width="150" Margin="0" Background="#CC7DF7B4"/>
-            <s:SurfaceButton x:Name="btnSpss" Content="Export to SPSS" VerticalAlignment="Top" Height="50" Click="btnSpss_Click" Margin="0"/>
-            <s:SurfaceButton x:Name="btnPdf" Content="PDF" VerticalAlignment="Top" Height="50" Click="btnPdf_Click_1" Margin="0" Background="#4D4CFB24"/>
-            <s:SurfaceButton x:Name="btnReport" Content="Report" VerticalAlignment="Top" Height="50" Click="btnReport_Click_1" Margin="0" Background="#4DDC4F2F"/>        
+            <s:SurfaceButton x:Name="btnSpss" Content="SPSS" VerticalAlignment="Top" Height="50" Click="btnSpss_Click" Margin="0"/>            
+            <s:SurfaceButton x:Name="btnExcel" Content="Excel" VerticalAlignment="Top" Height="50" Click="btnExcel_Click_1" Margin="0"/>
         </StackPanel>
 
         <s:SurfaceScrollViewer Grid.Row="2" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">
@@ -65,7 +64,7 @@
                 <TextBlock Text=" "/>
 				<TextBlock x:Name="txtLastSync" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="" Foreground="White"/>    
 			</StackPanel>
-			<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="version 0.7" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Foreground="White"/>
+			<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="version 0.8" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Foreground="White"/>
 		</Grid>
        
         <s:SurfaceScrollViewer Grid.Row="2"  Grid.Column="1" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">
