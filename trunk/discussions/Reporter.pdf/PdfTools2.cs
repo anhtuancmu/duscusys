@@ -149,5 +149,12 @@ namespace Reporter.pdf
             p2.Format.Font.Color = new MigraDoc.DocumentObjectModel.Color(0x46, 0x42, 0x60);
             return p2;
         }
+
+        public static void AlignWithTable(this Paragraph p)
+        {
+            p.Format.LeftIndent = Unit.FromPoint(-3); //align with table 
+            p.Format.RightIndent = Unit.FromPoint(5);
+            p.Format.SpaceBefore = Unit.FromPoint(1);
+        }
     }
 }

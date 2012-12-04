@@ -35,6 +35,7 @@ using System.ComponentModel;
 using LoginEngine;
 using Discussions.webkit_host;
 using System.Threading.Tasks;
+using System.Drawing;
 
 
 namespace Discussions
@@ -289,7 +290,7 @@ namespace Discussions
 
             var matrix = GetUnsolvedTransform();
 
-            Point mousePos = e.GetPosition(this); 
+            var mousePos = e.GetPosition(this); 
             double factor = e.Delta > 0 ? 1.1 : 0.9;
 
             var finalFact = matrix.M11 * factor;
@@ -335,7 +336,7 @@ namespace Discussions
         double PrevX, PrevY;
         private void SurfaceWindow_MouseMove(object sender, MouseEventArgs e)
         {
-            Point mousePos = e.GetPosition(this);
+            var mousePos = e.GetPosition(this);
 
             if ((System.Windows.Forms.Control.ModifierKeys & System.Windows.Forms.Keys.Shift) !=
                     System.Windows.Forms.Keys.None)
@@ -802,14 +803,21 @@ namespace Discussions
         #endregion explanation mode browser
 
         #region screenshot of final scene
-        TaskCompletionSource<string> finalSceneTcs = null;
-        public Task<string> FinalSceneScreenshot()
+        TaskCompletionSource<Dictionary<int, string>> finalSceneTcs = null;
+        public Task<Dictionary<int, string>> FinalSceneScreenshots()
         {
             ToggleShapes(true);
 
-            finalSceneTcs = new TaskCompletionSource<string>();
+            finalSceneTcs = new TaskCompletionSource<Dictionary<int, string>>();
             _sharedClient.clienRt.loadingDoneEvent += shapeLoadingDone;
             return finalSceneTcs.Task;
+        }
+        public static Rect TransformRectByDpi(Rect rect, int dpi)
+        {
+            return new Rect(rect.X * dpi / 96,
+                            rect.Y * dpi / 96,
+                            rect.Width * dpi / 96,
+                            rect.Height * dpi / 96);
         }
         async void shapeLoadingDone()
         {
@@ -818,7 +826,25 @@ namespace Discussions
             //even though all d-editor objects are loaded, their visuals on canvas are created asynchronously
             await Utils.Delay(3000);
 
-            finalSceneTcs.SetResult(Screenshot.Take(scene, 200));
+            var screenshots = new Dictionary<int, string>();
+            
+            //add main screen
+            var dpi = 200;
+            var screen = Screenshot.Take(scene, dpi);
+            screenshots.Add(-1, screen);
+
+            //add links and clusters
+            var bmp = new Bitmap(screen);
+            
+            var subparts = editCtx.getMgr().Doc.GetShapes().Where(sh=>sh.ShapeCode()==VdShapeType.Cluster || 
+                                                                      sh.ShapeCode()==VdShapeType.ClusterLink);
+            foreach(var subpartSh in subparts)
+            {
+                var subpartScreen = Screenshot.TakeSubImage(bmp, TransformRectByDpi(subpartSh.ReportingBoundsProvider(), dpi));
+                screenshots.Add(subpartSh.Id(), subpartScreen);
+            }
+
+            finalSceneTcs.SetResult(screenshots);
             finalSceneTcs = null;
         }
         #endregion

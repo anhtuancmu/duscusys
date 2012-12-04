@@ -109,5 +109,10 @@ namespace DistributedEditor
         {
             _manipulationGoing = true;
         }
+
+        public virtual Rect ReportingBoundsProvider()
+        {
+            throw new NotSupportedException("only links and clusters can return their AABBs for reporting");
+        }
     }
 }

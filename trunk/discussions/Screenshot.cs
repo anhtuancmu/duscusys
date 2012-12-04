@@ -34,12 +34,29 @@ namespace Discussions
 
             // Encode and save to PNG file
             var enc = new PngBitmapEncoder();
-            enc.Frames.Add(BitmapFrame.Create(bmp));
+            enc.Frames.Add(BitmapFrame.Create(bmp));            
             string path = Utils.ScreenshotPathName();
             using (var stm = File.Create(path))
                 enc.Save(stm);
 
             return path;
+        }
+       
+        public static string TakeSubImage(Bitmap original, Rect rect)
+        {
+            using (var sliceImg = new Bitmap(new Bitmap((int)rect.Width, (int)rect.Height)))
+            {
+                using(var g = Graphics.FromImage(sliceImg))
+                {
+                    g.DrawImage(original,
+                               new Rectangle(0, 0, (int)rect.Width, (int)rect.Height),          //dst rect
+                               new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height),//src rect
+                               GraphicsUnit.Pixel);                                
+                }
+                var path = Utils.ScreenshotPathName();
+                sliceImg.Save(path); 
+                return path;
+           }
         }
 
         #region Class Variables

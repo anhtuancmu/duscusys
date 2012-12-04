@@ -58,5 +58,10 @@ namespace DistributedEditor
         void Hide();
         void Show();
         bool IsVisible();
+
+        //this method is only for reporting needs
+        //for cluster, it reports bounds of cluster.
+        //for link, it reports minimal AABB containing both ends of link.
+        Rect ReportingBoundsProvider();
     }
 }

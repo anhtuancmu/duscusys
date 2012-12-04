@@ -37,7 +37,7 @@ namespace Reporter.pdf
             ((TaskCompletionSource<ReportCollector>)args).SetResult(sender);
         }
 
-        public Task<string> FinalSceneScreenshot(int topicId, int discId)
+        public Task<Dictionary<int, string>> FinalSceneScreenshot(int topicId, int discId)
         {    
             //close opened public center to prevent d-editor conflicts 
             if(DiscWindows.Get().discDashboard!=null)
@@ -53,8 +53,8 @@ namespace Reporter.pdf
         
             pubCenter.Show();
             pubCenter.Hide();
-     
-            Task<string> t = pubCenter.FinalSceneScreenshot();
+
+            Task<Dictionary<int, string>> t = pubCenter.FinalSceneScreenshots();
             t.GetAwaiter().OnCompleted(() =>
                 {
                     pubCenter.Close();

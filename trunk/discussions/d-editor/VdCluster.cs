@@ -701,6 +701,11 @@ namespace DistributedEditor
             res.Offset(20, -45);
             return res;
         }
+
+        public override Rect ReportingBoundsProvider()
+        {
+            return boundsProvider();
+        }
     }
 }
 
