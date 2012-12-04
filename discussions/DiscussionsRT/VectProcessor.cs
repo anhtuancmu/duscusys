@@ -718,8 +718,9 @@ namespace Discussions.RTModel
                 return;
             }
             
-            //get text caption shape id
-            resp.clusterTextTitle = TryGetTextCaption(clusterSh);
+           
+            resp.clusterShId = clusterSh.Id();
+            resp.clusterTextTitle = TryGetTextCaption(clusterSh); //get text caption shape id
             resp.initialOwnerId   = clusterSh.InitialOwner();
 
             //badge id -> arg.point id
@@ -769,6 +770,7 @@ namespace Discussions.RTModel
             }
             
             var resp = default(LinkReportResponse);
+            resp.linkShId = linkSh.Id();
             resp.Caption = TryGetTextCaption(linkSh);
             resp.topicId = req.TopicId;
             resp.initialOwner = linkSh.InitialOwner();
@@ -854,7 +856,7 @@ namespace Discussions.RTModel
                 resp.ClusterCaption2 = TryGetTextCaption(clusterSh);
                 resp.IdOfCluster2 = clusterSh.Id();
             }
-
+            
             _room.Broadcast(peer,
                             resp.ToDict(),
                             sendParameters,

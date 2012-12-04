@@ -436,6 +436,11 @@ namespace DistributedEditor
             res.Offset(bounds.Width * 0.5, bounds.Height * 0.5);
             return res;
         }
+
+        public override Rect ReportingBoundsProvider()
+        {
+            return Rect.Union(_end1.GetBounds(), _end2.GetBounds());                        
+        }
     }
 }
 

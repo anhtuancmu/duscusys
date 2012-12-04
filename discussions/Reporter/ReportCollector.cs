@@ -271,7 +271,7 @@ namespace Reporter
 
             var topic = _ctx.Topic.FirstOrDefault(t0 => t0.Id == resp.topicId);
             var initialOwner = _ctx.Person.FirstOrDefault(p0 => p0.Id == resp.initialOwnerId);
-            var report = new ClusterReport(topic, resp.clusterId, resp.clusterTextTitle, argPoints, initialOwner);
+            var report = new ClusterReport(topic, resp.clusterId, resp.clusterShId, resp.clusterTextTitle, argPoints, initialOwner);
             _clusterReports.Add(report);
 
             ++_clusterReportsGenerated;

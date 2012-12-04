@@ -30,11 +30,11 @@ namespace Reporter.pdf
         Person _person;
         Session _session;
         Task<ReportCollector> _hardReportTask;
-        Task<string> _finalScene;
+        Task<Dictionary<int, string>> _finalScene;
         
         public PdfAssembler2(Discussion discussion, Topic topic, Person person, 
                              Session session, string PdfPathName, Task<ReportCollector> hardReportTask,
-                             Task<string> finalScene)
+                             Task<Dictionary<int, string>> finalScene)
         {
             _discussion = discussion;
             _topic = topic;
@@ -72,17 +72,12 @@ namespace Reporter.pdf
             ClusterInformation(await _hardReportTask);
 
             LinkInformation(_hardReportTask.Result);
-
-         
-
-          
-
+        
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always);
             pdfRenderer.Document = _document;
             pdfRenderer.RenderDocument();
             pdfRenderer.PdfDocument.Save(_PdfPathName);
             
-
             Process.Start(_PdfPathName);
         }
 
@@ -371,9 +366,7 @@ namespace Reporter.pdf
             //description
             var descr = s.AddParagraph(ap.Description.Text);
             descr.Format.Shading.Color = new MigraDoc.DocumentObjectModel.Color((uint)ap.Person.Color);
-            descr.Format.LeftIndent = Unit.FromPoint(-3); //align with table 
-            descr.Format.RightIndent = Unit.FromPoint(5);
-            descr.Format.SpaceBefore = Unit.FromPoint(1);
+            descr.AlignWithTable();
 
             //point's media
             MediaTable(s, ap.Attachment, ap.Person.Color);
@@ -407,7 +400,7 @@ namespace Reporter.pdf
             }
         }
 
-        void ClusterInformation(ReportCollector hardReport)
+        async void ClusterInformation(ReportCollector hardReport)
         {            
             var s = _document.AddSection();
 
@@ -415,9 +408,10 @@ namespace Reporter.pdf
 
             if (hardReport.ClusterReports.Count > 0)
             {
+                var screenshots = await _finalScene;
                 foreach (var clusterReport in hardReport.ClusterReports)
                 {
-                    ClusterTable(s, clusterReport);
+                    ClusterTable(s, clusterReport, screenshots[clusterReport.clusterShId]);                   
                     s.AddParagraph();
                 }
             }
@@ -457,7 +451,7 @@ namespace Reporter.pdf
                 p.LeftParaIndent(20);
         }
 
-        void ClusterTable(Section s, ClusterReport clustReport)
+        void ClusterTable(Section s, ClusterReport clustReport, string pathname)
         {            
             var t = s.AddTable().TableDefaults(); 
             t.AddColumn(ContentWidth());
@@ -469,10 +463,12 @@ namespace Reporter.pdf
             ClusterTableLine(t, clustReport.clusterTitle, clustReport.clusterId, false, clustReport.initialOwner);
 
             foreach (var point in clustReport.points)           
-                ArgPointTableLine(t, point, true);                                          
+                ArgPointTableLine(t, point, true);
+
+            AddLinkOrClusterImg(s, pathname);                 
         }
 
-        void LinkInformation(ReportCollector hardReport)
+        async void LinkInformation(ReportCollector hardReport)
         {
             var s = _document.AddSection();  
 
@@ -480,9 +476,11 @@ namespace Reporter.pdf
 
             if (hardReport.LinkReports.Count > 0)
             {
+                var screenshots = await _finalScene;
+
                 foreach (var linkReport in hardReport.LinkReports)
                 {
-                    LinkTable(s, linkReport);
+                    LinkTable(s, linkReport, screenshots[linkReport.linkShId]);
                     s.AddParagraph();
                 }
             }
@@ -492,7 +490,7 @@ namespace Reporter.pdf
             }
         }
 
-        void LinkTable(Section s, LinkReportResponse link)
+        void LinkTable(Section s, LinkReportResponse link, string pathname)
         {
             var t = s.AddTable().TableDefaults();
             t.AddColumn(ContentWidth());
@@ -516,7 +514,33 @@ namespace Reporter.pdf
             if (link.EndpointArgPoint2)
                 ArgPointTableLine(t, link.ArgPoint2, true);
             else
-                ClusterTableLine(t, link.ClusterCaption2, link.IdOfCluster2, true, null);  
+                ClusterTableLine(t, link.ClusterCaption2, link.IdOfCluster2, true, null);
+
+            AddLinkOrClusterImg(s, pathname);           
+        }
+
+        void AddLinkOrClusterImg(Section s, string pathname)
+        {
+            var imgPara = s.AddParagraph();
+            imgPara.AlignWithTable();
+            var img = imgPara.AddImage(pathname);                       
+
+            var bmp = new Bitmap(pathname);
+            var w = bmp.Width;
+            var h = bmp.Height;
+
+            var maxHeight =  0.5 * _document.DefaultPageSetup.PageHeight;
+            if (h > maxHeight)
+            {
+                img.Height = maxHeight;
+                w = (int)maxHeight * w / h;
+                h = (int)maxHeight;               
+            }
+            if (w > ContentWidth())
+            {                
+                img.Width = ContentWidth();
+                img.Height = ContentWidth() * h / w;
+            }
         }
 
         void Summary(ReportCollector hardReport)
@@ -564,9 +588,9 @@ namespace Reporter.pdf
             var s = _document.AddSection();
                 
             PdfTools2.SectionHeader(s.AddParagraph("Final Public Dashboard"));
-            var screenshot = await _finalScene;
+            var screenshots = await _finalScene;
             var imgPara = s.AddParagraph();
-            var img = imgPara.AddImage(screenshot);
+            var img = imgPara.AddImage(screenshots[-1]);
             img.Width = ContentWidth();
         }
 

@@ -36,6 +36,8 @@ namespace Discussions.RTModel.Model
 
         public int initialOwner;
 
+        public int linkShId;
+
         // only used on client-side 
         public ArgPoint ArgPoint1;
         public ArgPoint ArgPoint2;
@@ -66,6 +68,7 @@ namespace Discussions.RTModel.Model
 
             dto.Add((byte)DiscussionParamKey.ChangedTopicId, topicId);
             dto.Add((byte)DiscussionParamKey.InitialShapeOwnerId, initialOwner);
+            dto.Add((byte)DiscussionParamKey.ShapeId, linkShId);
         }
 
         public static LinkReportResponse Read(Dictionary<byte, object> dto)
@@ -95,6 +98,7 @@ namespace Discussions.RTModel.Model
 
             res.topicId = (int)dto[(byte)DiscussionParamKey.ChangedTopicId];
             res.initialOwner = (int)dto[(byte)DiscussionParamKey.InitialShapeOwnerId];
+            res.linkShId = (int)dto[(byte)DiscussionParamKey.ShapeId];
 
             return res;              
         }
