@@ -75,6 +75,8 @@
     <Compile Include="Model\ClusterStatsRequest.cs" />
     <Compile Include="Model\ClusterStatsResponse.cs" />
     <Compile Include="Model\BadgeViewMessage.cs" />
+    <Compile Include="Model\ScreenshotResponse.cs" />
+    <Compile Include="Model\ScreenshotRequest.cs" />
     <Compile Include="Model\ExplanationModeSyncMsg.cs" />
     <Compile Include="Model\LinkHeadType.cs" />
     <Compile Include="Model\LinkReportRequest.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Operations\DiscussionOpCode.cs" />
     <Compile Include="Operations\TestOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenshotHandler.cs" />
     <Compile Include="ServerBaseVdShape.cs" />
     <Compile Include="ServerVdDoc.cs" />
     <Compile Include="Utils.cs" />

@@ -30,11 +30,12 @@ namespace Reporter.pdf
         Person _person;
         Session _session;
         Task<ReportCollector> _hardReportTask;
-        Task<Dictionary<int, string>> _finalScene;
+        Task<Dictionary<int, byte[]>> _finalScene;
+        List<string> _images = new List<string>();
         
         public PdfAssembler2(Discussion discussion, Topic topic, Person person, 
                              Session session, string PdfPathName, Task<ReportCollector> hardReportTask,
-                             Task<Dictionary<int, string>> finalScene)
+                             Task<Dictionary<int, byte[]>> finalScene)
         {
             _discussion = discussion;
             _topic = topic;
@@ -43,42 +44,60 @@ namespace Reporter.pdf
             _session = session;
             _hardReportTask = hardReportTask;
             _finalScene = finalScene;
+
+            if (topic == null)
+            {
+                MessageBox.Show("Null topic");
+            }
+            if (discussion == null)
+            {
+                MessageBox.Show("Null discussion");
+            }
         }
 
-        public async Task Run()
+        public async Task<List<string>> Run()
         {
             _document = new Document();
 
-            SetStyles();
+            try
+            {
+                SetStyles();
 
-            CoverPage();
+                CoverPage();
 
-            TableOfContents();
+                TableOfContents();
 
-            BasicInfo();
+                BasicInfo();
 
-            await DiscussionBackground();
+                await DiscussionBackground();
 
-            DiscussionBgMediaTable();
+                DiscussionBgMediaTable();
 
-            DiscussionBgSourcesTable();
+                DiscussionBgSourcesTable();
 
-            await FinalScene();
+                await FinalScene();
 
-            Summary(_hardReportTask.Result);
+                Summary(_hardReportTask.Result);
 
-            AllArgPoints();
-     
-            ClusterInformation(await _hardReportTask);
+                AllArgPoints();
 
-            LinkInformation(_hardReportTask.Result);
-        
-            PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always);
-            pdfRenderer.Document = _document;
-            pdfRenderer.RenderDocument();
-            pdfRenderer.PdfDocument.Save(_PdfPathName);
-            
-            Process.Start(_PdfPathName);
+                ClusterInformation(await _hardReportTask);
+
+                LinkInformation(_hardReportTask.Result);
+
+                PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true, PdfFontEmbedding.Always);
+                pdfRenderer.Document = _document;
+                pdfRenderer.RenderDocument();
+                pdfRenderer.PdfDocument.Save(_PdfPathName);
+
+                Process.Start(_PdfPathName);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.StackTrace);
+            }
+
+            return _images;
         }
 
         void CoverPage()
@@ -223,15 +242,16 @@ namespace Reporter.pdf
 
                     tcs.SetResult(0);//ok, done
                 },
-              -1000
+              1300
             );
             return tcs.Task;
         }
 
         void DiscussionBgMediaTable()
         {
-            var s = _document.AddSection();
-
+            //var s = _document.AddSection();
+            var s = _document.LastSection;
+            s.AddPageBreak();            
             s.AddParagraph("Media of discussion background").SectionHeader().AddBookmark("discbgmedia");
 
             MediaTable(s, _discussion.Attachment);            
@@ -284,8 +304,9 @@ namespace Reporter.pdf
 
         void DiscussionBgSourcesTable()
         {
-            var s = _document.AddSection();
-
+            //var s = _document.AddSection();
+            var s = _document.LastSection;
+            s.AddParagraph();
             s.AddParagraph("Sources of discussion background").SectionHeader();
             SourcesTable(s, _discussion.Background.Source);
         }
@@ -325,6 +346,27 @@ namespace Reporter.pdf
 
             foreach (var pers in _session.Person)
             {
+                if (pers == null)
+                {
+                    MessageBox.Show("skipping a null person in session");
+                    continue;
+                }
+
+                bool personValid = true;
+                ArgPoint invalidAp = null;
+                foreach(var ap in pers.ArgPoint)
+                    if (ap.Topic == null)
+                    {
+                        personValid = false;
+                        invalidAp = ap;
+                    }
+
+                if (!personValid)
+                {
+                    MessageBox.Show(string.Format("{0}'s arg.point \"{1}\" has null (undefined) topic. Skipping the arg.point in report", pers.Name, invalidAp.Point));
+                    continue;                    
+                }
+
                 var para = s.AddParagraph().AddBold("Argument points of " + pers.Name);                             
                 
                 var argPointsOf = DaoUtils.ArgPointsOf(pers, _discussion, _topic);
@@ -356,12 +398,12 @@ namespace Reporter.pdf
 
             var r1 = t.AddRow();
             r1.Format.Font.Bold = true;
-            r1.Cells[0].AddParagraph("Point #" + ap.OrderNumber);
+            r1.Cells[0].AddParagraph().AddBold("Point #" + ap.OrderNumber);
             r1.Cells[1].AddParagraph(ap.Point);
 
-            var r0 = t.AddRow();
-            r0.Cells[0].AddParagraph("Author");
-            r0.Cells[1].AddParagraph(ap.Person.Name);
+            //var r0 = t.AddRow();
+            //r0.Cells[0].AddParagraph("Author");
+            //r0.Cells[1].AddParagraph(ap.Person.Name);
 
             //description
             var descr = s.AddParagraph(ap.Description.Text);
@@ -410,7 +452,7 @@ namespace Reporter.pdf
             {
                 var screenshots = await _finalScene;
                 foreach (var clusterReport in hardReport.ClusterReports)
-                {
+                {                  
                     ClusterTable(s, clusterReport, screenshots[clusterReport.clusterShId]);                   
                     s.AddParagraph();
                 }
@@ -451,7 +493,7 @@ namespace Reporter.pdf
                 p.LeftParaIndent(20);
         }
 
-        void ClusterTable(Section s, ClusterReport clustReport, string pathname)
+        void ClusterTable(Section s, ClusterReport clustReport, byte[] image)
         {            
             var t = s.AddTable().TableDefaults(); 
             t.AddColumn(ContentWidth());
@@ -465,7 +507,7 @@ namespace Reporter.pdf
             foreach (var point in clustReport.points)           
                 ArgPointTableLine(t, point, true);
 
-            AddLinkOrClusterImg(s, pathname);                 
+            AddLinkOrClusterImg(s, image);                 
         }
 
         async void LinkInformation(ReportCollector hardReport)
@@ -490,8 +532,8 @@ namespace Reporter.pdf
             }
         }
 
-        void LinkTable(Section s, LinkReportResponse link, string pathname)
-        {
+        void LinkTable(Section s, LinkReportResponse link, byte[] image)
+        {            
             var t = s.AddTable().TableDefaults();
             t.AddColumn(ContentWidth());
 
@@ -516,37 +558,42 @@ namespace Reporter.pdf
             else
                 ClusterTableLine(t, link.ClusterCaption2, link.IdOfCluster2, true, null);
 
-            AddLinkOrClusterImg(s, pathname);           
+            //AddLinkOrClusterImg(s, pathname);           
         }
 
-        void AddLinkOrClusterImg(Section s, string pathname)
+        void AddLinkOrClusterImg(Section s, byte[] image)
         {
-            var imgPara = s.AddParagraph();
+            var imgPara = s.AddParagraph();           
             imgPara.AlignWithTable();
-            var img = imgPara.AddImage(pathname);                       
+            var pathName = PdfTools2.ImageBytesToFile(image, _images);
+            var img = imgPara.AddImage(pathName);
 
-            var bmp = new Bitmap(pathname);
-            var w = bmp.Width;
-            var h = bmp.Height;
+            var bmp = new Bitmap(pathName);      
+            int w = bmp.Width;
+            int h = bmp.Height;
+            bmp.Dispose();
 
-            var maxHeight =  0.5 * _document.DefaultPageSetup.PageHeight;
+            var maxHeight =  0.3 * _document.DefaultPageSetup.PageHeight;
             if (h > maxHeight)
             {
                 img.Height = maxHeight;
                 w = (int)maxHeight * w / h;
                 h = (int)maxHeight;               
             }
-            if (w > ContentWidth())
-            {                
-                img.Width = ContentWidth();
-                img.Height = ContentWidth() * h / w;
+
+            var maxWidth = 0.5 * ContentWidth();
+            if (w > maxWidth)
+            {
+                img.Width = maxWidth;
+                img.Height = maxWidth * h / w;
             }
         }
 
         void Summary(ReportCollector hardReport)
         {
-            var s = _document.AddSection();
-
+            //var s = _document.AddSection();
+            var s = _document.LastSection;
+            s.AddParagraph();
             PdfTools2.SectionHeader(s.AddParagraph("Summary information"));
 
             SummaryTable(s, hardReport);
@@ -567,16 +614,16 @@ namespace Reporter.pdf
             r1.Cells[1].AddParagraph(hardReport.TotalArgPointReport.numMediaAttachments.ToString());
 
             var r2 = t.AddRow();
-            r2.Cells[0].AddParagraph("Sources (total events) ");
+            r2.Cells[0].AddParagraph("Sources (total events) ");           
             r2.Cells[1].AddParagraph(hardReport.EventTotals.TotalSourceAdded.ToString());
 
             var r3 = t.AddRow();
-            r3.Cells[0].AddParagraph("Clusters (total events)");
-            r3.Cells[1].AddParagraph(hardReport.EventTotals.TotalClusterCreated.ToString());
+            r3.Cells[0].AddParagraph("Clusters");
+            r3.Cells[1].AddParagraph(hardReport.ClusterReports.Count.ToString());
             
             var r4 = t.AddRow();
-            r4.Cells[0].AddParagraph("Links (total events)");
-            r4.Cells[1].AddParagraph(hardReport.EventTotals.TotalLinkCreated.ToString());
+            r4.Cells[0].AddParagraph("Links");
+            r4.Cells[1].AddParagraph(hardReport.LinkReports.Count.ToString());
 
             var r5 = t.AddRow();
             r5.Cells[0].AddParagraph("Comments");
@@ -585,14 +632,16 @@ namespace Reporter.pdf
 
         async Task FinalScene()
         {
-            var s = _document.AddSection();
-                
+            //var s = _document.AddSection();
+            var s = _document.LastSection;
+            s.AddParagraph();
             PdfTools2.SectionHeader(s.AddParagraph("Final Public Dashboard"));
             var screenshots = await _finalScene;
             var imgPara = s.AddParagraph();
-            var img = imgPara.AddImage(screenshots[-1]);
+            var pathName = PdfTools2.ImageBytesToFile(screenshots[-1], _images);            
+            var img = imgPara.AddImage(pathName);              
             img.Width = ContentWidth();
-        }
+        }       
 
         /// <summary>
         /// Defines the cover page.

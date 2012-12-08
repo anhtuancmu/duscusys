@@ -30,6 +30,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using Discussions.pdf_reader;
 using Reporter.pdf;
+using System.Threading.Tasks;
 
 namespace Discussions
 {
@@ -79,6 +80,46 @@ namespace Discussions
         public Main()
         {
             InitializeComponent();
+
+            //special case of screenshot mode
+            if (SessionInfo.Get().ScreenshotMode)
+            {
+                var discId = SessionInfo.Get().screenDiscId;
+                Ctx2.sharedClient = sharedClient;
+                CtxSingleton.sharedClient = sharedClient;
+                SessionInfo.Get().discussion = Ctx2.Get().Discussion.FirstOrDefault(d => d.Id == discId);
+                SessionInfo.Get().setPerson(Ctx2.Get().Person.FirstOrDefault(p => p.Name == "moderator"));               
+                var loginRes = new LoginResult();
+                loginRes.devType = DeviceType.Wpf;
+                loginRes.discussion = SessionInfo.Get().discussion;
+                loginRes.person = SessionInfo.Get().person;
+                sharedClient.start(loginRes, Ctx2.Get().Connection.DataSource, DeviceType.Wpf);
+
+                this.Hide();
+
+                sharedClient.clienRt.onJoin += () =>
+                {
+                    PublicCenter pubCenter = new PublicCenter(UISharedRTClient.Instance,
+                                                                () => { },
+                                                                SessionInfo.Get().screenTopicId,
+                                                                SessionInfo.Get().screenDiscId
+                                                                );
+
+                    pubCenter.Show();
+                    pubCenter.Hide();
+
+                    Task<Dictionary<int, string>> t = pubCenter.FinalSceneScreenshots();
+                    t.GetAwaiter().OnCompleted(() =>
+                    {
+                        pubCenter.Close();
+                        pubCenter = null;
+
+                        Utils.ScreenshotPackToMetaInfo(t.Result, SessionInfo.Get().screenMetaInfo);
+                        Application.Current.Shutdown();
+                    });
+                };
+                return;          
+            }
 
             lblVersion.Content = Utils2.VersionString();
             
@@ -226,10 +267,13 @@ namespace Discussions
                 BusyWndSingleton.Show("Exporting, please wait...");
                 try
                 {
-                    await (new PdfReportDriver()).Run(SessionInfo.Get().person.Session,
-                                                      tsd.topic,
-                                                      SessionInfo.Get().discussion,
-                                                      SessionInfo.Get().person);
+                    var tmpImages = await (new PdfReportDriver()).Run(SessionInfo.Get().person.Session,
+                                                                    tsd.topic,
+                                                                    SessionInfo.Get().discussion,
+                                                                    SessionInfo.Get().person);
+                    //postpone cleanup to next run
+                    //foreach (var img in tmpImages)
+                    //    File.Delete(img);
                 }
                 finally
                 {
@@ -530,6 +574,11 @@ namespace Discussions
         void ShowRecentEvent(EventViewModel e)
         {           
             RecentEvents.Insert(0, e);          
+        }
+
+        private void SurfaceButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            UISharedRTClient.Instance.clienRt.SendScreenshotRequest(1,2);
         }     
     }
 }

@@ -300,6 +300,24 @@ namespace Discussions
             timer.Start();
             return tcs.Task;
         }
+
+        /// <summary>
+        /// Writes meta-information about screenshot pack to text file
+        /// </summary>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        public static void ScreenshotPackToMetaInfo(Dictionary<int, string> pack, string metaPathName)
+        {                        
+            using (var fs = new BinaryWriter(new FileStream(metaPathName, FileMode.Create)))
+            {
+                fs.Write(pack.Count);
+                foreach (var kvp in pack)
+                {                    
+                    fs.Write(kvp.Key);
+                    fs.Write(kvp.Value);
+                }
+            }            
+        }
     }
 
 }

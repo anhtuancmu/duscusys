@@ -1030,5 +1030,11 @@ namespace Discussions
         }
 
         #endregion
+
+        private void btnGoogle_Click_1(object sender, RoutedEventArgs e)
+        {
+            var browser = new WebKitFrm("http://google.com");
+            browser.Show();
+        }
     }
 }
