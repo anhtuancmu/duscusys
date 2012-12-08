@@ -12,6 +12,7 @@ using Discussions.DbModel;
 using Discussions.RTModel.Model;
 using Discussions.RTModel.Caching;
 using Discussions.model;
+using System.IO;
 
 namespace Discussions.RTModel
 {
@@ -39,9 +40,9 @@ namespace Discussions.RTModel
         {           
             _photonPer = photonPeer;
         }                  
-
+        
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
-        {                                   
+        {                                              
             switch ((DiscussionOpCode)operationRequest.OperationCode)
             {
                 case DiscussionOpCode.Test:
@@ -80,6 +81,9 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.StatsEvent:
                     if(LogEvent(operationRequest.Parameters))
                         HandleGameOperation(operationRequest, sendParameters); // broadcast stats event
+                    break;
+                case DiscussionOpCode.ScreenshotRequest:
+                    HandleScreenshotRequest(operationRequest, sendParameters);
                     break;
             }
 
@@ -247,6 +251,29 @@ namespace Discussions.RTModel
             DeviceType devType;
             Serializers.ReadStatEventParams(req, out evt, out userId, out discussionId, out topicId, out devType);
             return EventLogger.Log(new DiscCtx(Discussions.ConfigManager.ConnStr), evt, userId, discussionId, topicId, devType);
+        }
+
+        void HandleScreenshotRequest(OperationRequest operationRequest, SendParameters sendParameters)
+        {
+            var param = ScreenshotRequest.Read(operationRequest.Parameters);            
+            var handler = new ScreenshotHandler();
+
+            //launch client and make screens
+            var metaInfoPathName = handler.RunClientAndWait(param.topicId, param.discussionId);
+            var screenDict = handler.MetaInfoToDict(metaInfoPathName);
+            File.Delete(metaInfoPathName);
+
+            //build screenshot response
+            var resp = new Dictionary<int, byte[]>();
+            foreach(var kvp in screenDict)            
+                resp.Add(kvp.Key, File.ReadAllBytes(kvp.Value));
+
+            this.SendOperationResponse( new OperationResponse((byte)DiscussionOpCode.ScreenshotRequest, ScreenshotResponse.Write(resp)),
+                                        sendParameters);
+
+            //cleanup
+            foreach (var kvp in screenDict)
+                File.Delete(kvp.Value);
         }
     }
 }

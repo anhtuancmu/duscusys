@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Reporter.pdf
 {
     class PdfReportDriver
     {
-        public async Task Run(Session session, Topic topic, Discussion discussion, Person person)
+        public Task<List<string>> Run(Session session, Topic topic, Discussion discussion, Person person)
         {
             //tests
             //var ctx = new DiscCtx(ConfigManager.ConnStr);
@@ -28,8 +29,8 @@ namespace Reporter.pdf
             
             var pdfAsm = new Reporter.pdf.PdfAssembler2(discussion, topic, person, session,
                                                         Utils.RandomFilePath(".pdf"), tcs.Task,
-                                                        FinalSceneScreenshot(topic.Id, discussion.Id));
-            await pdfAsm.Run();
+                                                        RemoteFinalSceneScreenshot(topic.Id, discussion.Id));
+            return pdfAsm.Run();
         }
         
         public void reportGenerated(ReportCollector sender, object args)
@@ -62,6 +63,25 @@ namespace Reporter.pdf
                 });
 
             return t;
+        }
+
+        TaskCompletionSource<Dictionary<int, byte[]>> remoteScreenshotTCS = null;
+        public Task<Dictionary<int, byte[]>> RemoteFinalSceneScreenshot(int topicId, int discId) 
+        {
+            UISharedRTClient.Instance.clienRt.onScreenshotResponse += onScreenshotResponse;
+            UISharedRTClient.Instance.clienRt.SendScreenshotRequest(topicId, discId);
+
+
+            remoteScreenshotTCS = new TaskCompletionSource<Dictionary<int, byte[]>>();
+            return remoteScreenshotTCS.Task;                       
+        }
+
+        void onScreenshotResponse(Dictionary<int, byte[]> resp)
+        {
+            UISharedRTClient.Instance.clienRt.onScreenshotResponse -= onScreenshotResponse;
+
+            remoteScreenshotTCS.SetResult(resp);
+            remoteScreenshotTCS = null;
         }
     }
 }

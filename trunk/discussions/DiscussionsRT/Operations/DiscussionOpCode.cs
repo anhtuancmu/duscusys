@@ -80,6 +80,10 @@ namespace Discussions.RTModel.Operations
         //
         BadgeViewRequest = 35,
 
-        ExplanationModeSyncViewRequest = 36
+        ExplanationModeSyncViewRequest = 36,
+
+        
+        // reporting, screenshots
+        ScreenshotRequest = 37
     }
 }

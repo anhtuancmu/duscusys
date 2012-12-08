@@ -9,6 +9,7 @@ using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using Discussions;
 using Discussions.DbModel;
+using System.IO;
 
 namespace Reporter.pdf
 {
@@ -155,6 +156,30 @@ namespace Reporter.pdf
             p.Format.LeftIndent = Unit.FromPoint(-3); //align with table 
             p.Format.RightIndent = Unit.FromPoint(5);
             p.Format.SpaceBefore = Unit.FromPoint(1);
+        }
+
+        static MigraDoc.DocumentObjectModel.Shapes.Image BytesToPdfImage(byte[] bytes,  out string pathName, bool autoRemove = true)
+        {            
+            pathName = Utils.RandomFilePath(".png");            
+            using (var fs = new FileStream(pathName, FileMode.CreateNew))
+            {
+                fs.Write(bytes,0,bytes.Count());              
+            }
+            var res = new MigraDoc.DocumentObjectModel.Shapes.Image(pathName);
+            if (autoRemove)
+                File.Delete(pathName);
+            return res;
+        }
+
+        public static string ImageBytesToFile(byte[] bytes, List<string> files) 
+        {
+            var pathName = Utils.RandomFilePath(".png");
+            files.Add(pathName);
+            using (var fs = new FileStream(pathName, FileMode.CreateNew))
+            {
+                fs.Write(bytes, 0, bytes.Count());
+            }
+            return pathName;
         }
     }
 }

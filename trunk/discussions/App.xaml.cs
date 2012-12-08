@@ -16,19 +16,29 @@ namespace Discussions
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            if (e.Args.Length > 0)
+            if (e.Args.Length > 0 && e.Args[0] == "experiment")
             {
-                if (e.Args[0] == "experiment")
-                    SessionInfo.Get().ExperimentMode = true;
+                SessionInfo.Get().ExperimentMode = true;
+            }
+            else if (e.Args.Length > 2)
+            {
+                SessionInfo.Get().ScreenshotMode = true;
+                SessionInfo.Get().screenTopicId = int.Parse(e.Args[0]);
+                SessionInfo.Get().screenDiscId = int.Parse(e.Args[1]);
+                SessionInfo.Get().screenMetaInfo = e.Args[2];
             }
 
-            try
+            //in screenshot mode, we may have temp images not yet built into report
+            if (!SessionInfo.Get().ScreenshotMode)
             {
-                Directory.Delete(Utils.TempDir(), true);
+                try
+                {
+                    Directory.Delete(Utils.TempDir(), true);
+                }
+                catch (Exception)
+                {
+                }
             }
-            catch(Exception)
-            {
-            }         
         }
     }
 }

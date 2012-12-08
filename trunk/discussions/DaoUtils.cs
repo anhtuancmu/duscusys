@@ -533,7 +533,7 @@ namespace Discussions
 
         public static IEnumerable<ArgPoint> ArgPointsOf(Person pers, Discussion d, Topic t)
         {
-            return pers.ArgPoint.Where(ap => ap.Topic.Id==t.Id);
+            return pers.ArgPoint.Where(ap => ap.Topic!=null && ap.Topic.Id == t.Id);
         }
     }
 

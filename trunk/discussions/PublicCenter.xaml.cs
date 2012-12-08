@@ -438,6 +438,9 @@ namespace Discussions
 
         void ToggleShapes(bool shVisible)
         {
+            if (editCtx == null)
+                CreateEditCtx();
+
             if (shVisible)
             {
                 editCtx.ShapesVisility(true);   
@@ -805,11 +808,12 @@ namespace Discussions
         #region screenshot of final scene
         TaskCompletionSource<Dictionary<int, string>> finalSceneTcs = null;
         public Task<Dictionary<int, string>> FinalSceneScreenshots()
-        {
-            ToggleShapes(true);
-
+        {           
             finalSceneTcs = new TaskCompletionSource<Dictionary<int, string>>();
             _sharedClient.clienRt.loadingDoneEvent += shapeLoadingDone;
+
+            ToggleShapes(true);
+
             return finalSceneTcs.Task;
         }
         public static Rect TransformRectByDpi(Rect rect, int dpi)

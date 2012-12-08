@@ -74,18 +74,19 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" HorizontalAlignment="Right" Click="btnSave_Click" VerticalAlignment="Bottom" Height="75" Width="75" Grid.Row="2">
+                <Border Background="{StaticResource save}" Width="60" Height="60"/>
+            </Custom:SurfaceButton>
             <StackPanel x:Name="stkHeader" Orientation="Horizontal" 
                     PreviewMouseDown="stkHeader_PreviewMouseDown_1"
-                    PreviewTouchDown="stkHeader_PreviewTouchDown_1">
+                    PreviewTouchDown="stkHeader_PreviewTouchDown_1" Background="#02000000">
                 <Label Content="BY:  " HorizontalAlignment="Left"/>
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" HorizontalAlignment="Right" Click="btnSave_Click" VerticalAlignment="Bottom" Height="75" Width="75">
-                    <Border Background="{StaticResource save}" Width="60" Height="60"/>
-                </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75">
                     <Border Background="{StaticResource decrease2}" Width="60" Height="60"/>
                 </Custom:SurfaceButton>
@@ -93,9 +94,10 @@
 
             <Custom:SurfaceScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                 <StackPanel>
-                   <TextBlock x:Name="txtPoint" 
+                    <TextBlock x:Name="txtPoint" 
 			            TextAlignment="Center"
-        	            Text="{Binding Point}" 
+        	            Text="{Binding Point}"   
+                        MaxWidth="850"
         	            TextWrapping="Wrap" VerticalAlignment="Center" 
                         d:LayoutOverrides="Width" FontSize="48"/>
                     <TextBlock x:Name="plainDescription"
@@ -133,7 +135,7 @@
                         </ItemsControl>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical">                                        
+                    <StackPanel Orientation="Vertical">
                         <Label Content="Comments" HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" Background="#00000000" 
                                 Foreground="Black" d:LayoutOverrides="HorizontalMargin"/>

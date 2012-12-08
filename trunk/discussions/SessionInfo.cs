@@ -38,6 +38,11 @@ namespace Discussions
 
         public bool ExperimentMode = false;
 
+        public bool ScreenshotMode = false;
+        public int screenTopicId = -1;
+        public int screenDiscId = -1;
+        public string screenMetaInfo = null;
+
         Person _person = null;
 
         public Person person

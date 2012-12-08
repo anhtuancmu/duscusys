@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage", "CloudStorag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscSvc", "DiscSvc\DiscSvc.csproj", "{924E8BC5-8337-43E0-9A5F-18C2850F0CC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleLauncher", "..\ConsoleLauncher\ConsoleLauncher.csproj", "{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Manager = AnkhSVN - Subversion Support for Visual Studio
@@ -78,6 +80,24 @@ Global
 		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|x64.ActiveCfg = Release|Any CPU
 		{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug on Surface|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug on Surface|Any CPU.Build.0 = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug on Surface|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug on Surface|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug on Surface|x64.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug on Surface|x86.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D9D0EEB-AA6D-4326-A63D-9D8BCD679725}.Release|x86.ActiveCfg = Release|Any CPU
 		{5204D876-80F1-48CF-B1E9-36BB44E55640}.Debug on Surface|Any CPU.ActiveCfg = Debug|Any CPU
 		{5204D876-80F1-48CF-B1E9-36BB44E55640}.Debug on Surface|Any CPU.Build.0 = Debug|Any CPU
 		{5204D876-80F1-48CF-B1E9-36BB44E55640}.Debug on Surface|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -75,7 +75,7 @@ namespace Reporter
         }
 
         TextBlock GetTopicSummary(TopicReport report, ReportParameters param, bool total)
-        {
+        {            
             var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\r\n";
 
             var nUsr = 0;
@@ -298,7 +298,7 @@ namespace Reporter
         {
             var res = new TreeViewItem();
             res.Items.Add(GetTopicSummary(report, collector.ReportParams, false));
-            res.Header = report.topic.Name;
+            res.Header = "Basic summary - " + report.topic.Name;
 
             //clusters
             var clusters = WrapNode("Clusters");

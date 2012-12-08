@@ -107,6 +107,9 @@ namespace DiscussionsClientRT
 
         public delegate void LinkStatsResponseEvent(LinkReportResponse resp, bool ok);
         public LinkStatsResponseEvent linkStatsResponseEvent;
+
+        public delegate void OnScreenshotResponse(Dictionary<int, byte[]> resp);
+        public OnScreenshotResponse onScreenshotResponse;
         #endregion reporting
 
         LiteLobbyPeer peer;
@@ -388,6 +391,11 @@ namespace DiscussionsClientRT
                        
                         DbgPrintOnlineList();
                     }
+                    break;
+
+                case (byte)DiscussionOpCode.ScreenshotRequest:
+                    if (onScreenshotResponse != null)
+                        onScreenshotResponse(ScreenshotResponse.Read(operationResponse.Parameters).screenshots);
                     break;
                 default:
                     Console.WriteLine("Unhandled OnOperationResponse " + operationResponse.OperationCode);
@@ -747,6 +755,16 @@ namespace DiscussionsClientRT
 
             peer.OpCustom((byte)DiscussionOpCode.ExplanationModeSyncViewRequest,
                            ExplanationModeSyncMsg.Write(type, viewObjectId, doExpand),
+                           true);
+        }
+
+        public void SendScreenshotRequest(int topicId, int discussionId)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+            
+            peer.OpCustom((byte)DiscussionOpCode.ScreenshotRequest,
+                           ScreenshotRequest.Write(topicId, discussionId),
                            true);
         }
     }
