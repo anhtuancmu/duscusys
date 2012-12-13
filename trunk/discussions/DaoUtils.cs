@@ -353,43 +353,33 @@ namespace Discussions
             return res;
         }
 
-        const string NewComment = NEW_COMMENT;
+        const string NewComment = NEW_COMMENT;   
 
-        public static bool needCommentPlaceholder(ArgPoint ap)
-        { 
-            if(ap==null)
-                return false;
-
-            if (ap.Comment.Count == 0)
-                return true;
-            else
-            {
-                var placeholder = ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment);
-                return (placeholder == null);
-            }
-        }
-
-        public static Comment EnsureCommentPlaceholderExists(ArgPoint ap, Person commentAuthor)
+        public static Comment EnsureCommentPlaceholderExists(ArgPoint ap)
         {
             if(ap==null)
                 return null;
            
             bool needNewPlaceholder = false;
             if (ap.Comment.Count == 0)
+            {
                 needNewPlaceholder = true;
+            }
             else
             {
-                var placeholder = ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));                
-                needNewPlaceholder = (placeholder == null);
-                if (placeholder!=null)
-                    placeholder.Person = null;
+                var placeholderComment = ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
+                needNewPlaceholder = (placeholderComment == null);
+                if (placeholderComment != null)
+                {
+                    placeholderComment.Person = null;
+                    placeholderComment.Text = DaoUtils.NEW_COMMENT; //in case of comment was whitespace  
+                }
             }
 
             if(needNewPlaceholder)
             {
                 var c = new Comment();
-                c.Text = NewComment;
-                //c.Person = commentAuthor;
+                c.Text = NewComment;                
                 ap.Comment.Add(c);
                 return c;
             }

@@ -5,6 +5,7 @@ using System.Text;
 using Discussions.DbModel;
 using System.Data.Objects;
 using System.Data;
+using LoginEngine;
 
 namespace Discussions
 {
@@ -70,8 +71,10 @@ namespace Discussions
                 return Ctx2.Get().Person.FirstOrDefault(p0=>p0.Id==_person.Id);
             else if (IsAttachedTo(CtxSingleton.Get(), entity))
                 return CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
-            else
-                return _person;
+            else if(IsAttachedTo(DbCtx.Get(), entity))
+                return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
+
+            return _person;
         }        
 
         public void setPerson(Person p)
@@ -90,7 +93,7 @@ namespace Discussions
             ObjectStateEntry entry;
             if (context.ObjectStateManager.TryGetObjectStateEntry(entity, out entry))
             {
-                return (entry.State != EntityState.Detached);
+                return true;
             }
             return false;
         }

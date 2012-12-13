@@ -223,22 +223,6 @@ namespace Discussions
             plainDescription.MaxWidth = this.ActualWidth - 10;
         }
 
-        void commentEdit(object sender, CommentRoutedEventArgs e)
-        {
-            var ownerId = SessionInfo.Get().person.Id;
-            var commentAuthor = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == ownerId);
-            //var commentId = e.Comment.Id;
-            //var comment = DbCtx.Get().Comment.FirstOrDefault(c0 => c0.Id == commentId);
-            DaoUtils.InjectAuthorOfComment(e.Comment, commentAuthor);
-
-            if (e.RequiresDataRecontext)
-            {
-                //trigger data context to force author refresh 
-                e.CommentControl.DataContext = null;
-                e.CommentControl.DataContext = e.Comment;
-            }
-        }
-
         bool _editingMode = false;
         public bool EditingMode
         {
@@ -278,8 +262,6 @@ namespace Discussions
                 var ap = (ArgPoint)DataContext;
                 EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
             }
-
-            btnComment_Click(null, null);
 
             BeginSrcNumberInjection();
             UpdateOrderedSources();
@@ -484,86 +466,31 @@ namespace Discussions
         }
         #endregion comment highlight
 
-        #region comments
-        Comment newComment = null;
+        #region comments        
         private void btnComment_Click(object sender, RoutedEventArgs e)
         {
-            var ap1 = DataContext as ArgPoint;            
-            if (ap1 != null)
-            {
-                var ownerId = SessionInfo.Get().person.Id;
-                var commentAuthor = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == ownerId);
-                newComment = DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint, commentAuthor);
-                if (newComment != null)
-                {
-                    Dispatcher.BeginInvoke(new Action(DeferredFocusSet),
-                                            System.Windows.Threading.DispatcherPriority.Background, null);
-
-                    var ap = (ArgPoint)DataContext;
-                    ap.ChangesPending = true;
-                    UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                               StEvent.CommentAdded,
-                                               SessionInfo.Get().person.Id,
-                                               ap.Topic.Discussion.Id,
-                                               ap.Topic.Id,
-                                               DeviceType.Wpf);
-                }
-            }
+            btnSave_Click(null,null);
         }
 
-        void DeferredFocusSet()
+        void onCommentEditabilityChanged(bool edited)
         {
-            var newItem = lstBxComments1.ItemContainerGenerator.ContainerFromItem(newComment);
-            var commentText = Utils.FindChild<SurfaceTextBox>(newItem);
-            if (commentText != null)
-                commentText.Focus();
+            _isEditingComment = edited;             
         }
 
-        void onCommentEnd(object sender, CommentRoutedEventArgs e)
+        void placeholderFocus(Comment comment)
         {
-            var ap = DataContext as ArgPoint;
-            if (ap == null)
-                return;
-
-            commentEdit(null, e);       //inject author
-
-            bool needsEvent = false;
-            if (DaoUtils.needCommentPlaceholder(ap))
-            {
-                btnComment_Click(null, null);//add new placeholder and focus it  
-                needsEvent = true;
-            }
-
-            if (newComment != null)
-                needsEvent = true;
-
-            if (needsEvent)
-            {
-            }
+            new VisualCommentsHelper(this.Dispatcher, lstBxComments1.ItemContainerGenerator, comment);
         }
 
-        void onCommentDelete(object sender, RoutedEventArgs e)
+        void commentSave()
         {
-            var ap = DataContext as ArgPoint;
-            if (ap == null)
-                return;
-
-            ap.ChangesPending = true;
-            UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                StEvent.CommentRemoved,
-                                ap.Person.Id,
-                                ap.Topic.Discussion.Id,
-                                ap.Topic.Id,
-                                DeviceType.Wpf);
+            btnSave_Click(null, null);//focus lost matters
         }
 
-        void onCommentEditabilityChanged(object sender, CommentEditabilityChanged e)
+        void possibilityToClose()
         {
-            _isEditingComment = e.IsBeingEdited;
-            dbgText.Text = "editability " + e.IsBeingEdited;
-
-            if(!e.IsBeingEdited && MissedCloseRequest)
-                badgeDoubleTap(sender, null);
+            if (MissedCloseRequest)
+                badgeDoubleTap(null, null);
         }
         #endregion comments
 
@@ -605,16 +532,16 @@ namespace Discussions
             {
             }
 
-            _sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
-                                                SessionInfo.Get().person.Id,
-                                                ap.Topic.Discussion.Id,
-                                                ap.Topic.Id,
-                                                DeviceType.Wpf);
+            if (_sharedClient != null)
+            {
+                _sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
+                                                    SessionInfo.Get().person.Id,
+                                                    ap.Topic.Discussion.Id,
+                                                    ap.Topic.Id,
+                                                    DeviceType.Wpf);
 
-            _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id);
-
-            //update locally 
-            ///ArgPointChanged(ap.Id, ap.Topic.Id, PointChangedType.Modified);
+                _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id);
+            }
         }
 
         private void stkHeader_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)

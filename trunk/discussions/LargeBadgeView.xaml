@@ -23,7 +23,10 @@
         <BooleanToVisibilityConverter x:Key="VisibilityOfBool"/>
 
         <DataTemplate x:Key="CommentItemTemplate">
-            <local:CommentUC Width="820"/>
+            <local:CommentUC Width="820" 
+                             CommentEditLockChanged="onCommentEditabilityChanged"
+                             possibilityToClose="possibilityToClose"
+                             placeholderFocus="placeholderFocus"/>
         </DataTemplate>
 
         <local:ARGBColorBrushConvertor x:Key="brushConverter" />
@@ -79,7 +82,6 @@
             <Custom:SurfaceButton x:Name="btnSave" HorizontalAlignment="Right" Click="btnSave_Click" VerticalAlignment="Bottom" Height="75" Width="75" Grid.Row="2" Background="{x:Null}">
                 <Border Background="{StaticResource save}" Width="60" Height="60"/>
             </Custom:SurfaceButton>
-            <TextBlock Name="dbgText" Text="111" Grid.Row="2" HorizontalAlignment="Left"/>
             <StackPanel x:Name="stkHeader" Orientation="Horizontal" 
                     PreviewMouseDown="stkHeader_PreviewMouseDown_1"
                     PreviewTouchDown="stkHeader_PreviewTouchDown_1" Background="#02000000">
@@ -140,10 +142,7 @@
                         <Label Content="Comments" HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" Background="#00000000" 
                                 Foreground="Black" d:LayoutOverrides="HorizontalMargin"/>
-                        <ItemsControl x:Name="lstBxComments1"
-			                        local:CommentUC.CommentEnd="onCommentEnd"       
-                                    local:CommentUC.CommentDelete="onCommentDelete"  
-                                    local:CommentUC.CommentEditingChanged="onCommentEditabilityChanged"
+                        <ItemsControl x:Name="lstBxComments1"			                                                                                                     
         	                        ScrollViewer.VerticalScrollBarVisibility="Auto"           
         	                        ItemsSource="{Binding Comment}" 
         	                        ItemTemplate="{StaticResource CommentItemTemplate}" 

@@ -440,6 +440,7 @@
       <DependentUpon>VideoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DiscWindows.cs" />
+    <Compile Include="VisualCommentsHelper.cs" />
     <Compile Include="webkit host\BrowserBar.xaml.cs">
       <DependentUpon>BrowserBar.xaml</DependentUpon>
     </Compile>
