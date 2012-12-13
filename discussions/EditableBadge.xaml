@@ -20,7 +20,7 @@
         <local:MediaTypeIconConverter x:Key="mediaTypeIconConv"/>
         <local:AttachmentToVisibilityConverter x:Key="owner2Visibility"/>
         <DataTemplate x:Key="CommentItemTemplate">
-            <local:CommentUC/>
+            <local:CommentUC placeholderFocus="placeholderFocus"/>
         </DataTemplate>
         <local:AttachToImageConvertor x:Key="attachImgConverter" />
         <local:ARGBColorBrushConvertor x:Key="brushConverter" />
@@ -322,8 +322,6 @@
 				PreviewTouchUp="lstBxComments_PreviewTouchUp_1"-->
 
             <ItemsControl x:Name="lstBxComments"
-                local:CommentUC.CommentEnd="onCommentEnd"       
-                local:CommentUC.CommentDelete="onCommentDelete"  
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"                   
 				ItemsSource="{Binding Comment}" 
 				ItemTemplate="{StaticResource CommentItemTemplate}" 

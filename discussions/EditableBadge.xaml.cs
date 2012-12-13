@@ -111,18 +111,9 @@ namespace Discussions
             //System.Windows.Threading.DispatcherPriority.Background);
         }
 
-        void commentEdit(object sender, CommentRoutedEventArgs e)
+        void placeholderFocus(Comment comment)
         {
-            var commentAuthor = SessionInfo.Get().getPerson(DataContext);
-            ///DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint, commentAuthor);
-            DaoUtils.InjectAuthorOfComment(e.Comment, commentAuthor);
- 
-            if (e.RequiresDataRecontext)
-            {
-                //trigger data context to force author refresh 
-                e.CommentControl.DataContext = null;
-                e.CommentControl.DataContext = e.Comment;
-            }
+            new VisualCommentsHelper(this.Dispatcher, lstBxComments.ItemContainerGenerator, comment);
         }
 
         bool _editingMode = false;
@@ -184,7 +175,7 @@ namespace Discussions
             if (ap1 != null)
             {
                 var commentAuthor = SessionInfo.Get().getPerson(DataContext);
-                DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint, commentAuthor);
+                DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint);
             }
 
             if (ap != null)
@@ -601,76 +592,8 @@ namespace Discussions
             BeginAttachmentNumberInjection();
         }
 
-        Comment newComment = null;
         private void btnComment_Click(object sender, RoutedEventArgs e)
         {            
-            var ap1 = DataContext as ArgPoint;
-            if (ap1 != null)
-            {
-                var commentAuthor = SessionInfo.Get().getPerson(DataContext);
-                newComment = DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint, commentAuthor);
-                if (newComment != null)
-                {
-                    Dispatcher.BeginInvoke(new Action(DeferredFocusSet), 
-                                            System.Windows.Threading.DispatcherPriority.Background, null);
-                   
-                    var ap = (ArgPoint)DataContext;
-                    ap.ChangesPending = true;
-                    UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                               StEvent.CommentAdded,
-                                               SessionInfo.Get().person.Id,
-                                               ap.Topic.Discussion.Id,
-                                               ap.Topic.Id,
-                                               DeviceType.Wpf);
-                }
-            }
-        }
-
-        void DeferredFocusSet()
-        {
-            var newItem = lstBxComments.ItemContainerGenerator.ContainerFromItem(newComment);
-            var commentText = Utils.FindChild<SurfaceTextBox>(newItem);
-            if (commentText != null)
-                commentText.Focus();
-        }
-
-        void onCommentEnd(object sender, CommentRoutedEventArgs e)
-        {
-            var ap = DataContext as ArgPoint;
-            if (ap == null)
-                return;
-
-            commentEdit(null, e);       //inject author
-
-            bool needsEvent = false;
-            if (DaoUtils.needCommentPlaceholder(ap))
-            {
-                btnComment_Click(null, null);//add new placeholder and focus it  
-                needsEvent = true;
-            }
-
-            if (newComment != null)
-                needsEvent = true;
-
-            if (needsEvent)
-            {
-
-            }
-        }
-
-        void onCommentDelete(object sender, RoutedEventArgs e)
-        {
-            var ap = DataContext as ArgPoint;
-            if (ap == null)
-                return;
-
-            ap.ChangesPending = true;
-            UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                StEvent.CommentRemoved,
-                                ap.Person.Id,
-                                ap.Topic.Discussion.Id,
-                                ap.Topic.Id,
-                                DeviceType.Wpf);
         }
 
         private void btnAddSrc_Click(object sender, RoutedEventArgs e)

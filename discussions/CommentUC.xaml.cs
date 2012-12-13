@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Discussions.DbModel;
+using Discussions.model;
+using Discussions.rt;
 
 namespace Discussions
 {
@@ -20,46 +22,39 @@ namespace Discussions
     /// </summary>
     public partial class CommentUC : UserControl
     {
-        public static readonly RoutedEvent CommentDeleteEvent = EventManager.RegisterRoutedEvent(
-           "CommentDelete", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CommentUC));
+        /***************************************************************************/
+
+        public delegate void CommentEditingEventHandler(bool editing);
+        public event CommentEditingEventHandler CommentEditLockChanged;
+        void RaiseCommentEditLockChanged(bool editing)
+        {
+            if (CommentEditLockChanged != null)
+                CommentEditLockChanged(editing);
+        }
+        /***************************************************************************/
+        /// <summary>
+        /// CommentUC notifies items container about possiblity to focus new placeholder
+        /// </summary>
+        /// <param name="comment"></param>
+        public delegate void PlaceholderFocusEventHandler(Comment comment);
+        public event PlaceholderFocusEventHandler placeholderFocus;
+        void RaisePlaceholderFocus(Comment comment)
+        {
+            if (placeholderFocus != null)
+                placeholderFocus(comment);
+        }
         
-        public static readonly RoutedEvent CommentEditEvent = EventManager.RegisterRoutedEvent(
-            "CommentEdit", RoutingStrategy.Bubble, typeof(CommentEventHandler), typeof(CommentUC));
-
-        public static readonly RoutedEvent CommentEndEvent = EventManager.RegisterRoutedEvent(
-            "CommentEnd", RoutingStrategy.Bubble, typeof(CommentEventHandler), typeof(CommentUC));
-
-        public static readonly RoutedEvent CommentEditingEvent = EventManager.RegisterRoutedEvent(
-          "CommentEditingChanged", RoutingStrategy.Bubble, typeof(CommentEditingEventHandler), typeof(CommentUC));
-
-        public event CommentEditingEventHandler CommentEditingChanged
+        /***************************************************************************/        
+        public delegate void PossibilityToCloseBadgeHandler();
+        public event PossibilityToCloseBadgeHandler possibilityToClose;
+        void RaisePossibilityToClose()
         {
-            add { AddHandler(CommentEditingEvent, value); }
-            remove { RemoveHandler(CommentEditingEvent, value); }
+            if (possibilityToClose != null)
+                possibilityToClose();
         }
 
-        public event CommentEventHandler CommentDelete
-        {
-            add { AddHandler(CommentDeleteEvent, value); }
-            remove { RemoveHandler(CommentDeleteEvent, value); }
-        }
-
-        public event CommentEventHandler CommentEdit
-        {
-            add { AddHandler(CommentEditEvent, value); }
-            remove { RemoveHandler(CommentEditEvent, value); }
-        }
-
-        public event CommentEventHandler CommentEnd
-        {
-            add { AddHandler(CommentEndEvent, value); }
-            remove { RemoveHandler(CommentEndEvent, value); }
-        }
-
-        public delegate void CommentEventHandler(object sender,  CommentRoutedEventArgs e);
-
-        public delegate void CommentEditingEventHandler(object sender, CommentEditabilityChanged e);
-
+        /***************************************************************************/
+           
         public static readonly DependencyProperty PermitsEditProperty =
              DependencyProperty.Register("PermitsEdit", typeof(bool),
              typeof(CommentUC), new FrameworkPropertyMetadata(true, OnPermitsEditChanged));
@@ -78,6 +73,7 @@ namespace Discussions
             if (!permits)
                 control.btnRemoveComment.Visibility = Visibility.Hidden;
         }
+        /***************************************************************************/
 
         public CommentUC()
         {
@@ -95,43 +91,53 @@ namespace Discussions
 
         private void txtBxText_LostFocus(object sender, RoutedEventArgs e)
         {
-            checkReadonly(DataContext as Comment);
+            RequestFinishEditing();            
 
-            var c = DataContext as Comment;
-            bool requiresOwnerInjection;
-            if (c != null && c.Text != DaoUtils.NEW_COMMENT && string.IsNullOrWhiteSpace(c.Text))
-                requiresOwnerInjection = true;
-            else
-                requiresOwnerInjection = false;
-
-            checkRemovability(DataContext as Comment);
-            this.RaiseEvent(new CommentRoutedEventArgs(CommentEditEvent, c, this, requiresOwnerInjection));
-            this.RaiseEvent(new CommentRoutedEventArgs(CommentEndEvent, DataContext as Comment, this, requiresOwnerInjection));
-
-            this.RaiseEvent(new CommentEditabilityChanged(CommentEditingEvent, false));            
+            RaiseCommentEditLockChanged(false);
         }
 
+        #region visual state checks
         void checkReadonly(Comment c)
         {
             if (c == null)
                 return;
 
-            if (c.Text != DaoUtils.NEW_COMMENT && c.Text.Length > 0)
+            var commentFilled = c.Text != DaoUtils.NEW_COMMENT && !string.IsNullOrWhiteSpace(c.Text);
+            if (commentFilled)
             {
                 txtBxText.Visibility = Visibility.Collapsed;
                 lblText.Visibility   = Visibility.Visible;
             }
         }
 
+        void checkRemovability(Comment c)
+        {
+            if (c == null)
+                return;
+
+            btnRemoveComment.Visibility = Visibility.Hidden;
+
+            if (c.Person == null)
+            {
+                if (c.Text != DaoUtils.NEW_COMMENT)
+                    btnRemoveComment.Visibility = Visibility.Visible;
+            }
+            else if (SessionInfo.Get().person.Id == c.Person.Id)
+            {
+                btnRemoveComment.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
+
         private void txtBxText_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            CheckRaiseCommentEditabilityEvent();
+            CheckRaiseCommentEditLockEvent();
         }
 
-        void CheckRaiseCommentEditabilityEvent()
+        void CheckRaiseCommentEditLockEvent()
         {
             var isEdited = txtBxText.Text != DaoUtils.NEW_COMMENT;
-            this.RaiseEvent(new CommentEditabilityChanged(CommentEditingEvent, isEdited));
+            RaiseCommentEditLockChanged(isEdited);
         }
 
         private void UserControl_DataContextChanged_1(object sender, DependencyPropertyChangedEventArgs e)
@@ -141,28 +147,16 @@ namespace Discussions
             checkRemovability(c);
         }
 
-        void checkRemovability(Comment c)
-        {
-            if (c == null)
-                return;
-
-            if (c.Person == null || SessionInfo.Get().person.Id != c.Person.Id)
-                btnRemoveComment.Visibility = Visibility.Hidden;
-            else
-                btnRemoveComment.Visibility = Visibility.Visible;
-        }
-
         private void btnRemoveComment_Click(object sender, RoutedEventArgs e)
         {
             var c = DataContext as Comment;
             if (c == null)
                 return;
 
-            this.RaiseEvent(new RoutedEventArgs(CommentDeleteEvent));
             var ap = c.ArgPoint;
             c.ArgPoint = null;
             c.Person = null;
-            this.RaiseEvent(new CommentEditabilityChanged(CommentEditingEvent,false));   
+            RaiseCommentEditLockChanged(false);
 
             try
             {
@@ -173,17 +167,76 @@ namespace Discussions
                 //doesn't exist in content 
             }
 
-            DaoUtils.EnsureCommentPlaceholderExists(ap, null);
+            DaoUtils.EnsureCommentPlaceholderExists(ap);
+
+            ap.ChangesPending = true;
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                                StEvent.CommentRemoved,
+                                ap.Person.Id,
+                                ap.Topic.Discussion.Id,
+                                ap.Topic.Id,
+                                DeviceType.Wpf);
+        }
+
+        void RequestFinishEditing()
+        {           
+            checkRemovability(DataContext as Comment);
+            checkReadonly(DataContext as Comment);
+            if (HandleCommentCommit())
+                Recontext();
         }
 
         private void txtBxText_KeyDown_1(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && txtBxText.Text != DaoUtils.NEW_COMMENT && !string.IsNullOrWhiteSpace(txtBxText.Text))
-            {
-                checkReadonly(DataContext as Comment);
-                checkRemovability(DataContext as Comment);
-                this.RaiseEvent(new CommentRoutedEventArgs(CommentEndEvent, DataContext as Comment, this, true));               
-            }
+            if (e.Key == Key.Enter)
+                RequestFinishEditing();
         }
+
+        void Recontext()
+        {
+            var c = DataContext as Comment;
+            if (c == null)
+                return;
+            DataContext = null;
+            DataContext = c;
+        }
+
+        public bool HandleCommentCommit()
+        {
+            var c = DataContext as Comment;
+            if (c == null)
+                return false;
+
+            var ap = c.ArgPoint;
+            if (ap == null)
+                return false;
+
+            if (c.Text == DaoUtils.NEW_COMMENT || string.IsNullOrWhiteSpace(c.Text))
+                return false;
+
+            RaisePossibilityToClose();
+
+            ap.ChangesPending = true;
+
+            //inject author
+            var commentAuthor = SessionInfo.Get().getPerson(ap);
+            var res = DaoUtils.InjectAuthorOfComment(c, commentAuthor);
+
+            //ensure placeholder           
+            var placeholder = DaoUtils.EnsureCommentPlaceholderExists(ap);
+            if(placeholder!=null)
+                RaisePlaceholderFocus(placeholder);
+            
+            UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                                            StEvent.CommentAdded,
+                                            SessionInfo.Get().person.Id,
+                                            ap.Topic.Discussion.Id,
+                                            ap.Topic.Id,
+                                            DeviceType.Wpf);
+
+            return res;
+        }  
+
+      
     }
 }
