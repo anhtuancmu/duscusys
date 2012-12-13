@@ -658,10 +658,26 @@ namespace Discussions
         LargeBadgeView _lbv = null;
         bool blockWorkingAreaTransforms = false;
 
+        bool IsExplanationModeEnabled()
+        {
+            return btnExplanationMode.IsChecked.HasValue && btnExplanationMode.IsChecked.Value;
+        }
+
+        bool IsEditingCommentInLargeBadgeView()
+        {
+            return (_lbv != null && _lbv.IsEditingComment);          
+        }
+
         void __badgeViewEvent(BadgeViewMessage bv)
-        {         
-            if(!btnExplanationMode.IsChecked.HasValue || !btnExplanationMode.IsChecked.Value)
+        {
+            if (!IsExplanationModeEnabled())
                 return;
+
+            if (IsEditingCommentInLargeBadgeView())
+            {
+                _lbv.MissedCloseRequest = true;
+                return;
+            }
 
             if (bv.doExpand)
             {

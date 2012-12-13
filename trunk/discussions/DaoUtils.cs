@@ -379,8 +379,10 @@ namespace Discussions
                 needNewPlaceholder = true;
             else
             {
-                var placeholder = ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment);
+                var placeholder = ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));                
                 needNewPlaceholder = (placeholder == null);
+                if (placeholder!=null)
+                    placeholder.Person = null;
             }
 
             if(needNewPlaceholder)

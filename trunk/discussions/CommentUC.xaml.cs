@@ -29,6 +29,15 @@ namespace Discussions
         public static readonly RoutedEvent CommentEndEvent = EventManager.RegisterRoutedEvent(
             "CommentEnd", RoutingStrategy.Bubble, typeof(CommentEventHandler), typeof(CommentUC));
 
+        public static readonly RoutedEvent CommentEditingEvent = EventManager.RegisterRoutedEvent(
+          "CommentEditingChanged", RoutingStrategy.Bubble, typeof(CommentEditingEventHandler), typeof(CommentUC));
+
+        public event CommentEditingEventHandler CommentEditingChanged
+        {
+            add { AddHandler(CommentEditingEvent, value); }
+            remove { RemoveHandler(CommentEditingEvent, value); }
+        }
+
         public event CommentEventHandler CommentDelete
         {
             add { AddHandler(CommentDeleteEvent, value); }
@@ -48,6 +57,8 @@ namespace Discussions
         }
 
         public delegate void CommentEventHandler(object sender,  CommentRoutedEventArgs e);
+
+        public delegate void CommentEditingEventHandler(object sender, CommentEditabilityChanged e);
 
         public static readonly DependencyProperty PermitsEditProperty =
              DependencyProperty.Register("PermitsEdit", typeof(bool),
@@ -88,14 +99,16 @@ namespace Discussions
 
             var c = DataContext as Comment;
             bool requiresOwnerInjection;
-            if (c != null && c.Text != DaoUtils.NEW_COMMENT)
-                requiresOwnerInjection = true;                
+            if (c != null && c.Text != DaoUtils.NEW_COMMENT && string.IsNullOrWhiteSpace(c.Text))
+                requiresOwnerInjection = true;
             else
                 requiresOwnerInjection = false;
 
             checkRemovability(DataContext as Comment);
             this.RaiseEvent(new CommentRoutedEventArgs(CommentEditEvent, c, this, requiresOwnerInjection));
             this.RaiseEvent(new CommentRoutedEventArgs(CommentEndEvent, DataContext as Comment, this, requiresOwnerInjection));
+
+            this.RaiseEvent(new CommentEditabilityChanged(CommentEditingEvent, false));            
         }
 
         void checkReadonly(Comment c)
@@ -112,11 +125,13 @@ namespace Discussions
 
         private void txtBxText_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            //var changes = e.Changes.First();
-            //if (changes.AddedLength > 1 && changes.RemovedLength == 0 && changes.Offset == 0)
-            //    return;
-            
-            //this.RaiseEvent(new CommentRoutedEventArgs(CommentEditEvent, DataContext as Comment, this, false));
+            CheckRaiseCommentEditabilityEvent();
+        }
+
+        void CheckRaiseCommentEditabilityEvent()
+        {
+            var isEdited = txtBxText.Text != DaoUtils.NEW_COMMENT;
+            this.RaiseEvent(new CommentEditabilityChanged(CommentEditingEvent, isEdited));
         }
 
         private void UserControl_DataContextChanged_1(object sender, DependencyPropertyChangedEventArgs e)
@@ -147,6 +162,7 @@ namespace Discussions
             var ap = c.ArgPoint;
             c.ArgPoint = null;
             c.Person = null;
+            this.RaiseEvent(new CommentEditabilityChanged(CommentEditingEvent,false));   
 
             try
             {
@@ -162,11 +178,11 @@ namespace Discussions
 
         private void txtBxText_KeyDown_1(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && txtBxText.Text != DaoUtils.NEW_COMMENT)
+            if (e.Key == Key.Enter && txtBxText.Text != DaoUtils.NEW_COMMENT && !string.IsNullOrWhiteSpace(txtBxText.Text))
             {
                 checkReadonly(DataContext as Comment);
                 checkRemovability(DataContext as Comment);
-                this.RaiseEvent(new CommentRoutedEventArgs(CommentEndEvent, DataContext as Comment, this, true));
+                this.RaiseEvent(new CommentRoutedEventArgs(CommentEndEvent, DataContext as Comment, this, true));               
             }
         }
     }
