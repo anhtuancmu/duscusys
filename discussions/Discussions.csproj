@@ -183,6 +183,7 @@
     <Compile Include="BusyWndSingleton.cs" />
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
+    <Compile Include="CommentEditabilityChanged.cs" />
     <Compile Include="MediaMover.cs" />
     <Compile Include="DiscussionAutoCreatorWnd.xaml.cs">
       <DependentUpon>DiscussionAutoCreatorWnd.xaml</DependentUpon>

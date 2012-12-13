@@ -20,6 +20,7 @@ using Discussions.rt;
 using LoginEngine;
 using Discussions.RTModel.Model;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace Discussions
 {
@@ -33,6 +34,11 @@ namespace Discussions
         UISharedRTClient _sharedClient;
 
         public Action CloseRequest = null;
+
+        //large badge view was open, explanation mode was enabled, another client closed badge, but badge
+        //on current client wasn't closed as a comment was being edited on local client. this flag remembers 
+        //missed close event.
+        public bool MissedCloseRequest = false;
 
         public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
          "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
@@ -109,9 +115,20 @@ namespace Discussions
                 else
                 {
                     var image = Utils.FindChild<LargeImageUC>(item);
-                    if(image!=null)
+                    if (image != null)
                         image.number.Text = (i + 1).ToString();
                 }
+            }
+        }
+
+
+        //during comment editing large badge view cannot be closed
+        bool _isEditingComment = false;
+        public bool IsEditingComment
+        {
+            get
+            {
+                return _isEditingComment;
             }
         }
 
@@ -128,7 +145,7 @@ namespace Discussions
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
 
-            BeginAttachmentNumberInjection();
+            BeginAttachmentNumberInjection();         
         }
 
         public void SetRt(UISharedRTClient sharedClient)
@@ -160,7 +177,7 @@ namespace Discussions
             if (ap == null)
                 return;
 
-            if(ArgPointId!=ap.Id)
+            if (ArgPointId != ap.Id)
                 return; //not our point
 
             if (change != PointChangedType.Modified)
@@ -270,7 +287,7 @@ namespace Discussions
             UpdateOrderedMedia();
 
             ///commentsViewer.ScrollToBottom();
-        }      
+        }
 
         void SetStyle()
         {
@@ -281,13 +298,13 @@ namespace Discussions
                 switch ((SideCode)p.SideCode)
                 {
                     case SideCode.Pros:
-                      ///  stkHeader.Background = DiscussionColors.prosBrush;
+                        ///  stkHeader.Background = DiscussionColors.prosBrush;
                         break;
                     case SideCode.Cons:
-                     ///   stkHeader.Background = DiscussionColors.consBrush;
+                        ///   stkHeader.Background = DiscussionColors.consBrush;
                         break;
                     case SideCode.Neutral:
-                    ///    stkHeader.Background = DiscussionColors.neutralBrush;
+                        ///    stkHeader.Background = DiscussionColors.neutralBrush;
                         break;
                     default:
                         throw new NotSupportedException();
@@ -315,7 +332,7 @@ namespace Discussions
             //        removeSketch.Visibility = Visibility.Visible; 
             //}
         }
-    
+
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             HandleRecontext();
@@ -332,48 +349,18 @@ namespace Discussions
             return p;
         }
 
-        //Comment addCommentRequest(bool add)
-        //{
-        //    ArgPoint ap = DataContext as ArgPoint;
-        //    if (ap == null)
-        //        return null;
-
-        //    if (add)
-        //    {
-        //        var c = new DbModel.Comment();
-        //        c.Text = "New comment";
-
-        //        c.Person = SessionInfo.Get().getPerson(ap);
-        //        ap.Comment.Add(c);
-
-        //        return c;
-        //    }
-        //    else
-        //    {
-        //        return null;
-
-        //        //var c = lstBxComments.SelectedItem as Comment;
-        //        //if (c == null)
-        //        //    return;
-
-        //        //ap.Comment.Remove(c);
-        //        //CtxSingleton.Get().SaveChanges(); 
-        //        //this.RaiseEvent(new RoutedEventArgs(DetailedArgPointBadge.CommentsEvent, this));
-        //    }
-        //}
-
         private void lstBxComments_MouseLeave(object sender, MouseEventArgs e)
         {
         }
 
         private void btnAddComment_Click(object sender, RoutedEventArgs e)
         {
-           /// addCommentRequest(true);
+            /// addCommentRequest(true);
         }
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-           /// addCommentRequest(false);
+            /// addCommentRequest(false);
         }
 
         private void btnAddSource_Click(object sender, RoutedEventArgs e)
@@ -418,7 +405,7 @@ namespace Discussions
         {
             SaveDrawing();
         }
-       
+
         #region media highlight
         Brush mediaBg = null;
         private void lstBxAttachments_MouseDown_1(object sender, MouseButtonEventArgs e)
@@ -501,7 +488,7 @@ namespace Discussions
         Comment newComment = null;
         private void btnComment_Click(object sender, RoutedEventArgs e)
         {
-            var ap1 = DataContext as ArgPoint;
+            var ap1 = DataContext as ArgPoint;            
             if (ap1 != null)
             {
                 var ownerId = SessionInfo.Get().person.Id;
@@ -552,7 +539,6 @@ namespace Discussions
 
             if (needsEvent)
             {
-
             }
         }
 
@@ -570,11 +556,20 @@ namespace Discussions
                                 ap.Topic.Id,
                                 DeviceType.Wpf);
         }
+
+        void onCommentEditabilityChanged(object sender, CommentEditabilityChanged e)
+        {
+            _isEditingComment = e.IsBeingEdited;
+            dbgText.Text = "editability " + e.IsBeingEdited;
+
+            if(!e.IsBeingEdited && MissedCloseRequest)
+                badgeDoubleTap(sender, null);
+        }
         #endregion comments
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)
         {
-            badgeDoubleTap(sender,null);
+            badgeDoubleTap(sender, null);
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -589,7 +584,7 @@ namespace Discussions
                 BusyWndSingleton.Hide();
             }
         }
-
+        
         void saveProcedure()
         {
             var ap = DataContext as ArgPoint;
@@ -606,10 +601,10 @@ namespace Discussions
             {
                 DbCtx.Get().SaveChanges();
             }
-            catch(Exception)
+            catch (Exception)
             {
             }
-           
+
             _sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
                                                 SessionInfo.Get().person.Id,
                                                 ap.Topic.Discussion.Id,
@@ -617,7 +612,7 @@ namespace Discussions
                                                 DeviceType.Wpf);
 
             _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id);
-            
+
             //update locally 
             ///ArgPointChanged(ap.Id, ap.Topic.Id, PointChangedType.Modified);
         }
@@ -629,7 +624,7 @@ namespace Discussions
             mediaDoubleClick.Click(sender, e);
             e.Handled = true;
         }
-        
+
         private void stkHeader_PreviewTouchDown_1(object sender, TouchEventArgs e)
         {
             if (e.OriginalSource is Image)
