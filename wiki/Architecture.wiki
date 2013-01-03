@@ -1,0 +1,16 @@
+#summary describes high level Architecture of the system.
+
+== Introduction ==
+
+Add your content here.
+
+== Conventions ==
+
+
+== Logical model of DB ==
+
+
+== Distributed annotations editor (d-editor) == 
+
+
+== Separate tools ==
