@@ -21,7 +21,7 @@ namespace EventGen
     public partial class EventButton : UserControl
     {
         public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent(
-          "ClickEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EventButton));
+            "ClickEvent", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (EventButton));
 
         // Provide CLR accessors for the event
         public event RoutedEventHandler Click
@@ -37,26 +37,14 @@ namespace EventGen
 
         public string EventName
         {
-            get
-            {
-                return eventName.Text;
-            }
-            set
-            {
-                eventName.Text = value;
-            }
+            get { return eventName.Text; }
+            set { eventName.Text = value; }
         }
 
         public string EventCount
         {
-            get
-            {
-                return eventCount.Text;
-            }
-            set
-            {
-                eventCount.Text = value;
-            }
+            get { return eventCount.Text; }
+            set { eventCount.Text = value; }
         }
 
         private void EventButton_MouseUp_1(object sender, MouseButtonEventArgs e)

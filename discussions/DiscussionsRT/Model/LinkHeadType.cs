@@ -8,6 +8,6 @@ namespace DistributedEditor
     public enum LinkHeadType
     {
         DoubleHeaded,
-        SingleHeaded    
-    }    
+        SingleHeaded
+    }
 }

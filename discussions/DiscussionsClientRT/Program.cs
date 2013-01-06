@@ -11,14 +11,14 @@ using Discussions.model;
 
 namespace DiscussionsClientRT
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
-        {            
-            ClientRT c = new ClientRT(0,"localhost", 
-                                     "usr_"+(new Random()).Next(400),
-                                     -1,
-                                     DeviceType.Sticky); 
+        private static void Main(string[] args)
+        {
+            ClientRT c = new ClientRT(0, "localhost",
+                                      "usr_" + (new Random()).Next(400),
+                                      -1,
+                                      DeviceType.Sticky);
 
             while (true)
             {

@@ -9,7 +9,7 @@ namespace Discussions.RTModel.Model
     public struct PointMove
     {
         public int ownerId;
-        
+
         public int shapeId;
 
         //position is defined in coordinates of sender in request 
@@ -25,22 +25,22 @@ namespace Discussions.RTModel.Model
         public static PointMove Read(Dictionary<byte, object> par)
         {
             var res = new PointMove();
-            res.ownerId = (int)par[(byte)DiscussionParamKey.ShapeOwnerId];
-            res.shapeId = (int)par[(byte)DiscussionParamKey.ShapeId];
-            res.X = (double)par[(byte)DiscussionParamKey.AnchorX];
-            res.Y = (double)par[(byte)DiscussionParamKey.AnchorY];
-            
+            res.ownerId = (int) par[(byte) DiscussionParamKey.ShapeOwnerId];
+            res.shapeId = (int) par[(byte) DiscussionParamKey.ShapeId];
+            res.X = (double) par[(byte) DiscussionParamKey.AnchorX];
+            res.Y = (double) par[(byte) DiscussionParamKey.AnchorY];
+
             return res;
         }
 
         public static Dictionary<byte, object> Write(int ownerId, int shapeId, double newX, double newY)
         {
             var res = new Dictionary<byte, object>();
-            res.Add((byte)DiscussionParamKey.ShapeOwnerId, ownerId);
-            res.Add((byte)DiscussionParamKey.ShapeId, shapeId);
-            res.Add((byte)DiscussionParamKey.AnchorX, newX);
-            res.Add((byte)DiscussionParamKey.AnchorY, newY);
-            return res;      
+            res.Add((byte) DiscussionParamKey.ShapeOwnerId, ownerId);
+            res.Add((byte) DiscussionParamKey.ShapeId, shapeId);
+            res.Add((byte) DiscussionParamKey.AnchorX, newX);
+            res.Add((byte) DiscussionParamKey.AnchorY, newY);
+            return res;
         }
     }
 }

@@ -7,6 +7,7 @@ namespace vbAccelerator.Components.ImageList
 {
 
     #region Public Enumerations
+
     /// <summary>
     /// Available system image list sizes
     /// </summary>
@@ -16,10 +17,12 @@ namespace vbAccelerator.Components.ImageList
         /// System Large Icon Size (typically 32x32)
         /// </summary>
         largeIcons = 0x0,
+
         /// <summary>
         /// System Small Icon Size (typically 16x16)
         /// </summary>
         smallIcons = 0x1,
+
         /// <summary>
         /// System Extra Large Icon Size (typically 48x48).
         /// Only available under XP; under other OS the
@@ -40,40 +43,49 @@ namespace vbAccelerator.Components.ImageList
         /// Draw item normally.
         /// </summary>
         ILD_NORMAL = 0x0,
+
         /// <summary>
         /// Draw item transparently.
         /// </summary>
         ILD_TRANSPARENT = 0x1,
+
         /// <summary>
         /// Draw item blended with 25% of the specified foreground colour
         /// or the Highlight colour if no foreground colour specified.
         /// </summary>
         ILD_BLEND25 = 0x2,
+
         /// <summary>
         /// Draw item blended with 50% of the specified foreground colour
         /// or the Highlight colour if no foreground colour specified.
         /// </summary>
         ILD_SELECTED = 0x4,
+
         /// <summary>
         /// Draw the icon's mask
         /// </summary>
         ILD_MASK = 0x10,
+
         /// <summary>
         /// Draw the icon image without using the mask
         /// </summary>
         ILD_IMAGE = 0x20,
+
         /// <summary>
         /// Draw the icon using the ROP specified.
         /// </summary>
         ILD_ROP = 0x40,
+
         /// <summary>
         /// Preserves the alpha channel in dest. XP only.
         /// </summary>
         ILD_PRESERVEALPHA = 0x1000,
+
         /// <summary>
         /// Scale the image to cx, cy instead of clipping it.  XP only.
         /// </summary>
         ILD_SCALE = 0x2000,
+
         /// <summary>
         /// Scale the image to the current DPI of the display. XP only.
         /// </summary>
@@ -90,29 +102,34 @@ namespace vbAccelerator.Components.ImageList
         /// The image state is not modified. 
         /// </summary>
         ILS_NORMAL = (0x00000000),
+
         /// <summary>
         /// Adds a glow effect to the icon, which causes the icon to appear to glow 
         /// with a given color around the edges. (Note: does not appear to be
         /// implemented)
         /// </summary>
-        ILS_GLOW = (0x00000001), //The color for the glow effect is passed to the IImageList::Draw method in the crEffect member of IMAGELISTDRAWPARAMS. 
+        ILS_GLOW = (0x00000001),
+        //The color for the glow effect is passed to the IImageList::Draw method in the crEffect member of IMAGELISTDRAWPARAMS. 
         /// <summary>
         /// Adds a drop shadow effect to the icon. (Note: does not appear to be
         /// implemented)
         /// </summary>
-        ILS_SHADOW = (0x00000002), //The color for the drop shadow effect is passed to the IImageList::Draw method in the crEffect member of IMAGELISTDRAWPARAMS. 
+        ILS_SHADOW = (0x00000002),
+        //The color for the drop shadow effect is passed to the IImageList::Draw method in the crEffect member of IMAGELISTDRAWPARAMS. 
         /// <summary>
         /// Saturates the icon by increasing each color component 
         /// of the RGB triplet for each pixel in the icon. (Note: only ever appears
         /// to result in a completely unsaturated icon)
         /// </summary>
-        ILS_SATURATE = (0x00000004), // The amount to increase is indicated by the frame member in the IMAGELISTDRAWPARAMS method. 
+        ILS_SATURATE = (0x00000004),
+        // The amount to increase is indicated by the frame member in the IMAGELISTDRAWPARAMS method. 
         /// <summary>
         /// Alpha blends the icon. Alpha blending controls the transparency 
         /// level of an icon, according to the value of its alpha channel. 
         /// (Note: does not appear to be implemented).
         /// </summary>
-        ILS_ALPHA = (0x00000008) //The value of the alpha channel is indicated by the frame member in the IMAGELISTDRAWPARAMS method. The alpha channel can be from 0 to 255, with 0 being completely transparent, and 255 being completely opaque. 
+        ILS_ALPHA = (0x00000008)
+        //The value of the alpha channel is indicated by the frame member in the IMAGELISTDRAWPARAMS method. The alpha channel can be from 0 to 255, with 0 being completely transparent, and 255 being completely opaque. 
     }
 
     /// <summary>
@@ -125,32 +142,39 @@ namespace vbAccelerator.Components.ImageList
         /// Get icon in normal state
         /// </summary>
         ShellIconStateNormal = 0,
+
         /// <summary>
         /// Put a link overlay on icon 
         /// </summary>
         ShellIconStateLinkOverlay = 0x8000,
+
         /// <summary>
         /// show icon in selected state 
         /// </summary>
         ShellIconStateSelected = 0x10000,
+
         /// <summary>
         /// get open icon 
         /// </summary>
         ShellIconStateOpen = 0x2,
+
         /// <summary>
         /// apply the appropriate overlays
         /// </summary>
         ShellIconAddOverlays = 0x000000020,
     }
+
     #endregion
 
     #region SysImageList
+
     /// <summary>
     /// Summary description for SysImageList.
     /// </summary>
     public class SysImageList : IDisposable
     {
         #region UnmanagedCode
+
         private const int MAX_PATH = 260;
 
         [DllImport("shell32")]
@@ -174,8 +198,9 @@ namespace vbAccelerator.Components.ImageList
         private const int FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
         private const int FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
         private const int FORMAT_MESSAGE_MAX_WIDTH_MASK = 0xFF;
+
         [DllImport("kernel32")]
-        private extern static int FormatMessage(
+        private static extern int FormatMessage(
             int dwFlags,
             IntPtr lpSource,
             int dwMessageId,
@@ -185,10 +210,10 @@ namespace vbAccelerator.Components.ImageList
             int argumentsLong);
 
         [DllImport("kernel32")]
-        private extern static int GetLastError();
+        private static extern int GetLastError();
 
         [DllImport("comctl32")]
-        private extern static int ImageList_Draw(
+        private static extern int ImageList_Draw(
             IntPtr hIml,
             int i,
             IntPtr hdcDst,
@@ -197,17 +222,17 @@ namespace vbAccelerator.Components.ImageList
             int fStyle);
 
         [DllImport("comctl32")]
-        private extern static int ImageList_DrawIndirect(
+        private static extern int ImageList_DrawIndirect(
             ref IMAGELISTDRAWPARAMS pimldp);
 
         [DllImport("comctl32")]
-        private extern static int ImageList_GetIconSize(
+        private static extern int ImageList_GetIconSize(
             IntPtr himl,
             ref int cx,
             ref int cy);
 
         [DllImport("comctl32")]
-        private extern static IntPtr ImageList_GetIcon(
+        private static extern IntPtr ImageList_GetIcon(
             IntPtr himl,
             int i,
             int flags);
@@ -218,14 +243,14 @@ namespace vbAccelerator.Components.ImageList
         /// Apparently (and hopefully) ordinal 727 isn't going to change.
         /// </summary>
         [DllImport("shell32.dll", EntryPoint = "#727")]
-        private extern static int SHGetImageList(
+        private static extern int SHGetImageList(
             int iImageList,
             ref Guid riid,
             ref IImageList ppv
             );
 
         [DllImport("shell32.dll", EntryPoint = "#727")]
-        private extern static int SHGetImageListHandle(
+        private static extern int SHGetImageListHandle(
             int iImageList,
             ref Guid riid,
             ref IntPtr handle
@@ -234,45 +259,48 @@ namespace vbAccelerator.Components.ImageList
         #endregion
 
         #region Private Enumerations
+
         [Flags]
         private enum SHGetFileInfoConstants : int
         {
-            SHGFI_ICON = 0x100,                // get icon 
-            SHGFI_DISPLAYNAME = 0x200,         // get display name 
-            SHGFI_TYPENAME = 0x400,            // get type name 
-            SHGFI_ATTRIBUTES = 0x800,          // get attributes 
-            SHGFI_ICONLOCATION = 0x1000,       // get icon location 
-            SHGFI_EXETYPE = 0x2000,            // return exe type 
-            SHGFI_SYSICONINDEX = 0x4000,       // get system icon index 
-            SHGFI_LINKOVERLAY = 0x8000,        // put a link overlay on icon 
-            SHGFI_SELECTED = 0x10000,          // show icon in selected state 
-            SHGFI_ATTR_SPECIFIED = 0x20000,    // get only specified attributes 
-            SHGFI_LARGEICON = 0x0,             // get large icon 
-            SHGFI_SMALLICON = 0x1,             // get small icon 
-            SHGFI_OPENICON = 0x2,              // get open icon 
-            SHGFI_SHELLICONSIZE = 0x4,         // get shell size icon 
+            SHGFI_ICON = 0x100, // get icon 
+            SHGFI_DISPLAYNAME = 0x200, // get display name 
+            SHGFI_TYPENAME = 0x400, // get type name 
+            SHGFI_ATTRIBUTES = 0x800, // get attributes 
+            SHGFI_ICONLOCATION = 0x1000, // get icon location 
+            SHGFI_EXETYPE = 0x2000, // return exe type 
+            SHGFI_SYSICONINDEX = 0x4000, // get system icon index 
+            SHGFI_LINKOVERLAY = 0x8000, // put a link overlay on icon 
+            SHGFI_SELECTED = 0x10000, // show icon in selected state 
+            SHGFI_ATTR_SPECIFIED = 0x20000, // get only specified attributes 
+            SHGFI_LARGEICON = 0x0, // get large icon 
+            SHGFI_SMALLICON = 0x1, // get small icon 
+            SHGFI_OPENICON = 0x2, // get open icon 
+            SHGFI_SHELLICONSIZE = 0x4, // get shell size icon 
             //SHGFI_PIDL = 0x8,                  // pszPath is a pidl 
-            SHGFI_USEFILEATTRIBUTES = 0x10,     // use passed dwFileAttribute 
-            SHGFI_ADDOVERLAYS = 0x000000020,     // apply the appropriate overlays
-            SHGFI_OVERLAYINDEX = 0x000000040     // Get the index of the overlay
+            SHGFI_USEFILEATTRIBUTES = 0x10, // use passed dwFileAttribute 
+            SHGFI_ADDOVERLAYS = 0x000000020, // apply the appropriate overlays
+            SHGFI_OVERLAYINDEX = 0x000000040 // Get the index of the overlay
         }
+
         #endregion
 
         #region Private ImageList structures
+
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT
         {
-            int left;
-            int top;
-            int right;
-            int bottom;
+            private int left;
+            private int top;
+            private int right;
+            private int bottom;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         private struct POINT
         {
-            int x;
-            int y;
+            private int x;
+            private int y;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -286,8 +314,8 @@ namespace vbAccelerator.Components.ImageList
             public int y;
             public int cx;
             public int cy;
-            public int xBitmap;        // x offest from the upperleft of bitmap
-            public int yBitmap;        // y offset from the upperleft of bitmap
+            public int xBitmap; // x offest from the upperleft of bitmap
+            public int yBitmap; // y offset from the upperleft of bitmap
             public int rgbBk;
             public int rgbFg;
             public int fStyle;
@@ -306,25 +334,26 @@ namespace vbAccelerator.Components.ImageList
             public int Unused2;
             public RECT rcImage;
         }
+
         [StructLayout(LayoutKind.Sequential)]
         private struct SHFILEINFO
         {
             public IntPtr hIcon;
             public int iIcon;
             public int dwAttributes;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-            public string szDisplayName;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string szTypeName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)] public string szDisplayName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)] public string szTypeName;
         }
+
         #endregion
 
         #region Private ImageList COM Interop (XP)
+
         [ComImportAttribute()]
         [GuidAttribute("46EB5926-582E-4017-9FDF-E8998DAA0950")]
         [InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
         //helpstring("Image List"),
-        interface IImageList
+        private interface IImageList
         {
             [PreserveSig]
             int Add(
@@ -480,43 +509,41 @@ namespace vbAccelerator.Components.ImageList
                 int iOverlay,
                 ref int piIndex);
         };
+
         #endregion
 
         #region Member Variables
+
         private IntPtr hIml = IntPtr.Zero;
         private IImageList iImageList = null;
         private SysImageListSize size = SysImageListSize.smallIcons;
         private bool disposed = false;
+
         #endregion
 
         #region Implementation
 
         #region Properties
+
         /// <summary>
         /// Gets the hImageList handle
         /// </summary>
         public IntPtr Handle
         {
-            get
-            {
-                return this.hIml;
-            }
+            get { return this.hIml; }
         }
+
         /// <summary>
         /// Gets/sets the size of System Image List to retrieve.
         /// </summary>
         public SysImageListSize ImageListSize
         {
-            get
-            {
-                return size;
-            }
+            get { return size; }
             set
             {
                 size = value;
                 create();
             }
-
         }
 
         /// <summary>
@@ -544,9 +571,11 @@ namespace vbAccelerator.Components.ImageList
                 return sz;
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Returns a GDI+ copy of the icon from the ImageList
         /// at the specified index.
@@ -563,14 +592,13 @@ namespace vbAccelerator.Components.ImageList
                 hIcon = ImageList_GetIcon(
                     hIml,
                     index,
-                    (int)ImageListDrawItemConstants.ILD_TRANSPARENT);
-
+                    (int) ImageListDrawItemConstants.ILD_TRANSPARENT);
             }
             else
             {
                 iImageList.GetIcon(
                     index,
-                    (int)ImageListDrawItemConstants.ILD_TRANSPARENT,
+                    (int) ImageListDrawItemConstants.ILD_TRANSPARENT,
                     ref hIcon);
             }
 
@@ -648,10 +676,10 @@ namespace vbAccelerator.Components.ImageList
             // file that does not exist and still get the
             // icon, for example sFileSpec = "C:\PANTS.DOC"
             SHFILEINFO shfi = new SHFILEINFO();
-            uint shfiSize = (uint)Marshal.SizeOf(shfi.GetType());
+            uint shfiSize = (uint) Marshal.SizeOf(shfi.GetType());
             IntPtr retVal = SHGetFileInfo(
                 fileName, dwAttr, ref shfi, shfiSize,
-                ((uint)(dwFlags) | (uint)iconState));
+                ((uint) (dwFlags) | (uint) iconState));
 
             if (retVal.Equals(IntPtr.Zero))
             {
@@ -705,7 +733,7 @@ namespace vbAccelerator.Components.ImageList
                     hdc,
                     x,
                     y,
-                    (int)flags);
+                    (int) flags);
             }
             else
             {
@@ -716,10 +744,9 @@ namespace vbAccelerator.Components.ImageList
                 pimldp.x = x;
                 pimldp.y = y;
                 pimldp.rgbFg = -1;
-                pimldp.fStyle = (int)flags;
+                pimldp.fStyle = (int) flags;
                 iImageList.Draw(ref pimldp);
             }
-
         }
 
         /// <summary>
@@ -752,7 +779,7 @@ namespace vbAccelerator.Components.ImageList
             pimldp.y = y;
             pimldp.cx = cx;
             pimldp.cy = cy;
-            pimldp.fStyle = (int)flags;
+            pimldp.fStyle = (int) flags;
             if (iImageList == null)
             {
                 pimldp.himl = hIml;
@@ -760,7 +787,6 @@ namespace vbAccelerator.Components.ImageList
             }
             else
             {
-
                 iImageList.Draw(ref pimldp);
             }
         }
@@ -808,31 +834,31 @@ namespace vbAccelerator.Components.ImageList
             pimldp.cx = cx;
             pimldp.cy = cy;
             pimldp.rgbFg = Color.FromArgb(0,
-                foreColor.R, foreColor.G, foreColor.B).ToArgb();
+                                          foreColor.R, foreColor.G, foreColor.B).ToArgb();
             Console.WriteLine("{0}", pimldp.rgbFg);
-            pimldp.fStyle = (int)flags;
-            pimldp.fState = (int)stateFlags;
+            pimldp.fStyle = (int) flags;
+            pimldp.fState = (int) stateFlags;
             if ((stateFlags & ImageListDrawStateConstants.ILS_ALPHA) ==
                 ImageListDrawStateConstants.ILS_ALPHA)
             {
                 // Set the alpha:
-                pimldp.Frame = (int)saturateColorOrAlpha.A;
+                pimldp.Frame = (int) saturateColorOrAlpha.A;
             }
             else if ((stateFlags & ImageListDrawStateConstants.ILS_SATURATE) ==
-                ImageListDrawStateConstants.ILS_SATURATE)
+                     ImageListDrawStateConstants.ILS_SATURATE)
             {
                 // discard alpha channel:
                 saturateColorOrAlpha = Color.FromArgb(0,
-                    saturateColorOrAlpha.R,
-                    saturateColorOrAlpha.G,
-                    saturateColorOrAlpha.B);
+                                                      saturateColorOrAlpha.R,
+                                                      saturateColorOrAlpha.G,
+                                                      saturateColorOrAlpha.B);
                 // set the saturate color
                 pimldp.Frame = saturateColorOrAlpha.ToArgb();
             }
             glowOrShadowColor = Color.FromArgb(0,
-                glowOrShadowColor.R,
-                glowOrShadowColor.G,
-                glowOrShadowColor.B);
+                                               glowOrShadowColor.R,
+                                               glowOrShadowColor.G,
+                                               glowOrShadowColor.B);
             pimldp.crEffect = glowOrShadowColor.ToArgb();
             if (iImageList == null)
             {
@@ -841,7 +867,6 @@ namespace vbAccelerator.Components.ImageList
             }
             else
             {
-
                 iImageList.Draw(ref pimldp);
             }
         }
@@ -859,7 +884,7 @@ namespace vbAccelerator.Components.ImageList
                 ret = true;
             }
             else if ((Environment.OSVersion.Version.Major == 5) &&
-                (Environment.OSVersion.Version.Minor >= 1))
+                     (Environment.OSVersion.Version.Minor >= 1))
             {
                 ret = true;
             }
@@ -880,7 +905,7 @@ namespace vbAccelerator.Components.ImageList
                 // Get the System IImageList object from the Shell:
                 Guid iidImageList = new Guid("46EB5926-582E-4017-9FDF-E8998DAA0950");
                 int ret = SHGetImageList(
-                    (int)size,
+                    (int) size,
                     ref iidImageList,
                     ref iImageList
                     );
@@ -888,19 +913,20 @@ namespace vbAccelerator.Components.ImageList
                 // using Marshal.GetIUnknownForObject doesn't return
                 // the right value.  It really doesn't hurt to make
                 // a second call to get the handle:
-                SHGetImageListHandle((int)size, ref iidImageList, ref hIml);
+                SHGetImageListHandle((int) size, ref iidImageList, ref hIml);
             }
             else
             {
                 // Prepare flags:
-                SHGetFileInfoConstants dwFlags = SHGetFileInfoConstants.SHGFI_USEFILEATTRIBUTES | SHGetFileInfoConstants.SHGFI_SYSICONINDEX;
+                SHGetFileInfoConstants dwFlags = SHGetFileInfoConstants.SHGFI_USEFILEATTRIBUTES |
+                                                 SHGetFileInfoConstants.SHGFI_SYSICONINDEX;
                 if (size == SysImageListSize.smallIcons)
                 {
                     dwFlags |= SHGetFileInfoConstants.SHGFI_SMALLICON;
                 }
                 // Get image list
                 SHFILEINFO shfi = new SHFILEINFO();
-                uint shfiSize = (uint)Marshal.SizeOf(shfi.GetType());
+                uint shfiSize = (uint) Marshal.SizeOf(shfi.GetType());
 
                 // Call SHGetFileInfo to get the image list handle
                 // using an arbitrary file:
@@ -909,13 +935,15 @@ namespace vbAccelerator.Components.ImageList
                     FILE_ATTRIBUTE_NORMAL,
                     ref shfi,
                     shfiSize,
-                    (uint)dwFlags);
+                    (uint) dwFlags);
                 System.Diagnostics.Debug.Assert((hIml != IntPtr.Zero), "Failed to create Image List");
             }
         }
+
         #endregion
 
         #region Constructor, Dispose, Destructor
+
         /// <summary>
         /// Creates a Small Icons SystemImageList 
         /// </summary>
@@ -923,6 +951,7 @@ namespace vbAccelerator.Components.ImageList
         {
             create();
         }
+
         /// <summary>
         /// Creates a SystemImageList with the specified size
         /// </summary>
@@ -941,6 +970,7 @@ namespace vbAccelerator.Components.ImageList
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         /// <summary>
         /// Clears up any resources associated with the SystemImageList
         /// when disposing is true.
@@ -961,6 +991,7 @@ namespace vbAccelerator.Components.ImageList
             }
             disposed = true;
         }
+
         /// <summary>
         /// Finalise for SysImageList
         /// </summary>
@@ -968,21 +999,23 @@ namespace vbAccelerator.Components.ImageList
         {
             Dispose(false);
         }
-
     }
-        #endregion
 
-        #endregion
+    #endregion
+
+    #endregion
 
     #endregion
 
     #region SysImageListHelper
+
     /// <summary>
     /// Helper Methods for Connecting SysImageList to Common Controls
     /// </summary>
     public class SysImageListHelper
     {
         #region UnmanagedMethods
+
         private const int LVM_FIRST = 0x1000;
         private const int LVM_SETIMAGELIST = (LVM_FIRST + 3);
 
@@ -1002,6 +1035,7 @@ namespace vbAccelerator.Components.ImageList
             int wMsg,
             IntPtr wParam,
             IntPtr lParam);
+
         #endregion
 
         /// <summary>
@@ -1016,14 +1050,14 @@ namespace vbAccelerator.Components.ImageList
             bool forStateImages
             )
         {
-            IntPtr wParam = (IntPtr)LVSIL_NORMAL;
+            IntPtr wParam = (IntPtr) LVSIL_NORMAL;
             if (sysImageList.ImageListSize == SysImageListSize.smallIcons)
             {
-                wParam = (IntPtr)LVSIL_SMALL;
+                wParam = (IntPtr) LVSIL_SMALL;
             }
             if (forStateImages)
             {
-                wParam = (IntPtr)LVSIL_STATE;
+                wParam = (IntPtr) LVSIL_STATE;
             }
             SendMessage(
                 listView.Handle,
@@ -1044,10 +1078,10 @@ namespace vbAccelerator.Components.ImageList
             bool forStateImages
             )
         {
-            IntPtr wParam = (IntPtr)TVSIL_NORMAL;
+            IntPtr wParam = (IntPtr) TVSIL_NORMAL;
             if (forStateImages)
             {
-                wParam = (IntPtr)TVSIL_STATE;
+                wParam = (IntPtr) TVSIL_STATE;
             }
             SendMessage(
                 treeView.Handle,
@@ -1056,6 +1090,6 @@ namespace vbAccelerator.Components.ImageList
                 sysImageList.Handle);
         }
     }
-    #endregion
 
+    #endregion
 }

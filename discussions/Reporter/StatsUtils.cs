@@ -17,7 +17,7 @@ namespace Reporter
             foreach (var i in lst2)
                 if (!res.Contains(i))
                     res.Add(i);
-            return res; 
+            return res;
         }
 
         public static TextBlock GetEventTotals(EventTotalsReport eTotals)

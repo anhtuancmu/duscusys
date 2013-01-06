@@ -26,13 +26,13 @@ namespace Discussions
             }
         }
 
-        static LoginResult LoginFlowRegular()
-        {        
-        SelectPerson:
+        private static LoginResult LoginFlowRegular()
+        {
+            SelectPerson:
             //person            
             var personDlg = new LoginPerson(false);
             personDlg.ShowDialog();
-            
+
             if (personDlg.SelectedPerson == null)
                 return null;
 
@@ -57,7 +57,7 @@ namespace Discussions
 
             res.person = personDlg.SelectedPerson;
 
-            return res;          
+            return res;
         }
 
         private static void MsgParticipantsShouldSelectDiscussion()
@@ -65,18 +65,18 @@ namespace Discussions
             MessageBox.Show("Participants should choose a discussion they are invited to");
         }
 
-        static LoginResult LoginFlowEventGen()
+        private static LoginResult LoginFlowEventGen()
         {
-        SelectSession:
+            SelectSession:
             //session
             var sessionDlg = new LoginSessionDlg();
             sessionDlg.ShowDialog();
             if (sessionDlg.SelectedSession == null)
                 return null;
 
-        SelectDiscussion:
+            SelectDiscussion:
             //discussion
-            var discussionDlg = new LoginDiscussionDlg((Person)null);
+            var discussionDlg = new LoginDiscussionDlg((Person) null);
             discussionDlg.ShowDialog();
 
             if (discussionDlg.BackClicked)
@@ -100,23 +100,23 @@ namespace Discussions
             //build result           
             if (discussionDlg.SelectedDiscussion != LoginDiscussionDlg.DummyDiscussion)
                 res.discussion = discussionDlg.SelectedDiscussion;
-            
-            res.session = sessionDlg.SelectedSession;          
+
+            res.session = sessionDlg.SelectedSession;
             res.devType = devTypeDlg.SelectedDeviceType;
 
-            return res;    
+            return res;
         }
 
-        static LoginResult LoginFlowExperiment()
+        private static LoginResult LoginFlowExperiment()
         {
-        SelectSession:
+            SelectSession:
             //session
             var sessionDlg = new LoginSessionDlg();
             sessionDlg.ShowDialog();
             if (sessionDlg.SelectedSession == null)
                 return null;
 
-        SelectSeat:
+            SelectSeat:
             //seat 
             var seatDlg = new LoginSeatSelectorDlg();
             seatDlg.ShowDialog();
@@ -133,7 +133,7 @@ namespace Discussions
                 goto SelectSession;
             }
 
-        //EnterName:
+            //EnterName:
             //name
             var nameDlg = new LoginName(seatDlg.SelectedSeat);
             nameDlg.ShowDialog();
@@ -152,7 +152,7 @@ namespace Discussions
             //discussion selector
             var discussionDlg = new LoginDiscussionDlg(nameDlg.EnteredName);
             discussionDlg.ShowDialog();
-            
+
             if (discussionDlg.BackClicked)
                 goto SelectSeat;
 
@@ -179,12 +179,12 @@ namespace Discussions
             if (discussionDlg.SelectedDiscussion != LoginDiscussionDlg.DummyDiscussion)
                 res.discussion = discussionDlg.SelectedDiscussion;
 
-            res.session = sessionDlg.SelectedSession;      
+            res.session = sessionDlg.SelectedSession;
 
             res.person = RegisterOrLogin(nameDlg.EnteredName,
-                                      discussionDlg.SelectedDiscussion,
-                                      sessionDlg.SelectedSession,
-                                      seatDlg.SelectedSeat);
+                                         discussionDlg.SelectedDiscussion,
+                                         sessionDlg.SelectedSession,
+                                         seatDlg.SelectedSeat);
 
             return res;
         }
@@ -193,14 +193,15 @@ namespace Discussions
         //if user takes seat that was used in this session, then no new user is created. instead, the user 
         //is recognized as the same user who took the seat in current session, though during second login user 
         //enters name again (effectively changing name)
-        static Person RegisterOrLogin(string name, Discussion discussion, Session session, Seat seat)
+        private static Person RegisterOrLogin(string name, Discussion discussion, Session session, Seat seat)
         {
             //was the seat taken by some user? 
             var sessionId = session.Id;
             var seatId = seat.Id;
             DbCtx.DropContext();
-            var outrunnerPerson = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Session != null && p0.Session.Id == sessionId &&
-                                                                          p0.Seat != null && p0.Seat.Id == seatId);
+            var outrunnerPerson =
+                DbCtx.Get().Person.FirstOrDefault(p0 => p0.Session != null && p0.Session.Id == sessionId &&
+                                                        p0.Seat != null && p0.Seat.Id == seatId);
 
             //the user already took the place, just change name
             if (outrunnerPerson != null)
@@ -209,8 +210,8 @@ namespace Discussions
 
                 //do we need general side ? 
                 var ctx = DbCtx.Get();
-                var previousGenSide = ctx.GeneralSide.FirstOrDefault(gs0 => gs0.Discussion.Id == discussion.Id && 
-                                                                     gs0.Person.Id == outrunnerPerson.Id);
+                var previousGenSide = ctx.GeneralSide.FirstOrDefault(gs0 => gs0.Discussion.Id == discussion.Id &&
+                                                                            gs0.Person.Id == outrunnerPerson.Id);
                 if (previousGenSide == null)
                 {
                     //the person takes part in this discussion first time, create general 
@@ -218,14 +219,14 @@ namespace Discussions
                     var disc = ctx.Discussion.FirstOrDefault(d0 => d0.Id == discussion.Id);
                     outrunnerPerson.GeneralSide.Add(
                         CreateGeneralSide(
-                            outrunnerPerson, 
-                            disc, 
-                            (int)SideCode.Neutral
-                        )
-                   );
+                            outrunnerPerson,
+                            disc,
+                            (int) SideCode.Neutral
+                            )
+                        );
 
-                   //assign person to all topics of selected discussion
-                   foreach (var topic in disc.Topic)
+                    //assign person to all topics of selected discussion
+                    foreach (var topic in disc.Topic)
                         outrunnerPerson.Topic.Add(topic);
                 }
 
@@ -243,7 +244,7 @@ namespace Discussions
                 p.Seat = ctx.Seat.FirstOrDefault(s0 => s0.Id == seat.Id);
 
                 var disc = ctx.Discussion.FirstOrDefault(d0 => d0.Id == discussion.Id);
-                p.GeneralSide.Add(CreateGeneralSide(p, disc, (int)SideCode.Neutral));
+                p.GeneralSide.Add(CreateGeneralSide(p, disc, (int) SideCode.Neutral));
 
                 //person inherits color of seat
                 p.Color = p.Seat.Color;
@@ -257,13 +258,13 @@ namespace Discussions
                 ctx.Person.AddObject(p);
                 DbCtx.Get().SaveChanges();
                 return p;
-            }                       
+            }
         }
 
-        static GeneralSide CreateGeneralSide(Person p, Discussion d, int side)
+        private static GeneralSide CreateGeneralSide(Person p, Discussion d, int side)
         {
             var genSide = new GeneralSide();
-            genSide.Side = (int)SideCode.Neutral;
+            genSide.Side = (int) SideCode.Neutral;
             genSide.Discussion = d;
             genSide.Person = p;
             return genSide;
@@ -277,8 +278,8 @@ namespace Discussions
 
         private static void MsgPlaceReserved()
         {
-            MessageBox.Show("Some online user has taken selected seat in current session", 
-                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Some online user has taken selected seat in current session",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         //static bool NameUnique(string Name, Session session)
@@ -289,13 +290,14 @@ namespace Discussions
         //    return outrunnerPerson == null;
         //}
 
-        static bool placeAlreadyBusy(Session session, Seat seat)
+        private static bool placeAlreadyBusy(Session session, Seat seat)
         {
             var sessionId = session.Id;
-            var seatId    = seat.Id;
+            var seatId = seat.Id;
             DbCtx.DropContext();
             var outrunnerPerson = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Online &&
-                                                                          p0.Session != null && p0.Session.Id == sessionId &&
+                                                                          p0.Session != null &&
+                                                                          p0.Session.Id == sessionId &&
                                                                           p0.Seat != null && p0.Seat.Id == seatId);
 
             //only if outrunner person exists and online, the place is busy

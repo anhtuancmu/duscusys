@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Discussions.RTModel
 {
-    class Utils
+    internal class Utils
     {
     }
 }

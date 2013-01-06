@@ -17,11 +17,11 @@ namespace LiteLobby.Operations
         /// <summary>
         /// Event code for the game list event.
         /// </summary>
-        GameList = 252, 
+        GameList = 252,
 
         /// <summary>
         /// event code for the update game list event.
         /// </summary>
-        GameListUpdate = 251, 
+        GameListUpdate = 251,
     }
 }

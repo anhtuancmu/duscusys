@@ -22,19 +22,19 @@ namespace Discussions
             IEnumerable<Attachment> media = null;
 
             //there is no neighbour, nothing to do
-            if (current.ArgPoint!= null)
-            { 
+            if (current.ArgPoint != null)
+            {
                 media = current.ArgPoint.Attachment;
-                if(current.ArgPoint.Attachment.Count <= 1)
+                if (current.ArgPoint.Attachment.Count <= 1)
                     return false;
             }
-            else 
+            else
             {
                 if (current.Discussion == null)
                     return false;
 
                 media = current.Discussion.Attachment;
-                if(current.Discussion.Attachment.Count <= 1)
+                if (current.Discussion.Attachment.Count <= 1)
                     return false;
             }
 
@@ -88,19 +88,22 @@ namespace Discussions
         }
 
         public Popup medPopup;
+
         public MediaMover(Popup medPopup)
         {
-            this.medPopup = medPopup; 
+            this.medPopup = medPopup;
         }
 
         public Attachment _attachmentToReposition = null;
+
         public void onAttachmentUpDown(object sender, RoutedEventArgs e)
         {
             try
             {
-                _attachmentToReposition = ((FrameworkElement)e.OriginalSource).DataContext as Attachment;
+                _attachmentToReposition = ((FrameworkElement) e.OriginalSource).DataContext as Attachment;
                 medPopup.IsOpen = true;
-                HwndSource hwndSource = (HwndSource)PresentationSource.FromVisual((Visual)VisualTreeHelper.GetParent(medPopup.Child));
+                HwndSource hwndSource =
+                    (HwndSource) PresentationSource.FromVisual((Visual) VisualTreeHelper.GetParent(medPopup.Child));
                 hwndSource.EnableSurfaceInput();
             }
             catch (Exception)

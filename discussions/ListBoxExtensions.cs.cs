@@ -23,9 +23,9 @@ namespace Discussions
         public static void ScrollIntoViewCentered(this SurfaceListBox listBox, object item)
         {
             Debug.Assert(!VirtualizingStackPanel.GetIsVirtualizing(listBox),
-                "VirtualizingStackPanel.IsVirtualizing must be disabled for ScrollIntoViewCentered to work.");
+                         "VirtualizingStackPanel.IsVirtualizing must be disabled for ScrollIntoViewCentered to work.");
             Debug.Assert(!ScrollViewer.GetCanContentScroll(listBox),
-                "ScrollViewer.GetCanContentScroll must be disabled for ScrollIntoViewCentered to work.");
+                         "ScrollViewer.GetCanContentScroll must be disabled for ScrollIntoViewCentered to work.");
 
             // Get the container for the specified item
             var container = listBox.ItemContainerGenerator.ContainerFromItem(item) as FrameworkElement;
@@ -47,8 +47,8 @@ namespace Discussions
                 {
                     // Inflate rect to fill the constraining parent
                     rect.Inflate(
-                        Math.Max((constrainingParent.ActualWidth - rect.Width) / 2, 0),
-                        Math.Max((constrainingParent.ActualHeight - rect.Height) / 2, 0));
+                        Math.Max((constrainingParent.ActualWidth - rect.Width)/2, 0),
+                        Math.Max((constrainingParent.ActualHeight - rect.Height)/2, 0));
                 }
 
                 // Bring the (inflated) bounds into view

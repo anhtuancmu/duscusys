@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Discussions
 {
-    class DataItem
+    internal class DataItem
     {
         private string name;
         private bool canDrop;

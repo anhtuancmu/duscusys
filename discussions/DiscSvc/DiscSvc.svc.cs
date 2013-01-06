@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Services;
 using System.Data.Services.Common;
 using System.Data.Services.Providers;
-using System.Linq;
-using System.ServiceModel.Web;
-using System.Web;
 using Discussions.DbModel;
 
 namespace DiscSvc
@@ -22,16 +18,16 @@ namespace DiscSvc
             config.UseVerboseErrors = true;
             config.SetEntitySetAccessRule("Discussion", EntitySetRights.All);
             config.SetEntitySetAccessRule("Attachment",
-        EntitySetRights.ReadMultiple |
-        EntitySetRights.ReadSingle |
-        EntitySetRights.AllWrite);
+                                          EntitySetRights.ReadMultiple |
+                                          EntitySetRights.ReadSingle |
+                                          EntitySetRights.AllWrite);
             // config.SetServiceOperationAccessRule("MyServiceOperation", ServiceOperationRights.All);
             config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
         }
 
         public object GetService(Type serviceType)
         {
-            if (serviceType == typeof(IDataServiceStreamProvider))
+            if (serviceType == typeof (IDataServiceStreamProvider))
             {
                 // Return the stream provider to the data service.
                 return new AttachmentMediaStreamProvider(this.CurrentDataSource);

@@ -7,7 +7,7 @@ using Lite.Caching;
 
 namespace Discussions.RTModel.Caching
 {
-    class DiscussionLobbyCache : RoomCacheBase
+    internal class DiscussionLobbyCache : RoomCacheBase
     {
         /// <summary>
         /// The instance.

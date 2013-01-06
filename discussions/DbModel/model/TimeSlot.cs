@@ -9,7 +9,7 @@ namespace Discussions.model
     public enum TimeSlot
     {
         Morning,
-        Noon, 
-        Evening        
+        Noon,
+        Evening
     }
 }

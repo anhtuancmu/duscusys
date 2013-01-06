@@ -9,21 +9,19 @@ namespace Reporter
     public class CsvExporter
     {
         public static void Export(string reportPathName,
-                            TopicReport topicReport1, ReportParameters params1,
-                            EventTotalsReport eventTotals1,
-
-                            TopicReport topicReport2, ReportParameters params2,
-                            EventTotalsReport eventTotals2)
+                                  TopicReport topicReport1, ReportParameters params1,
+                                  EventTotalsReport eventTotals1,
+                                  TopicReport topicReport2, ReportParameters params2,
+                                  EventTotalsReport eventTotals2)
         {
             System.IO.File.WriteAllText(reportPathName, Export(topicReport1, params1, eventTotals1,
                                                                topicReport2, params2, eventTotals2));
         }
-      
-        static string Export(TopicReport topicReport1, ReportParameters params1,
-                            EventTotalsReport eventTotals1,
 
-                            TopicReport topicReport2, ReportParameters params2,
-                            EventTotalsReport eventTotals2)
+        private static string Export(TopicReport topicReport1, ReportParameters params1,
+                                     EventTotalsReport eventTotals1,
+                                     TopicReport topicReport2, ReportParameters params2,
+                                     EventTotalsReport eventTotals2)
         {
             //write header
             var sb = new StringBuilder();
@@ -79,20 +77,20 @@ namespace Reporter
             sb.Append("TotalScreenshotOpened;");
             sb.Append("TotalPdfOpened;");
             sb.AppendLine("TotalSourceOpened;");
-           
+
             //first line
             AddSessionTopicRow(sb, topicReport1, params1, eventTotals1);
 
             //second line
-            if(topicReport2!=null && params2!=null && eventTotals2!=null)
+            if (topicReport2 != null && params2 != null && eventTotals2 != null)
                 AddSessionTopicRow(sb, topicReport2, params2, eventTotals2);
 
             return sb.ToString();
         }
 
-        static void AddSessionTopicRow(StringBuilder sb, TopicReport topicReport1,
-                                       ReportParameters params1, 
-                                       EventTotalsReport eventTotals1)
+        private static void AddSessionTopicRow(StringBuilder sb, TopicReport topicReport1,
+                                               ReportParameters params1,
+                                               EventTotalsReport eventTotals1)
         {
             sb.Append("\"" + params1.session.Name + "\"");
             sb.Append(";");
@@ -196,7 +194,7 @@ namespace Reporter
             sb.Append(";");
             sb.Append(eventTotals1.TotalPdfOpened.ToString());
             sb.Append(";");
-            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString()+";");
+            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString() + ";");
         }
     }
 }

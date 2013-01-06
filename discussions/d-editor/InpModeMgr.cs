@@ -9,6 +9,7 @@ namespace DistributedEditor
     public class InpModeMgr : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
@@ -21,10 +22,7 @@ namespace DistributedEditor
 
         public ShapeInputMode Mode
         {
-            get
-            {
-                return _inpMode;
-            }
+            get { return _inpMode; }
             set
             {
                 if (value != _inpMode)
@@ -44,9 +42,9 @@ namespace DistributedEditor
                 {
                     case ShapeInputMode.CreationExpected:
                         return "Draw the new shape";
-                    case ShapeInputMode.CursorApprovalExpected: 
+                    case ShapeInputMode.CursorApprovalExpected:
                         return "Taking cursor...";
-                    case ShapeInputMode.LinkedObj1Expected: 
+                    case ShapeInputMode.LinkedObj1Expected:
                         return "Click first object to link";
                     case ShapeInputMode.LinkedObj2Expected:
                         return "Click second object to link";

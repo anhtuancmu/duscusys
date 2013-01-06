@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Discussions.RTModel.Operations
+﻿namespace Discussions.RTModel.Operations
 {
     public enum DiscussionParamKey : byte
     {
@@ -76,7 +71,7 @@ namespace Discussions.RTModel.Operations
 
         StringKey = 57,
         IntParameter1 = 58,
-        IntParameter2 = 59, 
+        IntParameter2 = 59,
         LinkCaption = 60,
         ScreenshotsDict = 61
     }

@@ -22,7 +22,8 @@ namespace Discussions.VectorEditor
             return MiniAttachmentManager.LoadImageFromBlob(a);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

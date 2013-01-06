@@ -11,7 +11,6 @@
 namespace Lite
 {
     using Lite.Common;
-
     using Photon.SocketServer;
 
     /// <summary>

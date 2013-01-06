@@ -16,7 +16,6 @@ using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using System.Collections.ObjectModel;
-using System.Data;
 
 namespace CloudStorage
 {
@@ -27,7 +26,7 @@ namespace CloudStorage
     {
         public string AuthCode = "";
 
-        StorageType _storageType;
+        private StorageType _storageType;
 
         public AuthDlg(StorageType storageType)
         {
@@ -41,12 +40,12 @@ namespace CloudStorage
             {
                 case StorageType.Dropbox:
                     txtInfo.Content = "Authorize Discusys on Dropbox site and Continue";
-                    gdriveAuthCode.Visibility = Visibility.Collapsed;                   
+                    gdriveAuthCode.Visibility = Visibility.Collapsed;
                     Title = "Dropbox login";
                     break;
                 case StorageType.GoogleDrive:
                     Title = "Google Drive login";
-                    txtInfo.Visibility = Visibility.Collapsed;                    
+                    txtInfo.Visibility = Visibility.Collapsed;
                     break;
                 default:
                     throw new NotSupportedException();
@@ -103,7 +102,7 @@ namespace CloudStorage
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnWindowNoninteractive(object sender, EventArgs e)
-        {        
+        {
         }
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace CloudStorage
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnWindowUnavailable(object sender, EventArgs e)
-        {         
+        {
         }
 
         private void gdriveAuthCode_TextChanged_1(object sender, TextChangedEventArgs e)
@@ -124,7 +123,7 @@ namespace CloudStorage
         }
 
         private void btnOk_Click_1(object sender, RoutedEventArgs e)
-        {          
+        {
             Close();
         }
     }

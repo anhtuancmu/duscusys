@@ -8,6 +8,7 @@
 //   stop multiple clients to trigger changes in per-game player-counts.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace DiscussionRT
 {
     using System;
@@ -17,7 +18,7 @@ namespace DiscussionRT
     using ExitGames.Client.Photon.Lite;
     using DiscussionsClientRT;
 
-    class LobbyHandler : IPhotonPeerListener
+    internal class LobbyHandler : IPhotonPeerListener
     {
         public LiteLobbyPeer peer;
         private Hashtable gameList = new Hashtable();
@@ -46,11 +47,10 @@ namespace DiscussionRT
             this.peer.Disconnect();
         }
 
-
         #region Implementation of IPhotonPeerListener
 
         public void DebugReturn(string debug)
-        {     
+        {
         }
 
         public void DebugReturn(DebugLevel level, string debug)
@@ -65,23 +65,23 @@ namespace DiscussionRT
 
         public void OnStatusChanged(StatusCode statusCode)
         {
-            DebugReturn("OnStatusChanged():" + (StatusCode)statusCode);
+            DebugReturn("OnStatusChanged():" + (StatusCode) statusCode);
 
             //handle returnCodes for connect, disconnect and errors (non-operations)
-            switch ((StatusCode)statusCode)
+            switch ((StatusCode) statusCode)
             {
                 case StatusCode.Connect:
                     this.DebugReturn("Connect(ed)");
-                    this.peer.OpJoin(this.lobbyName);   // The LobbyHandler simply joins the lobby to get updates from it
+                    this.peer.OpJoin(this.lobbyName); // The LobbyHandler simply joins the lobby to get updates from it
                     break;
                 case StatusCode.Disconnect:
-                    this.DebugReturn("Disconnect(ed) Peer.state: " + peer.PeerState);                    
+                    this.DebugReturn("Disconnect(ed) Peer.state: " + peer.PeerState);
                     break;
                 case StatusCode.ExceptionOnConnect:
-                    this.DebugReturn("ExceptionOnConnect(ed) Peer.state: " + peer.PeerState);                    
+                    this.DebugReturn("ExceptionOnConnect(ed) Peer.state: " + peer.PeerState);
                     break;
                 case StatusCode.Exception:
-                    this.DebugReturn("Exception(ed) Peer.state: " + peer.PeerState);                    
+                    this.DebugReturn("Exception(ed) Peer.state: " + peer.PeerState);
                     break;
                 default:
                     this.DebugReturn("OnStatusChanged: " + statusCode);
@@ -95,11 +95,11 @@ namespace DiscussionRT
             {
                     // The Lobbies in LiteLobby will send two types of events with room-lists. 
                     // This is how you handle them:
-                case (byte)LiteLobbyPeer.LiteLobbyEventCode.RoomList:
-                case (byte)LiteLobbyPeer.LiteLobbyEventCode.RoomListUpdate:
+                case (byte) LiteLobbyPeer.LiteLobbyEventCode.RoomList:
+                case (byte) LiteLobbyPeer.LiteLobbyEventCode.RoomListUpdate:
                     {
                         Hashtable customContent;
-                        customContent = (Hashtable)photonEvent[(byte)LiteEventKey.CustomContent];
+                        customContent = (Hashtable) photonEvent[(byte) LiteEventKey.CustomContent];
 
                         foreach (string key in customContent.Keys)
                         {
@@ -111,16 +111,14 @@ namespace DiscussionRT
                         List<string> list = new List<string>();
                         foreach (string key in this.gameList.Keys)
                         {
-                            list.Add((string)key + ": " + this.gameList[key]);
+                            list.Add((string) key + ": " + this.gameList[key]);
                         }
 
                         break;
                     }
             }
-
         }
+
         #endregion
-
-
     }
 }

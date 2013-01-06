@@ -1,29 +1,31 @@
 ﻿<UserControl x:Class="Discussions.stats.EventView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="230" 
-			 d:DesignWidth="320">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="230"
+             d:DesignWidth="320">
     <Grid>
-    	<StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center">	
-    		<TextBlock x:Name="txt" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
-    			d:LayoutOverrides="Margin"><Run FontWeight="Bold" Text="{Binding userName}" Foreground="{Binding userColor}" />
-                <Run Text=" "/>
+        <StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock x:Name="txt" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       d:LayoutOverrides="Margin">
+                <Run FontWeight="Bold" Text="{Binding userName}" Foreground="{Binding userColor}" />
+                <Run Text=" " />
                 <Run Text="{Binding evt}" />
             </TextBlock>
-    		<DockPanel>
-    			<TextBlock x:Name="txtStamp" 
-    				Text="{Binding dateTime}"
-    				Foreground="LightGreen"
-    				HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="15"/>
-    			<TextBlock x:Name="txtDevice" 
-    				Text="{Binding devType}"
-    				Foreground="LightGreen" TextWrapping="Wrap" 
-					FontSize="15" VerticalAlignment="Bottom" 
-					HorizontalAlignment="Left" Margin="14,0,0,0"/>		
-    		</DockPanel>		
-    	</StackPanel>
+            <DockPanel>
+                <TextBlock x:Name="txtStamp"
+                           Text="{Binding dateTime}"
+                           Foreground="LightGreen"
+                           HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="15" />
+                <TextBlock x:Name="txtDevice"
+                           Text="{Binding devType}"
+                           Foreground="LightGreen" TextWrapping="Wrap"
+                           FontSize="15" VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left" Margin="14,0,0,0" />
+            </DockPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

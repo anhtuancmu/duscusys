@@ -6,7 +6,7 @@ using System.Windows.Input.StylusPlugIns;
 
 namespace DistributedEditor
 {
-    class InkInterceptorPlugin : System.Windows.Input.StylusPlugIns.StylusPlugIn
+    internal class InkInterceptorPlugin : System.Windows.Input.StylusPlugIns.StylusPlugIn
     {
         protected override void OnStylusDown(RawStylusInput rawStylusInput)
         {
@@ -21,7 +21,7 @@ namespace DistributedEditor
 
         protected override void OnStylusMove(RawStylusInput rawStylusInput)
         {
-            base.OnStylusMove(rawStylusInput); 
+            base.OnStylusMove(rawStylusInput);
             HandlePoint(rawStylusInput);
         }
 
@@ -32,7 +32,7 @@ namespace DistributedEditor
 
         protected override void OnStylusUp(RawStylusInput rawStylusInput)
         {
-            base.OnStylusUp(rawStylusInput);    
+            base.OnStylusUp(rawStylusInput);
             HandlePoint(rawStylusInput);
         }
 
@@ -41,8 +41,8 @@ namespace DistributedEditor
             base.OnStylusUp(rawStylusInput);
         }
 
-        void HandlePoint(RawStylusInput rawStylusInput)
-        {            
+        private void HandlePoint(RawStylusInput rawStylusInput)
+        {
             //Console.WriteLine("num points {0}", rawStylusInput.GetStylusPoints().Count());
             //foreach (var p in rawStylusInput.GetStylusPoints())          
             //    Console.WriteLine("{0}-{1}", p.X, p.Y);            

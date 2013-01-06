@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Discussions.DbModel;
 
 namespace Reporter
 {
-    public class ReportParameters    
+    public class ReportParameters
     {
         public List<int> requiredUsers;
         public IEnumerable<int> sessionTopicUsers;

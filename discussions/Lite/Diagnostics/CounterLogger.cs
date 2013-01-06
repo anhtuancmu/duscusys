@@ -10,7 +10,6 @@
 namespace Lite.Diagnostics
 {
     using System.Threading;
-
     using ExitGames.Logging;
 
     /// <summary>
@@ -60,10 +59,7 @@ namespace Lite.Diagnostics
         /// <value>The instance.</value>
         public static CounterLogger Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>

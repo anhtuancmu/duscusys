@@ -10,7 +10,6 @@
 namespace Lite.Events
 {
     using Lite.Operations;
-
     using Photon.SocketServer.Rpc;
 
     /// <summary>
@@ -30,7 +29,7 @@ namespace Lite.Events
         public LeaveEvent(int actorNr, int[] actors)
             : base(actorNr)
         {
-            this.Code = (byte)EventCode.Leave;
+            this.Code = (byte) EventCode.Leave;
             this.Actors = actors;
         }
 
@@ -38,7 +37,7 @@ namespace Lite.Events
         /// Gets or sets the actors.
         /// </summary>
         /// <value>The actors.</value>
-        [DataMember(Code = (byte)ParameterKey.Actors)]
+        [DataMember(Code = (byte) ParameterKey.Actors)]
         public int[] Actors { get; set; }
     }
 }

@@ -22,10 +22,15 @@ namespace Discussions
             }
             else if (e.Args.Length > 2)
             {
-                SessionInfo.Get().ScreenshotMode = true;
-                SessionInfo.Get().screenTopicId = int.Parse(e.Args[0]);
-                SessionInfo.Get().screenDiscId = int.Parse(e.Args[1]);
-                SessionInfo.Get().screenMetaInfo = e.Args[2];
+                int screentopicId;
+                int screenDiscId;
+                if (int.TryParse(e.Args[0], out screentopicId) && int.TryParse(e.Args[1], out screenDiscId))
+                {
+                    SessionInfo.Get().ScreenshotMode = true;
+                    SessionInfo.Get().screenTopicId = screentopicId;
+                    SessionInfo.Get().screenDiscId = screenDiscId;
+                    SessionInfo.Get().screenMetaInfo = e.Args[2];
+                }
             }
 
             //in screenshot mode, we may have temp images not yet built into report

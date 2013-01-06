@@ -10,17 +10,17 @@ namespace Discussions.stats
 {
     public class EventViewModel
     {
-        public string dateTime {get;set;}
-        public string userName {get;set;}
+        public string dateTime { get; set; }
+        public string userName { get; set; }
         public SolidColorBrush userColor { get; set; }
-        public string evt {get;set;}
+        public string evt { get; set; }
         public string devType { get; set; }
 
         public EventViewModel(StEvent eventCode, int userId, DateTime stamp, DeviceType device)
         {
             dateTime = stamp.ToString();
-    
-            var usr = DbCtx.Get().Person.FirstOrDefault(p0=>p0.Id==userId);
+
+            var usr = DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == userId);
             if (usr != null)
             {
                 userName = usr.Name;
@@ -117,7 +117,7 @@ namespace Discussions.stats
                     break;
                 case StEvent.ScreenshotAdded:
                     evt = "added screenshot";
-                    break; 
+                    break;
                 case StEvent.MediaRemoved:
                     evt = "removed media";
                     break;
@@ -143,19 +143,19 @@ namespace Discussions.stats
                     evt = "opened source";
                     break;
                 default:
-                    throw new NotSupportedException(); 
+                    throw new NotSupportedException();
             }
 
-            switch(device)
+            switch (device)
             {
                 case DeviceType.Android:
                     devType = "App";
                     break;
                 case DeviceType.Wpf:
-                    devType = "Windows"; 
+                    devType = "Windows";
                     break;
                 case DeviceType.Sticky:
-                    devType = "Sticky"; 
+                    devType = "Sticky";
                     break;
                 default:
                     throw new NotSupportedException();

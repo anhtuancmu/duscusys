@@ -21,14 +21,13 @@ namespace Discussions
     /// </summary>
     public partial class PersonDiscConfigWnd : SurfaceWindow
     {
-        Discussion _d;
+        private Discussion _d;
 
-        Person _p;
-        public Person person {
-            get
-            {
-                return _p;
-            }
+        private Person _p;
+
+        public Person person
+        {
+            get { return _p; }
             set
             {
                 if (value != null)
@@ -36,11 +35,11 @@ namespace Discussions
                     lblName.Content = value.Name;
                     lblEmail.Content = value.Email;
                 }
-                 _p=value;
+                _p = value;
             }
         }
 
-        void onPersonSelected(object selected)
+        private void onPersonSelected(object selected)
         {
             var p = selected as Person;
             if (p == null)
@@ -66,7 +65,7 @@ namespace Discussions
             if (currentSide != -1)
                 selector1.SelectedSide = currentSide;
             else
-                selector1.SelectedSide = (int)SideCode.Neutral;
+                selector1.SelectedSide = (int) SideCode.Neutral;
 
             personSelector.Set(CtxSingleton.Get().Person, "Name");
         }

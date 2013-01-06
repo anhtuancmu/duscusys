@@ -18,22 +18,22 @@ namespace DistributedEditor
         Resize,
         MoveResize
     }
-    
+
     public interface IVdShape
     {
-        int  Id();        
-       
+        int Id();
+
         //focus and cursor
-        Cursor GetCursor();  
-        void SetCursor(Cursor c);  
-        void UnsetCursor();  
+        Cursor GetCursor();
+        void SetCursor(Cursor c);
+        void UnsetCursor();
         void SetFocus();
         void RemoveFocus();
         bool IsFocused();
 
         void AttachToCanvas(Canvas c);
         void DetachFromCanvas(Canvas c);
-        
+
         //manipulations
         void StartManip(Point p, object sender);
         PointApplyResult ApplyCurrentPoint(Point p);

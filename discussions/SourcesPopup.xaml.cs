@@ -20,11 +20,12 @@ namespace Discussions
     /// Interaction logic for SourcesPopup.xaml
     /// </summary>
     public partial class SourcesPopup : Popup
-    {        
+    {
         public delegate void EditRefList(RichText rt, bool readOnly);
-        EditRefList _sourcesEditor = null;                
-        RichText _richText;
-        
+
+        private EditRefList _sourcesEditor = null;
+        private RichText _richText;
+
         public SourcesPopup()
         {
             InitializeComponent();
@@ -35,10 +36,10 @@ namespace Discussions
             _richText = richText;
             _sourcesEditor = sourcesEditor;
             if (richText.Source != null)
-                SetModel(richText.Source, sourcesEditor!=null);            
+                SetModel(richText.Source, sourcesEditor != null);
         }
 
-        void SetModel(IEnumerable<Source> refs, bool showEditLink)
+        private void SetModel(IEnumerable<Source> refs, bool showEditLink)
         {
             int i = 1;
             string sources = "";
@@ -70,9 +71,9 @@ namespace Discussions
         {
             IsOpen = false;
         }
- 
+
         private void Popup_MouseMove(object sender, MouseEventArgs e)
-        {            
+        {
         }
     }
 }

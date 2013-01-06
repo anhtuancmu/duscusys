@@ -15,19 +15,19 @@ using LoginEngine;
 using Reporter;
 
 namespace EventGen
-{ 
+{
     public partial class SubmitionWnd : Window
     {
-        Timeline _timelineModel;
-        DateTime _baseDateTime;
-        EventTotalsReport _totalsReport = new EventTotalsReport();
+        private Timeline _timelineModel;
+        private DateTime _baseDateTime;
+        private EventTotalsReport _totalsReport = new EventTotalsReport();
 
         public SubmitionWnd(Timeline timelineModel, DateTime baseDateTime)
         {
             InitializeComponent();
 
             _timelineModel = timelineModel;
-            _baseDateTime  = baseDateTime;
+            _baseDateTime = baseDateTime;
 
             //compute stats 
             var fakeEventId = 0;
@@ -44,7 +44,7 @@ namespace EventGen
             {
                 DaoHelpers.recordEvent(te, _baseDateTime);
             }
-        
+
             try
             {
                 DbCtx.Get().SaveChanges();

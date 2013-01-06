@@ -23,10 +23,11 @@ namespace Discussions
                 return null;
 
             string fullLink = (value as Source).Text;
-            return fullLink.Substring(0, LinkLen);  
+            return fullLink.Substring(0, LinkLen);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

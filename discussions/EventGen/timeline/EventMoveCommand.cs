@@ -7,26 +7,26 @@ namespace EventGen.timeline
 {
     public class EventMoveCommand : CommandBase
     {
-        TimelineEvent _event;
+        private TimelineEvent _event;
 
-        TimeSpan initialSpan;
-        double initialStickHeight;
+        private TimeSpan initialSpan;
+        private double initialStickHeight;
 
-        TimeSpan finalSpan;
-        double finalStickHeight;
+        private TimeSpan finalSpan;
+        private double finalStickHeight;
 
         public EventMoveCommand(TimelineEvent ev)
         {
             _event = ev;
 
-            initialSpan        = _event.Span;
+            initialSpan = _event.Span;
             initialStickHeight = _event.StickHeight;
         }
 
         //returns true if command has changes
         public bool EndCommand()
         {
-            finalSpan        = _event.Span;
+            finalSpan = _event.Span;
             finalStickHeight = _event.StickHeight;
 
             base.ToDone(); //command state done 
@@ -37,7 +37,7 @@ namespace EventGen.timeline
         public override void ToUndone()
         {
             base.ToUndone();
-            _event.Span        = initialSpan;
+            _event.Span = initialSpan;
             _event.StickHeight = initialStickHeight;
             _event.view.UpdatePositionByModel(_event);
         }
@@ -45,7 +45,7 @@ namespace EventGen.timeline
         public override void ToDone()
         {
             base.ToDone();
-            _event.Span        = finalSpan;
+            _event.Span = finalSpan;
             _event.StickHeight = finalStickHeight;
             _event.view.UpdatePositionByModel(_event);
         }

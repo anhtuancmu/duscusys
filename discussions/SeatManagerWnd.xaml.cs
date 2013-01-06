@@ -21,12 +21,13 @@ using Discussions.model;
 using System.Data;
 using Discussions.rt;
 
-namespace Discussions 
+namespace Discussions
 {
     public partial class SeatManagerWnd : SurfaceWindow
     {
-        ObservableCollection<Seat> _seats = null;
-        public ObservableCollection<Seat> Seats 
+        private ObservableCollection<Seat> _seats = null;
+
+        public ObservableCollection<Seat> Seats
         {
             get
             {
@@ -36,16 +37,13 @@ namespace Discussions
                 }
                 return _seats;
             }
-            set
-            {
-                _seats = value;
-            }
+            set { _seats = value; }
         }
 
         public SeatManagerWnd()
         {
             InitializeComponent();
-          
+
             DataContext = this;
 
             this.WindowState = WindowState.Normal;
@@ -68,16 +66,13 @@ namespace Discussions
 
         public Seat SelectedSeat
         {
-            get
-            {
-                return lstBxSeats.SelectedItem as Seat; 
-            }
+            get { return lstBxSeats.SelectedItem as Seat; }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var ss = SelectedSeat;
-            
+
             if (ss == null)
                 return;
 
@@ -91,8 +86,7 @@ namespace Discussions
         }
 
         private void lstBxSeats_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {            
-         
+        {
         }
     }
 }

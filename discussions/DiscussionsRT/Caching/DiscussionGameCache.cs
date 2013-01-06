@@ -14,7 +14,7 @@ namespace Discussions.RTModel
         /// </summary>
         public static readonly DiscussionGameCache Instance = new DiscussionGameCache();
 
-        Dictionary<string, Room> _rooms = new Dictionary<string, Room>();
+        private Dictionary<string, Room> _rooms = new Dictionary<string, Room>();
 
         /// <summary>
         /// The create room.
@@ -29,8 +29,8 @@ namespace Discussions.RTModel
         /// a <see cref="LiteLobbyRoom"/>  
         /// </returns>
         protected override Room CreateRoom(string roomId, params object[] args)
-        {            
-            return new DiscussionRoom(roomId, "discussions_lobby");  
+        {
+            return new DiscussionRoom(roomId, "discussions_lobby");
         }
     }
 }

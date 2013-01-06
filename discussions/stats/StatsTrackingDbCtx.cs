@@ -12,14 +12,14 @@ namespace Discussions.stats
 {
     public class StatsTrackingDbCtx : DiscCtx
     {
-        UISharedRTClient sharedClient = null;
+        private UISharedRTClient sharedClient = null;
 
         public StatsTrackingDbCtx(string connStr, UISharedRTClient sharedClient) :
             base(connStr)
         {
             this.sharedClient = sharedClient;
         }
-                
+
         public override int SaveChanges(SaveOptions options)
         {
             var si = SessionInfo.Get();
@@ -30,10 +30,11 @@ namespace Discussions.stats
                 {
                     if (entry.Entity is ArgPoint)
                     {
-                        ((ArgPoint)entry.Entity).ChangesPending = false;
+                        ((ArgPoint) entry.Entity).ChangesPending = false;
                         sharedClient.clienRt.SendStatsEvent(StEvent.BadgeCreated,
-                                        si.person.Id, si.discussion.Id, si.currentTopicId, DeviceType.Wpf);
-                    } 
+                                                            si.person.Id, si.discussion.Id, si.currentTopicId,
+                                                            DeviceType.Wpf);
+                    }
                 }
 
                 //edited
@@ -41,11 +42,11 @@ namespace Discussions.stats
                 {
                     if (entry.Entity is ArgPoint)
                     {
-                        ((ArgPoint)entry.Entity).ChangesPending = false;
+                        ((ArgPoint) entry.Entity).ChangesPending = false;
                         sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
-                                                            SessionInfo.Get().person.Id, 
-                                                            si.discussion.Id, 
-                                                            si.currentTopicId, 
+                                                            SessionInfo.Get().person.Id,
+                                                            si.discussion.Id,
+                                                            si.currentTopicId,
                                                             DeviceType.Wpf);
                     }
                 }
@@ -55,12 +56,13 @@ namespace Discussions.stats
                 {
                     if (entry.Entity is ArgPoint)
                     {
-                        var ap = (ArgPoint)entry.Entity;
-                        if(ap.ChangesPending)
+                        var ap = (ArgPoint) entry.Entity;
+                        if (ap.ChangesPending)
                         {
                             ap.ChangesPending = false;
                             sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
-                                                                si.person.Id, si.discussion.Id, si.currentTopicId, DeviceType.Wpf);
+                                                                si.person.Id, si.discussion.Id, si.currentTopicId,
+                                                                DeviceType.Wpf);
                         }
                     }
                 }
@@ -68,6 +70,5 @@ namespace Discussions.stats
 
             return base.SaveChanges(options);
         }
-
     }
 }

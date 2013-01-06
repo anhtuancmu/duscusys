@@ -17,20 +17,15 @@ using LoginEngine;
 namespace Discussions
 {
     public partial class LoginName : Window
-    {       
+    {
         public bool BackClicked = false;
-         
-        string _enteredName = "<User name>"; 
+
+        private string _enteredName = "<User name>";
+
         public string EnteredName
         {
-            get
-            {
-                return _enteredName;
-            }
-            set
-            {
-                _enteredName = value;
-            }
+            get { return _enteredName; }
+            set { _enteredName = value; }
         }
 
         public LoginName(Seat selectedSeat)
@@ -45,9 +40,9 @@ namespace Discussions
             if (selectedSeat != null && selectedSeat.Person != null)
             {
                 var pers = selectedSeat.Person.LastOrDefault();
-                if(pers!=null)
+                if (pers != null)
                 {
-                    EnteredName  = pers.Name;
+                    EnteredName = pers.Name;
                     tbxName.Text = pers.Name;
                 }
             }
@@ -63,7 +58,7 @@ namespace Discussions
         {
             if (EnteredName.Trim() == "")
                 EnteredName = null;
-            
+
             Close();
         }
 

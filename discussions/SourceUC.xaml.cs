@@ -24,41 +24,41 @@ namespace Discussions
     public partial class SourceUC : UserControl
     {
         public static readonly DependencyProperty PermitsEditProperty =
-          DependencyProperty.Register("PermitsEdit", typeof(bool),
-          typeof(SourceUC), new FrameworkPropertyMetadata(true, OnPermitsEditChanged));
+            DependencyProperty.Register("PermitsEdit", typeof (bool),
+                                        typeof (SourceUC), new FrameworkPropertyMetadata(true, OnPermitsEditChanged));
 
         public bool PermitsEdit
         {
-            get { return (bool)GetValue(PermitsEditProperty); }
+            get { return (bool) GetValue(PermitsEditProperty); }
             set { SetValue(PermitsEditProperty, value); }
         }
 
         private static void OnPermitsEditChanged(DependencyObject source,
-        DependencyPropertyChangedEventArgs e)
+                                                 DependencyPropertyChangedEventArgs e)
         {
             SourceUC control = source as SourceUC;
-            bool permits = (bool)e.NewValue;
+            bool permits = (bool) e.NewValue;
             if (!permits)
                 control.btnRemoveComment.Visibility = Visibility.Hidden;
         }
 
         public static readonly DependencyProperty TruncateUrlsProperty =
-          DependencyProperty.Register("TruncateUrls", typeof(bool),
-          typeof(SourceUC), new FrameworkPropertyMetadata(true, OnTruncChanged));
+            DependencyProperty.Register("TruncateUrls", typeof (bool),
+                                        typeof (SourceUC), new FrameworkPropertyMetadata(true, OnTruncChanged));
 
         public bool TruncateUrls
         {
-            get { return (bool)GetValue(TruncateUrlsProperty); }
+            get { return (bool) GetValue(TruncateUrlsProperty); }
             set { SetValue(TruncateUrlsProperty, value); }
         }
 
         private static void OnTruncChanged(DependencyObject source,
-        DependencyPropertyChangedEventArgs e)
+                                           DependencyPropertyChangedEventArgs e)
         {
         }
 
         public static readonly RoutedEvent SourceRemovedEvent = EventManager.RegisterRoutedEvent(
-          "SourceRemoved", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SourceUC));
+            "SourceRemoved", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (SourceUC));
 
         // Provide CLR accessors for the event
         public event RoutedEventHandler SourceRemoved
@@ -68,7 +68,7 @@ namespace Discussions
         }
 
         public static readonly RoutedEvent SourceViewEvent = EventManager.RegisterRoutedEvent(
-         "SourceView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SourceUC));
+            "SourceView", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (SourceUC));
 
         public event RoutedEventHandler SourceView
         {
@@ -77,7 +77,7 @@ namespace Discussions
         }
 
         public static readonly RoutedEvent SourceUpDownEvent = EventManager.RegisterRoutedEvent(
-            "SourceUpDown", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SourceUC));
+            "SourceUpDown", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (SourceUC));
 
         public event RoutedEventHandler SourceUpDown
         {
@@ -86,20 +86,20 @@ namespace Discussions
         }
 
         public static readonly DependencyProperty CanReorderProperty =
-         DependencyProperty.Register("CanReorder", typeof(bool),
-                typeof(SourceUC), new FrameworkPropertyMetadata(false, OnCanReorderChanged));
+            DependencyProperty.Register("CanReorder", typeof (bool),
+                                        typeof (SourceUC), new FrameworkPropertyMetadata(false, OnCanReorderChanged));
 
         public bool CanReorder
         {
-            get { return (bool)GetValue(CanReorderProperty); }
+            get { return (bool) GetValue(CanReorderProperty); }
             set { SetValue(CanReorderProperty, value); }
         }
 
         private static void OnCanReorderChanged(DependencyObject source,
-        DependencyPropertyChangedEventArgs e)
+                                                DependencyPropertyChangedEventArgs e)
         {
             SourceUC control = source as SourceUC;
-            bool can = (bool)e.NewValue;
+            bool can = (bool) e.NewValue;
             if (!can)
                 control.btnReposition.Visibility = Visibility.Collapsed;
             else
@@ -137,11 +137,11 @@ namespace Discussions
             linkTarget.DataContext = this;
         }
 
-        string truncateUrl(string url)
+        private string truncateUrl(string url)
         {
             var truncated = url.Substring(0, Math.Min(url.Length, 40));
-            if(truncated!=url)
-                truncated = truncated.Insert(truncated.Length,"...");
+            if (truncated != url)
+                truncated = truncated.Insert(truncated.Length, "...");
             return truncated;
         }
 
@@ -187,19 +187,16 @@ namespace Discussions
         private void Hyperlink_Click_1(object sender, RoutedEventArgs e)
         {
             Launch();
-        }   
-     
-        public int SrcNumber 
+        }
+
+        public int SrcNumber
         {
-            set
-            {
-                number.Text = value.ToString();
-            }
+            set { number.Text = value.ToString(); }
         }
 
         private void btnReposition_Click_1(object sender, RoutedEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(SourceUpDownEvent));            
+            RaiseEvent(new RoutedEventArgs(SourceUpDownEvent));
         }
     }
 }

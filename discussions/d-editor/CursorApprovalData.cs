@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 
 namespace DistributedEditor
 {
-    struct CursorApprovalData
+    internal struct CursorApprovalData
     {
         //recently clicked object, awaits cursor approval
         public Shape resizeNode;

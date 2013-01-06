@@ -18,16 +18,14 @@ namespace DistributedEditor
     {
         public const double MIN_SIZE = 30;
 
-        Canvas scene;    
-        TextUC _textEnterUC;        
+        private Canvas scene;
+        private TextUC _textEnterUC;
 
-        string _txt = "Text here";
+        private string _txt = "Text here";
+
         public string Text
         {
-            get
-            {
-                return _txt; 
-            }
+            get { return _txt; }
             set
             {
                 if (value != _txt)
@@ -39,6 +37,7 @@ namespace DistributedEditor
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)
@@ -48,9 +47,11 @@ namespace DistributedEditor
         }
 
         public delegate void CleanupRequest(int id);
-        CleanupRequest _cleanupRequest;
+
+        private CleanupRequest _cleanupRequest;
 
         public delegate void OnChanged(VdText text);
+
         public OnChanged onChanged;
 
         public VdText(double x, double y, int owner, int shapeId, CleanupRequest cleanupRequest) :
@@ -60,25 +61,25 @@ namespace DistributedEditor
 
             _cleanupRequest = cleanupRequest;
 
-            HandleMove(x,y);    
+            HandleMove(x, y);
 
             RemoveFocus();
         }
 
-        void initText(Color c)
+        private void initText(Color c)
         {
             _textEnterUC = new TextUC(this);
             _textEnterUC.txtLabel.Effect = ShapeUtils.ShadowProvider();
             _textEnterUC.txtLabel.Foreground = new SolidColorBrush(c);
-            _textEnterUC.DataContext = this;           
+            _textEnterUC.DataContext = this;
             _textEnterUC.Tag = this;
-            _textEnterUC.field.Tag = this; 
+            _textEnterUC.field.Tag = this;
             _textEnterUC.handle.Tag = this;
             _textEnterUC.textChanged += TextChanged;
             _textEnterUC.MouseWheel += MouseWheel;
         }
 
-        void TextChanged(string text)
+        private void TextChanged(string text)
         {
             _txt = text;
             serializeText = true;
@@ -116,13 +117,13 @@ namespace DistributedEditor
                 _cleanupRequest(Id());
             }
 
-            _textEnterUC.RemoveFocus();            
+            _textEnterUC.RemoveFocus();
         }
 
         public override void SetFocus()
         {
             base.SetFocus();
-          
+
             _textEnterUC.SetFocus();
         }
 
@@ -134,13 +135,13 @@ namespace DistributedEditor
         public void SetZIndex(int z)
         {
             Canvas.SetZIndex(_textEnterUC, z);
-            Canvas.SetZIndex(_cursorView, z+1); 
+            Canvas.SetZIndex(_cursorView, z + 1);
         }
-        
+
         public void AttachToCanvas(Canvas c)
         {
             scene = c;
-            
+
             if (c.Children.Contains(_textEnterUC))
                 return;
 
@@ -149,19 +150,19 @@ namespace DistributedEditor
 
             SetBounds();
         }
-        
+
         public void DetachFromCanvas(Canvas c)
         {
             c.Children.Remove(_textEnterUC);
             c.Children.Remove(_cursorView);
         }
 
-        void SetBounds()
+        private void SetBounds()
         {
             updateUserCursor();
         }
 
-        void updateUserCursor()
+        private void updateUserCursor()
         {
             var org = GetOrigin();
 
@@ -180,7 +181,8 @@ namespace DistributedEditor
         }
 
         //by default, text is not serialized. only enabled after text change event
-        bool serializeText = false; 
+        private bool serializeText = false;
+
         public ShapeState GetState(int topicId)
         {
             var mat = _textEnterUC.RenderTransform.Value;
@@ -190,7 +192,7 @@ namespace DistributedEditor
             //encode string
             if (serializeText)
             {
-                serializeText = false; 
+                serializeText = false;
                 using (var s = new MemoryStream())
                 {
                     using (var bw = new BinaryWriter(s))
@@ -206,9 +208,12 @@ namespace DistributedEditor
                                   Id(),
                                   textBytes,
                                   null,
-                                  new double[] {0, 0, mat.M11, mat.M12, 
-                                                 mat.M21, mat.M22, 
-                                                 mat.OffsetX, mat.OffsetY },
+                                  new double[]
+                                      {
+                                          0, 0, mat.M11, mat.M12,
+                                          mat.M21, mat.M22,
+                                          mat.OffsetX, mat.OffsetY
+                                      },
                                   topicId);
         }
 
@@ -224,7 +229,7 @@ namespace DistributedEditor
                     }
                 }
             }
-            
+
             Matrix m = new Matrix();
             m.M11 = st.doubles[2];
             m.M12 = st.doubles[3];
@@ -238,11 +243,11 @@ namespace DistributedEditor
             updateUserCursor();
         }
 
-        override public void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
+        public override void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
             TouchManip = true;
-            
-            base.ManipulationStarting(sender, e); 
+
+            base.ManipulationStarting(sender, e);
         }
 
         public void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
@@ -254,8 +259,8 @@ namespace DistributedEditor
             updateUserCursor();
         }
 
-        void MouseWheel(object sender, MouseWheelEventArgs e)
-        {            
+        private void MouseWheel(object sender, MouseWheelEventArgs e)
+        {
             ScaleInPlace(e.Delta > 0);
             onChanged(this);
             e.Handled = true;
@@ -265,17 +270,17 @@ namespace DistributedEditor
         {
             CurrentPoint.X = p.X;
             CurrentPoint.Y = p.Y;
-            SetFocus(); 
+            SetFocus();
         }
 
         public PointApplyResult ApplyCurrentPoint(Point p)
         {
             if (base.TouchManip)
                 return PointApplyResult.None;
-            
+
             double dx = p.X - CurrentPoint.X;
             double dy = p.Y - CurrentPoint.Y;
-            HandleMove(dx,dy);            
+            HandleMove(dx, dy);
             CurrentPoint.X = p.X;
             CurrentPoint.Y = p.Y;
             updateUserCursor();
@@ -292,26 +297,26 @@ namespace DistributedEditor
             HandleMove(dx, dy);
         }
 
-        void HandleMove(double dx, double dy)
+        private void HandleMove(double dx, double dy)
         {
             var manipOrg = GetOrigin();
-            ShapeUtils.ApplyTransform(_textEnterUC, 
+            ShapeUtils.ApplyTransform(_textEnterUC,
                                       new Vector(manipOrg.X, manipOrg.Y),
-                                      new Vector(dx, dy), 
-                                      0, 
-                                      new Vector(1, 1));          
+                                      new Vector(dx, dy),
+                                      0,
+                                      new Vector(1, 1));
         }
 
         public Point GetOrigin()
         {
             if (_textEnterUC.RenderTransform == null)
-                return new Point(0,0);
-            else 
+                return new Point(0, 0);
+            else
                 return new Point(_textEnterUC.RenderTransform.Value.OffsetX,
                                  _textEnterUC.RenderTransform.Value.OffsetY);
         }
 
-        void HandleScale(double scale)
+        private void HandleScale(double scale)
         {
             var manipOrg = _textEnterUC.RenderTransform.Transform(new Point(0, 0));
             ShapeUtils.ApplyTransform(_textEnterUC, new Vector(manipOrg.X, manipOrg.Y),
@@ -333,15 +338,15 @@ namespace DistributedEditor
                 if (border != null)
                     return 0;
             }
-            
-            var Org =_textEnterUC.txtLabel.TranslatePoint(new Point(0,0),scene);
+
+            var Org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), scene);
 
             var w = _textEnterUC.txtLabel.ActualWidth;
             var h = _textEnterUC.txtLabel.ActualHeight;
-            var TopRight    = new Point(Org.X + w, Org.Y);
+            var TopRight = new Point(Org.X + w, Org.Y);
             var BottomRight = new Point(Org.X + w, Org.Y + h);
-            var BottomLeft  = new Point(Org.X,     Org.Y + h);
-            var Center      = new Point(Org.X + w / 2, Org.Y + h / 2);
+            var BottomLeft = new Point(Org.X, Org.Y + h);
+            var Center = new Point(Org.X + w/2, Org.Y + h/2);
 
             double d1 = ShapeUtils.Dist(Org, from);
             double d2 = ShapeUtils.Dist(TopRight, from);
@@ -360,8 +365,7 @@ namespace DistributedEditor
 
         public void MoveBy(double dx, double dy)
         {
-            HandleMove(dx,dy);
+            HandleMove(dx, dy);
         }
     }
 }
-

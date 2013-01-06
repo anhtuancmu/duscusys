@@ -45,7 +45,7 @@ namespace Discussions
         /// If not matching item can be found, 
         /// a null parent is being returned.</returns>
         public static T FindChild<T>(DependencyObject parent, string childName)
-           where T : DependencyObject
+            where T : DependencyObject
         {
             // Confirm parent and childName are valid. 
             if (parent == null) return null;
@@ -73,14 +73,14 @@ namespace Discussions
                     if (frameworkElement != null && frameworkElement.Name == childName)
                     {
                         // if the child's name is of the request name
-                        foundChild = (T)child;
+                        foundChild = (T) child;
                         break;
                     }
                 }
                 else
                 {
                     // child element found.
-                    foundChild = (T)child;
+                    foundChild = (T) child;
                     break;
                 }
             }
@@ -89,7 +89,7 @@ namespace Discussions
         }
 
         public static T FindChild<T>(DependencyObject parent)
-          where T : DependencyObject
+            where T : DependencyObject
         {
             // Confirm parent and childName are valid. 
             if (parent == null) return null;
@@ -117,14 +117,14 @@ namespace Discussions
                     if (frameworkElement != null && frameworkElement is T)
                     {
                         // if the child's name is of the request name
-                        foundChild = (T)child;
+                        foundChild = (T) child;
                         break;
                     }
                 }
                 else
                 {
                     // child element found.
-                    foundChild = (T)child;
+                    foundChild = (T) child;
                     break;
                 }
             }
@@ -145,7 +145,7 @@ namespace Discussions
                     findSource = VisualTreeHelper.GetParent(findSource);
                 }
             }
-            
+
             return draggedElement;
         }
 
@@ -166,7 +166,7 @@ namespace Discussions
             return draggedElement;
         }
 
-        static DependencyObject GetScatterViewCanvas(ScatterView sv)
+        private static DependencyObject GetScatterViewCanvas(ScatterView sv)
         {
             if (sv.Items.Count == 0)
                 return null;
@@ -174,13 +174,14 @@ namespace Discussions
             //http://msdn.microsoft.com/en-us/library/ee804791%28v=surface.10%29.aspx for the hierarchy            
             Border b = VisualTreeHelper.GetChild(sv, 0) as Border;
             ItemsPresenter p = VisualTreeHelper.GetChild(b, 0) as ItemsPresenter;
-            DependencyObject scatterCanvas = VisualTreeHelper.GetChild(p, 0) as DependencyObject;//ScatterCanvas 
+            DependencyObject scatterCanvas = VisualTreeHelper.GetChild(p, 0) as DependencyObject; //ScatterCanvas 
             return scatterCanvas;
         }
 
         public delegate void VisitSVI(ScatterViewItem svi);
+
         public static void EnumSVIs(ScatterView sv, VisitSVI handler)
-        {            
+        {
             DependencyObject canv = GetScatterViewCanvas(sv);
             if (canv == null)
                 return;
@@ -190,38 +191,38 @@ namespace Discussions
             {
                 DependencyObject child = VisualTreeHelper.GetChild(canv, i);
                 var svi = child as ScatterViewItem;
-                if (svi!=null)
-                    handler(svi);                                   
+                if (svi != null)
+                    handler(svi);
             }
         }
 
-        public static System.Windows.Media.Color IntToColor(int iCol) 
-        {                        
-            return Color.FromArgb((byte)(iCol >> 24), 
-                                (byte)(iCol >> 16), 
-                                (byte)(iCol >> 8), 
-                                (byte)(iCol));
+        public static System.Windows.Media.Color IntToColor(int iCol)
+        {
+            return Color.FromArgb((byte) (iCol >> 24),
+                                  (byte) (iCol >> 16),
+                                  (byte) (iCol >> 8),
+                                  (byte) (iCol));
         }
 
         public static int ColorToInt(System.Windows.Media.Color c)
         {
             int iCol = (c.A << 24) | (c.R << 16) | (c.G << 8) | c.B;
-            return iCol;            
+            return iCol;
         }
-      
+
         public static string ScreenshotPathName()
         {
             string DiscDir = Path.Combine(TempDir(), "screenshots");
             if (!Directory.Exists(DiscDir))
                 Directory.CreateDirectory(DiscDir);
 
-            return Path.Combine(DiscDir, Guid.NewGuid().ToString()+".png");
+            return Path.Combine(DiscDir, Guid.NewGuid().ToString() + ".png");
         }
 
         public static string ExeDir()
         {
-           return System.IO.Path.Combine(
-               System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            return System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
 
         public static string TempDir()

@@ -1,6 +1,7 @@
 //----------------------------------------------
 // ArrowLineBase.cs (c) 2007 by Charles Petzold
 //----------------------------------------------
+
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -18,19 +19,19 @@ namespace Petzold.Media2D
         protected PathFigure pathfigLine;
         protected PolyLineSegment polysegLine;
 
-        PathFigure pathfigHead1;
-        PolyLineSegment polysegHead1;
-        PathFigure pathfigHead2;
-        PolyLineSegment polysegHead2;
+        private PathFigure pathfigHead1;
+        private PolyLineSegment polysegHead1;
+        private PathFigure pathfigHead2;
+        private PolyLineSegment polysegHead2;
 
         /// <summary>
         ///     Identifies the ArrowAngle dependency property.
         /// </summary>
         public static readonly DependencyProperty ArrowAngleProperty =
             DependencyProperty.Register("ArrowAngle",
-                typeof(double), typeof(ArrowLineBase),
-                new FrameworkPropertyMetadata(45.0,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (double), typeof (ArrowLineBase),
+                                        new FrameworkPropertyMetadata(45.0,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the angle between the two sides of the arrowhead.
@@ -38,7 +39,7 @@ namespace Petzold.Media2D
         public double ArrowAngle
         {
             set { SetValue(ArrowAngleProperty, value); }
-            get { return (double)GetValue(ArrowAngleProperty); }
+            get { return (double) GetValue(ArrowAngleProperty); }
         }
 
         /// <summary>
@@ -46,9 +47,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty ArrowLengthProperty =
             DependencyProperty.Register("ArrowLength",
-                typeof(double), typeof(ArrowLineBase),
-                new FrameworkPropertyMetadata(12.0,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (double), typeof (ArrowLineBase),
+                                        new FrameworkPropertyMetadata(12.0,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the length of the two sides of the arrowhead.
@@ -56,7 +57,7 @@ namespace Petzold.Media2D
         public double ArrowLength
         {
             set { SetValue(ArrowLengthProperty, value); }
-            get { return (double)GetValue(ArrowLengthProperty); }
+            get { return (double) GetValue(ArrowLengthProperty); }
         }
 
         /// <summary>
@@ -64,9 +65,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty ArrowEndsProperty =
             DependencyProperty.Register("ArrowEnds",
-                typeof(ArrowEnds), typeof(ArrowLineBase),
-                new FrameworkPropertyMetadata(ArrowEnds.End,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (ArrowEnds), typeof (ArrowLineBase),
+                                        new FrameworkPropertyMetadata(ArrowEnds.End,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the property that determines which ends of the
@@ -75,7 +76,7 @@ namespace Petzold.Media2D
         public ArrowEnds ArrowEnds
         {
             set { SetValue(ArrowEndsProperty, value); }
-            get { return (ArrowEnds)GetValue(ArrowEndsProperty); }
+            get { return (ArrowEnds) GetValue(ArrowEndsProperty); }
         }
 
         /// <summary>
@@ -83,9 +84,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty IsArrowClosedProperty =
             DependencyProperty.Register("IsArrowClosed",
-                typeof(bool), typeof(ArrowLineBase),
-                new FrameworkPropertyMetadata(false,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (bool), typeof (ArrowLineBase),
+                                        new FrameworkPropertyMetadata(false,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the property that determines if the arrow head
@@ -94,7 +95,7 @@ namespace Petzold.Media2D
         public bool IsArrowClosed
         {
             set { SetValue(IsArrowClosedProperty, value); }
-            get { return (bool)GetValue(IsArrowClosedProperty); }
+            get { return (bool) GetValue(IsArrowClosedProperty); }
         }
 
         /// <summary>
@@ -139,8 +140,9 @@ namespace Petzold.Media2D
                     // Draw the arrow at the end of the line.
                     if ((ArrowEnds & ArrowEnds.End) == ArrowEnds.End)
                     {
-                        Point pt1 = count == 1 ? pathfigLine.StartPoint :
-                                                 polysegLine.Points[count - 2];
+                        Point pt1 = count == 1
+                                        ? pathfigLine.StartPoint
+                                        : polysegLine.Points[count - 2];
                         Point pt2 = polysegLine.Points[count - 1];
                         pathgeo.Figures.Add(CalculateArrow(pathfigHead2, pt1, pt2));
                     }
@@ -149,7 +151,7 @@ namespace Petzold.Media2D
             }
         }
 
-        PathFigure CalculateArrow(PathFigure pathfig, Point pt1, Point pt2)
+        private PathFigure CalculateArrow(PathFigure pathfig, Point pt1, Point pt2)
         {
             Matrix matx = new Matrix();
             Vector vect = pt1 - pt2;
@@ -158,12 +160,12 @@ namespace Petzold.Media2D
 
             PolyLineSegment polyseg = pathfig.Segments[0] as PolyLineSegment;
             polyseg.Points.Clear();
-            matx.Rotate(ArrowAngle / 2);
-            pathfig.StartPoint = pt2 + vect * matx;
+            matx.Rotate(ArrowAngle/2);
+            pathfig.StartPoint = pt2 + vect*matx;
             polyseg.Points.Add(pt2);
 
             matx.Rotate(-ArrowAngle);
-            polyseg.Points.Add(pt2 + vect * matx);
+            polyseg.Points.Add(pt2 + vect*matx);
             pathfig.IsClosed = IsArrowClosed;
 
             return pathfig;

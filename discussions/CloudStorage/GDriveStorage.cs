@@ -24,27 +24,27 @@ namespace CloudStorage
 {
     public class GDriveStorage : IStorageClient
     {
-        string GOOGLE_DRIVE_CLIENT_ID = "579103823915.apps.googleusercontent.com";
-        string GOOGLE_DRIVE_CLIENT_SECRET = "7RxhbcWlt8qfw1Siy58D4xl8";
- 
-        const string GDOC_DOCUMENT_MIME = "application/vnd.google-apps.document";
-        const string GDOC_PRESENTATION_MIME = "application/vnd.google-apps.presentation";
-        const string GDOC_SPREADSHEET_MIME = "application/vnd.google-apps.spreadsheet";
-        const string FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
+        private string GOOGLE_DRIVE_CLIENT_ID = "579103823915.apps.googleusercontent.com";
+        private string GOOGLE_DRIVE_CLIENT_SECRET = "7RxhbcWlt8qfw1Siy58D4xl8";
 
-        Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
+        private const string GDOC_DOCUMENT_MIME = "application/vnd.google-apps.document";
+        private const string GDOC_PRESENTATION_MIME = "application/vnd.google-apps.presentation";
+        private const string GDOC_SPREADSHEET_MIME = "application/vnd.google-apps.spreadsheet";
+        private const string FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
 
-        NativeApplicationClient _nativeAppClient = null;
-        IAuthorizationState _state = null;
-        DriveService _service = null;
+        private Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
 
-        Action<string> _webViewCallback = null;
+        private NativeApplicationClient _nativeAppClient = null;
+        private IAuthorizationState _state = null;
+        private DriveService _service = null;
 
-        volatile List<TaskCompletionSource<byte[]>> _thumbDownloaders = new List<TaskCompletionSource<byte[]>>();
-        int numFilesBeingFetched = 0;
+        private Action<string> _webViewCallback = null;
+
+        private volatile List<TaskCompletionSource<byte[]>> _thumbDownloaders = new List<TaskCompletionSource<byte[]>>();
+        private int numFilesBeingFetched = 0;
 
         public GDriveStorage(Action<string> webViewCallback)
-        {            
+        {
             _webViewCallback = webViewCallback;
 
             // Register the authenticator and create the service
@@ -52,20 +52,20 @@ namespace CloudStorage
                                                            GOOGLE_DRIVE_CLIENT_ID,
                                                            GOOGLE_DRIVE_CLIENT_SECRET);
             var auth = new OAuth2Authenticator<NativeApplicationClient>(_nativeAppClient, GetAuthorization);
-            _service = new DriveService(auth);            
+            _service = new DriveService(auth);
         }
 
         private IAuthorizationState GetAuthorization(NativeApplicationClient arg)
         {
             // Get the auth URL:
-            _state = new AuthorizationState(new[] { DriveService.Scopes.Drive.GetStringValue() });
+            _state = new AuthorizationState(new[] {DriveService.Scopes.Drive.GetStringValue()});
             _state.Callback = new Uri(NativeApplicationClient.OutOfBandCallbackUrl);
             Uri authUri = arg.RequestUserAuthorization(_state);
 
             //Show Login UI. It's tip for user 
             var dlg = new AuthDlg(StorageType.GoogleDrive);
             dlg.Top = 0;
-            dlg.Show();  
+            dlg.Show();
 
             // Request authorization from the user (by opening a browser window):
             //Process.Start(authUri.ToString());    
@@ -75,9 +75,9 @@ namespace CloudStorage
 
             //open another, modal dialog to block execution until user clicks OK
             dlg = new AuthDlg(StorageType.GoogleDrive);
-            dlg.Top = 0;          
-            dlg.ShowDialog();  
-                                         
+            dlg.Top = 0;
+            dlg.ShowDialog();
+
             // Retrieve the access token by using the authorization code:
             return arg.ProcessUserAuthorization(dlg.AuthCode, _state);
         }
@@ -86,35 +86,35 @@ namespace CloudStorage
         {
             _service.Files.Get(file).FetchAsync(
                 (LazyResult<Google.Apis.Drive.v2.Data.File> response) =>
-                {
-                    Google.Apis.Drive.v2.Data.File fileRes = response.GetResult();
-                  
-                    var stream = DownloadFile(_service.Authenticator, fileRes);
-                    if (stream != null)
                     {
-                        using (var fs = new FileStream(saveWhere, FileMode.Create))
+                        Google.Apis.Drive.v2.Data.File fileRes = response.GetResult();
+
+                        var stream = DownloadFile(_service.Authenticator, fileRes);
+                        if (stream != null)
                         {
-                            stream.CopyTo(fs);
+                            using (var fs = new FileStream(saveWhere, FileMode.Create))
+                            {
+                                stream.CopyTo(fs);
+                                dispatch.BeginInvoke(new Action(() => { done(); }));
+                            }
+                        }
+                        else
+                        {
                             dispatch.BeginInvoke(new Action(() => { done(); }));
                         }
                     }
-                    else
-                    {
-                        dispatch.BeginInvoke(new Action(() => { done(); }));   
-                    }
-                }
-            );
+                );
         }
 
-        System.IO.Stream DownloadFile(IAuthenticator authenticator,  Google.Apis.Drive.v2.Data.File file)
+        private System.IO.Stream DownloadFile(IAuthenticator authenticator, Google.Apis.Drive.v2.Data.File file)
         {
             if (!String.IsNullOrEmpty(file.DownloadUrl))
             {
                 try
                 {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(file.DownloadUrl));
+                    HttpWebRequest request = (HttpWebRequest) WebRequest.Create(new Uri(file.DownloadUrl));
                     authenticator.ApplyAuthenticationToRequest(request);
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    HttpWebResponse response = (HttpWebResponse) request.GetResponse();
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         return response.GetResponseStream();
@@ -167,10 +167,8 @@ namespace CloudStorage
                         } while (true);
 
                         var doContinue = true;
-                        dispatch.Invoke(new Action(() =>
-                        {
-                            doContinue = addEntry(expectedCount, null, folderRequestId);
-                        }));
+                        dispatch.Invoke(
+                            new Action(() => { doContinue = addEntry(expectedCount, null, folderRequestId); }));
                         if (!doContinue)
                             break;
 
@@ -187,103 +185,104 @@ namespace CloudStorage
                         FilesResource.GetRequest getReq = _service.Files.Get(child.Id);
                         ++numFilesBeingFetched;
                         getReq.FetchAsync((LazyResult<Google.Apis.Drive.v2.Data.File> response) =>
-                        {
-                            --numFilesBeingFetched;
-                            Google.Apis.Drive.v2.Data.File file = response.GetResult();
-                            
-                            doContinue = true;
-                            dispatch.Invoke(new Action(() =>
                             {
-                                doContinue = addEntry(expectedCount, null, folderRequestId);
-                            }));
-                            if (!doContinue)
-                            {   
-                                return;
-                            }
+                                --numFilesBeingFetched;
+                                Google.Apis.Drive.v2.Data.File file = response.GetResult();
 
-                            //download thumbnail
-                            if (file.ThumbnailLink != null)
-                            {
-                                if (_thumbCache.ContainsKey(file.Id))
+                                doContinue = true;
+                                dispatch.Invoke(
+                                    new Action(() => { doContinue = addEntry(expectedCount, null, folderRequestId); }));
+                                if (!doContinue)
                                 {
-                                    dispatch.BeginInvoke(new Action(() =>
+                                    return;
+                                }
+
+                                //download thumbnail
+                                if (file.ThumbnailLink != null)
+                                {
+                                    if (_thumbCache.ContainsKey(file.Id))
                                     {
-                                        addEntry(expectedCount, new FileEntry(file, _thumbCache[file.Id], file.AlternateLink),
-                                                folderRequestId);                                      
-                                    }));
+                                        dispatch.BeginInvoke(new Action(() =>
+                                            {
+                                                addEntry(expectedCount,
+                                                         new FileEntry(file, _thumbCache[file.Id], file.AlternateLink),
+                                                         folderRequestId);
+                                            }));
+                                    }
+                                    else
+                                    {
+                                        TaskCompletionSource<byte[]> thumbTaskSrc = null;
+                                        lock (_thumbDownloaders)
+                                        {
+                                            thumbTaskSrc = DownloadThumb(file.ThumbnailLink);
+                                            _thumbDownloaders.Add(thumbTaskSrc);
+                                        }
+
+                                        thumbTaskSrc.Task.ContinueWith(
+                                            (Task<byte[]> thumbTask) =>
+                                                {
+                                                    if (thumbTask.Result != null)
+                                                    {
+                                                        dispatch.BeginInvoke(new Action(() =>
+                                                            {
+                                                                var thumb = new BitmapImage();
+                                                                thumb.BeginInit();
+                                                                thumb.StreamSource = new MemoryStream(thumbTask.Result);
+                                                                thumb.EndInit();
+
+                                                                if (!_thumbCache.ContainsKey(file.Id))
+                                                                    _thumbCache.Add(file.Id, thumb);
+
+                                                                addEntry(expectedCount,
+                                                                         new FileEntry(file, thumb, file.AlternateLink),
+                                                                         folderRequestId);
+                                                            }));
+                                                    }
+                                                    else
+                                                    {
+                                                        //thumbnails may be absent
+                                                        dispatch.BeginInvoke(new Action(() =>
+                                                            {
+                                                                addEntry(expectedCount,
+                                                                         new FileEntry(file, GetFileIcon(file),
+                                                                                       file.AlternateLink),
+                                                                         folderRequestId);
+                                                            }));
+                                                    }
+
+                                                    lock (_thumbDownloaders)
+                                                        _thumbDownloaders.Remove(thumbTaskSrc);
+                                                });
+                                    }
                                 }
                                 else
                                 {
-                                    TaskCompletionSource<byte[]> thumbTaskSrc = null;
-                                    lock (_thumbDownloaders)
-                                    {
-                                        thumbTaskSrc = DownloadThumb(file.ThumbnailLink);
-                                        _thumbDownloaders.Add(thumbTaskSrc);
-                                    }
-
-                                    thumbTaskSrc.Task.ContinueWith(
-                                        (Task<byte[]> thumbTask) =>
+                                    dispatch.BeginInvoke(new Action(() =>
                                         {
-                                            if (thumbTask.Result != null)
-                                            {
-                                                dispatch.BeginInvoke(new Action(() =>
-                                                {
-                                                    var thumb = new BitmapImage();
-                                                    thumb.BeginInit();
-                                                    thumb.StreamSource = new MemoryStream(thumbTask.Result);
-                                                    thumb.EndInit();
-
-                                                    if (!_thumbCache.ContainsKey(file.Id))
-                                                        _thumbCache.Add(file.Id, thumb);
-
-                                                    addEntry(expectedCount, new FileEntry(file, thumb, file.AlternateLink),
-                                                            folderRequestId);
-                                                }));
-                                            }
-                                            else
-                                            {
-                                                //thumbnails may be absent
-                                                dispatch.BeginInvoke(new Action(() =>
-                                                {
-                                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink),
-                                                            folderRequestId);
-                                                }));
-                                            }
-
-                                            lock (_thumbDownloaders)
-                                                _thumbDownloaders.Remove(thumbTaskSrc);
-                                        });
+                                            addEntry(expectedCount,
+                                                     new FileEntry(file, GetFileIcon(file), file.AlternateLink),
+                                                     folderRequestId);
+                                        }));
                                 }
-                            }
-                            else
-                            {
-                                dispatch.BeginInvoke(new Action(() =>
-                                {
-                                    addEntry(expectedCount, new FileEntry(file, GetFileIcon(file), file.AlternateLink),
-                                            folderRequestId);                                      
-                                }));
-                            }
-                        });
+                            });
                     }
                     request.PageToken = children.NextPageToken;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("An error occurred: " + e.Message);
-                    request.PageToken = null; 
+                    request.PageToken = null;
                 }
 
                 var doContinue2 = true;
-                dispatch.Invoke(new Action(() =>
-                {
-                    doContinue2 = addEntry(1, null, folderRequestId);//1 anything != 0
+                dispatch.Invoke(new Action(() => { doContinue2 = addEntry(1, null, folderRequestId); //1 anything != 0
                 }));
                 if (!doContinue2)
                     break;
             } while (!String.IsNullOrEmpty(request.PageToken));
         }
 
-        TaskCompletionSource<byte[]> DownloadThumb(string thumbUrl)
+        private TaskCompletionSource<byte[]> DownloadThumb(string thumbUrl)
         {
             var tcs = new TaskCompletionSource<byte[]>();
 
@@ -295,36 +294,36 @@ namespace CloudStorage
                     byte[] thumbData = client.DownloadData(thumbUrl);
                     tcs.SetResult(thumbData);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     tcs.SetResult(null);
-                }            
+                }
             }
 
             return tcs;
         }
 
-        ImageSource GetFileIcon(Google.Apis.Drive.v2.Data.File file)
+        private ImageSource GetFileIcon(Google.Apis.Drive.v2.Data.File file)
         {
             ImageSource src = null;
 
-            if(IsFolder(file))
+            if (IsFolder(file))
             {
-                src = (ImageSource)App.Current.FindResource("FolderIcon");
+                src = (ImageSource) App.Current.FindResource("FolderIcon");
             }
             else
             {
                 if (file.MimeType == GDOC_DOCUMENT_MIME)
                 {
-                    src = (BitmapImage)App.Current.FindResource("gdocWord");
+                    src = (BitmapImage) App.Current.FindResource("gdocWord");
                 }
                 else if (file.MimeType == GDOC_PRESENTATION_MIME)
                 {
-                    src = (BitmapImage)App.Current.FindResource("gdocPowerPoint");
+                    src = (BitmapImage) App.Current.FindResource("gdocPowerPoint");
                 }
                 else if (file.MimeType == GDOC_SPREADSHEET_MIME)
                 {
-                    src = (BitmapImage)App.Current.FindResource("gdocExcel");
+                    src = (BitmapImage) App.Current.FindResource("gdocExcel");
                 }
                 else
                 {
@@ -336,7 +335,7 @@ namespace CloudStorage
                             file.FileExtension = file.Title.Substring(lastDot, file.Title.Length - lastDot);
                     }
 
-                    FileToIconConverter conv = (FileToIconConverter)App.Current.FindResource("iconConv");
+                    FileToIconConverter conv = (FileToIconConverter) App.Current.FindResource("iconConv");
                     src = conv.GetImage(file.FileExtension, 64);
                 }
             }

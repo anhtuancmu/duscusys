@@ -40,13 +40,13 @@ namespace Discussions
             checkDateTimes();
         }
 
-        void checkDateTimes()
+        private void checkDateTimes()
         {
-            if (dateTime.Value == null || dateTime2.Value==null)
+            if (dateTime.Value == null || dateTime2.Value == null)
                 return;
 
             var start = dateTime.Value.Value;
-            var end   = dateTime2.Value.Value;
+            var end = dateTime2.Value.Value;
             if (end.CompareTo(start) <= 0)
             {
                 MessageBox.Show("End date/time of session should be greater than start date/time");

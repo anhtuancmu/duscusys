@@ -25,14 +25,12 @@ namespace Discussions
         }
 
         public delegate void PointDown(bool name);
+
         public PointDown pointDown = null;
 
         public Brush NameColor
-        {            
-            set
-            {
-                lblName.Foreground = value;
-            }
+        {
+            set { lblName.Foreground = value; }
         }
 
         private void avaTouchDown(object sender, TouchEventArgs e)

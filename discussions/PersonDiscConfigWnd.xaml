@@ -1,31 +1,33 @@
 ﻿<s:SurfaceWindow
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:s="http://schemas.microsoft.com/surface/2008"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:local="clr-namespace:Discussions" xmlns:Custom="http://schemas.microsoft.com/surface/2008" 
-        mc:Ignorable="d" x:Class="Discussions.PersonDiscConfigWnd"
-        Background="{StaticResource WndBg}" 
-        Title="Speaker options " Height="481.208" Width="336" WindowStartupLocation="CenterScreen">
-       
-       <s:SurfaceWindow.Resources>
-         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
-       </s:SurfaceWindow.Resources>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Discussions" xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    mc:Ignorable="d" x:Class="Discussions.PersonDiscConfigWnd"
+    Background="{StaticResource WndBg}"
+    Title="Speaker options " Height="481.208" Width="336" WindowStartupLocation="CenterScreen">
 
-    <StackPanel Orientation="Vertical">			
-			<Label x:Name="lblDiscussion" Content="Discussion" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-			<Separator/>
-			<StackPanel Orientation="Horizontal">
-				<Label Content="Person: " HorizontalAlignment="Center"/>
-				<Label x:Name="lblName" Content="{Binding person.Name}" HorizontalAlignment="Center" />
-				<Label x:Name="lblEmail" Content="{Binding person.Email}" HorizontalAlignment="Center"/>
-			</StackPanel>
-			<local:FullSelector x:Name="personSelector" Height="179" VerticalAlignment="Center"/>
-			<Separator/>
-			<Label Content="Side" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-			<local:SideSelector x:Name="selector1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" d:LayoutOverrides="Width"/>			
-			<Custom:SurfaceButton Content="Ok" Click="SurfaceButton_Click" VerticalAlignment="Bottom" d:LayoutOverrides="Width" HorizontalAlignment="Right"/>        
-		</StackPanel>
+    <s:SurfaceWindow.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
+    </s:SurfaceWindow.Resources>
+
+    <StackPanel Orientation="Vertical">
+        <Label x:Name="lblDiscussion" Content="Discussion" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Separator />
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Person: " HorizontalAlignment="Center" />
+            <Label x:Name="lblName" Content="{Binding person.Name}" HorizontalAlignment="Center" />
+            <Label x:Name="lblEmail" Content="{Binding person.Email}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <local:FullSelector x:Name="personSelector" Height="179" VerticalAlignment="Center" />
+        <Separator />
+        <Label Content="Side" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <local:SideSelector x:Name="selector1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                            d:LayoutOverrides="Width" />
+        <Custom:SurfaceButton Content="Ok" Click="SurfaceButton_Click" VerticalAlignment="Bottom"
+                              d:LayoutOverrides="Width" HorizontalAlignment="Right" />
+    </StackPanel>
 
 </s:SurfaceWindow>

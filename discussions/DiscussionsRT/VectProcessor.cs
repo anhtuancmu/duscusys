@@ -17,24 +17,24 @@ namespace Discussions.RTModel
     //there is one vector processor per topic
     public class VectProcessor
     {
-        readonly DiscussionRoom _room;
-        readonly int _topicId;
+        private readonly DiscussionRoom _room;
+        private readonly int _topicId;
 
-        ServerVdDoc _doc;
+        private ServerVdDoc _doc;
 
-        Random _coordsRnd  = new Random();
+        private Random _coordsRnd = new Random();
 
-        ClusterTopology _topology;
+        private ClusterTopology _topology;
 
-        static readonly ILogger _log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger _log = LogManager.GetCurrentClassLogger();
 
         //if true, annotation was changed since last save, need to resave
-        bool pendingChanges = false; 
+        private bool pendingChanges = false;
 
-        public VectProcessor(int topicId, DiscussionRoom room)            
+        public VectProcessor(int topicId, DiscussionRoom room)
         {
             _topicId = topicId;
-            _room = room;            
+            _room = room;
 
             //restore annotation
             using (var dbCtx = new DiscCtx(Discussions.ConfigManager.ConnStr))
@@ -53,23 +53,23 @@ namespace Discussions.RTModel
                     //no annotations saved for this topic yet
                     Read(null);
                 }
-            }                       
+            }
         }
 
-        bool Write(BinaryWriter annotation)
+        private bool Write(BinaryWriter annotation)
         {
             _topology.Write(annotation);
             return _doc.Write(annotation);
         }
 
-        void Read(BinaryReader annotation)
+        private void Read(BinaryReader annotation)
         {
             _topology = new ClusterTopology(_room, annotation);
             _topology.onLinkRemove += __linkRemove;
             _topology.onLinkableDeleted += __onLinkableDeleted;
             _topology.onUnclusterBadge += __unclusterBadge;
 
-            _doc = new ServerVdDoc(annotation);            
+            _doc = new ServerVdDoc(annotation);
         }
 
         public void CheckPersist()
@@ -80,8 +80,8 @@ namespace Discussions.RTModel
 
             using (var dbCtx = new DiscCtx(Discussions.ConfigManager.ConnStr))
             {
-                var topic = dbCtx.Topic.FirstOrDefault(t0 => t0.Id == _topicId);                             
-                var str = new MemoryStream();              
+                var topic = dbCtx.Topic.FirstOrDefault(t0 => t0.Id == _topicId);
+                var str = new MemoryStream();
                 var writer = new BinaryWriter(str);
                 if (this.Write(writer))
                 {
@@ -130,7 +130,7 @@ namespace Discussions.RTModel
                 _room.Broadcast(peer,
                                 CursorEvent.Write(req.doSet, req.ownerId, req.shapeId, _topicId),
                                 sendParameters,
-                                (byte)DiscussionEventCode.CursorEvent,
+                                (byte) DiscussionEventCode.CursorEvent,
                                 BroadcastTo.RoomAll); //include self
             }
         }
@@ -147,16 +147,16 @@ namespace Discussions.RTModel
             {
                 case VdShapeType.Cluster:
                     _topology.CreateCluster(newSh.Id());
-                    _doc.AddShape(newSh);  
+                    _doc.AddShape(newSh);
                     break;
                 case VdShapeType.FreeForm:
-                    _doc.AddShape(newSh);                         
+                    _doc.AddShape(newSh);
                     EventLogger.LogAndBroadcast(
-                                new DiscCtx(Discussions.ConfigManager.ConnStr),
-                                _room,
-                                model.StEvent.FreeDrawingCreated,
-                                req.ownerId,
-                                _topicId);   
+                        new DiscCtx(Discussions.ConfigManager.ConnStr),
+                        _room,
+                        model.StEvent.FreeDrawingCreated,
+                        req.ownerId,
+                        _topicId);
                     break;
                 default:
                     _doc.AddShapeAndLock(newSh);
@@ -166,11 +166,13 @@ namespace Discussions.RTModel
             _room.Broadcast(peer,
                             operationRequest,
                             sendParameters,
-                            (byte)DiscussionEventCode.CreateShapeEvent,
-                            BroadcastTo.RoomExceptSelf);  //don't include self, we play shape creation locally without continuation
+                            (byte) DiscussionEventCode.CreateShapeEvent,
+                            BroadcastTo.RoomExceptSelf);
+                //don't include self, we play shape creation locally without continuation
 
             pendingChanges = true;
         }
+
         public void HandleBadgeCreated(int argPointId,
                                        LitePeer peer,
                                        OperationRequest operationRequest,
@@ -179,9 +181,9 @@ namespace Discussions.RTModel
             var ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
             var ap = ctx.ArgPoint.FirstOrDefault(ap0 => ap0.Id == argPointId);
             if (ap == null)
-                throw new NotSupportedException("cannot find badge in db!"); 
+                throw new NotSupportedException("cannot find badge in db!");
 
-            var badgeSh = new ServerBaseVdShape( _doc.BadgeIdGen.NextId(), ap.Person.Id, VdShapeType.Badge, argPointId);
+            var badgeSh = new ServerBaseVdShape(_doc.BadgeIdGen.NextId(), ap.Person.Id, VdShapeType.Badge, argPointId);
             _doc.AddShape(badgeSh);
             _topology.CreateBadge(badgeSh.Id());
 
@@ -191,42 +193,42 @@ namespace Discussions.RTModel
                                     badgeSh.Id(),
                                     null,
                                     null,
-                                    new double[]{100 + _coordsRnd.Next(400), 100 + _coordsRnd.Next(400)},
+                                    new double[] {100 + _coordsRnd.Next(400), 100 + _coordsRnd.Next(400)},
                                     _topicId);
             badgeSh.ApplyState(st);
 
-            var badgeCreateEv = CreateShape.Write(ap.Person.Id, badgeSh.Id(), 
-                                                 VdShapeType.Badge,
-                                                 st.doubles[0], st.doubles[1], false, 
-                                                 argPointId, _topicId);
-             
+            var badgeCreateEv = CreateShape.Write(ap.Person.Id, badgeSh.Id(),
+                                                  VdShapeType.Badge,
+                                                  st.doubles[0], st.doubles[1], false,
+                                                  argPointId, _topicId);
+
             //include self, badge is created in private board, and if our public board is open, we want to play new badge
             _room.Broadcast(peer,
-                            badgeCreateEv,                           
+                            badgeCreateEv,
                             sendParameters,
-                            (byte)DiscussionEventCode.CreateShapeEvent,         
+                            (byte) DiscussionEventCode.CreateShapeEvent,
                             BroadcastTo.RoomAll);
 
             pendingChanges = true;
         }
-        
+
         public void HandleDeleteShapes(LitePeer peer,
-                                        OperationRequest operationRequest,
-                                        SendParameters sendParameters)
+                                       OperationRequest operationRequest,
+                                       SendParameters sendParameters)
         {
             var req = DeleteShapesRequest.Read(operationRequest.Parameters);
-            
+
             var owner = req.initialOwnerId;
-            var shapesBeingRemoved = _doc.GetShapes().Where(sh => sh.InitialOwner() == owner && 
-                                                                  sh.ShapeCode()!=VdShapeType.Badge &&
-                                                                  sh.ShapeCode()!=VdShapeType.Cluster &&
-                                                                  sh.ShapeCode()!=VdShapeType.ClusterLink
-                                                            );
+            var shapesBeingRemoved = _doc.GetShapes().Where(sh => sh.InitialOwner() == owner &&
+                                                                  sh.ShapeCode() != VdShapeType.Badge &&
+                                                                  sh.ShapeCode() != VdShapeType.Cluster &&
+                                                                  sh.ShapeCode() != VdShapeType.ClusterLink
+                );
 
             //check permissions
             foreach (var sr in shapesBeingRemoved)
-               if(!_doc.editingPermission(sr,owner))
-                   return;
+                if (!_doc.editingPermission(sr, owner))
+                    return;
 
             //ok, remove 
             foreach (var sr in shapesBeingRemoved.ToArray())
@@ -235,36 +237,36 @@ namespace Discussions.RTModel
             pendingChanges = true;
         }
 
-        void __linkRemove(Linkable end1, Linkable end2, int linkShapeId, int usrId)
+        private void __linkRemove(Linkable end1, Linkable end2, int linkShapeId, int usrId)
         {
             UnlockDeleteBroadcast(linkShapeId, usrId);
 
             EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                         _room,
                                         model.StEvent.LinkRemoved,
-                                        usrId, 
+                                        usrId,
                                         _topicId);
 
             pendingChanges = true;
         }
 
         public void HandleDeleteSingleShape(LitePeer peer,
-                                       OperationRequest operationRequest,
-                                       SendParameters sendParameters)
+                                            OperationRequest operationRequest,
+                                            SendParameters sendParameters)
         {
             var req = DeleteSingleShapeRequest.Read(operationRequest.Parameters);
 
             var sh = _doc.TryGetShape(req.shapeId);
             if (sh == null)
                 return;
-            
+
             switch (sh.ShapeCode())
             {
                 case VdShapeType.ClusterLink:
                     var edge = _topology.GetForwardEdge(req.shapeId);
-                   _topology.Unlink(edge.curr.GetId(), edge.next.GetId(), req.ownerId); //see __linkRemove
+                    _topology.Unlink(edge.curr.GetId(), edge.next.GetId(), req.ownerId); //see __linkRemove
                     break;
-                case VdShapeType.Cluster: 
+                case VdShapeType.Cluster:
                     //not sent manually, but by system (client)
                     _topology.DeleteCluster(_topology.GetCluster(req.shapeId), -1);
                     break;
@@ -276,49 +278,49 @@ namespace Discussions.RTModel
             pendingChanges = true;
         }
 
-        void UnlockDeleteBroadcast(int shapeId, int indirectOwner)
+        private void UnlockDeleteBroadcast(int shapeId, int indirectOwner)
         {
             var shape = _doc.TryGetShape(shapeId);
             _doc.UnlockAndRemoveShape(shape);
-            
+
             //single shape removal includes initiator 
-            _room.BroadcastReliableToRoom((byte)DiscussionEventCode.DeleteSingleShapeEvent,
+            _room.BroadcastReliableToRoom((byte) DiscussionEventCode.DeleteSingleShapeEvent,
                                           DeleteSingleShapeEvent.Write(shapeId, _topicId, indirectOwner));
 
             if (shape.ShapeCode() == VdShapeType.FreeForm)
             {
                 EventLogger.LogAndBroadcast(
-                                  new DiscCtx(Discussions.ConfigManager.ConnStr),
-                                  _room,
-                                  model.StEvent.FreeDrawingRemoved,
-                                  shape.InitialOwner(),
-                                  _topicId);
+                    new DiscCtx(Discussions.ConfigManager.ConnStr),
+                    _room,
+                    model.StEvent.FreeDrawingRemoved,
+                    shape.InitialOwner(),
+                    _topicId);
             }
 
             pendingChanges = true;
         }
 
-        void __onLinkableDeleted(Linkable end, int usrId)
+        private void __onLinkableDeleted(Linkable end, int usrId)
         {
             UnlockDeleteBroadcast(end.GetId(), usrId);
 
             //record event
-            if(end is Cluster)
+            if (end is Cluster)
             {
                 EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
-                                           _room,
+                                            _room,
                                             model.StEvent.ClusterDeleted,
                                             -1, //owner unknown 
-                                            _topicId);   
+                                            _topicId);
             }
 
             pendingChanges = true;
         }
 
         public void HandleBadgeDeleted(int argPointId,
-                                      LitePeer peer,
-                                      OperationRequest operationRequest,
-                                      SendParameters sendParameters)
+                                       LitePeer peer,
+                                       OperationRequest operationRequest,
+                                       SendParameters sendParameters)
         {
             var sh = _doc.TryGetBadgeShapeByArgPt(argPointId);
             if (sh == null)
@@ -334,7 +336,7 @@ namespace Discussions.RTModel
                                         OperationRequest operationRequest,
                                         SendParameters sendParameters)
         {
-            var sh = _doc.TryGetBadgeShapeByArgPt(argPointId);         
+            var sh = _doc.TryGetBadgeShapeByArgPt(argPointId);
 
             using (var dbCtx = new DiscCtx(Discussions.ConfigManager.ConnStr))
             {
@@ -351,12 +353,12 @@ namespace Discussions.RTModel
         }
 
         public void HandleUnselectAll(LitePeer peer,
-                                        OperationRequest operationRequest,
-                                        SendParameters sendParameters)
+                                      OperationRequest operationRequest,
+                                      SendParameters sendParameters)
         {
             var ev = UnselectAllEvent.Write();
             _room.Broadcast(peer, ev, sendParameters,
-                            (byte)DiscussionEventCode.UnselectAllEvent,
+                            (byte) DiscussionEventCode.UnselectAllEvent,
                             BroadcastTo.RoomExceptSelf);
         }
 
@@ -371,15 +373,15 @@ namespace Discussions.RTModel
 
             sh.ApplyState(state);
 
-            if(state.doBroadcast)
+            if (state.doBroadcast)
             {
                 _room.Broadcast(peer, operationRequest, sendParameters,
-                                (byte)DiscussionEventCode.StateSyncEvent,
+                                (byte) DiscussionEventCode.StateSyncEvent,
                                 BroadcastTo.RoomExceptSelf); // don't send state sync to initiator
             }
 
             //correct badge positions
-            switch(sh.ShapeCode())
+            switch (sh.ShapeCode())
             {
                 case VdShapeType.Cluster:
                     var contents = _topology.GetCluster(sh.Id()).GetClusterables();
@@ -397,7 +399,7 @@ namespace Discussions.RTModel
             pendingChanges = true;
         }
 
-        void CleanupEmptyClusters()
+        private void CleanupEmptyClusters()
         {
             var clusters = _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster);
             foreach (var c in clusters.ToArray())
@@ -413,25 +415,25 @@ namespace Discussions.RTModel
         }
 
         public void HandleInitialSceneLoad(LitePeer peer,
-                                            OperationRequest operationRequest,
-                                            SendParameters sendParameters)
+                                           OperationRequest operationRequest,
+                                           SendParameters sendParameters)
         {
-           //// var req = InitialSceneLoadRequest.Read(operationRequest);
-           /// req.topicId
+            //// var req = InitialSceneLoadRequest.Read(operationRequest);
+            /// req.topicId
             _log.Debug("scene load request");
-            
+
             CleanupEmptyClusters();
 
             //1st phase, send creation events for simple shapes (+cluster)  in the scene
-            var simpleShapes = _doc.GetShapes().Where(sh=>sh.ShapeCode() != VdShapeType.ClusterLink);                
+            var simpleShapes = _doc.GetShapes().Where(sh => sh.ShapeCode() != VdShapeType.ClusterLink);
             foreach (var sh in simpleShapes)
             {
-                _room.PublishEventToSingle(peer, 
+                _room.PublishEventToSingle(peer,
                                            CreateShape.Write(sh.InitialOwner(), sh.Id(),
                                                              sh.ShapeCode(), 400, 400, false, sh.Tag(),
                                                              _topicId),
                                            sendParameters,
-                                           (byte)DiscussionEventCode.CreateShapeEvent);               
+                                           (byte) DiscussionEventCode.CreateShapeEvent);
             }
 
             //2nd phase, send state update packets
@@ -443,27 +445,27 @@ namespace Discussions.RTModel
                 _room.PublishEventToSingle(peer,
                                            st.ToDict(),
                                            sendParameters,
-                                           (byte)DiscussionEventCode.StateSyncEvent);
+                                           (byte) DiscussionEventCode.StateSyncEvent);
             }
 
             //3rd phase, sequence of cluster-add operations (enumerate contents of all existing clusters)
-            var clusterShapes = _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster);       
-            foreach(var clShape in clusterShapes)
+            var clusterShapes = _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster);
+            foreach (var clShape in clusterShapes)
             {
                 var cluster = _topology.GetCluster(clShape.Id());
                 _log.Info("scene load, cluster updates, num badges =" + cluster.GetClusterables());
                 foreach (var badge in cluster.GetClusterables())
-                {          
-                    var clustMsg =  ClusterBadgeMessage.Write(badge.GetId(),
-                                                              _doc.TryGetShape(badge.GetId()).InitialOwner(),
-                                                              badge == cluster.GetClusterables().Last(),
-                                                              cluster.GetId(),
-                                                              _topicId,
-                                                              -1);
+                {
+                    var clustMsg = ClusterBadgeMessage.Write(badge.GetId(),
+                                                             _doc.TryGetShape(badge.GetId()).InitialOwner(),
+                                                             badge == cluster.GetClusterables().Last(),
+                                                             cluster.GetId(),
+                                                             _topicId,
+                                                             -1);
                     _room.PublishEventToSingle(peer,
-                                               clustMsg,                                    
+                                               clustMsg,
                                                sendParameters,
-                                               (byte)DiscussionEventCode.ClusterBadgeEvent); 
+                                               (byte) DiscussionEventCode.ClusterBadgeEvent);
                 }
             }
 
@@ -473,14 +475,14 @@ namespace Discussions.RTModel
             {
                 var edge = _topology.GetForwardEdge(lnk.Id());
 
-                var ev = LinkCreateMessage.Write(edge.curr.GetId(), 
+                var ev = LinkCreateMessage.Write(edge.curr.GetId(),
                                                  edge.next.GetId(),
-                                                 lnk.InitialOwner(), 
-                                                 lnk.Id(),                                                
-                                                 _topicId, 
+                                                 lnk.InitialOwner(),
+                                                 lnk.Id(),
+                                                 _topicId,
                                                  false,
-                                                 (LinkHeadType)lnk.Tag());
-                _room.PublishEventToSingle(peer, ev,sendParameters,(byte)DiscussionEventCode.LinkCreateEvent);
+                                                 (LinkHeadType) lnk.Tag());
+                _room.PublishEventToSingle(peer, ev, sendParameters, (byte) DiscussionEventCode.LinkCreateEvent);
 
                 //send link state update
                 var st = lnk.GetState();
@@ -489,23 +491,23 @@ namespace Discussions.RTModel
                     _room.PublishEventToSingle(peer,
                                                st.ToDict(),
                                                sendParameters,
-                                               (byte)DiscussionEventCode.StateSyncEvent);
+                                               (byte) DiscussionEventCode.StateSyncEvent);
                 }
-            }    
+            }
 
             //5th phase, send cursor events
             foreach (var sh in _doc.GetShapes())
             {
                 if (sh.GetCursor() == null)
-                    continue;//cursors are unset by default for all shapes  
+                    continue; //cursors are unset by default for all shapes  
 
                 _room.PublishEventToSingle(peer,
-                                           CursorEvent.Write(true, 
-                                                            sh.GetCursor().OwnerId, 
-                                                            sh.Id(), 
-                                                            _topicId),                                           
+                                           CursorEvent.Write(true,
+                                                             sh.GetCursor().OwnerId,
+                                                             sh.Id(),
+                                                             _topicId),
                                            sendParameters,
-                                           (byte)DiscussionEventCode.CursorEvent);
+                                           (byte) DiscussionEventCode.CursorEvent);
             }
 
             //6th phase, send ink
@@ -513,35 +515,34 @@ namespace Discussions.RTModel
             {
                 _room.PublishEventToSingle(peer,
                                            InkMessage.Write(-1,
-                                                            _topicId, 
+                                                            _topicId,
                                                             _doc.inkData),
                                            sendParameters,
-                                           (byte)DiscussionEventCode.InkEvent);
+                                           (byte) DiscussionEventCode.InkEvent);
             }
 
             //notify client loading sequence complete
             _room.PublishEventToSingle(peer,
-                                       null,   
+                                       null,
                                        sendParameters,
-                                       (byte)DiscussionEventCode.SceneLoadingDone);
-        }        
+                                       (byte) DiscussionEventCode.SceneLoadingDone);
+        }
 
         /// cluster engine 
-
         public void HandleLinkCreateRequest(LitePeer peer,
                                             OperationRequest operationRequest,
                                             SendParameters sendParameters)
         {
-            var req = LinkCreateMessage.Read(operationRequest.Parameters);            
-          
+            var req = LinkCreateMessage.Read(operationRequest.Parameters);
+
             //shape             
-            var link = new ServerBaseVdShape(req.shapeId, req.ownerId, VdShapeType.ClusterLink, (int)req.HeadType);
+            var link = new ServerBaseVdShape(req.shapeId, req.ownerId, VdShapeType.ClusterLink, (int) req.HeadType);
             _doc.AddShape(link);
 
             //topology
             _topology.Link(req.end1Id, req.end2Id, req.shapeId);
 
-            _room.BroadcastReliableToRoom((byte)DiscussionEventCode.LinkCreateEvent,
+            _room.BroadcastReliableToRoom((byte) DiscussionEventCode.LinkCreateEvent,
                                           LinkCreateMessage.Write(req.end1Id, req.end2Id,
                                                                   req.ownerId, req.shapeId,
                                                                   _topicId, false, req.HeadType));
@@ -551,9 +552,9 @@ namespace Discussions.RTModel
                                         model.StEvent.LinkCreated,
                                         req.ownerId,
                                         req.topicId);
-          
-          //transient state until link state update, don't save 
-          //pendingChanges = true;
+
+            //transient state until link state update, don't save 
+            //pendingChanges = true;
         }
 
         public void HandleUnclusterBadgeRequest(LitePeer peer,
@@ -561,17 +562,17 @@ namespace Discussions.RTModel
                                                 SendParameters sendParameters)
         {
             var req = UnclusterBadgeMessage.Read(operationRequest.Parameters);
-            _topology.UnclusterBadge(req.badgeId, req.usrId);            
+            _topology.UnclusterBadge(req.badgeId, req.usrId);
         }
 
-        void __unclusterBadge(Clusterable badge, Cluster cluster, int userId)
+        private void __unclusterBadge(Clusterable badge, Cluster cluster, int userId)
         {
-            _room.BroadcastReliableToRoom((byte)DiscussionEventCode.UnclusterBadgeEvent,
+            _room.BroadcastReliableToRoom((byte) DiscussionEventCode.UnclusterBadgeEvent,
                                           UnclusterBadgeMessage.Write(
-                                              badge.GetId(), 
-                                              cluster.GetId(), 
+                                              badge.GetId(),
+                                              cluster.GetId(),
                                               true, _topicId, userId, -1));
-            
+
             EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                         _room,
                                         model.StEvent.ClusterOut,
@@ -579,10 +580,10 @@ namespace Discussions.RTModel
                                         _topicId);
             pendingChanges = true;
         }
-        
+
         public void HandleClusterBadgeRequest(LitePeer peer,
-                                             OperationRequest operationRequest,
-                                             SendParameters sendParameters)
+                                              OperationRequest operationRequest,
+                                              SendParameters sendParameters)
         {
             var req = ClusterBadgeMessage.Read(operationRequest.Parameters);
             if (_topology.ClusterBadge(req.badgeId, req.clusterId))
@@ -590,19 +591,19 @@ namespace Discussions.RTModel
                 _room.Broadcast(peer,
                                 operationRequest,
                                 sendParameters,
-                                (byte)DiscussionEventCode.ClusterBadgeEvent,
+                                (byte) DiscussionEventCode.ClusterBadgeEvent,
                                 BroadcastTo.RoomAll); //might fail, we need message too
-                
+
                 EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
-                                           _room,
-                                           model.StEvent.ClusterIn,
-                                           req.ownerId,
-                                           req.topicId);   
+                                            _room,
+                                            model.StEvent.ClusterIn,
+                                            req.ownerId,
+                                            req.topicId);
             }
             else
             {
                 _log.Info("cluster badge request failed badgeId=" + req.badgeId +
-                                    "clusterId=" + req.clusterId);
+                          "clusterId=" + req.clusterId);
             }
 
             pendingChanges = true;
@@ -614,17 +615,16 @@ namespace Discussions.RTModel
         {
             var req = InkMessage.Read(operationRequest.Parameters);
 
-            _doc.inkData = req.inkData;    
-         
+            _doc.inkData = req.inkData;
+
             _room.Broadcast(peer,
                             operationRequest,
                             sendParameters,
-                            (byte)DiscussionEventCode.InkEvent,  
+                            (byte) DiscussionEventCode.InkEvent,
                             BroadcastTo.RoomExceptSelf);
 
             pendingChanges = true;
         }
-
 
         #region reporting
 
@@ -632,16 +632,16 @@ namespace Discussions.RTModel
                                               OperationRequest operationRequest,
                                               SendParameters sendParameters)
         {
-            var req = DEditorStatsRequest.Read(operationRequest.Parameters);            
+            var req = DEditorStatsRequest.Read(operationRequest.Parameters);
             var resp = _topology.CollectStats(req);
             resp.TopicId = req.topicId;
-            
+
             //operation response has bug and doesn't send response. use event instead
             _room.Broadcast(peer,
                             resp.ToDict(),
                             sendParameters,
-                            (byte)DiscussionEventCode.DEditorReportEvent,
-                            BroadcastTo.RoomAll);                                     
+                            (byte) DiscussionEventCode.DEditorReportEvent,
+                            BroadcastTo.RoomAll);
         }
 
 
@@ -650,7 +650,7 @@ namespace Discussions.RTModel
         /// </summary>
         /// <param name="captionHostSh"></param>
         /// <returns></returns>
-        string TryGetTextCaption(IServerVdShape captionHostSh)
+        private string TryGetTextCaption(IServerVdShape captionHostSh)
         {
             var st = captionHostSh.GetState();
             var captionShId = st.ints[0];
@@ -676,12 +676,12 @@ namespace Discussions.RTModel
             return null;
         }
 
-        int BadgeShapeIdToArgPointId(int badgeShId)
+        private int BadgeShapeIdToArgPointId(int badgeShId)
         {
             var badgeSh = _doc.TryGetShape(badgeShId);
             if (badgeSh != null)
                 return badgeSh.Tag();
-            return -1; 
+            return -1;
         }
 
         public void HandleClusterStatsRequest(LitePeer peer,
@@ -696,36 +696,36 @@ namespace Discussions.RTModel
             if (!_topology.ReportCluster(req.clusterId, out resp))
             {
                 _room.Broadcast(peer,
-                                (Dictionary<byte,object>)null,
+                                (Dictionary<byte, object>) null,
                                 sendParameters,
-                                (byte)DiscussionEventCode.ClusterStatsEvent,
+                                (byte) DiscussionEventCode.ClusterStatsEvent,
                                 BroadcastTo.RoomAll);
                 return;
             }
-           
+
             resp.clusterTextTitle = "<No text name " + req.clusterId + ">";
             resp.topicId = req.topicId;
 
             //get cluster shape
             var clusterSh = _doc.TryGetShape(resp.clusterId);
-            if(clusterSh==null)
+            if (clusterSh == null)
             {
                 _room.Broadcast(peer,
-                                (Dictionary<byte,object>)null,
+                                (Dictionary<byte, object>) null,
                                 sendParameters,
-                                (byte)DiscussionEventCode.ClusterStatsEvent,
+                                (byte) DiscussionEventCode.ClusterStatsEvent,
                                 BroadcastTo.RoomAll);
                 return;
             }
-            
-           
+
+
             resp.clusterShId = clusterSh.Id();
             resp.clusterTextTitle = TryGetTextCaption(clusterSh); //get text caption shape id
-            resp.initialOwnerId   = clusterSh.InitialOwner();
+            resp.initialOwnerId = clusterSh.InitialOwner();
 
             //badge id -> arg.point id
-            var clusteredPoints = new List<int>(); 
-            for(int i=0;i<resp.points.Length;i++)
+            var clusteredPoints = new List<int>();
+            for (int i = 0; i < resp.points.Length; i++)
             {
                 var apId = BadgeShapeIdToArgPointId(resp.points[i]);
                 if (apId != -1)
@@ -735,9 +735,9 @@ namespace Discussions.RTModel
             if (clusteredPoints.Count() == 0)
             {
                 _room.Broadcast(peer,
-                                (Dictionary<byte, object>)null,
+                                (Dictionary<byte, object>) null,
                                 sendParameters,
-                                (byte)DiscussionEventCode.ClusterStatsEvent,
+                                (byte) DiscussionEventCode.ClusterStatsEvent,
                                 BroadcastTo.RoomAll);
             }
             else
@@ -746,29 +746,29 @@ namespace Discussions.RTModel
                 _room.Broadcast(peer,
                                 resp.ToDict(),
                                 sendParameters,
-                                (byte)DiscussionEventCode.ClusterStatsEvent,
+                                (byte) DiscussionEventCode.ClusterStatsEvent,
                                 BroadcastTo.RoomAll);
             }
         }
 
 
         public void HandleLinkReportRequest(LitePeer peer,
-                                             OperationRequest operationRequest,
-                                             SendParameters sendParameters)
+                                            OperationRequest operationRequest,
+                                            SendParameters sendParameters)
         {
             var req = LinkReportRequest.Read(operationRequest.Parameters);
-            
+
             var linkSh = _doc.TryGetShape(req.LinkShapeId);
-            if(linkSh==null)
+            if (linkSh == null)
             {
                 _room.Broadcast(peer,
-                                (Dictionary<byte, object>)null,
+                                (Dictionary<byte, object>) null,
                                 sendParameters,
-                                (byte)DiscussionEventCode.LinkStatsEvent,
+                                (byte) DiscussionEventCode.LinkStatsEvent,
                                 BroadcastTo.RoomAll);
                 return;
             }
-            
+
             var resp = default(LinkReportResponse);
             resp.linkShId = linkSh.Id();
             resp.Caption = TryGetTextCaption(linkSh);
@@ -776,7 +776,7 @@ namespace Discussions.RTModel
             resp.initialOwner = linkSh.InitialOwner();
 
             var fwdEdge = _topology.GetForwardEdge(linkSh.Id());
-            
+
             //endpoint 1
             if (fwdEdge.curr is Clusterable)
             {
@@ -788,14 +788,14 @@ namespace Discussions.RTModel
                 if (badgeSh == null)
                 {
                     _room.Broadcast(peer,
-                                    (Dictionary<byte, object>)null,
+                                    (Dictionary<byte, object>) null,
                                     sendParameters,
-                                    (byte)DiscussionEventCode.LinkStatsEvent,
+                                    (byte) DiscussionEventCode.LinkStatsEvent,
                                     BroadcastTo.RoomAll);
                     return;
                 }
                 resp.ArgPointId1 = badgeSh.Tag();
-                resp.ClusterCaption1 = null;                
+                resp.ClusterCaption1 = null;
             }
             else
             {
@@ -806,9 +806,9 @@ namespace Discussions.RTModel
                 if (clusterSh == null)
                 {
                     _room.Broadcast(peer,
-                                    (Dictionary<byte, object>)null,
+                                    (Dictionary<byte, object>) null,
                                     sendParameters,
-                                    (byte)DiscussionEventCode.ClusterStatsEvent,
+                                    (byte) DiscussionEventCode.ClusterStatsEvent,
                                     BroadcastTo.RoomAll);
                     return;
                 }
@@ -828,9 +828,9 @@ namespace Discussions.RTModel
                 if (badgeSh == null)
                 {
                     _room.Broadcast(peer,
-                                    (Dictionary<byte, object>)null,
+                                    (Dictionary<byte, object>) null,
                                     sendParameters,
-                                    (byte)DiscussionEventCode.LinkStatsEvent,
+                                    (byte) DiscussionEventCode.LinkStatsEvent,
                                     BroadcastTo.RoomAll);
                     return;
                 }
@@ -846,9 +846,9 @@ namespace Discussions.RTModel
                 if (clusterSh == null)
                 {
                     _room.Broadcast(peer,
-                                    (Dictionary<byte, object>)null,
+                                    (Dictionary<byte, object>) null,
                                     sendParameters,
-                                    (byte)DiscussionEventCode.ClusterStatsEvent,
+                                    (byte) DiscussionEventCode.ClusterStatsEvent,
                                     BroadcastTo.RoomAll);
                     return;
                 }
@@ -856,11 +856,11 @@ namespace Discussions.RTModel
                 resp.ClusterCaption2 = TryGetTextCaption(clusterSh);
                 resp.IdOfCluster2 = clusterSh.Id();
             }
-            
+
             _room.Broadcast(peer,
                             resp.ToDict(),
                             sendParameters,
-                            (byte)DiscussionEventCode.LinkStatsEvent,
+                            (byte) DiscussionEventCode.LinkStatsEvent,
                             BroadcastTo.RoomAll);
         }
 

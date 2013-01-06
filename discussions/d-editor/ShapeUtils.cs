@@ -18,32 +18,41 @@ namespace DistributedEditor
         public const double LINE_WIDTH = 4;
         public const double LINK_END_SZ = 10;
 
-        public enum RectSide { None, BottomLeft, TopLeft, BottomRight, TopRight, TwoSided }
-        
-        static DropShadowEffect _dropShad = null;
+        public enum RectSide
+        {
+            None,
+            BottomLeft,
+            TopLeft,
+            BottomRight,
+            TopRight,
+            TwoSided
+        }
+
+        private static DropShadowEffect _dropShad = null;
+
         public static DropShadowEffect ShadowProvider()
         {
-            if(_dropShad==null)
+            if (_dropShad == null)
             {
                 _dropShad = new DropShadowEffect();
                 _dropShad.BlurRadius = 10;
                 _dropShad.Opacity = 0.35;
                 _dropShad.ShadowDepth = 3;
-                _dropShad.RenderingBias = RenderingBias.Performance;                
+                _dropShad.RenderingBias = RenderingBias.Performance;
             }
             return _dropShad;
         }
 
         public static void SetLinkEnd(System.Windows.Shapes.Ellipse end, double x, double y)
         {
-            Canvas.SetLeft(end, x - LINK_END_SZ / 2);
-            Canvas.SetTop(end, y - LINK_END_SZ / 2);
+            Canvas.SetLeft(end, x - LINK_END_SZ/2);
+            Canvas.SetTop(end, y - LINK_END_SZ/2);
         }
 
-        public static void SetMarker(System.Windows.Shapes.Rectangle rect, double x, double y) 
+        public static void SetMarker(System.Windows.Shapes.Rectangle rect, double x, double y)
         {
-            Canvas.SetLeft(rect, x - SZ / 2);
-            Canvas.SetTop(rect,  y - SZ / 2);
+            Canvas.SetLeft(rect, x - SZ/2);
+            Canvas.SetTop(rect, y - SZ/2);
         }
 
         public static System.Windows.Shapes.Rectangle MakeMarker()
@@ -73,8 +82,8 @@ namespace DistributedEditor
         public static Matrix GetUnsolvedTransform(UIElement shape)
         {
             var transformation = shape.RenderTransform as MatrixTransform;
-            if(transformation != null)
-                return  transformation.Matrix;
+            if (transformation != null)
+                return transformation.Matrix;
 
             Matrix res = Matrix.Identity;
             return res;
@@ -106,8 +115,8 @@ namespace DistributedEditor
             shape.RenderTransform = new MatrixTransform(matrix);
         }
 
-        public static void ApplyTransform(UIElement shape, Vector manipOrg, Vector translation, 
-                                               double rotation, Vector scale)
+        public static void ApplyTransform(UIElement shape, Vector manipOrg, Vector translation,
+                                          double rotation, Vector scale)
         {
             var matrix = GetUnsolvedTransform(shape);
 
@@ -115,7 +124,7 @@ namespace DistributedEditor
             //                e.ManipulationOrigin.X,
             //                e.ManipulationOrigin.Y);
 
-          //  matrix.Scale(scale.X, scale.Y);
+            //  matrix.Scale(scale.X, scale.Y);
 
             matrix.ScaleAt(scale.X,
                            scale.Y,
@@ -164,7 +173,7 @@ namespace DistributedEditor
 
         public static double Max(double d1, double d2, double d3, double d4)
         {
-            double m1 = d1 > d2 ? d1 : d2; 
+            double m1 = d1 > d2 ? d1 : d2;
             double m2 = d3 > d4 ? d3 : d4;
             double m3 = m1 > m2 ? m1 : m2;
             return m3;
@@ -180,7 +189,7 @@ namespace DistributedEditor
         public static Matrix InitTranslTransform(double x, double y)
         {
             var matrix = Matrix.Identity;
-            matrix.Translate(x,y);
+            matrix.Translate(x, y);
             return matrix;
         }
 
@@ -202,7 +211,7 @@ namespace DistributedEditor
             m.M21 = r.ReadDouble();
             m.M22 = r.ReadDouble();
             m.OffsetX = r.ReadDouble();
-            m.OffsetY = r.ReadDouble();                               
+            m.OffsetY = r.ReadDouble();
             return new MatrixTransform(m);
         }
 
@@ -210,9 +219,9 @@ namespace DistributedEditor
         {
             var res = new PointCollection();
 
-            foreach(var p1 in org)
+            foreach (var p1 in org)
             {
-                var p2 = new Point(p1.X+dx, p1.Y+dy);
+                var p2 = new Point(p1.X + dx, p1.Y + dy);
                 res.Add(p2);
             }
             return res;
@@ -222,19 +231,19 @@ namespace DistributedEditor
         {
             double dx = (p1.X - p2.X);
             double dy = (p1.Y - p2.Y);
-            return Math.Sqrt(dx * dx + dy * dy); 
+            return Math.Sqrt(dx*dx + dy*dy);
         }
 
         public static double Dist2(Point p1, Point p2)
         {
             double dx = (p1.X - p2.X);
             double dy = (p1.Y - p2.Y);
-            return dx * dx + dy * dy;
+            return dx*dx + dy*dy;
         }
 
         public static double scaleFactor(bool plus)
         {
-            return plus ? 1.1 : 0.9; 
+            return plus ? 1.1 : 0.9;
         }
 
         public static double resizeDelta(bool plus)
@@ -242,7 +251,7 @@ namespace DistributedEditor
             return plus ? 7.2 : -7.2;
         }
 
-        static bool PointInPolygon(Point p, List<Point> poly)
+        private static bool PointInPolygon(Point p, List<Point> poly)
         {
             Point p1, p2;
 
@@ -254,7 +263,7 @@ namespace DistributedEditor
             }
 
             Point oldPoint = new Point(
-            poly[poly.Count - 1].X, poly[poly.Count - 1].Y);
+                poly[poly.Count - 1].X, poly[poly.Count - 1].Y);
 
             for (int i = 0; i < poly.Count; i++)
             {
@@ -272,8 +281,8 @@ namespace DistributedEditor
                 }
 
                 if ((newPoint.X < p.X) == (p.X <= oldPoint.X)
-                && ((long)p.Y - (long)p1.Y) * (long)(p2.X - p1.X)
-                 < ((long)p2.Y - (long)p1.Y) * (long)(p.X - p1.X))
+                    && ((long) p.Y - (long) p1.Y)*(long) (p2.X - p1.X)
+                    < ((long) p2.Y - (long) p1.Y)*(long) (p.X - p1.X))
                 {
                     inside = !inside;
                 }
@@ -289,19 +298,19 @@ namespace DistributedEditor
         {
             int i = 0;
 
-            var rectCenter = new Point(clusterable.X + clusterable.Width / 2,
-                                       clusterable.Y + clusterable.Height / 2);
+            var rectCenter = new Point(clusterable.X + clusterable.Width/2,
+                                       clusterable.Y + clusterable.Height/2);
 
             var leftCnt = new Point(clusterable.X,
-                                    clusterable.Y + clusterable.Height / 2);
+                                    clusterable.Y + clusterable.Height/2);
 
             var rightCnt = new Point(clusterable.X + clusterable.Width,
-                                     clusterable.Y + clusterable.Height / 2);
+                                     clusterable.Y + clusterable.Height/2);
 
-            var topCnt = new Point(clusterable.X + clusterable.Width / 2,
+            var topCnt = new Point(clusterable.X + clusterable.Width/2,
                                    clusterable.Y);
 
-            var botCnt = new Point(clusterable.X + clusterable.Width / 2,
+            var botCnt = new Point(clusterable.X + clusterable.Width/2,
                                    clusterable.Y + clusterable.Height);
 
             if (PointInPolygon(leftCnt, poly))
@@ -369,31 +378,31 @@ namespace DistributedEditor
                     minY = p.Y;
             }
 
-            return new Point((minX + maxX) * 0.5 - 80, minY - 60);
+            return new Point((minX + maxX)*0.5 - 80, minY - 60);
         }
 
         public static Point GetAnchorCoords(ClientLinkable end, AnchorPoint anchorPoint)
         {
             var border = end.GetBounds();
-            border.Inflate(20,20);
+            border.Inflate(20, 20);
             switch (anchorPoint)
             {
                 case AnchorPoint.TopLeft:
                     return border.TopLeft;
                 case AnchorPoint.TopCenter:
-                    return new Point(border.X + border.Width / 2, border.Y);
+                    return new Point(border.X + border.Width/2, border.Y);
                 case AnchorPoint.TopRight:
                     return border.TopRight;
                 case AnchorPoint.LeftCenter:
-                    return new Point(border.X, border.Y + border.Height / 2);
+                    return new Point(border.X, border.Y + border.Height/2);
                 case AnchorPoint.BottomLeft:
                     return border.BottomLeft;
                 case AnchorPoint.BottomCenter:
-                    return new Point(border.X + border.Width / 2, border.Y + border.Height);
+                    return new Point(border.X + border.Width/2, border.Y + border.Height);
                 case AnchorPoint.BottomRight:
                     return border.BottomRight;
                 case AnchorPoint.RightCenter:
-                    return new Point(border.X + border.Width, border.Y + border.Height / 2);
+                    return new Point(border.X + border.Width, border.Y + border.Height/2);
                 default:
                     throw new NotSupportedException();
             }
@@ -467,8 +476,8 @@ namespace DistributedEditor
             anchorPoint = GetAnchorCoords(searchTarget, anchor);
         }
 
-        public static void GetLinkPoints(ClientLinkable s, ClientLinkable t, 
-                                         out double x1, out double y1, 
+        public static void GetLinkPoints(ClientLinkable s, ClientLinkable t,
+                                         out double x1, out double y1,
                                          out double x2, out double y2)
         {
             x1 = 0;
@@ -477,27 +486,27 @@ namespace DistributedEditor
             y2 = 0;
 
             var sBounds = s.GetBounds();
-          //  sBounds.Inflate(10,10);
-          //  sBounds.X += 5;
-          //  sBounds.Y += 15;
+            //  sBounds.Inflate(10,10);
+            //  sBounds.X += 5;
+            //  sBounds.Y += 15;
 
             var tBounds = t.GetBounds();
-           // tBounds.Inflate(10,10); 
-           // tBounds.X += 5;
-         //   tBounds.Y += 15;
-         
+            // tBounds.Inflate(10,10); 
+            // tBounds.X += 5;
+            //   tBounds.Y += 15;
+
             //c is point center of <s-t>, lambda is in [0,1]
             var xs = sBounds.X + sBounds.Width/2;
             var ys = sBounds.Y + sBounds.Height/2;
-            
-            var xt = tBounds.X + tBounds.Width / 2;
-            var yt = tBounds.Y + tBounds.Height / 2;
 
-            var xc = (xs + xt) * 0.5;
-            var yc = (ys + yt) * 0.5;
+            var xt = tBounds.X + tBounds.Width/2;
+            var yt = tBounds.Y + tBounds.Height/2;
+
+            var xc = (xs + xt)*0.5;
+            var yc = (ys + yt)*0.5;
 
             //s-anchor
-            EdgeFinder((double x, double y)=>sBounds.Contains(x, y),
+            EdgeFinder((double x, double y) => sBounds.Contains(x, y),
                        xs, ys, xc, yc, 5, out x1, out y1);
 
             //t-anchor
@@ -506,28 +515,29 @@ namespace DistributedEditor
         }
 
         public delegate bool PointTester(double x, double y);
-        public static void EdgeFinder(PointTester tester, double x0, double y0, double x1, double y1, 
+
+        public static void EdgeFinder(PointTester tester, double x0, double y0, double x1, double y1,
                                       int recursionSteps, out double x, out double y)
         {
-           var xc = (x0 + x1)*0.5;
-           var yc = (y0 + y1)*0.5;
-           x = xc;
-           y = yc;
-           if(recursionSteps==0)
-               return;
+            var xc = (x0 + x1)*0.5;
+            var yc = (y0 + y1)*0.5;
+            x = xc;
+            y = yc;
+            if (recursionSteps == 0)
+                return;
 
-           var val0 = tester(x0,y0);
-           var valC = tester(xc,yc);
-           if (val0 != valC)
-               EdgeFinder(tester, x0, y0, xc, yc, recursionSteps - 1, out x, out y);
-           else
-           {
-               var val1 = tester(x1, y1);
-               if (val1 != valC)
-                   EdgeFinder(tester, xc, yc, x1, y1, recursionSteps - 1, out x, out y);
-               else
-                   return;
-           }
+            var val0 = tester(x0, y0);
+            var valC = tester(xc, yc);
+            if (val0 != valC)
+                EdgeFinder(tester, x0, y0, xc, yc, recursionSteps - 1, out x, out y);
+            else
+            {
+                var val1 = tester(x1, y1);
+                if (val1 != valC)
+                    EdgeFinder(tester, xc, yc, x1, y1, recursionSteps - 1, out x, out y);
+                else
+                    return;
+            }
         }
 
         public static List<Point> buildBadgeCorners(List<ClientClusterable> badges)

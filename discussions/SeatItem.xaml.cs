@@ -23,6 +23,6 @@ namespace Discussions
         public SeatItem()
         {
             InitializeComponent();
-        }  
+        }
     }
 }

@@ -1,6 +1,7 @@
 //------------------------------------------
 // ArrowLine.cs (c) 2007 by Charles Petzold
 //------------------------------------------
+
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -18,9 +19,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty X1Property =
             DependencyProperty.Register("X1",
-                typeof(double), typeof(ArrowLine),
-                new FrameworkPropertyMetadata(0.0,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (double), typeof (ArrowLine),
+                                        new FrameworkPropertyMetadata(0.0,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the x-coordinate of the ArrowLine start point.
@@ -28,7 +29,7 @@ namespace Petzold.Media2D
         public double X1
         {
             set { SetValue(X1Property, value); }
-            get { return (double)GetValue(X1Property); }
+            get { return (double) GetValue(X1Property); }
         }
 
         /// <summary>
@@ -36,9 +37,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty Y1Property =
             DependencyProperty.Register("Y1",
-                typeof(double), typeof(ArrowLine),
-                new FrameworkPropertyMetadata(0.0,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (double), typeof (ArrowLine),
+                                        new FrameworkPropertyMetadata(0.0,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the y-coordinate of the ArrowLine start point.
@@ -46,7 +47,7 @@ namespace Petzold.Media2D
         public double Y1
         {
             set { SetValue(Y1Property, value); }
-            get { return (double)GetValue(Y1Property); }
+            get { return (double) GetValue(Y1Property); }
         }
 
         /// <summary>
@@ -54,9 +55,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty X2Property =
             DependencyProperty.Register("X2",
-                typeof(double), typeof(ArrowLine),
-                new FrameworkPropertyMetadata(0.0,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (double), typeof (ArrowLine),
+                                        new FrameworkPropertyMetadata(0.0,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the x-coordinate of the ArrowLine end point.
@@ -64,7 +65,7 @@ namespace Petzold.Media2D
         public double X2
         {
             set { SetValue(X2Property, value); }
-            get { return (double)GetValue(X2Property); }
+            get { return (double) GetValue(X2Property); }
         }
 
         /// <summary>
@@ -72,9 +73,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty Y2Property =
             DependencyProperty.Register("Y2",
-                typeof(double), typeof(ArrowLine),
-                new FrameworkPropertyMetadata(0.0,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (double), typeof (ArrowLine),
+                                        new FrameworkPropertyMetadata(0.0,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets the y-coordinate of the ArrowLine end point.
@@ -82,7 +83,7 @@ namespace Petzold.Media2D
         public double Y2
         {
             set { SetValue(Y2Property, value); }
-            get { return (double)GetValue(Y2Property); }
+            get { return (double) GetValue(Y2Property); }
         }
 
         /// <summary>

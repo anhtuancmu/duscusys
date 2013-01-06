@@ -13,15 +13,15 @@ namespace Discussions.RTModel.Model
         public static DEditorStatsRequest Read(Dictionary<byte, object> par)
         {
             var res = new DEditorStatsRequest();
-            res.topicId = (int)par[(byte)DiscussionParamKey.ChangedTopicId];            
+            res.topicId = (int) par[(byte) DiscussionParamKey.ChangedTopicId];
             return res;
         }
 
         public static Dictionary<byte, object> Write(int topicId)
         {
             var res = new Dictionary<byte, object>();
-            res.Add((byte)DiscussionParamKey.ChangedTopicId, topicId);       
-            return res;      
+            res.Add((byte) DiscussionParamKey.ChangedTopicId, topicId);
+            return res;
         }
     }
 }

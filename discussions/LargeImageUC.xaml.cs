@@ -20,8 +20,8 @@ namespace Discussions
     /// </summary>
     public partial class LargeImageUC : UserControl
     {
-        MultiClickRecognizer mediaDoubleClick;
-        
+        private MultiClickRecognizer mediaDoubleClick;
+
         public LargeImageUC()
         {
             InitializeComponent();
@@ -38,21 +38,20 @@ namespace Discussions
         //{
         //    System.Diagnostics.Process.Start(linkTarget.Text);
         //}
-  
+
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             mediaDoubleClick.Click(sender, e);
         }
-       
+
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
             mediaDoubleClick.Click(sender, e);
         }
-     
-        void MediaDoubleClick(object sender, InputEventArgs e)
-        {
-            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
-        }
 
+        private void MediaDoubleClick(object sender, InputEventArgs e)
+        {
+            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment);
+        }
     }
 }

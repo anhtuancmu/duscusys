@@ -51,11 +51,11 @@ namespace EventGen
 
             s.UserId = evt.userId;
             s.UserName = pers.Name;
-            s.Event = (int)evt.e;
+            s.Event = (int) evt.e;
             s.Time = startTime.Add(evt.Span);
-            s.DeviceType = (int)evt.devType;
+            s.DeviceType = (int) evt.devType;
 
-            _ctx.StatsEvent.AddObject(s);            
+            _ctx.StatsEvent.AddObject(s);
         }
     }
 }

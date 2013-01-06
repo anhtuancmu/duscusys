@@ -18,6 +18,6 @@ namespace Discussions
 
         public ArgPoint ArgPt { get; set; }
 
-        public EditableBadge  BadgeControl { get; set; }
+        public EditableBadge BadgeControl { get; set; }
     }
 }

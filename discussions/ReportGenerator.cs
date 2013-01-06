@@ -16,14 +16,14 @@ namespace Discussions
 {
     public class ReportGenerator
     {
-        Font HeaderFont = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.NORMAL);
-        Font BoldHeaderFont = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.BOLD);
-        Font BlockHeaderFont = FontFactory.GetFont(FontFactory.HELVETICA, 14, Font.NORMAL);
-        Font NormalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12, Font.NORMAL);
+        private Font HeaderFont = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.NORMAL);
+        private Font BoldHeaderFont = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.BOLD);
+        private Font BlockHeaderFont = FontFactory.GetFont(FontFactory.HELVETICA, 14, Font.NORMAL);
+        private Font NormalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12, Font.NORMAL);
 
-        Discussion discussion;
-        string PdfPathName;
-        Document document;
+        private Discussion discussion;
+        private string PdfPathName;
+        private Document document;
 
         public void Generate(Discussion discussion, string PdfPathName)
         {
@@ -38,9 +38,9 @@ namespace Discussions
             {
                 PdfWriter.GetInstance(document, new FileStream(PdfPathName, FileMode.Create));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                MessageBox.Show("File I/O error "+e.Message);
+                MessageBox.Show("File I/O error " + e.Message);
                 return;
             }
 
@@ -51,7 +51,7 @@ namespace Discussions
             Process.Start(PdfPathName);
         }
 
-        void Assemble()
+        private void Assemble()
         {
             //headers
             document.Add(makeHeader("TOHOKU UNIVERSITY DISCUSSION SUPPORT SYSTEM"));
@@ -61,7 +61,7 @@ namespace Discussions
 
             //subject
             document.Add(makeHeader(discussion.Subject, true));
-           
+
             InsertLine();
 
             //background
@@ -85,7 +85,7 @@ namespace Discussions
             addBlockOfAgreement("Unsolved", unsolved);
         }
 
-        void backgroundSources()
+        private void backgroundSources()
         {
             Paragraph p = new Paragraph();
             p.Add("Discussion sources:");
@@ -98,7 +98,7 @@ namespace Discussions
                 itextImg.ScaleToFit(150, 200);
                 document.Add(itextImg);
 
-                switch ((AttachmentFormat)at.Format)
+                switch ((AttachmentFormat) at.Format)
                 {
                     case AttachmentFormat.Pdf:
                         break;
@@ -109,29 +109,29 @@ namespace Discussions
                     case AttachmentFormat.Youtube:
                         p = new Paragraph();
                         p.Add("Youtube: " + at.VideoLinkURL);
-                        document.Add(p);                             
+                        document.Add(p);
                         break;
                     default:
                         throw new NotSupportedException();
-                }                
-            }            
+                }
+            }
         }
 
-        void InsertLine()
+        private void InsertLine()
         {
             Paragraph p = new Paragraph();
             p.Add(new Chunk("\n"));
             document.Add(p);
         }
 
-        Paragraph makeHeader(string str, bool bold=false)
+        private Paragraph makeHeader(string str, bool bold = false)
         {
-            Paragraph p = new Paragraph(str, bold ? BoldHeaderFont : HeaderFont);           
+            Paragraph p = new Paragraph(str, bold ? BoldHeaderFont : HeaderFont);
             p.Alignment = 1;
             return p;
         }
 
-        void addBlockOfAgreement(string blockName, List<ArgPoint> items)
+        private void addBlockOfAgreement(string blockName, List<ArgPoint> items)
         {
             Paragraph p = new Paragraph();
             p.Alignment = 1;
@@ -139,7 +139,7 @@ namespace Discussions
             p.Add(new Chunk("\n"));
             p.Add(new Chunk("\n"));
             document.Add(p);
-            
+
             p = new Paragraph();
             foreach (ArgPoint pt in items)
             {
@@ -149,19 +149,21 @@ namespace Discussions
             document.Add(p);
         }
 
-        PdfPCell getColoredTxtCell(string content, BaseColor color = null)
+        private PdfPCell getColoredTxtCell(string content, BaseColor color = null)
         {
             PdfPCell c = new PdfPCell(new Phrase(content));
             _getColoredCell(c, color);
             return c;
         }
-        PdfPCell getColoredImgCell(Image img, BaseColor color = null)
+
+        private PdfPCell getColoredImgCell(Image img, BaseColor color = null)
         {
             PdfPCell c = new PdfPCell(img);
             _getColoredCell(c, color);
             return c;
         }
-        PdfPCell _getColoredCell(PdfPCell c, BaseColor color = null)
+
+        private PdfPCell _getColoredCell(PdfPCell c, BaseColor color = null)
         {
             if (color == null)
                 c.BackgroundColor = new BaseColor(170, 170, 170);
@@ -171,18 +173,18 @@ namespace Discussions
             return c;
         }
 
-        PdfPTable addArgPoint(ArgPoint pt)
+        private PdfPTable addArgPoint(ArgPoint pt)
         {
             PdfPTable aTable = new PdfPTable(3);
 
             BaseColor clr = DiscussionColors.GetSideColor(pt.SideCode);
 
             PdfPCell c = getColoredTxtCell("Point:  " + string.Format("{0}", pt.Point) + "\n" +
-                                        "Description:  " + string.Format("{0}", pt.Point) + "\n" +
-                                        "Author(Name/Email):  " + 
-                                        string.Format("{0}/{1}", pt.Person.Name,
-                                                                 pt.Person.Email),
-                                        clr);
+                                           "Description:  " + string.Format("{0}", pt.Point) + "\n" +
+                                           "Author(Name/Email):  " +
+                                           string.Format("{0}/{1}", pt.Person.Name,
+                                                         pt.Person.Email),
+                                           clr);
             c.Colspan = 3;
 
             aTable.AddCell(c);
@@ -196,8 +198,8 @@ namespace Discussions
                 aTable.AddCell(getColoredTxtCell("Comment", clr));
                 aTable.AddCell(getColoredTxtCell(comm, clr));
                 aTable.AddCell(getColoredTxtCell(string.Format("{0},{1}",
-                                              comment.Person.Name,
-                                              comment.Person.Email), clr));
+                                                               comment.Person.Name,
+                                                               comment.Person.Email), clr));
             }
 
             foreach (Attachment at in pt.Attachment)
@@ -221,8 +223,8 @@ namespace Discussions
             System.Drawing.Bitmap btm = null;
             int width = srs.PixelWidth;
             int height = srs.PixelHeight;
-            int stride = width * ((srs.Format.BitsPerPixel + 7) / 8);
-            byte[] bits = new byte[height * stride];
+            int stride = width*((srs.Format.BitsPerPixel + 7)/8);
+            byte[] bits = new byte[height*stride];
             srs.CopyPixels(bits, stride, 0);
             unsafe
             {
@@ -230,11 +232,11 @@ namespace Discussions
                 {
                     IntPtr ptr = new IntPtr(pB);
                     btm = new System.Drawing.Bitmap(
-                    width,
-                    height,
-                    stride,
-                    System.Drawing.Imaging.PixelFormat.Format32bppPArgb,
-                    ptr);
+                        width,
+                        height,
+                        stride,
+                        System.Drawing.Imaging.PixelFormat.Format32bppPArgb,
+                        ptr);
                 }
             }
             return btm;

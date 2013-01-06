@@ -16,33 +16,36 @@ namespace Discussions
     public class BoundRichTextBox : RichTextBox
     {
         private static DependencyProperty SaveAsProperty =
-            DependencyProperty.Register("SaveAs", typeof(string), typeof(BoundRichTextBox));
+            DependencyProperty.Register("SaveAs", typeof (string), typeof (BoundRichTextBox));
 
         private static DependencyProperty LoadedAsProperty =
-            DependencyProperty.Register("LoadedAs", typeof(string), typeof(BoundRichTextBox));
+            DependencyProperty.Register("LoadedAs", typeof (string), typeof (BoundRichTextBox));
 
         private static DependencyProperty IsFormattedProperty =
-            DependencyProperty.Register("IsFormatted", typeof(bool), typeof(BoundRichTextBox), new PropertyMetadata(false));
+            DependencyProperty.Register("IsFormatted", typeof (bool), typeof (BoundRichTextBox),
+                                        new PropertyMetadata(false));
 
         private static DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(BoundRichTextBox));
+            DependencyProperty.Register("Text", typeof (string), typeof (BoundRichTextBox));
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
+            get { return (string) GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundRichTextBox"/> class.
         /// </summary>
-        public BoundRichTextBox() : base() { }
+        public BoundRichTextBox() : base()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundRichTextBox"/> class.
         /// </summary>
         /// <param title="document">A <see cref="T:System.Windows.Documents.FlowDocument"></see> to be added as the initial contents of the new <see cref="T:System.Windows.Controls.BoundRichTextBox"></see>.</param>
-        public BoundRichTextBox(FlowDocument document) : base(document) 
+        public BoundRichTextBox(FlowDocument document) : base(document)
         {
             IsFormatted = true;
         }
@@ -56,7 +59,7 @@ namespace Discussions
             base.OnInitialized(e);
 
             // Hook up to get notified when TextProperty changes.
-            var descriptor = DependencyPropertyDescriptor.FromProperty(TextProperty, typeof(TextBox));
+            var descriptor = DependencyPropertyDescriptor.FromProperty(TextProperty, typeof (TextBox));
             descriptor.AddValueChanged(this, delegate
                 {
                     if (RTBContent != Text)
@@ -64,29 +67,29 @@ namespace Discussions
                 });
 
             TextChanged += delegate
-            {
-                if (Text != RTBContent)
-                    Text = RTBContent;
-            };
+                {
+                    if (Text != RTBContent)
+                        Text = RTBContent;
+                };
         }
 
         #region Text Support Routines
 
         public bool IsFormatted
         {
-            get { return (bool)GetValue(IsFormattedProperty); }
+            get { return (bool) GetValue(IsFormattedProperty); }
             set { SetValue(IsFormattedProperty, value); }
         }
 
         public string SaveAs
         {
-            get { return (string)GetValue(SaveAsProperty); }
+            get { return (string) GetValue(SaveAsProperty); }
             set { SetValue(SaveAsProperty, value); }
         }
 
         public string LoadedAs
         {
-            get { return (string)GetValue(LoadedAsProperty); }
+            get { return (string) GetValue(LoadedAsProperty); }
             set { SetValue(LoadedAsProperty, value); }
         }
 
@@ -116,7 +119,7 @@ namespace Discussions
                 TextRange selection = new TextRange(Document.ContentStart, Document.ContentEnd);
                 SetRangeContent(selection, value);
 
-                if ((string)GetValue(TextBox.TextProperty) != value)
+                if ((string) GetValue(TextBox.TextProperty) != value)
                     SetValue(TextBox.TextProperty, value);
             }
         }

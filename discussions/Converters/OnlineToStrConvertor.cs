@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using Discussions.YouViewer;
-using Discussions.DbModel;
-using System.Windows.Media;
 
 namespace Discussions
 {
@@ -17,13 +11,14 @@ namespace Discussions
             if (value == null)
                 return null;
 
-            if((bool)value)
+            if ((bool) value)
                 return " online";
             else
                 return " offline";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

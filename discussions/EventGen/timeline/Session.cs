@@ -10,7 +10,7 @@ namespace EventGen.timeline
     {
         public string videoPathName = "";
         public string megFilePathName = "";
-        Timeline _timeline;
+        private Timeline _timeline;
 
         public Session(Timeline timeline)
         {
@@ -33,7 +33,7 @@ namespace EventGen.timeline
             megFilePathName = pathName;
             using (var reader = new BinaryReader(new FileStream(pathName, FileMode.Open)))
             {
-                videoPathName   = reader.ReadString();
+                videoPathName = reader.ReadString();
                 megFilePathName = reader.ReadString();
                 _timeline.Read(reader);
             }

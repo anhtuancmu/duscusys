@@ -8,14 +8,11 @@ namespace Discussions.Metro
 {
     public partial class TopicTile : UserControl
     {
-        MetroFiller.Launcher _launcher;
+        private MetroFiller.Launcher _launcher;
 
         public MetroFiller.Launcher LaunchDel
         {
-            get
-            {
-                return _launcher;
-            }
+            get { return _launcher; }
             set
             {
                 _launcher = value;
@@ -31,10 +28,7 @@ namespace Discussions.Metro
 
         public string BtnTitle
         {
-            set
-            {
-                TileTxtBlck.Text = value;
-            }
+            set { TileTxtBlck.Text = value; }
         }
 
         private void LayoutRoot_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

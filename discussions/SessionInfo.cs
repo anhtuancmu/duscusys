@@ -19,10 +19,10 @@ namespace Discussions
             {
                 _inst = new SessionInfo();
             }
-            
-            return _inst; 
+
+            return _inst;
         }
-        
+
         //public static void Set(SessionInfo val)
         //{
         //    _inst = val;
@@ -44,21 +44,18 @@ namespace Discussions
         public int screenDiscId = -1;
         public string screenMetaInfo = null;
 
-        Person _person = null;
+        private Person _person = null;
 
         public Person person
         {
-            get
-            {
-                return getPerson(null);
-            }
+            get { return getPerson(null); }
         }
 
         //returns current person taken from the same context as entity is attached to
         public Person getPerson(object entity)
         {
             if (_person == null)
-                 return null;
+                return null;
 
             if (entity == null)
                 entity = discussion;
@@ -67,15 +64,15 @@ namespace Discussions
             if (entity == null)
                 return _person;
 
-            if(IsAttachedTo(Ctx2.Get(),entity))
-                return Ctx2.Get().Person.FirstOrDefault(p0=>p0.Id==_person.Id);
+            if (IsAttachedTo(Ctx2.Get(), entity))
+                return Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
             else if (IsAttachedTo(CtxSingleton.Get(), entity))
                 return CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
-            else if(IsAttachedTo(DbCtx.Get(), entity))
+            else if (IsAttachedTo(DbCtx.Get(), entity))
                 return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
 
             return _person;
-        }        
+        }
 
         public void setPerson(Person p)
         {
@@ -86,7 +83,7 @@ namespace Discussions
 
         public int currentTopicId = -1;
 
-        public static bool IsAttachedTo( ObjectContext context, object entity)
+        public static bool IsAttachedTo(ObjectContext context, object entity)
         {
             if (entity == null)
                 return false;
@@ -110,9 +107,9 @@ namespace Discussions
 
         public static void UpdateToNewCtx()
         {
-            if(_inst==null)
+            if (_inst == null)
                 return;
-            
+
             var ctx = CtxSingleton.Get();
 
             if (_inst.discussion != null)

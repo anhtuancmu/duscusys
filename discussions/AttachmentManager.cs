@@ -23,7 +23,8 @@ namespace Discussions
 {
     public class AttachmentManager
     {
-        static BitmapImage _pdfIcon = null;
+        private static BitmapImage _pdfIcon = null;
+
         public static BitmapImage PdfIcon
         {
             get
@@ -37,7 +38,8 @@ namespace Discussions
             }
         }
 
-        static BitmapImage _excelIcon = null;
+        private static BitmapImage _excelIcon = null;
+
         public static BitmapImage ExcelIcon
         {
             get
@@ -51,7 +53,8 @@ namespace Discussions
             }
         }
 
-        static BitmapImage _wordIcon = null;
+        private static BitmapImage _wordIcon = null;
+
         public static BitmapImage WordIcon
         {
             get
@@ -65,7 +68,8 @@ namespace Discussions
             }
         }
 
-        static BitmapImage _powerPointIcon = null;
+        private static BitmapImage _powerPointIcon = null;
+
         public static BitmapImage PowerPointIcon
         {
             get
@@ -79,7 +83,7 @@ namespace Discussions
             }
         }
 
-      
+
         //recognizes format of attachment by URL's structure
         public static AttachCmd DeriveCmdFromUrl(string Url)
         {
@@ -87,18 +91,14 @@ namespace Discussions
             if (Url.StartsWith("http://www.youtube.com"))
                 return AttachCmd.ATTACH_YOUTUBE;
             else if (Url.EndsWith(".pdf"))
-                return AttachCmd.ATTACH_PDF_FROM_URL; 
+                return AttachCmd.ATTACH_PDF_FROM_URL;
             else
                 return AttachCmd.ATTACH_IMAGE_URL;
         }
 
         public static bool IsGraphicFormat(Attachment a)
         {
-            return
-                a.Format == (int)AttachmentFormat.Bmp ||
-                a.Format == (int)AttachmentFormat.Jpg ||
-                a.Format == (int)AttachmentFormat.Png ||
-                a.Format == (int)AttachmentFormat.PngScreenshot;
+            return IsGraphicFormat((AttachmentFormat)a.Format);
         }
 
         public static bool IsGraphicFormat(AttachmentFormat af)
@@ -115,35 +115,35 @@ namespace Discussions
             if (a == null)
                 return null;
 
-            switch (a.Format)                
+            switch (a.Format)
             {
-                case (int)AttachmentFormat.Pdf:
-                    if(a.Thumb!=null)
+                case (int) AttachmentFormat.Pdf:
+                    if (a.Thumb != null)
                         return LoadImageFromBlob(a.Thumb);
                     else
                         return PdfIcon;
-                case (int)AttachmentFormat.ExcelDocSet:
+                case (int) AttachmentFormat.ExcelDocSet:
                     return ExcelIcon;
-                case (int)AttachmentFormat.WordDocSet:
+                case (int) AttachmentFormat.WordDocSet:
                     return WordIcon;
-                case (int)AttachmentFormat.PowerPointDocSet:
+                case (int) AttachmentFormat.PowerPointDocSet:
                     return PowerPointIcon;
-                case (int)AttachmentFormat.Jpg:
-                case (int)AttachmentFormat.Png:
-                case (int)AttachmentFormat.PngScreenshot:
-                case (int)AttachmentFormat.Bmp:
+                case (int) AttachmentFormat.Jpg:
+                case (int) AttachmentFormat.Png:
+                case (int) AttachmentFormat.PngScreenshot:
+                case (int) AttachmentFormat.Bmp:
                     return LoadImageFromBlob(a.MediaData.Data);
-                case (int)AttachmentFormat.Youtube:
-                    if(a.Thumb!=null)
+                case (int) AttachmentFormat.Youtube:
+                    if (a.Thumb != null)
                         return LoadImageFromBlob(a.Thumb);
                     else
-                        return GetYoutubeThumb(a.VideoThumbURL);                    
+                        return GetYoutubeThumb(a.VideoThumbURL);
             }
 
             return null;
         }
 
-        static BitmapSource GetYoutubeThumb(string thumbUrl)
+        private static BitmapSource GetYoutubeThumb(string thumbUrl)
         {
             string tmpFile = DownloadImageFromURL(thumbUrl);
             if (tmpFile == null)
@@ -165,7 +165,7 @@ namespace Discussions
             return ProcessCommand2(Point, cmd, null, ref a);
         }
 
-        static ImageSource ProcessCommand2(ArgPoint Point, AttachCmd cmd, string Url, ref Attachment a)
+        private static ImageSource ProcessCommand2(ArgPoint Point, AttachCmd cmd, string Url, ref Attachment a)
         {
             a = null;
 
@@ -201,24 +201,25 @@ namespace Discussions
                     case AttachCmd.ATTACH_YOUTUBE:
                         a = AttachmentManager.AttachFromYoutube(Point, Url);
                         if (a != null)
-                            return new BitmapImage();//returning stub for external error-checking
+                            return new BitmapImage(); //returning stub for external error-checking
                         break;
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot process attachment. If it's link, check it's correct. If it's file, ensure program has permissions to access it",
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Cannot process attachment. If it's link, check it's correct. If it's file, ensure program has permissions to access it",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
-       
+
             return null;
         }
 
         public static BitmapImage LoadImageFromBlob(byte[] blob)
         {
-            BitmapImage bmp = new BitmapImage();            
-            bmp.BeginInit();            
+            BitmapImage bmp = new BitmapImage();
+            bmp.BeginInit();
             bmp.StreamSource = new MemoryStream(blob);
             bmp.EndInit();
             return bmp;
@@ -243,14 +244,14 @@ namespace Discussions
             filterSb.Append("*.xlsx;*.xlsm;*.xlsb;*.xltx;*.xltm;*.xls;*.xlt");
             filterSb.Append("*.pptx;*.ppt;*.pptm;*.ppsx;*.pps;*.potx;*.pot*;*.potm;*.odp");
 
-            return AttachAsBlob(filterSb.ToString(), 
-                                AttachmentFormat.None, 
-                                true, 
+            return AttachAsBlob(filterSb.ToString(),
+                                AttachmentFormat.None,
+                                true,
                                 Point);
         }
 
         //if URL==null, shows URL input dialog. else uses provided URL, no dialog
-        static Attachment AttachFromURL(ArgPoint Point, string Url)
+        private static Attachment AttachFromURL(ArgPoint Point, string Url)
         {
             string UrlToUse = Url;
             if (UrlToUse == null)
@@ -269,7 +270,7 @@ namespace Discussions
 
             Attachment res = new Attachment();
             res.Name = UrlToUse;
-            res.Format = (int)AttachmentFormat.Jpg; //all downloads are jpg 
+            res.Format = (int) AttachmentFormat.Jpg; //all downloads are jpg 
             res.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(tmpFile));
             res.Title = "";
             res.Link = Url;
@@ -282,7 +283,7 @@ namespace Discussions
         }
 
         //if URL==null, shows URL input dialog. else uses provided URL, no dialog
-        static Attachment AttachPdfFromURL(ArgPoint Point, string Url)
+        private static Attachment AttachPdfFromURL(ArgPoint Point, string Url)
         {
             string UrlToUse = Url;
             if (UrlToUse == null)
@@ -302,7 +303,7 @@ namespace Discussions
 
             Attachment res = new Attachment();
             res.Name = UrlToUse;
-            res.Format = (int)AttachmentFormat.Pdf;
+            res.Format = (int) AttachmentFormat.Pdf;
             res.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(tmpFile));
             res.Title = "";
             res.Thumb = TryCreatePdfThumb(tmpFile);
@@ -316,7 +317,7 @@ namespace Discussions
         }
 
         //if Url!=null, uses it. otherwice asks for URL
-        static Attachment AttachFromYoutube(ArgPoint Point, string Url)
+        private static Attachment AttachFromYoutube(ArgPoint Point, string Url)
         {
             string URLToUse = Url;
             if (URLToUse == null)
@@ -337,14 +338,14 @@ namespace Discussions
                 if (videoInfo == null)
                     return null;
 
-                res.Format = (int)AttachmentFormat.Youtube;
-                res.VideoEmbedURL = videoInfo.EmbedUrl; 
+                res.Format = (int) AttachmentFormat.Youtube;
+                res.VideoEmbedURL = videoInfo.EmbedUrl;
                 res.VideoThumbURL = videoInfo.ThumbNailUrl;
                 res.VideoLinkURL = videoInfo.LinkUrl;
                 res.Link = videoInfo.LinkUrl;
                 res.Title = videoInfo.VideoTitle;
                 res.Name = URLToUse;
-                res.Thumb = ImageToBytes(GetYoutubeThumb(videoInfo.ThumbNailUrl), new JpegBitmapEncoder());  
+                res.Thumb = ImageToBytes(GetYoutubeThumb(videoInfo.ThumbNailUrl), new JpegBitmapEncoder());
 
                 if (Point != null)
                     Point.Attachment.Add(res);
@@ -352,18 +353,18 @@ namespace Discussions
             }
             finally
             {
-                BusyWndSingleton.Hide();   
+                BusyWndSingleton.Hide();
             }
             return res;
         }
 
-        static string DownloadImageFromURL(string url)
-        { 
+        private static string DownloadImageFromURL(string url)
+        {
             WebClient webClient = new WebClient();
             try
-            {                
+            {
                 using (Stream stream = webClient.OpenRead(url))
-                {                                        
+                {
                     using (Bitmap bitmap = new Bitmap(stream))
                     {
                         stream.Flush();
@@ -376,13 +377,13 @@ namespace Discussions
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
         }
 
-        static string DownloadPdfFromUrl(string pdfUrl)
+        private static string DownloadPdfFromUrl(string pdfUrl)
         {
             BusyWndSingleton.Show("Processing PDF-link...");
             WebClient webClient = new WebClient();
@@ -395,7 +396,7 @@ namespace Discussions
                     {
                         stream.CopyTo(fs);
                         stream.Flush();
-                        return PathName;                     
+                        return PathName;
                     }
                 }
             }
@@ -409,8 +410,9 @@ namespace Discussions
             }
         }
 
-        static Dictionary<string, AttachmentFormat> extToFmt = null;
-        static AttachmentFormat GetImgFmt(string pathName)
+        private static Dictionary<string, AttachmentFormat> extToFmt = null;
+
+        private static AttachmentFormat GetImgFmt(string pathName)
         {
             if (extToFmt == null)
             {
@@ -452,7 +454,8 @@ namespace Discussions
             return extToFmt[ext];
         }
 
-        static Attachment AttachAsBlob(string filter, AttachmentFormat format, bool autoInferenceOfFormat, ArgPoint Point)
+        private static Attachment AttachAsBlob(string filter, AttachmentFormat format, bool autoInferenceOfFormat,
+                                               ArgPoint Point)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -462,27 +465,27 @@ namespace Discussions
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string attachmentName = Path.GetFileName(openFileDialog1.FileName);
-                
+
                 Attachment a = new Attachment();
-                a.Name  = attachmentName;
-                a.Title = attachmentName; 
-                a.Link  = openFileDialog1.FileName;
+                a.Name = attachmentName;
+                a.Title = attachmentName;
+                a.Link = openFileDialog1.FileName;
 
                 if (autoInferenceOfFormat)
                     format = GetImgFmt(openFileDialog1.FileName);
                 switch (format)
                 {
                     case AttachmentFormat.Pdf:
-                        a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));                       
-                        a.Thumb = TryCreatePdfThumb(openFileDialog1.FileName);                        
+                        a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));
+                        a.Thumb = TryCreatePdfThumb(openFileDialog1.FileName);
                         break;
-                    case AttachmentFormat.Jpg:                        
-                        a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
-                        break;                 
-                    case AttachmentFormat.Png:                        
+                    case AttachmentFormat.Jpg:
                         a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
                         break;
-                    case AttachmentFormat.Bmp:                       
+                    case AttachmentFormat.Png:
+                        a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
+                        break;
+                    case AttachmentFormat.Bmp:
                         a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(openFileDialog1.FileName));
                         break;
                     case AttachmentFormat.ExcelDocSet:
@@ -495,11 +498,11 @@ namespace Discussions
                         a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(openFileDialog1.FileName));
                         break;
                 }
-                a.Format = (int)format;
+                a.Format = (int) format;
                 a.Name = attachmentName;
 
-                if (Point != null)               
-                    Point.Attachment.Add(a);                
+                if (Point != null)
+                    Point.Attachment.Add(a);
 
                 return a;
             }
@@ -514,34 +517,37 @@ namespace Discussions
 
             Attachment a = new Attachment();
             a.Name = screenPath;
-            a.Format = (int)AttachmentFormat.PngScreenshot;
+            a.Format = (int) AttachmentFormat.PngScreenshot;
             a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(screenPath));
             a.Title = "Screenshot, " + Environment.MachineName + " " + DateTime.Now;
-            a.Link = a.Title; 
+            a.Link = a.Title;
             if (Point != null)
                 a.ArgPoint = Point;
             return a;
         }
 
-        public class IncorrectAttachmentFormat : Exception { };
+        public class IncorrectAttachmentFormat : Exception
+        {
+        };
+
         public static Attachment AttachCloudEntry(ArgPoint Point, CloudStorage.StorageWnd.StorageSelectionEntry selEntry)
         {
             Attachment a = new Attachment();
             a.Name = selEntry.Title;
             try
             {
-                a.Format = (int)GetImgFmt(selEntry.Title); //may throw exception in case of unsupported file format
+                a.Format = (int) GetImgFmt(selEntry.Title); //may throw exception in case of unsupported file format
             }
             catch (Exception)
             {
                 throw new IncorrectAttachmentFormat();
             }
-                   
+
             a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(selEntry.PathName));
             a.Title = selEntry.Title;
-            a.Link  = selEntry.Title;
-            if(a.Format == (int)AttachmentFormat.Pdf)
-                a.Thumb = TryCreatePdfThumb(selEntry.PathName);    
+            a.Link = selEntry.Title;
+            if (a.Format == (int) AttachmentFormat.Pdf)
+                a.Thumb = TryCreatePdfThumb(selEntry.PathName);
 
             if (Point != null)
                 a.ArgPoint = Point;
@@ -556,14 +562,14 @@ namespace Discussions
 
             BitmapImage bmp = new BitmapImage();
             bmp.BeginInit();
-            bmp.StreamSource = new MemoryStream();            
+            bmp.StreamSource = new MemoryStream();
             bmp.UriSource = new Uri(PathName);
             bmp.EndInit();
 
             return ImageToBytes(bmp, enc);
         }
 
-        static BitmapSource fileToBmpSrc(string PathName)
+        private static BitmapSource fileToBmpSrc(string PathName)
         {
             BitmapImage bmp = new BitmapImage();
             bmp.BeginInit();
@@ -572,17 +578,17 @@ namespace Discussions
             return bmp;
         }
 
-        static byte[] AnyFileToBytes(string PathName)
+        private static byte[] AnyFileToBytes(string PathName)
         {
             using (FileStream fs = new FileStream(PathName, FileMode.Open, FileAccess.Read))
             {
                 byte[] res = new byte[fs.Length];
-                fs.Read(res, 0, (int)fs.Length);
+                fs.Read(res, 0, (int) fs.Length);
                 return res;
             }
         }
 
-        static BitmapEncoder GetEncoder(string ImgFileName)
+        private static BitmapEncoder GetEncoder(string ImgFileName)
         {
             switch (Path.GetExtension(ImgFileName).ToLower())
             {
@@ -597,8 +603,8 @@ namespace Discussions
             }
             return null;
         }
-        
-        static byte[] ImageToBytes(BitmapSource img, BitmapEncoder enc)
+
+        private static byte[] ImageToBytes(BitmapSource img, BitmapEncoder enc)
         {
             MemoryStream memStream = new MemoryStream();
             enc.Frames.Add(BitmapFrame.Create(img));
@@ -608,11 +614,11 @@ namespace Discussions
 
         public static void SaveBitmapSource(BitmapSource src, string pathName)
         {
-            using(var fs = new FileStream(pathName, FileMode.Create))
+            using (var fs = new FileStream(pathName, FileMode.Create))
             {
-                var enc = new PngBitmapEncoder();                
-                enc.Frames.Add(BitmapFrame.Create(src));                                
-                enc.Save(fs);                
+                var enc = new PngBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(src));
+                enc.Save(fs);
             }
         }
 
@@ -631,7 +637,7 @@ namespace Discussions
             if (a == null)
                 return;
 
-            if (a.Format == (int)AttachmentFormat.Pdf && a.MediaData != null)
+            if (a.Format == (int) AttachmentFormat.Pdf && a.MediaData != null)
             {
                 string pdfPathName = Utils.RandomFilePath(".pdf");
                 try
@@ -643,7 +649,7 @@ namespace Discussions
                     //Process.Start(pdfPathName);
                     Utils.ReportMediaOpened(StEvent.PdfOpened, a);
                     var pdfReader = new ReaderWindow(pdfPathName);
-                    pdfReader.ShowDialog();                   
+                    pdfReader.ShowDialog();
                 }
                 catch (Exception e)
                 {
@@ -652,7 +658,7 @@ namespace Discussions
             }
             else if (MiniAttachmentManager.IsGraphicFormat(a))
             {
-                if (a.Format == (int)AttachmentFormat.PngScreenshot)
+                if (a.Format == (int) AttachmentFormat.PngScreenshot)
                     Utils.ReportMediaOpened(StEvent.ScreenshotOpened, a);
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
@@ -672,7 +678,7 @@ namespace Discussions
                     {
                         fs.Write(a.MediaData.Data, 0, a.MediaData.Data.Length);
                     }
-                    Process.Start(pathName);   
+                    Process.Start(pathName);
                 }
                 catch (Exception e)
                 {
@@ -684,10 +690,10 @@ namespace Discussions
         public static void RunViewer(string pathName)
         {
             var ext = Path.GetExtension(pathName).ToLower();
-            if(ext ==".pdf")
-            {                
+            if (ext == ".pdf")
+            {
                 var pdfReader = new ReaderWindow(pathName);
-                pdfReader.ShowDialog();                   
+                pdfReader.ShowDialog();
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {
@@ -702,7 +708,7 @@ namespace Discussions
                 {
                     Process.Start(pathName);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                 }
             }
@@ -717,7 +723,7 @@ namespace Discussions
             try
             {
                 // instanciate adobe acrobat
-                doc = (Acrobat.CAcroPDDoc)new Acrobat.AcroPDDocClass();
+                doc = (Acrobat.CAcroPDDoc) new Acrobat.AcroPDDocClass();
 
                 if (doc.Open(pdfPathName))
                 {
@@ -725,10 +731,10 @@ namespace Discussions
                     {
                         // get reference to page
                         // pages use a zero based index so 0 = page1
-                        page = (Acrobat.CAcroPDPage)doc.AcquirePage(0);
+                        page = (Acrobat.CAcroPDPage) doc.AcquirePage(0);
 
                         // get dimensions of page and create rect to indicate full size
-                        Acrobat.AcroPoint pt = (Acrobat.AcroPoint)page.GetSize();
+                        Acrobat.AcroPoint pt = (Acrobat.AcroPoint) page.GetSize();
                         Acrobat.CAcroRect rect = new Acrobat.AcroRectClass();
                         rect.Top = 0;
                         rect.Left = 0;
@@ -740,19 +746,19 @@ namespace Discussions
 
                         // get image from clipboard as bitmap
                         IDataObject data = Clipboard.GetDataObject();
-                        var bmp = (System.Drawing.Bitmap)data.GetData(DataFormats.Bitmap);
-                        var thumb = bmp.GetThumbnailImage(pt.x/3,pt.y/3, null, IntPtr.Zero);
+                        var bmp = (System.Drawing.Bitmap) data.GetData(DataFormats.Bitmap);
+                        var thumb = bmp.GetThumbnailImage(pt.x/3, pt.y/3, null, IntPtr.Zero);
                         var ms = new MemoryStream();
                         thumb.Save(ms, ImageFormat.Jpeg);
-                        return ms.ToArray();                            
+                        return ms.ToArray();
                     }
                 }
             }
             catch (Exception)
             {
-               // MessageBox.Show(e.StackTrace);
+                // MessageBox.Show(e.StackTrace);
                 //Console.WriteLine(e);
-                
+
                 // if we get here and doc is null then we were unable to instanciate Acrobat
                 //if (doc == null) 
                 //    MessageBox.Show("Acrobat is not installed. Adobe Acrobat is required.");

@@ -7,11 +7,12 @@ namespace DistributedEditor
 {
     public class ShapeIdGenerator
     {
-        List<int> existingIds = new  List<int>();
+        private List<int> existingIds = new List<int>();
 
-        Random _rnd = new Random();
+        private Random _rnd = new Random();
 
-        static ShapeIdGenerator _inst = null;
+        private static ShapeIdGenerator _inst = null;
+
         public static ShapeIdGenerator Instance
         {
             get

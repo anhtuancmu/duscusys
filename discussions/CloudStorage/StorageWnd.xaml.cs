@@ -18,38 +18,43 @@ using System.Windows.Threading;
 using Microsoft.Surface.Presentation.Controls;
 
 namespace CloudStorage
-{   
+{
     public partial class StorageWnd : SurfaceWindow
     {
-        public enum NavitionType { LevelDown, LevelUp };
+        public enum NavitionType
+        {
+            LevelDown,
+            LevelUp
+        };
 
-        public enum SortingFunction { ByTime, ByName };
+        public enum SortingFunction
+        {
+            ByTime,
+            ByName
+        };
 
         //file entries of currently viewed level
-        ObservableCollection<FileEntry> _entries = new ObservableCollection<FileEntry>();
+        private ObservableCollection<FileEntry> _entries = new ObservableCollection<FileEntry>();
+
         public ObservableCollection<FileEntry> Entries
         {
-            get
-            {
-                return _entries;
-            }
-            set
-            {
-                _entries = value;
-            }
+            get { return _entries; }
+            set { _entries = value; }
         }
 
-        NavState _navState = new NavState();
+        private NavState _navState = new NavState();
+
         public NavState NavState
         {
             get { return _navState; }
-            set {_navState = value; }
+            set { _navState = value; }
         }
-        IStorageClient _storage = null;
 
-        bool _isBusy = false;
-        bool _cancelled = false;
-        int _folderRequestId = 0;
+        private IStorageClient _storage = null;
+
+        private bool _isBusy = false;
+        private bool _cancelled = false;
+        private int _folderRequestId = 0;
 
         public struct StorageSelectionEntry
         {
@@ -60,13 +65,13 @@ namespace CloudStorage
         public List<StorageSelectionEntry> filesToAttach = null;
 
         public Action<string> fileViewCallback = null;
-        public Action<string> webViewCallback = null; 
+        public Action<string> webViewCallback = null;
 
         public StorageWnd()
         {
             InitializeComponent();
 
-            DataContext = this;            
+            DataContext = this;
         }
 
         //for external use only
@@ -74,45 +79,45 @@ namespace CloudStorage
         {
             if (IsBusy())
                 return;
-            
+
             progressInfo.Visibility = Visibility.Visible;
             Entries.Clear(); // need to clear here for the case if authentication throws exception
 
-            Action worker = ()=>
-            {                         
-                try
+            Action worker = () =>
                 {
-                    switch(storageType)
+                    try
                     {
-                        case StorageType.Dropbox:
-                            _storage = new DropStorage(webViewCallback);
-                            _navState.Reset("Dropbox");               
-                            break;
-                        case StorageType.GoogleDrive:
-                            _storage = new GDriveStorage(webViewCallback);
-                            _navState.Reset("Google Drive");                     
-                            break;
-                        default:
-                            throw new NotSupportedException();
+                        switch (storageType)
+                        {
+                            case StorageType.Dropbox:
+                                _storage = new DropStorage(webViewCallback);
+                                _navState.Reset("Dropbox");
+                                break;
+                            case StorageType.GoogleDrive:
+                                _storage = new GDriveStorage(webViewCallback);
+                                _navState.Reset("Google Drive");
+                                break;
+                            default:
+                                throw new NotSupportedException();
+                        }
+
+                        NavigateTo(_storage.RootFolder(), null, NavitionType.LevelDown, true);
                     }
-                  
-                    NavigateTo(_storage.RootFolder(), null, NavitionType.LevelDown, true);
-                }
-                catch (Exception e)
-                {
-                    downloadProgress.Visibility = Visibility.Collapsed;
-                    MessageBox.Show("Authentication error. Please try to connect again: " + e.ToString(), "Error",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                finally
-                {
-                    progressInfo.Visibility = Visibility.Collapsed;     
-                }
-            };
+                    catch (Exception e)
+                    {
+                        downloadProgress.Visibility = Visibility.Collapsed;
+                        MessageBox.Show("Authentication error. Please try to connect again: " + e.ToString(), "Error",
+                                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        progressInfo.Visibility = Visibility.Collapsed;
+                    }
+                };
 
             this.Dispatcher.BeginInvoke(worker, DispatcherPriority.Background);
         }
-   
+
         private void btnLoginDropbox_Click(object sender, RoutedEventArgs e)
         {
             if (IsBusy())
@@ -128,13 +133,13 @@ namespace CloudStorage
         }
 
         //if nav up, folderId doesn't matter
-        void NavigateTo(string folderId, string folderPathName, NavitionType navType, bool directCall)
+        private void NavigateTo(string folderId, string folderPathName, NavitionType navType, bool directCall)
         {
             if (IsBusy())
                 return;
 
             switch (navType)
-            {   
+            {
                 case NavitionType.LevelDown:
                     if (folderId == null)
                         return;
@@ -142,31 +147,31 @@ namespace CloudStorage
                     break;
                 case NavitionType.LevelUp:
                     if (_navState.LevelUp() == null)
-                        return;                        
+                        return;
                     break;
             }
 
             FetchEntries(directCall);
         }
 
-        void FetchEntries(bool directCall)
+        private void FetchEntries(bool directCall)
         {
             if (IsBusy())
                 return;
-            
+
             Entries.Clear();
-            
+
             fetchProgress.Visibility = Visibility.Visible;
 
             var worker = new Action(() =>
-            {
-                _isBusy = true;
-                _cancelled = false;
-                _storage.Children(++_folderRequestId,
-                                  _navState.CurrentFolderId,
-                                   this.Dispatcher,
-                                   addEntry);
-            });
+                {
+                    _isBusy = true;
+                    _cancelled = false;
+                    _storage.Children(++_folderRequestId,
+                                      _navState.CurrentFolderId,
+                                      this.Dispatcher,
+                                      addEntry);
+                });
 
             if (directCall)
                 worker();
@@ -174,12 +179,13 @@ namespace CloudStorage
                 new Task(worker).Start();
         }
 
-        bool addEntry(int expected, FileEntry entry, int folderRequestId)
+        private bool addEntry(int expected, FileEntry entry, int folderRequestId)
         {
             if (entry != null)
             {
                 _entries.Add(entry);
-                numFetched.Text = _entries.Count + " of " + expected + " (" + ((int)(100 * _entries.Count / expected)) + "%)";
+                numFetched.Text = _entries.Count + " of " + expected + " (" + ((int) (100*_entries.Count/expected)) +
+                                  "%)";
             }
             var doContinue = _entries.Count < expected && !_cancelled && folderRequestId == _folderRequestId;
             if (!doContinue)
@@ -194,10 +200,10 @@ namespace CloudStorage
         {
             if (IsBusy())
                 return;
-            
-            if (e.AddedItems != null && e.AddedItems.Count > 0) 
+
+            if (e.AddedItems != null && e.AddedItems.Count > 0)
             {
-                var fe = (FileEntry)e.AddedItems[0];
+                var fe = (FileEntry) e.AddedItems[0];
                 if (fe.IsFolder)
                 {
                     fileList.UnselectAll();
@@ -211,12 +217,12 @@ namespace CloudStorage
             switch (e.Key)
             {
                 case Key.Back:
-                    btnUp_Click_1(null,null);
+                    btnUp_Click_1(null, null);
                     break;
             }
         }
 
-        IEnumerable<FileEntry> SelectedEntries()
+        private IEnumerable<FileEntry> SelectedEntries()
         {
             var res = new List<FileEntry>();
             foreach (FileEntry selected in fileList.SelectedItems)
@@ -224,46 +230,50 @@ namespace CloudStorage
                 if (!selected.IsFolder)
                     res.Add(selected);
             }
-            return res;             
+            return res;
         }
 
-        bool IsBusy()
+        private bool IsBusy()
         {
             return _isBusy;
         }
 
-        void btnAttach_Click_1(object sender, RoutedEventArgs e)
+        private void btnAttach_Click_1(object sender, RoutedEventArgs e)
         {
             var entries = SelectedEntries();
-            var tempDir = TempDir(); 
+            var tempDir = TempDir();
 
             var downloaded = 0;
             filesToAttach = new List<StorageSelectionEntry>();
             downloadProgress.Visibility = Visibility.Visible;
-            foreach(var entry in entries)
+            foreach (var entry in entries)
             {
                 var pathName = System.IO.Path.Combine(tempDir, Guid.NewGuid().ToString() + entry.Title);
-                _storage.Download(entry.IdString, 
-                                 pathName,
-                                 Dispatcher,
-                                    ()=>
-                                    {
-                                        if(File.Exists(pathName))//some files are empty
-                                            filesToAttach.Add(new StorageSelectionEntry{ PathName=pathName, Title=entry.Title });
+                _storage.Download(entry.IdString,
+                                  pathName,
+                                  Dispatcher,
+                                  () =>
+                                      {
+                                          if (File.Exists(pathName)) //some files are empty
+                                              filesToAttach.Add(new StorageSelectionEntry
+                                                  {
+                                                      PathName = pathName,
+                                                      Title = entry.Title
+                                                  });
 
-                                        attachmentsProcessed.Text = downloaded + " of " + entries.Count();
-                                        if(++downloaded == entries.Count())
-                                        {
-                                            Close();                        
-                                        }
-                                    });
+                                          attachmentsProcessed.Text = downloaded + " of " + entries.Count();
+                                          if (++downloaded == entries.Count())
+                                          {
+                                              Close();
+                                          }
+                                      });
             }
         }
 
-        void fileRequestView(object sender, RoutedEventArgs e)
+        private void fileRequestView(object sender, RoutedEventArgs e)
         {
             var fec = e.OriginalSource as FileEntryControl;
-            if(fec==null)
+            if (fec == null)
                 return;
 
             var fe = fec.DataContext as FileEntry;
@@ -276,12 +286,12 @@ namespace CloudStorage
             OpenFileViewer(fe);
         }
 
-        void custSelectionEvent(object sender, RoutedEventArgs e)
+        private void custSelectionEvent(object sender, RoutedEventArgs e)
         {
             var fec = e.OriginalSource as FileEntryControl;
             if (fec == null)
                 return;
-                
+
             //invert selection
             if (fileList.SelectedItems.Contains(fec.DataContext))
             {
@@ -313,7 +323,7 @@ namespace CloudStorage
             OpenFileViewer(entries.First());
         }
 
-        void OpenFileViewer(FileEntry entry)
+        private void OpenFileViewer(FileEntry entry)
         {
             var tempDir = TempDir();
 
@@ -322,14 +332,14 @@ namespace CloudStorage
                               pathName,
                               Dispatcher,
                               () =>
-                              {
-                                  if (File.Exists(pathName))//some files are empty
-                                      fileViewCallback(pathName);
-                                  else if (entry.IsGDrive && !string.IsNullOrEmpty(entry.GdocWebUrl))
-                                  {                                      
-                                      webViewCallback(entry.GdocWebUrl);
-                                  }
-                              });            
+                                  {
+                                      if (File.Exists(pathName)) //some files are empty
+                                          fileViewCallback(pathName);
+                                      else if (entry.IsGDrive && !string.IsNullOrEmpty(entry.GdocWebUrl))
+                                      {
+                                          webViewCallback(entry.GdocWebUrl);
+                                      }
+                                  });
         }
 
         public static string TempDir()
@@ -356,12 +366,12 @@ namespace CloudStorage
             RefreshSorting();
         }
 
-        void RefreshSorting()
+        private void RefreshSorting()
         {
             if (IsBusy())
                 return;
 
-            var fn = (bool)btnSortByTime.IsChecked ? SortingFunction.ByTime : SortingFunction.ByName;
+            var fn = (bool) btnSortByTime.IsChecked ? SortingFunction.ByTime : SortingFunction.ByName;
             IOrderedEnumerable<FileEntry> ordered = null;
             switch (fn)
             {
@@ -377,7 +387,7 @@ namespace CloudStorage
             foreach (var fe in ordered)
             {
                 Entries.Add(fe);
-            }   
+            }
         }
 
         private void btnRefresh_Click_1(object sender, RoutedEventArgs e)
@@ -396,19 +406,19 @@ namespace CloudStorage
         {
             if (IsBusy())
                 return;
-           
+
             _navState.Reset(null);
             NavigateTo(_storage.RootFolder(), null, NavitionType.LevelDown, false);
         }
 
         private void btnCancelFetch_Click_1(object sender, RoutedEventArgs e)
-        {                
+        {
             _cancelled = true;
         }
 
         private void btnSelMode_Click_1(object sender, RoutedEventArgs e)
         {
-            if ((bool)btnSelMode.IsChecked)
+            if ((bool) btnSelMode.IsChecked)
             {
                 fileList.SelectionMode = SelectionMode.Multiple;
             }

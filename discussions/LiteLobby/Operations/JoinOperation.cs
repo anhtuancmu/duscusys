@@ -47,7 +47,7 @@ namespace LiteLobby.Operations
         /// <summary>
         ///   Gets or sets a lobby-room to the game that's joined.
         /// </summary>
-        [DataMember(Code = (byte)LobbyParameterKeys.LobbyId, IsOptional = true)]
+        [DataMember(Code = (byte) LobbyParameterKeys.LobbyId, IsOptional = true)]
         public string LobbyId { get; set; }
 
         #endregion

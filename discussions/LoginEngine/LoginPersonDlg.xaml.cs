@@ -22,28 +22,26 @@ namespace Discussions
     public partial class LoginPerson : Window
     {
         public Person SelectedPerson = null;
-        
-        ObservableCollection<Person> _persons = null;
+
+        private ObservableCollection<Person> _persons = null;
+
         public ObservableCollection<Person> Persons
         {
             get
             {
-                if(_persons==null)
+                if (_persons == null)
                 {
                     _persons = new ObservableCollection<Person>();
-                  
-                    foreach(var p in DbCtx.Get().Person)
+
+                    foreach (var p in DbCtx.Get().Person)
                         _persons.Add(p);
                 }
 
                 return _persons;
             }
-            set
-            {
-                _persons = value;
-            }
-        }        
-        
+            set { _persons = value; }
+        }
+
         public bool BackClicked = false;
 
         public LoginPerson(bool backAvailable)
@@ -74,5 +72,5 @@ namespace Discussions
             BackClicked = true;
             Close();
         }
-    } 
+    }
 }

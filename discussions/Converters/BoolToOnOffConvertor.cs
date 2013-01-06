@@ -17,13 +17,14 @@ namespace Discussions
             if (value == null)
                 return null;
 
-            if((bool)value)
+            if ((bool) value)
                 return "On";
             else
                 return "Off";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

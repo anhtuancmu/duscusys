@@ -31,12 +31,10 @@ namespace Lite
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-
     using Lite.Caching;
     using Lite.Events;
     using Lite.Messages;
     using Lite.Operations;
-
     using Photon.SocketServer;
 
     #endregion
@@ -110,16 +108,17 @@ namespace Lite
         /// <param name = "sendParameters">
         ///   The send Parameters.
         /// </param>
-        protected override void ExecuteOperation(LitePeer peer, OperationRequest operationRequest, SendParameters sendParameters)
+        protected override void ExecuteOperation(LitePeer peer, OperationRequest operationRequest,
+                                                 SendParameters sendParameters)
         {
             base.ExecuteOperation(peer, operationRequest, sendParameters);
 
             if (Log.IsDebugEnabled)
             {
-                Log.DebugFormat("Executing operation {0}", (OperationCode)operationRequest.OperationCode);
+                Log.DebugFormat("Executing operation {0}", (OperationCode) operationRequest.OperationCode);
             }
 
-            switch ((OperationCode)operationRequest.OperationCode)
+            switch ((OperationCode) operationRequest.OperationCode)
             {
                 case OperationCode.Join:
                     {
@@ -193,15 +192,22 @@ namespace Lite
 
                 case OperationCode.Ping:
                     {
-                        peer.SendOperationResponse(new OperationResponse { OperationCode = operationRequest.OperationCode }, sendParameters);
+                        peer.SendOperationResponse(
+                            new OperationResponse {OperationCode = operationRequest.OperationCode}, sendParameters);
                         break;
                     }
 
                 default:
                     {
-                        string message = string.Format("Unknown operation code {0}", (OperationCode)operationRequest.OperationCode);
+                        string message = string.Format("Unknown operation code {0}",
+                                                       (OperationCode) operationRequest.OperationCode);
                         peer.SendOperationResponse(
-                            new OperationResponse { OperationCode = operationRequest.OperationCode, ReturnCode = -1, DebugMessage = message }, sendParameters);
+                            new OperationResponse
+                                {
+                                    OperationCode = operationRequest.OperationCode,
+                                    ReturnCode = -1,
+                                    DebugMessage = message
+                                }, sendParameters);
 
                         if (Log.IsWarnEnabled)
                         {
@@ -248,18 +254,19 @@ namespace Lite
         /// <param name = "sendParameters">
         ///   The send Parameters.
         /// </param>
-        protected virtual void HandleGetPropertiesOperation(LitePeer peer, GetPropertiesRequest getPropertiesRequest, SendParameters sendParameters)
+        protected virtual void HandleGetPropertiesOperation(LitePeer peer, GetPropertiesRequest getPropertiesRequest,
+                                                            SendParameters sendParameters)
         {
             var response = new GetPropertiesResponse();
 
             // check if game properties should be returned
-            if ((getPropertiesRequest.PropertyType & (byte)PropertyType.Game) == (byte)PropertyType.Game)
+            if ((getPropertiesRequest.PropertyType & (byte) PropertyType.Game) == (byte) PropertyType.Game)
             {
                 response.GameProperties = this.Properties.GetProperties(getPropertiesRequest.GamePropertyKeys);
             }
 
             // check if actor properties should be returned
-            if ((getPropertiesRequest.PropertyType & (byte)PropertyType.Actor) == (byte)PropertyType.Actor)
+            if ((getPropertiesRequest.PropertyType & (byte) PropertyType.Actor) == (byte) PropertyType.Actor)
             {
                 response.ActorProperties = new Hashtable();
 
@@ -267,7 +274,8 @@ namespace Lite
                 {
                     foreach (Actor actor in this.Actors)
                     {
-                        Hashtable actorProperties = actor.Properties.GetProperties(getPropertiesRequest.ActorPropertyKeys);
+                        Hashtable actorProperties =
+                            actor.Properties.GetProperties(getPropertiesRequest.ActorPropertyKeys);
                         response.ActorProperties.Add(actor.ActorNr, actorProperties);
                     }
                 }
@@ -278,14 +286,16 @@ namespace Lite
                         Actor actor = this.Actors.GetActorByNumber(actorNumber);
                         if (actor != null)
                         {
-                            Hashtable actorProperties = actor.Properties.GetProperties(getPropertiesRequest.ActorPropertyKeys);
+                            Hashtable actorProperties =
+                                actor.Properties.GetProperties(getPropertiesRequest.ActorPropertyKeys);
                             response.ActorProperties.Add(actorNumber, actorProperties);
                         }
                     }
                 }
             }
 
-            peer.SendOperationResponse(new OperationResponse(getPropertiesRequest.OperationRequest.OperationCode, response), sendParameters);
+            peer.SendOperationResponse(
+                new OperationResponse(getPropertiesRequest.OperationRequest.OperationCode, response), sendParameters);
         }
 
         /// <summary>
@@ -305,7 +315,8 @@ namespace Lite
         /// <returns>
         ///   The newly created (joined) actor or null if the peer already joined.
         /// </returns>
-        protected virtual Actor HandleJoinOperation(LitePeer peer, JoinRequest joinRequest, SendParameters sendParameters)
+        protected virtual Actor HandleJoinOperation(LitePeer peer, JoinRequest joinRequest,
+                                                    SendParameters sendParameters)
         {
             if (this.IsDisposed)
             {
@@ -330,10 +341,10 @@ namespace Lite
                 peer.SendOperationResponse(
                     new OperationResponse
                         {
-                            OperationCode = joinRequest.OperationRequest.OperationCode, 
-                            ReturnCode = -1, 
+                            OperationCode = joinRequest.OperationRequest.OperationCode,
+                            ReturnCode = -1,
                             DebugMessage = "Peer already joined the specified game."
-                        }, 
+                        },
                     sendParameters);
                 return null;
             }
@@ -351,7 +362,7 @@ namespace Lite
             }
 
             // set operation return values and publish the response
-            var joinResponse = new JoinResponse { ActorNr = actor.ActorNr };
+            var joinResponse = new JoinResponse {ActorNr = actor.ActorNr};
 
             if (this.Properties.Count > 0)
             {
@@ -372,7 +383,8 @@ namespace Lite
                 }
             }
 
-            peer.SendOperationResponse(new OperationResponse(joinRequest.OperationRequest.OperationCode, joinResponse), sendParameters);
+            peer.SendOperationResponse(new OperationResponse(joinRequest.OperationRequest.OperationCode, joinResponse),
+                                       sendParameters);
 
             // publish join event
             this.PublishJoinEvent(peer, joinRequest);
@@ -394,12 +406,14 @@ namespace Lite
         /// <param name = "sendParameters">
         ///   The send Parameters.
         /// </param>
-        protected virtual void HandleLeaveOperation(LitePeer peer, LeaveRequest leaveRequest, SendParameters sendParameters)
+        protected virtual void HandleLeaveOperation(LitePeer peer, LeaveRequest leaveRequest,
+                                                    SendParameters sendParameters)
         {
             this.RemovePeerFromGame(peer);
-            peer.SendOperationResponse(new OperationResponse { OperationCode = leaveRequest.OperationRequest.OperationCode }, sendParameters);
-                
-                // is always reliable, so it gets a response
+            peer.SendOperationResponse(
+                new OperationResponse {OperationCode = leaveRequest.OperationRequest.OperationCode}, sendParameters);
+
+            // is always reliable, so it gets a response
         }
 
         /// <summary>
@@ -414,7 +428,8 @@ namespace Lite
         /// <param name = "sendParameters">
         ///   The send Parameters.
         /// </param>
-        protected virtual void HandleRaiseEventOperation(LitePeer peer, RaiseEventRequest raiseEventRequest, SendParameters sendParameters)
+        protected virtual void HandleRaiseEventOperation(LitePeer peer, RaiseEventRequest raiseEventRequest,
+                                                         SendParameters sendParameters)
         {
             // get the actor who send the operation request
             Actor actor = this.GetActorByPeer(peer);
@@ -425,10 +440,10 @@ namespace Lite
 
             var customEvent = new CustomEvent(actor.ActorNr, raiseEventRequest.EvCode, raiseEventRequest.Data);
 
-            if (raiseEventRequest.Cache == (byte)CacheOperation.RemoveFromRoomCache)
+            if (raiseEventRequest.Cache == (byte) CacheOperation.RemoveFromRoomCache)
             {
                 this.roomEventCache.RemoveEvents(raiseEventRequest);
-                var response = new OperationResponse(raiseEventRequest.OperationRequest.OperationCode) { ReturnCode = 0 };
+                var response = new OperationResponse(raiseEventRequest.OperationRequest.OperationCode) {ReturnCode = 0};
                 peer.SendOperationResponse(response, sendParameters);
                 return;
             }
@@ -445,32 +460,32 @@ namespace Lite
 
             switch (raiseEventRequest.ReceiverGroup)
             {
-                case (byte)ReceiverGroup.All:
+                case (byte) ReceiverGroup.All:
                     {
                         recipients = this.Actors;
 
-                        if (raiseEventRequest.Cache == (byte)CacheOperation.AddToRoomCache)
+                        if (raiseEventRequest.Cache == (byte) CacheOperation.AddToRoomCache)
                         {
                             customEvent.Cache = raiseEventRequest.Cache;
                             this.roomEventCache.AddEvent(customEvent);
                         }
-                        else if (raiseEventRequest.Cache == (byte)CacheOperation.AddToRoomCacheGlobal)
+                        else if (raiseEventRequest.Cache == (byte) CacheOperation.AddToRoomCacheGlobal)
                         {
                             customEvent.ActorNr = 0;
                             customEvent.Cache = raiseEventRequest.Cache;
                             this.roomEventCache.AddEvent(customEvent);
                         }
-                        else if (raiseEventRequest.Cache != (byte)CacheOperation.DoNotCache)
+                        else if (raiseEventRequest.Cache != (byte) CacheOperation.DoNotCache)
                         {
                             if (!this.UpdateEventCache(actor, raiseEventRequest, raiseEventRequest.EvCode))
                             {
                                 peer.SendOperationResponse(
                                     new OperationResponse
                                         {
-                                            OperationCode = raiseEventRequest.OperationRequest.OperationCode, 
-                                            ReturnCode = -1, 
+                                            OperationCode = raiseEventRequest.OperationRequest.OperationCode,
+                                            ReturnCode = -1,
                                             DebugMessage = "Invalid cache operation " + raiseEventRequest.Cache
-                                        }, 
+                                        },
                                     sendParameters);
                                 return;
                             }
@@ -481,32 +496,32 @@ namespace Lite
                         break;
                     }
 
-                case (byte)ReceiverGroup.Others:
+                case (byte) ReceiverGroup.Others:
                     {
                         recipients = this.Actors.GetExcludedList(actor);
 
-                        if (raiseEventRequest.Cache == (byte)CacheOperation.AddToRoomCache)
+                        if (raiseEventRequest.Cache == (byte) CacheOperation.AddToRoomCache)
                         {
                             customEvent.Cache = raiseEventRequest.Cache;
                             this.roomEventCache.AddEvent(customEvent);
                         }
-                        else if (raiseEventRequest.Cache == (byte)CacheOperation.AddToRoomCacheGlobal)
+                        else if (raiseEventRequest.Cache == (byte) CacheOperation.AddToRoomCacheGlobal)
                         {
                             customEvent.ActorNr = 0;
                             customEvent.Cache = raiseEventRequest.Cache;
                             this.roomEventCache.AddEvent(customEvent);
                         }
-                        else if (raiseEventRequest.Cache != (byte)CacheOperation.DoNotCache)
+                        else if (raiseEventRequest.Cache != (byte) CacheOperation.DoNotCache)
                         {
                             if (!this.UpdateEventCache(actor, raiseEventRequest, raiseEventRequest.EvCode))
                             {
                                 peer.SendOperationResponse(
                                     new OperationResponse
                                         {
-                                            OperationCode = raiseEventRequest.OperationRequest.OperationCode, 
-                                            ReturnCode = -1, 
+                                            OperationCode = raiseEventRequest.OperationRequest.OperationCode,
+                                            ReturnCode = -1,
                                             DebugMessage = "Invalid cache operation " + raiseEventRequest.Cache
-                                        }, 
+                                        },
                                     sendParameters);
                                 return;
                             }
@@ -517,9 +532,9 @@ namespace Lite
                         break;
                     }
 
-                case (byte)ReceiverGroup.MasterClient:
+                case (byte) ReceiverGroup.MasterClient:
                     {
-                        recipients = new[] { this.Actors[0] };
+                        recipients = new[] {this.Actors[0]};
                         break;
                     }
 
@@ -528,10 +543,10 @@ namespace Lite
                         peer.SendOperationResponse(
                             new OperationResponse
                                 {
-                                    OperationCode = raiseEventRequest.OperationRequest.OperationCode, 
-                                    ReturnCode = -1, 
+                                    OperationCode = raiseEventRequest.OperationRequest.OperationCode,
+                                    ReturnCode = -1,
                                     DebugMessage = "Invalid ReceiverGroup " + raiseEventRequest.ReceiverGroup
-                                }, 
+                                },
                             sendParameters);
                         return;
                     }
@@ -552,7 +567,8 @@ namespace Lite
         /// <param name = "sendParameters">
         ///   The send Parameters.
         /// </param>
-        protected virtual void HandleSetPropertiesOperation(LitePeer peer, SetPropertiesRequest setPropertiesRequest, SendParameters sendParameters)
+        protected virtual void HandleSetPropertiesOperation(LitePeer peer, SetPropertiesRequest setPropertiesRequest,
+                                                            SendParameters sendParameters)
         {
             if (setPropertiesRequest.ActorNumber > 0)
             {
@@ -562,10 +578,11 @@ namespace Lite
                     peer.SendOperationResponse(
                         new OperationResponse
                             {
-                                OperationCode = setPropertiesRequest.OperationRequest.OperationCode, 
-                                ReturnCode = -1, 
-                                DebugMessage = string.Format("Actor with number {0} not found.", setPropertiesRequest.ActorNumber)
-                            }, 
+                                OperationCode = setPropertiesRequest.OperationRequest.OperationCode,
+                                ReturnCode = -1,
+                                DebugMessage =
+                                    string.Format("Actor with number {0} not found.", setPropertiesRequest.ActorNumber)
+                            },
                         sendParameters);
                     return;
                 }
@@ -577,7 +594,9 @@ namespace Lite
                 this.Properties.SetProperties(setPropertiesRequest.Properties);
             }
 
-            peer.SendOperationResponse(new OperationResponse { OperationCode = setPropertiesRequest.OperationRequest.OperationCode }, sendParameters);
+            peer.SendOperationResponse(
+                new OperationResponse {OperationCode = setPropertiesRequest.OperationRequest.OperationCode},
+                sendParameters);
 
             // if the optional paramter Broadcast is set a EvPropertiesChanged
             // event will be send to room actors
@@ -587,7 +606,8 @@ namespace Lite
                 IEnumerable<Actor> recipients = this.Actors.GetExcludedList(actor);
                 var propertiesChangedEvent = new PropertiesChangedEvent(actor.ActorNr)
                     {
-                       TargetActorNumber = setPropertiesRequest.ActorNumber, Properties = setPropertiesRequest.Properties 
+                        TargetActorNumber = setPropertiesRequest.ActorNumber,
+                        Properties = setPropertiesRequest.Properties
                     };
 
                 this.PublishEvent(propertiesChangedEvent, recipients, sendParameters);
@@ -609,10 +629,10 @@ namespace Lite
                 Log.DebugFormat("ProcessMessage {0}", message.Action);
             }
 
-            switch ((GameMessageCodes)message.Action)
+            switch ((GameMessageCodes) message.Action)
             {
                 case GameMessageCodes.RemovePeerFromGame:
-                    this.RemovePeerFromGame((LitePeer)message.Message);
+                    this.RemovePeerFromGame((LitePeer) message.Message);
                     break;
             }
         }
@@ -794,7 +814,7 @@ namespace Lite
         {
             switch (raiseEventRequest.Cache)
             {
-                case (byte)CacheOperation.MergeCache:
+                case (byte) CacheOperation.MergeCache:
                     {
                         EventCache eventCache;
                         if (!this.cachedEvents.TryGetValue(actor.ActorNr, out eventCache))
@@ -838,7 +858,7 @@ namespace Lite
                         return true;
                     }
 
-                case (byte)CacheOperation.RemoveCache:
+                case (byte) CacheOperation.RemoveCache:
                     {
                         EventCache eventCache;
                         if (!this.cachedEvents.TryGetValue(actor.ActorNr, out eventCache))
@@ -850,7 +870,7 @@ namespace Lite
                         return true;
                     }
 
-                case (byte)CacheOperation.ReplaceCache:
+                case (byte) CacheOperation.ReplaceCache:
                     {
                         EventCache eventCache;
                         if (!this.cachedEvents.TryGetValue(actor.ActorNr, out eventCache))
@@ -868,7 +888,7 @@ namespace Lite
 
                         return true;
                     }
-            
+
                 default:
                     {
                         return false;

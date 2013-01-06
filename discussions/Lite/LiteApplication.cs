@@ -12,14 +12,10 @@
 namespace Lite
 {
     using System.IO;
-    
     using ExitGames.Logging;
     using ExitGames.Logging.Log4Net;
-
     using Lite.Diagnostics;
-
     using log4net.Config;
-
     using Photon.SocketServer;
     using Photon.SocketServer.Diagnostics;
 
@@ -59,7 +55,7 @@ namespace Lite
             }
 
             // counters for the photon dashboard
-            CounterPublisher.DefaultInstance.AddStaticCounterClass(typeof(Counter), "Lite");
+            CounterPublisher.DefaultInstance.AddStaticCounterClass(typeof (Counter), "Lite");
 
             Protocol.AllowRawCustomValues = true;
         }

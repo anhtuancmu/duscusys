@@ -7,7 +7,7 @@ using iTextSharp.text;
 
 namespace Reporter.pdf
 {
-    class PdfTools
+    internal class PdfTools
     {
         public static Font HeaderFont = FontFactory.GetFont("Segoe UI Light", 30, Font.NORMAL, BaseColor.WHITE);
         public static Font SubHeaderFont = FontFactory.GetFont("Segoe UI Light", 20, Font.NORMAL, BaseColor.WHITE);
@@ -73,21 +73,23 @@ namespace Reporter.pdf
         public static PdfPCell ColoredTxtCell(string content, BaseColor color = null)
         {
             PdfPCell c = new PdfPCell(new Phrase(content));
-       //     c.Border = PdfPCell.BOTTOM_BORDER | PdfPCell.TOP_BORDER | PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
+            //     c.Border = PdfPCell.BOTTOM_BORDER | PdfPCell.TOP_BORDER | PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
             c.Padding = 4;
             c.BorderWidth = 1;
             c.BorderColor = new BaseColor(System.Drawing.Color.Transparent);
             _getColoredCell(c, color);
             return c;
         }
+
         public static PdfPCell TxtCell(string content)
         {
             PdfPCell c = new PdfPCell(new Phrase(content));
             c.Padding = 4;
-            c.BorderWidth = 1;           
+            c.BorderWidth = 1;
             c.BorderColor = new BaseColor(System.Drawing.Color.Transparent);
             return c;
         }
+
         public static PdfPCell ColoredImgCell(Image img, BaseColor color = null)
         {
             PdfPCell c = new PdfPCell(img);
@@ -97,6 +99,7 @@ namespace Reporter.pdf
             _getColoredCell(c, color);
             return c;
         }
+
         public static PdfPCell _getColoredCell(PdfPCell c, BaseColor color = null)
         {
             if (color == null)

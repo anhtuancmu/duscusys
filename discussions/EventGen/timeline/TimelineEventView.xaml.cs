@@ -16,14 +16,14 @@ namespace EventGen.timeline
 {
     public partial class TimelineEventView : UserControl
     {
-        double recentMouseX;
-        double recentMouseY;
+        private double recentMouseX;
+        private double recentMouseY;
 
-        double _timelineBottomY;
+        private double _timelineBottomY;
 
-        TimelineView _timeline;
+        private TimelineView _timeline;
 
-        EventMoveCommand _currentMoveCommand = null;
+        private EventMoveCommand _currentMoveCommand = null;
 
         public TimelineEventView(Canvas scene, double timelineBottomY, TimelineEvent te, TimelineView timeline)
         {
@@ -31,7 +31,7 @@ namespace EventGen.timeline
 
             _timeline = timeline;
 
-            _timelineBottomY = timelineBottomY; 
+            _timelineBottomY = timelineBottomY;
 
             DataContext = te;
             te.view = this;
@@ -55,7 +55,7 @@ namespace EventGen.timeline
         {
             var totalHeight = te.StickHeight + border.Height;
             Canvas.SetTop(this, _timelineBottomY - totalHeight);
-            Canvas.SetLeft(this, TimeScale.TimeToPosition(te.Span, _timeline.Zoom));                      
+            Canvas.SetLeft(this, TimeScale.TimeToPosition(te.Span, _timeline.Zoom));
         }
 
         private void TimelineEventView_MouseDown_1(object sender, MouseButtonEventArgs e)
@@ -87,8 +87,8 @@ namespace EventGen.timeline
 
             //change model's time
             var pos = e.MouseDevice.GetPosition(_timeline.Scene);
-            var xDelta  = pos.X - recentMouseX;
-            var yDelta  = pos.Y - recentMouseY;
+            var xDelta = pos.X - recentMouseX;
+            var yDelta = pos.Y - recentMouseY;
             recentMouseX = pos.X;
             recentMouseY = pos.Y;
 
@@ -111,7 +111,7 @@ namespace EventGen.timeline
 
         private void TimelineEventView_MouseUp_1(object sender, MouseButtonEventArgs e)
         {
-            if (_currentMoveCommand!=null && _currentMoveCommand.EndCommand())
+            if (_currentMoveCommand != null && _currentMoveCommand.EndCommand())
             {
                 CommandManager.Instance.RegisterDoneCommand(_currentMoveCommand);
             }

@@ -16,10 +16,11 @@ namespace Discussions
             if (value == null)
                 return null;
 
-            return new SolidColorBrush(Utils2.IntToColor((int)value));   
+            return new SolidColorBrush(Utils2.IntToColor((int) value));
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

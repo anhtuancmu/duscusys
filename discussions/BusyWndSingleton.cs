@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Discussions
 {
-    public class BusyWndSingleton 
+    public class BusyWndSingleton
     {
-        static BusyWindow wnd = null;
+        private static BusyWindow wnd = null;
 
         public static void Show(string msg = null)
         {
@@ -32,7 +32,7 @@ namespace Discussions
         public static void Hide()
         {
             if (wnd != null)
-            {                
+            {
                 wnd.Close();
                 wnd = null;
             }

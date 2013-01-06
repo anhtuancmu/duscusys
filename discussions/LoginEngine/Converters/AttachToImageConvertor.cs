@@ -11,17 +11,17 @@ namespace Discussions
     public class AttachToImageConvertor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {            
+        {
             if (value == null)
                 return null;
 
-            return MiniAttachmentManager.GetAttachmentBitmap2(value as Attachment);                            
+            return MiniAttachmentManager.GetAttachmentBitmap2(value as Attachment);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }
-
     }
 }

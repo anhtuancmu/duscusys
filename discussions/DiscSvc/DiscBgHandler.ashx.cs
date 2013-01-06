@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using Discussions;
 using Discussions.DbModel;
@@ -18,11 +16,11 @@ namespace DiscSvc
         {
             context.Response.ContentType = "text/html";
             var discId = -1;
-            if (int.TryParse(context.Request.QueryString["id"], out discId) || discId==-1)
+            if (int.TryParse(context.Request.QueryString["id"], out discId) || discId == -1)
             {
                 DiscCtx ctx = new DiscCtx(ConfigManager.ConnStr);
                 var disc = ctx.Discussion.FirstOrDefault(d0 => d0.Id == discId);
-                if (disc!=null)
+                if (disc != null)
                     context.Response.Write(disc.HtmlBackground);
             }
             else
@@ -33,10 +31,7 @@ namespace DiscSvc
 
         public bool IsReusable
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
     }
 }

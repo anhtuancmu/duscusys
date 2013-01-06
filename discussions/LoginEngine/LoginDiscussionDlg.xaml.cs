@@ -21,12 +21,13 @@ namespace Discussions
     /// </summary>
     public partial class LoginDiscussionDlg : Window
     {
-        static Discussion _dummyDisc = null;
+        private static Discussion _dummyDisc = null;
+
         public static Discussion DummyDiscussion
         {
             get
             {
-                if (_dummyDisc==null)
+                if (_dummyDisc == null)
                 {
                     _dummyDisc = new Discussion();
                     _dummyDisc.Subject = "No discussion(moderator only)";
@@ -34,15 +35,16 @@ namespace Discussions
 
                 return _dummyDisc;
             }
-        }        
-               
+        }
+
         public Discussion SelectedDiscussion = null;
         public bool BackClicked = false;
 
-        Person _selectedPerson = null;
+        private Person _selectedPerson = null;
 
-        ObservableCollection<Discussion> _discussions = null;
-        public ObservableCollection<Discussion> Discussions 
+        private ObservableCollection<Discussion> _discussions = null;
+
+        public ObservableCollection<Discussion> Discussions
         {
             get
             {
@@ -55,9 +57,9 @@ namespace Discussions
                     {
                         DiscCtx ctx = DbCtx.Get();
                         IQueryable<Discussion> myDiscussions =
-                                        (from t in ctx.Topic
-                                         where t.Person.Any(p0 => p0.Id == _selectedPerson.Id)
-                                         select t.Discussion).Distinct();
+                            (from t in ctx.Topic
+                             where t.Person.Any(p0 => p0.Id == _selectedPerson.Id)
+                             select t.Discussion).Distinct();
 
                         foreach (var d in myDiscussions)
                             _discussions.Add(d);
@@ -78,12 +80,9 @@ namespace Discussions
 
                 return _discussions;
             }
-            set
-            {
-                _discussions = value;
-            }
-        }   
-        
+            set { _discussions = value; }
+        }
+
         public LoginDiscussionDlg(Person selectedPerson)
         {
             _selectedPerson = selectedPerson;
@@ -94,7 +93,7 @@ namespace Discussions
 
             SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);
 
-            if (selectedPerson!=null)
+            if (selectedPerson != null)
                 decorations.SetGreetingName(selectedPerson.Name);
         }
 

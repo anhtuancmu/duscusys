@@ -13,14 +13,14 @@ using System.Windows.Shapes;
 
 namespace Discussions
 {
-	/// <summary>
-	/// Interaction logic for SessionSelectItem.xaml
-	/// </summary>
-	public partial class SessionSelectItem : UserControl
-	{
-		public SessionSelectItem()
-		{
-			this.InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for SessionSelectItem.xaml
+    /// </summary>
+    public partial class SessionSelectItem : UserControl
+    {
+        public SessionSelectItem()
+        {
+            this.InitializeComponent();
+        }
+    }
 }

@@ -7,12 +7,12 @@ namespace DistributedEditor
 {
     public class ClientCluster : ClientLinkable
     {
-        List<ClientClusterable> _badges = new List<ClientClusterable>();
+        private List<ClientClusterable> _badges = new List<ClientClusterable>();
 
         public ClientCluster(int id, BoundsProvider boundsProvider) :
             base(id, boundsProvider)
-        {            
-        }        
+        {
+        }
 
         public bool IsEmpty()
         {

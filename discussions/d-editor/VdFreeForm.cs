@@ -20,29 +20,29 @@ namespace DistributedEditor
     {
         public const double MIN_SIZE = 30;
 
-        const double BORDER_THICK = 50;
+        private const double BORDER_THICK = 50;
 
-        DrawingGroup drawGrp;
-        StrokeCollection _strokes = null;
+        private DrawingGroup drawGrp;
+        private StrokeCollection _strokes = null;
 
-        Image img;
-        Border manipulationBorder;
+        private Image img;
+        private Border manipulationBorder;
 
         private Canvas scene;
 
-        Rect _bounds;
+        private Rect _bounds;
 
-        Color _clr;
+        private Color _clr;
 
         //only send strokes once (efficiency)
-        bool strokesSent = false;
+        private bool strokesSent = false;
         public bool locallyJustCreated = false;
 
-        System.Windows.Shapes.Rectangle blMark;
-        System.Windows.Shapes.Rectangle tlMark;
-        System.Windows.Shapes.Rectangle trMark;
-        System.Windows.Shapes.Rectangle brMark;
-        System.Windows.Shapes.Rectangle cMark;
+        private System.Windows.Shapes.Rectangle blMark;
+        private System.Windows.Shapes.Rectangle tlMark;
+        private System.Windows.Shapes.Rectangle trMark;
+        private System.Windows.Shapes.Rectangle brMark;
+        private System.Windows.Shapes.Rectangle cMark;
 
         public VdFreeForm(int shapeId, int owner) :
             base(owner, shapeId)
@@ -58,13 +58,13 @@ namespace DistributedEditor
         {
             _bounds = bounds;
 
-            _strokes = strokes.Clone();    
+            _strokes = strokes.Clone();
             foreach (Stroke strk in strokes)
-            {                
-                var brush = new SolidColorBrush(strk.DrawingAttributes.Color);             
-                drawGrp.Children.Add(  new GeometryDrawing( brush, null, strk.GetGeometry())  );
+            {
+                var brush = new SolidColorBrush(strk.DrawingAttributes.Color);
+                drawGrp.Children.Add(new GeometryDrawing(brush, null, strk.GetGeometry()));
             }
-         
+
             SetMarkers();
             SetBounds();
         }
@@ -90,7 +90,7 @@ namespace DistributedEditor
             return _bounds;
         }
 
-        void init()
+        private void init()
         {
             drawGrp = new DrawingGroup();
 
@@ -112,16 +112,16 @@ namespace DistributedEditor
             cMark.Tag = this;
         }
 
-        void HideMarkers()
+        private void HideMarkers()
         {
             blMark.Visibility = Visibility.Hidden;
             tlMark.Visibility = Visibility.Hidden;
             trMark.Visibility = Visibility.Hidden;
             brMark.Visibility = Visibility.Hidden;
-            cMark.Visibility  = Visibility.Hidden;
+            cMark.Visibility = Visibility.Hidden;
         }
 
-        void ShowMarkers()
+        private void ShowMarkers()
         {
             blMark.Visibility = Visibility.Visible;
             tlMark.Visibility = Visibility.Visible;
@@ -130,14 +130,14 @@ namespace DistributedEditor
             cMark.Visibility = Visibility.Visible;
         }
 
-        void SetMarkers()
+        private void SetMarkers()
         {
             ShapeUtils.SetMarker(blMark, _bounds.Left, _bounds.Bottom);
             ShapeUtils.SetMarker(tlMark, _bounds.Left, _bounds.Top);
             ShapeUtils.SetMarker(trMark, _bounds.Right, _bounds.Top);
             ShapeUtils.SetMarker(brMark, _bounds.Right, _bounds.Bottom);
-            ShapeUtils.SetMarker(cMark, (_bounds.Left + _bounds.Right) / 2,
-                                        (_bounds.Top + _bounds.Bottom) / 2);
+            ShapeUtils.SetMarker(cMark, (_bounds.Left + _bounds.Right)/2,
+                                 (_bounds.Top + _bounds.Bottom)/2);
         }
 
         public void Hide()
@@ -151,7 +151,7 @@ namespace DistributedEditor
         {
             _cursorView.Visibility = Visibility.Visible;
             img.Visibility = Visibility.Visible;
-            ShowMarkers();          
+            ShowMarkers();
         }
 
         public bool IsVisible()
@@ -222,7 +222,7 @@ namespace DistributedEditor
         public PointApplyResult _applyCurrentPoint(Point p, ShapeUtils.RectSide side)
         {
             var res = PointApplyResult.None;
-            
+
             double dx = p.X - CurrentPoint.X;
             double dy = p.Y - CurrentPoint.Y;
 
@@ -245,7 +245,7 @@ namespace DistributedEditor
             return res;
         }
 
-        void HandleMove(double deltaX, double deltaY)
+        private void HandleMove(double deltaX, double deltaY)
         {
             if (scene == null)
                 return;
@@ -272,7 +272,7 @@ namespace DistributedEditor
 
             e.Handled = true;
 
-            base.ManipulationStarting(sender, e);       
+            base.ManipulationStarting(sender, e);
         }
 
         public void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
@@ -284,16 +284,16 @@ namespace DistributedEditor
             e.Handled = true;
         }
 
-        void updateUserCursor()
+        private void updateUserCursor()
         {
             Canvas.SetLeft(_cursorView, _bounds.X - 50);
-            Canvas.SetTop(_cursorView,  _bounds.Y - 50);
+            Canvas.SetTop(_cursorView, _bounds.Y - 50);
         }
 
-        void SetBounds()
+        private void SetBounds()
         {
-            updateUserCursor();            
-            img.Width  = _bounds.Width;
+            updateUserCursor();
+            img.Width = _bounds.Width;
             img.Height = _bounds.Height;
             //Canvas.SetLeft(img, _bounds.Left);
             //Canvas.SetTop(img, _bounds.Top);
@@ -301,29 +301,29 @@ namespace DistributedEditor
             Canvas.SetTop(manipulationBorder, _bounds.Top - BORDER_THICK);
         }
 
-        void HandleResizeMultiplicative(double scaleX, double scaleY)
+        private void HandleResizeMultiplicative(double scaleX, double scaleY)
         {
-            double newWidth  = _bounds.Width;
+            double newWidth = _bounds.Width;
             double newHeight = _bounds.Height;
 
-            newWidth  *= scaleX;
+            newWidth *= scaleX;
             newHeight *= scaleY;
 
             if (newWidth < MIN_SIZE && newHeight < MIN_SIZE)
                 return;
 
-            double cx = (_bounds.Left + _bounds.Right) / 2;
-            double cy = (_bounds.Top + _bounds.Bottom) / 2;
+            double cx = (_bounds.Left + _bounds.Right)/2;
+            double cy = (_bounds.Top + _bounds.Bottom)/2;
 
-            _bounds.X = cx - newWidth / 2;
+            _bounds.X = cx - newWidth/2;
             _bounds.Width = newWidth;
-            _bounds.Y = cy - newHeight / 2;
+            _bounds.Y = cy - newHeight/2;
             _bounds.Height = newHeight;
 
             SetBounds();
         }
 
-        void HandleResize(double deltaX, double deltaY, ShapeUtils.RectSide side)
+        private void HandleResize(double deltaX, double deltaY, ShapeUtils.RectSide side)
         {
             var bounds = _bounds;
 
@@ -354,12 +354,12 @@ namespace DistributedEditor
                         bounds.Height += deltaY;
                         break;
                     case ShapeUtils.RectSide.TwoSided:
-                        double cx = (bounds.Left + bounds.Right) / 2;
-                        double cy = (bounds.Top + bounds.Bottom) / 2;
-                        bounds.Width += deltaX / 2;
-                        bounds.Height += deltaY / 2;
-                        bounds.X = cx - bounds.Width / 2;
-                        bounds.Y = cy - bounds.Height / 2;
+                        double cx = (bounds.Left + bounds.Right)/2;
+                        double cy = (bounds.Top + bounds.Bottom)/2;
+                        bounds.Width += deltaX/2;
+                        bounds.Height += deltaY/2;
+                        bounds.X = cx - bounds.Width/2;
+                        bounds.Y = cy - bounds.Height/2;
                         break;
                 }
             }
@@ -392,7 +392,7 @@ namespace DistributedEditor
                                   Id(),
                                   isfData,
                                   null,
-                                  new double[] { _bounds.X, _bounds.Y, _bounds.Width, _bounds.Height },
+                                  new double[] {_bounds.X, _bounds.Y, _bounds.Width, _bounds.Height},
                                   topicId);
         }
 
@@ -400,9 +400,9 @@ namespace DistributedEditor
         {
             _bounds.X = st.doubles[0];
             _bounds.Y = st.doubles[1];
-            _bounds.Width  = st.doubles[2];
+            _bounds.Width = st.doubles[2];
             _bounds.Height = st.doubles[3];
-           
+
             if (st.bytes != null)
             {
                 var s = new MemoryStream();
@@ -416,12 +416,12 @@ namespace DistributedEditor
             SetMarkers();
         }
 
-        void initImg()
+        private void initImg()
         {
             if (img == null)
             {
-                img = new Image();                  
-                img.Source = new DrawingImage(drawGrp);                
+                img = new Image();
+                img.Source = new DrawingImage(drawGrp);
                 img.Effect = ShapeUtils.ShadowProvider();
                 img.Tag = this;
 
@@ -448,7 +448,7 @@ namespace DistributedEditor
                 c.Children.Add(manipulationBorder);
 
                 Canvas.SetLeft(manipulationBorder, _bounds.X);
-                Canvas.SetTop(manipulationBorder,  _bounds.Y);
+                Canvas.SetTop(manipulationBorder, _bounds.Y);
             }
 
             if (!c.Children.Contains(blMark))
@@ -467,8 +467,8 @@ namespace DistributedEditor
         {
             scene = null;
 
-           // c.Children.Remove(img);
-            c.Children.Remove(manipulationBorder);            
+            // c.Children.Remove(img);
+            c.Children.Remove(manipulationBorder);
 
             c.Children.Remove(blMark);
             c.Children.Remove(tlMark);
@@ -489,8 +489,8 @@ namespace DistributedEditor
         {
             base.SetFocus();
             ShowMarkers();
-            manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Gray);            
-           // manipulationBorder.Opacity = 0.5;
+            manipulationBorder.BorderBrush = new SolidColorBrush(Colors.Gray);
+            // manipulationBorder.Opacity = 0.5;
         }
 
         public override void RemoveFocus()
@@ -513,7 +513,7 @@ namespace DistributedEditor
             Canvas.SetZIndex(tlMark, z + 2);
             Canvas.SetZIndex(trMark, z + 3);
             Canvas.SetZIndex(brMark, z + 4);
-            Canvas.SetZIndex(cMark,  z + 5);
+            Canvas.SetZIndex(cMark, z + 5);
         }
 
         public object GetShape()
@@ -530,14 +530,14 @@ namespace DistributedEditor
         }
 
         public double distToFigure(Point from)
-        {                                    
+        {
             var d1 = ShapeUtils.Dist(_bounds.TopLeft, from);
             var d2 = ShapeUtils.Dist(_bounds.TopRight, from);
             var d3 = ShapeUtils.Dist(_bounds.BottomLeft, from);
             var d4 = ShapeUtils.Dist(_bounds.BottomRight, from);
 
-            var cx = (_bounds.Left + _bounds.Right) / 2;
-            var cy = (_bounds.Top + _bounds.Bottom) / 2;
+            var cx = (_bounds.Left + _bounds.Right)/2;
+            var cy = (_bounds.Top + _bounds.Bottom)/2;
             var d5 = ShapeUtils.Dist(new Point(cx, cy), from);
 
             return Math.Min(ShapeUtils.Min(d1, d2, d3, d4), d5);

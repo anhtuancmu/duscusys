@@ -12,7 +12,6 @@ namespace LiteLobby
     #region using directives
 
     using Lite;
-
     using Photon.SocketServer;
 
     #endregion

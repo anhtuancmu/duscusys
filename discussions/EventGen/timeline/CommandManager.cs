@@ -8,7 +8,8 @@ namespace EventGen.timeline
     //keeps history of timeline commands and manages undo/redo operations
     public class CommandManager
     {
-        static CommandManager _inst = null;
+        private static CommandManager _inst = null;
+
         public static CommandManager Instance
         {
             get
@@ -18,29 +19,29 @@ namespace EventGen.timeline
                 return _inst;
             }
         }
-                      
+
         public const int HistoryLength = 25;
-        List<ICommand> _history = new List<ICommand>(HistoryLength);
-        List<ICommand> _undoHistory = new List<ICommand>(HistoryLength);
+        private List<ICommand> _history = new List<ICommand>(HistoryLength);
+        private List<ICommand> _undoHistory = new List<ICommand>(HistoryLength);
 
         public void RegisterDoneCommand(ICommand cmd)
         {
-            registerCommand(cmd, _history);           
+            registerCommand(cmd, _history);
         }
 
-        void registerUndoneCommand(ICommand cmd)
+        private void registerUndoneCommand(ICommand cmd)
         {
             registerCommand(cmd, _undoHistory);
         }
 
-        void registerCommand(ICommand cmd, List<ICommand>  hist)
+        private void registerCommand(ICommand cmd, List<ICommand> hist)
         {
             if (hist.Count() == HistoryLength)
-                hist.RemoveAt(0);//remove oldest
+                hist.RemoveAt(0); //remove oldest
             hist.Add(cmd);
         }
 
-        ICommand popRecentCommand(List<ICommand> hist)
+        private ICommand popRecentCommand(List<ICommand> hist)
         {
             if (hist.Count() > 0)
             {
@@ -54,7 +55,7 @@ namespace EventGen.timeline
         public void Undo()
         {
             var recentCmd = popRecentCommand(_history);
-            if (recentCmd!=null)
+            if (recentCmd != null)
             {
                 recentCmd.ToUndone();
                 registerUndoneCommand(recentCmd);

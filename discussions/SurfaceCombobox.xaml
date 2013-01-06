@@ -1,25 +1,27 @@
 ﻿<UserControl x:Class="Discussions.SurfaceCombobox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" d:DesignWidth="468" xmlns:my="http://schemas.microsoft.com/surface/2008" Height="305">
     <Grid Margin="0,0,0,0" x:Name="root">
-    	<Grid.ColumnDefinitions>
-    		<ColumnDefinition/>
-    		<ColumnDefinition Width="Auto" MinWidth="46"/>
-    	</Grid.ColumnDefinitions>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="Auto" MinHeight="48"/>
-    		<RowDefinition/>
-    	</Grid.RowDefinitions>
-        <my:SurfaceTextBox IsReadOnly="True" Text="{Binding ElementName=lstBxChoices, Path=SelectedItem.Name}"                           
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" MinWidth="46" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="48" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <my:SurfaceTextBox IsReadOnly="True" Text="{Binding ElementName=lstBxChoices, Path=SelectedItem.Name}"
                            TextWrapping="Wrap" Name="txtBxSelected" d:LayoutOverrides="Height" MinWidth="351" />
-        <my:SurfaceButton x:Name="btnSelect" Content="..." Grid.Column="1" 
-                          HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnSelect_Click_1" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="1,1,0,1" Width="45" />
-        <my:SurfaceListBox x:Name="lstBxChoices" Grid.Row="1" Visibility="Hidden" SelectionChanged="lstBxChoices_SelectionChanged"                              
-                             PreviewMouseLeftButtonUp="lstBxChoices_MouseLeftButtonUp"
-                             PreviewTouchUp="lstBxChoices_TouchUp"
-                           />
+        <my:SurfaceButton x:Name="btnSelect" Content="..." Grid.Column="1"
+                          HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                          Click="btnSelect_Click_1" d:LayoutOverrides="Height" HorizontalAlignment="Left"
+                          Margin="1,1,0,1" Width="45" />
+        <my:SurfaceListBox x:Name="lstBxChoices" Grid.Row="1" Visibility="Hidden"
+                           SelectionChanged="lstBxChoices_SelectionChanged"
+                           PreviewMouseLeftButtonUp="lstBxChoices_MouseLeftButtonUp"
+                           PreviewTouchUp="lstBxChoices_TouchUp" />
     </Grid>
 </UserControl>

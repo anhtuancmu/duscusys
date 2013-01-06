@@ -21,10 +21,10 @@ using Discussions.model;
 using System.Data;
 using Discussions.rt;
 
-namespace Discussions 
+namespace Discussions
 {
     public partial class DiscussionAutoCreatorWnd : SurfaceWindow
-    {    
+    {
         public DiscussionAutoCreatorWnd()
         {
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace Discussions
             lstDiscussions.ItemsSource = CtxSingleton.Get().Discussion;
         }
 
-        Tuple<Discussion, Discussion> GetTemplates()
+        private Tuple<Discussion, Discussion> GetTemplates()
         {
             if (lstDiscussions.SelectedItems.Count != 2)
             {
@@ -42,8 +42,8 @@ namespace Discussions
             }
             else
             {
-                return new Tuple<Discussion, Discussion>((Discussion)lstDiscussions.SelectedItems[0],
-                                                         (Discussion)lstDiscussions.SelectedItems[1]);
+                return new Tuple<Discussion, Discussion>((Discussion) lstDiscussions.SelectedItems[0],
+                                                         (Discussion) lstDiscussions.SelectedItems[1]);
             }
         }
 
@@ -58,11 +58,11 @@ namespace Discussions
             FillExample(GetTemplates());
         }
 
-        Tuple<int, int,string> GetRange()
+        private Tuple<int, int, string> GetRange()
         {
             int nFrom;
             if (!int.TryParse(from.Text, out nFrom))
-                return new Tuple<int, int,string>(-1, -1, "Enter integer");
+                return new Tuple<int, int, string>(-1, -1, "Enter integer");
 
             int nTo;
             if (!int.TryParse(to.Text, out nTo))
@@ -74,16 +74,16 @@ namespace Discussions
             return new Tuple<int, int, string>(nFrom, nTo, "");
         }
 
-        string injectNumber(string template, int number)
+        private string injectNumber(string template, int number)
         {
-            return template.Replace("#", number.ToString()); 
+            return template.Replace("#", number.ToString());
         }
 
-        void FillExample(Tuple<Discussion,Discussion> ab)
+        private void FillExample(Tuple<Discussion, Discussion> ab)
         {
-            if (txtExample!=null)
+            if (txtExample != null)
                 txtExample.Text = "";
-            
+
             if (from == null || to == null || txtExample == null || ab.Item1 == null || ab.Item2 == null)
                 return;
 
@@ -119,10 +119,10 @@ namespace Discussions
             txtExample.Text = sb.ToString();
         }
 
-        void Run(Discussion A, Discussion B)
+        private void Run(Discussion A, Discussion B)
         {
-            if (A == null || B==null)
-                return; 
+            if (A == null || B == null)
+                return;
 
             Tuple<int, int, string> range = GetRange();
             if (range.Item3 != "")
@@ -136,22 +136,22 @@ namespace Discussions
                 MessageBox.Show("Cannot find moderator in DB");
                 return;
             }
-           
+
             for (int i = range.Item1; i <= range.Item2; i++)
             {
                 var disc = cloneDiscussion(ctx, A, moderator, i);
-                DaoUtils.SetGeneralSide(moderator, disc, (int)SideCode.Neutral);
+                DaoUtils.SetGeneralSide(moderator, disc, (int) SideCode.Neutral);
                 ctx.AddToDiscussion(disc);
 
                 var disc2 = cloneDiscussion(ctx, B, moderator, i);
-                DaoUtils.SetGeneralSide(moderator, disc2, (int)SideCode.Neutral);
+                DaoUtils.SetGeneralSide(moderator, disc2, (int) SideCode.Neutral);
                 ctx.AddToDiscussion(disc2);
             }
             ctx.SaveChanges();
 
             MessageBox.Show("Done");
         }
-        
+
         public Discussion cloneDiscussion(DiscCtx ctx, Discussion original, Person moderator, int i)
         {
             var d = new Discussion();
@@ -164,7 +164,7 @@ namespace Discussions
             {
                 var s = new Source();
                 s.Text = src.Text;
-                s.OrderNumber = src.OrderNumber;                
+                s.OrderNumber = src.OrderNumber;
                 d.Background.Source.Add(s);
             }
 
@@ -182,12 +182,12 @@ namespace Discussions
                 attach.OrderNumber = media.OrderNumber;
 
                 if (media.Thumb != null)
-                    attach.Thumb = (byte[])media.Thumb.Clone();
+                    attach.Thumb = (byte[]) media.Thumb.Clone();
 
                 if (media.MediaData != null && media.MediaData.Data != null)
                 {
                     var mediaClone = new MediaData();
-                    mediaClone.Data = (byte[])media.MediaData.Data.Clone();
+                    mediaClone.Data = (byte[]) media.MediaData.Data.Clone();
                     attach.MediaData = mediaClone;
                 }
 
@@ -210,7 +210,7 @@ namespace Discussions
         }
 
         private void from_TextChanged_1(object sender, TextChangedEventArgs e)
-        {            
+        {
             FillExample(GetTemplates());
         }
 

@@ -26,22 +26,27 @@ namespace Discussions.YouViewer
     public partial class Viewer : UserControl
     {
         #region Data
+
         private YouTubeInfo video = null;
         private static bool IsExpanded = false;
         public event EventHandler ClosedEvent;
+
         #endregion
 
         #region Ctor
+
         public Viewer()
         {
             InitializeComponent();
 
-            Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
-            Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
+            Width = 0.8*System.Windows.SystemParameters.PrimaryScreenWidth;
+            Height = 0.8*System.Windows.SystemParameters.PrimaryScreenHeight;
         }
+
         #endregion
 
         #region Events
+
         /// <summary>
         /// Raised when the close button is clicked. This event
         /// is used by YouViewerMainWindow to set Opacity on its
@@ -55,13 +60,14 @@ namespace Discussions.YouViewer
                 ClosedEvent(this, e);
             }
         }
+
         #endregion
 
         #region Properties
 
         public YouTubeInfo Video
         {
-            set 
+            set
             {
                 if (video != value)
                 {
@@ -79,22 +85,22 @@ namespace Discussions.YouViewer
                     }
                 }
             }
-
         }
+
         #endregion
 
         #region Private Methods
 
         private void sbEnter_Completed(object sender, EventArgs e)
         {
-           // browser.Visibility = Visibility.Visible;
+            // browser.Visibility = Visibility.Visible;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             if (IsExpanded)
             {
-               // browser.Visibility = Visibility.Collapsed;
+                // browser.Visibility = Visibility.Collapsed;
                 IsExpanded = false;
                 browser.Source = null;
                 //Storyboard sbLeave = this.TryFindResource("OnMouseLeave") as Storyboard;
@@ -112,13 +118,14 @@ namespace Discussions.YouViewer
         {
             OnClosedEvent(new EventArgs());
         }
+
         #endregion
 
         private void btnToYoutube_Click(object sender, RoutedEventArgs e)
         {
             if (video != null)
             {
-                Process.Start(video.LinkUrl);                                          
+                Process.Start(video.LinkUrl);
             }
         }
     }

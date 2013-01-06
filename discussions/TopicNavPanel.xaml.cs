@@ -39,18 +39,16 @@ namespace Discussions
     public partial class TopicNavPanel : UserControl
     {
         private Discussion _discussion = null;
+
         public Discussion discussion
         {
-            get
-            {
-                return _discussion;
-            }
+            get { return _discussion; }
             set
             {
                 _discussion = value;
                 if (value.Topic.Count > 0)
                 {
-                    lstBxTopics.SelectedIndex = 0;                  
+                    lstBxTopics.SelectedIndex = 0;
                 }
             }
         }
@@ -58,17 +56,16 @@ namespace Discussions
         private bool Hidden = true;
 
         public delegate void TopicAnimate(bool hide);
+
         public TopicAnimate topicAnimate;
 
         public Topic selectedTopic
         {
-            get
-            {
-                return lstBxTopics.SelectedItem as Topic;
-            }
+            get { return lstBxTopics.SelectedItem as Topic; }
         }
 
         public delegate void SelectionChanged(SelectionChangedEventArgs e);
+
         public SelectionChanged topicChanged;
 
         public TopicNavPanel()
@@ -78,7 +75,8 @@ namespace Discussions
             DataContext = this;
         }
 
-        List<TouchPoint> touchPoints = new List<TouchPoint>();
+        private List<TouchPoint> touchPoints = new List<TouchPoint>();
+
         public void SelectTopic(bool next)
         {
             if (discussion.Topic.Count == 0)
@@ -108,7 +106,8 @@ namespace Discussions
             touchPoints.Add(e.GetTouchPoint(lstBxTopics));
         }
 
-        DateTime recentSwitch = DateTime.Now;
+        private DateTime recentSwitch = DateTime.Now;
+
         private void lstBx_PreviewTouchMove(object sender, TouchEventArgs e)
         {
             const double MIN_DELTA = 6;
@@ -164,7 +163,7 @@ namespace Discussions
             btnShow.Content = selectedTopic.Name;
 
             if (topicChanged != null)
-                topicChanged(e);                        
+                topicChanged(e);
         }
 
         private void Animate(object sender, RoutedEventArgs e)
@@ -173,14 +172,14 @@ namespace Discussions
                 return;
 
             topicAnimate(!Hidden);
-            Hidden = !Hidden;                                            
+            Hidden = !Hidden;
         }
 
         private void btnTriggerStats_Click_1(object sender, RoutedEventArgs e)
-        {            
+        {
         }
 
-        void HandleStartStop(RoutedEventArgs e)
+        private void HandleStartStop(RoutedEventArgs e)
         {
             var checkBx = e.OriginalSource as SurfaceCheckBox;
             var topic = checkBx.DataContext as Topic;
@@ -197,7 +196,7 @@ namespace Discussions
             UISharedRTClient.Instance.clienRt.SendStatsEvent(evt, ownId,
                                                              SessionInfo.Get().discussion.Id,
                                                              topic.Id,
-                                                             DeviceType.Wpf);          
+                                                             DeviceType.Wpf);
         }
 
         private void running_Checked_1(object sender, RoutedEventArgs e)
@@ -207,7 +206,7 @@ namespace Discussions
 
         private void running_Unchecked_1(object sender, RoutedEventArgs e)
         {
-           HandleStartStop(e);
+            HandleStartStop(e);
         }
     }
 }

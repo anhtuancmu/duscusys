@@ -16,7 +16,7 @@ namespace DistributedEditor
         FreeForm = 6,
         //Bubble = 7,
         Cluster = 8,
-        ClusterLink = 9, 
-        Badge = 10     
-    }    
+        ClusterLink = 9,
+        Badge = 10
+    }
 }

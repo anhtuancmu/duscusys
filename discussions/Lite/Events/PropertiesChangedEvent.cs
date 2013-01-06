@@ -10,9 +10,7 @@
 namespace Lite.Events
 {
     using System.Collections;
-
     using Lite.Operations;
-
     using Photon.SocketServer.Rpc;
 
     /// <summary>
@@ -29,20 +27,20 @@ namespace Lite.Events
         public PropertiesChangedEvent(int actorNumber)
             : base(actorNumber)
         {
-            this.Code = (byte)EventCode.PropertiesChanged;
+            this.Code = (byte) EventCode.PropertiesChanged;
         }
 
         /// <summary>
         /// Gets or sets Properties.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Properties)]
+        [DataMember(Code = (byte) ParameterKey.Properties)]
         public Hashtable Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the number of the actor whos properties have been changed.
         /// A value of 0 indactes that game properties have been changed.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.TargetActorNr)]
+        [DataMember(Code = (byte) ParameterKey.TargetActorNr)]
         public int TargetActorNumber { get; set; }
     }
 }

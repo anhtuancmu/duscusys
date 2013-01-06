@@ -21,18 +21,18 @@ namespace CloudStorage
 {
     public class DropStorage : IStorageClient
     {
-        string DROPBOX_APP_KEY = "79fe39q2u2xzgye";
-        string DROPBOX_APP_SECRET = "4fvj2ksros6aimw";
+        private string DROPBOX_APP_KEY = "79fe39q2u2xzgye";
+        private string DROPBOX_APP_SECRET = "4fvj2ksros6aimw";
 
-        DropNetClient _client = null;
-        UserLogin _accessToken = null;
+        private DropNetClient _client = null;
+        private UserLogin _accessToken = null;
 
         //folder id to thumb
-        Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
+        private Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
 
-        volatile List<TaskCompletionSource<byte[]>> _thumbDownloaders = new List<TaskCompletionSource<byte[]>>();
+        private volatile List<TaskCompletionSource<byte[]>> _thumbDownloaders = new List<TaskCompletionSource<byte[]>>();
 
-        Action<string> _webViewCallback = null;
+        private Action<string> _webViewCallback = null;
 
         public DropStorage(Action<string> webViewCallback)
         {
@@ -57,42 +57,41 @@ namespace CloudStorage
         public void Download(string file, string saveWhere, Dispatcher dispatch, Action done)
         {
             var shareResp = _client.GetMedia(file);
-    
+
             using (WebClient webclient = new WebClient())
             {
-                webclient.DownloadFileCompleted += (object sender, AsyncCompletedEventArgs e) =>
-                {
-                    dispatch.BeginInvoke(new Action(() => { done(); }));                        
-                };
+                webclient.DownloadFileCompleted +=
+                    (object sender, AsyncCompletedEventArgs e) =>
+                        { dispatch.BeginInvoke(new Action(() => { done(); })); };
                 webclient.DownloadFileAsync(new Uri(shareResp.Url), saveWhere);
             }
         }
 
         public void Children(int folderRequestId,
-                             string folder, 
+                             string folder,
                              Dispatcher dispatch,
-                             Func<int, FileEntry, int, bool> addEntry)  
+                             Func<int, FileEntry, int, bool> addEntry)
         {
             var expectedLen = _client.GetMetaData(folder).Contents.Count();
-           
-            foreach(var md in _client.GetMetaData(folder).Contents)  
+
+            foreach (var md in _client.GetMetaData(folder).Contents)
             {
                 var doContinue = true;
-                dispatch.Invoke(new Action(() =>
-                {
-                    doContinue = addEntry(expectedLen, null, folderRequestId);
-                }));
+                dispatch.Invoke(new Action(() => { doContinue = addEntry(expectedLen, null, folderRequestId); }));
                 if (!doContinue)
-                    break;              
-                
+                    break;
+
                 if (md.Thumb_Exists)
                 {
                     if (_thumbCache.ContainsKey(md.Path))
                     {
-                        dispatch.Invoke(new Action(() =>
-                        {
-                            doContinue = addEntry(expectedLen, new FileEntry(md, _thumbCache[md.Path]), folderRequestId);
-                        }));
+                        dispatch.Invoke(
+                            new Action(
+                                () =>
+                                    {
+                                        doContinue = addEntry(expectedLen, new FileEntry(md, _thumbCache[md.Path]),
+                                                              folderRequestId);
+                                    }));
                         if (!doContinue)
                             break;
                     }
@@ -108,93 +107,89 @@ namespace CloudStorage
 
                             System.Threading.Thread.Sleep(100);
                         } while (true);
-                     
-                        dispatch.Invoke(new Action(() =>
-                        {
-                            doContinue = addEntry(expectedLen, null, folderRequestId);
-                        }));
+
+                        dispatch.Invoke(new Action(() => { doContinue = addEntry(expectedLen, null, folderRequestId); }));
                         if (!doContinue)
                             break;
 
                         TaskCompletionSource<byte[]> thumbTaskSrc = null;
                         lock (_thumbDownloaders)
                         {
-                             thumbTaskSrc = DownloadThumb(md);
+                            thumbTaskSrc = DownloadThumb(md);
                             _thumbDownloaders.Add(thumbTaskSrc);
                         }
 
                         thumbTaskSrc.Task.ContinueWith(
-                                (Task<byte[]> thumbTask) =>
+                            (Task<byte[]> thumbTask) =>
                                 {
                                     if (thumbTask.Result != null)
                                     {
                                         dispatch.BeginInvoke(new Action(() =>
-                                        {
-                                            BitmapImage bmp = new BitmapImage();
-                                            bmp.BeginInit();
-                                            bmp.StreamSource = new MemoryStream(thumbTask.Result);
-                                            bmp.EndInit();
+                                            {
+                                                BitmapImage bmp = new BitmapImage();
+                                                bmp.BeginInit();
+                                                bmp.StreamSource = new MemoryStream(thumbTask.Result);
+                                                bmp.EndInit();
 
-                                            if (!_thumbCache.ContainsKey(md.Path))
-                                                _thumbCache.Add(md.Path, bmp);
-                                            addEntry(expectedLen, new FileEntry(md, bmp), folderRequestId);  
-                                        }));
+                                                if (!_thumbCache.ContainsKey(md.Path))
+                                                    _thumbCache.Add(md.Path, bmp);
+                                                addEntry(expectedLen, new FileEntry(md, bmp), folderRequestId);
+                                            }));
                                     }
                                     else
                                     {
-                                        dispatch.BeginInvoke(new Action(() =>
-                                        {
-                                            addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)), folderRequestId);
-                                        }));
-                                       
+                                        dispatch.BeginInvoke(
+                                            new Action(
+                                                () =>
+                                                    {
+                                                        addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)),
+                                                                 folderRequestId);
+                                                    }));
                                     }
                                     lock (_thumbDownloaders)
                                         _thumbDownloaders.Remove(thumbTaskSrc);
                                 });
                     }
                 }
-                else 
-                {                
-                    dispatch.Invoke(new Action(() =>
-                    {
-                        doContinue = addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)), folderRequestId);                       
-                    }));
+                else
+                {
+                    dispatch.Invoke(
+                        new Action(
+                            () =>
+                                {
+                                    doContinue = addEntry(expectedLen, new FileEntry(md, GetFileIcon(md)),
+                                                          folderRequestId);
+                                }));
                     if (!doContinue)
                         break;
-                }               
+                }
             }
         }
 
-        TaskCompletionSource<byte[]> DownloadThumb(MetaData md)
+        private TaskCompletionSource<byte[]> DownloadThumb(MetaData md)
         {
             var tcs = new TaskCompletionSource<byte[]>();
 
             _client.GetThumbnailAsync(
                 md,
                 ThumbnailSize.Large,
-                (byte[] thumb) =>
-                {
-                    tcs.SetResult(thumb);
-                },
-                (DropboxException) =>
-                {
-                    tcs.SetResult(null); 
-                }
-            );
+                (byte[] thumb) => { tcs.SetResult(thumb); },
+                (DropboxException) => { tcs.SetResult(null); }
+                );
 
             return tcs;
         }
 
-        ImageSource GetFileIcon(MetaData md)
+        private ImageSource GetFileIcon(MetaData md)
         {
             ImageSource src = null;
             if (md.Is_Dir)
             {
-                src = (ImageSource)App.Current.FindResource("FolderIcon");
+                src = (ImageSource) App.Current.FindResource("FolderIcon");
             }
-            else 
+            else
             {
-                FileToIconConverter conv = (FileToIconConverter)App.Current.FindResource("iconConv");
+                FileToIconConverter conv = (FileToIconConverter) App.Current.FindResource("iconConv");
                 src = conv.GetImage(md.Extension, 64);
             }
             return src;

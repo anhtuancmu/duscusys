@@ -27,9 +27,9 @@ namespace Discussions
     /// </summary>
     public partial class ResultViewer : SurfaceWindow
     {
-        Discussion discussion;
+        private Discussion discussion;
 
-        Discussions.Main.OnDiscFrmClosing _closing;
+        private Discussions.Main.OnDiscFrmClosing _closing;
 
         /// <summary>
         /// Default constructor.
@@ -42,19 +42,18 @@ namespace Discussions
             AddWindowAvailabilityHandlers();
 
             _closing = closing;
-            this.discussion  = discussion;
-            this.DataContext = discussion;         
+            this.discussion = discussion;
+            this.DataContext = discussion;
 
-            List<ArgPoint> agreed    = new List<ArgPoint>();
+            List<ArgPoint> agreed = new List<ArgPoint>();
             List<ArgPoint> disagreed = new List<ArgPoint>();
-            List<ArgPoint> unsolved  = new List<ArgPoint>();
+            List<ArgPoint> unsolved = new List<ArgPoint>();
 
             lstBxAgreement.ItemsSource = agreed;
-            lstBxDisagreement.ItemsSource = disagreed; 
-            lstBxUnsolved.ItemsSource = unsolved;             
+            lstBxDisagreement.ItemsSource = disagreed;
+            lstBxUnsolved.ItemsSource = unsolved;
         }
 
-       
 
         /// <summary>
         /// Occurs when the window is about to close. 
@@ -134,17 +133,17 @@ namespace Discussions
             BusyWndSingleton.Hide();
         }
 
-        void GenerateReport()
+        private void GenerateReport()
         {
-            string reportPathName = System.IO.Path.Combine(Utils.ReportsDir(), 
+            string reportPathName = System.IO.Path.Combine(Utils.ReportsDir(),
                                                            Utils.ValidateFileName(discussion.Subject + ".pdf")
-                                                           );
-            (new ReportGenerator()).Generate(discussion,reportPathName);     
+                );
+            (new ReportGenerator()).Generate(discussion, reportPathName);
         }
 
         private void SurfaceWindow_Activated(object sender, EventArgs e)
         {
-           /// this.WindowState = WindowState.Normal;
+            /// this.WindowState = WindowState.Normal;
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -160,8 +159,7 @@ namespace Discussions
                 return;
 
             var diz = new DiscussionInfoZoom(d);
-            diz.ShowDialog();       
+            diz.ShowDialog();
         }
     }
 }
-

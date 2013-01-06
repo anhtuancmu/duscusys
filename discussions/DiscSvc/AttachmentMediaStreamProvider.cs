@@ -54,7 +54,8 @@ namespace DiscSvc
         }
 
         public Stream GetReadStream(object entity, string etag, bool?
-            checkETagForEquality, DataServiceOperationContext operationContext)
+                                                                    checkETagForEquality,
+                                    DataServiceOperationContext operationContext)
         {
             if (checkETagForEquality != null)
             {
@@ -62,7 +63,7 @@ namespace DiscSvc
                 // ETag headers for media resources. This means that we do not track 
                 // concurrency for a media resource and last-in wins on updates.
                 throw new DataServiceException(400,
-                    "This sample service does not support the ETag header for a media resource.");
+                                               "This sample service does not support the ETag header for a media resource.");
             }
 
             Attachment attach = entity as Attachment;
@@ -94,7 +95,7 @@ namespace DiscSvc
                 throw new DataServiceException(500, "Internal Server Error.");
             }
 
-            switch ((AttachmentFormat)attach.Format)
+            switch ((AttachmentFormat) attach.Format)
             {
                 case AttachmentFormat.Bmp:
                     return "image/x-ms-bmp";
@@ -118,7 +119,8 @@ namespace DiscSvc
         }
 
         public Stream GetWriteStream(object entity, string etag, bool?
-            checkETagForEquality, DataServiceOperationContext operationContext)
+                                                                     checkETagForEquality,
+                                     DataServiceOperationContext operationContext)
         {
             if (checkETagForEquality != null)
             {
@@ -126,27 +128,27 @@ namespace DiscSvc
                 // This means that we do not track concurrency for a media resource 
                 // and last-in wins on updates.
                 throw new DataServiceException(400,
-                    "This demo does not support ETags associated with BLOBs");
+                                               "This demo does not support ETags associated with BLOBs");
             }
 
             Attachment attach = entity as Attachment;
             if (attach == null)
             {
                 throw new DataServiceException(500, "Internal Server Error: "
-                + "the Media Link Entry could not be determined.");
+                                                    + "the Media Link Entry could not be determined.");
             }
             String contentType = operationContext.RequestHeaders["Content-Type"];
             if (contentType == "image/jpeg")
             {
-                attach.Format = (int)AttachmentFormat.Jpg;
+                attach.Format = (int) AttachmentFormat.Jpg;
             }
             else if (contentType == "application/pdf")
             {
-                attach.Format = (int)AttachmentFormat.Pdf;
+                attach.Format = (int) AttachmentFormat.Pdf;
             }
             else
             {
-                attach.Format = (int)AttachmentFormat.None;
+                attach.Format = (int) AttachmentFormat.None;
             }
             attach.Name = "Name";
             attach.Title = "title";
@@ -186,7 +188,6 @@ namespace DiscSvc
 
         #endregion
 
-
         #region IDisposable Members
 
         public void Dispose()
@@ -203,9 +204,7 @@ namespace DiscSvc
                         ctx.Attach(cachedEntity);
                         cachedEntity.MediaData.Data = mediaStream.ToArray();
                         ctx.SaveChanges();
-
                     }
-
                 }
                 else
                 {
@@ -229,5 +228,4 @@ namespace DiscSvc
 
         #endregion
     }
-
 }

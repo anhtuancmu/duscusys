@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
@@ -12,179 +11,146 @@ namespace Reporter
 {
     public class ReportCollector
     {
-        DiscCtx _ctx;
-        List<Topic> topics;
+        private DiscussionsClientRT.ClientRT _clientRT;
 
-        int _nProcessedTopics = 0;
-        int _clusterReportsGenerated = 0;
-        int _linkReportsGenerated = 0;
+        private DiscCtx _ctx;
+        private List<Topic> topics;
 
-        int _numImagesInSession = 0;
+        private int _nProcessedTopics = 0;
+        private int _clusterReportsGenerated = 0;
+        private int _linkReportsGenerated = 0;
+
+        private int _numImagesInSession = 0;
+
         public int NumImagesInSession
         {
-            get
-            {
-                return _numImagesInSession;
-            }
+            get { return _numImagesInSession; }
         }
-        int _numScreenshotsInSession = 0;
+
+        private int _numScreenshotsInSession = 0;
+
         public int NumScreenshotsInSession
         {
-            get
-            {
-                return _numScreenshotsInSession; 
-            }
+            get { return _numScreenshotsInSession; }
         }
-        int _numYoutubeInSession = 0;
+
+        private int _numYoutubeInSession = 0;
+
         public int NumYoutubeInSession
         {
-            get
-            {
-               return _numYoutubeInSession;
-            }
+            get { return _numYoutubeInSession; }
         }
-        int _numPdfInSession = 0;
+
+        private int _numPdfInSession = 0;
+
         public int NumPdfInSession
         {
-            get
-            {
-                return _numPdfInSession;
-            }
+            get { return _numPdfInSession; }
         }
 
         public delegate void TopicReportReady(TopicReport topicReport);
-        TopicReportReady _topicReportReady;
 
-        TopicReport _allTopicsReport;      
+        private TopicReportReady _topicReportReady;
 
-        ObservableCollection<TopicReport> _topicReports = new ObservableCollection<TopicReport>();
+        private TopicReport _allTopicsReport;
+
+        private ObservableCollection<TopicReport> _topicReports = new ObservableCollection<TopicReport>();
+
         public ObservableCollection<TopicReport> TopicReports
         {
-            get
-            {
-                return _topicReports;
-            }
-            set
-            {
-                _topicReports = value; 
-            }
+            get { return _topicReports; }
+            set { _topicReports = value; }
         }
 
-        ObservableCollection<ClusterReport> _clusterReports = new ObservableCollection<ClusterReport>();
+        private ObservableCollection<ClusterReport> _clusterReports = new ObservableCollection<ClusterReport>();
+
         public ObservableCollection<ClusterReport> ClusterReports
         {
-            get
-            {
-                return _clusterReports;
-            }
-            set
-            {
-                _clusterReports = value; 
-            }
+            get { return _clusterReports; }
+            set { _clusterReports = value; }
         }
 
-        ObservableCollection<LinkReportResponse> _linkReports = new ObservableCollection<LinkReportResponse>();
+        private ObservableCollection<LinkReportResponse> _linkReports = new ObservableCollection<LinkReportResponse>();
+
         public ObservableCollection<LinkReportResponse> LinkReports
         {
-            get
-            {
-                return _linkReports;
-            }
-            set
-            {
-                _linkReports = value;
-            }
+            get { return _linkReports; }
+            set { _linkReports = value; }
         }
 
-        ObservableCollection<StatsEvent> _statsEvents = new ObservableCollection<StatsEvent>();
+        private ObservableCollection<StatsEvent> _statsEvents = new ObservableCollection<StatsEvent>();
+
         public ObservableCollection<StatsEvent> StatsEvents
         {
-            get
-            {
-                return _statsEvents;
-            }
-            set
-            {
-                _statsEvents = value;
-            }
+            get { return _statsEvents; }
+            set { _statsEvents = value; }
         }
 
-        Dictionary<int, EventUserReport> perUserEventReport = new Dictionary<int, EventUserReport>();
+        private Dictionary<int, EventUserReport> perUserEventReport = new Dictionary<int, EventUserReport>();
+
         public IEnumerable<EventUserReport> PerUserEventReport
         {
-            get
-            {
-                return perUserEventReport.Values;
-            }
+            get { return perUserEventReport.Values; }
         }
+
         public Dictionary<int, EventUserReport> PerUserEventReportDict
         {
-            get
-            {
-                return perUserEventReport;
-            }
+            get { return perUserEventReport; }
         }
-        
+
         //user id to arg point reports of the user, grouped by topic
-        Dictionary<int, List<ArgPointReport>> _argPointReports = new Dictionary<int, List<ArgPointReport>>();
+        private Dictionary<int, List<ArgPointReport>> _argPointReports = new Dictionary<int, List<ArgPointReport>>();
+
         public Dictionary<int, List<ArgPointReport>> ArgPointReports
         {
-            get
-            {
-                return _argPointReports;
-            }
-            set
-            {
-                _argPointReports = value;
-            }
+            get { return _argPointReports; }
+            set { _argPointReports = value; }
         }
 
-        public ArgPointReport    TotalArgPointReport = new ArgPointReport();
-        public ArgArgPointReport AvgArgPointReport   = new ArgArgPointReport();
+        public ArgPointReport TotalArgPointReport = new ArgPointReport();
+        public ArgArgPointReport AvgArgPointReport = new ArgArgPointReport();
 
-        ReportParameters _reportParams;
+        private ReportParameters _reportParams;
+
         public ReportParameters ReportParams
         {
-            get
-            {
-                return _reportParams;
-            }
+            get { return _reportParams; }
         }
 
-        EventTotalsReport _eventTotals = new EventTotalsReport(); 
+        private EventTotalsReport _eventTotals = new EventTotalsReport();
+
         public EventTotalsReport EventTotals
         {
-            get
-            {
-                return _eventTotals; 
-            }
+            get { return _eventTotals; }
         }
 
         public delegate void ReportReady(ReportCollector sender, object args);
-        ReportReady _reportGenerated;
+
+        private ReportReady _reportGenerated;
 
         public object _param = null;
 
         public ReportCollector(TopicReportReady topicReportReady,
-                               ReportReady reportGenerated, 
+                               ReportReady reportGenerated,
                                ReportParameters reportParams,
-                               object param)
+                               object param, DiscussionsClientRT.ClientRT clientRt)
         {
             _reportParams = reportParams;
 
             _param = param;
+            _clientRT = clientRt;
 
             _ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
 
             _topicReportReady = topicReportReady;
 
-            _allTopicsReport = new TopicReport(null, 0, 0, 0, 0, 0, 0, null, null, 0,0,0,0,0,0,0);
+            _allTopicsReport = new TopicReport(null, 0, 0, 0, 0, 0, 0, null, null, 0, 0, 0, 0, 0, 0, 0);
 
             _reportGenerated = reportGenerated;
 
             setListeners(true);
-           
-            topics = new List<Topic>() { _reportParams.topic }; 
+
+            topics = new List<Topic>() {_reportParams.topic};
 
             prepareArgPointReports();
 
@@ -192,41 +158,41 @@ namespace Reporter
 
             if (topics.Count() > 0)
             {
-                UISharedRTClient.Instance.clienRt.dEditorReportResponse += dEditorReportResponse; 
-                UISharedRTClient.Instance.clienRt.SendDEditorRequest(topics.First().Id);
+                _clientRT.dEditorReportResponse += dEditorReportResponse;
+                _clientRT.SendDEditorRequest(topics.First().Id);
             }
             else
-            {            
+            {
                 finalizeReport();
             }
         }
 
-        void setListeners(bool doSet)
+        private void setListeners(bool doSet)
         {
             if (doSet)
             {
-                UISharedRTClient.Instance.clienRt.clusterStatsResponse   += clusterStatsResponse;
-                UISharedRTClient.Instance.clienRt.linkStatsResponseEvent += linkStatsResponse; 
+                _clientRT.clusterStatsResponse += clusterStatsResponse;
+                _clientRT.linkStatsResponseEvent += linkStatsResponse;
             }
             else
             {
-                UISharedRTClient.Instance.clienRt.clusterStatsResponse   -= clusterStatsResponse;
-                UISharedRTClient.Instance.clienRt.linkStatsResponseEvent -= linkStatsResponse; 
+                _clientRT.clusterStatsResponse -= clusterStatsResponse;
+                _clientRT.linkStatsResponseEvent -= linkStatsResponse;
             }
         }
 
-        public DiscCtx GetCtx() 
+        public DiscCtx GetCtx()
         {
             return _ctx;
         }
 
-        bool ClustersAndLinksDone()
+        private bool ClustersAndLinksDone()
         {
             return _clusterReportsGenerated == _allTopicsReport.numClusters &&
                    _linkReportsGenerated == _allTopicsReport.numLinks;
         }
 
-        void linkStatsResponse(LinkReportResponse resp, bool ok)
+        private void linkStatsResponse(LinkReportResponse resp, bool ok)
         {
             if (!ok)
             {
@@ -236,7 +202,7 @@ namespace Reporter
                 return;
             }
 
-            if(resp.EndpointArgPoint1)
+            if (resp.EndpointArgPoint1)
                 resp.ArgPoint1 = _ctx.ArgPoint.FirstOrDefault(ap0 => ap0.Id == resp.ArgPointId1);
 
             if (resp.EndpointArgPoint2)
@@ -248,19 +214,19 @@ namespace Reporter
 
             ++_linkReportsGenerated;
             if (ClustersAndLinksDone())
-                finalizeReport();    
+                finalizeReport();
         }
 
-        void clusterStatsResponse(ClusterStatsResponse resp, bool ok)
+        private void clusterStatsResponse(ClusterStatsResponse resp, bool ok)
         {
             if (!ok)
             {
                 ++_clusterReportsGenerated;
-                if(ClustersAndLinksDone())
+                if (ClustersAndLinksDone())
                     finalizeReport();
                 return;
             }
-            
+
             //generate list if ArgPoints
             var argPoints = new ArgPoint[resp.points.Length];
             for (int i = 0; i < resp.points.Length; i++)
@@ -271,22 +237,24 @@ namespace Reporter
 
             var topic = _ctx.Topic.FirstOrDefault(t0 => t0.Id == resp.topicId);
             var initialOwner = _ctx.Person.FirstOrDefault(p0 => p0.Id == resp.initialOwnerId);
-            var report = new ClusterReport(topic, resp.clusterId, resp.clusterShId, resp.clusterTextTitle, argPoints, initialOwner);
+            var report = new ClusterReport(topic, resp.clusterId, resp.clusterShId, resp.clusterTextTitle, argPoints,
+                                           initialOwner);
             _clusterReports.Add(report);
 
             ++_clusterReportsGenerated;
-            if (ClustersAndLinksDone())                       
-                finalizeReport();            
+            if (ClustersAndLinksDone())
+                finalizeReport();
         }
 
-        void finalizeReport()
+        private void finalizeReport()
         {
             setListeners(false);
             if (_reportGenerated != null)
                 _reportGenerated(this, _param);
         }
 
-        public static TopicReport GetTotalTopicsReports(TopicReport topic1, TopicReport topic2, List<int> sessionParticipants)
+        public static TopicReport GetTotalTopicsReports(TopicReport topic1, TopicReport topic2,
+                                                        List<int> sessionParticipants)
         {
             var res = new TopicReport();
             var topicsDifferent = topic1.topic.Id != topic2.topic.Id;
@@ -317,7 +285,7 @@ namespace Reporter
                 if (!clusterIds.Contains(cid))
                     clusterIds.Add(cid);
             res.numClusters = clusterIds.Count();
-           
+
             //number of unique links
             var linkIds = new List<int>();
             foreach (var lid in topic1.linkIds)
@@ -335,31 +303,31 @@ namespace Reporter
                     uniquePoints.Add(ap);
             res.numPoints = uniquePoints.Count();
 
-            foreach(var ap in uniquePoints)
+            foreach (var ap in uniquePoints)
             {
-                if(ap.Description.Text!="Description")
+                if (ap.Description.Text != "Description")
                     res.numPointsWithDescription += 1;
 
                 foreach (var c in ap.Comment)
                     if (c.Text != "New comment" && res.accumulatedParticipants.Contains(c.Person.Id))
                         ++res.numComments;
-                
+
                 foreach (var a in ap.Attachment)
                     if (sessionParticipants.Contains(a.Person.Id))
                         ++res.numMediaAttachments;
 
                 if (res.accumulatedParticipants.Contains(ap.Person.Id))
-                    res.numSources += ap.Description.Source.Count();                      
+                    res.numSources += ap.Description.Source.Count();
             }
-          
+
             return res;
         }
 
-        void dEditorReportResponse(DEditorStatsResponse stats)
+        private void dEditorReportResponse(DEditorStatsResponse stats)
         {
             //process
             var topic = _ctx.Topic.FirstOrDefault(t0 => t0.Id == stats.TopicId);
-            
+
             int numSrc;
             int numComments;
             int numImages;
@@ -367,17 +335,17 @@ namespace Reporter
             int numPdfs;
             int numYoutubes;
             ArgPointTotalsOverTopic(_reportParams, topic, out numSrc, out numComments,
-                                    out numImages, out numPdfs, out numScreenshots, out numYoutubes);            
-           
-            _allTopicsReport.numClusters        += stats.NumClusters;
+                                    out numImages, out numPdfs, out numScreenshots, out numYoutubes);
+
+            _allTopicsReport.numClusters += stats.NumClusters;
             _allTopicsReport.numClusteredBadges += stats.NumClusteredBadges;
-            _allTopicsReport.numLinks           += stats.NumLinks;
-            _allTopicsReport.numSources         += numSrc;
-            _allTopicsReport.numComments        += numComments;
-            _allTopicsReport.numImages          += numImages;
-            _allTopicsReport.numPDFs            += numPdfs;
-            _allTopicsReport.numYoutubes        += numYoutubes;
-            _allTopicsReport.numScreenshots     += numScreenshots; 
+            _allTopicsReport.numLinks += stats.NumLinks;
+            _allTopicsReport.numSources += numSrc;
+            _allTopicsReport.numComments += numComments;
+            _allTopicsReport.numImages += numImages;
+            _allTopicsReport.numPDFs += numPdfs;
+            _allTopicsReport.numYoutubes += numYoutubes;
+            _allTopicsReport.numScreenshots += numScreenshots;
             _allTopicsReport.cumulativeDuration += topic.CumulativeDuration;
             var numArgPoints = topic.ArgPoint.Count();
             _allTopicsReport.numPoints += numArgPoints;
@@ -392,17 +360,17 @@ namespace Reporter
             var report = new TopicReport(topic, stats.NumClusters, stats.NumClusteredBadges,
                                          stats.NumLinks, numSrc, numComments,
                                          topic.CumulativeDuration, stats.ListOfClusterIds,
-                                         stats.ListOfLinkIds, numArgPoints, 
+                                         stats.ListOfLinkIds, numArgPoints,
                                          numPointsWithDescription, nMedia,
                                          numImages, numPdfs, numScreenshots, numYoutubes);
 
             _topicReports.Add(report);
-            if (_topicReportReady!=null)
-                _topicReportReady(report);            
-   
+            if (_topicReportReady != null)
+                _topicReportReady(report);
+
             if (++_nProcessedTopics >= topics.Count())
             {
-                UISharedRTClient.Instance.clienRt.dEditorReportResponse -= dEditorReportResponse;
+                _clientRT.dEditorReportResponse -= dEditorReportResponse;
 
                 //all topics processed, request clusters 
                 bool hasClusters = false;
@@ -411,12 +379,12 @@ namespace Reporter
                 {
                     foreach (var clustId in topicReport.clusterIds)
                     {
-                        UISharedRTClient.Instance.clienRt.SendClusterStatsRequest(clustId, topicReport.topic.Id);
+                        _clientRT.SendClusterStatsRequest(clustId, topicReport.topic.Id);
                         hasClusters = true;
                     }
                     foreach (var linkId in topicReport.linkIds)
                     {
-                        UISharedRTClient.Instance.clienRt.SendLinkStatsRequest(linkId, topicReport.topic.Id);
+                        _clientRT.SendLinkStatsRequest(linkId, topicReport.topic.Id);
                         hasLinks = true;
                     }
                 }
@@ -429,7 +397,7 @@ namespace Reporter
             //}
         }
 
-        public static void ArgPointTotalsOverTopic(ReportParameters par, Topic topic, 
+        public static void ArgPointTotalsOverTopic(ReportParameters par, Topic topic,
                                                    out int numSrc, out int numComments, out int numImages,
                                                    out int numPdfs, out int numScreenshots, out int numYoutubes)
         {
@@ -442,14 +410,14 @@ namespace Reporter
             foreach (var pt in topic.ArgPoint)
             {
                 if (par.requiredUsers.Contains(pt.Person.Id))
-                {                    
+                {
                     numSrc += pt.Description.Source.Count();
 
-                    foreach(var a in pt.Attachment)
+                    foreach (var a in pt.Attachment)
                     {
-                        switch ((AttachmentFormat)a.Format)
+                        switch ((AttachmentFormat) a.Format)
                         {
-                            case AttachmentFormat.None:                                
+                            case AttachmentFormat.None:
                                 break;
                             case AttachmentFormat.Jpg:
                                 numImages++;
@@ -484,9 +452,14 @@ namespace Reporter
                 }
 
                 foreach (var c in pt.Comment)
+                {
+                    if (c.Person == null)
+                        return;
+
                     if (c.Text != "New comment" && par.requiredUsers.Contains(c.Person.Id))
                         ++numComments;
-            }            
+                }
+            }
         }
 
         public TimeSpan TotalDiscussionTime
@@ -495,10 +468,10 @@ namespace Reporter
             {
                 TimeSpan res = new TimeSpan(0);
                 foreach (var t in topics)
-                    if(_reportParams.topic.Id==t.Id)
+                    if (_reportParams.topic.Id == t.Id)
                         res.Add(TimeSpan.FromSeconds(t.CumulativeDuration));
                 return res;
-            }  
+            }
         }
 
         public ObservableCollection<Person> Participants
@@ -514,7 +487,7 @@ namespace Reporter
             }
         }
 
-        ArgPointReport FindTopicArgPointReport(List<ArgPointReport> reports, int topicId)
+        private ArgPointReport FindTopicArgPointReport(List<ArgPointReport> reports, int topicId)
         {
             foreach (var r in reports)
                 if (r.topic != null && r.topic.Id == topicId)
@@ -522,9 +495,9 @@ namespace Reporter
             return null;
         }
 
-        void prepareArgPointReports()
+        private void prepareArgPointReports()
         {
-            foreach (var topic in topics)            
+            foreach (var topic in topics)
                 foreach (var ap in topic.ArgPoint)
                 {
                     //comments can be by different users
@@ -557,8 +530,8 @@ namespace Reporter
                     {
                         if (!_reportParams.requiredUsers.Contains(at.Person.Id))
                             continue;
-                       
-                        switch ((AttachmentFormat)at.Format)
+
+                        switch ((AttachmentFormat) at.Format)
                         {
                             case AttachmentFormat.Bmp:
                                 ++_numImagesInSession;
@@ -601,7 +574,7 @@ namespace Reporter
                     topicReportOfSelf.numPoints += 1;
                     if (ap.Description.Text != "Description")
                         topicReportOfSelf.numPointsWithDescriptions++;
-                    topicReportOfSelf.numSources += ap.Description.Source.Count();                  
+                    topicReportOfSelf.numSources += ap.Description.Source.Count();
                 }
 
             //fill out users who don't have points
@@ -610,11 +583,11 @@ namespace Reporter
                 foreach (var p in topic.Person)
                 {
                     if (!_reportParams.requiredUsers.Contains(p.Id))
-                        continue;                   
+                        continue;
 
                     if (!ArgPointReports.ContainsKey(p.Id))
                         ArgPointReports.Add(p.Id, new List<ArgPointReport>());
-   
+
                     var topicReports = ArgPointReports[p.Id];
                     var topicReportOfPers = FindTopicArgPointReport(topicReports, topic.Id);
                     if (topicReportOfPers == null)
@@ -623,55 +596,55 @@ namespace Reporter
                     }
                 }
             }
-         
+
             //total over all users
             foreach (var apReport in ArgPointReports.Values)
-                foreach(var userTopicReport in apReport)
+                foreach (var userTopicReport in apReport)
                 {
                     TotalArgPointReport.numComments += userTopicReport.numComments;
                     TotalArgPointReport.numMediaAttachments += userTopicReport.numMediaAttachments;
                     TotalArgPointReport.numPoints += userTopicReport.numPoints;
                     TotalArgPointReport.numPointsWithDescriptions += userTopicReport.numPointsWithDescriptions;
-                    TotalArgPointReport.numSources += userTopicReport.numSources;                
+                    TotalArgPointReport.numSources += userTopicReport.numSources;
                 }
 
             //avg
             var n = ArgPointReports.Count();
-            AvgArgPointReport.numComments = (double)TotalArgPointReport.numComments / n;
-            AvgArgPointReport.numMediaAttachments = (double)TotalArgPointReport.numMediaAttachments / n;
-            AvgArgPointReport.numPoints = (double)TotalArgPointReport.numPoints / n;
-            AvgArgPointReport.numPointsWithDescriptions = (double)TotalArgPointReport.numPointsWithDescriptions / n;
-            AvgArgPointReport.numSources = (double)TotalArgPointReport.numSources / n;
+            AvgArgPointReport.numComments = (double) TotalArgPointReport.numComments/n;
+            AvgArgPointReport.numMediaAttachments = (double) TotalArgPointReport.numMediaAttachments/n;
+            AvgArgPointReport.numPoints = (double) TotalArgPointReport.numPoints/n;
+            AvgArgPointReport.numPointsWithDescriptions = (double) TotalArgPointReport.numPointsWithDescriptions/n;
+            AvgArgPointReport.numSources = (double) TotalArgPointReport.numSources/n;
         }
 
-        void prepareEvents()
+        private void prepareEvents()
         {
             foreach (var e in _ctx.StatsEvent)
             {
-                if(e.TopicId!=-1 && e.TopicId != _reportParams.topic.Id)
+                if (e.TopicId != -1 && e.TopicId != _reportParams.topic.Id)
                     continue;
 
-                if(e.UserId!=-1 && !_reportParams.requiredUsers.Contains(e.UserId))
+                if (e.UserId != -1 && !_reportParams.requiredUsers.Contains(e.UserId))
                     continue;
 
                 StatsEvents.Add(e);
-                EventTotals.CountEvent((StEvent)e.Event, e.Id); 
+                EventTotals.CountEvent((StEvent) e.Event, e.Id);
 
                 //count per user stats 
                 if (e.UserId != -1)
                 {
                     if (perUserEventReport.ContainsKey(e.UserId))
-                        perUserEventReport[e.UserId].CountEvent((StEvent)e.Event, e.Id);
+                        perUserEventReport[e.UserId].CountEvent((StEvent) e.Event, e.Id);
                     else
                     {
                         var report = new EventUserReport();
                         report.personId = e.UserId;
                         perUserEventReport.Add(e.UserId, report);
-                        report.CountEvent((StEvent)e.Event, e.Id);
+                        report.CountEvent((StEvent) e.Event, e.Id);
                     }
                 }
             }
-            
+
             foreach (var e in PerUserEventReport)
             {
                 e.person = _ctx.Person.FirstOrDefault(p0 => p0.Id == e.personId);

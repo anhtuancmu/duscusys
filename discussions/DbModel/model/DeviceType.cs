@@ -8,7 +8,7 @@ namespace Discussions.model
     public enum DeviceType
     {
         Android,
-        Wpf, 
+        Wpf,
         Sticky
     }
 }

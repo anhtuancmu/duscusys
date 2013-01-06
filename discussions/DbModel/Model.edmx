@@ -1,532 +1,536 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="db.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="dbStoreContainer">
-    <EntitySet Name="Person" EntityType="db.Store.Person" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Discussion" EntityType="db.Store.Discussion" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ArgPoint" EntityType="db.Store.ArgPoint" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Topic" EntityType="db.Store.Topic" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Comment" EntityType="db.Store.Comment" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Attachment" EntityType="db.Store.Attachment" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="GeneralSide" EntityType="db.Store.GeneralSide" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Source" EntityType="db.Store.Source" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RichText" EntityType="db.Store.RichText" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Annotation" EntityType="db.Store.Annotation" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="StatsEvent" EntityType="db.Store.StatsEvent" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Session" EntityType="db.Store.Session" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Seat" EntityType="db.Store.Seat" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="MediaDataSet" EntityType="db.Store.MediaDataSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TopicPerson" EntityType="db.Store.TopicPerson" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="TopicArgPoint" Association="db.Store.TopicArgPoint">
-      <End Role="Topic" EntitySet="Topic" />
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
-    </AssociationSet>
-    <AssociationSet Name="DiscussionTopic" Association="db.Store.DiscussionTopic">
-      <End Role="Discussion" EntitySet="Discussion" />
-      <End Role="Topic" EntitySet="Topic" />
-    </AssociationSet>
-    <AssociationSet Name="ArgPointComment" Association="db.Store.ArgPointComment">
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
-      <End Role="Comment" EntitySet="Comment" />
-    </AssociationSet>
-    <AssociationSet Name="ArgPointAttachment" Association="db.Store.ArgPointAttachment">
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
-      <End Role="Attachment" EntitySet="Attachment" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TopicPerson_Topic" Association="db.Store.FK_TopicPerson_Topic">
-      <End Role="Topic" EntitySet="Topic" />
-      <End Role="TopicPerson" EntitySet="TopicPerson" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TopicPerson_Person" Association="db.Store.FK_TopicPerson_Person">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="TopicPerson" EntitySet="TopicPerson" />
-    </AssociationSet>
-    <AssociationSet Name="PersonArgPoint" Association="db.Store.PersonArgPoint">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
-    </AssociationSet>
-    <AssociationSet Name="PersonComment" Association="db.Store.PersonComment">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="Comment" EntitySet="Comment" />
-    </AssociationSet>
-    <AssociationSet Name="PersonAttachment" Association="db.Store.PersonAttachment">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="Attachment" EntitySet="Attachment" />
-    </AssociationSet>
-    <AssociationSet Name="DiscussionAttachment" Association="db.Store.DiscussionAttachment">
-      <End Role="Discussion" EntitySet="Discussion" />
-      <End Role="Attachment" EntitySet="Attachment" />
-    </AssociationSet>
-    <AssociationSet Name="PersonGeneralSide" Association="db.Store.PersonGeneralSide">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="GeneralSide" EntitySet="GeneralSide" />
-    </AssociationSet>
-    <AssociationSet Name="DiscussionGeneralSide" Association="db.Store.DiscussionGeneralSide">
-      <End Role="Discussion" EntitySet="Discussion" />
-      <End Role="GeneralSide" EntitySet="GeneralSide" />
-    </AssociationSet>
-    <AssociationSet Name="RichTextSource" Association="db.Store.RichTextSource">
-      <End Role="RichText" EntitySet="RichText" />
-      <End Role="Source" EntitySet="Source" />
-    </AssociationSet>
-    <AssociationSet Name="DiscussionRichText" Association="db.Store.DiscussionRichText">
-      <End Role="Discussion" EntitySet="Discussion" />
-      <End Role="RichText" EntitySet="RichText" />
-    </AssociationSet>
-    <AssociationSet Name="ArgPointRichText" Association="db.Store.ArgPointRichText">
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
-      <End Role="RichText" EntitySet="RichText" />
-    </AssociationSet>
-    <AssociationSet Name="PersonScreenshot" Association="db.Store.PersonScreenshot">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="Screenshot" EntitySet="Annotation" />
-    </AssociationSet>
-    <AssociationSet Name="DiscussionAnnotation" Association="db.Store.DiscussionAnnotation">
-      <End Role="Discussion" EntitySet="Discussion" />
-      <End Role="Annotation" EntitySet="Annotation" />
-    </AssociationSet>
-    <AssociationSet Name="PersonAttachment1" Association="db.Store.PersonAttachment1">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="Attachment" EntitySet="Attachment" />
-    </AssociationSet>
-    <AssociationSet Name="PersonSeat" Association="db.Store.PersonSeat">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="Seat" EntitySet="Seat" />
-    </AssociationSet>
-    <AssociationSet Name="PersonSession" Association="db.Store.PersonSession">
-      <End Role="Person" EntitySet="Person" />
-      <End Role="Session" EntitySet="Session" />
-    </AssociationSet>
-    <AssociationSet Name="AttachmentMediaData" Association="db.Store.AttachmentMediaData">
-      <End Role="Attachment" EntitySet="Attachment" />
-      <End Role="MediaData" EntitySet="MediaDataSet" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Person">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="nchar" Nullable="false" MaxLength="255" />
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Color" Type="int" Nullable="false" />
-    <Property Name="Online" Type="bit" Nullable="false" />
-    <Property Name="SeatId" Type="int" Nullable="true" />
-    <Property Name="OnlineDevType" Type="int" Nullable="false" />
-    <Property Name="SessionId" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Discussion">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="HtmlBackground" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="ArgPoint">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Point" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="SideCode" Type="int" Nullable="false" />
-    <Property Name="SharedToPublic" Type="bit" Nullable="false" />
-    <Property Name="RecentlyEnteredSource" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RecentlyEnteredMediaUrl" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ChangesPending" Type="bit" Nullable="false" />
-    <Property Name="OrderNumber" Type="int" Nullable="false" />
-    <Property Name="Topic_Id" Type="int" Nullable="true" />
-    <Property Name="Person_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Topic">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Annotation" Type="varbinary(max)" Nullable="true" />
-    <Property Name="Running" Type="bit" Nullable="false" />
-    <Property Name="CumulativeDuration" Type="int" Nullable="false" />
-    <Property Name="Discussion_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Comment">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ArgPoint_Id" Type="int" Nullable="true" />
-    <Property Name="Person_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Attachment">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Format" Type="int" Nullable="false" />
-    <Property Name="VideoThumbURL" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="VideoEmbedURL" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="VideoLinkURL" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Thumb" Type="varbinary(max)" Nullable="true" />
-    <Property Name="OrderNumber" Type="int" Nullable="false" />
-    <Property Name="ArgPoint_Id" Type="int" Nullable="true" />
-    <Property Name="Person_Id" Type="int" Nullable="true" />
-    <Property Name="Discussion_Id" Type="int" Nullable="true" />
-    <Property Name="PersonWithAvatar_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="GeneralSide">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Side" Type="int" Nullable="false" />
-    <Property Name="Person_Id" Type="int" Nullable="true" />
-    <Property Name="Discussion_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Source">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="OrderNumber" Type="int" Nullable="false" />
-    <Property Name="RichText_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="RichText">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Discussion_Id" Type="int" Nullable="true" />
-    <Property Name="ArgPoint_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Annotation">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Bg" Type="varbinary(max)" Nullable="true" />
-    <Property Name="VectGraphics" Type="varbinary(max)" Nullable="false" />
-    <Property Name="Thumb" Type="varbinary(max)" Nullable="false" />
-    <Property Name="CanvWidth" Type="int" Nullable="false" />
-    <Property Name="CanvHeight" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Person_Id" Type="int" Nullable="true" />
-    <Property Name="Discussion_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="StatsEvent">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Event" Type="int" Nullable="false" />
-    <Property Name="DiscussionId" Type="int" Nullable="false" />
-    <Property Name="DiscussionName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TopicId" Type="int" Nullable="false" />
-    <Property Name="TopicName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Time" Type="datetime" Nullable="false" />
-    <Property Name="DeviceType" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Session">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="EstimatedDateTime" Type="datetime" Nullable="false" />
-    <Property Name="EstimatedTimeSlot" Type="int" Nullable="false" />
-    <Property Name="EstimatedEndDateTime" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Seat">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Color" Type="int" Nullable="false" />
-    <Property Name="SeatName" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="MediaDataSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Data" Type="varbinary(max)" Nullable="true" />
-    <Property Name="Attachment_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="TopicPerson">
-    <Key>
-      <PropertyRef Name="Topic_Id" />
-      <PropertyRef Name="Person_Id" />
-    </Key>
-    <Property Name="Topic_Id" Type="int" Nullable="false" />
-    <Property Name="Person_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="TopicArgPoint">
-    <End Role="Topic" Type="db.Store.Topic" Multiplicity="0..1" />
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Topic">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ArgPoint">
-        <PropertyRef Name="Topic_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DiscussionTopic">
-    <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
-    <End Role="Topic" Type="db.Store.Topic" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Discussion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Topic">
-        <PropertyRef Name="Discussion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ArgPointComment">
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
-    <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ArgPoint">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Comment">
-        <PropertyRef Name="ArgPoint_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ArgPointAttachment">
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
-    <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ArgPoint">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Attachment">
-        <PropertyRef Name="ArgPoint_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonArgPoint">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ArgPoint">
-        <PropertyRef Name="Person_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonComment">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
-    <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Comment">
-        <PropertyRef Name="Person_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonAttachment">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
-    <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Attachment">
-        <PropertyRef Name="Person_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DiscussionAttachment">
-    <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
-    <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Discussion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Attachment">
-        <PropertyRef Name="Discussion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonGeneralSide">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
-    <End Role="GeneralSide" Type="db.Store.GeneralSide" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="GeneralSide">
-        <PropertyRef Name="Person_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DiscussionGeneralSide">
-    <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
-    <End Role="GeneralSide" Type="db.Store.GeneralSide" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Discussion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="GeneralSide">
-        <PropertyRef Name="Discussion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="RichTextSource">
-    <End Role="RichText" Type="db.Store.RichText" Multiplicity="0..1" />
-    <End Role="Source" Type="db.Store.Source" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RichText">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Source">
-        <PropertyRef Name="RichText_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DiscussionRichText">
-    <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
-    <End Role="RichText" Type="db.Store.RichText" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Discussion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RichText">
-        <PropertyRef Name="Discussion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ArgPointRichText">
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
-    <End Role="RichText" Type="db.Store.RichText" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ArgPoint">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RichText">
-        <PropertyRef Name="ArgPoint_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonScreenshot">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
-    <End Role="Screenshot" Type="db.Store.Annotation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Screenshot">
-        <PropertyRef Name="Person_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="DiscussionAnnotation">
-    <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
-    <End Role="Annotation" Type="db.Store.Annotation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Discussion">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Annotation">
-        <PropertyRef Name="Discussion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonAttachment1">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
-    <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Attachment">
-        <PropertyRef Name="PersonWithAvatar_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonSeat">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="*" />
-    <End Role="Seat" Type="db.Store.Seat" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Seat">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Person">
-        <PropertyRef Name="SeatId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PersonSession">
-    <End Role="Person" Type="db.Store.Person" Multiplicity="*" />
-    <End Role="Session" Type="db.Store.Session" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Session">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Person">
-        <PropertyRef Name="SessionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AttachmentMediaData">
-    <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="0..1" />
-    <End Role="MediaData" Type="db.Store.MediaDataSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Attachment">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MediaData">
-        <PropertyRef Name="Attachment_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TopicPerson_Topic">
-    <End Role="Topic" Type="db.Store.Topic" Multiplicity="1" />
-    <End Role="TopicPerson" Type="db.Store.TopicPerson" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Topic">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TopicPerson">
-        <PropertyRef Name="Topic_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TopicPerson_Person">
-    <End Role="TopicPerson" Type="db.Store.TopicPerson" Multiplicity="*" />
-    <End Role="Person" Type="db.Store.Person" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Person">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="TopicPerson">
-        <PropertyRef Name="Person_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+        <EntityContainer Name="dbStoreContainer">
+          <EntitySet Name="Annotation" EntityType="db.Store.Annotation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ArgPoint" EntityType="db.Store.ArgPoint" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Attachment" EntityType="db.Store.Attachment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Comment" EntityType="db.Store.Comment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Discussion" EntityType="db.Store.Discussion" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GeneralSide" EntityType="db.Store.GeneralSide" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MediaDataSet" EntityType="db.Store.MediaDataSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Person" EntityType="db.Store.Person" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RichText" EntityType="db.Store.RichText" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Seat" EntityType="db.Store.Seat" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Session" EntityType="db.Store.Session" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Source" EntityType="db.Store.Source" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StatsEvent" EntityType="db.Store.StatsEvent" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Topic" EntityType="db.Store.Topic" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TopicPerson" EntityType="db.Store.TopicPerson" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ArgPointAttachment" Association="db.Store.FK_ArgPointAttachment">
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArgPointComment" Association="db.Store.FK_ArgPointComment">
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArgPointRichText" Association="db.Store.FK_ArgPointRichText">
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+            <End Role="RichText" EntitySet="RichText" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttachmentMediaData" Association="db.Store.FK_AttachmentMediaData">
+            <End Role="Attachment" EntitySet="Attachment" />
+            <End Role="MediaDataSet" EntitySet="MediaDataSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscussionAnnotation" Association="db.Store.FK_DiscussionAnnotation">
+            <End Role="Discussion" EntitySet="Discussion" />
+            <End Role="Annotation" EntitySet="Annotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscussionAttachment" Association="db.Store.FK_DiscussionAttachment">
+            <End Role="Discussion" EntitySet="Discussion" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscussionGeneralSide" Association="db.Store.FK_DiscussionGeneralSide">
+            <End Role="Discussion" EntitySet="Discussion" />
+            <End Role="GeneralSide" EntitySet="GeneralSide" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscussionRichText" Association="db.Store.FK_DiscussionRichText">
+            <End Role="Discussion" EntitySet="Discussion" />
+            <End Role="RichText" EntitySet="RichText" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscussionTopic" Association="db.Store.FK_DiscussionTopic">
+            <End Role="Discussion" EntitySet="Discussion" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonArgPoint" Association="db.Store.FK_PersonArgPoint">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonAttachment" Association="db.Store.FK_PersonAttachment">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonAttachment1" Association="db.Store.FK_PersonAttachment1">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Attachment" EntitySet="Attachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonComment" Association="db.Store.FK_PersonComment">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonGeneralSide" Association="db.Store.FK_PersonGeneralSide">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="GeneralSide" EntitySet="GeneralSide" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonScreenshot" Association="db.Store.FK_PersonScreenshot">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Annotation" EntitySet="Annotation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonSeat" Association="db.Store.FK_PersonSeat">
+            <End Role="Seat" EntitySet="Seat" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonSession" Association="db.Store.FK_PersonSession">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RichTextSource" Association="db.Store.FK_RichTextSource">
+            <End Role="RichText" EntitySet="RichText" />
+            <End Role="Source" EntitySet="Source" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicArgPoint" Association="db.Store.FK_TopicArgPoint">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicPerson_Person" Association="db.Store.FK_TopicPerson_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="TopicPerson" EntitySet="TopicPerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicPerson_Topic" Association="db.Store.FK_TopicPerson_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="TopicPerson" EntitySet="TopicPerson" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Annotation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Bg" Type="varbinary(max)" />
+          <Property Name="VectGraphics" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Thumb" Type="varbinary(max)" Nullable="false" />
+          <Property Name="CanvWidth" Type="int" Nullable="false" />
+          <Property Name="CanvHeight" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Person_Id" Type="int" />
+          <Property Name="Discussion_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="ArgPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Point" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SideCode" Type="int" Nullable="false" />
+          <Property Name="SharedToPublic" Type="bit" Nullable="false" />
+          <Property Name="RecentlyEnteredSource" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RecentlyEnteredMediaUrl" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ChangesPending" Type="bit" Nullable="false" />
+          <Property Name="OrderNumber" Type="int" Nullable="false" />
+          <Property Name="Topic_Id" Type="int" />
+          <Property Name="Person_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Format" Type="int" Nullable="false" />
+          <Property Name="VideoThumbURL" Type="nvarchar(max)" />
+          <Property Name="VideoEmbedURL" Type="nvarchar(max)" />
+          <Property Name="VideoLinkURL" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Thumb" Type="varbinary(max)" />
+          <Property Name="OrderNumber" Type="int" Nullable="false" />
+          <Property Name="ArgPoint_Id" Type="int" />
+          <Property Name="Person_Id" Type="int" />
+          <Property Name="Discussion_Id" Type="int" />
+          <Property Name="PersonWithAvatar_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ArgPoint_Id" Type="int" />
+          <Property Name="Person_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Discussion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HtmlBackground" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GeneralSide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Side" Type="int" Nullable="false" />
+          <Property Name="Person_Id" Type="int" />
+          <Property Name="Discussion_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="MediaDataSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="varbinary(max)" />
+          <Property Name="Attachment_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nchar" Nullable="false" MaxLength="255" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="int" Nullable="false" />
+          <Property Name="Online" Type="bit" Nullable="false" />
+          <Property Name="SeatId" Type="int" />
+          <Property Name="OnlineDevType" Type="int" Nullable="false" />
+          <Property Name="SessionId" Type="int" />
+        </EntityType>
+        <EntityType Name="RichText">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Discussion_Id" Type="int" />
+          <Property Name="ArgPoint_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Seat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="int" Nullable="false" />
+          <Property Name="SeatName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EstimatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EstimatedTimeSlot" Type="int" Nullable="false" />
+          <Property Name="EstimatedEndDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Source">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OrderNumber" Type="int" Nullable="false" />
+          <Property Name="RichText_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="StatsEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Event" Type="int" Nullable="false" />
+          <Property Name="DiscussionId" Type="int" Nullable="false" />
+          <Property Name="DiscussionName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TopicId" Type="int" Nullable="false" />
+          <Property Name="TopicName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="DeviceType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Annotation" Type="varbinary(max)" />
+          <Property Name="Running" Type="bit" Nullable="false" />
+          <Property Name="CumulativeDuration" Type="int" Nullable="false" />
+          <Property Name="Discussion_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="TopicPerson">
+          <Key>
+            <PropertyRef Name="Topic_Id" />
+            <PropertyRef Name="Person_Id" />
+          </Key>
+          <Property Name="Topic_Id" Type="int" Nullable="false" />
+          <Property Name="Person_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ArgPointAttachment">
+          <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
+          <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArgPoint">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="ArgPoint_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArgPointComment">
+          <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
+          <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArgPoint">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ArgPoint_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArgPointRichText">
+          <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
+          <End Role="RichText" Type="db.Store.RichText" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArgPoint">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RichText">
+              <PropertyRef Name="ArgPoint_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttachmentMediaData">
+          <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="0..1" />
+          <End Role="MediaDataSet" Type="db.Store.MediaDataSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attachment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MediaDataSet">
+              <PropertyRef Name="Attachment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscussionAnnotation">
+          <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
+          <End Role="Annotation" Type="db.Store.Annotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discussion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Annotation">
+              <PropertyRef Name="Discussion_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscussionAttachment">
+          <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
+          <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discussion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="Discussion_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscussionGeneralSide">
+          <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
+          <End Role="GeneralSide" Type="db.Store.GeneralSide" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discussion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GeneralSide">
+              <PropertyRef Name="Discussion_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscussionRichText">
+          <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
+          <End Role="RichText" Type="db.Store.RichText" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discussion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RichText">
+              <PropertyRef Name="Discussion_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscussionTopic">
+          <End Role="Discussion" Type="db.Store.Discussion" Multiplicity="0..1" />
+          <End Role="Topic" Type="db.Store.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discussion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="Discussion_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonArgPoint">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
+          <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ArgPoint">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonAttachment">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
+          <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonAttachment1">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
+          <End Role="Attachment" Type="db.Store.Attachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attachment">
+              <PropertyRef Name="PersonWithAvatar_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonComment">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
+          <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonGeneralSide">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
+          <End Role="GeneralSide" Type="db.Store.GeneralSide" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GeneralSide">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonScreenshot">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="0..1" />
+          <End Role="Annotation" Type="db.Store.Annotation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Annotation">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonSeat">
+          <End Role="Seat" Type="db.Store.Seat" Multiplicity="0..1" />
+          <End Role="Person" Type="db.Store.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seat">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="SeatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonSession">
+          <End Role="Session" Type="db.Store.Session" Multiplicity="0..1" />
+          <End Role="Person" Type="db.Store.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RichTextSource">
+          <End Role="RichText" Type="db.Store.RichText" Multiplicity="0..1" />
+          <End Role="Source" Type="db.Store.Source" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RichText">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Source">
+              <PropertyRef Name="RichText_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicArgPoint">
+          <End Role="Topic" Type="db.Store.Topic" Multiplicity="0..1" />
+          <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ArgPoint">
+              <PropertyRef Name="Topic_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicPerson_Person">
+          <End Role="Person" Type="db.Store.Person" Multiplicity="1" />
+          <End Role="TopicPerson" Type="db.Store.TopicPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TopicPerson">
+              <PropertyRef Name="Person_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicPerson_Topic">
+          <End Role="Topic" Type="db.Store.Topic" Multiplicity="1" />
+          <End Role="TopicPerson" Type="db.Store.TopicPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TopicPerson">
+              <PropertyRef Name="Topic_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="db" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+              xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="db"
+              Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="DiscCtx" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Person" EntityType="db.Person" />
           <EntitySet Name="Discussion" EntityType="db.Discussion" />
@@ -627,18 +631,23 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="String" Name="Name" Nullable="false" />
-          <Property Type="String" Name="Email" Nullable="false" annotation:StoreGeneratedPattern="None" FixedLength="true" MaxLength="255" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Email" Nullable="false" annotation:StoreGeneratedPattern="None"
+                    FixedLength="true" MaxLength="255" Unicode="true" />
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Topic" Relationship="db.TopicPerson" FromRole="Person" ToRole="Topic" />
           <NavigationProperty Name="ArgPoint" Relationship="db.PersonArgPoint" FromRole="Person" ToRole="ArgPoint" />
           <NavigationProperty Name="Comment" Relationship="db.PersonComment" FromRole="Person" ToRole="Comment" />
-          <NavigationProperty Name="Attachment" Relationship="db.PersonAttachment" FromRole="Person" ToRole="Attachment" />
+          <NavigationProperty Name="Attachment" Relationship="db.PersonAttachment" FromRole="Person"
+                              ToRole="Attachment" />
           <Property Type="Int32" Name="Color" Nullable="false" />
-          <NavigationProperty Name="GeneralSide" Relationship="db.PersonGeneralSide" FromRole="Person" ToRole="GeneralSide" />
-          <NavigationProperty Name="Screenshot" Relationship="db.PersonScreenshot" FromRole="Person" ToRole="Screenshot" />
+          <NavigationProperty Name="GeneralSide" Relationship="db.PersonGeneralSide" FromRole="Person"
+                              ToRole="GeneralSide" />
+          <NavigationProperty Name="Screenshot" Relationship="db.PersonScreenshot" FromRole="Person"
+                              ToRole="Screenshot" />
           <Property Type="Boolean" Name="Online" Nullable="false" />
-          <NavigationProperty Name="AvatarAttachment" Relationship="db.PersonAttachment1" FromRole="Person" ToRole="Attachment" />
+          <NavigationProperty Name="AvatarAttachment" Relationship="db.PersonAttachment1" FromRole="Person"
+                              ToRole="Attachment" />
           <NavigationProperty Name="Seat" Relationship="db.PersonSeat" FromRole="Person" ToRole="Seat" />
           <Property Name="SeatId" Nullable="true" Type="Int32" />
           <Property Type="Int32" Name="OnlineDevType" Nullable="false" />
@@ -651,27 +660,32 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Topic" Relationship="db.DiscussionTopic" FromRole="Discussion" ToRole="Topic" />
-          <Property Type="String" Name="Subject" Nullable="false" />
-          <NavigationProperty Name="Attachment" Relationship="db.DiscussionAttachment" FromRole="Discussion" ToRole="Attachment" />
-          <NavigationProperty Name="GeneralSide" Relationship="db.DiscussionGeneralSide" FromRole="Discussion" ToRole="GeneralSide" />
-          <NavigationProperty Name="Background" Relationship="db.DiscussionRichText" FromRole="Discussion" ToRole="RichText" />
-          <Property Type="String" Name="HtmlBackground" Nullable="true" />
+          <Property Type="String" Name="Subject" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Attachment" Relationship="db.DiscussionAttachment" FromRole="Discussion"
+                              ToRole="Attachment" />
+          <NavigationProperty Name="GeneralSide" Relationship="db.DiscussionGeneralSide" FromRole="Discussion"
+                              ToRole="GeneralSide" />
+          <NavigationProperty Name="Background" Relationship="db.DiscussionRichText" FromRole="Discussion"
+                              ToRole="RichText" />
+          <Property Type="String" Name="HtmlBackground" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="ArgPoint">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Point" Nullable="false" />
+          <Property Type="String" Name="Point" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Topic" Relationship="db.TopicArgPoint" FromRole="ArgPoint" ToRole="Topic" />
           <NavigationProperty Name="Comment" Relationship="db.ArgPointComment" FromRole="ArgPoint" ToRole="Comment" />
           <Property Type="Int32" Name="SideCode" Nullable="false" />
-          <NavigationProperty Name="Attachment" Relationship="db.ArgPointAttachment" FromRole="ArgPoint" ToRole="Attachment" />
+          <NavigationProperty Name="Attachment" Relationship="db.ArgPointAttachment" FromRole="ArgPoint"
+                              ToRole="Attachment" />
           <NavigationProperty Name="Person" Relationship="db.PersonArgPoint" FromRole="ArgPoint" ToRole="Person" />
-          <NavigationProperty Name="Description" Relationship="db.ArgPointRichText" FromRole="ArgPoint" ToRole="RichText" />
+          <NavigationProperty Name="Description" Relationship="db.ArgPointRichText" FromRole="ArgPoint"
+                              ToRole="RichText" />
           <Property Type="Boolean" Name="SharedToPublic" Nullable="false" />
-          <Property Type="String" Name="RecentlyEnteredSource" Nullable="false" />
-          <Property Type="String" Name="RecentlyEnteredMediaUrl" Nullable="false" />
+          <Property Type="String" Name="RecentlyEnteredSource" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="RecentlyEnteredMediaUrl" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Boolean" Name="ChangesPending" Nullable="false" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
         </EntityType>
@@ -680,23 +694,23 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ArgPoint" Relationship="db.TopicArgPoint" FromRole="Topic" ToRole="ArgPoint" />
           <NavigationProperty Name="Discussion" Relationship="db.DiscussionTopic" FromRole="Topic" ToRole="Discussion" />
           <NavigationProperty Name="Person" Relationship="db.TopicPerson" FromRole="Topic" ToRole="Person" />
-          <Property Type="Binary" Name="Annotation" Nullable="true" />
+          <Property Type="Binary" Name="Annotation" Nullable="true" MaxLength="Max" FixedLength="false" />
           <Property Type="Boolean" Name="Running" Nullable="false" />
           <Property Type="Int32" Name="CumulativeDuration" Nullable="false" />
         </EntityType>
         <Association Name="TopicArgPoint">
-          <End Type="db.Topic" Role="Topic" Multiplicity="0..1" >
+          <End Type="db.Topic" Role="Topic" Multiplicity="0..1">
           </End>
           <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="*" />
         </Association>
         <Association Name="DiscussionTopic">
-          <End Type="db.Discussion" Role="Discussion" Multiplicity="0..1" >
+          <End Type="db.Discussion" Role="Discussion" Multiplicity="0..1">
           </End>
-          <End Type="db.Topic" Role="Topic" Multiplicity="*" >
+          <End Type="db.Topic" Role="Topic" Multiplicity="*">
           </End>
         </Association>
         <EntityType Name="Comment">
@@ -704,34 +718,38 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointComment" FromRole="Comment" ToRole="ArgPoint" />
           <NavigationProperty Name="Person" Relationship="db.PersonComment" FromRole="Comment" ToRole="Person" />
         </EntityType>
         <Association Name="ArgPointComment">
-          <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1" >
+          <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1">
           </End>
           <End Type="db.Comment" Role="Comment" Multiplicity="*" />
         </Association>
-        <EntityType Name="Attachment" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" 
-		      	  m:HasStream="true">
-          <Key> 
+        <EntityType Name="Attachment" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                    m:HasStream="true">
+          <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
-          <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointAttachment" FromRole="Attachment" ToRole="ArgPoint" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointAttachment" FromRole="Attachment"
+                              ToRole="ArgPoint" />
           <Property Type="Int32" Name="Format" Nullable="false" />
-          <Property Type="String" Name="VideoThumbURL" Nullable="true" />
-          <Property Type="String" Name="VideoEmbedURL" Nullable="true" />
-          <Property Type="String" Name="VideoLinkURL" Nullable="true" />
+          <Property Type="String" Name="VideoThumbURL" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="VideoEmbedURL" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="VideoLinkURL" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Person" Relationship="db.PersonAttachment" FromRole="Attachment" ToRole="Person" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAttachment" FromRole="Attachment" ToRole="Discussion" />
-          <NavigationProperty Name="PersonWithAvatar" Relationship="db.PersonAttachment1" FromRole="Attachment" ToRole="Person" />
-          <Property Type="String" Name="Link" Nullable="false" />
-          <Property Type="String" Name="Title" Nullable="false" />
-          <Property Type="Binary" Name="Thumb" Nullable="true" />
-          <NavigationProperty Name="MediaData" Relationship="db.AttachmentMediaData" FromRole="Attachment" ToRole="MediaData" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAttachment" FromRole="Attachment"
+                              ToRole="Discussion" />
+          <NavigationProperty Name="PersonWithAvatar" Relationship="db.PersonAttachment1" FromRole="Attachment"
+                              ToRole="Person" />
+          <Property Type="String" Name="Link" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="Binary" Name="Thumb" Nullable="true" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="MediaData" Relationship="db.AttachmentMediaData" FromRole="Attachment"
+                              ToRole="MediaData" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
         </EntityType>
         <Association Name="ArgPointAttachment">
@@ -764,7 +782,8 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Person" Relationship="db.PersonGeneralSide" FromRole="GeneralSide" ToRole="Person" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionGeneralSide" FromRole="GeneralSide" ToRole="Discussion" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionGeneralSide" FromRole="GeneralSide"
+                              ToRole="Discussion" />
           <Property Type="Int32" Name="Side" Nullable="false" />
         </EntityType>
         <Association Name="PersonGeneralSide">
@@ -780,7 +799,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="RichText" Relationship="db.RichTextSource" FromRole="Source" ToRole="RichText" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
         </EntityType>
@@ -789,9 +808,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Source" Relationship="db.RichTextSource" FromRole="RichText" ToRole="Source" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionRichText" FromRole="RichText" ToRole="Discussion" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionRichText" FromRole="RichText"
+                              ToRole="Discussion" />
           <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointRichText" FromRole="RichText" ToRole="ArgPoint" />
         </EntityType>
         <Association Name="RichTextSource">
@@ -812,13 +832,14 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Person" Relationship="db.PersonScreenshot" FromRole="Screenshot" ToRole="Person" />
-          <Property Type="Binary" Name="Bg" Nullable="true" />
-          <Property Type="Binary" Name="VectGraphics" Nullable="false" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAnnotation" FromRole="Annotation" ToRole="Discussion" />
-          <Property Type="Binary" Name="Thumb" Nullable="false" />
+          <Property Type="Binary" Name="Bg" Nullable="true" MaxLength="Max" FixedLength="false" />
+          <Property Type="Binary" Name="VectGraphics" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAnnotation" FromRole="Annotation"
+                              ToRole="Discussion" />
+          <Property Type="Binary" Name="Thumb" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Type="Int32" Name="CanvWidth" Nullable="false" />
           <Property Type="Int32" Name="CanvHeight" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <Association Name="PersonScreenshot">
           <End Type="db.Person" Role="Person" Multiplicity="0..1" />
@@ -839,12 +860,12 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="Event" Nullable="false" />
           <Property Type="Int32" Name="DiscussionId" Nullable="false" />
-          <Property Type="String" Name="DiscussionName" Nullable="false" />
+          <Property Type="String" Name="DiscussionName" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Int32" Name="TopicId" Nullable="false" />
-          <Property Type="String" Name="TopicName" Nullable="false" />
+          <Property Type="String" Name="TopicName" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="String" Name="UserName" Nullable="false" />
-          <Property Type="DateTime" Name="Time" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="DateTime" Name="Time" Nullable="false" Precision="3" />
           <Property Type="Int32" Name="DeviceType" Nullable="false" />
         </EntityType>
         <EntityType Name="Session">
@@ -852,11 +873,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
-          <Property Type="DateTime" Name="EstimatedDateTime" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="DateTime" Name="EstimatedDateTime" Nullable="false" Precision="3" />
           <Property Type="Int32" Name="EstimatedTimeSlot" Nullable="false" />
           <NavigationProperty Name="Person" Relationship="db.PersonSession" FromRole="Session" ToRole="Person" />
-          <Property Type="DateTime" Name="EstimatedEndDateTime" Nullable="false" />
+          <Property Type="DateTime" Name="EstimatedEndDateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Seat">
           <Key>
@@ -864,7 +885,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="Color" Nullable="false" />
-          <Property Type="String" Name="SeatName" Nullable="false" />
+          <Property Type="String" Name="SeatName" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Person" Relationship="db.PersonSeat" FromRole="Seat" ToRole="Person" />
         </EntityType>
         <Association Name="PersonSeat">
@@ -896,8 +917,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Binary" Name="Data" Nullable="true" />
-          <NavigationProperty Name="Attachment" Relationship="db.AttachmentMediaData" FromRole="MediaData" ToRole="Attachment" />
+          <Property Type="Binary" Name="Data" Nullable="true" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Attachment" Relationship="db.AttachmentMediaData" FromRole="MediaData"
+                              ToRole="Attachment" />
         </EntityType>
         <Association Name="AttachmentMediaData">
           <End Type="db.Attachment" Role="Attachment" Multiplicity="0..1" />
@@ -907,325 +929,330 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="dbStoreContainer" CdmEntityContainer="DiscCtx">
-    <EntitySetMapping Name="Person">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Person)">
-        <MappingFragment StoreEntitySet="Person">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="Online" ColumnName="Online" />
-          <ScalarProperty Name="SeatId" ColumnName="SeatId" />
-          <ScalarProperty Name="OnlineDevType" ColumnName="OnlineDevType" />
-          <ScalarProperty Name="SessionId" ColumnName="SessionId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Discussion">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Discussion)">
-        <MappingFragment StoreEntitySet="Discussion">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Subject" ColumnName="Subject" />
-          <ScalarProperty Name="HtmlBackground" ColumnName="HtmlBackground" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ArgPoint">
-      <EntityTypeMapping TypeName="IsTypeOf(db.ArgPoint)">
-        <MappingFragment StoreEntitySet="ArgPoint">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Point" ColumnName="Point" />
-          <ScalarProperty Name="SideCode" ColumnName="SideCode" />
-          <ScalarProperty Name="SharedToPublic" ColumnName="SharedToPublic" />
-          <ScalarProperty Name="RecentlyEnteredSource" ColumnName="RecentlyEnteredSource" />
-          <ScalarProperty Name="RecentlyEnteredMediaUrl" ColumnName="RecentlyEnteredMediaUrl" />
-          <ScalarProperty Name="ChangesPending" ColumnName="ChangesPending" />
-          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Topic">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Topic)">
-        <MappingFragment StoreEntitySet="Topic">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Annotation" ColumnName="Annotation" />
-          <ScalarProperty Name="Running" ColumnName="Running" />
-          <ScalarProperty Name="CumulativeDuration" ColumnName="CumulativeDuration" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Comment">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Comment)">
-        <MappingFragment StoreEntitySet="Comment">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Attachment">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Attachment)">
-        <MappingFragment StoreEntitySet="Attachment">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Format" ColumnName="Format" />
-          <ScalarProperty Name="VideoThumbURL" ColumnName="VideoThumbURL" />
-          <ScalarProperty Name="VideoEmbedURL" ColumnName="VideoEmbedURL" />
-          <ScalarProperty Name="VideoLinkURL" ColumnName="VideoLinkURL" />
-          <ScalarProperty Name="Link" ColumnName="Link" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Thumb" ColumnName="Thumb" />
-          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="GeneralSide">
-      <EntityTypeMapping TypeName="IsTypeOf(db.GeneralSide)">
-        <MappingFragment StoreEntitySet="GeneralSide">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Side" ColumnName="Side" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Source">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Source)">
-        <MappingFragment StoreEntitySet="Source">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-          <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="RichText">
-      <EntityTypeMapping TypeName="IsTypeOf(db.RichText)">
-        <MappingFragment StoreEntitySet="RichText">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Annotation">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Annotation)">
-        <MappingFragment StoreEntitySet="Annotation">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Bg" ColumnName="Bg" />
-          <ScalarProperty Name="VectGraphics" ColumnName="VectGraphics" />
-          <ScalarProperty Name="Thumb" ColumnName="Thumb" />
-          <ScalarProperty Name="CanvWidth" ColumnName="CanvWidth" />
-          <ScalarProperty Name="CanvHeight" ColumnName="CanvHeight" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="StatsEvent">
-      <EntityTypeMapping TypeName="IsTypeOf(db.StatsEvent)">
-        <MappingFragment StoreEntitySet="StatsEvent">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Event" ColumnName="Event" />
-          <ScalarProperty Name="DiscussionId" ColumnName="DiscussionId" />
-          <ScalarProperty Name="DiscussionName" ColumnName="DiscussionName" />
-          <ScalarProperty Name="TopicId" ColumnName="TopicId" />
-          <ScalarProperty Name="TopicName" ColumnName="TopicName" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="Time" ColumnName="Time" />
-          <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Session">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Session)">
-        <MappingFragment StoreEntitySet="Session">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="EstimatedDateTime" ColumnName="EstimatedDateTime" />
-          <ScalarProperty Name="EstimatedTimeSlot" ColumnName="EstimatedTimeSlot" />
-          <ScalarProperty Name="EstimatedEndDateTime" ColumnName="EstimatedEndDateTime" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Seat">
-      <EntityTypeMapping TypeName="IsTypeOf(db.Seat)">
-        <MappingFragment StoreEntitySet="Seat">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Color" ColumnName="Color" />
-          <ScalarProperty Name="SeatName" ColumnName="SeatName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="MediaDataSet">
-      <EntityTypeMapping TypeName="IsTypeOf(db.MediaData)">
-        <MappingFragment StoreEntitySet="MediaDataSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Data" ColumnName="Data" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="TopicArgPoint" TypeName="db.TopicArgPoint" StoreEntitySet="ArgPoint">
-      <EndProperty Name="Topic">
-        <ScalarProperty Name="Id" ColumnName="Topic_Id" />
-      </EndProperty>
-      <EndProperty Name="ArgPoint">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Topic_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="DiscussionTopic" TypeName="db.DiscussionTopic" StoreEntitySet="Topic">
-      <EndProperty Name="Discussion">
-        <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
-      </EndProperty>
-      <EndProperty Name="Topic">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Discussion_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ArgPointComment" TypeName="db.ArgPointComment" StoreEntitySet="Comment">
-      <EndProperty Name="ArgPoint">
-        <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
-      </EndProperty>
-      <EndProperty Name="Comment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="ArgPoint_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ArgPointAttachment" TypeName="db.ArgPointAttachment" StoreEntitySet="Attachment">
-      <EndProperty Name="ArgPoint">
-        <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
-      </EndProperty>
-      <EndProperty Name="Attachment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="ArgPoint_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TopicPerson" TypeName="db.TopicPerson" StoreEntitySet="TopicPerson">
-      <EndProperty Name="Topic">
-        <ScalarProperty Name="Id" ColumnName="Topic_Id" />
-      </EndProperty>
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="Person_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PersonArgPoint" TypeName="db.PersonArgPoint" StoreEntitySet="ArgPoint">
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="Person_Id" />
-      </EndProperty>
-      <EndProperty Name="ArgPoint">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Person_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PersonComment" TypeName="db.PersonComment" StoreEntitySet="Comment">
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="Person_Id" />
-      </EndProperty>
-      <EndProperty Name="Comment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Person_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PersonAttachment" TypeName="db.PersonAttachment" StoreEntitySet="Attachment">
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="Person_Id" />
-      </EndProperty>
-      <EndProperty Name="Attachment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Person_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="DiscussionAttachment" TypeName="db.DiscussionAttachment" StoreEntitySet="Attachment">
-      <EndProperty Name="Discussion">
-        <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
-      </EndProperty>
-      <EndProperty Name="Attachment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Discussion_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PersonGeneralSide" TypeName="db.PersonGeneralSide" StoreEntitySet="GeneralSide">
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="Person_Id" />
-      </EndProperty>
-      <EndProperty Name="GeneralSide">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Person_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="DiscussionGeneralSide" TypeName="db.DiscussionGeneralSide" StoreEntitySet="GeneralSide">
-      <EndProperty Name="Discussion">
-        <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
-      </EndProperty>
-      <EndProperty Name="GeneralSide">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Discussion_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="RichTextSource" TypeName="db.RichTextSource" StoreEntitySet="Source">
-      <EndProperty Name="RichText">
-        <ScalarProperty Name="Id" ColumnName="RichText_Id" />
-      </EndProperty>
-      <EndProperty Name="Source">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="RichText_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="DiscussionRichText" TypeName="db.DiscussionRichText" StoreEntitySet="RichText">
-      <EndProperty Name="Discussion">
-        <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
-      </EndProperty>
-      <EndProperty Name="RichText">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Discussion_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ArgPointRichText" TypeName="db.ArgPointRichText" StoreEntitySet="RichText">
-      <EndProperty Name="ArgPoint">
-        <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
-      </EndProperty>
-      <EndProperty Name="RichText">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="ArgPoint_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PersonScreenshot" TypeName="db.PersonScreenshot" StoreEntitySet="Annotation">
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="Person_Id" />
-      </EndProperty>
-      <EndProperty Name="Screenshot">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Person_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="DiscussionAnnotation" TypeName="db.DiscussionAnnotation" StoreEntitySet="Annotation">
-      <EndProperty Name="Discussion">
-        <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
-      </EndProperty>
-      <EndProperty Name="Annotation">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Discussion_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PersonAttachment1" TypeName="db.PersonAttachment1" StoreEntitySet="Attachment">
-      <EndProperty Name="Person">
-        <ScalarProperty Name="Id" ColumnName="PersonWithAvatar_Id" />
-      </EndProperty>
-      <EndProperty Name="Attachment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="PersonWithAvatar_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="AttachmentMediaData" TypeName="db.AttachmentMediaData" StoreEntitySet="MediaDataSet">
-      <EndProperty Name="Attachment">
-        <ScalarProperty Name="Id" ColumnName="Attachment_Id" />
-      </EndProperty>
-      <EndProperty Name="MediaData">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Attachment_Id" IsNull="false" />
-    </AssociationSetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbStoreContainer" CdmEntityContainer="DiscCtx">
+          <EntitySetMapping Name="Person">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Person)">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="SeatId" ColumnName="SeatId" />
+                <ScalarProperty Name="OnlineDevType" ColumnName="OnlineDevType" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Discussion">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Discussion)">
+              <MappingFragment StoreEntitySet="Discussion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="HtmlBackground" ColumnName="HtmlBackground" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArgPoint">
+            <EntityTypeMapping TypeName="IsTypeOf(db.ArgPoint)">
+              <MappingFragment StoreEntitySet="ArgPoint">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="SideCode" ColumnName="SideCode" />
+                <ScalarProperty Name="SharedToPublic" ColumnName="SharedToPublic" />
+                <ScalarProperty Name="RecentlyEnteredSource" ColumnName="RecentlyEnteredSource" />
+                <ScalarProperty Name="RecentlyEnteredMediaUrl" ColumnName="RecentlyEnteredMediaUrl" />
+                <ScalarProperty Name="ChangesPending" ColumnName="ChangesPending" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topic">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Topic)">
+              <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+                <ScalarProperty Name="Running" ColumnName="Running" />
+                <ScalarProperty Name="CumulativeDuration" ColumnName="CumulativeDuration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Comment)">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attachment">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Attachment)">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Format" ColumnName="Format" />
+                <ScalarProperty Name="VideoThumbURL" ColumnName="VideoThumbURL" />
+                <ScalarProperty Name="VideoEmbedURL" ColumnName="VideoEmbedURL" />
+                <ScalarProperty Name="VideoLinkURL" ColumnName="VideoLinkURL" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Thumb" ColumnName="Thumb" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeneralSide">
+            <EntityTypeMapping TypeName="IsTypeOf(db.GeneralSide)">
+              <MappingFragment StoreEntitySet="GeneralSide">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Side" ColumnName="Side" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Source">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Source)">
+              <MappingFragment StoreEntitySet="Source">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RichText">
+            <EntityTypeMapping TypeName="IsTypeOf(db.RichText)">
+              <MappingFragment StoreEntitySet="RichText">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Annotation">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Annotation)">
+              <MappingFragment StoreEntitySet="Annotation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bg" ColumnName="Bg" />
+                <ScalarProperty Name="VectGraphics" ColumnName="VectGraphics" />
+                <ScalarProperty Name="Thumb" ColumnName="Thumb" />
+                <ScalarProperty Name="CanvWidth" ColumnName="CanvWidth" />
+                <ScalarProperty Name="CanvHeight" ColumnName="CanvHeight" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatsEvent">
+            <EntityTypeMapping TypeName="IsTypeOf(db.StatsEvent)">
+              <MappingFragment StoreEntitySet="StatsEvent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="DiscussionId" ColumnName="DiscussionId" />
+                <ScalarProperty Name="DiscussionName" ColumnName="DiscussionName" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="TopicName" ColumnName="TopicName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Session">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Session)">
+              <MappingFragment StoreEntitySet="Session">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EstimatedDateTime" ColumnName="EstimatedDateTime" />
+                <ScalarProperty Name="EstimatedTimeSlot" ColumnName="EstimatedTimeSlot" />
+                <ScalarProperty Name="EstimatedEndDateTime" ColumnName="EstimatedEndDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seat">
+            <EntityTypeMapping TypeName="IsTypeOf(db.Seat)">
+              <MappingFragment StoreEntitySet="Seat">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="SeatName" ColumnName="SeatName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MediaDataSet">
+            <EntityTypeMapping TypeName="IsTypeOf(db.MediaData)">
+              <MappingFragment StoreEntitySet="MediaDataSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TopicArgPoint" TypeName="db.TopicArgPoint" StoreEntitySet="ArgPoint">
+            <EndProperty Name="Topic">
+              <ScalarProperty Name="Id" ColumnName="Topic_Id" />
+            </EndProperty>
+            <EndProperty Name="ArgPoint">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Topic_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DiscussionTopic" TypeName="db.DiscussionTopic" StoreEntitySet="Topic">
+            <EndProperty Name="Discussion">
+              <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
+            </EndProperty>
+            <EndProperty Name="Topic">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Discussion_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ArgPointComment" TypeName="db.ArgPointComment" StoreEntitySet="Comment">
+            <EndProperty Name="ArgPoint">
+              <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
+            </EndProperty>
+            <EndProperty Name="Comment">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="ArgPoint_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ArgPointAttachment" TypeName="db.ArgPointAttachment" StoreEntitySet="Attachment">
+            <EndProperty Name="ArgPoint">
+              <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
+            </EndProperty>
+            <EndProperty Name="Attachment">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="ArgPoint_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TopicPerson" TypeName="db.TopicPerson" StoreEntitySet="TopicPerson">
+            <EndProperty Name="Topic">
+              <ScalarProperty Name="Id" ColumnName="Topic_Id" />
+            </EndProperty>
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="Person_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PersonArgPoint" TypeName="db.PersonArgPoint" StoreEntitySet="ArgPoint">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="Person_Id" />
+            </EndProperty>
+            <EndProperty Name="ArgPoint">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Person_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PersonComment" TypeName="db.PersonComment" StoreEntitySet="Comment">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="Person_Id" />
+            </EndProperty>
+            <EndProperty Name="Comment">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Person_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PersonAttachment" TypeName="db.PersonAttachment" StoreEntitySet="Attachment">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="Person_Id" />
+            </EndProperty>
+            <EndProperty Name="Attachment">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Person_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DiscussionAttachment" TypeName="db.DiscussionAttachment"
+                                 StoreEntitySet="Attachment">
+            <EndProperty Name="Discussion">
+              <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
+            </EndProperty>
+            <EndProperty Name="Attachment">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Discussion_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PersonGeneralSide" TypeName="db.PersonGeneralSide" StoreEntitySet="GeneralSide">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="Person_Id" />
+            </EndProperty>
+            <EndProperty Name="GeneralSide">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Person_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DiscussionGeneralSide" TypeName="db.DiscussionGeneralSide"
+                                 StoreEntitySet="GeneralSide">
+            <EndProperty Name="Discussion">
+              <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
+            </EndProperty>
+            <EndProperty Name="GeneralSide">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Discussion_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="RichTextSource" TypeName="db.RichTextSource" StoreEntitySet="Source">
+            <EndProperty Name="RichText">
+              <ScalarProperty Name="Id" ColumnName="RichText_Id" />
+            </EndProperty>
+            <EndProperty Name="Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="RichText_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DiscussionRichText" TypeName="db.DiscussionRichText" StoreEntitySet="RichText">
+            <EndProperty Name="Discussion">
+              <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
+            </EndProperty>
+            <EndProperty Name="RichText">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Discussion_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ArgPointRichText" TypeName="db.ArgPointRichText" StoreEntitySet="RichText">
+            <EndProperty Name="ArgPoint">
+              <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
+            </EndProperty>
+            <EndProperty Name="RichText">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="ArgPoint_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PersonScreenshot" TypeName="db.PersonScreenshot" StoreEntitySet="Annotation">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="Person_Id" />
+            </EndProperty>
+            <EndProperty Name="Screenshot">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Person_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="DiscussionAnnotation" TypeName="db.DiscussionAnnotation"
+                                 StoreEntitySet="Annotation">
+            <EndProperty Name="Discussion">
+              <ScalarProperty Name="Id" ColumnName="Discussion_Id" />
+            </EndProperty>
+            <EndProperty Name="Annotation">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Discussion_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PersonAttachment1" TypeName="db.PersonAttachment1" StoreEntitySet="Attachment">
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="PersonWithAvatar_Id" />
+            </EndProperty>
+            <EndProperty Name="Attachment">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="PersonWithAvatar_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="AttachmentMediaData" TypeName="db.AttachmentMediaData"
+                                 StoreEntitySet="MediaDataSet">
+            <EndProperty Name="Attachment">
+              <ScalarProperty Name="Id" ColumnName="Attachment_Id" />
+            </EndProperty>
+            <EndProperty Name="MediaData">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Attachment_Id" IsNull="false" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
@@ -1243,11 +1270,13 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="data_model" ZoomLevel="95" >
+      <Diagram Name="data_model" ZoomLevel="95">
         <EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
-        <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125"
+                         Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />
-        <EntityTypeShape EntityType="db.Topic" Width="1.5" PointX="5.125" PointY="7.125" Height="1.9802864583333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="db.Topic" Width="1.5" PointX="5.125" PointY="7.125" Height="1.9802864583333326"
+                         IsExpanded="true" />
         <AssociationConnector Association="db.TopicArgPoint" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="5.9179996744791659" />
           <ConnectorPoint PointX="7.385416666666667" PointY="5.917999674479165" />
@@ -1290,7 +1319,8 @@
         </AssociationConnector>
         <AssociationConnector Association="db.DiscussionAttachment" ManuallyRouted="false">
         </AssociationConnector>
-        <EntityTypeShape Height="1.7879850260416665" EntityType="db.GeneralSide" PointX="3.125" PointY="3" Width="1.5" IsExpanded="true" />
+        <EntityTypeShape Height="1.7879850260416665" EntityType="db.GeneralSide" PointX="3.125" PointY="3" Width="1.5"
+                         IsExpanded="true" />
         <AssociationConnector Association="db.PersonGeneralSide">
           <ConnectorPoint PointX="6.625" PointY="1.5269346364339191" />
           <ConnectorPoint PointX="4.75" PointY="1.5269346364339191" />
@@ -1300,7 +1330,8 @@
           <ConnectorPoint PointX="3.625" PointY="2.6629850260416665" />
         </AssociationConnector>
         <EntityTypeShape EntityType="db.Source" Width="1.5" PointX="5.25" PointY="13.25" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="db.RichText" Width="1.5" PointX="5.375" PointY="10.625" Height="1.4033821614583335" />
+        <EntityTypeShape EntityType="db.RichText" Width="1.5" PointX="5.375" PointY="10.625"
+                         Height="1.4033821614583335" />
         <AssociationConnector Association="db.RichTextSource">
           <ConnectorPoint PointX="1.625" PointY="10.480286458333334" />
           <ConnectorPoint PointX="1.625" PointY="11.5" />
@@ -1312,12 +1343,12 @@
           <ConnectorPoint PointX="9.75" PointY="9.4901432291666659" />
           <ConnectorPoint PointX="2.375" PointY="9.4901432291666659" />
         </AssociationConnector>
-        <AssociationConnector Association="db.PersonAttachment1" ></AssociationConnector>
+        <AssociationConnector Association="db.PersonAttachment1"></AssociationConnector>
         <EntityTypeShape EntityType="db.StatsEvent" Width="1.5" PointX="13.5" PointY="2.75" />
         <EntityTypeShape EntityType="db.Session" Width="1.875" PointX="3.75" PointY="0.5" />
         <EntityTypeShape EntityType="db.Seat" Width="1.5" PointX="8.5" PointY="0.5" />
         <AssociationConnector Association="db.PersonSeat" />
-        <AssociationConnector Association="db.PersonSession" ManuallyRouted="false" >
+        <AssociationConnector Association="db.PersonSession" ManuallyRouted="false">
         </AssociationConnector>
         <EntityTypeShape EntityType="db.MediaData" Width="1.5" PointX="13.625" PointY="8.125" />
         <AssociationConnector Association="db.AttachmentMediaData" />

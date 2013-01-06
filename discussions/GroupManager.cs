@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Discussions
 {
-    class GroupManager
+    internal class GroupManager
     {
     }
 }

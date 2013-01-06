@@ -1,31 +1,37 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Custom="http://schemas.microsoft.com/surface/2008"
-        xmlns:local="clr-namespace:Discussions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" mc:Ignorable="d" x:Class="Discussions.LoginDiscussionDlg"
-        Title="Discussion selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    xmlns:local="clr-namespace:Discussions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" mc:Ignorable="d"
+    x:Class="Discussions.LoginDiscussionDlg"
+    Title="Discussion selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
     <Grid>
-	    <Grid.Resources>
-            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform"/>
+        <Grid.Resources>
+            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform" />
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="197*"/>
-            <ColumnDefinition Width="87*"/>
+            <ColumnDefinition Width="197*" />
+            <ColumnDefinition Width="87*" />
         </Grid.ColumnDefinitions>
-        <Rectangle x:Name="MainBgrndRct" Fill="{DynamicResource MainBgrndRctFill}" Stroke="{DynamicResource MainBgrndRctStroke}" Grid.ColumnSpan="2"/>
+        <Rectangle x:Name="MainBgrndRct" Fill="{DynamicResource MainBgrndRctFill}"
+                   Stroke="{DynamicResource MainBgrndRctStroke}" Grid.ColumnSpan="2" />
 
         <Custom:SurfaceListBox x:Name="lstBxDiscussions" ItemsSource="{Binding Discussions}"
                                SelectionChanged="lstBxDiscussions_SelectionChanged"
-                               Grid.Column="1" 
+                               Grid.Column="1"
                                ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                               DisplayMemberPath="Subject"/>        
-    	<local:LoginDecoration x:Name="decorations" Margin="0,37.5,0,169.265"/>
-    	<StackPanel Orientation="Horizontal" d:LayoutOverrides="Width" HorizontalAlignment="Right" VerticalAlignment="Top">
-    		<Custom:SurfaceButton x:Name="btnBack" Click="btnBack_Click"
-    			HorizontalAlignment="Right" VerticalAlignment="Top" Background="{DynamicResource backArrow}" Margin="0,1,0,0"/>
-    		<Rectangle Width="20"/>
-    		<Label Content="Select discussion" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-    	</StackPanel>        
+                               DisplayMemberPath="Subject" />
+        <local:LoginDecoration x:Name="decorations" Margin="0,37.5,0,169.265" />
+        <StackPanel Orientation="Horizontal" d:LayoutOverrides="Width" HorizontalAlignment="Right"
+                    VerticalAlignment="Top">
+            <Custom:SurfaceButton x:Name="btnBack" Click="btnBack_Click"
+                                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                                  Background="{DynamicResource backArrow}" Margin="0,1,0,0" />
+            <Rectangle Width="20" />
+            <Label Content="Select discussion" HorizontalAlignment="Right" VerticalAlignment="Top" />
+        </StackPanel>
     </Grid>
 </Window>

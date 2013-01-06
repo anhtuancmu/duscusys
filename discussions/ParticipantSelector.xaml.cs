@@ -15,23 +15,25 @@ using Microsoft.Surface.Presentation.Controls;
 using Discussions.model;
 using System.Windows.Controls.Primitives;
 using Discussions.DbModel;
+
 namespace Discussions
 {
-
     /// <summary>
     /// Логика взаимодействия для ParticipantUC.xaml
     /// </summary>
     public partial class ParticipantSelector : UserControl
     {
         public delegate void ParticipantChanged();
-        public ParticipantChanged changed {get;set;}
 
-        bool manualEnteringDetected = false;
-        bool blockTextChangeHandlers = false;
+        public ParticipantChanged changed { get; set; }
 
-        SurfaceListBox suggestions = new SurfaceListBox();
-        
-        public Person SelectedPerson { 
+        private bool manualEnteringDetected = false;
+        private bool blockTextChangeHandlers = false;
+
+        private SurfaceListBox suggestions = new SurfaceListBox();
+
+        public Person SelectedPerson
+        {
             get
             {
                 if (DataContext == null)
@@ -41,19 +43,16 @@ namespace Discussions
                 return p;
             }
 
-            set
-            {
-                DataContext = value;
-            }
+            set { DataContext = value; }
         }
 
-        void EnsureNonNullPerson()
+        private void EnsureNonNullPerson()
         {
             Person p = DataContext as Person;
             if (p == null)
                 p = Ctors.NewPerson(txtBxName.Text, txtBxEmail.Text);
         }
-       
+
         public ParticipantSelector()
         {
             InitializeComponent();
@@ -63,16 +62,16 @@ namespace Discussions
             suggestions.DisplayMemberPath = "Name";
         }
 
-        void SuggestionKey(object sender, KeyEventArgs e)
+        private void SuggestionKey(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                OnSelectedSuggestedItem((Person)suggestions.SelectedItem);
+                OnSelectedSuggestedItem((Person) suggestions.SelectedItem);
         }
 
-        void SuggestionSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SuggestionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
-                OnSelectedSuggestedItem((Person)e.AddedItems[0]);
+                OnSelectedSuggestedItem((Person) e.AddedItems[0]);
         }
 
         public void SelectPerson(Person p)
@@ -80,10 +79,10 @@ namespace Discussions
             OnSelectedSuggestedItem(p);
         }
 
-        void OnSelectedSuggestedItem(Person p)
+        private void OnSelectedSuggestedItem(Person p)
         {
             blockTextChangeHandlers = true;
-            txtBxName.Text  = p.Name;
+            txtBxName.Text = p.Name;
             txtBxEmail.Text = p.Email;
 
             txtBxName.IsReadOnly = true;
@@ -99,7 +98,7 @@ namespace Discussions
             HideSuggestions();
         }
 
-        void HideSuggestions()
+        private void HideSuggestions()
         {
             contentAssistStack.Children.Remove(suggestions);
         }
@@ -120,9 +119,9 @@ namespace Discussions
             else if (Name != null && Name != "")
             {
                 IQueryable<Person> lookup =
-                   from p in ctx.Person
-                   where p.Name.IndexOf(Name) != -1
-                   select p;
+                    from p in ctx.Person
+                    where p.Name.IndexOf(Name) != -1
+                    select p;
 
                 foreach (Person p in lookup)
                     suggestions.Items.Add(p);
@@ -130,9 +129,9 @@ namespace Discussions
             else if (Email != null && Email != "")
             {
                 IQueryable<Person> lookup =
-                  from p in ctx.Person
-                  where p.Email.IndexOf(Email) != -1
-                  select p;
+                    from p in ctx.Person
+                    where p.Email.IndexOf(Email) != -1
+                    select p;
 
                 foreach (Person p in lookup)
                     suggestions.Items.Add(p);
@@ -145,10 +144,10 @@ namespace Discussions
             }
             else if (suggestions.Items.Count == 1)
             {
-                if ((Name != null && Name == ((Person)suggestions.Items[0]).Name) ||
-                      (Email != null && Email == ((Person)suggestions.Items[0]).Email))
+                if ((Name != null && Name == ((Person) suggestions.Items[0]).Name) ||
+                    (Email != null && Email == ((Person) suggestions.Items[0]).Email))
                 {
-                    SelectPerson((Person)suggestions.Items[0]);
+                    SelectPerson((Person) suggestions.Items[0]);
                 }
                 else
                 {
@@ -165,11 +164,11 @@ namespace Discussions
             EnsureNonNullPerson();
             if (txtBxName != null && manualEnteringDetected && !blockTextChangeHandlers)
             {
-                LookupName(txtBxName.Text, null);       
+                LookupName(txtBxName.Text, null);
             }
-            if(SelectedPerson!=null)
+            if (SelectedPerson != null)
             {
-                SelectedPerson.Name = txtBxName.Text; 
+                SelectedPerson.Name = txtBxName.Text;
             }
         }
 
@@ -180,7 +179,7 @@ namespace Discussions
                 LookupName(null, txtBxEmail.Text);
             if (SelectedPerson != null)
             {
-                SelectedPerson.Email = txtBxEmail.Text; 
+                SelectedPerson.Email = txtBxEmail.Text;
             }
         }
 

@@ -20,17 +20,17 @@ namespace Lite.Operations
         /// <summary>
         ///   The none.
         /// </summary>
-        None = 0x00, 
+        None = 0x00,
 
         /// <summary>
         ///   The game.
         /// </summary>
-        Game = 0x01, 
+        Game = 0x01,
 
         /// <summary>
         ///   The actor.
         /// </summary>
-        Actor = 0x02, 
+        Actor = 0x02,
 
         /// <summary>
         ///   The game and actor.

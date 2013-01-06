@@ -19,17 +19,17 @@ namespace Lite.Operations
         /// <summary>
         ///   Specifies that no event code is set.
         /// </summary>
-        NoCodeSet = 0, 
+        NoCodeSet = 0,
 
         /// <summary>
         ///   The event code for the <see cref="JoinEvent"/>.
         /// </summary>
-        Join = 255, 
+        Join = 255,
 
         /// <summary>
         ///   The event code for the <see cref="LeaveEvent"/>.
         /// </summary>
-        Leave = 254, 
+        Leave = 254,
 
         /// <summary>
         ///   The event code for the <see cref="PropertiesChangedEvent"/>.

@@ -13,8 +13,8 @@ namespace Discussions
 {
     public class DaoUtils
     {
-        public static string MODER_SUBNAME = "moder";      
-        
+        public static string MODER_SUBNAME = "moder";
+
         public static void DeleteDiscussion(Discussion d)
         {
             if (!Ctors.DiscussionExists(d))
@@ -32,8 +32,8 @@ namespace Discussions
             //delete background             
             if (d.Background != null)
                 d.Background = null;
-            
-            foreach(var t in d.Topic)
+
+            foreach (var t in d.Topic)
             {
                 t.Person.Clear();
                 t.ArgPoint.Clear();
@@ -48,9 +48,9 @@ namespace Discussions
         }
 
         public static Person PersonSingleton(Person template, out bool prevExists)
-        {                                    
+        {
             Person prev = CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Name == template.Name &&
-                                                                   p0.Email == template.Email);
+                                                                         p0.Email == template.Email);
             if (prev != null)
             {
                 prevExists = true;
@@ -61,7 +61,7 @@ namespace Discussions
                 prevExists = false;
                 return template;
             }
-        } 
+        }
 
         public static void EnsureModerExists()
         {
@@ -72,10 +72,10 @@ namespace Discussions
                     select p;
 
             if (q.Count() == 0)
-            {                
+            {
                 ctx.Person.AddObject(Ctors.NewPerson("moderator", "moder-mail"));
                 ctx.SaveChanges();
-            }                        
+            }
         }
 
         public static void deletePersonAndPoints(Person p)
@@ -85,18 +85,18 @@ namespace Discussions
             //remove the point from topic 
             foreach (var pt in p.ArgPoint)
             {
-                if (pt.Topic!=null)
+                if (pt.Topic != null)
                     pt.Topic.ArgPoint.Remove(pt);
-                pt.Topic = null;                    
+                pt.Topic = null;
             }
             p.ArgPoint.Clear();
 
-            foreach(var s in p.Screenshot.ToList())
+            foreach (var s in p.Screenshot.ToList())
             {
                 s.Discussion = null;
                 s.Person = null;
                 ctx.DeleteObject(s);
-            }            
+            }
 
             //remove the speaker from all topics
             p.Topic.Clear();
@@ -124,14 +124,14 @@ namespace Discussions
                 return null;
 
             //create new point 
-            ArgPoint pt = new ArgPoint();            
+            ArgPoint pt = new ArgPoint();
             pt.Point = "Your point here";
             pt.RecentlyEnteredSource = "Your source here";
             pt.RecentlyEnteredMediaUrl = "Paste link to media and return";
             DaoUtils.EnsurePtDescriptionExists(pt);
 
             pt.Description.Text = "Description";
-            pt.Topic = Ctx2.Get().Topic.FirstOrDefault(t0=>t0.Id==t.Id);
+            pt.Topic = Ctx2.Get().Topic.FirstOrDefault(t0 => t0.Id == t.Id);
             int selfId = SessionInfo.Get().person.Id;
             var pers = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == selfId);
             pt.Person = pers;
@@ -143,8 +143,8 @@ namespace Discussions
             return pt;
         }
 
-        public static void DeleteArgPoint(DiscCtx ctx,  ArgPoint p)
-        {         
+        public static void DeleteArgPoint(DiscCtx ctx, ArgPoint p)
+        {
             p.Topic = null;
             p.Person = null;
             p.Comment.Clear();
@@ -175,7 +175,7 @@ namespace Discussions
             var ctx = CtxSingleton.Get();
             t.Person.Clear();
             t.ArgPoint.Clear();
-            t.Discussion = null;            
+            t.Discussion = null;
             ctx.DeleteObject(t);
             ctx.SaveChanges();
         }
@@ -188,13 +188,13 @@ namespace Discussions
             var q = from genSide in CtxSingleton.Get().GeneralSide
                     where genSide.Discussion.Id == d.Id && genSide.Person.Id == p.Id
                     select genSide;
-            if (q.Count()  > 0)
+            if (q.Count() > 0)
                 q.First().Side = side;
-            else            
-                CtxSingleton.Get().GeneralSide.AddObject(Ctors.NewGenSide(p, d, side));                           
+            else
+                CtxSingleton.Get().GeneralSide.AddObject(Ctors.NewGenSide(p, d, side));
         }
 
-        public static int  GetGeneralSide(Person p, Discussion d)
+        public static int GetGeneralSide(Person p, Discussion d)
         {
             if (p == null || d == null)
                 return -1;
@@ -203,7 +203,7 @@ namespace Discussions
                     where genSide.Discussion.Id == d.Id && genSide.Person.Id == p.Id
                     select genSide;
 
-            if(q.Count()>0)
+            if (q.Count() > 0)
                 return q.First().Side;
             else
                 return -1;
@@ -211,7 +211,7 @@ namespace Discussions
 
         public static void AddSource(string newSrc, RichText richText)
         {
-            if(richText==null)
+            if (richText == null)
                 return;
 
             Source src = new Source();
@@ -220,17 +220,17 @@ namespace Discussions
         }
 
         public static void AddSource(RichText r)
-        {     
-            if (r==null)
+        {
+            if (r == null)
                 return;
-            
+
             var dlg = new SourceDialog();
             dlg.ShowDialog();
 
             if (dlg.Source == null)
                 return;
 
-            DaoUtils.AddSource(dlg.Source, r); 
+            DaoUtils.AddSource(dlg.Source, r);
         }
 
         public static void EnsureBgExists(Discussion discussion)
@@ -293,7 +293,7 @@ namespace Discussions
             {
                 CtxSingleton.Get().Refresh(RefreshMode.StoreWins, d);
             }
-            catch(Exception)
+            catch (Exception)
             {
             }
 
@@ -301,7 +301,7 @@ namespace Discussions
             {
                 Ctx2.Get().Refresh(RefreshMode.StoreWins, d);
             }
-            catch(Exception)
+            catch (Exception)
             {
             }
         }
@@ -312,7 +312,7 @@ namespace Discussions
             Person p = CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == id);
             if (p == null)
                 return Colors.AliceBlue;
-            else 
+            else
                 return Utils.IntToColor(p.Color);
         }
 
@@ -346,20 +346,20 @@ namespace Discussions
             var events = (from s in CtxSingleton.Get().StatsEvent
                           orderby s.Time descending
                           select s).Take(10);
-            
+
             foreach (var e in events.ToArray().Reverse())
-                res.Add(new EventViewModel((StEvent)e.Event, e.UserId, e.Time, (DeviceType)e.DeviceType));            
+                res.Add(new EventViewModel((StEvent) e.Event, e.UserId, e.Time, (DeviceType) e.DeviceType));
 
             return res;
         }
 
-        const string NewComment = NEW_COMMENT;   
+        private const string NewComment = NEW_COMMENT;
 
         public static Comment EnsureCommentPlaceholderExists(ArgPoint ap)
         {
-            if(ap==null)
+            if (ap == null)
                 return null;
-           
+
             bool needNewPlaceholder = false;
             if (ap.Comment.Count == 0)
             {
@@ -367,7 +367,8 @@ namespace Discussions
             }
             else
             {
-                var placeholderComment = ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
+                var placeholderComment =
+                    ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
                 needNewPlaceholder = (placeholderComment == null);
                 if (placeholderComment != null)
                 {
@@ -376,10 +377,10 @@ namespace Discussions
                 }
             }
 
-            if(needNewPlaceholder)
+            if (needNewPlaceholder)
             {
                 var c = new Comment();
-                c.Text = NewComment;                
+                c.Text = NewComment;
                 ap.Comment.Add(c);
                 return c;
             }
@@ -393,15 +394,15 @@ namespace Discussions
             bool changed = false;
             if (c != null)
             {
-                if((c.Person==null && commentAuthor!=null) ||
-                   (c.Person!=null && commentAuthor==null) )
+                if ((c.Person == null && commentAuthor != null) ||
+                    (c.Person != null && commentAuthor == null))
                 {
                     changed = true;
                 }
                 else
-                    changed = c.Person.Id!=commentAuthor.Id; 
+                    changed = c.Person.Id != commentAuthor.Id;
 
-                c.Person = commentAuthor;               
+                c.Person = commentAuthor;
             }
 
             return changed;
@@ -413,7 +414,7 @@ namespace Discussions
         public static MediaData CreateMediaData(byte[] data)
         {
             var res = new MediaData();
-            res.Data= data;
+            res.Data = data;
             return res;
         }
 
@@ -433,7 +434,7 @@ namespace Discussions
             if (top == null)
                 return null;
 
-            var ownPoints = top.ArgPoint.Where(p0=>p0.Person.Id == owner.Id);
+            var ownPoints = top.ArgPoint.Where(p0 => p0.Person.Id == owner.Id);
             int orderNr = 0;
             foreach (var pt in ownPoints)
             {
@@ -441,7 +442,7 @@ namespace Discussions
                     orderNr = pt.OrderNumber;
             }
 
-            var pointCopy = DaoUtils.NewPoint(top, orderNr+1);
+            var pointCopy = DaoUtils.NewPoint(top, orderNr + 1);
             pointCopy.Point = name;
             pointCopy.Description.Text = ap.Description.Text;
 
@@ -480,12 +481,12 @@ namespace Discussions
                 attach.OrderNumber = media.OrderNumber;
 
                 if (media.Thumb != null)
-                    attach.Thumb = (byte[])media.Thumb.Clone();
+                    attach.Thumb = (byte[]) media.Thumb.Clone();
 
                 if (media.MediaData != null && media.MediaData.Data != null)
                 {
                     var mediaClone = new MediaData();
-                    mediaClone.Data = (byte[])media.MediaData.Data.Clone();
+                    mediaClone.Data = (byte[]) media.MediaData.Data.Clone();
                     attach.MediaData = mediaClone;
                 }
 
@@ -502,7 +503,7 @@ namespace Discussions
         //moder online & session running > ok
         public static bool DashboardsAvailable(DiscCtx ctx)
         {
-            return true;                     
+            return true;
         }
 
         public static bool ArgPointInTopic(int apId, int topicId)
@@ -525,8 +526,7 @@ namespace Discussions
 
         public static IEnumerable<ArgPoint> ArgPointsOf(Person pers, Discussion d, Topic t)
         {
-            return pers.ArgPoint.Where(ap => ap.Topic!=null && ap.Topic.Id == t.Id);
+            return pers.ArgPoint.Where(ap => ap.Topic != null && ap.Topic.Id == t.Id);
         }
     }
-
 }

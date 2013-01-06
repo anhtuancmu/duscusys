@@ -16,10 +16,10 @@ namespace Discussions.Metro
             var tileWrapPanel = new WrapPanel();
             tileWrapPanel.Orientation = Orientation.Horizontal;
             tileWrapPanel.Margin = new Thickness(0, 0, 20, 0);
-            
-            tileWrapPanel.Height = (210 * 3) + (6 * 3);
 
-            foreach(var k in tiles.Keys)
+            tileWrapPanel.Height = (210*3) + (6*3);
+
+            foreach (var k in tiles.Keys)
             {
                 var newTile = new TopicTile();
                 newTile.TileTxtBlck.Text = k;
@@ -27,8 +27,8 @@ namespace Discussions.Metro
                 newTile.LaunchDel = tiles[k];
                 tileWrapPanel.Children.Add(newTile);
             }
-                                   
+
             metroStackPanel.Children.Add(tileWrapPanel);
-     }
-}
+        }
+    }
 }

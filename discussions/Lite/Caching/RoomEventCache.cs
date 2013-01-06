@@ -2,7 +2,6 @@
 {
     using System.Collections;
     using System.Collections.Generic;
-
     using Lite.Events;
     using Lite.Operations;
 
@@ -45,7 +44,7 @@
                         continue;
                     }
                 }
-                
+
                 if (raiseEventRequest.Data == null)
                 {
                     this.cachedRoomEvents.RemoveAt(i);

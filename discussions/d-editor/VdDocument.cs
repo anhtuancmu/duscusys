@@ -14,83 +14,82 @@ namespace DistributedEditor
     //provides access to shape collection
     public class VdDocument : IDisposable
     {
-        UISharedRTClient _rt = UISharedRTClient.Instance;
-       
+        private UISharedRTClient _rt = UISharedRTClient.Instance;
+
         //shape id to shape
-        Dictionary<int,IVdShape> shapes = new Dictionary<int,IVdShape>();
+        private Dictionary<int, IVdShape> shapes = new Dictionary<int, IVdShape>();
 
         //selection, copy clone
-        CursorMgr _volatileCtx = null;
+        private CursorMgr _volatileCtx = null;
+
         public CursorMgr VolatileCtx
         {
             get
             {
-                if(_volatileCtx==null)
+                if (_volatileCtx == null)
                     _volatileCtx = new CursorMgr(this, _palette);
                 return _volatileCtx;
             }
         }
-        
-        Canvas _scene;
+
+        private Canvas _scene;
+
         public Canvas Scene
         {
             get { return _scene; }
         }
-        
-        IPaletteOwner _palette;
+
+        private IPaletteOwner _palette;
+
         public int OwnerId
         {
-            get
-            {
-                return _palette.GetOwnerId();
-            }
+            get { return _palette.GetOwnerId(); }
         }
 
-        bool _isLoaded = false;
+        private bool _isLoaded = false;
+
         public bool IsLoaded
         {
-            get
-            {
-                return _isLoaded;
-            }
+            get { return _isLoaded; }
         }
 
-        int _topicId;
+        private int _topicId;
+
         public int TopicId
         {
             get { return _topicId; }
         }
 
-        int _discId;
+        private int _discId;
+
         public int DiscussionId
         {
             get { return _discId; }
         }
 
         public delegate void ShapePostCtor(IVdShape sh, VdShapeType shapeType);
-        ShapePostCtor _shapePostHandler = null;
-     
+
+        private ShapePostCtor _shapePostHandler = null;
+
         //expecting cluster rebuild from server 
         public bool clusterRebuildPending = false;
 
-        bool _shapeVisibility;
+        private bool _shapeVisibility;
+
         public bool ShapeVisibility
         {
-            get
-            {
-                return _shapeVisibility;
-            }
-        }            
+            get { return _shapeVisibility; }
+        }
 
         public VdDocument(IPaletteOwner owner, Canvas scene, ShapePostCtor shapePostHandler,
-                         int topicId, int discussionId, bool shapeVisibility)
+                          int topicId, int discussionId, bool shapeVisibility)
         {
             _palette = owner;
             _scene = scene;
             _shapePostHandler = shapePostHandler;
             _topicId = topicId;
             _shapeVisibility = shapeVisibility;
-            _discId = discussionId; 
+            _discId = discussionId;
 
             setListeners(true);
         }
@@ -100,12 +99,12 @@ namespace DistributedEditor
             setListeners(false);
         }
 
-        void shapeLoadingDone()
+        private void shapeLoadingDone()
         {
             _isLoaded = true;
 
             if (!_shapeVisibility)
-                HideShapes(); 
+                HideShapes();
         }
 
         public void setListeners(bool doSet)
@@ -114,7 +113,7 @@ namespace DistributedEditor
                 _rt.clienRt.loadingDoneEvent += shapeLoadingDone;
             else
                 _rt.clienRt.loadingDoneEvent -= shapeLoadingDone;
-            
+
             if (doSet)
                 _rt.clienRt.createShapeEvent += createShapeEvent;
             else
@@ -131,12 +130,12 @@ namespace DistributedEditor
                 _rt.clienRt.onLinkCreateEvent -= onLinkCreateEvent;
 
             if (doSet)
-                _rt.clienRt.onUnclusterBadgeEvent += __unclusterBadge; 
+                _rt.clienRt.onUnclusterBadgeEvent += __unclusterBadge;
             else
                 _rt.clienRt.onUnclusterBadgeEvent -= __unclusterBadge;
 
             if (doSet)
-                _rt.clienRt.onClusterBadgeEvent += __clusterBadge; 
+                _rt.clienRt.onClusterBadgeEvent += __clusterBadge;
             else
                 _rt.clienRt.onClusterBadgeEvent -= __clusterBadge;
         }
@@ -164,26 +163,27 @@ namespace DistributedEditor
         //returns array of removed shapes
         public void BeginClearShapesOfOwner()
         {
-            _rt.clienRt.SendDeleteShapesRequest(OwnerId, OwnerId, TopicId);                 
+            _rt.clienRt.SendDeleteShapesRequest(OwnerId, OwnerId, TopicId);
         }
 
-        int recentLocallyRemovedShapeId = -1;
+        private int recentLocallyRemovedShapeId = -1;
+
         public void BeginRemoveSingleShape(int shapeId)
         {
             recentLocallyRemovedShapeId = shapeId;
-            _rt.clienRt.SendDeleteSingleShapeRequest(OwnerId, shapeId, TopicId);                       
+            _rt.clienRt.SendDeleteSingleShapeRequest(OwnerId, shapeId, TopicId);
         }
 
-        void _removeSingleShape(DeleteSingleShapeEvent ev)
+        private void _removeSingleShape(DeleteSingleShapeEvent ev)
         {
             if (ev.topicId != TopicId)
                 return;
-            
+
             PlayRemoveSingleShape(ev.shapeId, ev.indirectOwner);
         }
 
         //player for single shape deletion
-        void PlayRemoveSingleShape(int shapeId, int indirectOwner)
+        private void PlayRemoveSingleShape(int shapeId, int indirectOwner)
         {
             if (!shapes.ContainsKey(shapeId))
                 return;
@@ -194,100 +194,100 @@ namespace DistributedEditor
             switch (sh.ShapeCode())
             {
                 case VdShapeType.ClusterLink:
-                    var link = (VdClusterLink)sh;
+                    var link = (VdClusterLink) sh;
                     CleanupClusterCaptions(sh, indirectOwner);
                     link.GetLinkable1().RemoveEdge(link);
-                    link.GetLinkable2().RemoveEdge(link); 
+                    link.GetLinkable2().RemoveEdge(link);
                     break;
                 case VdShapeType.FreeForm:
-                    CleanupClusterCaptions(sh, indirectOwner);                                     
+                    CleanupClusterCaptions(sh, indirectOwner);
                     break;
                 case VdShapeType.Text:
-                    CleanupClusterCaptions(sh, indirectOwner);                                         
+                    CleanupClusterCaptions(sh, indirectOwner);
                     break;
-                case VdShapeType.Cluster:                    
-                    CleanupClusterCaptions(sh, indirectOwner);   
+                case VdShapeType.Cluster:
+                    CleanupClusterCaptions(sh, indirectOwner);
                     break;
-            }                 
+            }
         }
 
         //shape can be either cluster, text, free draw
-        void CleanupClusterCaptions(IVdShape shape, int indirectOwner)
+        private void CleanupClusterCaptions(IVdShape shape, int indirectOwner)
         {
             ICaptionHost capHost = null;
             switch (shape.ShapeCode())
-            {               
+            {
                 case VdShapeType.FreeForm:
                     capHost = DocTools.GetCaptionHost(GetShapes(), shape);
                     if (capHost != null)
-                        capHost.CapMgr().InvalidateCaption(shape);   
-                   
+                        capHost.CapMgr().InvalidateCaption(shape);
+
                     //caption removed locally, update cluster 
                     if (capHost != null && shape.Id() == recentLocallyRemovedShapeId)
-                    {                                
+                    {
                         _rt.clienRt.SendSyncState(capHost.Id(),
                                                   capHost.GetState(TopicId));
-                    }                     
+                    }
                     break;
                 case VdShapeType.Text:
                     capHost = DocTools.GetCaptionHost(GetShapes(), shape);
                     if (capHost != null)
-                        capHost.CapMgr().InvalidateCaption(shape);    
-                    
+                        capHost.CapMgr().InvalidateCaption(shape);
+
                     //caption removed locally, update cluster 
                     if (capHost != null && shape.Id() == recentLocallyRemovedShapeId)
-                    {                                
+                    {
                         _rt.clienRt.SendSyncState(capHost.Id(),
                                                   capHost.GetState(TopicId));
-                    }  
+                    }
                     break;
                 case VdShapeType.Cluster:
                 case VdShapeType.ClusterLink:
                     //cluster removed locally, remove captions
-                    capHost = (ICaptionHost)shape;
-                    if (indirectOwner == _palette.GetOwnerId())                   
+                    capHost = (ICaptionHost) shape;
+                    if (indirectOwner == _palette.GetOwnerId())
                     {
                         if (capHost.CapMgr().text != null)
                         {
-                            BeginRemoveSingleShape(capHost.CapMgr().text.Id());                       
+                            BeginRemoveSingleShape(capHost.CapMgr().text.Id());
                         }
 
                         if (capHost.CapMgr().FreeDraw != null)
                         {
-                            BeginRemoveSingleShape(capHost.CapMgr().FreeDraw.Id());                      
-                        }    
+                            BeginRemoveSingleShape(capHost.CapMgr().FreeDraw.Id());
+                        }
                     }
-                    break;             
-            }   
+                    break;
+            }
         }
 
-        void Add(IVdShape shape)
+        private void Add(IVdShape shape)
         {
             shape.AttachToCanvas(_scene);
             shapes.Add(shape.Id(), shape);
         }
 
         public IVdShape BeginCreateShape(VdShapeType shapeType,
-                                         double startX, 
+                                         double startX,
                                          double startY,
                                          bool takeCursor,
                                          int tag)
         {
             var shapeId = ShapeIdGenerator.Instance.NextId(_palette.GetOwnerId());
-            _rt.clienRt.SendCreateShapeRequest(_palette.GetOwnerId(), shapeId, shapeType, takeCursor, 
+            _rt.clienRt.SendCreateShapeRequest(_palette.GetOwnerId(), shapeId, shapeType, takeCursor,
                                                startX, startY, tag, TopicId); //always success 
             var sh = PlayCreateShape(shapeType,
-                                     shapeId, 
+                                     shapeId,
                                      _palette.GetOwnerId(),
-                                     startX, startY, takeCursor, tag);   
+                                     startX, startY, takeCursor, tag);
             return sh;
         }
 
-        void createShapeEvent(CreateShape ev)
+        private void createShapeEvent(CreateShape ev)
         {
             if (ev.topicId != TopicId)
                 return;
-            
+
             PlayCreateShape(ev.shapeType, ev.shapeId, ev.ownerId, ev.startX, ev.startY, ev.takeCursor, ev.tag);
         }
 
@@ -295,17 +295,18 @@ namespace DistributedEditor
         //if it's initial loading, we don't lock the shape,
         //lock requests will follow in this case 
         public IVdShape PlayCreateShape(VdShapeType shapeType,
-                                        int shapeId, 
+                                        int shapeId,
                                         int owner,
                                         double startX,
                                         double startY,
-                                        bool takeCursor, // for badge creation events, it's false, as badges are created in private board 
+                                        bool takeCursor,
+                                        // for badge creation events, it's false, as badges are created in private board 
                                         int tag)
         {
             if (!shapes.ContainsKey(shapeId))
             {
                 //update id generator
-                if (shapeType!=VdShapeType.Badge)
+                if (shapeType != VdShapeType.Badge)
                     ShapeIdGenerator.Instance.CorrectLowBound(owner, shapeId);
 
                 IVdShape res = null;
@@ -320,7 +321,7 @@ namespace DistributedEditor
                     default:
                         res = DocTools.MakeShape(shapeType, owner, shapeId, startX, startY, tag);
                         break;
-                }                
+                }
 
                 _shapePostHandler(res, shapeType);
 
@@ -329,7 +330,7 @@ namespace DistributedEditor
 
                 this.Add(res);
                 DocTools.SortScene(_scene);
-                if(takeCursor)
+                if (takeCursor)
                     VolatileCtx.PlayTakeCursor(owner, shapeId);
                 return res;
             }
@@ -343,8 +344,8 @@ namespace DistributedEditor
                                    int end2Id,
                                    LinkHeadType linkHead)
         {
-            var end1 = ((LinkableHost)shapes[end1Id]).GetLinkable();
-            var end2 = ((LinkableHost)shapes[end2Id]).GetLinkable();
+            var end1 = ((LinkableHost) shapes[end1Id]).GetLinkable();
+            var end2 = ((LinkableHost) shapes[end2Id]).GetLinkable();
 
             if (end1.HasAdjacent(end2))
             {
@@ -354,19 +355,19 @@ namespace DistributedEditor
                                 MessageBoxIcon.Information);
                 return -1;
             }
-            
+
             var shapeId = ShapeIdGenerator.Instance.NextId(_palette.GetOwnerId());
             _rt.clienRt.SendLinkCreateRequest(end1Id, end2Id,
                                               _palette.GetOwnerId(), shapeId,
                                               TopicId,
                                               true,
                                               linkHead);
-            return shapeId;        
+            return shapeId;
         }
 
-        VdClusterLink PlayLinkCreate(ClientLinkable end1, ClientLinkable end2,
-                                     int shapeId, int initOwnerId, bool takeCursor, 
-                                     LinkHeadType linkHead)
+        private VdClusterLink PlayLinkCreate(ClientLinkable end1, ClientLinkable end2,
+                                             int shapeId, int initOwnerId, bool takeCursor,
+                                             LinkHeadType linkHead)
         {
             ShapeIdGenerator.Instance.CorrectLowBound(initOwnerId, shapeId);
             var res = new VdClusterLink(end1, end2, shapeId, initOwnerId, this, linkHead);
@@ -378,37 +379,37 @@ namespace DistributedEditor
                 res.Hide();
 
             //no post handler for cluster link
-           
+
             this.Add(res);
 
             DocTools.SortScene(_scene);
             //no initial lock, as link is created in free state (no pressed buttons)           
             return res;
         }
-        
-        void onLinkCreateEvent(LinkCreateMessage ev)
+
+        private void onLinkCreateEvent(LinkCreateMessage ev)
         {
             if (ev.topicId != TopicId)
                 return;
-            
-            PlayLinkCreate(((LinkableHost)shapes[ev.end1Id]).GetLinkable(),
-                           ((LinkableHost)shapes[ev.end2Id]).GetLinkable(),
+
+            PlayLinkCreate(((LinkableHost) shapes[ev.end1Id]).GetLinkable(),
+                           ((LinkableHost) shapes[ev.end2Id]).GetLinkable(),
                            ev.shapeId,
                            ev.ownerId,
                            ev.takeCursor,
-                           ev.HeadType);           
+                           ev.HeadType);
         }
 
         //called only locally
-        void onClusterUncluster(ClientCluster cluster,
-                                ClientClusterable badge,
-                                bool plus, bool playImmidiately)
+        private void onClusterUncluster(ClientCluster cluster,
+                                        ClientClusterable badge,
+                                        bool plus, bool playImmidiately)
         {
             if (plus)
             {
                 //cluster must exist      
                 clusterRebuildPending = true;
-                _rt.clienRt.SendClusterBadgeRequest(badge.GetId(), 
+                _rt.clienRt.SendClusterBadgeRequest(badge.GetId(),
                                                     cluster.GetId(),
                                                     _palette.GetOwnerId(),
                                                     TopicId,
@@ -419,28 +420,31 @@ namespace DistributedEditor
             {
                 //server checks if affected clsuter is empty     
                 clusterRebuildPending = true;
-                _rt.clienRt.SendUnclusterBadgeRequest(badge.GetId(), 
-                                                     cluster.GetId(),                                                      
-                                                     TopicId, 
-                                                     _palette.GetOwnerId(),
-                                                     playImmidiately,
-                                                     -1);
-            }             
+                _rt.clienRt.SendUnclusterBadgeRequest(badge.GetId(),
+                                                      cluster.GetId(),
+                                                      TopicId,
+                                                      _palette.GetOwnerId(),
+                                                      playImmidiately,
+                                                      -1);
+            }
         }
 
-        void OnTextCleanup(int id)
+        private void OnTextCleanup(int id)
         {
-            BeginRemoveSingleShape(id);     
+            BeginRemoveSingleShape(id);
         }
-        void OnClusterCleanup(int id)
+
+        private void OnClusterCleanup(int id)
         {
             //remove cluster itself
             BeginRemoveSingleShape(id);
         }
+
         #endregion adding/removing shapes
 
         #region clustering 
-        void __clusterBadge(ClusterBadgeMessage ev)
+
+        private void __clusterBadge(ClusterBadgeMessage ev)
         {
             if (ev.topicId != TopicId)
                 return;
@@ -449,16 +453,16 @@ namespace DistributedEditor
             PlayClusterBadge(ev.clusterId, ev.badgeId, ev.playImmidiately, ev.callToken);
         }
 
-        void PlayClusterBadge(int clusterId, int clusterableId, bool playImmidiately, int callToken)
+        private void PlayClusterBadge(int clusterId, int clusterableId, bool playImmidiately, int callToken)
         {
-            var cluster = (VdCluster)shapes[clusterId];
-            var badge = ((VdBadge)shapes[clusterableId]).GetClusterable();
+            var cluster = (VdCluster) shapes[clusterId];
+            var badge = ((VdBadge) shapes[clusterableId]).GetClusterable();
             cluster.GetCluster().Add(badge);
-            
+
             cluster.PlayBuildSmoothCurve();
         }
 
-        void __unclusterBadge(UnclusterBadgeMessage ev)
+        private void __unclusterBadge(UnclusterBadgeMessage ev)
         {
             if (ev.topicId != TopicId)
                 return;
@@ -467,15 +471,16 @@ namespace DistributedEditor
             PlayUnclusterBadge(ev.clusterId, ev.badgeId, ev.playImmidiately, ev.callToken);
         }
 
-        void PlayUnclusterBadge(int clusterId, int clusterableId, bool playImmidiately, int callToken)
+        private void PlayUnclusterBadge(int clusterId, int clusterableId, bool playImmidiately, int callToken)
         {
-            var cluster = (VdCluster)shapes[clusterId];
-            var badge = ((VdBadge)shapes[clusterableId]).GetClusterable();
+            var cluster = (VdCluster) shapes[clusterId];
+            var badge = ((VdBadge) shapes[clusterableId]).GetClusterable();
             cluster.GetCluster().Remove(badge);
 
             if (playImmidiately)
                 cluster.PlayBuildSmoothCurve();
         }
+
         #endregion clustering
 
         /// <summary>
@@ -486,8 +491,8 @@ namespace DistributedEditor
         {
             if (Scene == null)
                 return;
-           
-            foreach (IVdShape sh in shapes.Values)                
+
+            foreach (IVdShape sh in shapes.Values)
                 sh.DetachFromCanvas(Scene);
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace DiscSvc
@@ -19,22 +18,22 @@ namespace DiscSvc
         /// </summary>
         private static Dictionary<string, string> _screens = new Dictionary<string, string>();
 
-        static void CleanupMediaEntries(int requestId)
+        private static void CleanupMediaEntries(int requestId)
         {
             lock (_screens)
             {
                 foreach (var kvp in _screens.ToArray())
-                {                    
+                {
                     if (KeyToRequestId(kvp.Key) == requestId)
                     {
                         File.Delete(_screens[kvp.Key]);
                         _screens.Remove(kvp.Key);
                     }
-                }               
+                }
             }
         }
 
-        static void AddMediaEntry(string key, string pathName)
+        private static void AddMediaEntry(string key, string pathName)
         {
             lock (_screens)
             {
@@ -42,8 +41,9 @@ namespace DiscSvc
             }
         }
 
-        static int NextRequestId = 0;
-        static int GetRequestId()
+        private static int NextRequestId = 0;
+
+        private static int GetRequestId()
         {
             lock (_screens)
             {
@@ -51,13 +51,13 @@ namespace DiscSvc
             }
         }
 
-        static string ClientLocation()
+        private static string ClientLocation()
         {
             var client1 = @"C:\Program Files (x86)\Discussion system\ConsoleLauncher.exe";
             if (File.Exists(client1))
                 return client1;
             else
-                return @"C:\Program Files\Discussion system\Discussions.exe"; 
+                return @"C:\Program Files\Discussion system\Discussions.exe";
         }
 
         public static string TempDir()
@@ -73,32 +73,32 @@ namespace DiscSvc
             return Path.Combine(TempDir(), Guid.NewGuid().ToString() + extension);
         }
 
-        static string RunClientAndWait(int topicId, int discId)
-        {        
-           var metaInfoPath = RandomFilePath(".txt");
-           var parameters = string.Format("{0} {1} {2}", topicId, discId, metaInfoPath);
-
-           var psi = new ProcessStartInfo(ClientLocation(),"");
-           psi.UseShellExecute = false;
-           // psi.UserName = "disc";           
-          // psi.CreateNoWindow = true;
-           //Process pro = Process.Start(ClientLocation(), parameters);
-           var pwd = new System.Security.SecureString();
-           pwd.AppendChar('d'); 
-           pwd.AppendChar('i'); 
-           pwd.AppendChar('s'); 
-           pwd.AppendChar('c');          
-           //psi.Password = pwd;
-           //psi.WorkingDirectory = @"C:\Program Files (x86)\Discussion system";
-           //psi.Domain = Environment.UserDomainName;
-           Process pro = Process.Start(psi);
-           pro.WaitForExit();
-           return metaInfoPath;
-        }
-        
-        static Dictionary<int,string> MetaInfoToDict(string metaPathName)
+        private static string RunClientAndWait(int topicId, int discId)
         {
-            var res = new Dictionary<int, string>(); 
+            var metaInfoPath = RandomFilePath(".txt");
+            var parameters = string.Format("{0} {1} {2}", topicId, discId, metaInfoPath);
+
+            var psi = new ProcessStartInfo(ClientLocation(), "");
+            psi.UseShellExecute = false;
+            // psi.UserName = "disc";           
+            // psi.CreateNoWindow = true;
+            //Process pro = Process.Start(ClientLocation(), parameters);
+            var pwd = new System.Security.SecureString();
+            pwd.AppendChar('d');
+            pwd.AppendChar('i');
+            pwd.AppendChar('s');
+            pwd.AppendChar('c');
+            //psi.Password = pwd;
+            //psi.WorkingDirectory = @"C:\Program Files (x86)\Discussion system";
+            //psi.Domain = Environment.UserDomainName;
+            Process pro = Process.Start(psi);
+            pro.WaitForExit();
+            return metaInfoPath;
+        }
+
+        private static Dictionary<int, string> MetaInfoToDict(string metaPathName)
+        {
+            var res = new Dictionary<int, string>();
 
             using (var fs = new BinaryReader(new FileStream(metaPathName, FileMode.Open)))
             {
@@ -114,18 +114,19 @@ namespace DiscSvc
             return res;
         }
 
-        static string RequestScreenshotToKey(int requestId, int screenId)
+        private static string RequestScreenshotToKey(int requestId, int screenId)
         {
             return string.Format("{0} {1}", requestId, screenId);
         }
 
-        static int KeyToRequestId(string key)
+        private static int KeyToRequestId(string key)
         {
             string[] requestId_ShapeId = key.Split();
-            return int.Parse(requestId_ShapeId[0]);                    
+            return int.Parse(requestId_ShapeId[0]);
         }
-            
+
         #region IHttpHandler
+
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/octet-stream";
@@ -143,12 +144,12 @@ namespace DiscSvc
                 File.Delete(metaInfoPathName);
 
                 //cleanup task 
-                var timer = new System.Timers.Timer(10000) { AutoReset = false };
+                var timer = new System.Timers.Timer(10000) {AutoReset = false};
                 timer.Elapsed += delegate
-                {
-                    timer.Dispose();
-                    CleanupMediaEntries(requestId);
-                };
+                    {
+                        timer.Dispose();
+                        CleanupMediaEntries(requestId);
+                    };
                 timer.Start();
 
                 //write response
@@ -168,7 +169,7 @@ namespace DiscSvc
             {
                 var requestId = int.Parse(context.Request.Params["requestId"]);
                 var screenId = int.Parse(context.Request.Params["screenId"]);
-             
+
                 string screenPathName;
                 lock (_screens)
                     screenPathName = _screens[RequestScreenshotToKey(requestId, screenId)];
@@ -180,11 +181,9 @@ namespace DiscSvc
 
         public bool IsReusable
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
+
         #endregion
     }
 }

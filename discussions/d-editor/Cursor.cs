@@ -8,8 +8,8 @@ namespace DistributedEditor
 {
     public class Cursor
     {
-        public int OwnerId;//id of owner
-        string _name = "";
+        public int OwnerId; //id of owner
+        private string _name = "";
 
         public Cursor(int UsrId)
         {
@@ -28,18 +28,12 @@ namespace DistributedEditor
                 }
                 return _name;
             }
-            set
-            {
-                _name = value;
-            }
+            set { _name = value; }
         }
 
         public int Color
         {
-            get
-            {
-                return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == OwnerId).Color;
-            }
+            get { return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == OwnerId).Color; }
         }
     }
 }

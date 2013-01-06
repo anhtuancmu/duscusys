@@ -21,16 +21,17 @@ using Discussions.model;
 using System.Data;
 using Discussions.rt;
 
-namespace Discussions 
+namespace Discussions
 {
     public partial class SessionManagerWnd : SurfaceWindow
     {
-        UISharedRTClient _rtClient = null;
+        private UISharedRTClient _rtClient = null;
 
-        ObservableCollection<Session> _sessions = null;
-        public ObservableCollection<Session> Sessions 
+        private ObservableCollection<Session> _sessions = null;
+
+        public ObservableCollection<Session> Sessions
         {
-            get 
+            get
             {
                 if (_sessions == null)
                 {
@@ -38,16 +39,13 @@ namespace Discussions
                 }
                 return _sessions;
             }
-            set
-            {
-                _sessions = value;
-            }
+            set { _sessions = value; }
         }
 
         public SessionManagerWnd(UISharedRTClient rtClient)
         {
             InitializeComponent();
-          
+
             DataContext = this;
 
             this.WindowState = WindowState.Normal;
@@ -66,7 +64,7 @@ namespace Discussions
             s.Name = "<Session>";
             s.EstimatedDateTime = DateTime.Now;
             s.EstimatedEndDateTime = DateTime.Now.Add(TimeSpan.FromHours(1));
-            s.EstimatedTimeSlot = (int)TimeSlot.Morning;
+            s.EstimatedTimeSlot = (int) TimeSlot.Morning;
 
             Sessions.Add(s);
             CtxSingleton.Get().Session.AddObject(s);
@@ -74,22 +72,19 @@ namespace Discussions
 
         public Session SelectedSession
         {
-            get
-            {
-                return lstBxSessions.SelectedItem as Session;
-            }
+            get { return lstBxSessions.SelectedItem as Session; }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var ss = SelectedSession;
-            
+
             if (ss == null)
                 return;
 
             if (ss.Person.Count > 0)
             {
-                MessageBox.Show("Cannot remove session as it includes users"); 
+                MessageBox.Show("Cannot remove session as it includes users");
                 return;
             }
 

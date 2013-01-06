@@ -17,17 +17,17 @@ namespace Lite.Operations
         /// <summary>
         ///   Don't cache the event. (default)
         /// </summary>
-        DoNotCache = 0, 
+        DoNotCache = 0,
 
         /// <summary>
         ///   Merge cached event with data.
         /// </summary>
-        MergeCache = 1, 
+        MergeCache = 1,
 
         /// <summary>
         ///   Replace cached event with data.
         /// </summary>
-        ReplaceCache = 2, 
+        ReplaceCache = 2,
 
         /// <summary>
         ///   Remove cached event.

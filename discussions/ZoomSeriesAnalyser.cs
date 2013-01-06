@@ -8,25 +8,26 @@ using Discussions.rt;
 
 namespace Discussions
 {
-    public enum ZoomDirection 
+    public enum ZoomDirection
     {
         In,
         Out
     }
-    
+
     public class ZoomSeriesAnalyser
     {
-        DispatcherTimer _timer;
+        private DispatcherTimer _timer;
 
         public delegate void ZoomSeriesEnd(ZoomDirection direction);
-        ZoomSeriesEnd _end;
 
-        int _numSteps = 0;
-        ZoomDirection _currentDirection;
+        private ZoomSeriesEnd _end;
+
+        private int _numSteps = 0;
+        private ZoomDirection _currentDirection;
 
         public ZoomSeriesAnalyser(ZoomSeriesEnd end)
         {
-            _end = end;            
+            _end = end;
 
             _timer = new DispatcherTimer();
             _timer.Tick += OnTick;
@@ -38,7 +39,7 @@ namespace Discussions
         {
             _timer.Stop();
             _timer.Start();
-            
+
             if (SeriesNonEmpty() && direction != _currentDirection)
             {
                 _numSteps = 0;
@@ -53,14 +54,14 @@ namespace Discussions
             {
                 _currentDirection = direction;
             }
-        }        
-
-        bool SeriesNonEmpty()
-        {
-            return _numSteps > 0; 
         }
 
-        void OnTick(object sender, EventArgs e)
+        private bool SeriesNonEmpty()
+        {
+            return _numSteps > 0;
+        }
+
+        private void OnTick(object sender, EventArgs e)
         {
             if (SeriesNonEmpty())
             {

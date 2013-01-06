@@ -130,7 +130,7 @@ using System.Text;
 
 namespace Discussions.VectorEditor
 {
-    class Streaming
+    internal class Streaming
     {
     }
 }

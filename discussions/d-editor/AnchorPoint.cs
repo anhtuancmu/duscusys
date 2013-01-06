@@ -5,8 +5,15 @@ using System.Text;
 
 namespace DistributedEditor
 {
-    public enum AnchorPoint 
-    { 
-        TopLeft, TopCenter, TopRight, LeftCenter, BottomLeft, BottomCenter, BottomRight, RightCenter 
-    }; 
+    public enum AnchorPoint
+    {
+        TopLeft,
+        TopCenter,
+        TopRight,
+        LeftCenter,
+        BottomLeft,
+        BottomCenter,
+        BottomRight,
+        RightCenter
+    };
 }

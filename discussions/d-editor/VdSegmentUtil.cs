@@ -9,7 +9,12 @@ namespace DistributedEditor
 {
     public class VdSegmentUtil
     {
-        public enum SegmentMarker { Side1, Side2, Center};
+        public enum SegmentMarker
+        {
+            Side1,
+            Side2,
+            Center
+        };
 
         public static void ShowMarkers(Shape selMarker1, Shape selMarker2)
         {
@@ -22,6 +27,5 @@ namespace DistributedEditor
             selMarker1.Visibility = Visibility.Hidden;
             selMarker2.Visibility = Visibility.Hidden;
         }
-
     }
 }

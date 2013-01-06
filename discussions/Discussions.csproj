@@ -80,57 +80,31 @@
     <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4">
       <HintPath>packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\net40\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.ConnectionUI">
-      <HintPath>References\Microsoft.Data.ConnectionUI.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Data.ConnectionUI.Dialog">
       <HintPath>References\Microsoft.Data.ConnectionUI.Dialog.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.ConnectionUI.SqlCeDataProvider">
       <HintPath>References\Microsoft.Data.ConnectionUI.SqlCeDataProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>References\Microsoft.Expression.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServerCe.Client">
-      <HintPath>References\Microsoft.SqlServerCe.Client.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Surface, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Surface.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Surface.Presentation, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Surface.Presentation.Generic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="MigraDoc.DocumentObjectModel-WPF">
       <HintPath>References\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
     </Reference>
     <Reference Include="MigraDoc.Rendering-WPF">
       <HintPath>References\MigraDoc.Rendering-WPF.dll</HintPath>
     </Reference>
-    <Reference Include="MigraDoc.RtfRendering-WPF">
-      <HintPath>References\MigraDoc.RtfRendering-WPF.dll</HintPath>
-    </Reference>
     <Reference Include="PdfSharp-WPF">
       <HintPath>References\PdfSharp-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Charting-WPF">
-      <HintPath>References\PdfSharp.Charting-WPF.dll</HintPath>
     </Reference>
     <Reference Include="Photon3DotNet">
       <HintPath>ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon3DotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Input.Manipulations" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -138,7 +112,6 @@
       <HintPath>References\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -278,6 +251,10 @@
     <Compile Include="BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
+    <None Include="Reporter.pdf\ReportRun.csx" />
+    <Compile Include="Reporter.pdf\PdfAssembler4.cs" />
+    <Compile Include="Reporter.pdf\PdfTools3.cs" />
+    <Compile Include="Reporter.pdf\PdfAssembler3.cs" />
     <Compile Include="Reporter.pdf\PdfAssembler2.cs" />
     <Compile Include="Reporter.pdf\PdfReportDriver.cs" />
     <Compile Include="Reporter.pdf\PdfTools2.cs" />
@@ -792,6 +769,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Content Include="Resources\meiryo.ttf" />
+    <None Include="Reporter.pdf\ReportInit.csx" />
     <None Include="VectorEditor\streaming.dgml" />
   </ItemGroup>
   <ItemGroup>
@@ -833,6 +812,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="docs\" />
     <Folder Include="Fonts\" />
   </ItemGroup>
   <ItemGroup>
@@ -890,15 +870,6 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="AcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="AxAcroPDFLib">
       <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
@@ -989,6 +960,7 @@
     <Content Include="NoBackgroundPage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\notificationDot.png" />
     <Resource Include="Resources\enlarge2white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

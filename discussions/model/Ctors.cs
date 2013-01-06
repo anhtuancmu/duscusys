@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Discussions.model
 {
-    static class Ctors
+    internal static class Ctors
     {
         public static bool DiscussionExists(Discussion disc)
         {
@@ -35,8 +35,8 @@ namespace Discussions.model
 
         public static ArgPoint NewArgPoint(string Point)
         {
-            ArgPoint res = new ArgPoint(); 
-            res.Point = Point;            
+            ArgPoint res = new ArgPoint();
+            res.Point = Point;
             return res;
         }
 
@@ -47,7 +47,7 @@ namespace Discussions.model
             res.Text = c;
             res.Person = p;
 
-            return res;            
+            return res;
         }
 
         public static string ToString(this Person p)
@@ -59,11 +59,11 @@ namespace Discussions.model
         {
             switch (sideCode)
             {
-                case (int)SideCode.Cons:
+                case (int) SideCode.Cons:
                     return "Cons";
-                case (int)SideCode.Pros:
+                case (int) SideCode.Pros:
                     return "Pros";
-                case (int)SideCode.Neutral:
+                case (int) SideCode.Neutral:
                     return "Neutral";
                 default:
                     return null;

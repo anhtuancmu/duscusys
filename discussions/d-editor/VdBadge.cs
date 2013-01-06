@@ -14,17 +14,30 @@ using Discussions.RTModel.Model;
 
 namespace DistributedEditor
 {
-    class VdBadge : VdBaseShape, IVdShape, LinkableHost
+    internal class VdBadge : VdBaseShape, IVdShape, LinkableHost
     {
-        Badge4 _badge;       
-        Canvas scene;
-        int _argPtId;
-        ClientClusterable _endpoint;
+        private Badge4 _badge;
 
-        double _left;
-        double _top;
+        public Badge4 Badge
+        {
+            get { return _badge; }
+        }
 
-        public VdBadge(System.IO.BinaryReader r, int owner, int shapeId, int argPtId):
+        private Canvas scene;
+
+        private int _argPtId;
+
+        public int ArgPtId
+        {
+            get { return _argPtId; }
+        }
+
+        private ClientClusterable _endpoint;
+
+        private double _left;
+        private double _top;
+
+        public VdBadge(System.IO.BinaryReader r, int owner, int shapeId, int argPtId) :
             base(owner, shapeId)
         {
             _argPtId = argPtId;
@@ -32,17 +45,17 @@ namespace DistributedEditor
             init(DaoUtils.UserIdToColor(owner));
         }
 
-        public VdBadge(double x, double y, int owner, int shapeId, int argPtId):
+        public VdBadge(double x, double y, int owner, int shapeId, int argPtId) :
             base(owner, shapeId)
         {
             _argPtId = argPtId;
             _endpoint = new ClientClusterable(shapeId, boundsProvider);
             init(DaoUtils.UserIdToColor(owner));
-            setBadgePos(x, y);    
+            setBadgePos(x, y);
         }
 
-        void init(Color c)
-        {    
+        private void init(Color c)
+        {
             _badge = new Badge4();
             _badge.Tag = this;
             RecontextBadge();
@@ -50,7 +63,7 @@ namespace DistributedEditor
 
         public ShapeZ ShapeZLevel()
         {
-            return ShapeZ.BADGE_Z_LEVEL; 
+            return ShapeZ.BADGE_Z_LEVEL;
         }
 
         public void SetZIndex(int z)
@@ -73,8 +86,8 @@ namespace DistributedEditor
 
         public void RecontextBadge()
         {
-            _badge.DataContext = null;             
-            _badge.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(ap => ap.Id == _argPtId);    
+            _badge.DataContext = null;
+            _badge.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(ap => ap.Id == _argPtId);
         }
 
         public UIElement UnderlyingControl()
@@ -82,10 +95,10 @@ namespace DistributedEditor
             return _badge;
         }
 
-        override public void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
+        public override void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
             TouchManip = true;
-            base.ManipulationStarting(sender, e);            
+            base.ManipulationStarting(sender, e);
         }
 
         public void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
@@ -94,24 +107,24 @@ namespace DistributedEditor
             e.Handled = true;
         }
 
-        void Manipulation(ManipulationDeltaEventArgs e)
+        private void Manipulation(ManipulationDeltaEventArgs e)
         {
             var mt = new MatrixTransform(ShapeUtils.GetTransform(e));
             var newTopLeft = mt.Transform(getBadgePos());
-            setBadgePos(newTopLeft.X, newTopLeft.Y);                 
+            setBadgePos(newTopLeft.X, newTopLeft.Y);
         }
-        
+
         //public only for user by cluster
         public Point getBadgePos()
         {
-            return new Point(_left, _top);            
+            return new Point(_left, _top);
         }
 
         //public only for user by cluster
         public void setBadgePos(double x, double y)
         {
             _left = x;
-            _top  = y;
+            _top = y;
 
             Canvas.SetLeft(_badge, _left);
             Canvas.SetTop(_badge, _top);
@@ -133,12 +146,12 @@ namespace DistributedEditor
 
         public override void RemoveFocus()
         {
-            base.RemoveFocus();          
+            base.RemoveFocus();
         }
 
         public override void SetFocus()
         {
-            base.SetFocus();          
+            base.SetFocus();
         }
 
         public void AttachToCanvas(Canvas c)
@@ -164,13 +177,13 @@ namespace DistributedEditor
         public ShapeState GetState(int topicId)
         {
             var topLeft = getBadgePos();
-            return new ShapeState(  ShapeCode(), 
-                                    InitialOwner(),
-                                    Id(), 
-                                    null, 
-                                    null, 
-                                    new double[] { topLeft.X, topLeft.Y },
-                                    topicId);
+            return new ShapeState(ShapeCode(),
+                                  InitialOwner(),
+                                  Id(),
+                                  null,
+                                  null,
+                                  new double[] {topLeft.X, topLeft.Y},
+                                  topicId);
         }
 
         public void ApplyState(ShapeState st)
@@ -182,7 +195,7 @@ namespace DistributedEditor
         {
             CurrentPoint = p;
 
-            SetFocus();         
+            SetFocus();
         }
 
         public PointApplyResult ApplyCurrentPoint(Point p)
@@ -198,39 +211,39 @@ namespace DistributedEditor
             if (dx != 0.0 || dy != 0.0)
                 res = PointApplyResult.Move;
             _left = pos.X + dx;
-            _top  = pos.Y + dy;
-            setBadgePos(_left,_top);
-       
+            _top = pos.Y + dy;
+            setBadgePos(_left, _top);
+
             CurrentPoint = p;
 
             return res;
-        }     
+        }
 
         public void ScaleInPlace(bool plus)
-        {            
+        {
         }
 
         public double distToFigure(Point from)
         {
-            var right  = _left + _badge.ActualWidth;
-            var bottom = _top  + _badge.ActualHeight;
+            var right = _left + _badge.ActualWidth;
+            var bottom = _top + _badge.ActualHeight;
 
             var d1 = ShapeUtils.Dist(new Point(_left, _top), from);
             var d2 = ShapeUtils.Dist(new Point(_left, bottom), from);
             var d3 = ShapeUtils.Dist(new Point(right, bottom), from);
-            var d4 = ShapeUtils.Dist(new Point(right, _top), from); 
+            var d4 = ShapeUtils.Dist(new Point(right, _top), from);
 
             return ShapeUtils.Min(d1, d2, d3, d4);
         }
 
         public void MoveBy(double dx, double dy)
         {
-            throw new NotImplementedException("do we need this now?");           
+            throw new NotImplementedException("do we need this now?");
         }
-       
+
         public ClientLinkable GetLinkable()
         {
-            return _endpoint;            
+            return _endpoint;
         }
 
         public ClientClusterable GetClusterable()
@@ -238,11 +251,11 @@ namespace DistributedEditor
             return _endpoint;
         }
 
-        Rect boundsProvider()
+        private Rect boundsProvider()
         {
             if (_badge.ActualWidth < 1)
                 return new Rect(_left, _top, 112, 70);
-            
+
             return new Rect(_left, _top, _badge.ActualWidth, _badge.ActualHeight);
         }
     }

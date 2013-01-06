@@ -23,17 +23,18 @@ namespace Discussions
         }
 
         private void Window_Activated(object sender, EventArgs e)
-        {           
+        {
         }
 
-        bool centered = false;
+        private bool centered = false;
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (!centered)
             {
                 centered = true;
-                Left = System.Windows.SystemParameters.FullPrimaryScreenWidth  * 0.5 - ActualWidth  * 0.5;
-                Top  = System.Windows.SystemParameters.FullPrimaryScreenHeight * 0.5 - ActualHeight * 0.5;
+                Left = System.Windows.SystemParameters.FullPrimaryScreenWidth*0.5 - ActualWidth*0.5;
+                Top = System.Windows.SystemParameters.FullPrimaryScreenHeight*0.5 - ActualHeight*0.5;
             }
         }
     }

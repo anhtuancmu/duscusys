@@ -22,24 +22,20 @@ namespace Discussions
     public partial class LoginPersonDiscussionDlg : Window
     {
         public bool BackClicked = false;
-        
+
         public Person SelectedPerson = null;
-        
-        ObservableCollection<Person> _persons = null;
+
+        private ObservableCollection<Person> _persons = null;
+
         public ObservableCollection<Person> Persons
         {
-            get
-            {
-                return _persons;
-            }
-            set
-            {
-                _persons = value;
-            }
+            get { return _persons; }
+            set { _persons = value; }
         }
 
 
-        static Discussion _dummyDisc = null;
+        private static Discussion _dummyDisc = null;
+
         public static Discussion DummyDiscussion
         {
             get
@@ -53,20 +49,16 @@ namespace Discussions
                 return _dummyDisc;
             }
         }
+
         public Discussion SelectedDiscussion = null;
 
-        ObservableCollection<Discussion> _discussions = new ObservableCollection<Discussion>();
+        private ObservableCollection<Discussion> _discussions = new ObservableCollection<Discussion>();
+
         public ObservableCollection<Discussion> Discussions
         {
-            get
-            {
-                return _discussions;
-            }
-            set
-            {
-                _discussions = value;
-            }
-        }   
+            get { return _discussions; }
+            set { _discussions = value; }
+        }
 
         //Session _selectedSession = null;
 
@@ -106,15 +98,15 @@ namespace Discussions
             SelectedPerson = e.AddedItems[0] as Person;
 
             decoration.SetGreetingName(SelectedPerson.Name);
-           
+
             //enum all discussions of the person
             if (SelectedPerson != null)
             {
                 DiscCtx ctx = DbCtx.Get();
                 IQueryable<Discussion> myDiscussions =
-                                (from t in ctx.Topic
-                                 where t.Person.Any(p0 => p0.Id == SelectedPerson.Id)
-                                 select t.Discussion).Distinct();
+                    (from t in ctx.Topic
+                     where t.Person.Any(p0 => p0.Id == SelectedPerson.Id)
+                     select t.Discussion).Distinct();
 
                 _discussions.Clear();
                 foreach (var d in myDiscussions)

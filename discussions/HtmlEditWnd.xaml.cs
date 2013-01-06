@@ -18,9 +18,9 @@ namespace Discussions
 {
     public partial class HtmlEditWnd : Window
     {
-        Discussion _d;
+        private Discussion _d;
 
-        Action _close = null;
+        private Action _close = null;
 
         public HtmlEditWnd(Discussion d, Action close)
         {
@@ -33,8 +33,8 @@ namespace Discussions
             if (d.HtmlBackground == null)
             {
                 var htmlTemplatePathName = System.IO.Path.Combine(
-                           System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                           "DiscussionHTMLPage.html");
+                    System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "DiscussionHTMLPage.html");
 
                 plainHtml.Text = System.IO.File.ReadAllText(htmlTemplatePathName);
             }
@@ -43,10 +43,10 @@ namespace Discussions
                 plainHtml.Text = d.HtmlBackground;
             }
 
-            UpdateWebView();            
+            UpdateWebView();
         }
 
-        void UpdateWebView()
+        private void UpdateWebView()
         {
             webView.NavigateToString(plainHtml.Text);
         }
@@ -56,7 +56,7 @@ namespace Discussions
             webView.NavigateToString(plainHtml.Text);
         }
 
-        void AttachFile(ArgPoint ap, string command)
+        private void AttachFile(ArgPoint ap, string command)
         {
             if (_d == null)
                 return;
@@ -104,16 +104,16 @@ namespace Discussions
                 return;
 
             var screenshotWnd = new ScreenshotCaptureWnd((System.Drawing.Bitmap b) =>
-            {
-                var attach = AttachmentManager.AttachScreenshot(null, b);
-                if (attach != null)
                 {
-                    attach.Person = getFreshPerson();
-                    attach.Discussion = _d;
+                    var attach = AttachmentManager.AttachScreenshot(null, b);
+                    if (attach != null)
+                    {
+                        attach.Person = getFreshPerson();
+                        attach.Discussion = _d;
 
-                    insertMedia(attach);
-                }
-            });
+                        insertMedia(attach);
+                    }
+                });
             screenshotWnd.ShowDialog();
         }
 
@@ -130,7 +130,7 @@ namespace Discussions
                 _close();
         }
 
-        void insertMedia(Attachment a)
+        private void insertMedia(Attachment a)
         {
             var html = plainHtml.Text;
             var bodyCloses = html.IndexOf("</body>");
@@ -145,7 +145,7 @@ namespace Discussions
             UpdateWebView();
         }
 
-        void SaveDiscussion()
+        private void SaveDiscussion()
         {
             if (_d == null)
                 return;
@@ -156,17 +156,20 @@ namespace Discussions
             CtxSingleton.Get().SaveChanges();
         }
 
-        static string GetPastableHtml(Attachment a)
+        private static string GetPastableHtml(Attachment a)
         {
-            var imgThumbUrl = string.Format("http://{0}/discsvc/discsvc.svc/Attachment({1})/$value", ConfigManager.ServiceServer, a.Id);
+            var imgThumbUrl = string.Format("http://{0}/discsvc/discsvc.svc/Attachment({1})/$value",
+                                            ConfigManager.ServiceServer, a.Id);
             if (AttachmentManager.IsGraphicFormat(a))
             {
-                return string.Format("<p>\n <img src=\"{0}\"/> \n</p>\n",imgThumbUrl);
+                return string.Format("<p>\n <img src=\"{0}\"/> \n</p>\n", imgThumbUrl);
             }
-            else if (a.Format == (int)AttachmentFormat.Youtube)
+            else if (a.Format == (int) AttachmentFormat.Youtube)
             {
-                return string.Format("<iframe width=\"640\" height=\"360\" src=\"{0}\" frameborder=\"0\" allowfullscreen></iframe>",
-                                     a.VideoEmbedURL);
+                return
+                    string.Format(
+                        "<iframe width=\"640\" height=\"360\" src=\"{0}\" frameborder=\"0\" allowfullscreen></iframe>",
+                        a.VideoEmbedURL);
             }
 
             return "";

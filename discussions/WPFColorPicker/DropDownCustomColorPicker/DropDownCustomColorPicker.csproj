@@ -55,9 +55,7 @@
   <ItemGroup>
     <Reference Include="PresentationFramework.Royale" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>v4.0</RequiredTargetFramework>
     </Reference>
@@ -71,12 +69,6 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UIAutomationProvider">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="ReachFramework" />
-    <Reference Include="System.Printing" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="CustomColorPicker.xaml">

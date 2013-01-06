@@ -10,7 +10,7 @@ namespace Discussions
     public class LoginResult
     {
         public Discussion discussion;
-        public Person     person;
+        public Person person;
         public DeviceType devType; //defined only for event generator login
         public Session session; //only experimental login
     }

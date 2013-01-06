@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Discussions.RTModel.Operations
+﻿namespace Discussions.RTModel.Operations
 {
     public enum DiscussionEventCode : byte
     {
@@ -14,7 +9,7 @@ namespace Discussions.RTModel.Operations
         UserCursorChanged = 3,
 
         //arg.point changed
-        ArgPointChanged =  4,
+        ArgPointChanged = 4,
 
         //used for instant updates of global online list
         //1. in response to NotifyLeaveNotify server notifies clients for fast onlien list update
@@ -35,12 +30,12 @@ namespace Discussions.RTModel.Operations
 
         UnselectAllEvent = 13,
 
-        DeleteSingleShapeEvent = 14, 
+        DeleteSingleShapeEvent = 14,
 
         ApplyPointEvent = 15,
 
         StateSyncEvent = 16,
-        
+
         LinkCreateEvent = 17,
 
         UnclusterBadgeEvent = 19,
@@ -63,7 +58,7 @@ namespace Discussions.RTModel.Operations
         // explanation mode 
         //
         BadgeViewEvent = 26,
-            
+
         SourceViewEvent = 27
     }
 }

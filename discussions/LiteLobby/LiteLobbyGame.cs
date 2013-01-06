@@ -15,10 +15,8 @@ namespace LiteLobby
     using Lite.Caching;
     using Lite.Messages;
     using Lite.Operations;
-
     using LiteLobby.Caching;
     using LiteLobby.Messages;
-
     using Photon.SocketServer;
 
     #endregion
@@ -58,17 +56,14 @@ namespace LiteLobby
         #endregion
 
         #region Properties
-     
+
         /// <summary>
         ///   Gets the lobby for this game instance.
         /// </summary>
         /// <value>The lobby.</value>
         protected Room Lobby
         {
-            get
-            {
-                return this.lobbyReference.Room;
-            }
+            get { return this.lobbyReference.Room; }
         }
 
         #endregion
@@ -106,7 +101,8 @@ namespace LiteLobby
         /// <returns>
         ///   The newly created (joined) <see cref = "Actor" />.
         /// </returns>
-        protected override Actor HandleJoinOperation(LitePeer peer, JoinRequest joinRequest, SendParameters sendParamters)
+        protected override Actor HandleJoinOperation(LitePeer peer, JoinRequest joinRequest,
+                                                     SendParameters sendParamters)
         {
             Actor actor = base.HandleJoinOperation(peer, joinRequest, sendParamters);
             if (actor != null)
@@ -147,8 +143,9 @@ namespace LiteLobby
             // if a game is listed, find the lobby game and send it a message to 
             // de-list or update the list info
             RoomMessage message = this.Actors.Count == 0
-                                      ? new RoomMessage((byte)LobbyMessageCode.RemoveGame, new[] { this.Name, "0" })
-                                      : new RoomMessage((byte)LobbyMessageCode.AddGame, new[] { this.Name, this.Actors.Count.ToString() });
+                                      ? new RoomMessage((byte) LobbyMessageCode.RemoveGame, new[] {this.Name, "0"})
+                                      : new RoomMessage((byte) LobbyMessageCode.AddGame,
+                                                        new[] {this.Name, this.Actors.Count.ToString()});
 
             this.lobbyReference.Room.EnqueueMessage(message);
         }

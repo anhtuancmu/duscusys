@@ -21,16 +21,17 @@ namespace Discussions
             if (currentPers == null)
                 return Visibility.Hidden;
 
-            if (attach.Person==null)
+            if (attach.Person == null)
                 return Visibility.Hidden;
 
             if (attach.Person.Id == currentPers.Id)
                 return Visibility.Visible;
-           
-            return Visibility.Hidden;               
+
+            return Visibility.Hidden;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

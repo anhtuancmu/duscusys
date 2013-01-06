@@ -36,7 +36,7 @@ namespace LiteLobby.Caching
         /// </returns>
         protected override Room CreateRoom(string roomId, params object[] args)
         {
-            var lobbyName = (string)args[0];
+            var lobbyName = (string) args[0];
             return new LiteLobbyGame(roomId, lobbyName);
         }
     }

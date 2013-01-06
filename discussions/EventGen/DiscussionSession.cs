@@ -9,12 +9,12 @@ namespace EventGen
 {
     public class DiscussionSession
     {
-        int _discussionId;
+        private int _discussionId;
 
         //public bool GetStartTime(out DateTime time)
         //{
         //    throw new NotSupportedException("broken by new event and start/stop system"); 
-            
+
         //    //time = DateTime.Now;
         //    //var startEvent = DbCtx.Get().StatsSet.FirstOrDefault(e0 => e0.DiscussionId == _discussionId &&
         //    //                                                           e0.Event == (int)StatsEvent.DiscussionSessionStarted);
@@ -28,7 +28,7 @@ namespace EventGen
         //public bool GetEndTime(out DateTime time)
         //{
         //    throw new NotSupportedException("broken by new event and start/stop system"); 
-            
+
         //    //time = DateTime.Now;
         //    //var endEvent = DbCtx.Get().StatsSet.FirstOrDefault(e0 => e0.DiscussionId == _discussionId &&
         //    //                                                         e0.Event == (int)StatsEvent.DiscussionSessionStopped);

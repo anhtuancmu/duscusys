@@ -62,9 +62,6 @@
     <Reference Include="ExitGamesLibs">
       <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\ExitGamesLibs.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Photon.SocketServer">
       <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon.SocketServer.dll</HintPath>
     </Reference>
@@ -76,8 +73,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\LiteLobbyGameCache.cs" />

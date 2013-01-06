@@ -16,7 +16,7 @@ namespace DistributedEditor
         {
             DependencyObject findSource = originalSrc as FrameworkElement;
             TextUC vdText = null;
-               
+
             while (vdText == null && findSource != null)
             {
                 if ((vdText = findSource as TextUC) == null)
@@ -28,12 +28,12 @@ namespace DistributedEditor
             if (vdText == null)
                 return null;
             else
-            {                
+            {
                 var res = vdText.Tag as IVdShape;
                 return res.IsVisible() ? res : null;
             }
         }
-      
+
         public static IVdShape findVdCluster(object originalSrc)
         {
             DependencyObject findSource = originalSrc as FrameworkElement;
@@ -54,7 +54,7 @@ namespace DistributedEditor
                 var res = vdCluster.Tag as IVdShape;
                 if (res == null)
                     return null;
-                return  res.IsVisible() ? res : null;
+                return res.IsVisible() ? res : null;
             }
         }
 
@@ -77,9 +77,9 @@ namespace DistributedEditor
             {
                 var res = vdBadge.Tag as IVdShape;
                 return res.IsVisible() ? res : null;
-            }                
+            }
         }
-        
+
         public static IVdShape findVdImg(object originalSrc)
         {
             DependencyObject findSource = originalSrc as FrameworkElement;

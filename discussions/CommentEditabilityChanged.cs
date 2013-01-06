@@ -9,7 +9,7 @@ namespace Discussions
 {
     public class CommentEditabilityChanged : RoutedEventArgs
     {
-        public CommentEditabilityChanged(RoutedEvent re,  bool IsBeingEdited) :
+        public CommentEditabilityChanged(RoutedEvent re, bool IsBeingEdited) :
             base(re)
         {
             this.IsBeingEdited = IsBeingEdited;

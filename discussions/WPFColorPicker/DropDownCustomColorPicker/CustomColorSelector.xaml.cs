@@ -15,15 +15,14 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 
 namespace DropDownCustomColorPicker
-{   
-
+{
     public partial class ColorPicker : UserControl
     {
         private bool IsMouseDownOverEllipse = false;
         private bool _shift = false;
 
         private Color _customColor = Colors.Transparent;
-        
+
         public Color CustomColor
         {
             get { return _customColor; }
@@ -36,7 +35,7 @@ namespace DropDownCustomColorPicker
                 }
             }
         }
-       
+
         public ColorPicker()
         {
             InitializeComponent();
@@ -59,28 +58,28 @@ namespace DropDownCustomColorPicker
             EpPointer.MouseLeftButtonUp += new MouseButtonEventHandler(EpPointer_MouseLeftButtonUp);
         }
 
-        void EpPointer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void EpPointer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             IsMouseDownOverEllipse = false;
         }
 
-        void CanColor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CanColor_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
         }
 
-        void CanColor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void CanColor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ChangeColor();
             e.Handled = true;
         }
 
-        void EpPointer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void EpPointer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             IsMouseDownOverEllipse = true;
         }
 
-        void EpPointer_MouseMove(object sender, MouseEventArgs e)
+        private void EpPointer_MouseMove(object sender, MouseEventArgs e)
         {
             if (IsMouseDownOverEllipse)
             {
@@ -89,14 +88,13 @@ namespace DropDownCustomColorPicker
             e.Handled = true;
         }
 
-        void txtAll_KeyDown(object sender, KeyEventArgs e)
-        {           
-
+        private void txtAll_KeyDown(object sender, KeyEventArgs e)
+        {
             if (e.Key == Key.Enter)
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(((TextBox)sender).Text)) return;
+                    if (string.IsNullOrEmpty(((TextBox) sender).Text)) return;
                     CustomColor = MakeColorFromHex(sender);
                     Reposition();
                 }
@@ -108,7 +106,7 @@ namespace DropDownCustomColorPicker
             {
                 txtAlpha.Focus();
             }
-            
+
             string input = e.Key.ToString().Substring(1);
             if (string.IsNullOrEmpty(input))
             {
@@ -128,18 +126,20 @@ namespace DropDownCustomColorPicker
                 _shift = false;
             }
 
-            if (!(input == "#" || (input[0] >= 'A' && input[0] <= 'F') || (input[0] >= 'a' && input[0] <= 'F') || (input[0] >= '0' && input[0] <= '9')))
+            if (
+                !(input == "#" || (input[0] >= 'A' && input[0] <= 'F') || (input[0] >= 'a' && input[0] <= 'F') ||
+                  (input[0] >= '0' && input[0] <= '9')))
                 e.Handled = true;
             if (input.Length > 1)
                 e.Handled = true;
         }
 
-        void txtAlpha_LostFocus(object sender, RoutedEventArgs e)
+        private void txtAlpha_LostFocus(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        void txtB_KeyDown(object sender, KeyEventArgs e)
+        private void txtB_KeyDown(object sender, KeyEventArgs e)
         {
             NumericValidation(e);
             NumericValidation(e);
@@ -147,10 +147,9 @@ namespace DropDownCustomColorPicker
             {
                 txtAll.Focus();
             }
-
         }
 
-        void txtG_KeyDown(object sender, KeyEventArgs e)
+        private void txtG_KeyDown(object sender, KeyEventArgs e)
         {
             NumericValidation(e);
             if (e.Key == Key.Tab)
@@ -159,7 +158,7 @@ namespace DropDownCustomColorPicker
             }
         }
 
-        void txtR_KeyDown(object sender, KeyEventArgs e)
+        private void txtR_KeyDown(object sender, KeyEventArgs e)
         {
             NumericValidation(e);
             if (e.Key == Key.Tab)
@@ -168,7 +167,7 @@ namespace DropDownCustomColorPicker
             }
         }
 
-        void txtAlpha_KeyDown(object sender, KeyEventArgs e)
+        private void txtAlpha_KeyDown(object sender, KeyEventArgs e)
         {
             NumericValidation(e);
 
@@ -178,18 +177,17 @@ namespace DropDownCustomColorPicker
             }
         }
 
-        void txtAll_TextChanged(object sender, RoutedEventArgs e)
+        private void txtAll_TextChanged(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(((TextBox)sender).Text)) return;
+                if (string.IsNullOrEmpty(((TextBox) sender).Text)) return;
                 CustomColor = MakeColorFromHex(sender);
                 Reposition();
             }
             catch
             {
             }
-
         }
 
         private Color MakeColorFromHex(object sender)
@@ -197,8 +195,7 @@ namespace DropDownCustomColorPicker
             try
             {
                 ColorConverter cc = new ColorConverter();
-                return (Color)cc.ConvertFrom(((TextBox)sender).Text);
-
+                return (Color) cc.ConvertFrom(((TextBox) sender).Text);
             }
             catch
             {
@@ -207,26 +204,24 @@ namespace DropDownCustomColorPicker
                 string greenHex = CustomColor.G.ToString("X").PadLeft(2, '0');
                 string blueHex = CustomColor.B.ToString("X").PadLeft(2, '0');
                 txtAll.Text = String.Format("#{0}{1}{2}{3}",
-                alphaHex, redHex,
-                greenHex, blueHex);
-
-
+                                            alphaHex, redHex,
+                                            greenHex, blueHex);
             }
             return _customColor;
         }
 
-        void txtB_TextChanged(object sender, RoutedEventArgs e)
+        private void txtB_TextChanged(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(((TextBox)sender).Text)) return;
-                int val = Convert.ToInt32(((TextBox)sender).Text);
+                if (string.IsNullOrEmpty(((TextBox) sender).Text)) return;
+                int val = Convert.ToInt32(((TextBox) sender).Text);
                 if (val > 255)
 
-                    ((TextBox)sender).Text = "255";
+                    ((TextBox) sender).Text = "255";
                 else
                 {
-                    byte byteValue = Convert.ToByte(((TextBox)sender).Text);
+                    byte byteValue = Convert.ToByte(((TextBox) sender).Text);
                     CustomColor = MakeColorFromRGB();
                     Reposition();
                 }
@@ -234,7 +229,6 @@ namespace DropDownCustomColorPicker
             catch
             {
             }
-
         }
 
         private Color MakeColorFromRGB()
@@ -244,88 +238,84 @@ namespace DropDownCustomColorPicker
             byte gbyteValue = Convert.ToByte(txtG.Text);
             byte bbyteValue = Convert.ToByte(txtB.Text);
             Color rgbColor =
-                 Color.FromArgb(
-                     abyteValue,
-                     rbyteValue,
-                     gbyteValue,
-                     bbyteValue);
+                Color.FromArgb(
+                    abyteValue,
+                    rbyteValue,
+                    gbyteValue,
+                    bbyteValue);
             return rgbColor;
         }
 
-        void txtG_TextChanged(object sender, RoutedEventArgs e)
+        private void txtG_TextChanged(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(((TextBox)sender).Text)) return;
-                int val = Convert.ToInt32(((TextBox)sender).Text);
+                if (string.IsNullOrEmpty(((TextBox) sender).Text)) return;
+                int val = Convert.ToInt32(((TextBox) sender).Text);
                 if (val > 255)
 
-                    ((TextBox)sender).Text = "255";
+                    ((TextBox) sender).Text = "255";
                 else
                 {
-                    byte byteValue = Convert.ToByte(((TextBox)sender).Text);
+                    byte byteValue = Convert.ToByte(((TextBox) sender).Text);
                     CustomColor =
-                       Color.FromArgb(
+                        Color.FromArgb(
                             _customColor.A,
-                           CustomColor.R,
-                          byteValue,
-                           CustomColor.B);
-                    Reposition();
-
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        void txtR_TextChanged(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-
-                if (string.IsNullOrEmpty(((TextBox)sender).Text)) return;
-                int val = Convert.ToInt32(((TextBox)sender).Text);
-                if (val > 255)
-
-                    ((TextBox)sender).Text = "255";
-                else
-                {
-                    byte byteValue = Convert.ToByte(((TextBox)sender).Text);
-                    CustomColor =
-                       Color.FromArgb(
-                            _customColor.A,
-                           byteValue,
-                           CustomColor.G,
-                           CustomColor.B);
-                    Reposition();
-
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        void txtAlpha_TextChanged(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(((TextBox)sender).Text)) return;
-                int val = Convert.ToInt32(((TextBox)sender).Text);
-                if (val > 255)
-
-                    ((TextBox)sender).Text = "255";
-                else
-                {
-                    byte byteValue = Convert.ToByte(((TextBox)sender).Text);
-                    CustomColor =
-                       Color.FromArgb(
+                            CustomColor.R,
                             byteValue,
-                           CustomColor.R,
-                           CustomColor.G,
-                           CustomColor.B);
+                            CustomColor.B);
+                    Reposition();
+                }
+            }
+            catch
+            {
+            }
+        }
 
+        private void txtR_TextChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(((TextBox) sender).Text)) return;
+                int val = Convert.ToInt32(((TextBox) sender).Text);
+                if (val > 255)
+
+                    ((TextBox) sender).Text = "255";
+                else
+                {
+                    byte byteValue = Convert.ToByte(((TextBox) sender).Text);
+                    CustomColor =
+                        Color.FromArgb(
+                            _customColor.A,
+                            byteValue,
+                            CustomColor.G,
+                            CustomColor.B);
+                    Reposition();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void txtAlpha_TextChanged(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(((TextBox) sender).Text)) return;
+                int val = Convert.ToInt32(((TextBox) sender).Text);
+                if (val > 255)
+
+                    ((TextBox) sender).Text = "255";
+                else
+                {
+                    byte byteValue = Convert.ToByte(((TextBox) sender).Text);
+                    CustomColor =
+                        Color.FromArgb(
+                            byteValue,
+                            CustomColor.R,
+                            CustomColor.G,
+                            CustomColor.B);
                 }
             }
             catch
@@ -335,7 +325,7 @@ namespace DropDownCustomColorPicker
 
         private void NumericValidation(System.Windows.Input.KeyEventArgs e)
         {
-            string input = e.Key.ToString().Substring(1);     
+            string input = e.Key.ToString().Substring(1);
             try
             {
                 if (e.Key == Key.Enter)
@@ -345,16 +335,19 @@ namespace DropDownCustomColorPicker
                 }
                 int inputDigit = Int32.Parse(input);
             }
-            catch  
+            catch
             {
-                e.Handled = true; 
+                e.Handled = true;
             }
         }
 
         public static BitmapSource loadBitmap(System.Drawing.Bitmap source)
         {
-            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(source.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
-                System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(source.GetHbitmap(), IntPtr.Zero,
+                                                                                Int32Rect.Empty,
+                                                                                System.Windows.Media.Imaging
+                                                                                      .BitmapSizeOptions
+                                                                                      .FromEmptyOptions());
         }
 
         private void InitialWork()
@@ -368,11 +361,11 @@ namespace DropDownCustomColorPicker
             DefaultPicker.SelectionChanged += new SelectionChangedEventHandler(DefaultPicker_SelectionChanged);
         }
 
-        void DefaultPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DefaultPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DefaultPicker.SelectedValue != null)
             {
-                _customColor = (Color)DefaultPicker.SelectedValue;
+                _customColor = (Color) DefaultPicker.SelectedValue;
             }
             FrameworkElement frameworkElement = this;
             while (true)
@@ -380,11 +373,11 @@ namespace DropDownCustomColorPicker
                 if (frameworkElement == null) break;
                 if (frameworkElement is ContextMenu)
                 {
-                    ((ContextMenu)frameworkElement).IsOpen = false;
+                    ((ContextMenu) frameworkElement).IsOpen = false;
                     break;
                 }
                 if (frameworkElement.Parent != null)
-                    frameworkElement = (FrameworkElement)frameworkElement.Parent;
+                    frameworkElement = (FrameworkElement) frameworkElement.Parent;
                 else
                     break;
             }
@@ -394,24 +387,21 @@ namespace DropDownCustomColorPicker
         {
             try
             {
-                CustomColor = GetColorFromImage((int)Mouse.GetPosition(CanColor).X, (int)Mouse.GetPosition(CanColor).Y);                
-                MovePointer();                 
+                CustomColor = GetColorFromImage((int) Mouse.GetPosition(CanColor).X, (int) Mouse.GetPosition(CanColor).Y);
+                MovePointer();
             }
-            catch 
+            catch
             {
-
             }
-        }     
+        }
 
         private void Reposition()
         {
-
             for (int i = 0; i < CanColor.ActualWidth; i++)
             {
                 bool flag = false;
                 for (int j = 0; j < CanColor.ActualHeight; j++)
                 {
-
                     try
                     {
                         Color Colorfromimagepoint = GetColorFromImage(i, j);
@@ -421,53 +411,49 @@ namespace DropDownCustomColorPicker
                             flag = true;
                             break;
                         }
-
                     }
-                    catch 
+                    catch
                     {
-
                     }
-
                 }
                 if (flag) break;
-
             }
-
-
         }
+
         /// <summary>
         /// 1*1 pixel copy is based on an article by Lee Brimelow    
         /// http://thewpfblog.com/?p=62
         /// </summary>
-
         private Color GetColorFromImage(int i, int j)
         {
             CroppedBitmap cb = new CroppedBitmap(image.Source as BitmapSource,
-                new Int32Rect(i,
-                    j, 1, 1));
+                                                 new Int32Rect(i,
+                                                               j, 1, 1));
             byte[] color = new byte[4];
             cb.CopyPixels(color, 4, 0);
-            Color Colorfromimagepoint = Color.FromArgb((byte)SdA.Value, color[2], color[1], color[0]);
+            Color Colorfromimagepoint = Color.FromArgb((byte) SdA.Value, color[2], color[1], color[0]);
             return Colorfromimagepoint;
         }
 
         private void MovePointerDuringReposition(int i, int j)
         {
-            EpPointer.SetValue(Canvas.LeftProperty, (double)(i - 3));
-            EpPointer.SetValue(Canvas.TopProperty, (double)(j - 3));
+            EpPointer.SetValue(Canvas.LeftProperty, (double) (i - 3));
+            EpPointer.SetValue(Canvas.TopProperty, (double) (j - 3));
             EpPointer.InvalidateVisual();
             CanColor.InvalidateVisual();
         }
+
         private void MovePointer()
         {
-            EpPointer.SetValue(Canvas.LeftProperty, (double)(Mouse.GetPosition(CanColor).X - 5));
-            EpPointer.SetValue(Canvas.TopProperty, (double)(Mouse.GetPosition(CanColor).Y - 5));
+            EpPointer.SetValue(Canvas.LeftProperty, (double) (Mouse.GetPosition(CanColor).X - 5));
+            EpPointer.SetValue(Canvas.TopProperty, (double) (Mouse.GetPosition(CanColor).Y - 5));
             CanColor.InvalidateVisual();
         }
 
         private bool SimmilarColor(Color pointColor, Color selectedColor)
         {
-            int diff = Math.Abs(pointColor.R - selectedColor.R) + Math.Abs(pointColor.G - selectedColor.G) + Math.Abs(pointColor.B - selectedColor.B);
+            int diff = Math.Abs(pointColor.R - selectedColor.R) + Math.Abs(pointColor.G - selectedColor.G) +
+                       Math.Abs(pointColor.B - selectedColor.B);
             if (diff < 20) return true;
             else
                 return false;
@@ -485,8 +471,8 @@ namespace DropDownCustomColorPicker
             txtB.Text = CustomColor.B.ToString();
             string blueHex = CustomColor.B.ToString("X").PadLeft(2, '0');
             txtAll.Text = String.Format("#{0}{1}{2}{3}",
-            alphaHex, redHex,
-            greenHex, blueHex);
+                                        alphaHex, redHex,
+                                        greenHex, blueHex);
             SdA.Value = CustomColor.A;
         }
 
@@ -498,7 +484,6 @@ namespace DropDownCustomColorPicker
         private void epDefaultcolor_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             epCustomcolor.IsExpanded = false;
-
         }
 
         private void epCustomcolor_Expanded(object sender, RoutedEventArgs e)
@@ -508,13 +493,13 @@ namespace DropDownCustomColorPicker
 
         private void SdA_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CustomColor = Color.FromArgb((byte)SdA.Value, CustomColor.R, CustomColor.G, CustomColor.B);
+            CustomColor = Color.FromArgb((byte) SdA.Value, CustomColor.R, CustomColor.G, CustomColor.B);
         }
     }
 
-    class CustomColors
+    internal class CustomColors
     {
-        List<Color> _SelectableColors = null;
+        private List<Color> _SelectableColors = null;
 
         public List<Color> SelectableColors
         {
@@ -525,29 +510,28 @@ namespace DropDownCustomColorPicker
         public CustomColors()
         {
             _SelectableColors = new List<Color>();
-            Type ColorsType = typeof(Colors);
+            Type ColorsType = typeof (Colors);
             PropertyInfo[] ColorsProperty = ColorsType.GetProperties();
 
             foreach (PropertyInfo property in ColorsProperty)
             {
-                _SelectableColors.Add((Color)ColorConverter.ConvertFromString(property.Name));
-
+                _SelectableColors.Add((Color) ColorConverter.ConvertFromString(property.Name));
             }
         }
-
     }
 
-    [ValueConversion(typeof(Color), typeof(Brush))]
+    [ValueConversion(typeof (Color), typeof (Brush))]
     public class ColorToSolidColorBrushConverter : IValueConverter
     {
         #region IValueConverter Members
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return new SolidColorBrush((Color)value);
+            return new SolidColorBrush((Color) value);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

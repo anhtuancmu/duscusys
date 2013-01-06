@@ -10,9 +10,7 @@
 namespace Lite.Operations
 {
     using System.Collections;
-
     using Lite.Caching;
-
     using Photon.SocketServer;
     using Photon.SocketServer.Rpc;
 
@@ -56,7 +54,7 @@ namespace Lite.Operations
         /// <remarks>
         ///   Optional request parameter.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.Actors, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Actors, IsOptional = true)]
         public int[] Actors { get; set; }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace Lite.Operations
         ///   Optional request parameter.
         ///   Ignored if the event is sent to individual actors (submitted <see cref = "Actors" /> or <see cref = "Lite.Operations.ReceiverGroup.MasterClient" />).
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.Cache, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Cache, IsOptional = true)]
         public byte Cache { get; set; }
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace Lite.Operations
         /// <remarks>
         ///   Optional request parameter.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.Data, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Data, IsOptional = true)]
         public Hashtable Data { get; set; }
 
         /// <summary>
@@ -84,7 +82,7 @@ namespace Lite.Operations
         /// <remarks>
         ///   Optional request parameter.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.Code, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Code, IsOptional = true)]
         public byte EvCode { get; set; }
 
         /// <summary>
@@ -94,7 +92,7 @@ namespace Lite.Operations
         /// <remarks>
         ///   Optional request parameter.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.Flush, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Flush, IsOptional = true)]
         public bool Flush { get; set; }
 
         /// <summary>
@@ -103,7 +101,7 @@ namespace Lite.Operations
         /// <remarks>
         ///   Optional request parameter.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.GameId, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.GameId, IsOptional = true)]
         public string GameId { get; set; }
 
         /// <summary>
@@ -113,7 +111,7 @@ namespace Lite.Operations
         ///   Optional request parameter.
         ///   Ignored if <see cref = "Actors" /> are set.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.ReceiverGroup, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.ReceiverGroup, IsOptional = true)]
         public byte ReceiverGroup { get; set; }
 
         #endregion

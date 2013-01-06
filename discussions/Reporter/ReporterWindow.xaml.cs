@@ -5,14 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Discussions;
 using Discussions.DbModel;
 using Discussions.model;
@@ -20,14 +14,13 @@ using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.stats;
 using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Win32;
 
 namespace Reporter
 {
     public partial class ReporterWindow : Window
     {
-        ReportCollector _reportCollector1 = null;
-        ReportCollector _reportCollector2 = null;
+        private ReportCollector _reportCollector1 = null;
+        private ReportCollector _reportCollector2 = null;
 
         public ReporterWindow()
         {
@@ -52,21 +45,21 @@ namespace Reporter
             reportHeader2.ParamsChanged += Report2ParamsChanged;
         }
 
-        void copyToClipboard(string text)
+        private void copyToClipboard(string text)
         {
             Clipboard.SetData(DataFormats.Text, text);
         }
 
-        void Report1ParamsChanged(ReportParameters param)
+        private void Report1ParamsChanged(ReportParameters param)
         {
             if (param != null)
-                new ReportCollector(null, reportGenerated, param, leftReportTree);
+                new ReportCollector(null, reportGenerated, param, leftReportTree, UISharedRTClient.Instance.clienRt);
         }
 
-        void Report2ParamsChanged(ReportParameters param)
+        private void Report2ParamsChanged(ReportParameters param)
         {
             if (param != null)
-                new ReportCollector(null, reportGenerated, param, rightReportTree);
+                new ReportCollector(null, reportGenerated, param, rightReportTree, UISharedRTClient.Instance.clienRt);
         }
 
         public void onJoin()
@@ -74,8 +67,8 @@ namespace Reporter
             UISharedRTClient.Instance.clienRt.onJoin -= onJoin;
         }
 
-        TextBlock GetTopicSummary(TopicReport report, ReportParameters param, bool total)
-        {            
+        private TextBlock GetTopicSummary(TopicReport report, ReportParameters param, bool total)
+        {
             var txt = "  Cumulative duration: " + TimeSpan.FromSeconds(report.cumulativeDuration) + "\r\n";
 
             var nUsr = 0;
@@ -99,7 +92,7 @@ namespace Reporter
             return res;
         }
 
-        TextBlock GetAttachmentsSummary(ReportCollector report)
+        private TextBlock GetAttachmentsSummary(ReportCollector report)
         {
             var txt = "<media summary>\r\n";
             txt += "No. of images " + report.NumImagesInSession + "\r\n";
@@ -109,10 +102,10 @@ namespace Reporter
             return StatsUtils.WrapText(txt);
         }
 
-        TreeViewItem GetEvent(StatsEvent e, DiscCtx ctx)
+        private TreeViewItem GetEvent(StatsEvent e, DiscCtx ctx)
         {
             var res = new TreeViewItem();
-            var eventView = new EventViewModel((StEvent)e.Event, e.UserId, e.Time, (DeviceType)e.DeviceType);
+            var eventView = new EventViewModel((StEvent) e.Event, e.UserId, e.Time, (DeviceType) e.DeviceType);
             res.Header = eventView.evt;
 
             res.Items.Add(GetUser(ctx.Person.FirstOrDefault(p0 => p0.Id == e.UserId)));
@@ -127,7 +120,7 @@ namespace Reporter
             return res;
         }
 
-        TextBlock GetUserEventTotals(EventUserReport eTotals)
+        private TextBlock GetUserEventTotals(EventUserReport eTotals)
         {
             var sb = new StringBuilder();
             sb.AppendLine("<user event totals>");
@@ -237,7 +230,7 @@ namespace Reporter
             return StatsUtils.WrapText(sb.ToString());
         }
 
-        TreeViewItem GetCluster(ClusterReport report)
+        private TreeViewItem GetCluster(ClusterReport report)
         {
             var res = new TreeViewItem();
             res.Header = GetHeader(report.initialOwner, " - cluster " + report.clusterTitle);
@@ -251,7 +244,7 @@ namespace Reporter
             return res;
         }
 
-        MiniUserUC GetUser(Person owner)
+        private MiniUserUC GetUser(Person owner)
         {
             var usr = new MiniUserUC();
 
@@ -266,7 +259,7 @@ namespace Reporter
             return usr;
         }
 
-        TreeViewItem GetLink(LinkReportResponse report, ReportCollector collector)
+        private TreeViewItem GetLink(LinkReportResponse report, ReportCollector collector)
         {
             var res = new TreeViewItem();
             res.Header = GetHeader(report.initOwner, " - link");
@@ -275,26 +268,28 @@ namespace Reporter
             if (report.EndpointArgPoint1)
                 endpoints.Items.Add(GetPointReport(report.ArgPoint1));
             else
-                endpoints.Items.Add(GetCluster(collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster1)));
+                endpoints.Items.Add(
+                    GetCluster(collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster1)));
 
             if (report.EndpointArgPoint2)
                 endpoints.Items.Add(GetPointReport(report.ArgPoint2));
             else
-                endpoints.Items.Add(GetCluster(collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster2)));
+                endpoints.Items.Add(
+                    GetCluster(collector.ClusterReports.FirstOrDefault(c0 => c0.clusterId == report.IdOfCluster2)));
 
             res.Items.Add(endpoints);
 
             return res;
         }
 
-        TextBlock GetTextBlock(string txt)
+        private TextBlock GetTextBlock(string txt)
         {
             var res = new TextBlock();
             res.Text = txt;
             return res;
         }
 
-        TreeViewItem GetTopicReport(TopicReport report, ReportCollector collector)
+        private TreeViewItem GetTopicReport(TopicReport report, ReportCollector collector)
         {
             var res = new TreeViewItem();
             res.Items.Add(GetTopicSummary(report, collector.ReportParams, false));
@@ -325,14 +320,14 @@ namespace Reporter
             return res;
         }
 
-        static TreeViewItem WrapNode(string nodeHeader)
+        private static TreeViewItem WrapNode(string nodeHeader)
         {
             var res = new TreeViewItem();
             res.Header = nodeHeader;
             return res;
         }
 
-        TreeViewItem GetTotalTopicSummary(TopicReport report)
+        private TreeViewItem GetTotalTopicSummary(TopicReport report)
         {
             var res = new TreeViewItem();
             res.Header = "<all topics total>";
@@ -340,7 +335,7 @@ namespace Reporter
             return res;
         }
 
-        TreeViewItem GetPointReport(ArgPoint ap)
+        private TreeViewItem GetPointReport(ArgPoint ap)
         {
             var txt = new TextBlock();
             if (ap.Description.Text != "Description")
@@ -355,7 +350,7 @@ namespace Reporter
             return res;
         }
 
-        StackPanel GetHeader(Person pers, string str)
+        private StackPanel GetHeader(Person pers, string str)
         {
             var res = new TreeViewItem();
             var st = new StackPanel();
@@ -365,7 +360,7 @@ namespace Reporter
             return st;
         }
 
-        TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
+        private TreeViewItem GetUserOneTopicSummary(ArgPointReport report, bool totalUser)
         {
             var txt = "  No. of points " + report.numPoints + "\r\n";
             txt += "  No. of points with description " + report.numPointsWithDescriptions + "\r\n";
@@ -393,7 +388,7 @@ namespace Reporter
             return tvi;
         }
 
-        TreeViewItem GetUserSummary(List<ArgPointReport> reportsOfUser, EventUserReport eventUserReport)
+        private TreeViewItem GetUserSummary(List<ArgPointReport> reportsOfUser, EventUserReport eventUserReport)
         {
             var res = new TreeViewItem();
             string usrName = "";
@@ -412,7 +407,7 @@ namespace Reporter
             return res;
         }
 
-        TreeViewItem GetAvgUserSummary(ArgArgPointReport report)
+        private TreeViewItem GetAvgUserSummary(ArgArgPointReport report)
         {
             var txt = "  No. of points " + report.numPoints + "\r\n";
             txt += "  No. of points with description " + report.numPointsWithDescriptions + "\r\n";
@@ -478,8 +473,9 @@ namespace Reporter
                 EventUserReport eventReport = null;
                 if (report.Count > 0)
                 {
-                    eventReport = sender.PerUserEventReportDict.ContainsKey(report.First().user.Id) ?
-                                             sender.PerUserEventReportDict[report.First().user.Id] : null;
+                    eventReport = sender.PerUserEventReportDict.ContainsKey(report.First().user.Id)
+                                      ? sender.PerUserEventReportDict[report.First().user.Id]
+                                      : null;
                 }
                 usersNode.Items.Add(GetUserSummary(report, eventReport));
             }
@@ -490,7 +486,7 @@ namespace Reporter
             usersNode.Items.Add(GetUserOneTopicSummary(sender.TotalArgPointReport, true));
         }
 
-        LoginResult testLoginStub(DiscCtx ctx)
+        private LoginResult testLoginStub(DiscCtx ctx)
         {
             var loginRes = new LoginResult();
             loginRes.discussion = ctx.Discussion.First();
@@ -510,13 +506,13 @@ namespace Reporter
             if (parameters1 == null || parameters2 == null)
                 return;
 
-            new ReportCollector(null, reportGenerated, parameters1, leftReportTree);
-            new ReportCollector(null, reportGenerated, parameters2, rightReportTree);
+            new ReportCollector(null, reportGenerated, parameters1, leftReportTree, UISharedRTClient.Instance.clienRt);
+            new ReportCollector(null, reportGenerated, parameters2, rightReportTree, UISharedRTClient.Instance.clienRt);
         }
 
         private void SurfaceScrollViewer_MouseWheel_1(object sender, MouseWheelEventArgs e)
         {
-            var ssv = (SurfaceScrollViewer)sender;
+            var ssv = (SurfaceScrollViewer) sender;
             ssv.ScrollToVerticalOffset(ssv.VerticalOffset - e.Delta);
         }
 
@@ -587,8 +583,8 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
-                                           reportHeader1.getReportParams(false),
-                                           reportHeader2.getReportParams(false));
+                                                reportHeader1.getReportParams(false),
+                                                reportHeader2.getReportParams(false));
                     }
                     else
                     {
@@ -596,10 +592,9 @@ namespace Reporter
                                            _reportCollector1.TopicReports.First(),
                                            reportHeader1.getReportParams(false),
                                            _reportCollector1.EventTotals,
-                                        
-                                          _reportCollector2.TopicReports.First(),
-                                          reportHeader2.getReportParams(false),
-                                          _reportCollector2.EventTotals);
+                                           _reportCollector2.TopicReports.First(),
+                                           reportHeader2.getReportParams(false),
+                                           _reportCollector2.EventTotals);
                     }
                 }
                 var dirName = System.IO.Path.GetDirectoryName(dlg.FileName);
@@ -609,11 +604,12 @@ namespace Reporter
                         Process.Start("explorer.exe", dirName);
                     }
                     catch (Exception)
-                    { }
+                    {
+                    }
             }
         }
 
-        string getIndentStr(int offset)
+        private string getIndentStr(int offset)
         {
             switch (offset)
             {
@@ -633,7 +629,7 @@ namespace Reporter
             return "      ";
         }
 
-        void buildTextTree(object root, StringBuilder sb, int offset)
+        private void buildTextTree(object root, StringBuilder sb, int offset)
         {
             if (root == null)
                 return;
@@ -664,7 +660,7 @@ namespace Reporter
                 var muc = hdrStk.Children[0] as MiniUserUC;
                 if (muc != null)
                 {
-                    sb.AppendLine(getIndentStr(offset) + ((Person)muc.DataContext).Name);
+                    sb.AppendLine(getIndentStr(offset) + ((Person) muc.DataContext).Name);
                 }
             }
 
@@ -680,18 +676,22 @@ namespace Reporter
             if (e.Key == Key.C && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
                 var sb = new StringBuilder();
-                buildTextTree(recentlySelectedLeftTree ? leftReportTree.SelectedItem : rightReportTree.SelectedItem, sb, 0);
+                buildTextTree(recentlySelectedLeftTree ? leftReportTree.SelectedItem : rightReportTree.SelectedItem, sb,
+                              0);
                 copyToClipboard(sb.ToString());
             }
         }
 
-        bool recentlySelectedLeftTree = false;
-        private void leftReportTree_SelectedItemChanged_1(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        private bool recentlySelectedLeftTree = false;
+
+        private void leftReportTree_SelectedItemChanged_1(object sender,
+                                                          System.Windows.RoutedPropertyChangedEventArgs<object> e)
         {
             recentlySelectedLeftTree = true;
         }
 
-        private void rightReportTree_SelectedItemChanged_1(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        private void rightReportTree_SelectedItemChanged_1(object sender,
+                                                           System.Windows.RoutedPropertyChangedEventArgs<object> e)
         {
             recentlySelectedLeftTree = false;
         }
