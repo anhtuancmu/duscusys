@@ -18,37 +18,38 @@ namespace Discussions.RTModel
 {
     public class DiscussionPeer : LiteLobbyPeer
     {
-        int _dbId = -1;
+        private int _dbId = -1;
+
         public int DbId
         {
-            get { return _dbId; }            
+            get { return _dbId; }
         }
 
-        IPhotonPeer _photonPer = null;
+        private IPhotonPeer _photonPer = null;
 
-        const string DISCUSSION_LOBBY = "discussion_lobby";
+        private const string DISCUSSION_LOBBY = "discussion_lobby";
 
         //person Db Id -> count online 
-        static Dictionary<int, int> DbInstancesOnline = new Dictionary<int, int>();
-             
+        private static Dictionary<int, int> DbInstancesOnline = new Dictionary<int, int>();
+
         //photon peer -> db id
         //no record -> offline 
-        static Dictionary<IPhotonPeer, int> PeerInstancesOnline = new Dictionary<IPhotonPeer, int>();
+        private static Dictionary<IPhotonPeer, int> PeerInstancesOnline = new Dictionary<IPhotonPeer, int>();
 
         public DiscussionPeer(IRpcProtocol rpcProtocol, IPhotonPeer photonPeer)
             : base(rpcProtocol, photonPeer)
-        {           
+        {
             _photonPer = photonPeer;
-        }                  
-        
+        }
+
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
-        {                                              
-            switch ((DiscussionOpCode)operationRequest.OperationCode)
+        {
+            switch ((DiscussionOpCode) operationRequest.OperationCode)
             {
                 case DiscussionOpCode.Test:
                     var operation = new TestOperation(this.Protocol, operationRequest);
                     if (ValidateOperation(operation, sendParameters))
-                    {                                               
+                    {
                         SendOperationResponse(operation.GetResponse(), sendParameters);
                         return;
                     }
@@ -57,15 +58,15 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.NotifyStructureChanged:
                 case DiscussionOpCode.NotifyArgPointChanged:
                 case DiscussionOpCode.CursorRequest:
-                case DiscussionOpCode.CreateShapeRequest:  
+                case DiscussionOpCode.CreateShapeRequest:
                 case DiscussionOpCode.DeleteShapesRequest:
-                case DiscussionOpCode.UnselectAllRequest: 
-                case DiscussionOpCode.DeleteSingleShapeRequest:                
+                case DiscussionOpCode.UnselectAllRequest:
+                case DiscussionOpCode.DeleteSingleShapeRequest:
                 case DiscussionOpCode.StateSyncRequest:
                 case DiscussionOpCode.InitialSceneLoadRequest:
-                case DiscussionOpCode.LinkCreateRequest:                
+                case DiscussionOpCode.LinkCreateRequest:
                 case DiscussionOpCode.UnclusterBadgeRequest:
-                case DiscussionOpCode.ClusterBadgeRequest:                
+                case DiscussionOpCode.ClusterBadgeRequest:
                 case DiscussionOpCode.ClusterMoveRequest:
                 case DiscussionOpCode.InkRequest:
                 case DiscussionOpCode.DEditorReport:
@@ -76,10 +77,10 @@ namespace Discussions.RTModel
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:
-                    handleOnlineStatus(_photonPer, _dbId, false, (int)DeviceType.Sticky);                   
+                    handleOnlineStatus(_photonPer, _dbId, false, (int) DeviceType.Sticky);
                     break;
                 case DiscussionOpCode.StatsEvent:
-                    if(LogEvent(operationRequest.Parameters))
+                    if (LogEvent(operationRequest.Parameters))
                         HandleGameOperation(operationRequest, sendParameters); // broadcast stats event
                     break;
                 case DiscussionOpCode.ScreenshotRequest:
@@ -102,19 +103,20 @@ namespace Discussions.RTModel
         ///   The send Parameters.
         /// </param>
         protected override void HandleJoinGameWithLobby(JoinRequest joinOperation, SendParameters sendParameters)
-        {            
-            _dbId = (int)joinOperation.ActorProperties[(byte)ActProps.DbId];
-            var devType = (int)joinOperation.ActorProperties[(byte)ActProps.DevType];
+        {
+            _dbId = (int) joinOperation.ActorProperties[(byte) ActProps.DbId];
+            var devType = (int) joinOperation.ActorProperties[(byte) ActProps.DevType];
 
-            handleOnlineStatus(_photonPer, _dbId, true, devType);  
-            
+            handleOnlineStatus(_photonPer, _dbId, true, devType);
+
             // remove the peer from current game if the peer
             // allready joined another game
             this.RemovePeerFromCurrentRoom();
 
             // get a game reference from the game cache 
             // the game will be created by the cache if it does not exists allready 
-            RoomReference gameReference = DiscussionGameCache.Instance.GetRoomReference(joinOperation.GameId, joinOperation.LobbyId);
+            RoomReference gameReference = DiscussionGameCache.Instance.GetRoomReference(joinOperation.GameId,
+                                                                                        joinOperation.LobbyId);
 
             // save the game reference in peers state                    
             this.RoomReference = gameReference;
@@ -123,12 +125,11 @@ namespace Discussions.RTModel
             gameReference.Room.EnqueueOperation(this, joinOperation.OperationRequest, sendParameters);
 
             ////no base.HandleJoinGameWithLobby(), we've duplicated all its code here    
-           
+
             RoomReference lobbyReference = DiscussionLobbyCache.Instance.GetRoomReference(joinOperation.LobbyId);
             var discLobby = lobbyReference.Room as DiscussionLobby;
             if (discLobby != null)
                 discLobby.SaveRoomName(joinOperation.GameId);
-                     
         }
 
         //overritten to inject discussion lobby cache 
@@ -144,8 +145,8 @@ namespace Discussions.RTModel
         /// </param>
         protected override void HandleJoinLobby(JoinRequest joinRequest, SendParameters sendParameters)
         {
-            _dbId = (int)joinRequest.ActorProperties[(byte)ActProps.DbId];
-            var devType = (int)joinRequest.ActorProperties[(byte)ActProps.DevType];
+            _dbId = (int) joinRequest.ActorProperties[(byte) ActProps.DbId];
+            var devType = (int) joinRequest.ActorProperties[(byte) ActProps.DevType];
 
             handleOnlineStatus(_photonPer, _dbId, true, devType);
 
@@ -159,26 +160,26 @@ namespace Discussions.RTModel
 
             // save the lobby(room) reference in peers state                    
             this.RoomReference = lobbyReference;
-            
+
             // enqueue the operation request into the games execution queue
             lobbyReference.Room.EnqueueOperation(this, joinRequest.OperationRequest, sendParameters);
-            
-            lobbyReference.Room.EnqueueOperation(this, new OperationRequest((byte)DiscussionOpCode.NotifyLeaveUser), 
-                                                       sendParameters);
+
+            lobbyReference.Room.EnqueueOperation(this, new OperationRequest((byte) DiscussionOpCode.NotifyLeaveUser),
+                                                 sendParameters);
         }
 
-        void broadcastOnlineListChanged()
+        private void broadcastOnlineListChanged()
         {
             RoomReference lobbyReference = DiscussionLobbyCache.Instance.GetRoomReference(DISCUSSION_LOBBY);
             var dLobby = lobbyReference.Room as DiscussionLobby;
             if (dLobby != null)
             {
                 dLobby.AllRoomsBroadcast(null, new OperationRequest(), new SendParameters(),
-                                         (byte)DiscussionEventCode.InstantUserPlusMinus);
-            }  
+                                         (byte) DiscussionEventCode.InstantUserPlusMinus);
+            }
         }
 
-        void handleOnlineStatus(IPhotonPeer peer, int dbId, bool online, int deviceType)
+        private void handleOnlineStatus(IPhotonPeer peer, int dbId, bool online, int deviceType)
         {
             lock (PeerInstancesOnline)
             {
@@ -198,10 +199,10 @@ namespace Discussions.RTModel
                         PeerInstancesOnline.Remove(peer);
                     }
                 }
-            }                                               
+            }
         }
 
-        void ChangeDbOnlineStatus(int dbId, bool online, int deviceType)
+        private void ChangeDbOnlineStatus(int dbId, bool online, int deviceType)
         {
             lock (DbInstancesOnline)
             {
@@ -210,7 +211,7 @@ namespace Discussions.RTModel
                     if (!DbInstancesOnline.ContainsKey(dbId))
                         DbInstancesOnline.Add(dbId, 1);
                     else
-                        DbInstancesOnline[dbId] = DbInstancesOnline[dbId] + 1;  
+                        DbInstancesOnline[dbId] = DbInstancesOnline[dbId] + 1;
                 }
                 else
                 {
@@ -232,17 +233,17 @@ namespace Discussions.RTModel
                     }
                     ctx.SaveChanges();
                     broadcastOnlineListChanged();
-                }               
+                }
             }
         }
 
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            handleOnlineStatus(_photonPer,_dbId, false, (int)DeviceType.Sticky);
+            handleOnlineStatus(_photonPer, _dbId, false, (int) DeviceType.Sticky);
             base.OnDisconnect(reasonCode, reasonDetail);
         }
 
-        bool LogEvent(Dictionary<byte,object> req)
+        private bool LogEvent(Dictionary<byte, object> req)
         {
             StEvent evt;
             int discussionId = -1;
@@ -250,12 +251,13 @@ namespace Discussions.RTModel
             int userId = -1;
             DeviceType devType;
             Serializers.ReadStatEventParams(req, out evt, out userId, out discussionId, out topicId, out devType);
-            return EventLogger.Log(new DiscCtx(Discussions.ConfigManager.ConnStr), evt, userId, discussionId, topicId, devType);
+            return EventLogger.Log(new DiscCtx(Discussions.ConfigManager.ConnStr), evt, userId, discussionId, topicId,
+                                   devType);
         }
 
-        void HandleScreenshotRequest(OperationRequest operationRequest, SendParameters sendParameters)
+        private void HandleScreenshotRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
-            var param = ScreenshotRequest.Read(operationRequest.Parameters);            
+            var param = ScreenshotRequest.Read(operationRequest.Parameters);
             var handler = new ScreenshotHandler();
 
             //launch client and make screens
@@ -265,11 +267,12 @@ namespace Discussions.RTModel
 
             //build screenshot response
             var resp = new Dictionary<int, byte[]>();
-            foreach(var kvp in screenDict)            
+            foreach (var kvp in screenDict)
                 resp.Add(kvp.Key, File.ReadAllBytes(kvp.Value));
 
-            this.SendOperationResponse( new OperationResponse((byte)DiscussionOpCode.ScreenshotRequest, ScreenshotResponse.Write(resp)),
-                                        sendParameters);
+            this.SendOperationResponse(
+                new OperationResponse((byte) DiscussionOpCode.ScreenshotRequest, ScreenshotResponse.Write(resp)),
+                sendParameters);
 
             //cleanup
             foreach (var kvp in screenDict)

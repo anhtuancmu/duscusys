@@ -29,12 +29,13 @@ namespace Discussions
     public partial class Badge4 : UserControl
     {
         public delegate void OnToggleZoom();
+
         public OnToggleZoom onToggleZoom = null;
 
-        MultiClickRecognizer mediaDoubleClick;
+        private MultiClickRecognizer mediaDoubleClick;
 
         public static readonly RoutedEvent RequestLargeViewEvent = EventManager.RegisterRoutedEvent(
-         "RequestLargeView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Badge4));
+            "RequestLargeView", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (Badge4));
 
         public event RoutedEventHandler RequestLargeView
         {
@@ -46,7 +47,15 @@ namespace Discussions
         {
             InitializeComponent();
 
-            mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap,null);
+            mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
+        }
+
+        public void ToggleNotification(bool notificationsExist)
+        {
+            if (notificationsExist)
+                notDot.Visibility = Visibility.Visible;
+            else
+                notDot.Visibility = Visibility.Collapsed;
         }
 
         public void HandleRecontext()
@@ -59,16 +68,16 @@ namespace Discussions
                 Opacity = 1;
         }
 
-        void SetStyle()
-        {            
+        private void SetStyle()
+        {
             if (DataContext != null && DataContext is ArgPoint)
             {
-                ArgPoint p = (ArgPoint)DataContext;
+                ArgPoint p = (ArgPoint) DataContext;
                 if (p.Person == null)
                     return;
 
                 mask.Background = new SolidColorBrush(Utils.IntToColor(p.Person.Color));
-                switch ((SideCode)p.SideCode)
+                switch ((SideCode) p.SideCode)
                 {
                     case SideCode.Pros:
                         //lblSide.Content = "PROS";
@@ -96,13 +105,13 @@ namespace Discussions
 
         public ArgPoint GetArgPoint()
         {
-            ArgPoint p = (ArgPoint)DataContext;
+            ArgPoint p = (ArgPoint) DataContext;
             return p;
         }
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)
         {
-            badgeDoubleTap(null,null);
+            badgeDoubleTap(null, null);
         }
 
         private void root_MouseDown_1(object sender, MouseButtonEventArgs e)
@@ -115,7 +124,7 @@ namespace Discussions
             mediaDoubleClick.Click(sender, e);
         }
 
-        void badgeDoubleTap(object sender, InputEventArgs e)
+        private void badgeDoubleTap(object sender, InputEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
 
@@ -129,10 +138,10 @@ namespace Discussions
 
         public void SetCursorVisible(bool visible)
         {
-            if(visible)
+            if (visible)
                 usrCursor.Visibility = Visibility.Visible;
             else
                 usrCursor.Visibility = Visibility.Hidden;
-        }    
+        }
     }
 }

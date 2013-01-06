@@ -7,18 +7,18 @@ namespace Discussions.RTModel.Model
 {
     public class TestHelper
     {
-        static Random rnd = new Random();
+        private static Random rnd = new Random();
 
         //public
-        static SharedView[] CreateBadges(int numBadges)
+        private static SharedView[] CreateBadges(int numBadges)
         {
             SharedView[] result = new SharedView[numBadges];
             for (int i = 0; i < numBadges; ++i)
             {
-                var argPointView = new SharedView(i,true);
+                var argPointView = new SharedView(i, true);
                 argPointView.badgeGeometry.CenterX = rnd.NextDouble();
                 argPointView.badgeGeometry.CenterY = rnd.NextDouble();
-                argPointView.badgeGeometry.Orientation = 360.0 * rnd.NextDouble();
+                argPointView.badgeGeometry.Orientation = 360.0*rnd.NextDouble();
                 result[i] = argPointView;
             }
             return result;

@@ -32,19 +32,20 @@ namespace EventGen
     /// </summary>
     public partial class EventGenWnd : SurfaceWindow
     {
-        LoginResult login = null;
+        private LoginResult login = null;
 
-        Timeline _timelineModel;
+        private Timeline _timelineModel;
 
-        UISharedRTClient sharedClient = new UISharedRTClient();
+        private UISharedRTClient sharedClient = new UISharedRTClient();
 
-        DispatcherTimer _timer;
+        private DispatcherTimer _timer;
 
-        EventGen.timeline.Session _session;
+        private EventGen.timeline.Session _session;
 
-        EventTotalsReport _totalsReport = new EventTotalsReport();
+        private EventTotalsReport _totalsReport = new EventTotalsReport();
 
-        ObservableCollection<Topic> _topics = null;
+        private ObservableCollection<Topic> _topics = null;
+
         public ObservableCollection<Topic> topics
         {
             get
@@ -53,23 +54,15 @@ namespace EventGen
                     _topics = new ObservableCollection<Topic>();
                 return _topics;
             }
-            set
-            {
-                _topics = value;
-            }
+            set { _topics = value; }
         }
 
-        ObservableCollection<EventViewModel> _recentEvents = new ObservableCollection<EventViewModel>();
+        private ObservableCollection<EventViewModel> _recentEvents = new ObservableCollection<EventViewModel>();
+
         public ObservableCollection<EventViewModel> RecentEvents
         {
-            get
-            {
-                return _recentEvents;
-            }
-            set
-            {
-                _recentEvents = value;
-            }
+            get { return _recentEvents; }
+            set { _recentEvents = value; }
         }
 
         public ObservableCollection<Person> Persons { get; set; }
@@ -83,8 +76,8 @@ namespace EventGen
             _timelineModel = new Timeline(TimeSpan.FromMinutes(2));
             timelineView.SetModel(_timelineModel);
             timelineView.ChangeZoom(zoomSlider.Value);
-            currentTime.DataContext   = _timelineModel;
-            videoProgress.Maximum     = _timelineModel.Range.TotalSeconds;
+            currentTime.DataContext = _timelineModel;
+            videoProgress.Maximum = _timelineModel.Range.TotalSeconds;
             videoProgress.DataContext = _timelineModel;
 
             _timelineModel.PropertyChanged += TimelinePropertyChanged;
@@ -98,30 +91,30 @@ namespace EventGen
             _timer = new DispatcherTimer();
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _timer.Tick += onUpdateCurrentTimeFromVideo;
-            
+
             myMediaElement.MediaEnded += mediaEnded;
         }
 
-        void ensureCurrentTimeInView()
+        private void ensureCurrentTimeInView()
         {
             if (needsScroll())
                 scrollCurrentTimeIntoView();
         }
 
-        void scrollCurrentTimeIntoView()
+        private void scrollCurrentTimeIntoView()
         {
             var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);
             timelineScroller.ScrollToHorizontalOffset(currentTimePos - 50);
         }
 
-        bool needsScroll()
+        private bool needsScroll()
         {
-            var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);           
+            var currentTimePos = TimeScale.TimeToPosition(_timelineModel.CurrentTime, timelineView.Zoom);
             return (currentTimePos < timelineScroller.ContentHorizontalOffset ||
-                    currentTimePos > timelineScroller.ViewportWidth + timelineScroller.ContentHorizontalOffset);                 
+                    currentTimePos > timelineScroller.ViewportWidth + timelineScroller.ContentHorizontalOffset);
         }
 
-        void LoginProcedure()
+        private void LoginProcedure()
         {
             login = LoginDriver.Run(LoginFlow.ForEventGen);
             if (login == null)
@@ -132,7 +125,8 @@ namespace EventGen
 
             if (login.discussion == null)
             {
-                System.Windows.MessageBox.Show("In this application even moderator should select real, existing discussion");
+                System.Windows.MessageBox.Show(
+                    "In this application even moderator should select real, existing discussion");
                 System.Windows.Application.Current.Shutdown();
                 return;
             }
@@ -149,7 +143,7 @@ namespace EventGen
             sharedClient.clienRt.onStatsEvent += OnStatsEvent;
         }
 
-        void LogoutProcedure()
+        private void LogoutProcedure()
         {
             if (sharedClient.clienRt != null)
             {
@@ -158,7 +152,7 @@ namespace EventGen
             }
         }
 
-        void FillTopics(Discussion d)
+        private void FillTopics(Discussion d)
         {
             topics.Clear();
             foreach (var t in d.Topic)
@@ -173,7 +167,7 @@ namespace EventGen
             Close();
         }
 
-        bool FireStatsEvent(StEvent e, int personId = -2)
+        private bool FireStatsEvent(StEvent e, int personId = -2)
         {
             if (cbxTopics.SelectedItem == null)
             {
@@ -188,26 +182,27 @@ namespace EventGen
                     MessageBox.Show("Please first select user who initiates the event");
                     return false;
                 }
-                personId = ((Person)lstUsers.SelectedItem).Id;
+                personId = ((Person) lstUsers.SelectedItem).Id;
             }
             else
             {
                 //we use given personId
             }
-            
-            var newEvent = new TimelineEvent(e, 
-                                            personId, 
-                                            login.discussion.Id,
-                                            _timelineModel,
-                                            _timelineModel.CurrentTime, 
-                                            ((Topic)cbxTopics.SelectedItem).Id, 
-                                            login.devType);
+
+            var newEvent = new TimelineEvent(e,
+                                             personId,
+                                             login.discussion.Id,
+                                             _timelineModel,
+                                             _timelineModel.CurrentTime,
+                                             ((Topic) cbxTopics.SelectedItem).Id,
+                                             login.devType);
             EventGen.timeline.CommandManager.Instance.RegisterDoneCommand(new CreateEventCommand(newEvent, true));
             UpdateEventCounts();
             return true;
         }
 
         #region eventgen handlers
+
         private void SurfaceWindow_KeyDown_1(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
@@ -215,10 +210,10 @@ namespace EventGen
                 switch (e.Key)
                 {
                     case Key.Z:
-                        menuUndo_Click_1(null,null);                       
+                        menuUndo_Click_1(null, null);
                         break;
                     case Key.Y:
-                        menuRedo_Click_1(null, null);   
+                        menuRedo_Click_1(null, null);
                         break;
                     case Key.S:
                         menuSave_Click_1(null, null);
@@ -226,138 +221,139 @@ namespace EventGen
                     case Key.O:
                         menuOpen_Click_1(null, null);
                         break;
-                }                            
+                }
             }
-            else switch (e.Key)
-            {
-                case Key.D1:
-                case Key.NumPad1:
-                    btnRecordingStarted_Click_1(null, null);                    
-                    break;
-                case Key.D2:
-                case Key.NumPad2:
-                    btnRecordingStopped_Click_1(null, null);                      
-                    break;
-                case Key.D3:
-                case Key.NumPad3:
-                    btnBadgeCreated_Click_1(null, null);                      
-                    break;
-                case Key.D4:
-                case Key.NumPad4:
-                    btnBadgeEdited_Click_1(null, null);                          
-                    break;
-                case Key.D5:
-                case Key.NumPad5:
-                    btnBadgeMoved_Click_1(null, null);                      
-                    break;
-                case Key.D6:
-                case Key.NumPad6:
-                    btnBadgeZoomIn_Click_1(null, null);                     
-                    break;
-                case Key.D7:
-                case Key.NumPad7:
-                    btnClusterCreated_Click_1(null,null);                    
-                    break;
-                case Key.D8:
-                case Key.NumPad8:
-                    btnClusterRemoved_Click_1(null, null);                        
-                    break;
-                case Key.D9:
-                case Key.NumPad9:
-                    btnClusterIn_Click_1(null, null);                           
-                    break;
-                case Key.Q:                    
-                    btnClusterOut_Click_1(null,null);
-                    break;
-                case Key.W:
-                    btnClusterMoved_Click_1(null, null);                    
-                    break;
-                case Key.E:
-                    btnLinkCreated_Click_1(null, null);                        
-                    break;
-                case Key.R:
-                    btnLinkRemoved_Click_1(null, null);                    
-                    break;
-                case Key.T:
-                    btnFreeDrawingCreated_Click_1(null, null);                    
-                    break;
-                case Key.Y:
-                    btnFreeDrawingRemoved_Click_1(null, null);                           
-                    break;
-                case Key.U:
-                    btnFreeDrawingResize_Click_1(null, null);                            
-                    break;
-                case Key.I:
-                    btnFreeDrawingMoved_Click_1(null, null);                         
-                    break;
-                case Key.O:
-                    btnSceneZoomIn_Click_1(null, null);                        
-                    break;
-                case Key.P:
-                    btnSceneZoomOut_Click_1(null, null);
-                    break;
-                case Key.A:
-                    btnArgPointTopicChanged_Click_1(null, null);                   
-                    break;
-                case Key.S:
-                    btnSourceAdded_Click_1(null,null);                    
-                    break;
-                case Key.D:
-                    btnSourceRemoved_Click_1(null, null);                        
-                    break;
-                case Key.F:
-                    btnImageAdded_Click_1(null, null);                          
-                    break;
-                case Key.H:
-                    btnPdfAdded_Click_1(null, null);                         
-                    break;
-                case Key.K:
-                    btnYoutubeAdded_Click_1(null,null);                    
-                    break;
-                case Key.L:
-                    btnScreenshotAdded_Click_1(null,null);
-                    break;
-                case Key.Z:
-                    btnMediaRemoved_Click_1(null, null);                    
-                    break;
-                case Key.X:
-                    btnCommentAdded_Click_1(null, null);                          
-                    break;
-                case Key.C:
-                    btnCommentRemoved_Click_1(null, null);                         
-                    break;
-                case Key.V:
-                    btnImageOpened_Click(null, null);                         
-                    break;
-                case Key.B:
-                    btnVideoOpened_Click_1(null, null);                    
-                    break;
-                case Key.N:
-                    btnScreenshotOpened_Click_1(null, null);                     
-                    break;
-                case Key.M:
-                    btnPdfOpened_Click_1(null, null);                     
-                    break;
-                case Key.D0:
-                case Key.NumPad0:
-                    btnSourceOpened_Click_1(null, null);                          
-                    break;
-                case Key.Delete:
-                    btnDeleteClick(null, null);                            
-                    break;
-                case Key.Space:
-                    if (IsPlaying)
-                        Pause();
-                    else
-                        Play();
-                    break; 
-                case Key.Left:
-                    btnTimeLeftClick(null,null);
-                    break;
-                case Key.Right:
-                    btnTimeRightClick(null, null);
-                    break;
-            }
+            else
+                switch (e.Key)
+                {
+                    case Key.D1:
+                    case Key.NumPad1:
+                        btnRecordingStarted_Click_1(null, null);
+                        break;
+                    case Key.D2:
+                    case Key.NumPad2:
+                        btnRecordingStopped_Click_1(null, null);
+                        break;
+                    case Key.D3:
+                    case Key.NumPad3:
+                        btnBadgeCreated_Click_1(null, null);
+                        break;
+                    case Key.D4:
+                    case Key.NumPad4:
+                        btnBadgeEdited_Click_1(null, null);
+                        break;
+                    case Key.D5:
+                    case Key.NumPad5:
+                        btnBadgeMoved_Click_1(null, null);
+                        break;
+                    case Key.D6:
+                    case Key.NumPad6:
+                        btnBadgeZoomIn_Click_1(null, null);
+                        break;
+                    case Key.D7:
+                    case Key.NumPad7:
+                        btnClusterCreated_Click_1(null, null);
+                        break;
+                    case Key.D8:
+                    case Key.NumPad8:
+                        btnClusterRemoved_Click_1(null, null);
+                        break;
+                    case Key.D9:
+                    case Key.NumPad9:
+                        btnClusterIn_Click_1(null, null);
+                        break;
+                    case Key.Q:
+                        btnClusterOut_Click_1(null, null);
+                        break;
+                    case Key.W:
+                        btnClusterMoved_Click_1(null, null);
+                        break;
+                    case Key.E:
+                        btnLinkCreated_Click_1(null, null);
+                        break;
+                    case Key.R:
+                        btnLinkRemoved_Click_1(null, null);
+                        break;
+                    case Key.T:
+                        btnFreeDrawingCreated_Click_1(null, null);
+                        break;
+                    case Key.Y:
+                        btnFreeDrawingRemoved_Click_1(null, null);
+                        break;
+                    case Key.U:
+                        btnFreeDrawingResize_Click_1(null, null);
+                        break;
+                    case Key.I:
+                        btnFreeDrawingMoved_Click_1(null, null);
+                        break;
+                    case Key.O:
+                        btnSceneZoomIn_Click_1(null, null);
+                        break;
+                    case Key.P:
+                        btnSceneZoomOut_Click_1(null, null);
+                        break;
+                    case Key.A:
+                        btnArgPointTopicChanged_Click_1(null, null);
+                        break;
+                    case Key.S:
+                        btnSourceAdded_Click_1(null, null);
+                        break;
+                    case Key.D:
+                        btnSourceRemoved_Click_1(null, null);
+                        break;
+                    case Key.F:
+                        btnImageAdded_Click_1(null, null);
+                        break;
+                    case Key.H:
+                        btnPdfAdded_Click_1(null, null);
+                        break;
+                    case Key.K:
+                        btnYoutubeAdded_Click_1(null, null);
+                        break;
+                    case Key.L:
+                        btnScreenshotAdded_Click_1(null, null);
+                        break;
+                    case Key.Z:
+                        btnMediaRemoved_Click_1(null, null);
+                        break;
+                    case Key.X:
+                        btnCommentAdded_Click_1(null, null);
+                        break;
+                    case Key.C:
+                        btnCommentRemoved_Click_1(null, null);
+                        break;
+                    case Key.V:
+                        btnImageOpened_Click(null, null);
+                        break;
+                    case Key.B:
+                        btnVideoOpened_Click_1(null, null);
+                        break;
+                    case Key.N:
+                        btnScreenshotOpened_Click_1(null, null);
+                        break;
+                    case Key.M:
+                        btnPdfOpened_Click_1(null, null);
+                        break;
+                    case Key.D0:
+                    case Key.NumPad0:
+                        btnSourceOpened_Click_1(null, null);
+                        break;
+                    case Key.Delete:
+                        btnDeleteClick(null, null);
+                        break;
+                    case Key.Space:
+                        if (IsPlaying)
+                            Pause();
+                        else
+                            Play();
+                        break;
+                    case Key.Left:
+                        btnTimeLeftClick(null, null);
+                        break;
+                    case Key.Right:
+                        btnTimeRightClick(null, null);
+                        break;
+                }
         }
 
         private void btnLinkCreated_Click_1(object sender, RoutedEventArgs e)
@@ -405,7 +401,7 @@ namespace EventGen
             FireStatsEvent(StEvent.ArgPointTopicChanged);
         }
 
-        void OnStatsEvent(StEvent e, int userId, int discussionId, int topicId, DeviceType devType)
+        private void OnStatsEvent(StEvent e, int userId, int discussionId, int topicId, DeviceType devType)
         {
             RecentEvents.Add(new EventViewModel(e, userId, DateTime.Now, devType));
         }
@@ -492,7 +488,7 @@ namespace EventGen
 
         private void btnPdfAdded_Click_1(object sender, RoutedEventArgs e)
         {
-            FireStatsEvent(StEvent.PdfAdded);       
+            FireStatsEvent(StEvent.PdfAdded);
         }
 
         private void btnYoutubeAdded_Click_1(object sender, RoutedEventArgs e)
@@ -527,7 +523,7 @@ namespace EventGen
 
         private void btnVideoOpened_Click_1(object sender, RoutedEventArgs e)
         {
-            FireStatsEvent(StEvent.VideoOpened);          
+            FireStatsEvent(StEvent.VideoOpened);
         }
 
         private void btnScreenshotOpened_Click_1(object sender, RoutedEventArgs e)
@@ -545,7 +541,7 @@ namespace EventGen
             FireStatsEvent(StEvent.SourceOpened);
         }
 
-        static string countToString(int cnt)
+        private static string countToString(int cnt)
         {
             if (cnt == 0)
                 return "";
@@ -553,7 +549,7 @@ namespace EventGen
                 return "+" + cnt.ToString();
         }
 
-        void UpdateEventCounts()
+        private void UpdateEventCounts()
         {
             //reset prec values
             _totalsReport = new EventTotalsReport();
@@ -599,6 +595,7 @@ namespace EventGen
             btnYoutubeAdded.eventCount.Text = countToString(_totalsReport.TotalYoutubeAdded);
             btnVideoOpened.eventCount.Text = countToString(_totalsReport.TotalVideoOpened);
         }
+
         #endregion
 
         private void btnUpload_Click_1(object sender, RoutedEventArgs e)
@@ -612,22 +609,20 @@ namespace EventGen
 
         #region media player
 
-        bool _isPlaying = false;
+        private bool _isPlaying = false;
+
         public bool IsPlaying
         {
-            get
-            {
-                return _isPlaying;
-            }
+            get { return _isPlaying; }
         }
 
-        void mediaEnded(object sender, EventArgs e)
+        private void mediaEnded(object sender, EventArgs e)
         {
             _isPlaying = false;
         }
 
         public void Play()
-        {            
+        {
             myMediaElement.Play();
             _isPlaying = true;
             _timer.Start();
@@ -648,7 +643,7 @@ namespace EventGen
         }
 
         // Play the media.
-        void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
+        private void OnMouseDownPlayMedia(object sender, MouseButtonEventArgs args)
         {
             Play();
 
@@ -657,13 +652,13 @@ namespace EventGen
         }
 
         // Pause the media.
-        void OnMouseDownPauseMedia(object sender, MouseButtonEventArgs args)
+        private void OnMouseDownPauseMedia(object sender, MouseButtonEventArgs args)
         {
             Pause();
         }
 
         // Stop the media.
-        void OnMouseDownStopMedia(object sender, MouseButtonEventArgs args)
+        private void OnMouseDownStopMedia(object sender, MouseButtonEventArgs args)
         {
             Stop();
         }
@@ -671,14 +666,14 @@ namespace EventGen
         // Change the volume of the media.
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
-            myMediaElement.Volume = (double)volumeSlider.Value;
+            myMediaElement.Volume = (double) volumeSlider.Value;
         }
 
         // Change the speed of the media.
         private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
-            myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
-            lblSpeed.Text = string.Format("Speed {0:0.0}x", (double)speedRatioSlider.Value);
+            myMediaElement.SpeedRatio = (double) speedRatioSlider.Value;
+            lblSpeed.Text = string.Format("Speed {0:0.0}x", (double) speedRatioSlider.Value);
         }
 
         // When the media playback is finished. Stop() the media to seek to media start.
@@ -687,12 +682,12 @@ namespace EventGen
             Stop();
         }
 
-        void InitializePropertyValues()
+        private void InitializePropertyValues()
         {
             // Set the media's starting Volume and SpeedRatio to the current value of the
             // their respective slider controls.
-            myMediaElement.Volume = (double)volumeSlider.Value;
-            myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
+            myMediaElement.Volume = (double) volumeSlider.Value;
+            myMediaElement.SpeedRatio = (double) speedRatioSlider.Value;
         }
 
         private void Element_MediaOpened(object sender, RoutedEventArgs e)
@@ -701,7 +696,7 @@ namespace EventGen
             _timelineModel.Range = myMediaElement.NaturalDuration.TimeSpan;
             videoLen.Text = _timelineModel.Range.ToString("hh\\:mm\\:ss");
             timelineView.ChangeZoom(timelineView.Zoom);
-            videoProgress.Maximum = _timelineModel.Range.TotalSeconds;            
+            videoProgress.Maximum = _timelineModel.Range.TotalSeconds;
         }
 
         private void btnUpload_Click_1(object sender, MouseButtonEventArgs e)
@@ -713,7 +708,7 @@ namespace EventGen
             }
         }
 
-        void HandleOnMediaOpened(string mediaPathName)
+        private void HandleOnMediaOpened(string mediaPathName)
         {
             try
             {
@@ -724,35 +719,38 @@ namespace EventGen
             catch (Exception e1)
             {
                 myMediaElement.Source = null;
-                MessageBox.Show("Problem with video: " + e1.ToString() + "  Ensure that selected video file can be played with Windows Media Player",
-                                 "Error",
-                                 MessageBoxButton.OK,
-                                 MessageBoxImage.Error);
+                MessageBox.Show(
+                    "Problem with video: " + e1.ToString() +
+                    "  Ensure that selected video file can be played with Windows Media Player",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
         #endregion media player
 
-        void setPostLoginInfo()
+        private void setPostLoginInfo()
         {
             Title += "  |  " + login.discussion.Subject + "  |  " + login.session.Name;
 
             Persons = new ObservableCollection<Person>(DaoHelpers.personsOfDiscussion(login.discussion));
-         
+
             ///lblDiscDuration.Text = "Session duration: " + formatTimeSpan(timeline.MaxDateTime.Subtract(timeline.MinDateTime));
         }
 
         #region big timeline
-        void TimelinePropertyChanged(object sender, PropertyChangedEventArgs e)
+
+        private void TimelinePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //if video is not playing and current time changed => it's changed due to manual drag, update video seek position
-            if(!IsPlaying && e.PropertyName == "CurrentTime")                           
-            {                  
+            if (!IsPlaying && e.PropertyName == "CurrentTime")
+            {
                 myMediaElement.Position = _timelineModel.CurrentTime;
             }
         }
 
-        void onUpdateCurrentTimeFromVideo(object sender, EventArgs e)
+        private void onUpdateCurrentTimeFromVideo(object sender, EventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
             {
@@ -778,7 +776,8 @@ namespace EventGen
         {
             //stop the playback before manual manipulations with timeline 
             Pause();
-        }      
+        }
+
         #endregion  big timeline
 
         private void btnUndo_Click_1(object sender, RoutedEventArgs e)
@@ -801,7 +800,8 @@ namespace EventGen
 
                 if (!File.Exists(_session.videoPathName))
                 {
-                    MessageBox.Show("Cannot find video file " + _session.videoPathName + ". Selected MEG timeline references it");
+                    MessageBox.Show("Cannot find video file " + _session.videoPathName +
+                                    ". Selected MEG timeline references it");
                     return;
                 }
 
@@ -809,12 +809,12 @@ namespace EventGen
             }
         }
 
-        void btnOpenClick(object sender, RoutedEventArgs e)
+        private void btnOpenClick(object sender, RoutedEventArgs e)
         {
-            menuOpen_Click_1(null,null);
+            menuOpen_Click_1(null, null);
         }
 
-        void SaveTimeline(bool saveAs)
+        private void SaveTimeline(bool saveAs)
         {
             if (_session.videoPathName == "")
             {
@@ -844,7 +844,7 @@ namespace EventGen
             SaveTimeline(false);
         }
 
-        void btnSaveClick(object sender, RoutedEventArgs e)
+        private void btnSaveClick(object sender, RoutedEventArgs e)
         {
             menuSave_Click_1(null, null);
         }
@@ -854,18 +854,18 @@ namespace EventGen
             SaveTimeline(true);
         }
 
-        void btnSaveAsClick(object sender, RoutedEventArgs e)
+        private void btnSaveAsClick(object sender, RoutedEventArgs e)
         {
             menuSaveAs_Click_1(null, null);
         }
 
         private void menuSubmit_Click_1(object sender, RoutedEventArgs e)
-        {            
+        {
             var baseStamp = login.session.EstimatedDateTime;
             (new SubmitionWnd(_timelineModel, baseStamp)).ShowDialog();
         }
 
-        void btnSubmitClick(object sender, RoutedEventArgs e)
+        private void btnSubmitClick(object sender, RoutedEventArgs e)
         {
             menuSubmit_Click_1(null, null);
         }
@@ -876,7 +876,7 @@ namespace EventGen
             UpdateEventCounts();
         }
 
-        void btnDeleteClick(object sender, RoutedEventArgs e)
+        private void btnDeleteClick(object sender, RoutedEventArgs e)
         {
             menuDelete_Click_1(null, null);
         }
@@ -886,8 +886,8 @@ namespace EventGen
             EventGen.timeline.CommandManager.Instance.Undo();
             UpdateEventCounts();
         }
-        
-        void btnUndoClick(object sender, RoutedEventArgs e)
+
+        private void btnUndoClick(object sender, RoutedEventArgs e)
         {
             menuUndo_Click_1(null, null);
         }
@@ -898,17 +898,17 @@ namespace EventGen
             UpdateEventCounts();
         }
 
-        void btnRedoClick(object sender, RoutedEventArgs e)
+        private void btnRedoClick(object sender, RoutedEventArgs e)
         {
             menuRedo_Click_1(null, null);
         }
 
-        void btnTimeLeftClick(object sender, RoutedEventArgs e)
+        private void btnTimeLeftClick(object sender, RoutedEventArgs e)
         {
             _timelineModel.CurrentTime -= TimeSpan.FromSeconds(0.2);
         }
 
-        void btnTimeRightClick(object sender, RoutedEventArgs e)
+        private void btnTimeRightClick(object sender, RoutedEventArgs e)
         {
             _timelineModel.CurrentTime += TimeSpan.FromSeconds(0.2);
         }

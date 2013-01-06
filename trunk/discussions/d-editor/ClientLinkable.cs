@@ -8,18 +8,19 @@ namespace DistributedEditor
 {
     public class ClientLinkable
     {
-        readonly int _id;
-        List<VdClusterLink> _edges = new List<VdClusterLink>();
+        private readonly int _id;
+        private List<VdClusterLink> _edges = new List<VdClusterLink>();
 
         public delegate Rect BoundsProvider();
-        BoundsProvider _boundsProvider;
+
+        private BoundsProvider _boundsProvider;
 
         public ClientLinkable(int id, BoundsProvider boundsProvider)
         {
-            _id = id; 
+            _id = id;
             _boundsProvider = boundsProvider;
         }
-        
+
         public int GetId()
         {
             return _id;
@@ -61,7 +62,7 @@ namespace DistributedEditor
         public Point GetCenter()
         {
             var rect = _boundsProvider();
-            return new Point(rect.X + rect.Width/2, rect. Y + rect.Height/2);            
+            return new Point(rect.X + rect.Width/2, rect.Y + rect.Height/2);
         }
 
         public void InvalidateLinks()

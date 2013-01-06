@@ -23,31 +23,27 @@ namespace Discussions
     public partial class FullSelector : UserControl
     {
         public delegate void OnSelected(object selected);
+
         public OnSelected onSelected = null;
 
-        ObservableCollection<object> _choices = new ObservableCollection<object>(); 
+        private ObservableCollection<object> _choices = new ObservableCollection<object>();
+
         public ObservableCollection<object> Choices
         {
-            get
-            {
-                return _choices;
-            }
-            set
-            {
-                _choices = value;
-            }
+            get { return _choices; }
+            set { _choices = value; }
         }
 
         public FullSelector()
         {
             InitializeComponent();
 
-            DataContext = this; 
+            DataContext = this;
         }
 
         public void Select(object Item)
         {
-            if(lstBxChoices.Items.Contains(Item))
+            if (lstBxChoices.Items.Contains(Item))
                 lstBxChoices.SelectedItem = Item;
         }
 
@@ -67,12 +63,12 @@ namespace Discussions
         public void Set(ObservableCollection<object> choices, string DisplayMemberPath)
         {
             lstBxChoices.DisplayMemberPath = DisplayMemberPath;
-            Choices = choices; 
+            Choices = choices;
         }
 
         private void lstBxChoices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems != null && e.AddedItems.Count > 0 && onSelected!=null)
+            if (e.AddedItems != null && e.AddedItems.Count > 0 && onSelected != null)
                 onSelected(e.AddedItems[0]);
         }
     }

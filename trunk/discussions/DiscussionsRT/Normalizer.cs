@@ -9,12 +9,12 @@ namespace Discussions.RTModel
     {
         public static double NormX(double w, double x)
         {
-            return x / w;
+            return x/w;
         }
 
         public static double NormY(double h, double y)
         {
-            return y / h;
-        }       
+            return y/h;
+        }
     }
 }

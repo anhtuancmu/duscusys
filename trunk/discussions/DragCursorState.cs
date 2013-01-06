@@ -19,14 +19,24 @@ namespace Discussions
             this.DragSrc = DragSrc;
             this.srcCollection = srcCollection;
         }
+
         public object draggedItem; //ScatterViewItem or ListBoxItem
         public object DragSrc; //ScatterView or BadgeFolder
         public ObservableCollection<object> srcCollection;
 
         //filled during target changed
-        public enum OperationType { None, MoveToGroup, MoveFromGroup, MergeWith, ResolveAgreement };
+        public enum OperationType
+        {
+            None,
+            MoveToGroup,
+            MoveFromGroup,
+            MergeWith,
+            ResolveAgreement
+        };
+
         public OperationType Operation;
         public object currentTarget;
+
         public void SetOperation(OperationType Operation, object currentTarget)
         {
             this.Operation = Operation;

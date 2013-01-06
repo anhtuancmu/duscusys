@@ -20,16 +20,17 @@ namespace Discussions
             if (value == null)
                 return null;
 
-            int i = (int)value;
-            return Utils.IntToColor(i);                                     
+            int i = (int) value;
+            return Utils.IntToColor(i);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             if (value == null)
                 return null;
 
-            var c = (System.Windows.Media.Color)value;
+            var c = (System.Windows.Media.Color) value;
             return Utils.ColorToInt(c);
         }
     }

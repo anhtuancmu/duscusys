@@ -15,10 +15,10 @@ using System.Windows.Shapes;
 using Discussions.DbModel;
 
 namespace Reporter
-{ 
+{
     public partial class ReportSummaryUC : UserControl
     {
-        ReportParameters _parameters = null;
+        private ReportParameters _parameters = null;
 
         public ReportSummaryUC()
         {
@@ -26,8 +26,9 @@ namespace Reporter
         }
 
         public delegate void OnReportParamsChanged(ReportParameters parameters);
+
         public OnReportParamsChanged ParamsChanged = null;
-      
+
         public ReportParameters getReportParams(bool forceDlg)
         {
             if (_parameters != null && !forceDlg)
@@ -39,8 +40,8 @@ namespace Reporter
             if (dlg.reportParameters != null)
             {
                 Session = dlg.reportParameters.session.Name;
-                Topic   = dlg.reportParameters.topic.Name;
-                Discussion = dlg.reportParameters.discussion.Subject;  
+                Topic = dlg.reportParameters.topic.Name;
+                Discussion = dlg.reportParameters.discussion.Subject;
             }
             else
             {
@@ -56,26 +57,17 @@ namespace Reporter
 
         public string Topic
         {
-            set
-            {
-                topicName.Text = value;
-            }
+            set { topicName.Text = value; }
         }
 
         public string Session
         {
-            set
-            {
-                sessionName.Text = value;
-            }
+            set { sessionName.Text = value; }
         }
 
         public string Discussion
         {
-            set
-            {
-                discussionName.Text = value;
-            }
+            set { discussionName.Text = value; }
         }
 
         public void SetParticipants(ObservableCollection<Person> persons)
@@ -88,7 +80,7 @@ namespace Reporter
             getReportParams(true);
 
             if (ParamsChanged != null)
-                ParamsChanged(_parameters); 
+                ParamsChanged(_parameters);
         }
     }
 }

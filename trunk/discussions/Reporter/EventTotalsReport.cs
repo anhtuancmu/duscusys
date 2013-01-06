@@ -60,7 +60,7 @@ namespace Reporter
         public int TotalPdfOpened;
         public int TotalSourceOpened;
 
-        List<int> countedEventIds = new List<int>();
+        private List<int> countedEventIds = new List<int>();
 
         public void CountEvent(StEvent ev, int eventId)
         {
@@ -180,7 +180,7 @@ namespace Reporter
                     TotalSourceOpened++;
                     break;
                 default:
-                    throw new NotSupportedException();                    
+                    throw new NotSupportedException();
             }
         }
     }

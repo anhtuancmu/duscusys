@@ -8,15 +8,21 @@ using System.Windows.Threading;
 
 namespace CloudStorage
 {
-    interface IStorageClient
+    internal interface IStorageClient
     {
         void Download(string file, string saveWhere, Dispatcher dispatch, Action done);
+
         void Children(int folderRequestId,
                       string folder,
                       Dispatcher dispatch,
                       Func<int, FileEntry, int, bool> addEntry);
+
         string RootFolder();
     }
 
-    public enum StorageType { Dropbox, GoogleDrive };
+    public enum StorageType
+    {
+        Dropbox,
+        GoogleDrive
+    };
 }

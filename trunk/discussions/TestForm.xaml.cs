@@ -15,7 +15,7 @@ using Microsoft.Surface;
 using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
-using Discussions.YouViewer; 
+using Discussions.YouViewer;
 
 
 namespace Discussions
@@ -25,8 +25,8 @@ namespace Discussions
     /// </summary>
     public partial class TestForm : SurfaceWindow
     {
-        string rtf = "";
-        
+        private string rtf = "";
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -37,12 +37,14 @@ namespace Discussions
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
 
-            YouTubeInfo inf = YouTubeProvider.LoadVideo("http://www.youtube.com/watch?feature=player_detailpage&v=Osf0fLKKbZc");
+            YouTubeInfo inf =
+                YouTubeProvider.LoadVideo("http://www.youtube.com/watch?feature=player_detailpage&v=Osf0fLKKbZc");
             if (inf != null)
                 youTubeResultControl1.DataContext = inf;
 
-            List<object> cs = new List<object>(new string[] { 
-                    "1111111111", 
+            List<object> cs = new List<object>(new string[]
+                {
+                    "1111111111",
                     "222222222",
                     "333333333",
                     "444444444",
@@ -51,8 +53,8 @@ namespace Discussions
                     "777777777",
                     "888888888",
                     "999999999"
-            });
-            surfaceCombobox1.SetChoices(cs,null);
+                });
+            surfaceCombobox1.SetChoices(cs, null);
         }
 
         private void control_SelectedEvent(object sender, YouTubeResultEventArgs e)

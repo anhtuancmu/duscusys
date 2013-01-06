@@ -25,7 +25,7 @@ namespace DistributedEditor
 
         protected Cursor _cursor = null;
 
-        protected bool _isFocused = false;        
+        protected bool _isFocused = false;
 
         public virtual void SetCursor(Cursor c)
         {
@@ -63,12 +63,12 @@ namespace DistributedEditor
         {
             return _initialOwner;
         }
-     
+
         public int Id()
         {
             if (_id == -1)
                 throw new KeyNotFoundException("shape id not initialized");
-            
+
             return _id;
         }
 
@@ -76,12 +76,12 @@ namespace DistributedEditor
         {
             _initialOwner = owner;
             _id = shapeId;
-            _cursorView = new UserCursor();    
+            _cursorView = new UserCursor();
         }
 
         public virtual void FinishManip()
-        {    
-            if(activeMarker!=null)
+        {
+            if (activeMarker != null)
             {
                 activeMarker.ReleaseAllTouchCaptures();
                 activeMarker.ReleaseMouseCapture();
@@ -92,9 +92,11 @@ namespace DistributedEditor
         }
 
         public delegate void ShapeChanged(IVdShape sh);
+
         public ShapeChanged shapeChanged;
 
         protected bool _manipulationGoing = false;
+
         public virtual void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
             _manipulationGoing = false;

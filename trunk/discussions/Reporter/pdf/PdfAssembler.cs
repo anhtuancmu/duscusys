@@ -18,11 +18,11 @@ namespace Reporter.pdf
 {
     public class PdfAssembler
     {
-        Discussion _discussion;
-        Topic _topic;
-        string _PdfPathName;
-        Document _document;
-        Person _person;
+        private Discussion _discussion;
+        private Topic _topic;
+        private string _PdfPathName;
+        private Document _document;
+        private Person _person;
 
         public PdfAssembler(Discussion discussion, Topic topic, Person person, string PdfPathName)
         {
@@ -53,7 +53,7 @@ namespace Reporter.pdf
             Process.Start(_PdfPathName);
         }
 
-        async Task Assemble()
+        private async Task Assemble()
         {
             //Cover page 
             PdfTools.EmptyParagraph(4, _document);
@@ -109,7 +109,7 @@ namespace Reporter.pdf
             //addBlockOfAgreement("Unsolved", unsolved);
         }
 
-        PdfPTable TitleTable()
+        private PdfPTable TitleTable()
         {
             var aTable = PdfTools.TableDefaults(new PdfPTable(2));
 
@@ -140,7 +140,7 @@ namespace Reporter.pdf
             return aTable;
         }
 
-        PdfPTable ParticipantsTable()
+        private PdfPTable ParticipantsTable()
         {
             //var aTable = PdfTools.TableDefaults(new PdfPTable(2));
             //var participants = DaoUtils.Participants(_topic, _person.Session);
@@ -154,7 +154,7 @@ namespace Reporter.pdf
             return null;
         }
 
-        Task DiscussionBackground()
+        private Task DiscussionBackground()
         {
             var bgUrl = string.Format("http://{0}/discsvc/bgpage?id={1}", ConfigManager.ServiceServer, _discussion.Id);
 
@@ -162,29 +162,29 @@ namespace Reporter.pdf
             new WebScreenshoter(
                 bgUrl,
                 pathName =>
-                {
-                    var img = iTextSharp.text.Image.GetInstance(pathName);
-                           
-                    _document.SetPageSize(new iTextSharp.text.Rectangle(0, 0, img.Width, img.Height));
-                    _document.SetMargins(0, -20, -15, 0);
-                    img.Alignment = Element.ALIGN_MIDDLE;
-                    img.IndentationLeft = 0;
-                    img.BorderWidth = 0;
-                    img.IndentationRight = 0;                    
-                    //img.Right = 0;
-                    //img.SetDpi(300, 300);// = PageSize.A4.Width + 30;
-                    //img.SetAbsolutePosition(PageSize.A4.Width, img.AbsoluteY);         
-                    //img.SetAbsolutePosition(0,img.AbsoluteY);
-                    //img.ScaleToFit(PageSize.A4.Width, img.Height);
-                    _document.Add(img);
+                    {
+                        var img = iTextSharp.text.Image.GetInstance(pathName);
 
-                    PdfTools.LeftParagraph("Basic information 4", PdfTools.SubHeaderFont2, _document);
-                    PdfTools.LeftParagraph("Basic information 5", PdfTools.SubHeaderFont2, _document);
-                  
-                    tcs.SetResult(0);//ok, done
-                },
-            -100
-            );
+                        _document.SetPageSize(new iTextSharp.text.Rectangle(0, 0, img.Width, img.Height));
+                        _document.SetMargins(0, -20, -15, 0);
+                        img.Alignment = Element.ALIGN_MIDDLE;
+                        img.IndentationLeft = 0;
+                        img.BorderWidth = 0;
+                        img.IndentationRight = 0;
+                        //img.Right = 0;
+                        //img.SetDpi(300, 300);// = PageSize.A4.Width + 30;
+                        //img.SetAbsolutePosition(PageSize.A4.Width, img.AbsoluteY);         
+                        //img.SetAbsolutePosition(0,img.AbsoluteY);
+                        //img.ScaleToFit(PageSize.A4.Width, img.Height);
+                        _document.Add(img);
+
+                        PdfTools.LeftParagraph("Basic information 4", PdfTools.SubHeaderFont2, _document);
+                        PdfTools.LeftParagraph("Basic information 5", PdfTools.SubHeaderFont2, _document);
+
+                        tcs.SetResult(0); //ok, done
+                    },
+                -100
+                );
             return tcs.Task;
         }
     }

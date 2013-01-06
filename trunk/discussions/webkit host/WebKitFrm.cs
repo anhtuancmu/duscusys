@@ -12,12 +12,13 @@ namespace Discussions.webkit_host
 {
     public partial class WebKitFrm : Form
     {
-        static WebKitFrm inst = null;
+        private static WebKitFrm inst = null;
 
-        string _url;
-        BrowserBar _browserBar;
+        private string _url;
+        private BrowserBar _browserBar;
 
         public delegate void UserRequestedClosing();
+
         public static UserRequestedClosing userRequestedClosing = null;
 
         public WebKitFrm(string Url)
@@ -31,19 +32,19 @@ namespace Discussions.webkit_host
             _browserBar.WinForm = this;
             elementHost1.Child = _browserBar;
 
-            Width  = (int)(0.8 * (double)Screen.PrimaryScreen.Bounds.Width);
-            Height = (int)(0.8 * (double)Screen.PrimaryScreen.Bounds.Height);
+            Width = (int) (0.8*(double) Screen.PrimaryScreen.Bounds.Width);
+            Height = (int) (0.8*(double) Screen.PrimaryScreen.Bounds.Height);
             WindowState = FormWindowState.Normal;
 
-            if (inst != null)            
-                EnsureInstanceClosed();//close previous instance
+            if (inst != null)
+                EnsureInstanceClosed(); //close previous instance
             inst = this;
         }
-        
+
         public static void EnsureInstanceClosed()
         {
             if (inst == null)
-                return;//already closed 
+                return; //already closed 
 
             try
             {
@@ -63,7 +64,7 @@ namespace Discussions.webkit_host
 
         private void webKitBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
-            _browserBar.addressBar.Text = webKitBrowser1.Url.ToString();             
+            _browserBar.addressBar.Text = webKitBrowser1.Url.ToString();
         }
 
         private void WebKitFrm_FormClosed(object sender, FormClosedEventArgs e)

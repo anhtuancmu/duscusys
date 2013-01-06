@@ -13,11 +13,11 @@ namespace Discussions
 {
     public class WebScreenshoter
     {
-        public const int VERT_SCROLLBAR_WIDTH = 20;        
-        
-        Action<string> _imgPathName;
+        public const int VERT_SCROLLBAR_WIDTH = 20;
 
-        int _width;
+        private Action<string> _imgPathName;
+
+        private int _width;
 
         //hot ctor 
         public WebScreenshoter(string Uri, Action<string> imgPathName, int width)
@@ -38,16 +38,16 @@ namespace Discussions
             browser.Navigate(Uri);
         }
 
-        void OnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void OnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            var browser = (System.Windows.Forms.WebBrowser)sender;
+            var browser = (System.Windows.Forms.WebBrowser) sender;
 
             browser.Width = _width < 0 ? browser.Document.Body.ScrollRectangle.Size.Width : _width;
             browser.Height = browser.Document.Body.ScrollRectangle.Size.Height;
 
             browser.Width += 20;
             browser.Height += 20;
-            
+
             using (Graphics graphics = browser.CreateGraphics())
             {
                 graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
@@ -56,7 +56,7 @@ namespace Discussions
                     Rectangle bounds = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
                     browser.DrawToBitmap(bitmap, bounds);
 
-                    var pathName = Utils2.RandomFilePath(".png");                    
+                    var pathName = Utils2.RandomFilePath(".png");
                     bitmap.Save(pathName, ImageFormat.Png);
                     _imgPathName(pathName);
                 }

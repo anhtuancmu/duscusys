@@ -22,7 +22,7 @@ using Microsoft.Surface.Presentation.Input;
 namespace Discussions
 {
     public partial class ZoomWindow : Window
-    {    
+    {
         public ZoomWindow(ArgPoint ap)
         {
             InitializeComponent();
@@ -41,11 +41,11 @@ namespace Discussions
                                                              DeviceType.Wpf);
         }
 
-        void CloseRequest()
+        private void CloseRequest()
         {
             largeBadgeView.CloseRequest -= CloseRequest;
             largeBadgeView = null;
-            Close();           
+            Close();
         }
 
         /// <summary>
@@ -117,10 +117,10 @@ namespace Discussions
         private void SurfaceWindow_Activated(object sender, EventArgs e)
         {
             this.Height = largeBadgeView.ActualHeight;
-            this.Width  = largeBadgeView.ActualWidth;            
+            this.Width = largeBadgeView.ActualWidth;
         }
 
-        void OnToggleZoom()
+        private void OnToggleZoom()
         {
             Close();
         }

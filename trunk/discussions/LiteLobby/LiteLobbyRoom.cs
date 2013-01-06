@@ -13,17 +13,13 @@ namespace LiteLobby
 
     using System;
     using System.Collections;
-
     using Lite;
     using Lite.Events;
     using Lite.Messages;
     using Lite.Operations;
-
     using LiteLobby.Messages;
     using LiteLobby.Operations;
-
     using Photon.SocketServer;
-
     using JoinRequest = LiteLobby.Operations.JoinRequest;
 
     #endregion
@@ -77,9 +73,10 @@ namespace LiteLobby
         /// <param name="sendParameters">
         /// The send Parameters.
         /// </param>
-        protected override void ExecuteOperation(LitePeer peer, OperationRequest operationRequest, SendParameters sendParameters)
+        protected override void ExecuteOperation(LitePeer peer, OperationRequest operationRequest,
+                                                 SendParameters sendParameters)
         {
-            switch ((OperationCode)operationRequest.OperationCode)
+            switch ((OperationCode) operationRequest.OperationCode)
             {
                 case OperationCode.Join:
                     var joinOperation = new JoinRequest(peer.Protocol, operationRequest);
@@ -110,7 +107,8 @@ namespace LiteLobby
         /// <returns>
         /// The new actor
         /// </returns>
-        protected virtual Actor HandleJoinOperation(LitePeer peer, JoinRequest joinRequest, SendParameters sendParameters)
+        protected virtual Actor HandleJoinOperation(LitePeer peer, JoinRequest joinRequest,
+                                                    SendParameters sendParameters)
         {
             Actor actor = base.HandleJoinOperation(peer, joinRequest, sendParameters);
             if (actor != null)
@@ -136,10 +134,10 @@ namespace LiteLobby
         {
             // this switch only handles the Lobby-specific messages.
             // all other messages will be handled by the base class.
-            switch ((LobbyMessageCode)message.Action)
+            switch ((LobbyMessageCode) message.Action)
             {
                 case LobbyMessageCode.AddGame:
-                    this.GameListAddOrUpdateGameId((string[])message.Message);
+                    this.GameListAddOrUpdateGameId((string[]) message.Message);
                     return;
 
                 case LobbyMessageCode.RemoveGame:
@@ -265,13 +263,14 @@ namespace LiteLobby
         {
             if (this.changedRoomList.Count > 0 && this.Actors.Count > 0)
             {
-                var customEvent = new CustomEvent(0, (byte)LiteLobbyEventCode.GameListUpdate, this.changedRoomList);
+                var customEvent = new CustomEvent(0, (byte) LiteLobbyEventCode.GameListUpdate, this.changedRoomList);
 
                 // PublishEvent(hashtable) uses a reference to hashtable, which means you can not clear it (see below)
-                this.PublishEvent(customEvent, this.Actors, new SendParameters { Unreliable = true });
+                this.PublishEvent(customEvent, this.Actors, new SendParameters {Unreliable = true});
             }
 
-            this.changedRoomList = new Hashtable(); // creating a new hashtable, as PublishEvent() uses just a ref to the data to be sent
+            this.changedRoomList = new Hashtable();
+                // creating a new hashtable, as PublishEvent() uses just a ref to the data to be sent
             this.SchedulePublishChanges();
         }
 
@@ -284,8 +283,9 @@ namespace LiteLobby
         private void PublishGameList(Actor actor)
         {
             // Room list needs to be cloned because it is serialized in other thread and is changed at the same time
-            var customEvent = new CustomEvent(actor.ActorNr, (byte)LiteLobbyEventCode.GameList, (Hashtable)this.roomList.Clone());
-            this.PublishEvent(customEvent, actor, new SendParameters { Unreliable = true });
+            var customEvent = new CustomEvent(actor.ActorNr, (byte) LiteLobbyEventCode.GameList,
+                                              (Hashtable) this.roomList.Clone());
+            this.PublishEvent(customEvent, actor, new SendParameters {Unreliable = true});
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace LiteLobby
         /// </summary>
         private void SchedulePublishChanges()
         {
-            var message = new RoomMessage((byte)LobbyMessageCode.PublishChangeList);
+            var message = new RoomMessage((byte) LobbyMessageCode.PublishChangeList);
             this.schedule = this.ScheduleMessage(message, LobbySettings.Default.LobbyUpdateIntervalMs);
         }
     }

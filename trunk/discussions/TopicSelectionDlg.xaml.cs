@@ -1,37 +1,24 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
-using System.Collections.ObjectModel;
 using Discussions.DbModel;
-using Discussions.model;
-using System.Data;
-using Discussions.rt;
 
 namespace Discussions
-{   
+{
     public partial class TopicSelectionDlg : SurfaceWindow
     {
-        Topic _topic = null;
+        private Topic _topic = null;
+
         public Topic topic
         {
-            get
-            {
-                return _topic;
-            }
+            get { return _topic; }
+        }
+
+        private bool _html;
+        public bool Html
+        {
+            get { return _html; }        
         }
 
         public TopicSelectionDlg(Discussion d)
@@ -42,9 +29,13 @@ namespace Discussions
 
             this.WindowState = WindowState.Normal;
 
-            lstTopics.ItemsSource =  d.Topic;
+            lstTopics.ItemsSource = d.Topic;
+
+            lstFormat.Items.Add("Export to HTML");
+            lstFormat.Items.Add("Export to PDF");
+            lstFormat.SelectedIndex = 0;
         }
-   
+
         /// <summary>
         /// Occurs when the window is about to close. 
         /// </summary>
@@ -112,19 +103,27 @@ namespace Discussions
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {           
+        {
         }
 
         private void btnOk_Click_1(object sender, RoutedEventArgs e)
         {
             if (lstTopics.SelectedItem == null)
             {
+                MessageBox.Show("Please select topic");
                 return;
             }
-           
+
             _topic = lstTopics.SelectedItem as Topic;
 
+            _html = lstFormat.SelectedIndex == 0;
+
             Close();
+        }
+
+        private void TopicSelectionDlg_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Normal;            
         }
     }
 }

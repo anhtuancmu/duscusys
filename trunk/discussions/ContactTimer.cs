@@ -9,20 +9,20 @@ namespace Discussions
 {
     public class ContactTimer
     {
-        DispatcherTimer aTimer = new DispatcherTimer();
-         
-        public ContactTimer(EventHandler OnTimedEvent, double seconds = 0.5, bool doStart=true)
+        private DispatcherTimer aTimer = new DispatcherTimer();
+
+        public ContactTimer(EventHandler OnTimedEvent, double seconds = 0.5, bool doStart = true)
         {
-            if (OnTimedEvent!=null)
+            if (OnTimedEvent != null)
                 aTimer.Tick += OnTimedEvent;
             aTimer.Interval = TimeSpan.FromSeconds(seconds);
             if (doStart)
                 aTimer.Start();
         }
-  
+
         public void Run()
         {
-            aTimer.Start();            
+            aTimer.Start();
         }
 
         public void Stop()

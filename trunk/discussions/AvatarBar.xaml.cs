@@ -24,24 +24,20 @@ namespace Discussions
     public partial class AvatarBar : UserControl
     {
         public delegate void PaletteOwnerChanged(int owner);
+
         public PaletteOwnerChanged paletteOwnerChanged = null;
-        
-        ObservableCollection<Person> _usersStatus = new ObservableCollection<Person>();
+
+        private ObservableCollection<Person> _usersStatus = new ObservableCollection<Person>();
+
         public ObservableCollection<Person> UsersStatus
         {
-            get
-            {
-                return _usersStatus;
-            }
-            set
-            {
-                _usersStatus = value;
-            }
+            get { return _usersStatus; }
+            set { _usersStatus = value; }
         }
 
         public bool hidden = true;
 
-        UISharedRTClient _sharedRt;
+        private UISharedRTClient _sharedRt;
 
         public AvatarBar()
         {
@@ -64,7 +60,7 @@ namespace Discussions
             SetListeners(_sharedRt, false);
         }
 
-        void SetListeners(UISharedRTClient sharedClient, bool doSet)
+        private void SetListeners(UISharedRTClient sharedClient, bool doSet)
         {
             var clienRt = sharedClient.clienRt;
 
@@ -82,7 +78,7 @@ namespace Discussions
                 clienRt.smbdLeaved -= SmbdLeaved;
         }
 
-        void RefreshUsersStatus()
+        private void RefreshUsersStatus()
         {
             UsersStatus.Clear();
 
@@ -93,14 +89,14 @@ namespace Discussions
                     UsersStatus.Add(p);
         }
 
-        void SmbdLeaved()
+        private void SmbdLeaved()
         {
             RefreshUsersStatus();
         }
-   
-        void onlineListChanged(IEnumerable<DiscUser> newOnlineUsers)
+
+        private void onlineListChanged(IEnumerable<DiscUser> newOnlineUsers)
         {
-            RefreshUsersStatus();           
+            RefreshUsersStatus();
         }
 
         private void lstBxPlayers_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -108,12 +104,12 @@ namespace Discussions
             int owner = -1;
             if (e.AddedItems.Count > 0)
             {
-                var person = (Person)e.AddedItems[0];
+                var person = (Person) e.AddedItems[0];
                 owner = person.Id;
             }
 
-            if (paletteOwnerChanged!=null)
-                paletteOwnerChanged(owner); 
+            if (paletteOwnerChanged != null)
+                paletteOwnerChanged(owner);
         }
 
         public void SelectCurrentUser()
@@ -127,6 +123,6 @@ namespace Discussions
                     return;
                 }
             }
-        }      
+        }
     }
 }

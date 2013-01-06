@@ -10,7 +10,6 @@
 namespace Lite.Operations
 {
     using System.Collections;
-
     using Photon.SocketServer;
     using Photon.SocketServer.Rpc;
 
@@ -43,19 +42,19 @@ namespace Lite.Operations
         /// <summary>
         /// Gets or sets ActorNumber.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.ActorNr, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.ActorNr, IsOptional = true)]
         public int ActorNumber { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Broadcast.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Broadcast, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Broadcast, IsOptional = true)]
         public bool Broadcast { get; set; }
 
         /// <summary>
         /// Gets or sets Properties.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Properties)]
+        [DataMember(Code = (byte) ParameterKey.Properties)]
         public Hashtable Properties { get; set; }
     }
 }

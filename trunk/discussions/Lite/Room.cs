@@ -13,14 +13,11 @@ namespace Lite
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using ExitGames.Concurrency.Fibers;
     using ExitGames.Logging;
-
     using Lite.Common;
     using Lite.Events;
     using Lite.Messages;
-
     using Photon.SocketServer;
 
     /// <summary>
@@ -105,10 +102,7 @@ namespace Lite
         /// </summary>
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get { return this.name; }
         }
 
         /// <summary>

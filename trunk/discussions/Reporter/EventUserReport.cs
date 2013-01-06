@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Discussions.DbModel;
 using Discussions.model;
 
@@ -58,9 +56,9 @@ namespace Reporter
         public int TotalSourceOpened;
 
         public int personId;
-        public Person person; 
+        public Person person;
 
-        List<int> countedEventIds = new List<int>();
+        private List<int> countedEventIds = new List<int>();
 
         public void CountEvent(StEvent ev, int eventId)
         {
@@ -178,7 +176,7 @@ namespace Reporter
                     TotalSourceOpened++;
                     break;
                 default:
-                    throw new NotSupportedException();                    
+                    throw new NotSupportedException();
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Windows.Data;
 using Discussions.DbModel;
 using System.Windows.Media;
 
-namespace EventGen.timeline  
+namespace EventGen.timeline
 {
     public class TimeSpanToSecondsConvertor : IValueConverter
     {
@@ -16,10 +16,11 @@ namespace EventGen.timeline
             if (value == null)
                 return null;
 
-            return ((TimeSpan)value).TotalSeconds;
+            return ((TimeSpan) value).TotalSeconds;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

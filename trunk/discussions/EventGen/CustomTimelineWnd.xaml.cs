@@ -17,7 +17,7 @@ namespace EventGen
 {
     public partial class CustomTimelineWnd : SurfaceWindow
     {
-        Timeline _timelineModel;
+        private Timeline _timelineModel;
 
         public CustomTimelineWnd()
         {
@@ -26,17 +26,17 @@ namespace EventGen
             _timelineModel = new Timeline(TimeSpan.FromMinutes(2));
             timelineView.SetModel(_timelineModel);
             currentTime.DataContext = _timelineModel;
-        }      
+        }
 
         private void AddEvent_Click_1(object sender, RoutedEventArgs e)
         {
-            var ev = new TimelineEvent(Discussions.model.StEvent.BadgeEdited, 1, 1, 
-                                      _timelineModel, TimeSpan.FromSeconds(4), 1, Discussions.model.DeviceType.Wpf);
-            _timelineModel.AddEvent(ev);                         
+            var ev = new TimelineEvent(Discussions.model.StEvent.BadgeEdited, 1, 1,
+                                       _timelineModel, TimeSpan.FromSeconds(4), 1, Discussions.model.DeviceType.Wpf);
+            _timelineModel.AddEvent(ev);
         }
 
         private void RemoveEvent_Click_1(object sender, RoutedEventArgs e)
-        {           
+        {
         }
 
         private void Slider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)

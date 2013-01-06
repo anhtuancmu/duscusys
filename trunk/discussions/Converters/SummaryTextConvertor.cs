@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 
 namespace Discussions
@@ -19,7 +16,7 @@ namespace Discussions
             if (lines.Length > 1)
                 return ShortenLine(lines[0]);
             else
-                return ShortenLine(fullText);                   
+                return ShortenLine(fullText);
         }
 
         public static string ShortenLine(string line)
@@ -31,8 +28,8 @@ namespace Discussions
                 return line;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, 
-                                    System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

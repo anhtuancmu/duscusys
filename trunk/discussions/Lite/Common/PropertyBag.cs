@@ -74,10 +74,7 @@ namespace Lite.Common
         /// </summary>
         public int Count
         {
-            get
-            {
-                return this.dictionary.Count;
-            }
+            get { return this.dictionary.Count; }
         }
 
         /// <summary>
@@ -306,7 +303,7 @@ namespace Lite.Common
         /// </param>
         private void OnPropertyPropertyChanged(object sender, EventArgs e)
         {
-            var property = (Property<TKey>)sender;
+            var property = (Property<TKey>) sender;
             this.RaisePropertyChanged(property.Key, property.Value);
         }
 

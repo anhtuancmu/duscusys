@@ -29,9 +29,9 @@ namespace Discussions
     /// </summary>
     public partial class LargeBadgeView : UserControl
     {
-        MultiClickRecognizer mediaDoubleClick;
+        private MultiClickRecognizer mediaDoubleClick;
 
-        UISharedRTClient _sharedClient;
+        private UISharedRTClient _sharedClient;
 
         public Action CloseRequest = null;
 
@@ -41,7 +41,7 @@ namespace Discussions
         public bool MissedCloseRequest = false;
 
         public static readonly RoutedEvent RequestSmallViewEvent = EventManager.RegisterRoutedEvent(
-         "RequestSmallView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LargeBadgeView));
+            "RequestSmallView", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (LargeBadgeView));
 
         public event RoutedEventHandler RequestSmallView
         {
@@ -49,26 +49,22 @@ namespace Discussions
             remove { RemoveHandler(RequestSmallViewEvent, value); }
         }
 
-        ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        private ObservableCollection<Source> sources = new ObservableCollection<Source>();
+
         public ObservableCollection<Source> Sources
         {
-            get
-            {
-                return sources;
-            }
+            get { return sources; }
         }
 
-        ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        private ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+
         public ObservableCollection<Attachment> Attachments
         {
-            get
-            {
-                return attachments;
-            }
+            get { return attachments; }
         }
 
         //if source order or data context changes, we update 
-        void UpdateOrderedSources()
+        private void UpdateOrderedSources()
         {
             Sources.Clear();
             var ap = DataContext as ArgPoint;
@@ -81,7 +77,7 @@ namespace Discussions
             }
         }
 
-        void UpdateOrderedMedia()
+        private void UpdateOrderedMedia()
         {
             Attachments.Clear();
             var ap = DataContext as ArgPoint;
@@ -94,12 +90,13 @@ namespace Discussions
             }
         }
 
-        void BeginAttachmentNumberInjection()
+        private void BeginAttachmentNumberInjection()
         {
-            Dispatcher.BeginInvoke(new Action(_injectMediaNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+            Dispatcher.BeginInvoke(new Action(_injectMediaNumbers),
+                                   System.Windows.Threading.DispatcherPriority.Background, null);
         }
 
-        void _injectMediaNumbers()
+        private void _injectMediaNumbers()
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -123,13 +120,11 @@ namespace Discussions
 
 
         //during comment editing large badge view cannot be closed
-        bool _isEditingComment = false;
+        private bool _isEditingComment = false;
+
         public bool IsEditingComment
         {
-            get
-            {
-                return _isEditingComment;
-            }
+            get { return _isEditingComment; }
         }
 
         public LargeBadgeView()
@@ -145,7 +140,7 @@ namespace Discussions
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
 
-            BeginAttachmentNumberInjection();         
+            BeginAttachmentNumberInjection();
         }
 
         public void SetRt(UISharedRTClient sharedClient)
@@ -154,7 +149,7 @@ namespace Discussions
             SetListeners(true);
         }
 
-        void badgeDoubleTap(object sender, InputEventArgs e)
+        private void badgeDoubleTap(object sender, InputEventArgs e)
         {
             SetListeners(false);
 
@@ -163,7 +158,7 @@ namespace Discussions
             //    CloseRequest();
         }
 
-        void SetListeners(bool doSet)
+        private void SetListeners(bool doSet)
         {
             if (doSet)
                 _sharedClient.clienRt.argPointChanged += ArgPointChanged;
@@ -171,7 +166,7 @@ namespace Discussions
                 _sharedClient.clienRt.argPointChanged -= ArgPointChanged;
         }
 
-        void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change)
+        private void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change)
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -191,12 +186,13 @@ namespace Discussions
             DataContext = ap2;
         }
 
-        void BeginSrcNumberInjection()
+        private void BeginSrcNumberInjection()
         {
-            Dispatcher.BeginInvoke(new Action(_injectSourceNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+            Dispatcher.BeginInvoke(new Action(_injectSourceNumbers),
+                                   System.Windows.Threading.DispatcherPriority.Background, null);
         }
 
-        void _injectSourceNumbers()
+        private void _injectSourceNumbers()
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -218,18 +214,16 @@ namespace Discussions
                 System.Windows.Threading.DispatcherPriority.Background);
         }
 
-        void setMaxWidthOfDescription()
+        private void setMaxWidthOfDescription()
         {
             plainDescription.MaxWidth = this.ActualWidth - 10;
         }
 
-        bool _editingMode = false;
+        private bool _editingMode = false;
+
         public bool EditingMode
         {
-            get
-            {
-                return _editingMode;
-            }
+            get { return _editingMode; }
             set
             {
                 _editingMode = value;
@@ -259,7 +253,7 @@ namespace Discussions
                 EditingMode = false;
             else
             {
-                var ap = (ArgPoint)DataContext;
+                var ap = (ArgPoint) DataContext;
                 EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
             }
 
@@ -271,13 +265,13 @@ namespace Discussions
             ///commentsViewer.ScrollToBottom();
         }
 
-        void SetStyle()
+        private void SetStyle()
         {
             if (DataContext != null && DataContext is ArgPoint)
             {
-                ArgPoint p = (ArgPoint)DataContext;
+                ArgPoint p = (ArgPoint) DataContext;
                 lblPerson.Background = new SolidColorBrush(Utils.IntToColor(p.Person.Color));
-                switch ((SideCode)p.SideCode)
+                switch ((SideCode) p.SideCode)
                 {
                     case SideCode.Pros:
                         ///  stkHeader.Background = DiscussionColors.prosBrush;
@@ -295,13 +289,13 @@ namespace Discussions
             }
         }
 
-        void disableAll()
+        private void disableAll()
         {
             //removeSketch.Visibility = Visibility.Hidden;
             //finishDrawing.Visibility = Visibility.Hidden;
         }
 
-        void EnableDrawingControls()
+        private void EnableDrawingControls()
         {
             //finishDrawing.Visibility = Visibility.Hidden;
             //removeSketch.Visibility = Visibility.Hidden;
@@ -320,14 +314,14 @@ namespace Discussions
             HandleRecontext();
         }
 
-        void DrawingDataContextHandled()
+        private void DrawingDataContextHandled()
         {
             EnableDrawingControls();
         }
 
         public ArgPoint GetArgPoint()
         {
-            ArgPoint p = (ArgPoint)DataContext;
+            ArgPoint p = (ArgPoint) DataContext;
             return p;
         }
 
@@ -355,13 +349,14 @@ namespace Discussions
         }
 
         #region drawing
+
         public void SaveDrawing()
         {
             //Drawing.SaveDrawing();
             EnableDrawingControls();
         }
 
-        void ResetSketch()
+        private void ResetSketch()
         {
             //Drawing.ResetSketch();
             EnableDrawingControls();
@@ -376,6 +371,7 @@ namespace Discussions
         {
             SaveDrawing();
         }
+
         #endregion
 
         private void ScrollContentPresenter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -389,7 +385,9 @@ namespace Discussions
         }
 
         #region media highlight
-        Brush mediaBg = null;
+
+        private Brush mediaBg = null;
+
         private void lstBxAttachments_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             HighlightMediaPointDown();
@@ -425,10 +423,13 @@ namespace Discussions
         {
             HighlightMediaPointUp();
         }
+
         #endregion media highlight
 
         #region comment highlight
-        Brush commentBg = null;
+
+        private Brush commentBg = null;
+
         private void HighlightCommentPointDown()
         {
             if (commentBg != null)
@@ -464,34 +465,37 @@ namespace Discussions
         {
             HighlightCommentPointUp();
         }
+
         #endregion comment highlight
 
         #region comments        
+
         private void btnComment_Click(object sender, RoutedEventArgs e)
         {
-            btnSave_Click(null,null);
+            btnSave_Click(null, null);
         }
 
-        void onCommentEditabilityChanged(bool edited)
+        private void onCommentEditabilityChanged(bool edited)
         {
-            _isEditingComment = edited;             
+            _isEditingComment = edited;
         }
 
-        void placeholderFocus(Comment comment)
+        private void placeholderFocus(Comment comment)
         {
             new VisualCommentsHelper(this.Dispatcher, lstBxComments1.ItemContainerGenerator, comment);
         }
 
-        void commentSave()
+        private void commentSave()
         {
-            btnSave_Click(null, null);//focus lost matters
+            btnSave_Click(null, null); //focus lost matters
         }
 
-        void possibilityToClose()
+        private void possibilityToClose()
         {
             if (MissedCloseRequest)
                 badgeDoubleTap(null, null);
         }
+
         #endregion comments
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)
@@ -511,8 +515,8 @@ namespace Discussions
                 BusyWndSingleton.Hide();
             }
         }
-        
-        void saveProcedure()
+
+        private void saveProcedure()
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -535,10 +539,10 @@ namespace Discussions
             if (_sharedClient != null)
             {
                 _sharedClient.clienRt.SendStatsEvent(StEvent.BadgeEdited,
-                                                    SessionInfo.Get().person.Id,
-                                                    ap.Topic.Discussion.Id,
-                                                    ap.Topic.Id,
-                                                    DeviceType.Wpf);
+                                                     SessionInfo.Get().person.Id,
+                                                     ap.Topic.Discussion.Id,
+                                                     ap.Topic.Id,
+                                                     DeviceType.Wpf);
 
                 _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id);
             }

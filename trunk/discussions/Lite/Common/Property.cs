@@ -54,10 +54,7 @@ namespace Lite.Common
         /// </summary>
         public object Value
         {
-            get
-            {
-                return this.value;
-            }
+            get { return this.value; }
 
             set
             {

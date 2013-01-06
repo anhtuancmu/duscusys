@@ -16,22 +16,23 @@ namespace Discussions
             if (value == null)
                 return null;
 
-            return AttachToYtInfo(value as Attachment);     
+            return AttachToYtInfo(value as Attachment);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }
 
-        
+
         public static YouTubeInfo AttachToYtInfo(Attachment a)
-        {           
+        {
             YouTubeInfo info = new YouTubeInfo();
             info.ThumbNailUrl = a.VideoThumbURL;
             info.EmbedUrl = a.VideoEmbedURL;
             info.LinkUrl = a.VideoLinkURL;
-            return info;     
+            return info;
         }
     }
 }

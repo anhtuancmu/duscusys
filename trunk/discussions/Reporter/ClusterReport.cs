@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Discussions.DbModel;
+﻿using Discussions.DbModel;
 
 namespace Reporter
 {
@@ -18,12 +14,12 @@ namespace Reporter
         public ClusterReport(Topic topic, int clusterId, int clusterShId, string clusterTitle,
                              ArgPoint[] points, Person initialOwner)
         {
-            this.topic           = topic;
-            this.clusterId       = clusterId;
-            this.clusterTitle    = clusterTitle;
-            this.points          = points;
-            this.initialOwner    = initialOwner;
-            this.clusterShId     = clusterShId;
+            this.topic = topic;
+            this.clusterId = clusterId;
+            this.clusterTitle = clusterTitle;
+            this.points = points;
+            this.initialOwner = initialOwner;
+            this.clusterShId = clusterShId;
         }
     }
 }

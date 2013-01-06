@@ -14,13 +14,13 @@ using Discussions.RTModel.Model;
 
 namespace DistributedEditor
 {
-    class VdSegment : VdBaseShape, IVdShape
+    internal class VdSegment : VdBaseShape, IVdShape
     {
-        System.Windows.Shapes.Line line;
-        System.Windows.Shapes.Rectangle selMarker1;
-        System.Windows.Shapes.Rectangle selMarker2;
-        Canvas scene;
-        VdSegmentUtil.SegmentMarker markerSide;
+        private System.Windows.Shapes.Line line;
+        private System.Windows.Shapes.Rectangle selMarker1;
+        private System.Windows.Shapes.Rectangle selMarker2;
+        private Canvas scene;
+        private VdSegmentUtil.SegmentMarker markerSide;
 
         public VdSegment(Double x1, Double y1, Double x2, Double y2, int owner, int shapeId) :
             base(owner, shapeId)
@@ -33,14 +33,14 @@ namespace DistributedEditor
             RemoveFocus();
         }
 
-        void initLine(Color c)
+        private void initLine(Color c)
         {
             line = new Line();
             line.Stroke = new SolidColorBrush(c);
             line.StrokeThickness = ShapeUtils.LINE_WIDTH;
             line.Effect = ShapeUtils.ShadowProvider();
             line.Tag = this;
-           
+
             selMarker1 = ShapeUtils.MakeMarker();
             selMarker1.Tag = this;
 
@@ -53,14 +53,14 @@ namespace DistributedEditor
             return line;
         }
 
-        override public void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
+        public override void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
             TouchManip = true;
 
             SetMarkers();
-           // VdSegmentUtil.ShowMarkers(selMarker1, selMarker2);
+            // VdSegmentUtil.ShowMarkers(selMarker1, selMarker2);
 
-            base.ManipulationStarting(sender, e);            
+            base.ManipulationStarting(sender, e);
         }
 
         public void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
@@ -73,13 +73,13 @@ namespace DistributedEditor
             e.Handled = true;
         }
 
-        void updateUserCursor()
+        private void updateUserCursor()
         {
             Canvas.SetLeft(_cursorView, line.X1 - 50);
-            Canvas.SetTop(_cursorView, line.Y1 - 50);            
+            Canvas.SetTop(_cursorView, line.Y1 - 50);
         }
 
-        void Manipulation(ManipulationDeltaEventArgs e)
+        private void Manipulation(ManipulationDeltaEventArgs e)
         {
             var mt = new MatrixTransform(ShapeUtils.GetTransform(e));
 
@@ -88,10 +88,10 @@ namespace DistributedEditor
             line.X1 = Point1.X;
             line.Y1 = Point1.Y;
             line.X2 = Point2.X;
-            line.Y2 = Point2.Y;            
+            line.Y2 = Point2.Y;
         }
 
-        void SetMarkers()
+        private void SetMarkers()
         {
             ShapeUtils.SetMarker(selMarker1, line.X1, line.Y1);
             ShapeUtils.SetMarker(selMarker2, line.X2, line.Y2);
@@ -120,7 +120,7 @@ namespace DistributedEditor
         {
             base.RemoveFocus();
 
-            line.Stroke = new SolidColorBrush(DaoUtils.UserIdToColor(_initialOwner)); 
+            line.Stroke = new SolidColorBrush(DaoUtils.UserIdToColor(_initialOwner));
             VdSegmentUtil.HideMarkers(selMarker1, selMarker2);
         }
 
@@ -134,7 +134,7 @@ namespace DistributedEditor
         {
             base.SetCursor(c);
 
-           // SetFocus();
+            // SetFocus();
         }
 
         public ShapeZ ShapeZLevel()
@@ -181,14 +181,14 @@ namespace DistributedEditor
         }
 
         public ShapeState GetState(int topicId)
-        {           
-            return new ShapeState(  ShapeCode(), 
-                                    InitialOwner(),
-                                    Id(), 
-                                    null,
-                                    null, 
-                                    new double[] { line.X1, line.Y1, line.X2, line.Y2 },
-                                    topicId);
+        {
+            return new ShapeState(ShapeCode(),
+                                  InitialOwner(),
+                                  Id(),
+                                  null,
+                                  null,
+                                  new double[] {line.X1, line.Y1, line.X2, line.Y2},
+                                  topicId);
         }
 
         public void ApplyState(ShapeState st)
@@ -207,7 +207,7 @@ namespace DistributedEditor
 
             double d1 = ShapeUtils.Dist(p, new Point(line.X1, line.Y1));
             double d2 = ShapeUtils.Dist(p, new Point(line.X2, line.Y2));
-            double dc = ShapeUtils.Dist(p, new Point((line.X1 + line.X2) / 2, (line.Y1 + line.Y2) / 2));
+            double dc = ShapeUtils.Dist(p, new Point((line.X1 + line.X2)/2, (line.Y1 + line.Y2)/2));
             double dMin = ShapeUtils.Min(d1, d2, dc);
 
             if (dMin == d1)
@@ -233,7 +233,7 @@ namespace DistributedEditor
             {
                 activeMarker = selMarker2;
                 activeMarker.CaptureMouse();
-            }  
+            }
         }
 
         public PointApplyResult ApplyCurrentPoint(Point p)
@@ -260,7 +260,7 @@ namespace DistributedEditor
             return PointApplyResult.None; //todo
         }
 
-        void HandleMove(double deltaX, double deltaY)
+        private void HandleMove(double deltaX, double deltaY)
         {
             line.X1 += deltaX;
             line.Y1 += deltaY;
@@ -268,7 +268,7 @@ namespace DistributedEditor
             line.Y2 += deltaY;
         }
 
-        void HandleResize(double deltaX, double deltaY, VdSegmentUtil.SegmentMarker side)
+        private void HandleResize(double deltaX, double deltaY, VdSegmentUtil.SegmentMarker side)
         {
             switch (side)
             {
@@ -287,18 +287,18 @@ namespace DistributedEditor
         {
             var s = ShapeUtils.scaleFactor(plus);
 
-            double cx = (line.X1 + line.X2) / 2;
-            double cy = (line.Y1 + line.Y2) / 2;
+            double cx = (line.X1 + line.X2)/2;
+            double cy = (line.Y1 + line.Y2)/2;
 
             Vector c = new Vector(cx, cy);
             Vector v1 = new Vector(line.X1 - cx, line.Y1 - cy);
             Vector v2 = new Vector(line.X2 - cx, line.Y2 - cy);
 
-            Vector newV1 = c + v1 * s;
+            Vector newV1 = c + v1*s;
             line.X1 = newV1.X;
             line.Y1 = newV1.Y;
 
-            Vector newV2 = c + v2 * s;
+            Vector newV2 = c + v2*s;
             line.X2 = newV2.X;
             line.Y2 = newV2.Y;
 
@@ -309,7 +309,7 @@ namespace DistributedEditor
         {
             var d1 = ShapeUtils.Dist(new Point(line.X1, line.Y1), from);
             var d2 = ShapeUtils.Dist(new Point(line.X2, line.Y2), from);
-            var d3 = ShapeUtils.Dist(new Point((line.X1 + line.X2) / 2, (line.Y1 + line.Y2) / 2), from);
+            var d3 = ShapeUtils.Dist(new Point((line.X1 + line.X2)/2, (line.Y1 + line.Y2)/2), from);
 
             return ShapeUtils.Min(d1, d2, d3);
         }

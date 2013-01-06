@@ -30,43 +30,39 @@ namespace Discussions
     /// </summary>
     public partial class EditableBadge : UserControl
     {
-        MultiClickRecognizer mediaDoubleClick;
+        private MultiClickRecognizer mediaDoubleClick;
 
-        StorageWnd _storageWnd = null; 
+        private StorageWnd _storageWnd = null;
 
-        ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        private ObservableCollection<Source> sources = new ObservableCollection<Source>();
+
         public ObservableCollection<Source> Sources
         {
-            get
-            {
-                return sources;
-            }
+            get { return sources; }
         }
 
-        ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        private ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+
         public ObservableCollection<Attachment> Attachments
         {
-            get
-            {
-                return attachments;
-            }
+            get { return attachments; }
         }
 
         //if source order or data context changes, we update 
-        void UpdateOrderedSources()
+        private void UpdateOrderedSources()
         {
             Sources.Clear();
             var ap = DataContext as ArgPoint;
             if (ap == null)
                 return;
 
-            foreach(var orderedSrc in ap.Description.Source.OrderBy(s => s.OrderNumber))
+            foreach (var orderedSrc in ap.Description.Source.OrderBy(s => s.OrderNumber))
             {
                 Sources.Add(orderedSrc);
             }
         }
 
-        void UpdateOrderedMedia()
+        private void UpdateOrderedMedia()
         {
             Attachments.Clear();
             var ap = DataContext as ArgPoint;
@@ -94,13 +90,13 @@ namespace Discussions
 
             srcMover = new SourceMover(srcRepositionPopup);
             mediaMover = new MediaMover(mediaRepositionPopup);
-        }        
+        }
 
         public SurfaceScrollViewer MainScroller
         {
             set
             {
-              ///  System.Windows.Interactivity.Interaction.GetBehaviors(mediaGrid).Add(new VerticallyUnscrollableInnerList(value, lstBxAttachments));
+                ///  System.Windows.Interactivity.Interaction.GetBehaviors(mediaGrid).Add(new VerticallyUnscrollableInnerList(value, lstBxAttachments));
             }
         }
 
@@ -111,18 +107,16 @@ namespace Discussions
             //System.Windows.Threading.DispatcherPriority.Background);
         }
 
-        void placeholderFocus(Comment comment)
+        private void placeholderFocus(Comment comment)
         {
             new VisualCommentsHelper(this.Dispatcher, lstBxComments.ItemContainerGenerator, comment);
         }
 
-        bool _editingMode = false;
+        private bool _editingMode = false;
+
         public bool EditingMode
         {
-            get
-            {
-                return _editingMode;
-            }
+            get { return _editingMode; }
             set
             {
                 _editingMode = value;
@@ -187,7 +181,7 @@ namespace Discussions
             BeginAttachmentNumberInjection();
         }
 
-        void Attach(object sender, ExecutedRoutedEventArgs args)
+        private void Attach(object sender, ExecutedRoutedEventArgs args)
         {
             ArgPoint ap = DataContext as ArgPoint;
             if (ap == null)
@@ -201,14 +195,14 @@ namespace Discussions
             //}
             //else
             {
-                Attachment a = new Attachment();                
+                Attachment a = new Attachment();
                 ImageSource src = AttachmentManager.ProcessAttachCmd(ap, AttachCmd.ATTACH_IMG_OR_PDF, ref a);
-                if(src!=null)
+                if (src != null)
                     a.Person = getFreshCurrentPerson();
             }
-        } 
+        }
 
-        static Person getFreshCurrentPerson()
+        private static Person getFreshCurrentPerson()
         {
             var p = SessionInfo.Get().person;
             if (p == null)
@@ -217,14 +211,14 @@ namespace Discussions
             return Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == p.Id);
         }
 
-        void SetStyle()
+        private void SetStyle()
         {
             if (DataContext != null && DataContext is ArgPoint)
             {
-                ArgPoint p = (ArgPoint)DataContext;
+                ArgPoint p = (ArgPoint) DataContext;
                 //root.Background = new SolidColorBrush(Utils.IntToColor(p.Person.Color)); 
                 lblColor.Fill = new SolidColorBrush(Utils.IntToColor(p.Person.Color));
-                switch ((SideCode)p.SideCode)
+                switch ((SideCode) p.SideCode)
                 {
                     case SideCode.Pros:
                         stkHeader.Background = DiscussionColors.prosBrush;
@@ -242,13 +236,13 @@ namespace Discussions
             }
         }
 
-        void disableAll()
+        private void disableAll()
         {
             //removeSketch.Visibility = Visibility.Hidden;
             //finishDrawing.Visibility = Visibility.Hidden;
         }
 
-        void EnableDrawingControls()
+        private void EnableDrawingControls()
         {
             //finishDrawing.Visibility = Visibility.Hidden;
             //removeSketch.Visibility = Visibility.Hidden;
@@ -262,9 +256,9 @@ namespace Discussions
             //}
         }
 
-        void MediaDoubleClick(object sender, InputEventArgs e)
+        private void MediaDoubleClick(object sender, InputEventArgs e)
         {
-            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
+            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment);
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -282,18 +276,18 @@ namespace Discussions
             HandleRecontext();
         }
 
-        void DrawingDataContextHandled()
+        private void DrawingDataContextHandled()
         {
             EnableDrawingControls();
         }
 
         public ArgPoint GetArgPoint()
         {
-            ArgPoint p = (ArgPoint)DataContext;
+            ArgPoint p = (ArgPoint) DataContext;
             return p;
         }
 
-        Comment addCommentRequest()
+        private Comment addCommentRequest()
         {
             ArgPoint ap = DataContext as ArgPoint;
             if (ap == null)
@@ -316,7 +310,7 @@ namespace Discussions
         }
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
-        {           
+        {
         }
 
         private void btnAddSource_Click(object sender, RoutedEventArgs e)
@@ -330,13 +324,14 @@ namespace Discussions
         }
 
         #region drawing
+
         public void SaveDrawing()
         {
             //Drawing.SaveDrawing();
             EnableDrawingControls();
         }
 
-        void ResetSketch()
+        private void ResetSketch()
         {
             //Drawing.ResetSketch();
             EnableDrawingControls();
@@ -351,6 +346,7 @@ namespace Discussions
         {
             SaveDrawing();
         }
+
         #endregion
 
         private void ScrollContentPresenter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -369,7 +365,7 @@ namespace Discussions
         }
 
         //attachments from files
-        void AttachFile(ArgPoint ap, string command)
+        private void AttachFile(ArgPoint ap, string command)
         {
             if (ap == null)
                 return;
@@ -394,11 +390,11 @@ namespace Discussions
                     a.Person = getFreshCurrentPerson();
                     ap.ChangesPending = true;
                     UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                         AttachmentToEvent(a, true), 
-                                         ap.Person.Id,
-                                         ap.Topic.Discussion.Id,
-                                         ap.Topic.Id,
-                                         DeviceType.Wpf);
+                        AttachmentToEvent(a, true),
+                        ap.Person.Id,
+                        ap.Topic.Discussion.Id,
+                        ap.Topic.Id,
+                        DeviceType.Wpf);
                     UpdateOrderedMedia();
                     BeginAttachmentNumberInjection();
                 }
@@ -424,15 +420,15 @@ namespace Discussions
             var imgSrc = AttachmentManager.ProcessAttachCmd(ap, txtAttachmentURL.Text, ref a);
             if (imgSrc != null)
             {
-                a.Person = getFreshCurrentPerson();                
-               
+                a.Person = getFreshCurrentPerson();
+
                 ap.ChangesPending = true;
                 UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                     AttachmentToEvent(a, false), 
-                     ap.Person.Id,
-                     ap.Topic.Discussion.Id,
-                     ap.Topic.Id,
-                     DeviceType.Wpf);
+                    AttachmentToEvent(a, false),
+                    ap.Person.Id,
+                    ap.Topic.Discussion.Id,
+                    ap.Topic.Id,
+                    DeviceType.Wpf);
                 UpdateOrderedMedia();
                 BeginAttachmentNumberInjection();
             }
@@ -457,28 +453,28 @@ namespace Discussions
             {
                 a.Person = ap.Person;
 
-                ap.ChangesPending = true;                
+                ap.ChangesPending = true;
                 UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                     AttachmentToEvent(a,false),
-                     ap.Person.Id,
-                     ap.Topic.Discussion.Id,
-                     ap.Topic.Id,
-                     DeviceType.Wpf);
+                    AttachmentToEvent(a, false),
+                    ap.Person.Id,
+                    ap.Topic.Discussion.Id,
+                    ap.Topic.Id,
+                    DeviceType.Wpf);
                 UpdateOrderedMedia();
                 BeginAttachmentNumberInjection();
             }
         }
 
-        static StEvent AttachmentToEvent(Attachment at, bool local)
+        private static StEvent AttachmentToEvent(Attachment at, bool local)
         {
-            switch ((AttachmentFormat)at.Format)
+            switch ((AttachmentFormat) at.Format)
             {
                 case AttachmentFormat.Bmp:
-                    return local ? StEvent.ImageAdded : StEvent.ImageUrlAdded;                    
+                    return local ? StEvent.ImageAdded : StEvent.ImageUrlAdded;
                 case AttachmentFormat.Jpg:
-                    return local ? StEvent.ImageAdded : StEvent.ImageUrlAdded; 
+                    return local ? StEvent.ImageAdded : StEvent.ImageUrlAdded;
                 case AttachmentFormat.Png:
-                    return local ? StEvent.ImageAdded : StEvent.ImageUrlAdded; 
+                    return local ? StEvent.ImageAdded : StEvent.ImageUrlAdded;
                 case AttachmentFormat.Pdf:
                     return local ? StEvent.PdfAdded : StEvent.PdfUrlAdded;
                 case AttachmentFormat.PngScreenshot:
@@ -491,7 +487,9 @@ namespace Discussions
         }
 
         #region media highlight
-        Brush mediaBg = null;
+
+        private Brush mediaBg = null;
+
         private void lstBxAttachments_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             HighlightMediaPointDown();
@@ -527,10 +525,13 @@ namespace Discussions
         {
             HighlightMediaPointUp();
         }
+
         #endregion media highlight
 
         #region comment highlight
-        Brush commentBg = null;
+
+        private Brush commentBg = null;
+
         private void HighlightCommentPointDown()
         {
             if (commentBg != null)
@@ -566,51 +567,52 @@ namespace Discussions
         {
             HighlightCommentPointUp();
         }
+
         #endregion comment highlight
 
         private void removeMedia_Click(object sender, RoutedEventArgs e)
         {
-            var at = ((ContentControl)sender).DataContext as Attachment;
+            var at = ((ContentControl) sender).DataContext as Attachment;
             var ap = DataContext as ArgPoint;
 
             ap.Attachment.Remove(at);
-            
+
             var mediaData = at.MediaData;
             at.MediaData = null;
-            if (mediaData!=null)
+            if (mediaData != null)
                 Ctx2.Get().DeleteObject(mediaData);
             Ctx2.Get().DeleteObject(at);
-           
+
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                 StEvent.MediaRemoved,
-                                 ap.Person.Id,
-                                 ap.Topic.Discussion.Id,
-                                 ap.Topic.Id,
-                                 DeviceType.Wpf);
+                StEvent.MediaRemoved,
+                ap.Person.Id,
+                ap.Topic.Discussion.Id,
+                ap.Topic.Id,
+                DeviceType.Wpf);
             UpdateOrderedMedia();
             BeginAttachmentNumberInjection();
         }
 
         private void btnComment_Click(object sender, RoutedEventArgs e)
-        {            
+        {
         }
 
         private void btnAddSrc_Click(object sender, RoutedEventArgs e)
         {
             if (DataContext == null)
                 return;
-            
-            var ap=(ArgPoint)DataContext;
+
+            var ap = (ArgPoint) DataContext;
 
             DaoUtils.AddSource(txtSource.Text, ap.Description);
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                StEvent.SourceAdded,
-                                ap.Person.Id,
-                                ap.Topic.Discussion.Id,
-                                ap.Topic.Id,
-                                DeviceType.Wpf);
+                StEvent.SourceAdded,
+                ap.Person.Id,
+                ap.Topic.Discussion.Id,
+                ap.Topic.Id,
+                DeviceType.Wpf);
 
             UpdateOrderedSources();
             BeginSrcNumberInjection();
@@ -618,36 +620,36 @@ namespace Discussions
 
         private void txtSource_KeyDown_1(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter)
+            if (e.Key == Key.Enter)
                 btnAddSrc_Click(null, null);
         }
 
         private void btnAttachScreenshot_Click_1(object sender, RoutedEventArgs e)
         {
-            var ap = DataContext as ArgPoint;            
+            var ap = DataContext as ArgPoint;
             if (ap == null)
                 return;
-           
-            var screenshotWnd = new ScreenshotCaptureWnd((System.Drawing.Bitmap b) => 
-            { 
-                var attach = AttachmentManager.AttachScreenshot(ap, b);
-                if (attach != null)
-                {
-                    var seldId = SessionInfo.Get().person.Id;
-                    attach.Person = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
-                    
-                    ap.ChangesPending = true;
-                    UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                          StEvent.ScreenshotAdded,
-                                          ap.Person.Id,
-                                          ap.Topic.Discussion.Id,
-                                          ap.Topic.Id,
-                                          DeviceType.Wpf);
 
-                    UpdateOrderedMedia();
-                    BeginAttachmentNumberInjection();
-                }
-            });
+            var screenshotWnd = new ScreenshotCaptureWnd((System.Drawing.Bitmap b) =>
+                {
+                    var attach = AttachmentManager.AttachScreenshot(ap, b);
+                    if (attach != null)
+                    {
+                        var seldId = SessionInfo.Get().person.Id;
+                        attach.Person = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
+
+                        ap.ChangesPending = true;
+                        UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                            StEvent.ScreenshotAdded,
+                            ap.Person.Id,
+                            ap.Topic.Discussion.Id,
+                            ap.Topic.Id,
+                            DeviceType.Wpf);
+
+                        UpdateOrderedMedia();
+                        BeginAttachmentNumberInjection();
+                    }
+                });
             screenshotWnd.ShowDialog();
         }
 
@@ -661,14 +663,14 @@ namespace Discussions
         //        txtAttachmentURL.Text = a.Link;
         //}
 
-        void onSourceRemoved(object sender, RoutedEventArgs e)
+        private void onSourceRemoved(object sender, RoutedEventArgs e)
         {
             srcRepositionPopup.IsOpen = false;
-            
+
             //report event 
-            var ap = (ArgPoint)DataContext;
-            
-            (((FrameworkElement)e.OriginalSource).DataContext as Source).RichText = null;
+            var ap = (ArgPoint) DataContext;
+
+            (((FrameworkElement) e.OriginalSource).DataContext as Source).RichText = null;
 
             BeginSrcNumberInjection();
             UpdateOrderedSources();
@@ -678,20 +680,22 @@ namespace Discussions
                                                              ap.Person.Id,
                                                              ap.Topic.Discussion.Id,
                                                              ap.Topic.Id,
-                                                             DeviceType.Wpf);  
+                                                             DeviceType.Wpf);
         }
 
-        void BeginSrcNumberInjection()
+        private void BeginSrcNumberInjection()
         {
-            Dispatcher.BeginInvoke(new Action(_injectSourceNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+            Dispatcher.BeginInvoke(new Action(_injectSourceNumbers),
+                                   System.Windows.Threading.DispatcherPriority.Background, null);
         }
 
-        void BeginAttachmentNumberInjection()
+        private void BeginAttachmentNumberInjection()
         {
-            Dispatcher.BeginInvoke(new Action(_injectMediaNumbers), System.Windows.Threading.DispatcherPriority.Background, null);
+            Dispatcher.BeginInvoke(new Action(_injectMediaNumbers),
+                                   System.Windows.Threading.DispatcherPriority.Background, null);
         }
 
-        void _injectMediaNumbers()
+        private void _injectMediaNumbers()
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -700,14 +704,14 @@ namespace Discussions
             for (int i = 0; i < ap.Attachment.Count(); i++)
             {
                 var item = lstBxAttachments.ItemContainerGenerator.ContainerFromIndex(i);
-                
+
                 var numberText = Utils.FindChild<Label>(item);
                 if (numberText != null)
                     numberText.Content = (i + 1).ToString();
             }
         }
 
-        void _injectSourceNumbers()
+        private void _injectSourceNumbers()
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -717,8 +721,8 @@ namespace Discussions
             {
                 var item = lstBxSources.ItemContainerGenerator.ContainerFromIndex(i);
                 var srcUC = Utils.FindChild<SourceUC>(item);
-                if(srcUC!=null)
-                    srcUC.SrcNumber = i + 1;                
+                if (srcUC != null)
+                    srcUC.SrcNumber = i + 1;
             }
         }
 
@@ -733,7 +737,7 @@ namespace Discussions
 
         #region cloud storage 
 
-        void RunCloudStorageViewer(StorageType storageType)
+        private void RunCloudStorageViewer(StorageType storageType)
         {
             if (_storageWnd != null)
             {
@@ -743,19 +747,19 @@ namespace Discussions
 
             _storageWnd = new StorageWnd();
             _storageWnd.Show();
-            _storageWnd.webViewCallback  += onWebViewerRequest;
+            _storageWnd.webViewCallback += onWebViewerRequest;
             _storageWnd.fileViewCallback += onCloudViewerRequest;
             _storageWnd.Closed += onStorageWndClosed;
             _storageWnd.LoginAndEnumFiles(storageType);
         }
 
-        void onWebViewerRequest(string Uri)
+        private void onWebViewerRequest(string Uri)
         {
             var browser = new WebKitFrm(Uri);
             browser.ShowDialog();
         }
 
-        void onStorageWndClosed(object sender, EventArgs e)
+        private void onStorageWndClosed(object sender, EventArgs e)
         {
             ArgPoint ap = DataContext as ArgPoint;
             if (ap == null)
@@ -777,7 +781,7 @@ namespace Discussions
                         ap.ChangesPending = true;
 
                         StEvent ev = StEvent.ArgPointTopicChanged;
-                        switch ((AttachmentFormat)attach.Format)
+                        switch ((AttachmentFormat) attach.Format)
                         {
                             case AttachmentFormat.Bmp:
                             case AttachmentFormat.Jpg:
@@ -791,11 +795,11 @@ namespace Discussions
                         if (ev != StEvent.ArgPointTopicChanged)
                         {
                             UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                                        ev,
-                                                        ap.Person.Id,
-                                                        ap.Topic.Discussion.Id,
-                                                        ap.Topic.Id,
-                                                        DeviceType.Wpf);
+                                ev,
+                                ap.Person.Id,
+                                ap.Topic.Discussion.Id,
+                                ap.Topic.Id,
+                                DeviceType.Wpf);
                         }
                     }
                     catch (Discussions.AttachmentManager.IncorrectAttachmentFormat)
@@ -812,14 +816,14 @@ namespace Discussions
             _storageWnd = null;
         }
 
-        void onCloudViewerRequest(string pathName)
+        private void onCloudViewerRequest(string pathName)
         {
             AttachmentManager.RunViewer(pathName);
         }
 
         private void chooseDropboxFiles(object sender, RoutedEventArgs e)
         {
-            RunCloudStorageViewer(StorageType.Dropbox);            
+            RunCloudStorageViewer(StorageType.Dropbox);
         }
 
         private void chooseGDriveFiles(object sender, RoutedEventArgs e)
@@ -833,14 +837,14 @@ namespace Discussions
         {
             var scrollViwer = GetScrollViewer(lstBxAttachments) as ScrollViewer;
 
-	        if (scrollViwer != null)
-	        {
+            if (scrollViwer != null)
+            {
                 var hOffset = -30.0;
-                if(e.Delta<0)
-                    hOffset *= -1.0;   
-             
-                scrollViwer.ScrollToHorizontalOffset(scrollViwer.HorizontalOffset + hOffset);                
-	        }
+                if (e.Delta < 0)
+                    hOffset *= -1.0;
+
+                scrollViwer.ScrollToHorizontalOffset(scrollViwer.HorizontalOffset + hOffset);
+            }
             e.Handled = true;
         }
 
@@ -848,7 +852,9 @@ namespace Discussions
         {
             // Return the DependencyObject if it is a ScrollViewer
             if (o is ScrollViewer)
-            { return o; }
+            {
+                return o;
+            }
 
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(o); i++)
             {
@@ -869,9 +875,9 @@ namespace Discussions
 
         #region source up/down
 
-        SourceMover srcMover = null;
+        private SourceMover srcMover = null;
 
-        void processSrcUpDown(bool up, Source current)
+        private void processSrcUpDown(bool up, Source current)
         {
             if (current == null)
                 return;
@@ -880,42 +886,41 @@ namespace Discussions
             {
                 current.RichText.ArgPoint.ChangesPending = true;
                 BeginSrcNumberInjection();
-                UpdateOrderedSources();    
+                UpdateOrderedSources();
             }
         }
 
-        void onSourceUpDown(object sender, RoutedEventArgs e)
+        private void onSourceUpDown(object sender, RoutedEventArgs e)
         {
-            srcMover.onSourceUpDown(sender,e);
+            srcMover.onSourceUpDown(sender, e);
         }
 
         private void btnSrcDown_Click_1(object sender, RoutedEventArgs e)
         {
             if (srcMover._srcToReposition == null)
                 return;
-            processSrcUpDown(false, srcMover._srcToReposition);         
+            processSrcUpDown(false, srcMover._srcToReposition);
         }
 
         private void btnSrcUp_Click_1(object sender, RoutedEventArgs e)
         {
             if (srcMover._srcToReposition == null)
                 return;
-            processSrcUpDown(true, srcMover._srcToReposition);       
+            processSrcUpDown(true, srcMover._srcToReposition);
         }
 
         private void btnClosePopup_Click_1(object sender, RoutedEventArgs e)
         {
             srcRepositionPopup.IsOpen = false;
         }
-        
-        #endregion
 
+        #endregion
 
         #region media up/down
 
-        MediaMover mediaMover = null;
+        private MediaMover mediaMover = null;
 
-        void processAttachmentUpDown(bool up, Attachment current)
+        private void processAttachmentUpDown(bool up, Attachment current)
         {
             if (current == null)
                 return;
@@ -924,27 +929,27 @@ namespace Discussions
             {
                 current.ArgPoint.ChangesPending = true;
                 BeginAttachmentNumberInjection();
-                UpdateOrderedMedia();                
+                UpdateOrderedMedia();
             }
         }
 
         private void btnReposition_Click_1(object sender, RoutedEventArgs e)
         {
-            mediaMover.onAttachmentUpDown(sender, e);            
+            mediaMover.onAttachmentUpDown(sender, e);
         }
 
         private void btnMediaUp_Click_1(object sender, RoutedEventArgs e)
         {
             if (mediaMover._attachmentToReposition == null)
                 return;
-            processAttachmentUpDown(true, mediaMover._attachmentToReposition);   
+            processAttachmentUpDown(true, mediaMover._attachmentToReposition);
         }
 
         private void btnMediaDown_Click_1(object sender, RoutedEventArgs e)
         {
             if (mediaMover._attachmentToReposition == null)
                 return;
-            processAttachmentUpDown(false, mediaMover._attachmentToReposition);   
+            processAttachmentUpDown(false, mediaMover._attachmentToReposition);
         }
 
         private void btnCloseMediaRepositionPopup_Click_1(object sender, RoutedEventArgs e)

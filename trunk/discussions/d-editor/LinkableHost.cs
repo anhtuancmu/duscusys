@@ -5,8 +5,8 @@ using System.Text;
 
 namespace DistributedEditor
 {
-    interface LinkableHost
+    internal interface LinkableHost
     {
-        ClientLinkable GetLinkable();   
+        ClientLinkable GetLinkable();
     }
 }

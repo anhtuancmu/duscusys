@@ -11,32 +11,35 @@ namespace Discussions
 {
     public class AvatarImgConverter : IValueConverter
     {
-        static BitmapImage _emptyAvatar = null;
+        private static BitmapImage _emptyAvatar = null;
+
         public static BitmapImage EmptyAvatar
         {
             get
             {
                 if (_emptyAvatar == null)
                 {
-                    _emptyAvatar = new BitmapImage(new Uri("pack://application:,,,/LoginEngine;component/Resources/non_avatar.jpg"));
+                    _emptyAvatar =
+                        new BitmapImage(new Uri("pack://application:,,,/LoginEngine;component/Resources/non_avatar.jpg"));
                 }
-                    
+
                 return _emptyAvatar;
             }
         }
-                
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {            
+        {
             if (value == null)
             {
                 //no avatar, return empty avatar
                 return EmptyAvatar;
             }
 
-            return MiniAttachmentManager.GetAttachmentBitmap2(value as Attachment);                               
+            return MiniAttachmentManager.GetAttachmentBitmap2(value as Attachment);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

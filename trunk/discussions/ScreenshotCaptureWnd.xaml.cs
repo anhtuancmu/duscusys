@@ -19,20 +19,22 @@ namespace Discussions
 {
     public partial class ScreenshotCaptureWnd : SurfaceWindow
     {
-        System.Windows.Point _topLeft;
+        private System.Windows.Point _topLeft;
 
-        enum CaptureState { SelectingWindow, SelectedWindow,  SelectingCaptureArea }
-         
-        CaptureState state = CaptureState.SelectingWindow;
+        private enum CaptureState
+        {
+            SelectingWindow,
+            SelectedWindow,
+            SelectingCaptureArea
+        }
 
-        Bitmap _screenshot;
+        private CaptureState state = CaptureState.SelectingWindow;
+
+        private Bitmap _screenshot;
 
         public Rect CaptureRect
         {
-            get
-            {
-                return captureZone.Rect;
-            }    
+            get { return captureZone.Rect; }
         }
 
         public Bitmap GetScreenshot()
@@ -49,22 +51,23 @@ namespace Discussions
             _onCaptured = onCaptured;
         }
 
-        void startDrawing(System.Windows.Point topLeft)
+        private void startDrawing(System.Windows.Point topLeft)
         {
             _topLeft = topLeft;
-            captureZone.Rect = new Rect(topLeft.X,topLeft.Y,1,1);
+            captureZone.Rect = new Rect(topLeft.X, topLeft.Y, 1, 1);
             lblHelp.Visibility = Visibility.Hidden;
             updateSizeIndicator();
         }
 
-        void updateSizeIndicator()
+        private void updateSizeIndicator()
         {
             Canvas.SetLeft(lblSizeIndicator, captureZone.Rect.Right + 10);
             Canvas.SetTop(lblSizeIndicator, captureZone.Rect.Bottom + 10);
-            lblSizeIndicator.Content = string.Format("{0}x{1}", (int)captureZone.Rect.Width, (int)captureZone.Rect.Height);
+            lblSizeIndicator.Content = string.Format("{0}x{1}", (int) captureZone.Rect.Width,
+                                                     (int) captureZone.Rect.Height);
         }
 
-        void onDrawing(System.Windows.Point currentPen)
+        private void onDrawing(System.Windows.Point currentPen)
         {
             captureZone.Rect = new Rect(_topLeft.X, _topLeft.Y,
                                         Math.Abs(currentPen.X - _topLeft.X),
@@ -82,7 +85,7 @@ namespace Discussions
             return transformToDevice.Transform(p);
         }
 
-        void stopDrawing()
+        private void stopDrawing()
         {
             var rect = captureZone.Rect;
 
@@ -90,15 +93,16 @@ namespace Discussions
 
             var topLeftPx = ToDevicePixels(this, new System.Windows.Point(rect.X - 7, rect.Y - 7));
             var heightWidthPx = ToDevicePixels(this, new System.Windows.Point(rect.Width, rect.Height));
-            _screenshot = Screenshot.CaptureDesktop((int)topLeftPx.X, (int)topLeftPx.Y, 
-                                                    (int)heightWidthPx.X, (int)heightWidthPx.Y);
+            _screenshot = Screenshot.CaptureDesktop((int) topLeftPx.X, (int) topLeftPx.Y,
+                                                    (int) heightWidthPx.X, (int) heightWidthPx.Y);
 
             if (_onCaptured != null)
                 _onCaptured(_screenshot);
         }
 
         private Action<Bitmap> _onCaptured = null;
-        void PointDown(System.Windows.Point pointDown)
+
+        private void PointDown(System.Windows.Point pointDown)
         {
             switch (state)
             {
@@ -111,11 +115,11 @@ namespace Discussions
                 case CaptureState.SelectingCaptureArea:
                     break;
                 default:
-                    throw new NotSupportedException(); 
+                    throw new NotSupportedException();
             }
         }
 
-        void PointUp()
+        private void PointUp()
         {
             switch (state)
             {
@@ -129,22 +133,22 @@ namespace Discussions
                     Close();
                     break;
                 default:
-                    throw new NotSupportedException(); 
+                    throw new NotSupportedException();
             }
         }
 
-        void HideOwnWindows()
+        private void HideOwnWindows()
         {
             DiscWindows.Get().mainWnd.Hide();
-            if (DiscWindows.Get().privateDiscBoard!=null)
+            if (DiscWindows.Get().privateDiscBoard != null)
                 DiscWindows.Get().privateDiscBoard.Hide();
-            if (DiscWindows.Get().moderDashboard!=null)
+            if (DiscWindows.Get().moderDashboard != null)
                 DiscWindows.Get().moderDashboard.Hide();
-            if (DiscWindows.Get().htmlBackgroundWnd!= null)
+            if (DiscWindows.Get().htmlBackgroundWnd != null)
                 DiscWindows.Get().htmlBackgroundWnd.Hide();
         }
 
-        void ShowOwnWindows()
+        private void ShowOwnWindows()
         {
             DiscWindows.Get().mainWnd.Show();
             if (DiscWindows.Get().privateDiscBoard != null)
@@ -176,12 +180,12 @@ namespace Discussions
         //mouse 
         private void SurfaceWindow_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            PointDown(e.GetPosition(canv));            
+            PointDown(e.GetPosition(canv));
         }
 
         private void SurfaceWindow_MouseMove_1(object sender, MouseEventArgs e)
         {
-            if(state==CaptureState.SelectingCaptureArea)
+            if (state == CaptureState.SelectingCaptureArea)
                 onDrawing(e.GetPosition(canv));
         }
 
@@ -201,13 +205,13 @@ namespace Discussions
 
                 this.Opacity = 0.6;
 
-                lblHelp.Visibility         = Visibility.Visible;
+                lblHelp.Visibility = Visibility.Visible;
                 btnStartDrawing.Visibility = Visibility.Hidden;
-                btnCancel.Visibility       = Visibility.Collapsed;
-                
+                btnCancel.Visibility = Visibility.Collapsed;
+
                 this.Hide();
                 this.Show();
-                this.Topmost = true;                
+                this.Topmost = true;
             }
         }
 

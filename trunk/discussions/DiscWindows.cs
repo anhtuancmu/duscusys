@@ -8,12 +8,12 @@ namespace Discussions
 {
     public class DiscWindows
     {
-        static DiscWindows _inst = null;
+        private static DiscWindows _inst = null;
 
         public Main mainWnd = null;
         public PublicCenter discDashboard = null;
-        public PrivateCenter3 privateDiscBoard = null;     
-        public Dashboard moderDashboard = null;      
+        public PrivateCenter3 privateDiscBoard = null;
+        public Dashboard moderDashboard = null;
         public ResultViewer resViewer = null;
         public PersonManagerWnd persMgr = null;
         public HtmlEditWnd htmlBackgroundWnd = null;
@@ -29,8 +29,8 @@ namespace Discussions
         public void CloseUserDashboards()
         {
             if (privateDiscBoard == null && discDashboard == null)
-                return; 
-                    
+                return;
+
             if (privateDiscBoard != null)
             {
                 privateDiscBoard.Close();
@@ -57,12 +57,12 @@ namespace Discussions
 
         public void CloseAndDispose()
         {
-            mainWnd = null;                   
+            mainWnd = null;
 
             if (discDashboard != null)
             {
                 discDashboard.Close();
-                discDashboard = null;//todo
+                discDashboard = null; //todo
             }
 
             if (moderDashboard != null)
@@ -93,7 +93,7 @@ namespace Discussions
             {
                 htmlBackgroundWnd.Close();
                 htmlBackgroundWnd = null;
-            }  
+            }
         }
     }
 }

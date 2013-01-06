@@ -7,12 +7,12 @@
 // </summary>
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace DiscussionsClientRT
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
-
     using ExitGames.Client.Photon;
     using ExitGames.Client.Photon.Lite;
 
@@ -23,7 +23,6 @@ namespace DiscussionsClientRT
     /// </summary>
     public class LiteLobbyPeer : LitePeer
     {
-
         /// <summary>LiteLobby uses the same operation code for Join but extends it with another parameter.</summary>
         public enum LiteLobbyOpCode : byte
         {
@@ -85,7 +84,8 @@ namespace DiscussionsClientRT
         /// <param name="actorProperties"></param>
         /// <param name="broadcastActorProperties"></param>
         /// <returns>If operation could be enqueued for sending</returns>
-        public virtual bool OpJoinFromLobby(string gameName, string lobbyName, Hashtable actorProperties, bool broadcastActorProperties)
+        public virtual bool OpJoinFromLobby(string gameName, string lobbyName, Hashtable actorProperties,
+                                            bool broadcastActorProperties)
         {
             if (this.DebugOut >= DebugLevel.ALL)
             {
@@ -94,19 +94,19 @@ namespace DiscussionsClientRT
 
             // All operations get their parameters as key-value set (a Hashtable)
             Dictionary<byte, object> opParameters = new Dictionary<byte, object>();
-            opParameters[(byte)LiteLobbyOpKey.RoomName] = gameName;
-            opParameters[(byte)LiteLobbyOpKey.LobbyName] = lobbyName;
+            opParameters[(byte) LiteLobbyOpKey.RoomName] = gameName;
+            opParameters[(byte) LiteLobbyOpKey.LobbyName] = lobbyName;
 
             if (actorProperties != null)
             {
-                opParameters[(byte)LiteOpKey.ActorProperties] = actorProperties;
+                opParameters[(byte) LiteOpKey.ActorProperties] = actorProperties;
                 if (broadcastActorProperties)
                 {
-                    opParameters[(byte)LiteOpKey.Broadcast] = broadcastActorProperties;
+                    opParameters[(byte) LiteOpKey.Broadcast] = broadcastActorProperties;
                 }
             }
 
-            return OpCustom((byte)LiteLobbyOpCode.Join, opParameters, true);
+            return OpCustom((byte) LiteLobbyOpCode.Join, opParameters, true);
         }
     }
 }

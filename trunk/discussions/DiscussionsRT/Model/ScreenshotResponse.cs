@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Discussions.DbModel;
 using Discussions.RTModel.Operations;
 
@@ -18,15 +16,15 @@ namespace Discussions.RTModel.Model
             res.screenshots = new Dictionary<int, byte[]>();
             using (var ctx = new DiscCtx(Discussions.ConfigManager.ConnStr))
             {
-                var shapeIds = (int[])par[(byte)DiscussionParamKey.ArrayOfInts];
+                var shapeIds = (int[]) par[(byte) DiscussionParamKey.ArrayOfInts];
                 for (int i = 0; i < shapeIds.Length; i++)
                 {
-                    int mediaId = (int)par[(byte)i];
+                    int mediaId = (int) par[(byte) i];
                     var mediaEntity = ctx.MediaDataSet.Single(m => m.Id == mediaId);
                     res.screenshots.Add(shapeIds[i], mediaEntity.Data);
                     ctx.DeleteObject(mediaEntity);
                 }
-                ctx.SaveChanges();//deleted entities 
+                ctx.SaveChanges(); //deleted entities 
                 return res;
             }
         }
@@ -39,17 +37,15 @@ namespace Discussions.RTModel.Model
 
                 //array of integers (shape Ids)          
                 var shapeIds = screenshots.Keys.ToArray();
-                res.Add((byte)DiscussionParamKey.ArrayOfInts, shapeIds);
+                res.Add((byte) DiscussionParamKey.ArrayOfInts, shapeIds);
 
                 for (int i = 0; i < shapeIds.Length; i++)
                 {
-                    var md = new MediaData();
-                    md.Data = screenshots[shapeIds[i]];
+                    var md = new MediaData {Data = screenshots[shapeIds[i]]};
                     ctx.MediaDataSet.AddObject(md);
-                    ctx.SaveChanges();
-
-                    res.Add((byte)i, md.Id);
-                }
+                    ctx.SaveChanges();//save here, need Id
+                    res.Add((byte) i, md.Id);
+                }                
                 return res;
             }
         }

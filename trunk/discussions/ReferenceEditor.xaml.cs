@@ -24,13 +24,13 @@ namespace Discussions
     /// Interaction logic for ReferenceEditor.xaml
     /// </summary>
     public partial class ReferenceEditor : SurfaceWindow
-    {      
-        public RichText richText {get;set;}
+    {
+        public RichText richText { get; set; }
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ReferenceEditor(bool readOnly, RichText text) 
+        public ReferenceEditor(bool readOnly, RichText text)
         {
             InitializeComponent();
 
@@ -44,7 +44,7 @@ namespace Discussions
             if (readOnly)
             {
                 btnAdd.Visibility = Visibility.Hidden;
-                btnRemove.Visibility = Visibility.Hidden; 
+                btnRemove.Visibility = Visibility.Hidden;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Discussions
             if (richText == null)
                 return;
 
-            DaoUtils.AddSource("new source", richText);           
+            DaoUtils.AddSource("new source", richText);
         }
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
@@ -135,12 +135,12 @@ namespace Discussions
             if (lstBxReferences.SelectedItem == null)
                 return;
 
-            richText.Source.Remove((Source)lstBxReferences.SelectedItem);
+            richText.Source.Remove((Source) lstBxReferences.SelectedItem);
         }
 
         public static void Edit(RichText text, bool readOnly)
         {
-            var refEdit = new ReferenceEditor(readOnly,text);
+            var refEdit = new ReferenceEditor(readOnly, text);
             refEdit.ShowDialog();
         }
     }

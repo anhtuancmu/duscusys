@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Linq;
 using Discussions.DbModel;
 using System.Collections.ObjectModel;
@@ -18,26 +10,24 @@ using System.Reflection;
 
 namespace Discussions
 {
-
     /// <summary>
     /// Interaction logic for Background.xaml
     /// </summary>
     public partial class Background : UserControl
     {
         public delegate void OnInitNewDiscussion();
+
         public OnInitNewDiscussion onInitNewDiscussion = null;
 
-        ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        private ObservableCollection<Source> sources = new ObservableCollection<Source>();
+
         public ObservableCollection<Source> Sources
         {
-            get
-            {
-                return sources;
-            }
+            get { return sources; }
         }
 
         //if source order or data context changes, we update 
-        void UpdateOrderedSources()
+        private void UpdateOrderedSources()
         {
             Sources.Clear();
             var disc = DataContext as Discussion;
@@ -94,12 +84,12 @@ namespace Discussions
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
+            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment);
         }
 
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
-            AttachmentManager.RunViewer(((FrameworkElement)sender).DataContext as Attachment);
+            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment);
         }
 
         private void lstBxAttachments_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -139,14 +129,14 @@ namespace Discussions
                 return;
 
             var screenshotWnd = new ScreenshotCaptureWnd((System.Drawing.Bitmap b) =>
-            {
-                var attach = AttachmentManager.AttachScreenshot(null, b);
-                if (attach != null)
                 {
-                    attach.Person = getFreshPerson();
-                    attach.Discussion = d;
-                }
-            });
+                    var attach = AttachmentManager.AttachScreenshot(null, b);
+                    if (attach != null)
+                    {
+                        attach.Person = getFreshPerson();
+                        attach.Discussion = d;
+                    }
+                });
             screenshotWnd.ShowDialog();
         }
 
@@ -178,7 +168,7 @@ namespace Discussions
         }
 
         //attachments from files
-        void AttachFile(ArgPoint ap, string command)
+        private void AttachFile(ArgPoint ap, string command)
         {
             var d = DataContext as Discussion;
             if (d == null)
@@ -200,7 +190,7 @@ namespace Discussions
 
         private void removeMedia_Click(object sender, RoutedEventArgs e)
         {
-            var at = ((ContentControl)sender).DataContext as Attachment;
+            var at = ((ContentControl) sender).DataContext as Attachment;
 
             at.Discussion = null;
             var mediaData = at.MediaData;
@@ -221,14 +211,14 @@ namespace Discussions
             UpdateOrderedSources();
         }
 
-        void onSourceRemoved(object sender, RoutedEventArgs e)
+        private void onSourceRemoved(object sender, RoutedEventArgs e)
         {
             srcRepositionPopup.IsOpen = false;
 
             //report event 
-            var ap = (Discussion)DataContext;
+            var ap = (Discussion) DataContext;
 
-            (((FrameworkElement)e.OriginalSource).DataContext as Source).RichText = null;
+            (((FrameworkElement) e.OriginalSource).DataContext as Source).RichText = null;
 
             BeginDeferredItemTemplateHandle();
             UpdateOrderedSources();
@@ -272,9 +262,9 @@ namespace Discussions
 
         #region source up/down
 
-        SourceMover srcMover = null;
+        private SourceMover srcMover = null;
 
-        void processSrcUpDown(bool up, Source current)
+        private void processSrcUpDown(bool up, Source current)
         {
             if (current == null)
                 return;
@@ -286,7 +276,7 @@ namespace Discussions
             }
         }
 
-        void onSourceUpDown(object sender, RoutedEventArgs e)
+        private void onSourceUpDown(object sender, RoutedEventArgs e)
         {
             srcMover.onSourceUpDown(sender, e);
         }
@@ -310,19 +300,21 @@ namespace Discussions
             srcRepositionPopup.IsOpen = false;
         }
 
-        bool _canReorder = true;
+        private bool _canReorder = true;
+
         public void SetCanReorderItems(bool canReorder)
         {
             _canReorder = canReorder;
             BeginDeferredItemTemplateHandle();
         }
 
-        void BeginDeferredItemTemplateHandle()
+        private void BeginDeferredItemTemplateHandle()
         {
-            Dispatcher.BeginInvoke(new Action(_deferredItemTemplateHandle), System.Windows.Threading.DispatcherPriority.Background, null);
+            Dispatcher.BeginInvoke(new Action(_deferredItemTemplateHandle),
+                                   System.Windows.Threading.DispatcherPriority.Background, null);
         }
 
-        void _deferredItemTemplateHandle()
+        private void _deferredItemTemplateHandle()
         {
             var d = DataContext as Discussion;
             if (d == null)
@@ -339,23 +331,25 @@ namespace Discussions
                 }
             }
         }
+
         #endregion
 
         private void btnEditBg_Click(object sender, RoutedEventArgs e)
         {
             DiscWindows.Get().htmlBackgroundWnd = new HtmlEditWnd(DataContext as Discussion,
                                                                   () =>
-                                                                  {
-                                                                      DiscWindows.Get().htmlBackgroundWnd = null;
-
-                                                                      var d = DataContext as Discussion;
-                                                                      if (d != null)
                                                                       {
-                                                                          if (d.HtmlBackground != null)
-                                                                              htmlBackground.NavigateToString(d.HtmlBackground);
+                                                                          DiscWindows.Get().htmlBackgroundWnd = null;
+
+                                                                          var d = DataContext as Discussion;
+                                                                          if (d != null)
+                                                                          {
+                                                                              if (d.HtmlBackground != null)
+                                                                                  htmlBackground.NavigateToString(
+                                                                                      d.HtmlBackground);
+                                                                          }
                                                                       }
-                                                                  }
-                                                                  );
+                );
             DiscWindows.Get().htmlBackgroundWnd.Show();
         }
 
@@ -384,7 +378,7 @@ namespace Discussions
             }
         }
 
-        static string getDiscussionBackgroundUrl(Discussion d)
+        private static string getDiscussionBackgroundUrl(Discussion d)
         {
             return string.Format("http://{0}/discsvc/bgpage?id={1}", ConfigManager.ServiceServer, d.Id);
         }
@@ -394,14 +388,15 @@ namespace Discussions
             htmlBackground.Dispose();
         }
 
-        static string noBackgroundHtml = null;
-        static string NoBackground()
+        private static string noBackgroundHtml = null;
+
+        private static string NoBackground()
         {
             if (noBackgroundHtml == null)
             {
                 var htmlTemplatePathName = System.IO.Path.Combine(
-                                System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                                "NoBackgroundPage.html");
+                    System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "NoBackgroundPage.html");
 
                 noBackgroundHtml = System.IO.File.ReadAllText(htmlTemplatePathName);
             }

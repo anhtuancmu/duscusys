@@ -11,10 +11,12 @@ namespace Discussions.YouViewer
     public class YouTubeInfo
     {
         #region Data
+
         public string LinkUrl { get; set; }
         public string EmbedUrl { get; set; }
         public string ThumbNailUrl { get; set; }
-        public string VideoTitle { get; set; } 
+        public string VideoTitle { get; set; }
+
         #endregion
     }
 }

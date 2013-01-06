@@ -22,23 +22,18 @@ namespace Discussions
     /// </summary>
     public partial class SideStatusBar : UserControl
     {
-        ObservableCollection<Person> _usersStatus = new ObservableCollection<Person>();
+        private ObservableCollection<Person> _usersStatus = new ObservableCollection<Person>();
+
         public ObservableCollection<Person> UsersStatus
         {
-            get
-            {
-                return _usersStatus;
-            }
-            set
-            {
-                _usersStatus = value;
-            }
+            get { return _usersStatus; }
+            set { _usersStatus = value; }
         }
 
         public bool hidden = true;
 
-        UISharedRTClient _sharedRt;
-                
+        private UISharedRTClient _sharedRt;
+
         public SideStatusBar()
         {
             InitializeComponent();
@@ -67,7 +62,7 @@ namespace Discussions
             SetListeners(_sharedRt, false);
         }
 
-        void SetListeners(UISharedRTClient sharedClient, bool doSet)
+        private void SetListeners(UISharedRTClient sharedClient, bool doSet)
         {
             var clienRt = sharedClient.clienRt;
 
@@ -95,7 +90,7 @@ namespace Discussions
                 clienRt.userLeaves -= userLeaves;
         }
 
-        void RefreshUsersStatus()
+        private void RefreshUsersStatus()
         {
             UsersStatus.Clear();
 
@@ -108,22 +103,22 @@ namespace Discussions
             lblOnlinePlayers.Content = "Online now:" + UsersStatus.Count;
         }
 
-        void SmbdLeaved()
+        private void SmbdLeaved()
         {
             RefreshUsersStatus();
         }
-   
-        void onlineListChanged(IEnumerable<DiscUser> newOnlineUsers)
+
+        private void onlineListChanged(IEnumerable<DiscUser> newOnlineUsers)
         {
-            RefreshUsersStatus();           
+            RefreshUsersStatus();
         }
 
-        void userJoins(DiscUser u)
+        private void userJoins(DiscUser u)
         {
             chatArea.Text += string.Format("{0} joins\n", u.Name);
         }
 
-        void userLeaves(DiscUser u)
+        private void userLeaves(DiscUser u)
         {
             chatArea.Text += string.Format("{0} leaves\n", u.Name);
         }

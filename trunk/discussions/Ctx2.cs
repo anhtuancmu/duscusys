@@ -13,13 +13,13 @@ namespace Discussions
     //this second singleton is used for private board to resolve conflicts
     public class Ctx2
     {
-        static StatsTrackingDbCtx ctx = null;
+        private static StatsTrackingDbCtx ctx = null;
 
         public static UISharedRTClient sharedClient = null;
 
         public static StatsTrackingDbCtx Get()
         {
-            if(ctx==null)
+            if (ctx == null)
             {
                 if (sharedClient == null)
                     throw new Exception();
@@ -43,7 +43,7 @@ namespace Discussions
 
         public static void DropContext()
         {
-            if(ctx!=null)
+            if (ctx != null)
             {
                 ctx = null;
                 SessionInfo.UpdateToNewCtx();

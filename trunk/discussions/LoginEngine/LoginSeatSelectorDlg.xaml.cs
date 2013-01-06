@@ -21,8 +21,9 @@ namespace Discussions
         public Seat SelectedSeat = null;
         public bool BackClicked = false;
 
-        ObservableCollection<Seat> _seats = null;
-        public ObservableCollection<Seat> Seats 
+        private ObservableCollection<Seat> _seats = null;
+
+        public ObservableCollection<Seat> Seats
         {
             get
             {
@@ -34,10 +35,7 @@ namespace Discussions
                 }
                 return _seats;
             }
-            set
-            {
-                _seats = value;
-            }
+            set { _seats = value; }
         }
 
         public LoginSeatSelectorDlg()

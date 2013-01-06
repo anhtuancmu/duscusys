@@ -23,32 +23,30 @@ namespace Discussions
     public partial class LoginDevTypeDlg : Window
     {
         public DeviceType SelectedDeviceType;
-        
+
         public bool BackClicked = false;
 
         public const string DEV_TYPE_ANDROID = "Android";
-        public const string DEV_TYPE_WPF     = "WPF";
-        public const string DEV_TYPE_STICKY  = "Sticky";
+        public const string DEV_TYPE_WPF = "WPF";
+        public const string DEV_TYPE_STICKY = "Sticky";
 
-        ObservableCollection<string> _devTypes = null;
+        private ObservableCollection<string> _devTypes = null;
+
         public ObservableCollection<string> DevTypes
         {
             get
             {
-                if(_devTypes==null)
+                if (_devTypes == null)
                 {
                     _devTypes = new ObservableCollection<string>();
                     _devTypes.Add(DEV_TYPE_ANDROID);
-                    _devTypes.Add(DEV_TYPE_WPF); 
-                    _devTypes.Add(DEV_TYPE_STICKY); 
+                    _devTypes.Add(DEV_TYPE_WPF);
+                    _devTypes.Add(DEV_TYPE_STICKY);
                 }
                 return _devTypes;
             }
-            set
-            {
-                _devTypes = value;
-            }
-        }   
+            set { _devTypes = value; }
+        }
 
         public LoginDevTypeDlg(Person selectedPerson)
         {
@@ -58,13 +56,13 @@ namespace Discussions
 
             SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);
 
-            if (selectedPerson!=null)
+            if (selectedPerson != null)
                 decorations.SetGreetingName(selectedPerson.Name);
         }
 
         private void lstBxDevType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch ((string)e.AddedItems[0])
+            switch ((string) e.AddedItems[0])
             {
                 case DEV_TYPE_ANDROID:
                     SelectedDeviceType = DeviceType.Android;
@@ -87,5 +85,5 @@ namespace Discussions
             BackClicked = true;
             Close();
         }
-    } 
+    }
 }

@@ -21,7 +21,8 @@ namespace Discussions
     public partial class AddCommentPopup : Popup
     {
         public delegate void CommentRequest(bool add);
-        public CommentRequest addCommentRequest; 
+
+        public CommentRequest addCommentRequest;
 
         public AddCommentPopup()
         {

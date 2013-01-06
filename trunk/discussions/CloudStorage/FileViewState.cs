@@ -7,10 +7,11 @@ using System.Windows.Data;
 
 namespace CloudStorage
 {
-    public class NavState : INotifyPropertyChanged 
+    public class NavState : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        void NotifyPropertyChanged(String propertyName)
+
+        private void NotifyPropertyChanged(String propertyName)
         {
             if (PropertyChanged != null)
             {
@@ -20,16 +21,15 @@ namespace CloudStorage
 
         //ID of currently viewer folder
         public string _currentFolderId = null;
+
         public string CurrentFolderId
         {
-            get
-            {
-                return _currentFolderId;
-            }
+            get { return _currentFolderId; }
         }
 
-        string _rootDisplayName = null;
+        private string _rootDisplayName = null;
         public string _currentFolderName = null;
+
         public string CurrentAddress
         {
             get
@@ -38,24 +38,22 @@ namespace CloudStorage
                 foreach (var pathElem in _stackOfParents.Reverse())
                 {
                     res += "/" + pathElem.Item2;
-                }              
+                }
                 return res;
             }
         }
 
         //id of the parent folder of currently viewed folder. If null, there is no parent folder.
-        Stack<Tuple<string, string>> _stackOfParents = new Stack<Tuple<string, string>>();
+        private Stack<Tuple<string, string>> _stackOfParents = new Stack<Tuple<string, string>>();
+
         public Stack<Tuple<string, string>> StackOfParents
         {
-            get
-            {
-                return _stackOfParents;
-            }
+            get { return _stackOfParents; }
         }
 
         public void LevelDown(string FolderToView, string displayName)
         {
-            if (_currentFolderId!=null)
+            if (_currentFolderId != null)
                 _stackOfParents.Push(new Tuple<string, string>(_currentFolderId, displayName));
 
             _currentFolderId = FolderToView;
@@ -73,7 +71,7 @@ namespace CloudStorage
                 return null; //we are at the root 
 
             var parent = _stackOfParents.Pop();
-            
+
             _currentFolderId = parent.Item1;
             NotifyPropertyChanged("CurrentFolderId");
 
@@ -87,7 +85,7 @@ namespace CloudStorage
         {
             _stackOfParents.Clear();
 
-            if (rootDisplayName!=null)
+            if (rootDisplayName != null)
                 _rootDisplayName = rootDisplayName;
 
             _currentFolderId = null;

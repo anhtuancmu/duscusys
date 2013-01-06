@@ -15,28 +15,31 @@ namespace DistributedEditor
          each client can have any palette owner at any time. 
          the same palette owner on 2 or more machines is ok. 
      */
-    
+
     public class CursorMgr : IDisposable
     {
-        VdDocument _doc;
+        private VdDocument _doc;
 
-        UISharedRTClient _rt = UISharedRTClient.Instance;
+        private UISharedRTClient _rt = UISharedRTClient.Instance;
 
         //owner selected currently in palette
-        IPaletteOwner _palette;
+        private IPaletteOwner _palette;
 
         public delegate void LocalCursorChanged(CursorMgr mgr);
+
         public LocalCursorChanged localCursorChanged;
 
         //has movement been detected during recent cursor ownership period ? 
-        bool _movementDetected = false;
+        private bool _movementDetected = false;
+
         public void MovementDetected()
         {
             _movementDetected = true;
         }
 
         //has movement been detected during recent cursor ownership period ? 
-        bool _resizeDetected = false; 
+        private bool _resizeDetected = false;
+
         public void ResizeDetected()
         {
             _resizeDetected = true;
@@ -54,15 +57,16 @@ namespace DistributedEditor
         {
             setListeners(false);
         }
-        
+
         //if local user (selected in palette) has cursor (only one), then it returns shape of the cursor 
-        IVdShape _localCursorShape;
+        private IVdShape _localCursorShape;
+
         public IVdShape LocalCursor
         {
             get
             {
                 if (_localCursorShape != null &&
-                    _localCursorShape.GetCursor()!=null &&
+                    _localCursorShape.GetCursor() != null &&
                     _localCursorShape.GetCursor().OwnerId == _palette.GetOwnerId() &&
                     _doc.Contains(_localCursorShape))
                     return _localCursorShape;
@@ -72,18 +76,12 @@ namespace DistributedEditor
                     return null;
                 }
             }
-            set
-            {
-                _localCursorShape = value;
-            }
+            set { _localCursorShape = value; }
         }
 
         public IVdShape LocalFocus
         {
-            get
-            {
-                return _doc.GetShapes().FirstOrDefault(sh=>sh.IsFocused()); 
-            }
+            get { return _doc.GetShapes().FirstOrDefault(sh => sh.IsFocused()); }
         }
 
         public void UnfocusAll()
@@ -100,10 +98,10 @@ namespace DistributedEditor
         /// </summary>
         /// <param name="ownId"></param>
         public void BeginFreeCursor(bool supressClusterMoveEvent)
-        {     
+        {
             //if currently we hold cursor on shape, remove it
             var ownedSh = DocTools.CursorOwnerToShape(_palette.GetOwnerId(), _doc.GetShapes());
-            if (ownedSh != null && ownedSh.GetCursor()!=null)
+            if (ownedSh != null && ownedSh.GetCursor() != null)
             {
                 _rt.clienRt.SendCursorRequest(false, _palette.GetOwnerId(), ownedSh.Id(), _doc.TopicId);
 
@@ -120,18 +118,18 @@ namespace DistributedEditor
                     else if (!supressClusterMoveEvent && ownedSh is VdCluster)
                     {
                         _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.ClusterMoved,
-                                                    ownedSh.GetCursor().OwnerId,
-                                                    _doc.DiscussionId,
-                                                    _doc.TopicId,
-                                                    Discussions.model.DeviceType.Wpf);
+                                                   ownedSh.GetCursor().OwnerId,
+                                                   _doc.DiscussionId,
+                                                   _doc.TopicId,
+                                                   Discussions.model.DeviceType.Wpf);
                     }
                     else if (ownedSh is VdFreeForm)
                     {
                         _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.FreeDrawingMoved,
-                                                    ownedSh.GetCursor().OwnerId,
-                                                    _doc.DiscussionId,
-                                                    _doc.TopicId,
-                                                    Discussions.model.DeviceType.Wpf);
+                                                   ownedSh.GetCursor().OwnerId,
+                                                   _doc.DiscussionId,
+                                                   _doc.TopicId,
+                                                   Discussions.model.DeviceType.Wpf);
                     }
                 }
 
@@ -140,10 +138,10 @@ namespace DistributedEditor
                     if (ownedSh is VdFreeForm)
                     {
                         _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.FreeDrawingResize,
-                                                    ownedSh.GetCursor().OwnerId,
-                                                    _doc.DiscussionId,
-                                                    _doc.TopicId,
-                                                    Discussions.model.DeviceType.Wpf);
+                                                   ownedSh.GetCursor().OwnerId,
+                                                   _doc.DiscussionId,
+                                                   _doc.TopicId,
+                                                   Discussions.model.DeviceType.Wpf);
                     }
                 }
 
@@ -153,18 +151,19 @@ namespace DistributedEditor
             }
 
             _movementDetected = false;
-            _resizeDetected = false; 
+            _resizeDetected = false;
         }
 
         public void PlayFreeCursor(int ownId, int shapeId)
         {
             var freedShape = _doc.IdToShape(shapeId);
-            if (freedShape!=null)            
-                freedShape.UnsetCursor();   
+            if (freedShape != null)
+                freedShape.UnsetCursor();
         }
 
-        bool cursorCaptureExpected = false;
-        bool pointUpEventDuringCursorCapture = false;
+        private bool cursorCaptureExpected = false;
+        private bool pointUpEventDuringCursorCapture = false;
+
         public void NotifyPointUpEvent()
         {
             if (cursorCaptureExpected)
@@ -176,13 +175,13 @@ namespace DistributedEditor
         public void BeginTakeShapeWithLocalCursor(int shapeId)
         {
             cursorCaptureExpected = true;
-            _rt.clienRt.SendCursorRequest(true, _palette.GetOwnerId(), shapeId, _doc.TopicId);         
+            _rt.clienRt.SendCursorRequest(true, _palette.GetOwnerId(), shapeId, _doc.TopicId);
         }
 
         public void PlayTakeCursor(int owner, int shapeId)
         {
             cursorCaptureExpected = false;
-            
+
             //if point up event is pending, and this cursor capture is our,  
             //we want to cancel cursor capture. locally it was not set, 
             //send cancellation to server 
@@ -210,10 +209,10 @@ namespace DistributedEditor
                 _localCursorShape = sh;
                 if (localCursorChanged != null)
                     localCursorChanged(this);
-            }                       
+            }
         }
 
-        void cursorEvent(CursorEvent ev)
+        private void cursorEvent(CursorEvent ev)
         {
             if (ev.topicId != _doc.TopicId)
                 return;
@@ -225,6 +224,7 @@ namespace DistributedEditor
         }
 
         #region photon events
+
         public void setListeners(bool doSet)
         {
             if (doSet)
@@ -232,6 +232,7 @@ namespace DistributedEditor
             else
                 _rt.clienRt.cursorEvent -= cursorEvent;
         }
+
         #endregion photon events
     }
 }

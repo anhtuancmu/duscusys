@@ -12,15 +12,15 @@ namespace Discussions
 {
     public class VerticallyUnscrollableInnerList : Behavior<UIElement>
     {
-        SurfaceScrollViewer _scroller;
-        SurfaceListBox _media;
+        private SurfaceScrollViewer _scroller;
+        private SurfaceListBox _media;
 
-        public VerticallyUnscrollableInnerList(SurfaceScrollViewer scroller,  SurfaceListBox media)
+        public VerticallyUnscrollableInnerList(SurfaceScrollViewer scroller, SurfaceListBox media)
         {
             _scroller = scroller;
             _media = media;
         }
-        
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -38,8 +38,8 @@ namespace Discussions
         }
 
 
-       // bool dragging = false;
-        void PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        // bool dragging = false;
+        private void PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //   e.Handled = true;
 
@@ -48,37 +48,37 @@ namespace Discussions
             //e2.Source = sender;
             //_scroller.RaiseEvent(e2);
 
-          //  _media.RaiseEvent(e);
-       //
-       ///     
+            //  _media.RaiseEvent(e);
+            //
+            ///     
         }
 
-        void PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-           // e.Handled = true;
+            // e.Handled = true;
             ///dragging = false;
-           
+
             var e2 = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, MouseButton.Left);
             e2.RoutedEvent = UIElement.MouseUpEvent;
             e2.Source = sender;
             _scroller.RaiseEvent(e2);
-            
-          //  _media.RaiseEvent(e);
-           //
+
+            //  _media.RaiseEvent(e);
+            //
         }
 
-        void PreviewMouseMove(object sender, MouseEventArgs e)
+        private void PreviewMouseMove(object sender, MouseEventArgs e)
         {
-           // e.Handled = true;
+            // e.Handled = true;
 
             var e3 = new MouseEventArgs(e.MouseDevice, e.Timestamp, e.StylusDevice);
             e3.RoutedEvent = UIElement.MouseMoveEvent;
             e3.Source = sender;
             _scroller.RaiseEvent(e3);
 
-            _media. RaiseEvent(e);
+            _media.RaiseEvent(e);
 
-           //
+            //
         }
     }
 }

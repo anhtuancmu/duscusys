@@ -10,13 +10,13 @@ namespace Discussions.RTModel
     public class ServerBaseVdShape : IServerVdShape
     {
         //immutable things
-        int _id;
-        int _initOwner;
-        VdShapeType _shapeType;
-        int _tag; 
+        private int _id;
+        private int _initOwner;
+        private VdShapeType _shapeType;
+        private int _tag;
 
-        ServerCursor _cursor;
-        Model.ShapeState _state;
+        private ServerCursor _cursor;
+        private Model.ShapeState _state;
 
         public ServerBaseVdShape(BinaryReader annotation)
         {
@@ -35,7 +35,7 @@ namespace Discussions.RTModel
         {
             return _id;
         }
-       
+
         public int Tag()
         {
             return _tag;
@@ -43,7 +43,7 @@ namespace Discussions.RTModel
 
         public int InitialOwner()
         {
-            return _initOwner; 
+            return _initOwner;
         }
 
         public VdShapeType ShapeCode()
@@ -84,14 +84,14 @@ namespace Discussions.RTModel
                 default:
                     CopyState(st, false);
                     break;
-            }                       
+            }
         }
 
-        void CopyState(Model.ShapeState st, bool ignoreNullBytes)
+        private void CopyState(Model.ShapeState st, bool ignoreNullBytes)
         {
             if (_state == null)
                 _state = new Model.ShapeState();
-            
+
             if (ignoreNullBytes)
             {
                 if (st.bytes != null)
@@ -112,10 +112,10 @@ namespace Discussions.RTModel
         }
 
         public bool Write(BinaryWriter annotation)
-        {           
+        {
             annotation.Write(_id);
             annotation.Write(_initOwner);
-            annotation.Write((int)_shapeType);
+            annotation.Write((int) _shapeType);
             annotation.Write(_tag);
 
             //for all shapes state should be present. if it is not, 
@@ -132,7 +132,7 @@ namespace Discussions.RTModel
         {
             _id = annotation.ReadInt32();
             _initOwner = annotation.ReadInt32();
-            _shapeType = (VdShapeType)annotation.ReadInt32();
+            _shapeType = (VdShapeType) annotation.ReadInt32();
             _tag = annotation.ReadInt32();
 
             _state = new Model.ShapeState();

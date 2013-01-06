@@ -17,8 +17,8 @@ namespace EventGen.timeline
 {
     public partial class CurrentMarker : UserControl
     {
-        TimelineView _timelineView;
-        Timeline _timeline;
+        private TimelineView _timelineView;
+        private Timeline _timeline;
 
         public CurrentMarker(TimelineView timelineView, Timeline timeline)
         {
@@ -34,7 +34,7 @@ namespace EventGen.timeline
             addToScene();
         }
 
-        void propertyChanged(object sender, PropertyChangedEventArgs e)
+        private void propertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "CurrentTime")
             {
@@ -42,7 +42,7 @@ namespace EventGen.timeline
             }
         }
 
-        void CurrentMarker_SizeChanged_1(object sender, SizeChangedEventArgs e)
+        private void CurrentMarker_SizeChanged_1(object sender, SizeChangedEventArgs e)
         {
             //sets current marker at correct zero position 
             updatePositionByModel();
@@ -50,10 +50,11 @@ namespace EventGen.timeline
 
         public void updatePositionByModel()
         {
-            Canvas.SetLeft(this, TimeScale.TimeToPosition(_timeline.CurrentTime, _timelineView.Zoom)-this.ActualWidth*0.5);                
+            Canvas.SetLeft(this,
+                           TimeScale.TimeToPosition(_timeline.CurrentTime, _timelineView.Zoom) - this.ActualWidth*0.5);
         }
 
-        void addToScene()
+        private void addToScene()
         {
             if (!_timelineView.Scene.Children.Contains(this))
             {

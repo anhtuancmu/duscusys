@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Discussions.RTModel
 {
-    class ScreenshotHandler
+    internal class ScreenshotHandler
     {
-        string ClientLocation()
+        private string ClientLocation()
         {
             var client1 = @"C:\Program Files (x86)\Discussion system\Discussions.exe";
             if (File.Exists(client1))
@@ -18,7 +18,7 @@ namespace Discussions.RTModel
                 return @"C:\Program Files\Discussion system\Discussions.exe";
         }
 
-        string TempDir()
+        private string TempDir()
         {
             string tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "discusys");
             if (!Directory.Exists(tempPath))
@@ -26,7 +26,7 @@ namespace Discussions.RTModel
             return tempPath;
         }
 
-        string RandomFilePath(string extension)
+        private string RandomFilePath(string extension)
         {
             return Path.Combine(TempDir(), Guid.NewGuid().ToString() + extension);
         }

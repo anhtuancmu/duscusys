@@ -21,17 +21,22 @@ namespace Discussions
     public partial class SurfaceCombobox : UserControl
     {
         public delegate void Selected(object selected);
-        public Selected OnSelected {get;set;}       
-        public object SelectedItem { get { return lstBxChoices.SelectedItem; } }
+
+        public Selected OnSelected { get; set; }
+
+        public object SelectedItem
+        {
+            get { return lstBxChoices.SelectedItem; }
+        }
 
         public SurfaceCombobox()
         {
             InitializeComponent();
         }
 
-        public void SetChoices(IEnumerable<object> choices, string displayMemberPath, object itemToSelect=null)
-        {           
-            if (displayMemberPath!=null)
+        public void SetChoices(IEnumerable<object> choices, string displayMemberPath, object itemToSelect = null)
+        {
+            if (displayMemberPath != null)
                 lstBxChoices.DisplayMemberPath = displayMemberPath;
 
             lstBxChoices.Items.Clear();
@@ -52,13 +57,13 @@ namespace Discussions
             {
                 lstBxChoices.SelectedItem = lstBxChoices.Items[0];
                 select(lstBxChoices.Items[0]);
-            }               
+            }
         }
 
         private void lstBxChoices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object selectedIt = null;
-                 
+
             if (e.AddedItems != null && e.AddedItems.Count > 0)
                 selectedIt = e.AddedItems[0];
 
@@ -66,7 +71,7 @@ namespace Discussions
             lstBxChoices.Visibility = Visibility.Hidden;
         }
 
-        void select(object s)
+        private void select(object s)
         {
             if (OnSelected != null)
             {
@@ -85,19 +90,19 @@ namespace Discussions
         private void lstBxChoices_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SurfaceListBoxItem item = Utils.findLBIUnderTouch(e);
-            if (item != null && item.Content!=null)
+            if (item != null && item.Content != null)
                 select(item.Content);
-           
-            lstBxChoices.Visibility = Visibility.Hidden;            
+
+            lstBxChoices.Visibility = Visibility.Hidden;
         }
 
         private void lstBxChoices_TouchUp(object sender, TouchEventArgs e)
         {
             SurfaceListBoxItem item = Utils.findLBIUnderTouch(e);
-            if (item != null && item.Content!=null)
+            if (item != null && item.Content != null)
                 select(item.Content);
 
-            lstBxChoices.Visibility = Visibility.Hidden;            
+            lstBxChoices.Visibility = Visibility.Hidden;
         }
     }
 }

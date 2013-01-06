@@ -5,11 +5,15 @@ using System.Text;
 
 namespace EventGen.timeline
 {
-    enum CommandDoneState { Done, NotDone }
+    internal enum CommandDoneState
+    {
+        Done,
+        NotDone
+    }
 
     public class CommandBase : ICommand
     {
-        CommandDoneState _doneState = CommandDoneState.NotDone;
+        private CommandDoneState _doneState = CommandDoneState.NotDone;
 
         public virtual void ToUndone()
         {

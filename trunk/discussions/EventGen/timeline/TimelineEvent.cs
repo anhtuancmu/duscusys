@@ -12,7 +12,7 @@ using EventGen.timeline;
 
 namespace EventGen
 {
-    public class TimelineEvent : INotifyPropertyChanged 
+    public class TimelineEvent : INotifyPropertyChanged
     {
         public TimelineEventView view;
         public StEvent e;
@@ -24,33 +24,31 @@ namespace EventGen
 
         public void Write(BinaryWriter w)
         {
-            w.Write((int)e);
+            w.Write((int) e);
             w.Write(userId);
             w.Write(discussionId);
-            w.Write(topicId);            
-            w.Write((int)devType);
+            w.Write(topicId);
+            w.Write((int) devType);
             w.Write(StickHeight);
             w.Write(Span.TotalSeconds);
         }
 
         public void Read(BinaryReader r)
         {
-            e = (StEvent)r.ReadInt32();
+            e = (StEvent) r.ReadInt32();
             userId = r.ReadInt32();
             discussionId = r.ReadInt32();
             topicId = r.ReadInt32();
-            devType = (DeviceType)r.ReadInt32();
+            devType = (DeviceType) r.ReadInt32();
             StickHeight = r.ReadDouble();
             Span = TimeSpan.FromSeconds(r.ReadDouble());
         }
-            
-        double stickHeigth = (new Random()).Next(150) + 20;//only used by event view 
+
+        private double stickHeigth = (new Random()).Next(150) + 20; //only used by event view 
+
         public double StickHeight
         {
-            get
-            {
-                return stickHeigth;
-            }
+            get { return stickHeigth; }
             set
             {
                 if (value != stickHeigth)
@@ -61,13 +59,11 @@ namespace EventGen
             }
         }
 
-        bool _isEvSelected = false;
+        private bool _isEvSelected = false;
+
         public bool IsEvSelected
         {
-            get
-            {
-                return _isEvSelected;
-            }
+            get { return _isEvSelected; }
             set
             {
                 if (value != _isEvSelected)
@@ -85,7 +81,7 @@ namespace EventGen
             get
             {
                 if (IsEvSelected)
-                    return new Thickness(10.0); 
+                    return new Thickness(10.0);
                 else
                     return new Thickness(1.0);
             }
@@ -102,43 +98,36 @@ namespace EventGen
             }
         }
 
-        string _userName = "";
+        private string _userName = "";
+
         public string UserName
         {
-            get
-            {
-                return _userName; 
-            }
+            get { return _userName; }
         }
 
-        string _eventName = "";
+        private string _eventName = "";
+
         public string EventName
         {
-            get
-            {
-                return _eventName;
-            }
-        }
-         
-        string _devName = "";
-        public string DeviceName
-        {
-            get
-            {
-                return _devName;
-            }
+            get { return _eventName; }
         }
 
-        SolidColorBrush _userColor;
-        public SolidColorBrush UserColor 
+        private string _devName = "";
+
+        public string DeviceName
         {
-            get
-            {
-                return _userColor;
-            }
+            get { return _devName; }
+        }
+
+        private SolidColorBrush _userColor;
+
+        public SolidColorBrush UserColor
+        {
+            get { return _userColor; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName)
         {
             if (PropertyChanged != null)
@@ -147,13 +136,11 @@ namespace EventGen
             }
         }
 
-        TimeSpan _timespan;
+        private TimeSpan _timespan;
+
         public TimeSpan Span
         {
-            get 
-            {
-                return _timespan;
-            }
+            get { return _timespan; }
 
             set
             {
@@ -168,36 +155,36 @@ namespace EventGen
             }
         }
 
-        public TimelineEvent(StEvent e, int userId, int discussionId, Timeline timeline, TimeSpan timespan, int topicId, DeviceType devType)
+        public TimelineEvent(StEvent e, int userId, int discussionId, Timeline timeline, TimeSpan timespan, int topicId,
+                             DeviceType devType)
         {
             this.timeline = timeline;
             this.e = e;
-            this.userId  = userId;
+            this.userId = userId;
             this.discussionId = discussionId;
-            this.Span    = timespan;
+            this.Span = timespan;
             this.topicId = topicId;
             this.devType = devType;
 
             var evm = new EventViewModel(e, userId, DateTime.Now, devType);
             _userColor = evm.userColor;
-            _userName  = evm.userName;
-            _devName   = evm.devType;
+            _userName = evm.userName;
+            _devName = evm.devType;
             _eventName = evm.evt;
         }
 
         public TimelineEvent(BinaryReader r, Timeline timeline)
         {
             this.timeline = timeline;
-            
+
             Read(r);
 
             //update view params
             var evm = new EventViewModel(e, userId, DateTime.Now, devType);
             _userColor = evm.userColor;
-            _userName  = evm.userName;
-            _devName   = evm.devType;
+            _userName = evm.userName;
+            _devName = evm.devType;
             _eventName = evm.evt;
         }
     }
 }
-

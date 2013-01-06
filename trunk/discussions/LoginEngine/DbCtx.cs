@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Discussions.DbModel;
 
 namespace LoginEngine
 {
     public class DbCtx
     {
-        static DiscCtx ctx = null;
+        private static DiscCtx ctx = null;
 
         public static DiscCtx Get()
         {
@@ -35,7 +32,7 @@ namespace LoginEngine
         {
             if (ctx != null)
             {
-                ctx = null;            
+                ctx = null;
             }
         }
     }

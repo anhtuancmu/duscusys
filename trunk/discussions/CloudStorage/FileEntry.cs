@@ -9,10 +9,10 @@ namespace CloudStorage
 {
     public class FileEntry
     {
-        public DateTime Modified {get;set;}
-        public string Title {get;set;}
+        public DateTime Modified { get; set; }
+        public string Title { get; set; }
         public ImageSource Image { get; set; }
-        public string IdString {get;set;}        
+        public string IdString { get; set; }
         public bool IsFolder { get; set; }
         public string GdocWebUrl { get; set; }
         public bool IsGDrive { get; set; } //true iif it's gdrive's file
@@ -44,7 +44,7 @@ namespace CloudStorage
             IdString = file.Id;
             IsFolder = GDriveStorage.IsFolder(file);
             GdocWebUrl = gdocWebUrl;
-            IsGDrive = true;                              
+            IsGDrive = true;
         }
     }
 }

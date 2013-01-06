@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 
 namespace Discussions.YouViewer
 {
-
     /// Uses XLINQ to create a List<see cref="YouTubeInfo">YouTubeInfo</see> using an Rss feed.
     /// 
     /// The following links are useful information regarding how the YouTube API works 
@@ -26,10 +25,13 @@ namespace Discussions.YouViewer
     public class YouTubeProvider
     {
         #region Data
+
         private const string SEARCH = "http://gdata.youtube.com/feeds/api/videos?q={0}&alt=rss&&max-results=20&v=1";
+
         #endregion
 
         #region Load Videos From Feed
+
         /// <summary>
         /// Returns a List<see cref="YouTubeInfo">YouTubeInfo</see> which represent
         /// the YouTube videos that matched the keyWord input parameter
@@ -38,16 +40,16 @@ namespace Discussions.YouViewer
         {
             try
             {
-                var xraw = XElement.Load(string.Format(SEARCH,keyWord));
+                var xraw = XElement.Load(string.Format(SEARCH, keyWord));
                 var xroot = XElement.Parse(xraw.ToString());
                 var links = (from item in xroot.Element("channel").Descendants("item")
                              select new YouTubeInfo
-                             {
-                                 LinkUrl = item.Element("link").Value,
-                                 EmbedUrl = GetEmbedUrlFromLink(item.Element("link").Value),
-                                 ThumbNailUrl = GetThumbNailUrlFromLink(item),
-                                 VideoTitle = GetTitleFromLink(item)
-                             }).Take(20);
+                                 {
+                                     LinkUrl = item.Element("link").Value,
+                                     EmbedUrl = GetEmbedUrlFromLink(item.Element("link").Value),
+                                     ThumbNailUrl = GetThumbNailUrlFromLink(item),
+                                     VideoTitle = GetTitleFromLink(item)
+                                 }).Take(20);
 
                 return links.ToList<YouTubeInfo>();
             }
@@ -64,7 +66,7 @@ namespace Discussions.YouViewer
             if (videoId == null)
                 videoId = getIdFromShortYoutubeURL(url);
             if (videoId == null)
-                videoId = HttpUtility.ParseQueryString(url).Get(0);                
+                videoId = HttpUtility.ParseQueryString(url).Get(0);
 
             if (videoId == null || videoId == "")
                 return null;
@@ -79,24 +81,24 @@ namespace Discussions.YouViewer
                 return null;
         }
 
-        static string getFirstParam(string url)
+        private static string getFirstParam(string url)
         {
             int i1 = url.IndexOf("?v=");
             int i2 = url.IndexOf("&");
-  
-            if (i1 != -1 && i2 != -1 && i1 + 3 < i2 - 1 && i2 - 1< url.Length)
-                return url.Substring(i1 + 3, i2 - (i1+3));
-            else
-                return null;            
-        }       
 
-        static string getIdFromShortYoutubeURL(string url)
+            if (i1 != -1 && i2 != -1 && i1 + 3 < i2 - 1 && i2 - 1 < url.Length)
+                return url.Substring(i1 + 3, i2 - (i1 + 3));
+            else
+                return null;
+        }
+
+        private static string getIdFromShortYoutubeURL(string url)
         {
             int i = url.IndexOf("http://youtu.be/");
-            if(i==-1)
+            if (i == -1)
                 return null;
             else
-                return url.Substring(i+16);                 
+                return url.Substring(i + 16);
         }
 
         #endregion
@@ -126,8 +128,8 @@ namespace Discussions.YouViewer
 
         private static string GetThumbNailUrlFromLink(XElement element)
         {
-            XElement group = null;            
-            string thumbnailUrl = @"../Images/logo.png";            
+            XElement group = null;
+            string thumbnailUrl = @"../Images/logo.png";
 
             foreach (XElement desc in element.Descendants())
             {
@@ -145,8 +147,8 @@ namespace Discussions.YouViewer
                     if (desc.Name.LocalName == "thumbnail")
                     {
                         thumbnailUrl = desc.Attribute("url").Value.ToString();
-                        break;                      
-                    }                 
+                        break;
+                    }
                 }
             }
 

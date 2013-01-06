@@ -10,9 +10,7 @@
 namespace Lite.Operations
 {
     using System.Collections;
-
     using Lite.Events;
-
     using Photon.SocketServer;
     using Photon.SocketServer.Rpc;
 
@@ -45,7 +43,7 @@ namespace Lite.Operations
         /// <summary>
         /// Gets or sets custom actor properties.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.ActorProperties, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.ActorProperties, IsOptional = true)]
         public Hashtable ActorProperties { get; set; }
 
         /// <summary>
@@ -53,13 +51,13 @@ namespace Lite.Operations
         /// should be included in the <see cref="JoinEvent"/> event which 
         /// will be sent to all clients currently in the room.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Broadcast, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Broadcast, IsOptional = true)]
         public bool BroadcastActorProperties { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the game (room).
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.GameId)]
+        [DataMember(Code = (byte) ParameterKey.GameId)]
         public string GameId { get; set; }
 
         /// <summary>
@@ -68,7 +66,7 @@ namespace Lite.Operations
         /// <remarks>
         /// Game properties will only be applied for the game creator.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.GameProperties, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.GameProperties, IsOptional = true)]
         public Hashtable GameProperties { get; set; }
     }
 }

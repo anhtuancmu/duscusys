@@ -12,30 +12,30 @@ using System.Windows.Interop;
 
 namespace Discussions.pdf_reader
 {
-    class AirspacePopup : Popup
+    internal class AirspacePopup : Popup
     {
         public static readonly DependencyProperty IsTopmostProperty =
-       DependencyProperty.Register("IsTopmost",
-                                   typeof(bool),
-                                   typeof(AirspacePopup),
-                                   new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
+            DependencyProperty.Register("IsTopmost",
+                                        typeof (bool),
+                                        typeof (AirspacePopup),
+                                        new FrameworkPropertyMetadata(false, OnIsTopmostChanged));
 
         public static readonly DependencyProperty FollowPlacementTargetProperty =
             DependencyProperty.RegisterAttached("FollowPlacementTarget",
-                                                typeof(bool),
-                                                typeof(AirspacePopup),
+                                                typeof (bool),
+                                                typeof (AirspacePopup),
                                                 new UIPropertyMetadata(false));
 
         public static readonly DependencyProperty AllowOutsideScreenPlacementProperty =
             DependencyProperty.RegisterAttached("AllowOutsideScreenPlacement",
-                                                typeof(bool),
-                                                typeof(AirspacePopup),
+                                                typeof (bool),
+                                                typeof (AirspacePopup),
                                                 new UIPropertyMetadata(false));
 
         public static readonly DependencyProperty ParentWindowProperty =
             DependencyProperty.RegisterAttached("ParentWindow",
-                                                typeof(Window),
-                                                typeof(AirspacePopup),
+                                                typeof (Window),
+                                                typeof (AirspacePopup),
                                                 new UIPropertyMetadata(null, ParentWindowPropertyChanged));
 
         private static void OnIsTopmostChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
@@ -59,28 +59,32 @@ namespace Discussions.pdf_reader
             Loaded += OnPopupLoaded;
             Unloaded += OnPopupUnloaded;
 
-            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromProperty(PlacementTargetProperty, typeof(AirspacePopup));
+            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromProperty(
+                PlacementTargetProperty, typeof (AirspacePopup));
             descriptor.AddValueChanged(this, PlacementTargetChanged);
         }
 
         public bool IsTopmost
         {
-            get { return (bool)GetValue(IsTopmostProperty); }
+            get { return (bool) GetValue(IsTopmostProperty); }
             set { SetValue(IsTopmostProperty, value); }
         }
+
         public bool FollowPlacementTarget
         {
-            get { return (bool)GetValue(FollowPlacementTargetProperty); }
+            get { return (bool) GetValue(FollowPlacementTargetProperty); }
             set { SetValue(FollowPlacementTargetProperty, value); }
         }
+
         public bool AllowOutsideScreenPlacement
         {
-            get { return (bool)GetValue(AllowOutsideScreenPlacementProperty); }
+            get { return (bool) GetValue(AllowOutsideScreenPlacementProperty); }
             set { SetValue(AllowOutsideScreenPlacementProperty, value); }
         }
+
         public Window ParentWindow
         {
-            get { return (Window)GetValue(ParentWindowProperty); }
+            get { return (Window) GetValue(ParentWindowProperty); }
             set { SetValue(ParentWindowProperty, value); }
         }
 
@@ -88,25 +92,17 @@ namespace Discussions.pdf_reader
         {
             if (ParentWindow != null)
             {
-                ParentWindow.LocationChanged += (sender, e2) =>
-                {
-                    UpdatePopupPosition();
-                };
-                ParentWindow.SizeChanged += (sender, e2) =>
-                {
-                    UpdatePopupPosition();
-                };
+                ParentWindow.LocationChanged += (sender, e2) => { UpdatePopupPosition(); };
+                ParentWindow.SizeChanged += (sender, e2) => { UpdatePopupPosition(); };
             }
         }
+
         private void PlacementTargetChanged(object sender, EventArgs e)
         {
             FrameworkElement placementTarget = this.PlacementTarget as FrameworkElement;
             if (placementTarget != null)
             {
-                placementTarget.SizeChanged += (sender2, e2) =>
-                {
-                    UpdatePopupPosition();
-                };
+                placementTarget.SizeChanged += (sender2, e2) => { UpdatePopupPosition(); };
             }
         }
 
@@ -137,27 +133,35 @@ namespace Discussions.pdf_reader
                 this.HorizontalOffset -= 0.01;
             }
         }
+
         private double CutLeft(FrameworkElement placementTarget)
         {
             Point point = placementTarget.PointToScreen(new Point(0, placementTarget.ActualWidth));
             return Math.Min(0, point.X);
         }
+
         private double CutTop(FrameworkElement placementTarget)
         {
             Point point = placementTarget.PointToScreen(new Point(placementTarget.ActualHeight, 0));
             return Math.Min(0, point.Y);
         }
+
         private double CutRight(FrameworkElement placementTarget)
         {
             Point point = placementTarget.PointToScreen(new Point(0, placementTarget.ActualWidth));
             point.X += placementTarget.ActualWidth;
-            return Math.Min(0, SystemParameters.VirtualScreenWidth - (Math.Max(SystemParameters.VirtualScreenWidth, point.X)));
+            return Math.Min(0,
+                            SystemParameters.VirtualScreenWidth -
+                            (Math.Max(SystemParameters.VirtualScreenWidth, point.X)));
         }
+
         private double CutBottom(FrameworkElement placementTarget)
         {
             Point point = placementTarget.PointToScreen(new Point(placementTarget.ActualHeight, 0));
             point.Y += placementTarget.ActualHeight;
-            return Math.Min(0, SystemParameters.VirtualScreenHeight - (Math.Max(SystemParameters.VirtualScreenHeight, point.Y)));
+            return Math.Min(0,
+                            SystemParameters.VirtualScreenHeight -
+                            (Math.Max(SystemParameters.VirtualScreenHeight, point.Y)));
         }
 
         private void OnPopupLoaded(object sender, RoutedEventArgs e)
@@ -169,7 +173,8 @@ namespace Discussions.pdf_reader
 
             if (Child != null)
             {
-                Child.AddHandler(PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(OnChildPreviewMouseLeftButtonDown), true);
+                Child.AddHandler(PreviewMouseLeftButtonDownEvent,
+                                 new MouseButtonEventHandler(OnChildPreviewMouseLeftButtonDown), true);
             }
 
             m_parentWindow = Window.GetWindow(this);
@@ -243,7 +248,7 @@ namespace Discussions.pdf_reader
 
             if (isTop)
             {
-                SetWindowPos(hwnd, HWND_TOPMOST, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                SetWindowPos(hwnd, HWND_TOPMOST, rect.Left, rect.Top, (int) Width, (int) Height, TOPMOST_FLAGS);
             }
             else
             {
@@ -251,17 +256,18 @@ namespace Discussions.pdf_reader
                 // the titlebar (as opposed to other parts of the external
                 // window) unless I first set the popup to HWND_BOTTOM
                 // then HWND_TOP before HWND_NOTOPMOST
-                SetWindowPos(hwnd, HWND_BOTTOM, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
-                SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
-                SetWindowPos(hwnd, HWND_NOTOPMOST, rect.Left, rect.Top, (int)Width, (int)Height, TOPMOST_FLAGS);
+                SetWindowPos(hwnd, HWND_BOTTOM, rect.Left, rect.Top, (int) Width, (int) Height, TOPMOST_FLAGS);
+                SetWindowPos(hwnd, HWND_TOP, rect.Left, rect.Top, (int) Width, (int) Height, TOPMOST_FLAGS);
+                SetWindowPos(hwnd, HWND_NOTOPMOST, rect.Left, rect.Top, (int) Width, (int) Height, TOPMOST_FLAGS);
             }
 
             m_appliedTopMost = isTop;
         }
 
         #region P/Invoke imports & definitions
-        #pragma warning disable 1591 //Xml-doc
-        #pragma warning disable 169 //Never used-warning
+
+#pragma warning disable 1591 //Xml-doc
+#pragma warning disable 169 //Never used-warning
         // ReSharper disable InconsistentNaming
         // Imports etc. with their naming rules
 
@@ -280,32 +286,33 @@ namespace Discussions.pdf_reader
 
         [DllImport("user32.dll")]
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X,
-        int Y, int cx, int cy, uint uFlags);
+                                                int Y, int cx, int cy, uint uFlags);
 
-        static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
-        static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
-        static readonly IntPtr HWND_TOP = new IntPtr(0);
-        static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+        private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        private static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+        private static readonly IntPtr HWND_TOP = new IntPtr(0);
+        private static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
         private const UInt32 SWP_NOSIZE = 0x0001;
-        const UInt32 SWP_NOMOVE = 0x0002;
-        const UInt32 SWP_NOZORDER = 0x0004;
-        const UInt32 SWP_NOREDRAW = 0x0008;
-        const UInt32 SWP_NOACTIVATE = 0x0010;
+        private const UInt32 SWP_NOMOVE = 0x0002;
+        private const UInt32 SWP_NOZORDER = 0x0004;
+        private const UInt32 SWP_NOREDRAW = 0x0008;
+        private const UInt32 SWP_NOACTIVATE = 0x0010;
 
-        const UInt32 SWP_FRAMECHANGED = 0x0020; /* The frame changed: send WM_NCCALCSIZE */
-        const UInt32 SWP_SHOWWINDOW = 0x0040;
-        const UInt32 SWP_HIDEWINDOW = 0x0080;
-        const UInt32 SWP_NOCOPYBITS = 0x0100;
-        const UInt32 SWP_NOOWNERZORDER = 0x0200; /* Don’t do owner Z ordering */
-        const UInt32 SWP_NOSENDCHANGING = 0x0400; /* Don’t send WM_WINDOWPOSCHANGING */
+        private const UInt32 SWP_FRAMECHANGED = 0x0020; /* The frame changed: send WM_NCCALCSIZE */
+        private const UInt32 SWP_SHOWWINDOW = 0x0040;
+        private const UInt32 SWP_HIDEWINDOW = 0x0080;
+        private const UInt32 SWP_NOCOPYBITS = 0x0100;
+        private const UInt32 SWP_NOOWNERZORDER = 0x0200; /* Don’t do owner Z ordering */
+        private const UInt32 SWP_NOSENDCHANGING = 0x0400; /* Don’t send WM_WINDOWPOSCHANGING */
 
-        const UInt32 TOPMOST_FLAGS =
+        private const UInt32 TOPMOST_FLAGS =
             SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING;
 
         // ReSharper restore InconsistentNaming
-        #pragma warning restore 1591
-        #pragma warning restore 169
+#pragma warning restore 1591
+#pragma warning restore 169
+
         #endregion
     }
 }

@@ -73,19 +73,22 @@ namespace Discussions
         }
 
         public Popup srcPopup;
+
         public SourceMover(Popup srcPopup)
         {
-            this.srcPopup = srcPopup; 
+            this.srcPopup = srcPopup;
         }
 
         public Source _srcToReposition = null;
+
         public void onSourceUpDown(object sender, RoutedEventArgs e)
         {
             try
             {
-                _srcToReposition = ((SourceUC)e.OriginalSource).DataContext as Source;
+                _srcToReposition = ((SourceUC) e.OriginalSource).DataContext as Source;
                 srcPopup.IsOpen = true;
-                HwndSource hwndSource = (HwndSource)PresentationSource.FromVisual((Visual)VisualTreeHelper.GetParent(srcPopup.Child));
+                HwndSource hwndSource =
+                    (HwndSource) PresentationSource.FromVisual((Visual) VisualTreeHelper.GetParent(srcPopup.Child));
                 hwndSource.EnableSurfaceInput();
             }
             catch (Exception)

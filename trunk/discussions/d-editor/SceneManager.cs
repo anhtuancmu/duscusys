@@ -18,44 +18,40 @@ using LoginEngine;
 using Microsoft.Surface.Presentation.Controls;
 
 namespace DistributedEditor
-{     
+{
     //coordination of drawing tools and controls/visibility, management of 
     //drawing state, invoking methods on document
     public class SceneManager : IDisposable
     {
-        Canvas _scene;
-        Palette _palette;
+        private Canvas _scene;
+        private Palette _palette;
 
-        DistributedInkCanvas _ink;
-        InkPalette _inkPalette;
+        private DistributedInkCanvas _ink;
+        private InkPalette _inkPalette;
 
-        InpModeMgr _modeMgr = new InpModeMgr();
+        private InpModeMgr _modeMgr = new InpModeMgr();
+
         public InpModeMgr ModeMgr
         {
-            get
-            {
-                return _modeMgr;
-            }
+            get { return _modeMgr; }
         }
 
-        VdDocument _doc;
+        private VdDocument _doc;
+
         public VdDocument Doc
         {
-            get
-            {
-                return _doc;
-            }
+            get { return _doc; }
         }
 
-        UISharedRTClient _rt = UISharedRTClient.Instance;
+        private UISharedRTClient _rt = UISharedRTClient.Instance;
 
-        CursorApprovalData cursorApproval;
+        private CursorApprovalData cursorApproval;
 
-        LinkCreationRecord linkCreation;
+        private LinkCreationRecord linkCreation;
 
-        ICaptionHost hostAwaitingCaption = null;
+        private ICaptionHost hostAwaitingCaption = null;
 
-        bool touchDevice = false;
+        private bool touchDevice = false;
 
         public SceneManager(Canvas scene, DistributedInkCanvas ink, Palette palette, InkPalette inkPalette,
                             int topicId, int discussionId, bool shapeVisibility)
@@ -71,36 +67,36 @@ namespace DistributedEditor
             Canvas.SetTop(_palette, 200);
 
             _doc = new VdDocument(palette, scene, ShapePostCtor, topicId, discussionId, shapeVisibility);
-           
+
             inkPalette.Init(FinishFreeDrawing, ink);
 
-            setListeners(true);           
+            setListeners(true);
         }
 
         public void Dispose()
         {
-            setListeners(false);   
+            setListeners(false);
         }
 
         public void FinishFreeDrawing()
         {
-            if(_ink.IsHitTestVisible)
-            {            
+            if (_ink.IsHitTestVisible)
+            {
                 _palette.ResetOvers();
                 FreeDrawingMode(false);
             }
         }
 
-        void FreeDrawingMode(bool doEnter)
+        private void FreeDrawingMode(bool doEnter)
         {
             if (doEnter)
             {
-                _ink.IsHitTestVisible  = true;
+                _ink.IsHitTestVisible = true;
                 _inkPalette.Visibility = Visibility.Visible;
-                _palette.Visibility    = Visibility.Hidden;
+                _palette.Visibility = Visibility.Hidden;
 
                 //set drawing attributes of current palette owner                
-                var da = _ink.DefaultDrawingAttributes.Clone();                
+                var da = _ink.DefaultDrawingAttributes.Clone();
                 da.Color = DaoUtils.UserIdToColor(_palette.GetOwnerId());
                 _ink.DefaultDrawingAttributes = da;
             }
@@ -116,11 +112,12 @@ namespace DistributedEditor
 
                 //while we have been drawing, somebody else could draw and still hasn't finalized drawing, so ink canvas can contain
                 //strokes from multiple authors
-                var ownStrokes = _ink.Strokes.Where(st => st.DrawingAttributes.Color == ownColor);                
+                var ownStrokes = _ink.Strokes.Where(st => st.DrawingAttributes.Color == ownColor);
                 if (ownStrokes.Count() > 0)
                 {
                     //don't take cursor for free draw
-                    var freeFrmSh = (VdFreeForm)_doc.BeginCreateShape(VdShapeType.FreeForm, 0, 0, false, DocTools.TAG_UNDEFINED);
+                    var freeFrmSh =
+                        (VdFreeForm) _doc.BeginCreateShape(VdShapeType.FreeForm, 0, 0, false, DocTools.TAG_UNDEFINED);
                     freeFrmSh.locallyJustCreated = true; //enable one-time stroke send
                     var ownStrokeCollection = new StrokeCollection(ownStrokes);
                     freeFrmSh.extractGeomtry(ownStrokeCollection, ownStrokeCollection.GetBounds());
@@ -130,7 +127,7 @@ namespace DistributedEditor
                     freeFrmSh.SetFocus();
 
                     //send state update to other clients
-                    SendSyncState(freeFrmSh);                 
+                    SendSyncState(freeFrmSh);
 
                     //remove own strokes
                     var notOwnStrokes = _ink.Strokes.Where(st => st.DrawingAttributes.Color != ownColor);
@@ -144,13 +141,14 @@ namespace DistributedEditor
             }
         }
 
-        void BeginHostCaption(ICaptionHost host, CaptionType type)
+        private void BeginHostCaption(ICaptionHost host, CaptionType type)
         {
             hostAwaitingCaption = host;
 
             RemovePreviousCaption(host, type);
         }
-        void RemovePreviousCaption(ICaptionHost cluster, CaptionType type)
+
+        private void RemovePreviousCaption(ICaptionHost cluster, CaptionType type)
         {
             if (hostAwaitingCaption.CapMgr().FreeDraw != null)
                 _doc.BeginRemoveSingleShape(hostAwaitingCaption.CapMgr().FreeDraw.Id());
@@ -158,7 +156,7 @@ namespace DistributedEditor
                 _doc.BeginRemoveSingleShape(hostAwaitingCaption.CapMgr().text.Id());
         }
 
-        void TryEndHostCaption(IVdShape caption, CaptionType type)
+        private void TryEndHostCaption(IVdShape caption, CaptionType type)
         {
             //inject caption
             if (hostAwaitingCaption == null)
@@ -168,8 +166,8 @@ namespace DistributedEditor
 
             if (caption is VdFreeForm)
             {
-                hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm)caption;
-                
+                hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm) caption;
+
                 //initial resize of free form
                 hostAwaitingCaption.CapMgr().InitialResizeOfFreeForm();
 
@@ -178,7 +176,7 @@ namespace DistributedEditor
             }
             else if (caption is VdText)
             {
-                hostAwaitingCaption.CapMgr().text = (VdText)caption;
+                hostAwaitingCaption.CapMgr().text = (VdText) caption;
                 SendSyncState(hostAwaitingCaption.CapMgr().text);
             }
             else
@@ -189,12 +187,12 @@ namespace DistributedEditor
 
             //send state of cluster to attach captions on other clients 
             SendSyncState(hostAwaitingCaption);
-               
-            hostAwaitingCaption = null;            
+
+            hostAwaitingCaption = null;
         }
 
         //we have editing permission if either shape is free or if shape is cursored by us
-        bool editingPermission(IVdShape sh)
+        private bool editingPermission(IVdShape sh)
         {
             var noPermission = sh.GetCursor() != null && sh.GetCursor().OwnerId != _palette.GetOwnerId();
             return !noPermission;
@@ -217,9 +215,9 @@ namespace DistributedEditor
             if (!editingPermission(sh))
             {
                 MessageBox.Show("Cannot remove shape under user cursor",
-                                 "No permission",
-                                 MessageBoxButton.OK,
-                                 MessageBoxImage.Error);
+                                "No permission",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                 return;
             }
 
@@ -233,7 +231,8 @@ namespace DistributedEditor
         //if we have editing permission for all own shapes, we can clear them all
         public void RemoveOwnShapes(int owner)
         {
-            var ownShapes = _doc.GetShapes().Where(sh => sh.InitialOwner() == owner && sh.ShapeCode() != VdShapeType.Badge);
+            var ownShapes =
+                _doc.GetShapes().Where(sh => sh.InitialOwner() == owner && sh.ShapeCode() != VdShapeType.Badge);
             foreach (var s in ownShapes)
                 if (!editingPermission(s))
                 {
@@ -261,20 +260,20 @@ namespace DistributedEditor
                 case VdShapeType.ClusterLink:
                     _modeMgr.Mode = ShapeInputMode.LinkedObj1Expected;
                     linkCreation.linkId = -1; //reset Id of previously locally created link
-                    linkCreation.headType = (LinkHeadType)shapeTag;
+                    linkCreation.headType = (LinkHeadType) shapeTag;
                     break;
                 case VdShapeType.FreeForm:
-                    _modeMgr.Mode = ShapeInputMode.CreationExpected;                    
+                    _modeMgr.Mode = ShapeInputMode.CreationExpected;
                     FreeDrawingMode(true);
                     break;
-                default:                   
+                default:
                     _modeMgr.Mode = ShapeInputMode.CreationExpected;
                     break;
             }
         }
 
-        void CreateManipulate(VdShapeType shapeType,
-                             double startX, double startY)
+        private void CreateManipulate(VdShapeType shapeType,
+                                      double startX, double startY)
         {
             if (shapeType == 0)
                 return;
@@ -284,11 +283,11 @@ namespace DistributedEditor
             if (shapeType == VdShapeType.FreeForm || shapeType == VdShapeType.Text)
                 TryEndHostCaption(sh, shapeType == VdShapeType.FreeForm ? CaptionType.FreeDraw : CaptionType.Text);
 
-            CaptureAndStartManip(sh, new Point(startX, startY), null, null);            
+            CaptureAndStartManip(sh, new Point(startX, startY), null, null);
             _modeMgr.Mode = ShapeInputMode.Manipulating;
         }
 
-        void GetLinkables(Point pos, TouchDevice d)
+        private void GetLinkables(Point pos, TouchDevice d)
         {
             Shape resizeNode = null;
             var sh = DocTools.DetectSelectedShape(_doc, pos, d, out resizeNode) as IVdShape;
@@ -327,17 +326,18 @@ namespace DistributedEditor
                     CreateManipulate(_palette.shapeType, pos.X, pos.Y);
                     if (_palette != null)
                         _palette.ResetOvers();
-                    return true;                    
-                case ShapeInputMode.LinkedObj1Expected:                   
+                    return true;
+                case ShapeInputMode.LinkedObj1Expected:
                     GetLinkables(pos, touchDev);
                     if (linkCreation.end1 != null)
                         ModeMgr.Mode = ShapeInputMode.LinkedObj2Expected;
-                    return true;   
+                    return true;
                 case ShapeInputMode.LinkedObj2Expected:
                     GetLinkables(pos, touchDev);
                     if (linkCreation.end1 != null && linkCreation.end2 != null)
                     {
-                        linkCreation.linkId = _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(), linkCreation.headType);                    
+                        linkCreation.linkId = _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(),
+                                                                   linkCreation.headType);
                         linkCreation.end1 = null;
                         linkCreation.end2 = null;
                         ModeMgr.Mode = ShapeInputMode.ManipulationExpected;
@@ -345,7 +345,7 @@ namespace DistributedEditor
                         if (_palette != null)
                             _palette.ResetOvers();
                     }
-                    return true;   
+                    return true;
                 case ShapeInputMode.ManipulationExpected:
                     //no current touch points on shapes (maybe touch points over empty space)
 
@@ -387,7 +387,7 @@ namespace DistributedEditor
             }
         }
 
-        void CaptureAndStartManip(IVdShape sh, Point pt, object sender, TouchDevice td)
+        private void CaptureAndStartManip(IVdShape sh, Point pt, object sender, TouchDevice td)
         {
             touchDevice = td != null;
 
@@ -398,7 +398,7 @@ namespace DistributedEditor
             Console.WriteLine("Scene Mgr : CaptureAndStartManip");
         }
 
-        void ReleaseCaptureAndFinishManip(IVdShape sh)
+        private void ReleaseCaptureAndFinishManip(IVdShape sh)
         {
             sh.UnderlyingControl().ReleaseMouseCapture();
             sh.UnderlyingControl().ReleaseAllTouchCaptures();
@@ -452,7 +452,7 @@ namespace DistributedEditor
             }
         }
 
-        void localCursorChanged(CursorMgr mgr)
+        private void localCursorChanged(CursorMgr mgr)
         {
             if (mgr.LocalCursor == null)
                 return;
@@ -462,9 +462,10 @@ namespace DistributedEditor
             {
                 case ShapeInputMode.CursorApprovalExpected:
                     _modeMgr.Mode = ShapeInputMode.Manipulating;
-                    CaptureAndStartManip(mgr.LocalCursor, cursorApproval.pos, cursorApproval.resizeNode, cursorApproval.td);
+                    CaptureAndStartManip(mgr.LocalCursor, cursorApproval.pos, cursorApproval.resizeNode,
+                                         cursorApproval.td);
                     mgr.LocalCursor.SetFocus();
-                    break;                
+                    break;
             }
         }
 
@@ -479,36 +480,36 @@ namespace DistributedEditor
 
         #region multitouch manipulations
 
-        void ShapePostCtor(IVdShape sh, VdShapeType shapeType)
+        private void ShapePostCtor(IVdShape sh, VdShapeType shapeType)
         {
             var ctl = sh.UnderlyingControl();
             ctl.IsManipulationEnabled = true;
-            ctl.ManipulationStarting  += ManipulationStarting;
-            ctl.ManipulationDelta     += ManipulationDelta;
+            ctl.ManipulationStarting += ManipulationStarting;
+            ctl.ManipulationDelta += ManipulationDelta;
             ctl.ManipulationCompleted += ManipulationCompleted;
-          
+
             switch (shapeType)
             {
                 case VdShapeType.Text:
-                    ((VdText)sh).onChanged += onTextChanged;
+                    ((VdText) sh).onChanged += onTextChanged;
                     break;
                 case VdShapeType.Cluster:
-                    ((ICaptionHost)sh).InitCaptions(CaptionCreationRequested);
+                    ((ICaptionHost) sh).InitCaptions(CaptionCreationRequested);
                     break;
                 case VdShapeType.ClusterLink:
-                    ((ICaptionHost)sh).InitCaptions(CaptionCreationRequested);
-                   
+                    ((ICaptionHost) sh).InitCaptions(CaptionCreationRequested);
+
                     //if the link was created locally, send its state 
                     if (sh.Id() == linkCreation.linkId)
                     {
                         SendSyncState(sh);
-                        linkCreation.linkId = -1; 
+                        linkCreation.linkId = -1;
                     }
                     break;
-            }           
+            }
         }
 
-        void CaptionCreationRequested(CaptionType type, ICaptionHost host)
+        private void CaptionCreationRequested(CaptionType type, ICaptionHost host)
         {
             BeginHostCaption(host, type);
             switch (type)
@@ -520,27 +521,27 @@ namespace DistributedEditor
                     //emulate text creation              
                     _palette.shapeType = VdShapeType.Text;
                     EnterShapeCreationMode(VdShapeType.Text, -1);
-                    
+
                     var clickLocation = host.capOrgProvider();
-                    InpDeviceDown(new Point(clickLocation.X, clickLocation.Y), null);                   
+                    InpDeviceDown(new Point(clickLocation.X, clickLocation.Y), null);
                     break;
             }
         }
-        
-        void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
+
+        private void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
             e.ManipulationContainer = _scene;
             e.Handled = true;
 
-            var underContact = (IVdShape)((FrameworkElement)sender).Tag;
+            var underContact = (IVdShape) ((FrameworkElement) sender).Tag;
 
             underContact.ManipulationStarting(sender, e);
             Console.WriteLine("Scene Mgr : ManipulationStarting");
         }
 
-        void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        private void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
-            if  (_doc.clusterRebuildPending)
+            if (_doc.clusterRebuildPending)
                 return;
 
             var localCurs = _doc.VolatileCtx.LocalCursor;
@@ -560,9 +561,10 @@ namespace DistributedEditor
             NotifyClusterableMoved(localCurs);
 
             if (localCurs.ShapeCode() == VdShapeType.Cluster)
-                updateHostCaptions((VdCluster)localCurs);
+                updateHostCaptions((VdCluster) localCurs);
         }
-        void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+
+        private void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
             var localCurs = _doc.VolatileCtx.LocalCursor;
             if (localCurs != null)
@@ -570,17 +572,18 @@ namespace DistributedEditor
                 localCurs.ManipulationCompleted(sender, e);
             }
         }
-        void onTextChanged(VdText text)
-        {          
+
+        private void onTextChanged(VdText text)
+        {
             SendSyncState(text);
         }
 
-        void SendSyncState(IVdShape sh)
+        private void SendSyncState(IVdShape sh)
         {
             _rt.clienRt.SendSyncState(sh.Id(), sh.GetState(_doc.TopicId));
         }
 
-        void updateHostCaptions(ICaptionHost capHost)
+        private void updateHostCaptions(ICaptionHost capHost)
         {
             capHost.CapMgr().SetBounds();
         }
@@ -613,7 +616,7 @@ namespace DistributedEditor
                     throw new NotSupportedException();
             }
 
-            SendSyncState(sh);                
+            SendSyncState(sh);
 
             switch (sh.ShapeCode())
             {
@@ -622,12 +625,12 @@ namespace DistributedEditor
                     break;
                 case VdShapeType.Cluster:
                 case VdShapeType.ClusterLink:
-                    updateHostCaptions((ICaptionHost)sh);
+                    updateHostCaptions((ICaptionHost) sh);
                     break;
-            }        
+            }
         }
 
-        void NotifyClusterableMoved(IVdShape sh)
+        private void NotifyClusterableMoved(IVdShape sh)
         {
             if (sh.ShapeCode() == VdShapeType.Badge)
             {
@@ -635,12 +638,12 @@ namespace DistributedEditor
                 //todo: optimization possible
                 foreach (var clust in clustShapes)
                 {
-                    ((VdCluster)clust).ClusterableMoved(((VdBadge)sh).GetClusterable());
+                    ((VdCluster) clust).ClusterableMoved(((VdBadge) sh).GetClusterable());
                 }
             }
         }
 
-        void syncStateEvent(ShapeState state)
+        private void syncStateEvent(ShapeState state)
         {
             if (state.topicId != _doc.TopicId)
                 return;
@@ -648,7 +651,7 @@ namespace DistributedEditor
             PlaySyncStateEvent(state);
         }
 
-        void PlaySyncStateEvent(ShapeState state)
+        private void PlaySyncStateEvent(ShapeState state)
         {
             var sh = _doc.IdToShape(state.shapeId);
             if (sh == null)
@@ -660,13 +663,13 @@ namespace DistributedEditor
             sh.ApplyState(state);
         }
 
-        void ReloadBadgeContexts()
+        private void ReloadBadgeContexts()
         {
             DbCtx.DropContext();
             DocTools.ToggleBadgeContexts(_doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
         }
 
-        void argPointChanged(int ArgPointId, int topicId, PointChangedType change)
+        private void argPointChanged(int ArgPointId, int topicId, PointChangedType change)
         {
             if (topicId != _doc.TopicId)
                 return;
@@ -687,7 +690,7 @@ namespace DistributedEditor
             }
         }
 
-        void inkStateEvent(InkMessage ink)
+        private void inkStateEvent(InkMessage ink)
         {
             if (ink.topicId != _doc.TopicId)
                 return;
@@ -695,11 +698,11 @@ namespace DistributedEditor
             PlayInkEvent(ink);
         }
 
-        void PlayInkEvent(InkMessage ink)
+        private void PlayInkEvent(InkMessage ink)
         {
             if (!_doc.ShapeVisibility)
                 return;
-            
+
             var s = new MemoryStream();
             s.Write(ink.inkData, 0, ink.inkData.Length);
             s.Position = 0;
@@ -707,12 +710,7 @@ namespace DistributedEditor
             _ink.Strokes.Add(new StrokeCollection(s));
         }
 
-        //void OnLocalInkChanged()
-        //{
-        //    sendLocalInk();
-        //}
-
-        void sendLocalInk()
+        private void sendLocalInk()
         {
             using (var s = new MemoryStream())
             {
@@ -721,7 +719,17 @@ namespace DistributedEditor
             }
         }
 
+        public void SetNotification(int argPointId, bool notificationExists)
+        {
+            //find badge with arg.point Id
+            var theBadge = Doc.GetShapes().FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge &&
+                                                                ((VdBadge) sh).ArgPtId == argPointId) as VdBadge;
+            if (theBadge != null)
+                theBadge.Badge.ToggleNotification(notificationExists);
+        }
+
         #region photon events
+
         public void setListeners(bool doSet)
         {
             if (doSet)
@@ -731,7 +739,7 @@ namespace DistributedEditor
             }
             else
             {
-               // _ink.OnInkChanged -= OnLocalInkChanged;
+                // _ink.OnInkChanged -= OnLocalInkChanged;
                 _doc.VolatileCtx.localCursorChanged -= localCursorChanged;
             }
 
@@ -750,6 +758,7 @@ namespace DistributedEditor
             else
                 _rt.clienRt.inkEvent -= inkStateEvent;
         }
+
         #endregion photon events
     }
 }

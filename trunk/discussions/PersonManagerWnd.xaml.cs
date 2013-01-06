@@ -28,26 +28,21 @@ namespace Discussions
     /// </summary>
     public partial class PersonManagerWnd : SurfaceWindow
     {
-        bool changesExist = false;
+        private bool changesExist = false;
 
-        UISharedRTClient _sharedClient = null;
+        private UISharedRTClient _sharedClient = null;
 
         //persons are unique in the speakers
-        ObservableCollection<Person> _persons;
+        private ObservableCollection<Person> _persons;
+
         public ObservableCollection<Person> persons
         {
-            get
-            {
-                return _persons;
-            }
-            set
-            {
-                _persons = value;
-            }
+            get { return _persons; }
+            set { _persons = value; }
         }
 
-        Discussions.Main.OnDiscFrmClosing _closing;
-                
+        private Discussions.Main.OnDiscFrmClosing _closing;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -146,7 +141,7 @@ namespace Discussions
                     {
                         ctx.Person.AddObject(prev);
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         //persons in modified are ignored
                     }
@@ -155,7 +150,7 @@ namespace Discussions
             ctx.SaveChanges();
 
             if (changesExist)
-                _sharedClient.clienRt.SendUserAccPlusMinus();   
+                _sharedClient.clienRt.SendUserAccPlusMinus();
 
             Close();
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DistributedEditor
 {
-    struct LinkCreationRecord
+    internal struct LinkCreationRecord
     {
         public ClientLinkable end1;
         public ClientLinkable end2;

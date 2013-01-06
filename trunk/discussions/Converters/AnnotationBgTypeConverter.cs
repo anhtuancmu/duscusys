@@ -16,10 +16,11 @@ namespace Discussions.VectorEditor
             if (value == null)
                 return "In-place background";
             else
-                return "Raster background";                    
+                return "Raster background";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

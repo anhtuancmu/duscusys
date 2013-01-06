@@ -10,7 +10,6 @@
 namespace Lite.Operations
 {
     using System.Collections;
-
     using Photon.SocketServer;
     using Photon.SocketServer.Rpc;
 
@@ -49,25 +48,25 @@ namespace Lite.Operations
         /// <summary>
         ///   Gets or sets the actor numbers for which to get the properties.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Actors, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Actors, IsOptional = true)]
         public int[] ActorNumbers { get; set; }
 
         /// <summary>
         ///   Gets or sets ActorPropertyKeys.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.ActorProperties, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.ActorProperties, IsOptional = true)]
         public IList ActorPropertyKeys { get; set; }
 
         /// <summary>
         ///   Gets or sets GamePropertyKeys.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.GameProperties, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.GameProperties, IsOptional = true)]
         public IList GamePropertyKeys { get; set; }
 
         /// <summary>
         ///   Gets or sets PropertyType.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Properties, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Properties, IsOptional = true)]
         public byte PropertyType { get; set; }
 
         #endregion

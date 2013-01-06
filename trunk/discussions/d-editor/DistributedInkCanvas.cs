@@ -13,7 +13,7 @@ namespace DistributedEditor
 {
     public class DistributedInkCanvas : SurfaceInkCanvas
     {
-        InkInterceptorPlugin interceptor = new InkInterceptorPlugin();
+        private InkInterceptorPlugin interceptor = new InkInterceptorPlugin();
 
         public Action OnInkChanged;
 
@@ -26,13 +26,13 @@ namespace DistributedEditor
             //this.StrokeErased += strokeErased;
         }
 
-        void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
+        private void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
             if (OnInkChanged != null)
-                OnInkChanged();           
+                OnInkChanged();
         }
 
-        void strokeErased(object sender, RoutedEventArgs e)
+        private void strokeErased(object sender, RoutedEventArgs e)
         {
             if (OnInkChanged != null)
                 OnInkChanged();

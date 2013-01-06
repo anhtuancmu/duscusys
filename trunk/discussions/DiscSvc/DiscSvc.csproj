@@ -48,46 +48,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4">
+      <HintPath>..\bin\Debug\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon3DotNet">
+      <HintPath>..\CloudStorage\bin\Debug\Photon3DotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Services" />
     <Reference Include="System.Data.Services.Client" />
-    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20505.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.0.20505.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20505.0\lib\net40\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20505.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +74,8 @@
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="DiscSvc.svc" />
+    <Content Include="Reporting\report.css" />
+    <Content Include="Reporting\ReportTestPage.html" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -161,6 +140,18 @@
       <DependentUpon>DiscBgHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\LinkObject.cs" />
+    <Compile Include="Reporting\PartialReport.cs" />
+    <Compile Include="Reporting\Helpers.cs" />
+    <Compile Include="Reporting\Report.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Report.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\ReportingHandler.cs" />
+    <Compile Include="Reporting\QueryParams.cs" />
+    <Compile Include="Reporting\ReportParameters.cs" />
+    <Compile Include="Reporting\ReportingPhotonClient.cs" />
     <Compile Include="ScreenshotHandler.ashx.cs">
       <DependentUpon>ScreenshotHandler.ashx</DependentUpon>
     </Compile>
@@ -184,6 +175,22 @@
       <Project>{a833b419-0de5-4b12-8c15-31995eb1dc27}</Project>
       <Name>DbModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DiscussionsClientRT\DiscussionsClientRT.csproj">
+      <Project>{d27f5b02-47d2-4036-8703-05435ec2511d}</Project>
+      <Name>DiscussionsClientRT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DiscussionsRT\DiscussionsRT.csproj">
+      <Project>{f9aa08f9-c441-4bda-8029-dc702643b09a}</Project>
+      <Name>DiscussionsRT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoginEngine\LoginEngine.csproj">
+      <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
+      <Name>LoginEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reporter\Reporter.csproj">
+      <Project>{5204d876-80f1-48cf-b1e9-36bb44e55640}</Project>
+      <Name>Reporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -193,6 +200,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ScreenshotHandler.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reporting\Report.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Report.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -10,7 +10,6 @@
 namespace Lite.Events
 {
     using Lite.Operations;
-
     using Photon.SocketServer.Rpc;
 
     /// <summary>
@@ -33,7 +32,7 @@ namespace Lite.Events
         /// Gets or sets the actor number of the sender.
         /// </summary>
         /// <value>The actor nr.</value>
-        [DataMember(Code = (byte)ParameterKey.ActorNr)]
+        [DataMember(Code = (byte) ParameterKey.ActorNr)]
         public int ActorNr { get; set; }
 
         /// <summary>

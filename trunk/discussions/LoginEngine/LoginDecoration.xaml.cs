@@ -13,20 +13,20 @@ using System.Windows.Shapes;
 
 namespace Discussions
 {
-	/// <summary>
-	/// Interaction logic for LoginDecoration.xaml
-	/// </summary>
-	public partial class LoginDecoration : UserControl
-	{
-		public LoginDecoration()
-		{
-			this.InitializeComponent();
-		}
+    /// <summary>
+    /// Interaction logic for LoginDecoration.xaml
+    /// </summary>
+    public partial class LoginDecoration : UserControl
+    {
+        public LoginDecoration()
+        {
+            this.InitializeComponent();
+        }
 
         public void SetGreetingName(string name)
         {
             lblName.Content = name;
             lblName.Visibility = Visibility.Visible;
         }
-	}
+    }
 }

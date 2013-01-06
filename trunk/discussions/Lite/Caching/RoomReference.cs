@@ -75,10 +75,7 @@ namespace Lite.Caching
         /// </summary>
         public Guid Id
         {
-            get
-            {
-                return this.id;
-            }
+            get { return this.id; }
         }
 
         /// <summary>

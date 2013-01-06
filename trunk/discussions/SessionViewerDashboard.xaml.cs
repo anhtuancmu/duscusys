@@ -24,27 +24,26 @@ using Discussions.DbModel;
 using Discussions.rt;
 
 namespace Discussions
-{   
+{
     public partial class SessionViewerDashboard : SurfaceWindow
     {
-        ObservableCollection<SeatUserViewModel> _seatUsers = null;
+        private ObservableCollection<SeatUserViewModel> _seatUsers = null;
+
         public ObservableCollection<SeatUserViewModel> SeatUsers
         {
             get
             {
                 if (_seatUsers == null)
                 {
-                    _seatUsers = new ObservableCollection<SeatUserViewModel>();                     
+                    _seatUsers = new ObservableCollection<SeatUserViewModel>();
                 }
                 return _seatUsers;
             }
-            set
-            {
-                _seatUsers = value; 
-            }
+            set { _seatUsers = value; }
         }
 
-        ObservableCollection<Session> _sessions = null;
+        private ObservableCollection<Session> _sessions = null;
+
         public ObservableCollection<Session> Sessions
         {
             get
@@ -55,10 +54,7 @@ namespace Discussions
                 }
                 return _sessions;
             }
-            set
-            {
-                _sessions = value;
-            }
+            set { _sessions = value; }
         }
 
         public SessionViewerDashboard()
@@ -69,7 +65,7 @@ namespace Discussions
         }
 
         private void lstSesions_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {                 
+        {
             var session = lstSessions.SelectedItem as Session;
             if (session == null)
                 return;
@@ -77,8 +73,8 @@ namespace Discussions
             var sessionId = session.Id;
 
             var ctx = CtxSingleton.Get();
-            var personsOfSession = ctx.Person.Where(p0=>p0.Session!=null && p0.Session.Id == sessionId);
-                       
+            var personsOfSession = ctx.Person.Where(p0 => p0.Session != null && p0.Session.Id == sessionId);
+
             SeatUsers.Clear();
             foreach (var pers in personsOfSession.ToArray())
             {
@@ -88,14 +84,14 @@ namespace Discussions
                 //find discussion of person in this session 
                 var persId = pers.Id;
                 var discussionsOfPerson =
-                           (from t in ctx.Topic
-                            where t.Person.Any(p0 => p0.Id == persId)
-                            select t.Discussion).Distinct();
+                    (from t in ctx.Topic
+                     where t.Person.Any(p0 => p0.Id == persId)
+                     select t.Discussion).Distinct();
 
                 if (discussionsOfPerson.Count() > 0)
                 {
                     SeatUsers.Add(new SeatUserViewModel(pers.Seat.SeatName, pers.Seat.Color,
-                                                       pers.Name, discussionsOfPerson.First().Subject));
+                                                        pers.Name, discussionsOfPerson.First().Subject));
                 }
             }
         }
@@ -110,11 +106,11 @@ namespace Discussions
             CtxSingleton.DropContext();
 
             _sessions = new ObservableCollection<Session>(CtxSingleton.Get().Session);
-           
-           //trigger update of seat/users 
-           var prevSelSession = lstSessions.SelectedItem;
-           lstSessions.SelectedItem = null;
-           lstSessions.SelectedItem = prevSelSession;
+
+            //trigger update of seat/users 
+            var prevSelSession = lstSessions.SelectedItem;
+            lstSessions.SelectedItem = null;
+            lstSessions.SelectedItem = prevSelSession;
         }
     }
 }

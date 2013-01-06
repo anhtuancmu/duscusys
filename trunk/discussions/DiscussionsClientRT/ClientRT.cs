@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ExitGames.Client.Photon;
 using Discussions.RTModel.Operations;
-using System.Threading;
 using System.Collections;
-using Discussions.RTModel;
 using ExitGames.Client.Photon.Lite;
 using Discussions.RTModel.Model;
-using Lite.Events;
 using Lite.Operations;
 using Discussions.model;
 using DistributedEditor;
-using Discussions.DbModel;
 
 namespace DiscussionsClientRT
 {
@@ -22,109 +17,138 @@ namespace DiscussionsClientRT
         public static readonly string LOBBY = "discussion_lobby";
 
         public delegate void OnJoin();
+
         public OnJoin onJoin;
 
-        public delegate void StructureChanged(int activeTopic, int initiaterId, DeviceType devType); 
+        public delegate void StructureChanged(int activeTopic, int initiaterId, DeviceType devType);
+
         public StructureChanged onStructChanged;
 
-        public delegate void UserLeaves(DiscUser usr); 
+        public delegate void UserLeaves(DiscUser usr);
+
         public UserLeaves userLeaves;
 
         public delegate void UserJoins(DiscUser usr);
+
         public UserJoins userJoins;
 
         public delegate void OnlineListChanged(IEnumerable<DiscUser> onlineUsers);
+
         public OnlineListChanged onlineListChanged;
 
         //public delegate void SrvGeometryRequest();
         //public SrvGeometryRequest srvGeometryRequest;
 
         public delegate void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change);
+
         public ArgPointChanged argPointChanged;
 
         public delegate void InstantSomebodyLeaved();
+
         public InstantSomebodyLeaved smbdLeaved;
-           
+
         public delegate void UserAccPlusMinus();
+
         public UserAccPlusMinus userAccPlusMinus;
 
-        public delegate void OnStatsEvent(StEvent e, int userId, int discussionId, 
+        public delegate void OnStatsEvent(StEvent e, int userId, int discussionId,
                                           int topicId, DeviceType devType);
+
         public OnStatsEvent onStatsEvent;
 
         public delegate void OnBadgeViewRequest(BadgeViewMessage bv);
+
         public OnBadgeViewRequest onBadgeViewRequest;
 
         public delegate void OnSourceViewRequest(ExplanationModeSyncMsg sv);
+
         public OnSourceViewRequest onSourceViewRequest;
 
         #region vector editor
 
         public delegate void OnLinkCreateEvent(LinkCreateMessage ev);
+
         public OnLinkCreateEvent onLinkCreateEvent;
 
         public delegate void OnUnclusterBadgeEvent(UnclusterBadgeMessage ev);
+
         public OnUnclusterBadgeEvent onUnclusterBadgeEvent;
 
         public delegate void OnClusterBadgeEvent(ClusterBadgeMessage ev);
+
         public OnClusterBadgeEvent onClusterBadgeEvent;
 
         public delegate void OnClusterCreateEvent(ClusterCreateMessage ev);
+
         public OnClusterCreateEvent onClusterCreateEvent;
 
         public delegate void OnCursorEvent(CursorEvent ev);
+
         public OnCursorEvent cursorEvent;
 
         public delegate void OnCreateShapeEvent(CreateShape ev);
+
         public OnCreateShapeEvent createShapeEvent;
 
         public delegate void OnUnselectAll(UnselectAllEvent ev);
+
         public OnUnselectAll unselectAll;
 
         public delegate void OnDeleteSingleShape(DeleteSingleShapeEvent ev);
+
         public OnDeleteSingleShape deleteSingleShape;
 
         public delegate void OnApplyPoint(PointMove ev);
+
         public OnApplyPoint applyPoint;
 
         public delegate void SyncStateEvent(ShapeState st);
+
         public SyncStateEvent syncStateEvent;
 
         public delegate void InkEvent(InkMessage ink);
+
         public InkEvent inkEvent;
 
         public delegate void LoadingDoneEvent();
+
         public LoadingDoneEvent loadingDoneEvent;
 
         #endregion vector editor 
 
         #region reporting
+
         public delegate void DEditorReportResponse(DEditorStatsResponse resp);
+
         public DEditorReportResponse dEditorReportResponse;
 
         public delegate void ClusterStatsResponseEvent(ClusterStatsResponse resp, bool ok);
+
         public ClusterStatsResponseEvent clusterStatsResponse;
 
         public delegate void LinkStatsResponseEvent(LinkReportResponse resp, bool ok);
+
         public LinkStatsResponseEvent linkStatsResponseEvent;
 
         public delegate void OnScreenshotResponse(Dictionary<int, byte[]> resp);
+
         public OnScreenshotResponse onScreenshotResponse;
+
         #endregion reporting
 
-        LiteLobbyPeer peer;
-        Hashtable gameList = new Hashtable();
-        Dictionary<int, DiscUser> usersOnline = new Dictionary<int, DiscUser>();        
+        private LiteLobbyPeer peer;
+        private Hashtable gameList = new Hashtable();
+        private Dictionary<int, DiscUser> usersOnline = new Dictionary<int, DiscUser>();
 
-        int discussionId;
-        string dbSrvAddr;
-        DeviceType devType;
+        private int discussionId;
+        private string dbSrvAddr;
+        private DeviceType devType;
 
-        DiscUser localUsr = new DiscUser();
+        private DiscUser localUsr = new DiscUser();
 
-        static string APP_NAME = "DiscussionsRT";
+        private static string APP_NAME = "DiscussionsRT";
 
-        public ClientRT(int discussionId, string dbSrvAddr, string UsrName, int usrDbId,  DeviceType devType)
+        public ClientRT(int discussionId, string dbSrvAddr, string UsrName, int usrDbId, DeviceType devType)
         {
             this.discussionId = discussionId;
             this.dbSrvAddr = dbSrvAddr;
@@ -159,14 +183,14 @@ namespace DiscussionsClientRT
             }
         }
 
-        void DbgPrintOnlineList()
+        private void DbgPrintOnlineList()
         {
             if (onlineListChanged != null)
                 onlineListChanged(usersOnline.Values);
-            
+
             Console.WriteLine(">>************************");
             foreach (var v in usersOnline.Values)
-                Console.WriteLine("{0}({1})", v.Name,v.ActNr);
+                Console.WriteLine("{0}({1})", v.Name, v.ActNr);
             Console.WriteLine("<<************************");
         }
 
@@ -181,13 +205,13 @@ namespace DiscussionsClientRT
         {
             switch (eventData.Code)
             {
-                case (byte)LiteEventCode.Join:
-                    int[] actNrs = (int[])eventData.Parameters[(byte)ParameterKey.Actors];
-                    int ActorNr = (int)eventData.Parameters[(byte)ParameterKey.ActorNr];
-                    var actProps = (Hashtable)eventData.Parameters[(byte)ParameterKey.ActorProperties];
+                case (byte) LiteEventCode.Join:
+                    int[] actNrs = (int[]) eventData.Parameters[(byte) ParameterKey.Actors];
+                    int ActorNr = (int) eventData.Parameters[(byte) ParameterKey.ActorNr];
+                    var actProps = (Hashtable) eventData.Parameters[(byte) ParameterKey.ActorProperties];
 
                     Console.WriteLine("Join event actors.len={0}", actNrs.Length);
-                    List<int> unknownPeersNrs = new List<int>(); 
+                    List<int> unknownPeersNrs = new List<int>();
                     for (int i = 0; i < actNrs.Length; i++)
                     {
                         if (!usersOnline.ContainsKey(actNrs[i]))
@@ -197,15 +221,15 @@ namespace DiscussionsClientRT
                         }
                     }
                     requestPeersInfo(unknownPeersNrs.ToArray());
-                    DbgPrintOnlineList();                    
+                    DbgPrintOnlineList();
                     break;
 
-                case (byte)EventCode.Leave:                    
-                    actNrs = (int[])eventData.Parameters[(byte)ParameterKey.Actors];
-                    int leftActNr = (int)eventData.Parameters[(byte)ParameterKey.ActorNr];
+                case (byte) EventCode.Leave:
+                    actNrs = (int[]) eventData.Parameters[(byte) ParameterKey.Actors];
+                    int leftActNr = (int) eventData.Parameters[(byte) ParameterKey.ActorNr];
                     Console.WriteLine("Leave event, actors.len={0}", actNrs.Length);
                     if (usersOnline.ContainsKey(leftActNr))
-                    {                        
+                    {
                         if (userLeaves != null)
                         {
                             DiscUser leaving = usersOnline[leftActNr];
@@ -215,40 +239,40 @@ namespace DiscussionsClientRT
                     }
                     DbgPrintOnlineList();
                     break;
-    
-                case (byte)DiscussionEventCode.InstantUserPlusMinus:
+
+                case (byte) DiscussionEventCode.InstantUserPlusMinus:
                     if (smbdLeaved != null)
                         smbdLeaved();
                     break;
-                case (byte)DiscussionEventCode.StructureChanged:
-                    int initiater=(int)eventData.Parameters[(byte)DiscussionParamKey.UserId];
-                    int devType = (int)eventData.Parameters[(byte)DiscussionParamKey.DeviceType];
-                    if (eventData.Parameters.ContainsKey((byte)DiscussionParamKey.ForceSelfNotification))
+                case (byte) DiscussionEventCode.StructureChanged:
+                    int initiater = (int) eventData.Parameters[(byte) DiscussionParamKey.UserId];
+                    int devType = (int) eventData.Parameters[(byte) DiscussionParamKey.DeviceType];
+                    if (eventData.Parameters.ContainsKey((byte) DiscussionParamKey.ForceSelfNotification))
                     {
                         //topic updated 
                         if (onStructChanged != null)
-                            onStructChanged(Serializers.ReadChangedTopicId(eventData.Parameters), 
-                                           initiater, (DeviceType)devType);
+                            onStructChanged(Serializers.ReadChangedTopicId(eventData.Parameters),
+                                            initiater, (DeviceType) devType);
                     }
                     else if (initiater != -1 && initiater != localUsr.ActNr)
                     {
                         if (onStructChanged != null)
-                            onStructChanged(Serializers.ReadChangedTopicId(eventData.Parameters), 
-                                            initiater, (DeviceType)devType);
+                            onStructChanged(Serializers.ReadChangedTopicId(eventData.Parameters),
+                                            initiater, (DeviceType) devType);
                     }
                     break;
-                case (byte)DiscussionEventCode.ArgPointChanged:
+                case (byte) DiscussionEventCode.ArgPointChanged:
                     PointChangedType changeType = PointChangedType.Modified;
                     int topicId;
-                    int argPointId = Serializers.ReadChangedArgPoint(eventData.Parameters, out changeType, out topicId);                   
+                    int argPointId = Serializers.ReadChangedArgPoint(eventData.Parameters, out changeType, out topicId);
                     if (argPointChanged != null)
-                        argPointChanged(argPointId, topicId, changeType); 
-                    break;                
-                case (byte)DiscussionEventCode.UserAccPlusMinus:
+                        argPointChanged(argPointId, topicId, changeType);
+                    break;
+                case (byte) DiscussionEventCode.UserAccPlusMinus:
                     if (userAccPlusMinus != null)
                         userAccPlusMinus();
                     break;
-                case (byte)DiscussionEventCode.StatsEvent:
+                case (byte) DiscussionEventCode.StatsEvent:
                     if (onStatsEvent != null)
                     {
                         StEvent e;
@@ -261,55 +285,55 @@ namespace DiscussionsClientRT
                         onStatsEvent(e, userId, discussionId, statsTopicId, devTyp);
                     }
                     break;
-                case (byte)DiscussionEventCode.CursorEvent:
-                    if(cursorEvent!=null)
-                        cursorEvent(CursorEvent.Read(eventData.Parameters));                    
+                case (byte) DiscussionEventCode.CursorEvent:
+                    if (cursorEvent != null)
+                        cursorEvent(CursorEvent.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.CreateShapeEvent:
+                case (byte) DiscussionEventCode.CreateShapeEvent:
                     if (createShapeEvent != null)
                         createShapeEvent(CreateShape.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.UnselectAllEvent:
+                case (byte) DiscussionEventCode.UnselectAllEvent:
                     if (unselectAll != null)
                         unselectAll(UnselectAllEvent.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.DeleteSingleShapeEvent:
+                case (byte) DiscussionEventCode.DeleteSingleShapeEvent:
                     if (deleteSingleShape != null)
                         deleteSingleShape(DeleteSingleShapeEvent.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.ApplyPointEvent:
+                case (byte) DiscussionEventCode.ApplyPointEvent:
                     if (applyPoint != null)
                         applyPoint(PointMove.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.StateSyncEvent:
+                case (byte) DiscussionEventCode.StateSyncEvent:
                     if (syncStateEvent != null)
                         syncStateEvent(ShapeState.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.LinkCreateEvent:
+                case (byte) DiscussionEventCode.LinkCreateEvent:
                     if (onLinkCreateEvent != null)
                         onLinkCreateEvent(LinkCreateMessage.Read(eventData.Parameters));
-                    break;              
-                case (byte)DiscussionEventCode.UnclusterBadgeEvent:
+                    break;
+                case (byte) DiscussionEventCode.UnclusterBadgeEvent:
                     if (onUnclusterBadgeEvent != null)
                         onUnclusterBadgeEvent(UnclusterBadgeMessage.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.ClusterBadgeEvent:
+                case (byte) DiscussionEventCode.ClusterBadgeEvent:
                     if (onClusterBadgeEvent != null)
                         onClusterBadgeEvent(ClusterBadgeMessage.Read(eventData.Parameters));
-                    break;  
-                case (byte)DiscussionEventCode.InkEvent: 
+                    break;
+                case (byte) DiscussionEventCode.InkEvent:
                     if (inkEvent != null)
                         inkEvent(InkMessage.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.SceneLoadingDone:
+                case (byte) DiscussionEventCode.SceneLoadingDone:
                     if (loadingDoneEvent != null)
                         loadingDoneEvent();
                     break;
-                case (byte)DiscussionEventCode.DEditorReportEvent:
+                case (byte) DiscussionEventCode.DEditorReportEvent:
                     if (dEditorReportResponse != null)
                         dEditorReportResponse(DEditorStatsResponse.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.ClusterStatsEvent:
+                case (byte) DiscussionEventCode.ClusterStatsEvent:
                     if (clusterStatsResponse != null)
                     {
                         if (eventData.Parameters == null || eventData.Parameters.Count() == 0)
@@ -318,20 +342,20 @@ namespace DiscussionsClientRT
                             clusterStatsResponse(ClusterStatsResponse.Read(eventData.Parameters), true);
                     }
                     break;
-                case (byte)DiscussionEventCode.LinkStatsEvent:
-                    if(linkStatsResponseEvent!=null)
+                case (byte) DiscussionEventCode.LinkStatsEvent:
+                    if (linkStatsResponseEvent != null)
                     {
                         if (eventData.Parameters == null || eventData.Parameters.Count() == 0)
                             linkStatsResponseEvent(default(LinkReportResponse), false);
                         else
                             linkStatsResponseEvent(LinkReportResponse.Read(eventData.Parameters), true);
                     }
-                    break; 
-                case (byte)DiscussionEventCode.BadgeViewEvent:
+                    break;
+                case (byte) DiscussionEventCode.BadgeViewEvent:
                     if (onBadgeViewRequest != null)
                         onBadgeViewRequest(BadgeViewMessage.Read(eventData.Parameters));
                     break;
-                case (byte)DiscussionEventCode.SourceViewEvent:
+                case (byte) DiscussionEventCode.SourceViewEvent:
                     if (onSourceViewRequest != null)
                         onSourceViewRequest(ExplanationModeSyncMsg.Read(eventData.Parameters));
                     break;
@@ -345,32 +369,32 @@ namespace DiscussionsClientRT
         {
             switch (operationResponse.OperationCode)
             {
-                case (byte)DiscussionOpCode.Test:
-                    Console.WriteLine(operationResponse.Parameters[(byte)DiscussionParamKey.Message]);
+                case (byte) DiscussionOpCode.Test:
+                    Console.WriteLine(operationResponse.Parameters[(byte) DiscussionParamKey.Message]);
                     break;
 
-                case (byte)LiteOpCode.Join:
+                case (byte) LiteOpCode.Join:
                     Console.WriteLine("OpResp: Join " + operationResponse.Parameters);
-                    if (operationResponse.Parameters.ContainsKey((byte)LiteOpKey.ActorNr))
-                        this.localUsr.ActNr = (int)operationResponse.Parameters[(byte)LiteOpKey.ActorNr];
+                    if (operationResponse.Parameters.ContainsKey((byte) LiteOpKey.ActorNr))
+                        this.localUsr.ActNr = (int) operationResponse.Parameters[(byte) LiteOpKey.ActorNr];
                     if (onJoin != null)
                         onJoin();
                     break;
 
-                case (byte)LiteOpCode.Leave:
+                case (byte) LiteOpCode.Leave:
                     ResetConnState();
                     break;
 
-                case (byte)OperationCode.GetProperties:
+                case (byte) OperationCode.GetProperties:
                     const byte magic = 249;
-                    Hashtable resp = (Hashtable)operationResponse.Parameters[(byte)magic];
+                    Hashtable resp = (Hashtable) operationResponse.Parameters[(byte) magic];
 
                     foreach (var k in resp.Keys)
                     {
-                        int ActorNr = (int)k;
-                        Hashtable props = (Hashtable)resp[k];
-                        string name = (string)props[(byte)ActProps.Name];
-                        int usrDbId = (int)props[(byte)ActProps.DbId];
+                        int ActorNr = (int) k;
+                        Hashtable props = (Hashtable) resp[k];
+                        string name = (string) props[(byte) ActProps.Name];
+                        int usrDbId = (int) props[(byte) ActProps.DbId];
 
                         DiscUser usr;
                         if (usersOnline.ContainsKey(ActorNr))
@@ -388,12 +412,12 @@ namespace DiscussionsClientRT
                             if (userJoins != null)
                                 userJoins(usr);
                         }
-                       
+
                         DbgPrintOnlineList();
                     }
                     break;
 
-                case (byte)DiscussionOpCode.ScreenshotRequest:
+                case (byte) DiscussionOpCode.ScreenshotRequest:
                     if (onScreenshotResponse != null)
                         onScreenshotResponse(ScreenshotResponse.Read(operationResponse.Parameters).screenshots);
                     break;
@@ -405,7 +429,7 @@ namespace DiscussionsClientRT
 
         public void OnStatusChanged(StatusCode statusCode)
         {
-            switch ((StatusCode)statusCode)
+            switch ((StatusCode) statusCode)
             {
                 case StatusCode.Connect:
                     JoinRandomWithLobby();
@@ -423,7 +447,7 @@ namespace DiscussionsClientRT
                     Connect();
                     break;
 
-                case StatusCode.ExceptionOnConnect:                    
+                case StatusCode.ExceptionOnConnect:
                     throw new Exception("ExceptionOnConnect. Peer.state: " + peer.PeerState);
 
                 case StatusCode.Exception:
@@ -432,7 +456,7 @@ namespace DiscussionsClientRT
                     //throw new Exception("SendError! Peer.state: " + peer.PeerState);
                     break;
                 default:
-                    Console.WriteLine("Unhandled OnStatusChanged " + statusCode);        
+                    Console.WriteLine("Unhandled OnStatusChanged " + statusCode);
                     break;
             }
         }
@@ -447,12 +471,12 @@ namespace DiscussionsClientRT
             }
         }
 
-        void ResetConnState()
-        {            
+        private void ResetConnState()
+        {
             this.localUsr.ActNr = -1;
         }
 
-        void requestPeersInfo(int[] ActorNrs)
+        private void requestPeersInfo(int[] ActorNrs)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
@@ -460,9 +484,9 @@ namespace DiscussionsClientRT
             if (ActorNrs.Length > 0)
             {
                 var propReq = new Dictionary<byte, object>();
-                propReq.Add((byte)ParameterKey.Actors, ActorNrs);
-                propReq.Add((byte)ParameterKey.Properties, (byte)PropertyType.Actor);
-                peer.OpCustom((byte)OperationCode.GetProperties, propReq, true);
+                propReq.Add((byte) ParameterKey.Actors, ActorNrs);
+                propReq.Add((byte) ParameterKey.Properties, (byte) PropertyType.Actor);
+                peer.OpCustom((byte) OperationCode.GetProperties, propReq, true);
             }
         }
 
@@ -479,17 +503,22 @@ namespace DiscussionsClientRT
             return peer == null && peer.PeerState == PeerStateValue.Connected;
         }
 
+        public bool IsConnecting()
+        {
+            return peer != null && peer.PeerState == PeerStateValue.Connecting;
+        }
+
         public void JoinRandomWithLobby()
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-            
+
             // You can take a look at the implementation of OpJoinFromLobby in LiteLobbyPeer.cs           
 
             Hashtable actorProperties = new Hashtable();
-            actorProperties.Add((byte)ActProps.Name, this.localUsr.Name);
-            actorProperties.Add((byte)ActProps.DbId, this.localUsr.usrDbId);
-            actorProperties.Add((byte)ActProps.DevType, (int)devType);
+            actorProperties.Add((byte) ActProps.Name, this.localUsr.Name);
+            actorProperties.Add((byte) ActProps.DbId, this.localUsr.usrDbId);
+            actorProperties.Add((byte) ActProps.DevType, (int) devType);
             peer.OpJoinFromLobby(getDiscussionRoom(), LOBBY, actorProperties, true);
         }
 
@@ -497,9 +526,12 @@ namespace DiscussionsClientRT
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-            
-            var parameter = new Dictionary<byte, object> { { (byte)DiscussionParamKey.Message, "**************************" } };
-            peer.OpCustom((byte)DiscussionOpCode.Test, parameter, true);
+
+            var parameter = new Dictionary<byte, object>
+                {
+                    {(byte) DiscussionParamKey.Message, "**************************"}
+                };
+            peer.OpCustom((byte) DiscussionOpCode.Test, parameter, true);
         }
 
         ///arg. point 
@@ -510,23 +542,25 @@ namespace DiscussionsClientRT
                 return;
 
             var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Modified);
-            peer.OpCustom((byte)DiscussionOpCode.NotifyArgPointChanged, parameter, true);
+            peer.OpCustom((byte) DiscussionOpCode.NotifyArgPointChanged, parameter, true);
         }
+
         public void SendArgPointCreated(int argPointId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
             var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Created);
-            peer.OpCustom((byte)DiscussionOpCode.NotifyArgPointChanged, parameter, true);
+            peer.OpCustom((byte) DiscussionOpCode.NotifyArgPointChanged, parameter, true);
         }
+
         public void SendArgPointDeleted(int argPointId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
             var parameter = Serializers.WriteChangedArgPoint(argPointId, topicId, PointChangedType.Deleted);
-            peer.OpCustom((byte)DiscussionOpCode.NotifyArgPointChanged, parameter, true);
+            peer.OpCustom((byte) DiscussionOpCode.NotifyArgPointChanged, parameter, true);
         }
 
         public void SendNotifyStructureChanged(int activeTopicId, int initiaterDbId, DeviceType devType)
@@ -534,20 +568,20 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            Dictionary<byte,object> changedTopicId = Serializers.WriteChangedTopicId(activeTopicId);
-            changedTopicId.Add((byte)DiscussionParamKey.ForceSelfNotification,(byte)1);
-            changedTopicId.Add((byte)DiscussionParamKey.UserId, initiaterDbId);
-            changedTopicId.Add((byte)DiscussionParamKey.DeviceType, devType);
-            
-            peer.OpCustom((byte)DiscussionOpCode.NotifyStructureChanged,changedTopicId, true);
+            Dictionary<byte, object> changedTopicId = Serializers.WriteChangedTopicId(activeTopicId);
+            changedTopicId.Add((byte) DiscussionParamKey.ForceSelfNotification, (byte) 1);
+            changedTopicId.Add((byte) DiscussionParamKey.UserId, initiaterDbId);
+            changedTopicId.Add((byte) DiscussionParamKey.DeviceType, devType);
+
+            peer.OpCustom((byte) DiscussionOpCode.NotifyStructureChanged, changedTopicId, true);
         }
 
         public void SendLiveRequest()
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
-                 return;
+                return;
 
-            peer.OpCustom((byte)DiscussionOpCode.NotifyLeaveUser, new Dictionary<byte,object>(), true);
+            peer.OpCustom((byte) DiscussionOpCode.NotifyLeaveUser, new Dictionary<byte, object>(), true);
 
             //if it fails, disconnection handler on server will remove the client (with delay a couple of seconds)
             Service();
@@ -559,8 +593,8 @@ namespace DiscussionsClientRT
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-                        
-            peer.OpCustom((byte)DiscussionOpCode.NotifyUserAccPlusMinus, new Dictionary<byte, object>(), true);
+
+            peer.OpCustom((byte) DiscussionOpCode.NotifyUserAccPlusMinus, new Dictionary<byte, object>(), true);
         }
 
         public void SendStatsEvent(StEvent e, int userId, int discussionId, int topicId, DeviceType devType)
@@ -572,66 +606,66 @@ namespace DiscussionsClientRT
                 return;
 
             var par = Serializers.WriteStatEventParams(e, userId, discussionId, topicId, devType);
-            peer.OpCustom((byte)DiscussionOpCode.StatsEvent, par, true);
+            peer.OpCustom((byte) DiscussionOpCode.StatsEvent, par, true);
         }
 
         public void SendAvaNameChanged()
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-            
-            peer.OpCustom((byte)DiscussionOpCode.NotifyNameChanged, null, true);
+
+            peer.OpCustom((byte) DiscussionOpCode.NotifyNameChanged, null, true);
         }
 
         public void SendCursorRequest(bool doSet, int ownerId, int shapeId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-                   
-            peer.OpCustom((byte)DiscussionOpCode.CursorRequest,
-                           CursorRequest.Write(doSet, ownerId, shapeId, topicId), 
-                           true);            
+
+            peer.OpCustom((byte) DiscussionOpCode.CursorRequest,
+                          CursorRequest.Write(doSet, ownerId, shapeId, topicId),
+                          true);
         }
-       
+
         public void SendCreateShapeRequest(int ownerId, int shapeId, VdShapeType shapeType, bool takeCursor,
                                            double startX, double startY, int tag, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-                   
-            peer.OpCustom((byte)DiscussionOpCode.CreateShapeRequest,
-                           CreateShape.Write(ownerId, shapeId, shapeType, startX, startY, takeCursor, tag, topicId), 
-                           true);            
+
+            peer.OpCustom((byte) DiscussionOpCode.CreateShapeRequest,
+                          CreateShape.Write(ownerId, shapeId, shapeType, startX, startY, takeCursor, tag, topicId),
+                          true);
         }
 
         public void SendDeleteShapesRequest(int ownerId, int initialOwnerId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-                   
-            peer.OpCustom((byte)DiscussionOpCode.DeleteShapesRequest,
-                           DeleteShapesRequest.Write(ownerId, initialOwnerId, topicId), 
-                           true);            
+
+            peer.OpCustom((byte) DiscussionOpCode.DeleteShapesRequest,
+                          DeleteShapesRequest.Write(ownerId, initialOwnerId, topicId),
+                          true);
         }
 
         public void SendDeleteSingleShapeRequest(int ownerId, int shapeId, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-                   
-            peer.OpCustom((byte)DiscussionOpCode.DeleteSingleShapeRequest,
-                           DeleteSingleShapeRequest.Write(ownerId, shapeId, topicId), 
-                           true);            
+
+            peer.OpCustom((byte) DiscussionOpCode.DeleteSingleShapeRequest,
+                          DeleteSingleShapeRequest.Write(ownerId, shapeId, topicId),
+                          true);
         }
 
         public void SendUnselectAll(int ownerId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-            
-            peer.OpCustom((byte)DiscussionOpCode.UnselectAllRequest,
-                           UnselectAllRequest.Write(ownerId),
-                           true);
+
+            peer.OpCustom((byte) DiscussionOpCode.UnselectAllRequest,
+                          UnselectAllRequest.Write(ownerId),
+                          true);
         }
 
         //public void SendApplyPoint(int ownerId, int shapeId, double x, double y)
@@ -649,9 +683,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.StateSyncRequest,
-                           st.ToDict(),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.StateSyncRequest,
+                          st.ToDict(),
+                          true);
             Service();
         }
 
@@ -660,42 +694,45 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.InitialSceneLoadRequest,
-                           InitialSceneLoadRequest.Write(topicId),           
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.InitialSceneLoadRequest,
+                          InitialSceneLoadRequest.Write(topicId),
+                          true);
         }
 
-        public void SendLinkCreateRequest(int end1, int end2, int ownerId, int shapeId, int topicId, bool takeCursor, LinkHeadType linkHead)
+        public void SendLinkCreateRequest(int end1, int end2, int ownerId, int shapeId, int topicId, bool takeCursor,
+                                          LinkHeadType linkHead)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.LinkCreateRequest,
-                           LinkCreateMessage.Write(end1, end2, ownerId, shapeId, topicId, takeCursor, linkHead),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.LinkCreateRequest,
+                          LinkCreateMessage.Write(end1, end2, ownerId, shapeId, topicId, takeCursor, linkHead),
+                          true);
             Service();
         }
 
-        public void SendUnclusterBadgeRequest(int badgeId, int clusterId, int topicId, int usrId, bool playImmidiately, int callToken)
+        public void SendUnclusterBadgeRequest(int badgeId, int clusterId, int topicId, int usrId, bool playImmidiately,
+                                              int callToken)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.UnclusterBadgeRequest,
-                           UnclusterBadgeMessage.Write(badgeId, clusterId, playImmidiately, 
-                                                       topicId, usrId, callToken),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.UnclusterBadgeRequest,
+                          UnclusterBadgeMessage.Write(badgeId, clusterId, playImmidiately,
+                                                      topicId, usrId, callToken),
+                          true);
             Service();
         }
 
-        public void SendClusterBadgeRequest(int badgeId, int clusterId, int ownerId, int topicId, bool playImmidiately, int callToken)
+        public void SendClusterBadgeRequest(int badgeId, int clusterId, int ownerId, int topicId, bool playImmidiately,
+                                            int callToken)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.ClusterBadgeRequest,
-                           ClusterBadgeMessage.Write(badgeId, ownerId, playImmidiately, clusterId, topicId, callToken),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.ClusterBadgeRequest,
+                          ClusterBadgeMessage.Write(badgeId, ownerId, playImmidiately, clusterId, topicId, callToken),
+                          true);
         }
 
         public void SendInkRequest(int ownerId, int topicId, byte[] inkData)
@@ -703,9 +740,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.InkRequest,
-                           InkMessage.Write(ownerId, topicId, inkData),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.InkRequest,
+                          InkMessage.Write(ownerId, topicId, inkData),
+                          true);
         }
 
         public void SendDEditorRequest(int topicId)
@@ -713,9 +750,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.DEditorReport,
-                           DEditorStatsRequest.Write(topicId),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.DEditorReport,
+                          DEditorStatsRequest.Write(topicId),
+                          true);
         }
 
         public void SendClusterStatsRequest(int clusterId, int topicId)
@@ -723,9 +760,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.ClusterStatsRequest,
-                           ClusterStatsRequest.Write(clusterId, topicId),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.ClusterStatsRequest,
+                          ClusterStatsRequest.Write(clusterId, topicId),
+                          true);
         }
 
         public void SendLinkStatsRequest(int linkId, int topicId)
@@ -733,9 +770,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.LinkReportRequest,
-                           LinkReportRequest.Write(linkId, topicId),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.LinkReportRequest,
+                          LinkReportRequest.Write(linkId, topicId),
+                          true);
         }
 
         public void SendBadgeViewRequest(int argPointId, bool doExpand)
@@ -743,9 +780,9 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.BadgeViewRequest,
-                           BadgeViewMessage.Write(argPointId, doExpand),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.BadgeViewRequest,
+                          BadgeViewMessage.Write(argPointId, doExpand),
+                          true);
         }
 
         public void SendExplanationModeSyncRequest(SyncMsgType type, int viewObjectId, bool doExpand)
@@ -753,19 +790,19 @@ namespace DiscussionsClientRT
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            peer.OpCustom((byte)DiscussionOpCode.ExplanationModeSyncViewRequest,
-                           ExplanationModeSyncMsg.Write(type, viewObjectId, doExpand),
-                           true);
+            peer.OpCustom((byte) DiscussionOpCode.ExplanationModeSyncViewRequest,
+                          ExplanationModeSyncMsg.Write(type, viewObjectId, doExpand),
+                          true);
         }
 
         public void SendScreenshotRequest(int topicId, int discussionId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
-            
-            peer.OpCustom((byte)DiscussionOpCode.ScreenshotRequest,
-                           ScreenshotRequest.Write(topicId, discussionId),
-                           true);
+
+            peer.OpCustom((byte) DiscussionOpCode.ScreenshotRequest,
+                          ScreenshotRequest.Write(topicId, discussionId),
+                          true);
         }
     }
 }

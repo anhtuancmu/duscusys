@@ -2,47 +2,55 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:local="clr-namespace:Discussions"       
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:Discussions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" x:Class="Discussions.DiscussionAutoCreatorWnd"
-    Background="{StaticResource WndBg}" 
+    Background="{StaticResource WndBg}"
     Title="Batch discussion creation wizard"
-    WindowStartupLocation="CenterScreen" 
-    HorizontalAlignment="Center" 
+    WindowStartupLocation="CenterScreen"
+    HorizontalAlignment="Center"
     Loaded="DiscussionAutoCreatorWnd_Loaded_1"
     VerticalAlignment="Center">
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="32"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="32" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="185*"/>
-            <ColumnDefinition Width="191*"/>
+            <ColumnDefinition Width="185*" />
+            <ColumnDefinition Width="191*" />
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Describe the structure" VerticalAlignment="Top" FontSize="24" Height="32" Margin="75,0" Width="220"/>
-        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Example" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
-        <StackPanel Grid.Row="1">            
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Text="Create 2 discussion templates in moderator dashboard as you'd normally do. Fill up topics, discussion background, discussion media. You can use '#' in name of discussion or in name of a topic. Then select exactly 2 discussions in the list below and generate discussions." FontSize="16"/>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Describe the structure"
+                   VerticalAlignment="Top" FontSize="24" Height="32" Margin="75,0" Width="220" />
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Example" VerticalAlignment="Top"
+                   FontSize="24" Grid.Column="1" />
+        <StackPanel Grid.Row="1">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
+                       Text="Create 2 discussion templates in moderator dashboard as you'd normally do. Fill up topics, discussion background, discussion media. You can use '#' in name of discussion or in name of a topic. Then select exactly 2 discussions in the list below and generate discussions."
+                       FontSize="16" />
 
             <StackPanel Orientation="Vertical" Margin="0,70,0,0">
-                <TextBlock Text="Select 2 discussions. First select A, then B" FontSize="16"/>
+                <TextBlock Text="Select 2 discussions. First select A, then B" FontSize="16" />
                 <s:SurfaceListBox Name="lstDiscussions" SelectionMode="Multiple" DisplayMemberPath="Subject"
-                                 MaxHeight="400"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                 SelectionChanged="lstDiscussions_SelectionChanged_1"/>                     
-            </StackPanel>    
+                                  MaxHeight="400"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  SelectionChanged="lstDiscussions_SelectionChanged_1" />
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,60,0,0">
-                <TextBlock Text="Run # from" FontSize="18" Margin="0"/>
-                <s:SurfaceTextBox Name="from" Text="1" HorizontalAlignment="Left" Margin="0" TextChanged="from_TextChanged_1"/>
-                <TextBlock Text="to" FontSize="18"/>
-                <s:SurfaceTextBox Name="to" Text="5" HorizontalAlignment="Left" Margin="0" TextChanged="to_TextChanged_1"/>               
-            </StackPanel>          
+                <TextBlock Text="Run # from" FontSize="18" Margin="0" />
+                <s:SurfaceTextBox Name="from" Text="1" HorizontalAlignment="Left" Margin="0"
+                                  TextChanged="from_TextChanged_1" />
+                <TextBlock Text="to" FontSize="18" />
+                <s:SurfaceTextBox Name="to" Text="5" HorizontalAlignment="Left" Margin="0"
+                                  TextChanged="to_TextChanged_1" />
+            </StackPanel>
         </StackPanel>
-        <s:SurfaceButton x:Name="btnRun" Content="GENERATE" Click="btnRun_Click_1" Background="#B200FF74" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="txtExample" Grid.Column="1"  HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Margin="0,50,0,0"/>
+        <s:SurfaceButton x:Name="btnRun" Content="GENERATE" Click="btnRun_Click_1" Background="#B200FF74" Grid.Row="1"
+                         HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+        <TextBlock x:Name="txtExample" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap"
+                   VerticalAlignment="Top" FontSize="16" Margin="0,50,0,0" />
     </Grid>
 </s:SurfaceWindow>

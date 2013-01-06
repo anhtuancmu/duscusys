@@ -22,37 +22,31 @@ using System.Data;
 using Discussions.rt;
 
 namespace Reporter
-{   
+{
     public partial class SessionTopicDlg : SurfaceWindow
     {
-        List<int> _users;
+        private List<int> _users;
+
         public List<int> Users
         {
-            get
-            {
-                return _users;
-            }
+            get { return _users; }
         }
 
-        Topic _topic = null;
+        private Topic _topic = null;
+
         public Topic topic
         {
-            get
-            {
-                return _topic;
-            }
+            get { return _topic; }
         }
 
-        Session _session = null;
-        public Session session       
+        private Session _session = null;
+
+        public Session session
         {
-            get
-            {
-                return _session;
-            }
+            get { return _session; }
         }
 
-        DiscCtx _ctx;
+        private DiscCtx _ctx;
 
         public SessionTopicDlg()
         {
@@ -66,13 +60,11 @@ namespace Reporter
             lstSessions.ItemsSource = _ctx.Session;
         }
 
-        ReportParameters _reportParameters = null;
+        private ReportParameters _reportParameters = null;
+
         public ReportParameters reportParameters
         {
-            get
-            {
-                return _reportParameters;
-            }
+            get { return _reportParameters; }
         }
 
         /// <summary>
@@ -142,7 +134,7 @@ namespace Reporter
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {           
+        {
         }
 
         private void btnOk_Click_1(object sender, RoutedEventArgs e)
@@ -152,7 +144,7 @@ namespace Reporter
                 MessageBox.Show("Please select session and topic to generate report");
                 return;
             }
-            
+
             _session = lstSessions.SelectedItem as Session;
             _topic = lstTopics.SelectedItem as Topic;
             _users = new List<int>();
@@ -177,7 +169,7 @@ namespace Reporter
                         if (!discussions.Contains(topic.Discussion))
                             discussions.Add(topic.Discussion);
 
-                lstDiscussions.ItemsSource = discussions;            
+                lstDiscussions.ItemsSource = discussions;
             }
         }
 
@@ -188,12 +180,12 @@ namespace Reporter
                 var d = (e.AddedItems[0] as Discussion);
 
                 var topics = new List<Topic>();
-                
-                foreach (var topic in d.Topic)                     
+
+                foreach (var topic in d.Topic)
                     if (!topics.Contains(topic))
                         topics.Add(topic);
 
-                lstTopics.ItemsSource = topics; 
+                lstTopics.ItemsSource = topics;
             }
         }
     }

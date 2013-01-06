@@ -10,9 +10,10 @@ using System.Windows.Forms;
 
 namespace EventGen.timeline
 {
-    public class Timeline : INotifyPropertyChanged 
+    public class Timeline : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(String propertyName)
         {
             if (PropertyChanged != null)
@@ -21,13 +22,11 @@ namespace EventGen.timeline
             }
         }
 
-        ObservableCollection<TimelineEvent> _events = new ObservableCollection<TimelineEvent>();
+        private ObservableCollection<TimelineEvent> _events = new ObservableCollection<TimelineEvent>();
+
         public ObservableCollection<TimelineEvent> Events
         {
-            get
-            {
-                return _events;
-            }
+            get { return _events; }
         }
 
         public Timeline(TimeSpan range)
@@ -35,26 +34,19 @@ namespace EventGen.timeline
             Range = range;
         }
 
-        TimeSpan _range = TimeSpan.FromSeconds(100);//initial, will be overriden
+        private TimeSpan _range = TimeSpan.FromSeconds(100); //initial, will be overriden
+
         public TimeSpan Range
         {
-            get
-            {
-                return _range;
-            }
-            set
-            {
-                _range = value;
-            }
+            get { return _range; }
+            set { _range = value; }
         }
 
-        TimeSpan _currentTime = TimeSpan.FromSeconds(0);
+        private TimeSpan _currentTime = TimeSpan.FromSeconds(0);
+
         public TimeSpan CurrentTime
         {
-            get
-            {
-                return _currentTime;
-            }
+            get { return _currentTime; }
             set
             {
                 if (value != _currentTime)
@@ -69,10 +61,10 @@ namespace EventGen.timeline
         }
 
         public void AddEvent(TimelineEvent ev)
-        {            
+        {
             _events.Add(ev);
         }
-        
+
         public void RemoveEvent(TimelineEvent ev)
         {
             _events.Remove(ev);
@@ -83,21 +75,22 @@ namespace EventGen.timeline
             var numSelected = _events.Where(ev => ev.IsEvSelected).Count();
             if (numSelected > 1)
             {
-                if (MessageBox.Show("Delete " + numSelected + " events?", "Bulk delete", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                if (MessageBox.Show("Delete " + numSelected + " events?", "Bulk delete", MessageBoxButtons.OKCancel) !=
+                    DialogResult.OK)
                     return;
             }
 
             foreach (var selected in _events.ToArray())
                 if (selected.IsEvSelected)
                 {
-                    cmdMgr.RegisterDoneCommand(new DeleteEventCommand(selected, true));                   
+                    cmdMgr.RegisterDoneCommand(new DeleteEventCommand(selected, true));
                 }
         }
 
         public void Write(BinaryWriter w)
         {
             w.Write(Range.TotalSeconds);
-            w.Write(CurrentTime.TotalSeconds);            
+            w.Write(CurrentTime.TotalSeconds);
             w.Write(Events.Count());
             foreach (var ev in Events)
             {

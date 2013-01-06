@@ -7,7 +7,7 @@ namespace EventGen.timeline
 {
     public class CreateEventCommand : CommandBase
     {
-        TimelineEvent _event;
+        private TimelineEvent _event;
 
         public CreateEventCommand(TimelineEvent ev, bool doCmd)
         {
@@ -20,13 +20,13 @@ namespace EventGen.timeline
         public override void ToUndone()
         {
             base.ToUndone();
-            _event.timeline.RemoveEvent(_event); 
+            _event.timeline.RemoveEvent(_event);
         }
 
         public override void ToDone()
         {
             base.ToDone();
-            _event.timeline.AddEvent(_event); 
+            _event.timeline.AddEvent(_event);
         }
     }
 }

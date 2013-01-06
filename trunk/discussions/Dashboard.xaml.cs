@@ -58,24 +58,17 @@ namespace Discussions
 
         public Topic EditedTopic
         {
-            get
-            {
-                return lstBoxTopics.SelectedItem as Topic;
-            }
+            get { return lstBoxTopics.SelectedItem as Topic; }
         }
 
-        ObservableCollection<Person> _tmpPersons = new ObservableCollection<Person>();
+        private ObservableCollection<Person> _tmpPersons = new ObservableCollection<Person>();
+
         public ObservableCollection<Person> tmpPersons
         {
-            get
-            {
-                return _tmpPersons;
-            }
-            set 
-            {
-                _tmpPersons = value;
-            }
+            get { return _tmpPersons; }
+            set { _tmpPersons = value; }
         }
+
         private void insertPersonOrdered(Person p)
         {
             tmpPersons.Add(p);
@@ -86,9 +79,9 @@ namespace Discussions
 
         public bool Confirmed = false;
 
-        UISharedRTClient _sharedClient = null;
+        private UISharedRTClient _sharedClient = null;
 
-        Discussions.Main.OnDiscFrmClosing _closing;
+        private Discussions.Main.OnDiscFrmClosing _closing;
 
         /// <summary>
         /// Default constructor.
@@ -102,18 +95,18 @@ namespace Discussions
 
             _closing = closing;
 
-            _sharedClient = sharedClient; 
+            _sharedClient = sharedClient;
 
-           // background.onInitNewDiscussion += onInitNewDiscussion;
+            // background.onInitNewDiscussion += onInitNewDiscussion;
 
             discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
 
-            discussionSelector.onSelected += ExistingDiscussionSelected;       
+            discussionSelector.onSelected += ExistingDiscussionSelected;
         }
 
-        void onInitNewDiscussion()
+        private void onInitNewDiscussion()
         {
-           // EnsureNonNullDiscussion();
+            // EnsureNonNullDiscussion();
         }
 
         /// <summary>
@@ -180,41 +173,41 @@ namespace Discussions
         private void btnAddTopic_Click(object sender, RoutedEventArgs e)
         {
             if (EditedDiscussion == null)
-                return;            
-          
+                return;
+
             Topic top = new Topic();
-            top.Name = "Topic name";           
+            top.Name = "Topic name";
             EditedDiscussion.Topic.Add(top);
             lstBoxTopics.SelectedItem = top;
 
             foreach (var p in tmpPersons)
-                top.Person.Add(p);            
+                top.Person.Add(p);
         }
 
         private void btnRemoveTopic_Click(object sender, RoutedEventArgs e)
         {
             Topic t = EditedTopic;
-            if(t==null || EditedDiscussion==null)
+            if (t == null || EditedDiscussion == null)
                 return;
 
             if (t != null)
             {
                 EditedDiscussion.Topic.Remove(t);
-                DaoUtils.removePersonsAndTopic(t);   
+                DaoUtils.removePersonsAndTopic(t);
             }
         }
 
         private void btnAddParticipant_Click(object sender, RoutedEventArgs e)
         {
             Topic t = EditedTopic;
-            if (t == null || EditedDiscussion==null)
+            if (t == null || EditedDiscussion == null)
                 return;
-                       
+
             PersonDiscConfigWnd wnd = new PersonDiscConfigWnd(EditedDiscussion, null);
             wnd.ShowDialog();
 
             if (wnd.person != null && !tmpPersons.Contains(wnd.person))
-                insertPersonOrdered(wnd.person);               
+                insertPersonOrdered(wnd.person);
         }
 
         private void btnEditParticipant_Click(object sender, RoutedEventArgs e)
@@ -233,9 +226,9 @@ namespace Discussions
 
             if (wnd.person != null && !tmpPersons.Contains(wnd.person))
             {
-                tmpPersons.Remove(p);       //remove previous person 
+                tmpPersons.Remove(p); //remove previous person 
                 insertPersonOrdered(wnd.person); //add new                 
-            }           
+            }
         }
 
         private void btnRemoveParticipant_Click(object sender, RoutedEventArgs e)
@@ -245,14 +238,14 @@ namespace Discussions
                 return;
 
             var t = EditedTopic;
-            if(t==null)
+            if (t == null)
                 return;
 
             t.Person.Remove(s);
             tmpPersons.Remove(s);
         }
 
-        void SaveDiscussion()
+        private void SaveDiscussion()
         {
             if (EditedDiscussion == null)
                 return;
@@ -267,10 +260,10 @@ namespace Discussions
             CtxSingleton.Get().SaveChanges();
         }
 
-        void ExistingDiscussionSelected(object selected)
+        private void ExistingDiscussionSelected(object selected)
         {
-            background.SaveChanges();  
-            EditedDiscussion = selected as Discussion;            
+            background.SaveChanges();
+            EditedDiscussion = selected as Discussion;
         }
 
         //void EnsureNonNullDiscussion()
@@ -286,7 +279,7 @@ namespace Discussions
                 BusyWndSingleton.Show("Deleting discussion...");
                 try
                 {
-                    if(SessionInfo.Get().discussion!=null)
+                    if (SessionInfo.Get().discussion != null)
                     {
                         if (SessionInfo.Get().discussion.Id == EditedDiscussion.Id)
                             SessionInfo.Get().discussion = null;
@@ -294,13 +287,13 @@ namespace Discussions
 
                     DaoUtils.DeleteDiscussion(EditedDiscussion);
                     discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
-                    EditedDiscussion = null;    
+                    EditedDiscussion = null;
                 }
                 finally
                 {
                     BusyWndSingleton.Hide();
                 }
-            }                  
+            }
         }
 
         private void btnRemoveAttach_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -317,7 +310,7 @@ namespace Discussions
             newDisc.Background.Text = "";
             EditedDiscussion = newDisc;
             CtxSingleton.Get().Discussion.AddObject(EditedDiscussion);
-            CtxSingleton.Get().SaveChanges();           
+            CtxSingleton.Get().SaveChanges();
             discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
             discussionSelector.Select(EditedDiscussion);
         }
@@ -335,7 +328,7 @@ namespace Discussions
         {
             if (EditedDiscussion == null)
                 return;
-            
+
             DaoUtils.EnsureBgExists(EditedDiscussion);
             DaoUtils.AddSource(EditedDiscussion.Background);
         }
@@ -346,17 +339,17 @@ namespace Discussions
                 _closing();
         }
 
-        void SaveParticipants(Topic t  = null)
+        private void SaveParticipants(Topic t = null)
         {
-            if (t==null)
+            if (t == null)
                 t = EditedTopic;
-            if (t == null || EditedDiscussion==null)
+            if (t == null || EditedDiscussion == null)
                 return;
 
             foreach (Topic top in EditedDiscussion.Topic)
             {
                 top.Person.Clear();
-                
+
                 foreach (var p in tmpPersons)
                 {
                     if (p.Name == "Name")
@@ -369,8 +362,8 @@ namespace Discussions
                         top.Person.Add(prev);
                 }
             }
-                    
-            CtxSingleton.Get().SaveChanges();           
+
+            CtxSingleton.Get().SaveChanges();
         }
 
         private void lstBoxTopics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -382,18 +375,18 @@ namespace Discussions
                 return;
             }
 
-            if(e.RemovedItems!=null && e.RemovedItems.Count>0)
-                SaveParticipants((Topic)(e.RemovedItems[0]));
-            
+            if (e.RemovedItems != null && e.RemovedItems.Count > 0)
+                SaveParticipants((Topic) (e.RemovedItems[0]));
+
             tmpPersons.Clear();
-            foreach(var p in t.Person)
+            foreach (var p in t.Person)
                 insertPersonOrdered(p);
-            lstBxParticipants.ItemsSource = tmpPersons; 
+            lstBxParticipants.ItemsSource = tmpPersons;
 
             lblSpeakers.Content = "Speakers of " + t.Name;
         }
 
-        void confirm()
+        private void confirm()
         {
             try
             {
@@ -409,7 +402,7 @@ namespace Discussions
             //update, not ignore this notification)
             _sharedClient.clienRt.SendNotifyStructureChanged(-1, SessionInfo.Get().person.Id, DeviceType.Sticky);
 
-            Confirmed = true;          
+            Confirmed = true;
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)

@@ -17,10 +17,10 @@ namespace CloudStorage
 {
     public partial class FileEntryControl : UserControl
     {
-        MultiClickRecognizer mediaDoubleClick;
+        private MultiClickRecognizer mediaDoubleClick;
 
         public static readonly RoutedEvent RequestViewEvent = EventManager.RegisterRoutedEvent(
-                    "RequestView", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileEntryControl));
+            "RequestView", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (FileEntryControl));
 
         public event RoutedEventHandler RequestView
         {
@@ -29,7 +29,7 @@ namespace CloudStorage
         }
 
         public static readonly RoutedEvent CustSelectionEvent = EventManager.RegisterRoutedEvent(
-                   "CustSelection", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileEntryControl));
+            "CustSelection", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (FileEntryControl));
 
         public event RoutedEventHandler CustSelection
         {
@@ -38,8 +38,8 @@ namespace CloudStorage
         }
 
 
-        DateTime recentClickStamp = DateTime.Now;
-        
+        private DateTime recentClickStamp = DateTime.Now;
+
         public FileEntryControl()
         {
             InitializeComponent();
@@ -47,13 +47,13 @@ namespace CloudStorage
             mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null, onSingleClick);
         }
 
-        void badgeDoubleTap(object sender, InputEventArgs e)
+        private void badgeDoubleTap(object sender, InputEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(RequestViewEvent));
         }
 
         private void FileEntryControl_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
-        {            
+        {
             mediaDoubleClick.Click(sender, e);
             e.Handled = true;
         }
@@ -64,9 +64,9 @@ namespace CloudStorage
             e.Handled = true;
         }
 
-        void onSingleClick(object sender, InputEventArgs e)
+        private void onSingleClick(object sender, InputEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(CustSelectionEvent));             
+            RaiseEvent(new RoutedEventArgs(CustSelectionEvent));
         }
     }
 }

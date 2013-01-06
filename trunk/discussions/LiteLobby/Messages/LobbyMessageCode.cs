@@ -17,16 +17,16 @@ namespace LiteLobby.Messages
         /// <summary>
         /// The add game.
         /// </summary>
-        AddGame = 4, 
+        AddGame = 4,
 
         /// <summary>
         /// The remove game.
         /// </summary>
-        RemoveGame = 5, 
+        RemoveGame = 5,
 
         /// <summary>
         /// The publish change list.
         /// </summary>
-        PublishChangeList = 6, 
+        PublishChangeList = 6,
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Discussions.RTModel.Operations
+﻿namespace Discussions.RTModel.Operations
 {
     public enum DiscussionOpCode : byte
     {
@@ -49,7 +44,7 @@ namespace Discussions.RTModel.Operations
 
         //client unselected all shapes 
         UnselectAllRequest = 17,
-   
+
         DeleteSingleShapeRequest = 18,
 
         //shape state changed, initiator notifies
@@ -82,7 +77,7 @@ namespace Discussions.RTModel.Operations
 
         ExplanationModeSyncViewRequest = 36,
 
-        
+
         // reporting, screenshots
         ScreenshotRequest = 37
     }

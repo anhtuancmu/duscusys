@@ -28,16 +28,16 @@ namespace Discussions.RTModel
         }
     }
 
-    public class Linkable 
+    public class Linkable
     {
-        readonly int _id;
-        List<Edge> _edges = new List<Edge>();
+        private readonly int _id;
+        private List<Edge> _edges = new List<Edge>();
 
         public Linkable(int id)
         {
-            _id = id; 
+            _id = id;
         }
-        
+
         public int GetId()
         {
             return _id;
@@ -71,7 +71,7 @@ namespace Discussions.RTModel
 
         public bool HasAdjacent(Linkable next)
         {
-            return _edges.FirstOrDefault(edge=>edge.next==next)!=null;            
+            return _edges.FirstOrDefault(edge => edge.next == next) != null;
         }
     }
 
@@ -79,8 +79,8 @@ namespace Discussions.RTModel
     {
         public const int UNDEFINED_CLUSTER = -1;
 
-        Cluster _cluster = null;
-        
+        private Cluster _cluster = null;
+
         public Clusterable(int id) :
             base(id)
         {
@@ -114,13 +114,13 @@ namespace Discussions.RTModel
 
             _cluster = null;
         }
-    }   
+    }
 
     public class Cluster : Linkable
     {
-        List<Clusterable> _badges = new List<Clusterable>();
+        private List<Clusterable> _badges = new List<Clusterable>();
 
-        public Cluster(int id):
+        public Cluster(int id) :
             base(id)
         {
         }
@@ -148,18 +148,18 @@ namespace Discussions.RTModel
 
     public class ClusterTopology
     {
-        static readonly ILogger _log = LogManager.GetCurrentClassLogger();
-        
+        private static readonly ILogger _log = LogManager.GetCurrentClassLogger();
+
         //Id to clusters
-        Dictionary<int, Cluster> _clusters = new Dictionary<int, Cluster>();
+        private Dictionary<int, Cluster> _clusters = new Dictionary<int, Cluster>();
 
         //badge id to Clusterables
-        Dictionary<int, Clusterable> _badges = new Dictionary<int, Clusterable>();
+        private Dictionary<int, Clusterable> _badges = new Dictionary<int, Clusterable>();
 
         //maps IDs of link shapes to forward edges
-        Dictionary<int, Edge> _forwardEdges = new Dictionary<int, Edge>();
+        private Dictionary<int, Edge> _forwardEdges = new Dictionary<int, Edge>();
 
-        readonly DiscussionRoom _room;
+        private readonly DiscussionRoom _room;
 
         public ClusterTopology(DiscussionRoom room, BinaryReader reader)
         {
@@ -169,12 +169,15 @@ namespace Discussions.RTModel
         }
 
         public delegate void OnLinkableDeleted(Linkable end, int usrId);
+
         public OnLinkableDeleted onLinkableDeleted;
 
         public delegate void OnLinkRemove(Linkable end1, Linkable end2, int linkShapeId, int usrId);
+
         public OnLinkRemove onLinkRemove;
 
         public delegate void OnUnclusterBadge(Clusterable badge, Cluster cluster, int userId);
+
         public OnUnclusterBadge onUnclusterBadge;
 
         #region linking
@@ -198,7 +201,7 @@ namespace Discussions.RTModel
             else
                 return _clusters[id];
         }
-     
+
         public void Link(Linkable end1, Linkable end2, int linkShapeId)
         {
             if (end1 == end2)
@@ -209,8 +212,8 @@ namespace Discussions.RTModel
 
             var fwd = new Edge(end1, end2, linkShapeId, true);
             _forwardEdges.Add(linkShapeId, fwd);
-            end1.AddEdge(fwd);           
-            end2.AddEdge(new Edge(end2, end1, linkShapeId, false));                   
+            end1.AddEdge(fwd);
+            end2.AddEdge(new Edge(end2, end1, linkShapeId, false));
         }
 
         public void Link(int end1, int end2, int linkShapeId)
@@ -222,14 +225,14 @@ namespace Discussions.RTModel
         {
             if (end1 == end2)
                 throw new NotSupportedException("no self loops");
-            
+
             if (!end1.HasAdjacent(end2))
                 throw new NotSupportedException("no link");
 
             var edge1 = end1.RemoveEdge(end2);
             if (edge1.forward)
                 _forwardEdges.Remove(edge1.linkShapeId);
-           
+
             var edge2 = end2.RemoveEdge(end1);
             if (edge2.forward)
                 _forwardEdges.Remove(edge2.linkShapeId);
@@ -238,7 +241,7 @@ namespace Discussions.RTModel
                 throw new NotSupportedException("?");
 
             if (onLinkRemove != null)
-                onLinkRemove(end1, end2, edge1.linkShapeId, usrId);            
+                onLinkRemove(end1, end2, edge1.linkShapeId, usrId);
         }
 
         public void Unlink(int end1, int end2, int usrId)
@@ -254,8 +257,9 @@ namespace Discussions.RTModel
 
         public void UnlinkFromAll(int unlinkedId, int usrId)
         {
-            UnlinkFromAll(GetLinkable(unlinkedId), usrId);         
+            UnlinkFromAll(GetLinkable(unlinkedId), usrId);
         }
+
         #endregion linking
 
         #region creation/removal
@@ -265,7 +269,7 @@ namespace Discussions.RTModel
         {
             _clusters.Add(clusterId, new Cluster(clusterId));
         }
-        
+
         public void CreateBadge(int badgeId)
         {
             _badges.Add(badgeId, new Clusterable(badgeId));
@@ -276,20 +280,22 @@ namespace Discussions.RTModel
         {
             //1 remove all links 
             UnlinkFromAll(deleted, -1);
-            
+
             //2 remove from cluster, if it's in cluster
             UnclusterBadge(deleted, -1);
 
             //3 remove badge itself
-            _badges.Remove(deleted.GetId()); 
+            _badges.Remove(deleted.GetId());
             if (onLinkableDeleted != null)
                 onLinkableDeleted(deleted, usrId);
         }
+
         public void DeleteBadge(int badgeId, int usrId)
         {
             var deleted = _badges[badgeId];
             DeleteBadge(deleted, usrId);
         }
+
         public void DeleteCluster(Cluster cluster, int usrId)
         {
             //1 unlink from all
@@ -304,9 +310,11 @@ namespace Discussions.RTModel
             if (onLinkableDeleted != null)
                 onLinkableDeleted(cluster, usrId);
         }
+
         #endregion creation/removal
 
         #region clustering/unclustering
+
         public void UnclusterBadge(Clusterable badge, int usrId)
         {
             if (!badge.IsInCluster())
@@ -314,7 +322,7 @@ namespace Discussions.RTModel
                 _log.Warn("badge " + badge.GetId() + " is already unclustered");
                 return;
             }
-            
+
             //1 remove from cluster            
             var affectedCluster = badge.GetCluster();
             affectedCluster.Remove(badge);
@@ -326,8 +334,9 @@ namespace Discussions.RTModel
             if (affectedCluster.IsEmpty())
             {
                 DeleteCluster(affectedCluster, usrId);
-            }            
+            }
         }
+
         public void UnclusterBadge(int badgeId, int usrId)
         {
             UnclusterBadge(_badges[badgeId], usrId);
@@ -336,42 +345,46 @@ namespace Discussions.RTModel
         public bool ClusterBadge(Clusterable badge, Cluster cluster)
         {
             if (badge.IsInCluster())
-            {                       
+            {
                 //two or more clients sent clustering requests in the same time. first wins
                 _log.Warn("cluster failed: badge=" + badge.GetId() + " cluster=" + cluster.GetId() +
                           " current cluster of badge=" + badge.GetCluster().GetId());
-                return false;             
+                return false;
             }
 
             badge.Cluster(cluster);
             cluster.Add(badge);
             return true;
         }
+
         public bool ClusterBadge(int badgeId, int clusterId)
         {
             return ClusterBadge(_badges[badgeId], _clusters[clusterId]);
         }
+
         #endregion clustering/unclustering
 
         #region persistence
+
         /*read strategy
          *  -Register badges in topology 
          *  -Read list of clusters 
          *  -Cluster badges (list of cluster requests)
          *  -Register list of links
          */
+
         public void Write(BinaryWriter annotation)
         {
             //list of badges
             var badges = _badges.Values;
             annotation.Write(badges.Count());
             foreach (var b in badges)
-                annotation.Write(b.GetId());  
- 
+                annotation.Write(b.GetId());
+
             //list of clusters
             var clusters = _clusters.Values;
             annotation.Write(clusters.Count());
-            foreach(var cl in clusters)
+            foreach (var cl in clusters)
             {
                 annotation.Write(cl.GetId());
 
@@ -379,7 +392,7 @@ namespace Discussions.RTModel
                 var clusterables = cl.GetClusterables();
                 annotation.Write(clusterables.Count());
                 foreach (var clusterable in clusterables)
-                    annotation.Write(clusterable.GetId()); 
+                    annotation.Write(clusterable.GetId());
             }
 
             //list of links
@@ -395,7 +408,7 @@ namespace Discussions.RTModel
 
         public void Read(BinaryReader annotation)
         {
-            if(annotation==null)
+            if (annotation == null)
                 return;
 
             //read badges
@@ -404,12 +417,12 @@ namespace Discussions.RTModel
             for (int i = 0; i < numBadges; i++)
             {
                 var badgeId = annotation.ReadInt32();
-                this.CreateBadge(badgeId);                
+                this.CreateBadge(badgeId);
             }
-          
+
             //read clusters
             var numClusters = annotation.ReadInt32();
-            for(var i=0;i<numClusters;i++)
+            for (var i = 0; i < numClusters; i++)
             {
                 var clustId = annotation.ReadInt32();
                 this.CreateCluster(clustId);
@@ -420,7 +433,7 @@ namespace Discussions.RTModel
                 {
                     var badgeeId = annotation.ReadInt32();
                     this.ClusterBadge(badgeeId, clustId);
-                }      
+                }
             }
 
             //list of links
@@ -431,19 +444,20 @@ namespace Discussions.RTModel
                 var currId = annotation.ReadInt32();
                 var nextId = annotation.ReadInt32();
                 this.Link(currId, nextId, linkShapeId);
-            }              
+            }
         }
 
         #endregion persistence
 
         #region reporting
+
         public DEditorStatsResponse CollectStats(DEditorStatsRequest req)
         {
             var res = default(DEditorStatsResponse);
-            
+
             res.NumClusteredBadges = 0;
             res.ListOfClusterIds = new int[_clusters.Values.Count()];
-            
+
             //record clusters
             int i = 0;
             foreach (var cluster in _clusters.Values)
@@ -457,12 +471,12 @@ namespace Discussions.RTModel
             i = 0;
             foreach (var edge in _forwardEdges.Values)
             {
-                res.ListOfLinkIds[i++] = edge.linkShapeId; 
+                res.ListOfLinkIds[i++] = edge.linkShapeId;
             }
 
             res.NumClusters = _clusters.Count();
 
-            res.NumLinks    = _forwardEdges.Count();
+            res.NumLinks = _forwardEdges.Count();
 
             return res;
         }
@@ -473,13 +487,13 @@ namespace Discussions.RTModel
         {
             clusterResp = default(ClusterStatsResponse);
 
-            if(!_clusters.ContainsKey(clusterId))
-               return false;
-            
+            if (!_clusters.ContainsKey(clusterId))
+                return false;
+
             var cluster = _clusters[clusterId];
 
             clusterResp.clusterId = clusterId;
-            
+
             var badges = cluster.GetClusterables();
             var badgesArr = new int[badges.Count()];
             int i = 0;
@@ -489,8 +503,9 @@ namespace Discussions.RTModel
             }
 
             clusterResp.points = badgesArr;
-            return true;       
+            return true;
         }
+
         #endregion reporting
     }
 }

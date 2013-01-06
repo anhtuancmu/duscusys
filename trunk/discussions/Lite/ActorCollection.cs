@@ -128,7 +128,7 @@ namespace Lite
                     }
                 }
             }
-            
+
             //// return this.Where(actor => actors.Contains(actor.ActorNr));
         }
 

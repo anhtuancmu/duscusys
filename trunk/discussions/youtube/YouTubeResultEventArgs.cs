@@ -12,14 +12,18 @@ namespace Discussions.YouViewer
     public class YouTubeResultEventArgs
     {
         #region Data
+
         public YouTubeInfo Info { get; set; }
+
         #endregion
 
         #region Ctor
+
         public YouTubeResultEventArgs(YouTubeInfo info)
         {
             this.Info = info;
         }
+
         #endregion
     }
 }

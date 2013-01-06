@@ -10,27 +10,26 @@ namespace Discussions.RTModel
     public class ServerVdDoc
     {
         //maps shape id to shape
-        Dictionary<int, IServerVdShape> shapeIdToShape = new Dictionary<int, IServerVdShape>();
+        private Dictionary<int, IServerVdShape> shapeIdToShape = new Dictionary<int, IServerVdShape>();
 
-        Dictionary<int, IServerVdShape> userIdToCursor = new Dictionary<int, IServerVdShape>();
+        private Dictionary<int, IServerVdShape> userIdToCursor = new Dictionary<int, IServerVdShape>();
 
         public byte[] inkData = null;
 
-        BadgeShapeIdGenerator _badgeIdGen;
+        private BadgeShapeIdGenerator _badgeIdGen;
+
         public BadgeShapeIdGenerator BadgeIdGen
         {
-            get
-            {
-                return _badgeIdGen;
-            }
+            get { return _badgeIdGen; }
         }
 
         public ServerVdDoc(BinaryReader annotation)
         {
-            Read(annotation);                    
+            Read(annotation);
         }
 
         #region persistence
+
         public void Read(BinaryReader annotation)
         {
             if (annotation != null)
@@ -40,24 +39,24 @@ namespace Discussions.RTModel
 
             if (annotation == null)
                 return;
-            
+
             readInk(annotation);
 
             var numShapes = annotation.ReadInt32();
             for (var i = 0; i < numShapes; i++)
             {
                 var sh = new ServerBaseVdShape(annotation);
-                shapeIdToShape.Add(sh.Id(),sh);
+                shapeIdToShape.Add(sh.Id(), sh);
             }
         }
 
         public bool Write(BinaryWriter annotation)
         {
-            annotation.Write(_badgeIdGen.CurrentId());   
+            annotation.Write(_badgeIdGen.CurrentId());
 
             writeInk(annotation);
-            
-            var shapes = GetShapes(); 
+
+            var shapes = GetShapes();
             annotation.Write(shapes.Count());
             foreach (var sh in shapes)
                 if (!sh.Write(annotation))
@@ -66,32 +65,33 @@ namespace Discussions.RTModel
             return true;
         }
 
-        void readInk(BinaryReader annotation)
+        private void readInk(BinaryReader annotation)
         {
-            inkData = null; 
-            if(annotation!=null)
+            inkData = null;
+            if (annotation != null)
             {
                 var inkSize = annotation.ReadInt32();
-                if (inkSize>0)
-                    inkData = annotation.ReadBytes(inkSize); 
-            } 
+                if (inkSize > 0)
+                    inkData = annotation.ReadBytes(inkSize);
+            }
         }
-        void writeInk(BinaryWriter annotation)
+
+        private void writeInk(BinaryWriter annotation)
         {
             if (inkData != null)
             {
                 annotation.Write(inkData.Length);
-                annotation.Write(inkData);                
+                annotation.Write(inkData);
             }
             else
-                annotation.Write(0);   
-        }       
+                annotation.Write(0);
+        }
 
         #endregion persistence
 
         public IEnumerable<IServerVdShape> GetShapes()
         {
-            return shapeIdToShape.Values; 
+            return shapeIdToShape.Values;
         }
 
         //returns previously locked shape, caller should broadcast cursor free event if result != null
@@ -103,7 +103,7 @@ namespace Discussions.RTModel
             var cursor = new ServerCursor(owner);
             sh.SetCursor(cursor);
 
-            userIdToCursor.Add(owner, sh);           
+            userIdToCursor.Add(owner, sh);
         }
 
         public void UnlockShape(IServerVdShape sh, int owner)
@@ -127,7 +127,8 @@ namespace Discussions.RTModel
 
         public IServerVdShape TryGetBadgeShapeByArgPt(int argPointId)
         {
-            return shapeIdToShape.Values.FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge && sh.Tag() == argPointId);
+            return
+                shapeIdToShape.Values.FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge && sh.Tag() == argPointId);
         }
 
         public void AddShape(IServerVdShape sh)

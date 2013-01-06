@@ -17,35 +17,36 @@ namespace DistributedEditor
 {
     public class VdClusterLink : VdBaseShape, IVdShape, ICaptionHost
     {
-        ArrowLine line;
-        System.Windows.Shapes.Ellipse selMarker1;
-        System.Windows.Shapes.Ellipse selMarker2;
-        Canvas scene;
+        private ArrowLine line;
+        private System.Windows.Shapes.Ellipse selMarker1;
+        private System.Windows.Shapes.Ellipse selMarker2;
+        private Canvas scene;
 
-        ClientLinkable _end1 = null;
-        ClientLinkable _end2 = null;
+        private ClientLinkable _end1 = null;
+        private ClientLinkable _end2 = null;
 
         //defined only if linkables != null
         public AnchorPoint anchor1;
         public AnchorPoint anchor2;
 
-        LinkHeadType _headType;
+        private LinkHeadType _headType;
 
-        VdDocument _doc;
-        ShapeCaptionsManager _captions;
+        private VdDocument _doc;
+        private ShapeCaptionsManager _captions;
+
         public ShapeCaptionsManager CapMgr()
         {
             return _captions;
         }
 
-        public VdClusterLink(ClientLinkable end1, ClientLinkable end2, 
+        public VdClusterLink(ClientLinkable end1, ClientLinkable end2,
                              int shapeId, int owner,
-                             VdDocument doc, 
-                             LinkHeadType headType):
-            base(owner, shapeId)
+                             VdDocument doc,
+                             LinkHeadType headType) :
+                                 base(owner, shapeId)
         {
             _doc = doc;
-            
+
             _end1 = end1;
             _end2 = end2;
 
@@ -54,29 +55,26 @@ namespace DistributedEditor
             initLine(DaoUtils.UserIdToColor(owner), headType);
 
             //wait until actual size is set 
-            line.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                NotifyLinkableMoved();
-            }),
-            System.Windows.Threading.DispatcherPriority.Background);
+            line.Dispatcher.BeginInvoke(new Action(() => { NotifyLinkableMoved(); }),
+                                        System.Windows.Threading.DispatcherPriority.Background);
 
             RemoveFocus();
             updateUserCursor();
         }
 
-        void initLine(Color c, LinkHeadType headType)
+        private void initLine(Color c, LinkHeadType headType)
         {
-            line = new ArrowLine();            
-            line.ArrowAngle = 40;            
+            line = new ArrowLine();
+            line.ArrowAngle = 40;
             line.Stroke = new SolidColorBrush(c);
-            switch(headType)
+            switch (headType)
             {
                 case LinkHeadType.DoubleHeaded:
                     line.ArrowEnds = ArrowEnds.Both;
                     break;
                 case LinkHeadType.SingleHeaded:
                     line.ArrowEnds = ArrowEnds.End;
-                    break;            
+                    break;
                 default:
                     throw new NotSupportedException();
             }
@@ -95,7 +93,7 @@ namespace DistributedEditor
 
         public void InitCaptions(ShapeCaptionsManager.CaptionCreationRequested captionCreationRequested)
         {
-            _captions = new ShapeCaptionsManager(this, captionCreationRequested);           
+            _captions = new ShapeCaptionsManager(this, captionCreationRequested);
         }
 
         public void Hide()
@@ -147,14 +145,14 @@ namespace DistributedEditor
             ScaleInPlace(e.Delta > 0);
         }
 
-        void Manipulation(ManipulationDeltaEventArgs e)
+        private void Manipulation(ManipulationDeltaEventArgs e)
         {
         }
 
-        void SetMarkers()
+        private void SetMarkers()
         {
             ShapeUtils.SetLinkEnd(selMarker1, line.X1, line.Y1);
-            ShapeUtils.SetLinkEnd(selMarker2, line.X2, line.Y2);            
+            ShapeUtils.SetLinkEnd(selMarker2, line.X2, line.Y2);
         }
 
         public override void RemoveFocus()
@@ -231,13 +229,16 @@ namespace DistributedEditor
         public ShapeState GetState(int topicId)
         {
             var res = new ShapeState(ShapeCode(),
-                                    InitialOwner(),
-                                    Id(),
-                                    null,
-                                    new int[] { _captions.GetTextId(), _captions.GetFreeDrawId() },
-                                    new double[] {_captions.textX, _captions.textY, 
-                                                  _captions.freeDrawX, _captions.freeDrawY },
-                                    topicId);
+                                     InitialOwner(),
+                                     Id(),
+                                     null,
+                                     new int[] {_captions.GetTextId(), _captions.GetFreeDrawId()},
+                                     new double[]
+                                         {
+                                             _captions.textX, _captions.textY,
+                                             _captions.freeDrawX, _captions.freeDrawY
+                                         },
+                                     topicId);
             return res;
         }
 
@@ -245,10 +246,10 @@ namespace DistributedEditor
         {
             //bind caption shapes if not already bound 
             if (st.ints[0] != -1 && _captions.text == null)
-                _captions.text = (VdText)_doc.IdToShape(st.ints[0]);
+                _captions.text = (VdText) _doc.IdToShape(st.ints[0]);
 
             if (st.ints[1] != -1 && _captions.FreeDraw == null)
-                _captions.FreeDraw = (VdFreeForm)_doc.IdToShape(st.ints[1]);
+                _captions.FreeDraw = (VdFreeForm) _doc.IdToShape(st.ints[1]);
 
             //update relative caption positions
             _captions.textX = st.doubles[0];
@@ -268,7 +269,7 @@ namespace DistributedEditor
             return PointApplyResult.None;
         }
 
-        void HandleMove(double deltaX, double deltaY)
+        private void HandleMove(double deltaX, double deltaY)
         {
             if (_end1 == null)
             {
@@ -283,7 +284,7 @@ namespace DistributedEditor
             }
         }
 
-        void HandleResize(double deltaX, double deltaY, VdSegmentUtil.SegmentMarker side)
+        private void HandleResize(double deltaX, double deltaY, VdSegmentUtil.SegmentMarker side)
         {
             //switch (side)
             //{
@@ -300,7 +301,7 @@ namespace DistributedEditor
             //}
         }
 
-        void HandleScale(double scale)
+        private void HandleScale(double scale)
         {
         }
 
@@ -312,7 +313,7 @@ namespace DistributedEditor
         {
             var d1 = ShapeUtils.Dist(new Point(line.X1, line.Y1), from);
             var d2 = ShapeUtils.Dist(new Point(line.X2, line.Y2), from);
-            var d3 = ShapeUtils.Dist(new Point((line.X1 + line.X2) / 2, (line.Y1 + line.Y2) / 2), from);
+            var d3 = ShapeUtils.Dist(new Point((line.X1 + line.X2)/2, (line.Y1 + line.Y2)/2), from);
 
             return ShapeUtils.Min(d1, d2, d3);
         }
@@ -362,12 +363,12 @@ namespace DistributedEditor
         //    }
         //}
 
-        void RefreshLinkLayout()
+        private void RefreshLinkLayout()
         {
             if (_end1 == null || _end2 == null)
                 return;
 
-            double x1, y1, x2, y2;          
+            double x1, y1, x2, y2;
             ShapeUtils.GetLinkPoints(_end1, _end2, out x1, out y1, out x2, out y2);
             line.X1 = x1;
             line.Y1 = y1;
@@ -376,10 +377,10 @@ namespace DistributedEditor
             line.Y2 = y2;
         }
 
-        void updateUserCursor()
+        private void updateUserCursor()
         {
-            Canvas.SetLeft(_cursorView, (line.X1 + line.X2) * 0.5);
-            Canvas.SetTop(_cursorView,  (line.Y1 + line.Y2) * 0.5);
+            Canvas.SetLeft(_cursorView, (line.X1 + line.X2)*0.5);
+            Canvas.SetTop(_cursorView, (line.Y1 + line.Y2)*0.5);
         }
 
         public void NotifyLinkableMoved()
@@ -396,8 +397,8 @@ namespace DistributedEditor
             //}
             //else
             //{
-                //for link between badges, central aligned
-                RefreshLinkLayout();
+            //for link between badges, central aligned
+            RefreshLinkLayout();
             //}
 
             _captions.SetBounds();
@@ -405,9 +406,9 @@ namespace DistributedEditor
             SetMarkers();
             updateUserCursor();
         }
-        
+
         public ClientLinkable GetLinkable1()
-        { 
+        {
             return _end1;
         }
 
@@ -425,7 +426,7 @@ namespace DistributedEditor
         {
             var bounds = boundsProvider();
             var res = bounds.Location;
-            res.Offset(bounds.Width * 0.5, bounds.Height * 0.5 - 40);
+            res.Offset(bounds.Width*0.5, bounds.Height*0.5 - 40);
             return res;
         }
 
@@ -433,14 +434,13 @@ namespace DistributedEditor
         {
             var bounds = boundsProvider();
             var res = bounds.Location;
-            res.Offset(bounds.Width * 0.5, bounds.Height * 0.5);
+            res.Offset(bounds.Width*0.5, bounds.Height*0.5);
             return res;
         }
 
         public override Rect ReportingBoundsProvider()
         {
-            return Rect.Union(_end1.GetBounds(), _end2.GetBounds());                        
+            return Rect.Union(_end1.GetBounds(), _end2.GetBounds());
         }
     }
 }
-

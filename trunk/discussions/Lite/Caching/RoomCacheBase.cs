@@ -13,7 +13,6 @@ namespace Lite.Caching
 
     using System;
     using System.Collections.Generic;
-
     using ExitGames.Logging;
 
     #endregion
@@ -84,7 +83,7 @@ namespace Lite.Caching
         /// </returns>
         public bool TryCreateRoom(string roomName, out RoomReference roomReference, params object[] args)
         {
-            lock(this.syncRoot)
+            lock (this.syncRoot)
             {
                 if (this.roomInstances.ContainsKey(roomName))
                 {
@@ -228,10 +227,7 @@ namespace Lite.Caching
             /// </summary>
             public int ReferenceCount
             {
-                get
-                {
-                    return this.references.Count;
-                }
+                get { return this.references.Count; }
             }
 
             /// <summary>
@@ -252,7 +248,8 @@ namespace Lite.Caching
 
                 if (log.IsDebugEnabled)
                 {
-                    log.DebugFormat("Created room instance reference: roomName={0}, referenceCount={1}", this.Room.Name, this.ReferenceCount);
+                    log.DebugFormat("Created room instance reference: roomName={0}, referenceCount={1}", this.Room.Name,
+                                    this.ReferenceCount);
                 }
 
                 return reference;
@@ -270,7 +267,8 @@ namespace Lite.Caching
 
                 if (log.IsDebugEnabled)
                 {
-                    log.DebugFormat("Removed room instance reference: roomName={0}, referenceCount={1}", this.Room.Name, this.ReferenceCount);
+                    log.DebugFormat("Removed room instance reference: roomName={0}, referenceCount={1}", this.Room.Name,
+                                    this.ReferenceCount);
                 }
             }
         }

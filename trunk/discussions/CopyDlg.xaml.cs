@@ -23,13 +23,13 @@ namespace Discussions
     /// </summary>
     public partial class CopyDlg : SurfaceWindow
     {
-        public ObservableCollection<Topic> srcTopics{ get; set; }
+        public ObservableCollection<Topic> srcTopics { get; set; }
         public ObservableCollection<Topic> dstTopics { get; set; }
 
         public ObservableCollection<ArgPoint> srcPoints { get; set; }
         public ObservableCollection<ArgPoint> dstPoints { get; set; }
 
-        UISharedRTClient _sharedClient;
+        private UISharedRTClient _sharedClient;
 
         public bool operationPerformed = false;
 
@@ -52,15 +52,15 @@ namespace Discussions
             DataContext = this;
 
             //select topic that was selected in main board
-            var selectedTopic = disc.Topic.FirstOrDefault(t0=>t0.Id==topicToSelect);
+            var selectedTopic = disc.Topic.FirstOrDefault(t0 => t0.Id == topicToSelect);
             lstSrcTopics.SelectedItem = selectedTopic;
             updateSrcPoints(selectedTopic);
-            
+
             if (dstTopics.Count > 0)
                 lstDstTopics.SelectedIndex = 0;
         }
 
-        void updateSrcPoints(Topic t)
+        private void updateSrcPoints(Topic t)
         {
             int selfId = SessionInfo.Get().person.Id;
             srcPoints.Clear();
@@ -124,15 +124,17 @@ namespace Discussions
                 var discId = SessionInfo.Get().discussion.Id;
                 foreach (var ap in dstPoints)
                 {
-                    copyArgPointTo(ap, dstTopic);                   
+                    copyArgPointTo(ap, dstTopic);
                 }
 
                 Ctx2.SaveChangesIgnoreConflicts();
-                
+
                 _sharedClient.clienRt.SendNotifyStructureChanged(dstTopic.Id, ownId, DeviceType.Wpf);
                 var srcTopic = lstSrcTopics.SelectedItem as Topic;
-                _sharedClient.clienRt.SendStatsEvent(StEvent.ArgPointTopicChanged, ownId, discId, srcTopic.Id, DeviceType.Wpf); //src
-                _sharedClient.clienRt.SendStatsEvent(StEvent.ArgPointTopicChanged, ownId, discId, dstTopic.Id, DeviceType.Wpf); //dst
+                _sharedClient.clienRt.SendStatsEvent(StEvent.ArgPointTopicChanged, ownId, discId, srcTopic.Id,
+                                                     DeviceType.Wpf); //src
+                _sharedClient.clienRt.SendStatsEvent(StEvent.ArgPointTopicChanged, ownId, discId, dstTopic.Id,
+                                                     DeviceType.Wpf); //dst
             }
             finally
             {
@@ -140,14 +142,14 @@ namespace Discussions
             }
         }
 
-        void copyArgPointTo(ArgPoint ap, Topic t)
+        private void copyArgPointTo(ArgPoint ap, Topic t)
         {
-            var pointCopy =  DaoUtils.clonePoint(Ctx2.Get(),
+            var pointCopy = DaoUtils.clonePoint(Ctx2.Get(),
                                                 ap,
                                                 t,
                                                 SessionInfo.Get().person,
                                                 ap.Point + "_Copy");
-            
+
             operationPerformed = true;
 
             Close();

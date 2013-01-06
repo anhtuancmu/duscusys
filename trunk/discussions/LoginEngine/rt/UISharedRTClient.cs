@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Threading;
 using System.Windows;
 using Discussions.model;
@@ -11,9 +8,9 @@ namespace Discussions.rt
 {
     public class UISharedRTClient
     {
-        static UISharedRTClient _inst = null;
+        private static UISharedRTClient _inst = null;
 
-        public static UISharedRTClient Instance        
+        public static UISharedRTClient Instance
         {
             get
             {
@@ -22,12 +19,14 @@ namespace Discussions.rt
                 return _inst;
             }
         }
-                
+
         public ClientRT clienRt;
+
         public delegate void RtTickHandler();
+
         public RtTickHandler rtTickHandler;
 
-        DispatcherTimer rtTimer;
+        private DispatcherTimer rtTimer;
 
         public void start(LoginResult login, string DbServer, DeviceType devType)
         {
@@ -37,9 +36,9 @@ namespace Discussions.rt
             else
                 discId = -1;
 
-            var actorName = login.person!=null ? login.person.Name : "moderator"; 
-            var actorDbId = login.person!=null ? login.person.Id   : 0; 
-            
+            var actorName = login.person != null ? login.person.Name : "moderator";
+            var actorDbId = login.person != null ? login.person.Id : 0;
+
             clienRt = new ClientRT(discId,
                                    DbServer,
                                    actorName,
@@ -52,7 +51,7 @@ namespace Discussions.rt
             rtTimer.Start();
         }
 
-        void OnRtServiceTick(object sender, EventArgs e)
+        private void OnRtServiceTick(object sender, EventArgs e)
         {
             if (rtTickHandler != null)
                 rtTickHandler();

@@ -18,34 +18,34 @@ namespace Discussions.RTModel.Model
         public static DEditorStatsResponse Read(Dictionary<byte, object> par)
         {
             var res = new DEditorStatsResponse();
-            res.TopicId     = (int)par[(byte)DiscussionParamKey.ChangedTopicId];
-            res.NumClusters = (int)par[(byte)DiscussionParamKey.NumClusters];
-            res.NumClusteredBadges = (int)par[(byte)DiscussionParamKey.NumClusteredBadges];
-            res.NumLinks    = (int)par[(byte)DiscussionParamKey.NumLinks];
-            res.ListOfClusterIds = (int[])par[(byte)DiscussionParamKey.ArrayOfInts];
-            res.ListOfLinkIds = (int[])par[(byte)DiscussionParamKey.ArrayOfInts2];
+            res.TopicId = (int) par[(byte) DiscussionParamKey.ChangedTopicId];
+            res.NumClusters = (int) par[(byte) DiscussionParamKey.NumClusters];
+            res.NumClusteredBadges = (int) par[(byte) DiscussionParamKey.NumClusteredBadges];
+            res.NumLinks = (int) par[(byte) DiscussionParamKey.NumLinks];
+            res.ListOfClusterIds = (int[]) par[(byte) DiscussionParamKey.ArrayOfInts];
+            res.ListOfLinkIds = (int[]) par[(byte) DiscussionParamKey.ArrayOfInts2];
 
             return res;
         }
 
         public static Dictionary<byte, object> Write(int TopicId, int NumClusters, int NumClusteredBadges,
-                                                     int NumLinks, 
-                                                     int[] ListOfClusterIds, 
+                                                     int NumLinks,
+                                                     int[] ListOfClusterIds,
                                                      int[] ListOfLinkIds)
         {
             var res = new Dictionary<byte, object>();
-            res.Add((byte)DiscussionParamKey.ChangedTopicId, TopicId);
-            res.Add((byte)DiscussionParamKey.NumClusters, NumClusters);
-            res.Add((byte)DiscussionParamKey.NumClusteredBadges, NumClusteredBadges);
-            res.Add((byte)DiscussionParamKey.NumLinks, NumLinks);
-            res.Add((byte)DiscussionParamKey.ArrayOfInts, ListOfClusterIds);
-            res.Add((byte)DiscussionParamKey.ArrayOfInts2, ListOfLinkIds);
-            return res;      
+            res.Add((byte) DiscussionParamKey.ChangedTopicId, TopicId);
+            res.Add((byte) DiscussionParamKey.NumClusters, NumClusters);
+            res.Add((byte) DiscussionParamKey.NumClusteredBadges, NumClusteredBadges);
+            res.Add((byte) DiscussionParamKey.NumLinks, NumLinks);
+            res.Add((byte) DiscussionParamKey.ArrayOfInts, ListOfClusterIds);
+            res.Add((byte) DiscussionParamKey.ArrayOfInts2, ListOfLinkIds);
+            return res;
         }
 
         public Dictionary<byte, object> ToDict()
         {
-            return Write(TopicId, NumClusters, NumClusteredBadges, NumLinks, ListOfClusterIds, ListOfLinkIds);            
+            return Write(TopicId, NumClusters, NumClusteredBadges, NumLinks, ListOfClusterIds, ListOfLinkIds);
         }
     }
 }

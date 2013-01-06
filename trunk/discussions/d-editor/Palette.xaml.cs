@@ -19,23 +19,28 @@ namespace DistributedEditor
     /// </summary>
     public partial class Palette : UserControl, IPaletteOwner
     {
-        public VdShapeType shapeType = VdShapeType.None;    
+        public VdShapeType shapeType = VdShapeType.None;
         public int _ownerId;
+
         public int GetOwnerId()
         {
             return _ownerId;
         }
 
-        public delegate void ToolSelected(VdShapeType shape, int shapeTag, int owner);       
+        public delegate void ToolSelected(VdShapeType shape, int shapeTag, int owner);
+
         public ToolSelected toolSelected;
-        
+
         public delegate void RemoveShape(int owner);
+
         public RemoveShape removeShape;
 
         public delegate void NoTool(int owner);
+
         public NoTool noTool;
 
         public delegate void Reset(int owner);
+
         public Reset reset;
 
         public Palette()
@@ -50,10 +55,10 @@ namespace DistributedEditor
             //btnSegment.IsChecked = false;
             btnCluster.IsChecked = false;
             //btnArrow.IsChecked   = false;
-            btnText.IsChecked    = false;
+            btnText.IsChecked = false;
             btnClusterLink.IsChecked = false;
             btnClusterLink2.IsChecked = false;
-            btnFreeForm.IsChecked = false;                                                            
+            btnFreeForm.IsChecked = false;
         }
 
         private void btnSegment_Click(object sender, RoutedEventArgs e)
@@ -110,7 +115,7 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.ClusterLink;
             if (toolSelected != null)
-                toolSelected(VdShapeType.ClusterLink, (int)LinkHeadType.SingleHeaded, _ownerId);
+                toolSelected(VdShapeType.ClusterLink, (int) LinkHeadType.SingleHeaded, _ownerId);
 
             //ResetOvers();            
         }
@@ -119,11 +124,11 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.ClusterLink;
             if (toolSelected != null)
-                toolSelected(VdShapeType.ClusterLink, (int)LinkHeadType.DoubleHeaded, _ownerId);
+                toolSelected(VdShapeType.ClusterLink, (int) LinkHeadType.DoubleHeaded, _ownerId);
 
             //ResetOvers();            
         }
-        
+
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
             if (removeShape != null)

@@ -26,8 +26,8 @@ namespace Discussions.pdf_reader
 
             DataContext = this;
 
-            Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
-            Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
+            Width = 0.8*System.Windows.SystemParameters.PrimaryScreenWidth;
+            Height = 0.8*System.Windows.SystemParameters.PrimaryScreenHeight;
             this.WindowState = WindowState.Normal;
 
             pdfViewerUC.PdfPathName = PdfPathName;

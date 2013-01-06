@@ -9,8 +9,9 @@ namespace Discussions
 {
     public class CommentRoutedEventArgs : RoutedEventArgs
     {
-        public CommentRoutedEventArgs(RoutedEvent routedEvent, Comment c, CommentUC control, bool requiresDataRecontext) :
-            base(routedEvent)
+        public CommentRoutedEventArgs(RoutedEvent routedEvent, Comment c, CommentUC control, bool requiresDataRecontext)
+            :
+                base(routedEvent)
         {
             Comment = c;
             CommentControl = control;
@@ -19,7 +20,7 @@ namespace Discussions
 
         public Comment Comment { get; set; }
 
-        public CommentUC CommentControl {get; set;}
+        public CommentUC CommentControl { get; set; }
 
         public bool RequiresDataRecontext { get; set; }
     }

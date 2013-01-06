@@ -19,8 +19,8 @@ namespace Discussions
             if (!(item is Attachment))
                 return null;
 
-            Attachment a = (Attachment)item;
-            if(a.Format == (int)AttachmentFormat.Youtube)
+            Attachment a = (Attachment) item;
+            if (a.Format == (int) AttachmentFormat.Youtube)
                 return VideoTemplate;
             else
                 return ImageTemplate;

@@ -10,9 +10,7 @@
 namespace Lite.Events
 {
     using System.Collections;
-
     using Lite.Operations;
-
     using Photon.SocketServer.Rpc;
 
     /// <summary>
@@ -43,7 +41,7 @@ namespace Lite.Events
         /// Gets or sets the event data.
         /// </summary>
         /// <value>The event data.</value>
-        [DataMember(Code = (byte)ParameterKey.Data, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Data, IsOptional = true)]
         public Hashtable Data { get; set; }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace Lite.Events
         /// <remarks>
         ///   Optional request parameter.
         /// </remarks>
-        [DataMember(Code = (byte)ParameterKey.Cache, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.Cache, IsOptional = true)]
         public byte Cache { get; set; }
     }
 }

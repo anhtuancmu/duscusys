@@ -18,11 +18,11 @@ namespace Reporter
             System.IO.File.WriteAllText(reportPathName, Export(params1, params2));
         }
 
-        static string Export(ReportParameters params1,
-                             ReportParameters params2)
+        private static string Export(ReportParameters params1,
+                                     ReportParameters params2)
         {
             //write header
-            var sb = new StringBuilder();            
+            var sb = new StringBuilder();
             sb.Append("Id;");
             sb.Append("Event;");
             sb.Append("EventName;");
@@ -37,7 +37,7 @@ namespace Reporter
             sb.AppendLine("DeviceTypeName");
 
             var _ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
-            foreach (var ev in _ctx.StatsEvent)      
+            foreach (var ev in _ctx.StatsEvent)
             {
                 var addEvent = false;
 
@@ -47,7 +47,7 @@ namespace Reporter
                 }
                 else
                 {
-                    if (params1!=null && params1.requiredUsers.Contains(ev.UserId))
+                    if (params1 != null && params1.requiredUsers.Contains(ev.UserId))
                     {
                         if (params1.topic.Id == ev.TopicId || ev.TopicId == -1)
                             addEvent = true;
@@ -58,17 +58,17 @@ namespace Reporter
                             addEvent = true;
                     }
                 }
-                
+
                 if (addEvent)
-                    AddEventRow(sb, ev);                                           
+                    AddEventRow(sb, ev);
             }
-            
+
             return sb.ToString();
         }
 
-        static void AddEventRow(StringBuilder sb, StatsEvent ev)
+        private static void AddEventRow(StringBuilder sb, StatsEvent ev)
         {
-            var eventView = new EventViewModel((StEvent)ev.Event, ev.UserId, ev.Time, (DeviceType)ev.DeviceType);
+            var eventView = new EventViewModel((StEvent) ev.Event, ev.UserId, ev.Time, (DeviceType) ev.DeviceType);
 
             sb.Append(ev.Id);
             sb.Append(";");
@@ -87,7 +87,7 @@ namespace Reporter
             sb.Append(";");
             sb.Append(ev.UserId);
             sb.Append(";");
-            sb.Append("\"" + ev.UserName + "\""); 
+            sb.Append("\"" + ev.UserName + "\"");
             sb.Append(";");
             sb.Append(ev.Time.ToString("dd.MM.yyyy HH:mm:ss"));
             sb.Append(";");

@@ -9,38 +9,24 @@ namespace Discussions
     public class SeatUserViewModel
     {
         public SeatUserViewModel(string seat, int color, string user, string discussion)
-        {            
-            SeatName  = seat;
+        {
+            SeatName = seat;
             _brush = new SolidColorBrush(Utils.IntToColor(color));
-            UserName  = user;
+            UserName = user;
             Discussion = discussion;
         }
 
-        public string SeatName
-        {
-            get;
-            set;
-        }
+        public string SeatName { get; set; }
 
-        SolidColorBrush _brush = null;
+        private SolidColorBrush _brush = null;
+
         public SolidColorBrush SeatColor
         {
-            get
-            {
-                return _brush;
-            }
+            get { return _brush; }
         }
 
-        public string UserName
-        {
-            get;
-            set;
-        }
+        public string UserName { get; set; }
 
-        public string Discussion
-        {
-            get;
-            set;
-        }
+        public string Discussion { get; set; }
     }
 }

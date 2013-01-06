@@ -11,12 +11,9 @@ namespace LiteLobby
 {
     using Lite;
     using Lite.Caching;
-
     using LiteLobby.Caching;
     using LiteLobby.Operations;
-
     using Photon.SocketServer;
-
     using PhotonHostRuntimeInterfaces;
 
     /// <summary>
@@ -71,7 +68,8 @@ namespace LiteLobby
 
             // get a game reference from the game cache 
             // the game will be created by the cache if it does not exists allready
-            RoomReference gameReference = LiteLobbyGameCache.Instance.GetRoomReference(joinOperation.GameId, joinOperation.LobbyId);
+            RoomReference gameReference = LiteLobbyGameCache.Instance.GetRoomReference(joinOperation.GameId,
+                                                                                       joinOperation.LobbyId);
 
             // save the game reference in peers state                    
             this.RoomReference = gameReference;

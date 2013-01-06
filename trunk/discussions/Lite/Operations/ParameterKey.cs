@@ -19,43 +19,43 @@ namespace Lite.Operations
         /// <summary>
         ///   The game id.
         /// </summary>
-        GameId = 255, 
+        GameId = 255,
 
         /// <summary>
         ///   The actor nr
         ///   used as op-key and ev-key
         /// </summary>
-        ActorNr = 254, 
+        ActorNr = 254,
 
         /// <summary>
         ///   The target actor nr.
         /// </summary>
-        TargetActorNr = 253, 
+        TargetActorNr = 253,
 
         /// <summary>
         ///   The actors.
         /// </summary>
-        Actors = 252, 
+        Actors = 252,
 
         /// <summary>
         ///   The properties.
         /// </summary>
-        Properties = 251, 
+        Properties = 251,
 
         /// <summary>
         ///   The broadcast.
         /// </summary>
-        Broadcast = 250, 
+        Broadcast = 250,
 
         /// <summary>
         ///   The actor properties.
         /// </summary>
-        ActorProperties = 249, 
+        ActorProperties = 249,
 
         /// <summary>
         ///   The game properties.
         /// </summary>
-        GameProperties = 248, 
+        GameProperties = 248,
 
         /// <summary>
         ///   Event parameter to indicate whether events are cached for new actors.
@@ -70,12 +70,12 @@ namespace Lite.Operations
         /// <summary>
         ///   The data.
         /// </summary>
-        Data = 245, 
+        Data = 245,
 
         /// <summary>
         ///   The paramter code for the <see cref="RaiseEventRequest">raise event</see> operations event code.
         /// </summary>
-        Code = 244, 
+        Code = 244,
 
         /// <summary>
         ///   the flush event code for raise event.

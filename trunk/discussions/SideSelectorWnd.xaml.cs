@@ -36,10 +36,7 @@ namespace Discussions
 
         public SideCode SelectedSide
         {
-            get
-            {
-                return (SideCode)sideSelector.SelectedSide;
-            }
+            get { return (SideCode) sideSelector.SelectedSide; }
         }
 
         /// <summary>

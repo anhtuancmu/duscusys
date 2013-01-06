@@ -14,14 +14,11 @@ namespace Lite
 {
     using ExitGames.Concurrency.Fibers;
     using ExitGames.Logging;
-
     using Lite.Caching;
     using Lite.Messages;
     using Lite.Operations;
-
     using Photon.SocketServer;
     using Photon.SocketServer.Rpc;
-
     using PhotonHostRuntimeInterfaces;
 
     /// <summary>
@@ -92,7 +89,13 @@ namespace Lite
             }
 
             string errorMessage = operation.GetErrorMessage();
-            this.SendOperationResponse(new OperationResponse { OperationCode = operation.OperationRequest.OperationCode, ReturnCode = -1, DebugMessage = errorMessage }, sendParameters);
+            this.SendOperationResponse(
+                new OperationResponse
+                    {
+                        OperationCode = operation.OperationRequest.OperationCode,
+                        ReturnCode = -1,
+                        DebugMessage = errorMessage
+                    }, sendParameters);
             return false;
         }
 
@@ -223,7 +226,8 @@ namespace Lite
         /// </param>
         protected virtual void HandlePingOperation(OperationRequest operationRequest, SendParameters sendParameters)
         {
-            this.SendOperationResponse(new OperationResponse { OperationCode = operationRequest.OperationCode }, sendParameters);
+            this.SendOperationResponse(new OperationResponse {OperationCode = operationRequest.OperationCode},
+                                       sendParameters);
         }
 
         /// <summary>
@@ -236,7 +240,8 @@ namespace Lite
         {
             if (log.IsDebugEnabled)
             {
-                log.DebugFormat("OnDisconnect: conId={0}, reason={1}, reasonDetail={2}", this.ConnectionId, reasonCode, reasonDetail);
+                log.DebugFormat("OnDisconnect: conId={0}, reason={1}, reasonDetail={2}", this.ConnectionId, reasonCode,
+                                reasonDetail);
             }
 
             if (this.RoomReference == null)
@@ -244,7 +249,7 @@ namespace Lite
                 return;
             }
 
-            var message = new RoomMessage((byte)GameMessageCodes.RemovePeerFromGame, this);
+            var message = new RoomMessage((byte) GameMessageCodes.RemovePeerFromGame, this);
             this.RoomReference.Room.EnqueueMessage(message);
             this.RoomReference.Dispose();
             this.RoomReference = null;
@@ -266,7 +271,7 @@ namespace Lite
                 log.DebugFormat("OnOperationRequest. Code={0}", operationRequest.OperationCode);
             }
 
-            switch ((OperationCode)operationRequest.OperationCode)
+            switch ((OperationCode) operationRequest.OperationCode)
             {
                 case OperationCode.Ping:
                     this.HandlePingOperation(operationRequest, sendParameters);
@@ -288,7 +293,13 @@ namespace Lite
             }
 
             string message = string.Format("Unknown operation code {0}", operationRequest.OperationCode);
-            this.SendOperationResponse(new OperationResponse { OperationCode = operationRequest.OperationCode, ReturnCode = -1, DebugMessage = message }, sendParameters);
+            this.SendOperationResponse(
+                new OperationResponse
+                    {
+                        OperationCode = operationRequest.OperationCode,
+                        ReturnCode = -1,
+                        DebugMessage = message
+                    }, sendParameters);
         }
 
         /// <summary>
@@ -302,7 +313,7 @@ namespace Lite
             if (this.RoomReference != null)
             {
                 // remove peer from his current game.
-                var message = new RoomMessage((byte)GameMessageCodes.RemovePeerFromGame, this);
+                var message = new RoomMessage((byte) GameMessageCodes.RemovePeerFromGame, this);
                 this.RoomReference.Room.EnqueueMessage(message);
 
                 // release room reference

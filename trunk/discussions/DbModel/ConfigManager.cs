@@ -14,9 +14,10 @@ namespace Discussions
             {
                 RegistryKey k = getDiscusysKey();
                 if (k != null)
-                    return (string)getDiscusysKey().GetValue("DbConnStr");
+                    return (string) getDiscusysKey().GetValue("DbConnStr");
                 else
-                    return "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=tcp:123.108.5.30,8080;Initial Catalog=disc;user id=sa;password=sa\"";
+                    return
+                        "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=tcp:123.108.5.30,8080;Initial Catalog=disc;user id=sa;password=sa\"";
             }
         }
 
@@ -26,7 +27,7 @@ namespace Discussions
             {
                 RegistryKey k = getDiscusysKey();
                 if (k != null)
-                    return (string)getDiscusysKey().GetValue("PhotonServer");
+                    return (string) getDiscusysKey().GetValue("PhotonServer");
                 else
                     return "123.108.5.30:5055";
             }
@@ -34,14 +35,12 @@ namespace Discussions
 
         public static string ServiceServer
         {
-            get
-            {
-                return PhotonSrv.Substring(0, PhotonSrv.Length-5);                
-            }
+            get { return PhotonSrv.Substring(0, PhotonSrv.Length - 5); }
         }
 
-        static RegistryKey hkDiscusystem = null;
-        static RegistryKey getDiscusysKey()
+        private static RegistryKey hkDiscusystem = null;
+
+        private static RegistryKey getDiscusysKey()
         {
             if (hkDiscusystem == null)
             {
@@ -53,7 +52,7 @@ namespace Discussions
                     RegistryKey wowNode = hkSoftware.OpenSubKey("Wow6432Node");
                     hkTohokuUniv = wowNode.OpenSubKey("Tohoku University");
                 }
-                hkDiscusystem = hkTohokuUniv.OpenSubKey("Discusystem");          
+                hkDiscusystem = hkTohokuUniv.OpenSubKey("Discusystem");
             }
             return hkDiscusystem;
         }

@@ -25,54 +25,64 @@ namespace Discussions
         /***************************************************************************/
 
         public delegate void CommentEditingEventHandler(bool editing);
+
         public event CommentEditingEventHandler CommentEditLockChanged;
-        void RaiseCommentEditLockChanged(bool editing)
+
+        private void RaiseCommentEditLockChanged(bool editing)
         {
             if (CommentEditLockChanged != null)
                 CommentEditLockChanged(editing);
         }
+
         /***************************************************************************/
+
         /// <summary>
         /// CommentUC notifies items container about possiblity to focus new placeholder
         /// </summary>
         /// <param name="comment"></param>
         public delegate void PlaceholderFocusEventHandler(Comment comment);
+
         public event PlaceholderFocusEventHandler placeholderFocus;
-        void RaisePlaceholderFocus(Comment comment)
+
+        private void RaisePlaceholderFocus(Comment comment)
         {
             if (placeholderFocus != null)
                 placeholderFocus(comment);
         }
-        
-        /***************************************************************************/        
+
+        /***************************************************************************/
+
         public delegate void PossibilityToCloseBadgeHandler();
+
         public event PossibilityToCloseBadgeHandler possibilityToClose;
-        void RaisePossibilityToClose()
+
+        private void RaisePossibilityToClose()
         {
             if (possibilityToClose != null)
                 possibilityToClose();
         }
 
         /***************************************************************************/
-           
+
         public static readonly DependencyProperty PermitsEditProperty =
-             DependencyProperty.Register("PermitsEdit", typeof(bool),
-             typeof(CommentUC), new FrameworkPropertyMetadata(true, OnPermitsEditChanged));
-        
+            DependencyProperty.Register("PermitsEdit", typeof (bool),
+                                        typeof (CommentUC), new FrameworkPropertyMetadata(true, OnPermitsEditChanged));
+
         public bool PermitsEdit
         {
-            get { return (bool)GetValue(PermitsEditProperty); }
+            get { return (bool) GetValue(PermitsEditProperty); }
             set { SetValue(PermitsEditProperty, value); }
         }
 
-        private static void OnPermitsEditChanged(DependencyObject source, 
-        DependencyPropertyChangedEventArgs e)
+        private static void OnPermitsEditChanged(DependencyObject source,
+                                                 DependencyPropertyChangedEventArgs e)
         {
             CommentUC control = source as CommentUC;
-            bool permits = (bool)e.NewValue;    
+            bool permits = (bool) e.NewValue;
             if (!permits)
                 control.btnRemoveComment.Visibility = Visibility.Hidden;
         }
+
         /***************************************************************************/
 
         public CommentUC()
@@ -85,19 +95,20 @@ namespace Discussions
             set
             {
                 txtBxText.MaxWidth = value;
-                lblText.MaxWidth   = value;
+                lblText.MaxWidth = value;
             }
         }
 
         private void txtBxText_LostFocus(object sender, RoutedEventArgs e)
         {
-            RequestFinishEditing();            
+            RequestFinishEditing();
 
             RaiseCommentEditLockChanged(false);
         }
 
         #region visual state checks
-        void checkReadonly(Comment c)
+
+        private void checkReadonly(Comment c)
         {
             if (c == null)
                 return;
@@ -106,11 +117,11 @@ namespace Discussions
             if (commentFilled)
             {
                 txtBxText.Visibility = Visibility.Collapsed;
-                lblText.Visibility   = Visibility.Visible;
+                lblText.Visibility = Visibility.Visible;
             }
         }
 
-        void checkRemovability(Comment c)
+        private void checkRemovability(Comment c)
         {
             if (c == null)
                 return;
@@ -127,6 +138,7 @@ namespace Discussions
                 btnRemoveComment.Visibility = Visibility.Visible;
             }
         }
+
         #endregion
 
         private void txtBxText_TextChanged_1(object sender, TextChangedEventArgs e)
@@ -134,7 +146,7 @@ namespace Discussions
             CheckRaiseCommentEditLockEvent();
         }
 
-        void CheckRaiseCommentEditLockEvent()
+        private void CheckRaiseCommentEditLockEvent()
         {
             var isEdited = txtBxText.Text != DaoUtils.NEW_COMMENT;
             RaiseCommentEditLockChanged(isEdited);
@@ -162,7 +174,7 @@ namespace Discussions
             {
                 Ctx2.Get().DeleteObject(c);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //doesn't exist in content 
             }
@@ -171,15 +183,15 @@ namespace Discussions
 
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                StEvent.CommentRemoved,
-                                ap.Person.Id,
-                                ap.Topic.Discussion.Id,
-                                ap.Topic.Id,
-                                DeviceType.Wpf);
+                StEvent.CommentRemoved,
+                ap.Person.Id,
+                ap.Topic.Discussion.Id,
+                ap.Topic.Id,
+                DeviceType.Wpf);
         }
 
-        void RequestFinishEditing()
-        {           
+        private void RequestFinishEditing()
+        {
             checkRemovability(DataContext as Comment);
             checkReadonly(DataContext as Comment);
             if (HandleCommentCommit())
@@ -192,7 +204,7 @@ namespace Discussions
                 RequestFinishEditing();
         }
 
-        void Recontext()
+        private void Recontext()
         {
             var c = DataContext as Comment;
             if (c == null)
@@ -224,19 +236,17 @@ namespace Discussions
 
             //ensure placeholder           
             var placeholder = DaoUtils.EnsureCommentPlaceholderExists(ap);
-            if(placeholder!=null)
+            if (placeholder != null)
                 RaisePlaceholderFocus(placeholder);
-            
+
             UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                                            StEvent.CommentAdded,
-                                            SessionInfo.Get().person.Id,
-                                            ap.Topic.Discussion.Id,
-                                            ap.Topic.Id,
-                                            DeviceType.Wpf);
+                StEvent.CommentAdded,
+                SessionInfo.Get().person.Id,
+                ap.Topic.Discussion.Id,
+                ap.Topic.Id,
+                DeviceType.Wpf);
 
             return res;
-        }  
-
-      
+        }
     }
 }

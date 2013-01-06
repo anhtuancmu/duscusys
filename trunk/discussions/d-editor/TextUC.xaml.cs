@@ -21,10 +21,11 @@ namespace DistributedEditor
     public partial class TextUC : UserControl
     {
         public delegate void TextChanged(string text);
+
         public TextChanged textChanged;
 
         public static readonly RoutedEvent VdTextDeleteEvent = EventManager.RegisterRoutedEvent(
-             "VdTextDelete", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextUC));
+            "VdTextDelete", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (TextUC));
 
         // Provide CLR accessors for the event
         public event RoutedEventHandler VdTextDelete
@@ -34,7 +35,7 @@ namespace DistributedEditor
         }
 
         public static readonly RoutedEvent TextShapeCopyEvent = EventManager.RegisterRoutedEvent(
-            "TextShapeCopy", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextUC));
+            "TextShapeCopy", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (TextUC));
 
         // Provide CLR accessors for the event
         public event RoutedEventHandler TextShapeCopy
@@ -44,7 +45,7 @@ namespace DistributedEditor
         }
 
         public static readonly RoutedEvent TextShapePasteEvent = EventManager.RegisterRoutedEvent(
-           "TextShapePaste", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextUC));
+            "TextShapePaste", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (TextUC));
 
         // Provide CLR accessors for the event
         public event RoutedEventHandler TextShapePaste
@@ -53,7 +54,7 @@ namespace DistributedEditor
             remove { RemoveHandler(TextShapePasteEvent, value); }
         }
 
-        VdText _vdText; 
+        private VdText _vdText;
 
         public TextUC(VdText vdText)
         {
@@ -61,7 +62,7 @@ namespace DistributedEditor
 
             _vdText = vdText;
 
-            field.Tag    = vdText;
+            field.Tag = vdText;
             txtLabel.Tag = vdText;
 
             RemoveFocus();
@@ -96,22 +97,22 @@ namespace DistributedEditor
                     RaiseEvent(newEventArgs);
                 }
             }
-    
+
             beginTextChangedInvoke();
         }
 
-        void beginTextChangedInvoke()
+        private void beginTextChangedInvoke()
         {
             this.Dispatcher.BeginInvoke(
                 new Action(() =>
-                {
-                    if (textChanged != null)
-                        textChanged(field.Text);
-                }),
-                DispatcherPriority.Background);            
+                    {
+                        if (textChanged != null)
+                            textChanged(field.Text);
+                    }),
+                DispatcherPriority.Background);
         }
 
-        void ToggleEditability()
+        private void ToggleEditability()
         {
             if (txtLabel.Visibility == Visibility.Visible)
                 SetFocus();
@@ -143,9 +144,9 @@ namespace DistributedEditor
         {
             txtLabel.Visibility = Visibility.Collapsed;
             field.Visibility = Visibility.Visible;
-            handle.BorderBrush = new SolidColorBrush((Color)FindResource("TextToolOverlay"));
-            this.Dispatcher.BeginInvoke(new Action(() => { Keyboard.Focus(field);}), 
-                                        System.Windows.Threading.DispatcherPriority.Background);           
+            handle.BorderBrush = new SolidColorBrush((Color) FindResource("TextToolOverlay"));
+            this.Dispatcher.BeginInvoke(new Action(() => { Keyboard.Focus(field); }),
+                                        System.Windows.Threading.DispatcherPriority.Background);
         }
 
         private void handleMouseDown(object sender, MouseButtonEventArgs e)

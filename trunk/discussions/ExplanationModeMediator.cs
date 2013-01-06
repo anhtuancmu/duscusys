@@ -8,7 +8,8 @@ namespace Discussions
 {
     public class ExplanationModeMediator
     {
-        static ExplanationModeMediator _inst = null;
+        private static ExplanationModeMediator _inst = null;
+
         public static ExplanationModeMediator Inst
         {
             get
@@ -19,15 +20,15 @@ namespace Discussions
             }
         }
 
-        class ViewerRecord
+        private class ViewerRecord
         {
             public ImageWindow wnd;
-            public int attachId; 
+            public int attachId;
         }
 
         //all locally opened image windows 
-        List<ViewerRecord> _openedViewers = new List<ViewerRecord>();
-        
+        private List<ViewerRecord> _openedViewers = new List<ViewerRecord>();
+
         //called when window is closed by any initiator 
         public Action<int> CloseReq;
 
@@ -52,10 +53,10 @@ namespace Discussions
             if (attId < 0)
                 return;
 
-            var prevInstOfAttach= _openedViewers.FirstOrDefault(vr => vr.attachId == attId);
+            var prevInstOfAttach = _openedViewers.FirstOrDefault(vr => vr.attachId == attId);
             if (prevInstOfAttach == null)
             {
-                _openedViewers.Add(new ViewerRecord { attachId = attId, wnd = w });
+                _openedViewers.Add(new ViewerRecord {attachId = attId, wnd = w});
                 if (OpenReq != null)
                     OpenReq(attId);
             }

@@ -1,6 +1,7 @@
 //----------------------------------------------
 // ArrowPolyline.cs (c) 2007 by Charles Petzold
 //----------------------------------------------
+
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -18,9 +19,9 @@ namespace Petzold.Media2D
         /// </summary>
         public static readonly DependencyProperty PointsProperty =
             DependencyProperty.Register("Points",
-                typeof(PointCollection), typeof(ArrowPolyline),
-                new FrameworkPropertyMetadata(null,
-                        FrameworkPropertyMetadataOptions.AffectsMeasure));
+                                        typeof (PointCollection), typeof (ArrowPolyline),
+                                        new FrameworkPropertyMetadata(null,
+                                                                      FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         ///     Gets or sets a collection that contains the 
@@ -29,7 +30,7 @@ namespace Petzold.Media2D
         public PointCollection Points
         {
             set { SetValue(PointsProperty, value); }
-            get { return (PointCollection)GetValue(PointsProperty); }
+            get { return (PointCollection) GetValue(PointsProperty); }
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Petzold.Media2D
         /// </summary>
         protected override Geometry DefiningGeometry
         {
-            get 
+            get
             {
                 // Clear out the PathGeometry.
                 pathgeo.Figures.Clear();

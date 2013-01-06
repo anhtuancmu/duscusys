@@ -27,12 +27,10 @@ namespace Discussions
 
         private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
         }
 
         private void Rectangle_TouchDown(object sender, TouchEventArgs e)
         {
-
         }
 
         //void SelectedColorChanged(Color c)

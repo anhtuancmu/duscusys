@@ -34,7 +34,8 @@ namespace Discussions.RTModel.Model
             this.State = State;
         }
 
-        static UserCursor emptryCursor = new UserCursor("", CursorInputState.None);
+        private static UserCursor emptryCursor = new UserCursor("", CursorInputState.None);
+
         public static UserCursor EmptyCursor()
         {
             return emptryCursor;

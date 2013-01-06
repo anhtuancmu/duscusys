@@ -6,14 +6,14 @@ using System.Windows.Media;
 
 namespace DistributedEditor
 {
-    class Utils
+    internal class Utils
     {
         public static System.Windows.Media.Color IntToColor(int iCol)
         {
-            return Color.FromArgb((byte)(iCol >> 24),
-                                    (byte)(iCol >> 16),
-                                    (byte)(iCol >> 8),
-                                    (byte)(iCol));
+            return Color.FromArgb((byte) (iCol >> 24),
+                                  (byte) (iCol >> 16),
+                                  (byte) (iCol >> 8),
+                                  (byte) (iCol));
         }
     }
 }

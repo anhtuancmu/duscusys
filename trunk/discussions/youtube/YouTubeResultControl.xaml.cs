@@ -34,41 +34,46 @@ namespace Discussions.YouViewer
     public partial class YouTubeResultControl : UserControl
     {
         #region Data
+
         public event SelectedEventHandler SelectedEvent;
+
         #endregion
 
         #region Ctor
+
         public YouTubeResultControl()
         {
             InitializeComponent();
 
             //MouseEnter
             this.MouseEnter += delegate
-            {
-                Storyboard sb = this.TryFindResource("OnMouseEnter") as Storyboard;
-                if (sb != null)
-                    sb.Begin(this);
-            };
+                {
+                    Storyboard sb = this.TryFindResource("OnMouseEnter") as Storyboard;
+                    if (sb != null)
+                        sb.Begin(this);
+                };
             //MouseLeave
             this.MouseLeave += delegate
-            {
-                Storyboard sb = this.TryFindResource("OnMouseLeave") as Storyboard;
-                if (sb != null)
-                    sb.Begin(this);
-            };
+                {
+                    Storyboard sb = this.TryFindResource("OnMouseLeave") as Storyboard;
+                    if (sb != null)
+                        sb.Begin(this);
+                };
         }
+
         #endregion
 
         #region Events
+
         /// <summary>
         /// Raised when this control btnPlay is clicked
         /// </summary>
-        protected virtual void OnSelectedEvent(YouTubeResultEventArgs e) 
+        protected virtual void OnSelectedEvent(YouTubeResultEventArgs e)
         {
-            if (SelectedEvent != null) 
+            if (SelectedEvent != null)
             {
                 //Invokes the delegates.
-                SelectedEvent(this, e); 
+                SelectedEvent(this, e);
             }
 
             //wnd = new VideoWindow();            
@@ -82,7 +87,7 @@ namespace Discussions.YouViewer
             browser.ShowDialog();
         }
 
-        void OnBrowserClosed(object sender, EventArgs e)
+        private void OnBrowserClosed(object sender, EventArgs e)
         {
             //if (wnd != null)
             //{
@@ -90,6 +95,7 @@ namespace Discussions.YouViewer
             //    wnd = null; 
             //}
         }
+
         #endregion
 
         #region Properties
@@ -99,11 +105,12 @@ namespace Discussions.YouViewer
             get
             {
                 if (DataContext != null && DataContext is Attachment)
-                    return AttachmentToVideoConvertor.AttachToYtInfo((Attachment)DataContext);
+                    return AttachmentToVideoConvertor.AttachToYtInfo((Attachment) DataContext);
                 else
                     return null;
             }
         }
+
         #endregion
 
         #region Private Methods
@@ -112,8 +119,8 @@ namespace Discussions.YouViewer
         {
             var a = DataContext as Attachment;
             if (a != null)
-               Utils.ReportMediaOpened(StEvent.VideoOpened, a);             
-            
+                Utils.ReportMediaOpened(StEvent.VideoOpened, a);
+
             OnSelectedEvent(new YouTubeResultEventArgs(Info));
         }
 

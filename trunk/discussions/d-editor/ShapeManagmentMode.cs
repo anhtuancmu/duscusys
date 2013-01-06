@@ -12,7 +12,7 @@ namespace DistributedEditor
         LinkedObj2Expected,
         FreeDrawing,
         ManipulationExpected,
-        CursorApprovalExpected,        
+        CursorApprovalExpected,
         Manipulating
     };
 }

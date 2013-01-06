@@ -22,20 +22,20 @@ namespace Discussions
         public static bool IsGraphicFormat(Attachment a)
         {
             return
-                a.Format == (int)AttachmentFormat.Bmp ||
-                a.Format == (int)AttachmentFormat.Jpg ||
-                a.Format == (int)AttachmentFormat.Png ||
-                a.Format == (int)AttachmentFormat.PngScreenshot;
+                a.Format == (int) AttachmentFormat.Bmp ||
+                a.Format == (int) AttachmentFormat.Jpg ||
+                a.Format == (int) AttachmentFormat.Png ||
+                a.Format == (int) AttachmentFormat.PngScreenshot;
         }
 
         public static BitmapSource GetAttachmentBitmap2(Attachment a)
         {
             switch (a.Format)
             {
-                case (int)AttachmentFormat.Jpg:
-                case (int)AttachmentFormat.Png:
-                case (int)AttachmentFormat.Bmp:
-                case (int)AttachmentFormat.PngScreenshot:
+                case (int) AttachmentFormat.Jpg:
+                case (int) AttachmentFormat.Png:
+                case (int) AttachmentFormat.Bmp:
+                case (int) AttachmentFormat.PngScreenshot:
                     return LoadImageFromBlob(a.MediaData.Data);
             }
 
@@ -44,8 +44,8 @@ namespace Discussions
 
         public static BitmapImage LoadImageFromBlob(byte[] blob)
         {
-            BitmapImage bmp = new BitmapImage();            
-            bmp.BeginInit();            
+            BitmapImage bmp = new BitmapImage();
+            bmp.BeginInit();
             bmp.StreamSource = new MemoryStream(blob);
             bmp.EndInit();
             return bmp;
@@ -59,14 +59,14 @@ namespace Discussions
 
             BitmapImage bmp = new BitmapImage();
             bmp.BeginInit();
-            bmp.StreamSource = new MemoryStream();            
+            bmp.StreamSource = new MemoryStream();
             bmp.UriSource = new Uri(PathName);
             bmp.EndInit();
 
             return ImageToBytes(bmp, enc);
         }
 
-        static BitmapSource fileToBmpSrc(string PathName)
+        private static BitmapSource fileToBmpSrc(string PathName)
         {
             BitmapImage bmp = new BitmapImage();
             bmp.BeginInit();
@@ -75,7 +75,7 @@ namespace Discussions
             return bmp;
         }
 
-        static BitmapEncoder GetEncoder(string ImgFileName)
+        private static BitmapEncoder GetEncoder(string ImgFileName)
         {
             switch (Path.GetExtension(ImgFileName).ToLower())
             {
@@ -90,8 +90,8 @@ namespace Discussions
             }
             return null;
         }
-        
-        static byte[] ImageToBytes(BitmapSource img, BitmapEncoder enc)
+
+        private static byte[] ImageToBytes(BitmapSource img, BitmapEncoder enc)
         {
             MemoryStream memStream = new MemoryStream();
             enc.Frames.Add(BitmapFrame.Create(img));

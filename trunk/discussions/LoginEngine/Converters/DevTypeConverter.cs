@@ -9,28 +9,29 @@ namespace Discussions
 {
     public class DevTypeConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, 
-                                System.Globalization.CultureInfo culture)
-        {            
+        public object Convert(object value, Type targetType, object parameter,
+                              System.Globalization.CultureInfo culture)
+        {
             if (value == null)
                 return null;
-            
-            switch ((DeviceType)value)
+
+            switch ((DeviceType) value)
             {
                 case DeviceType.Android:
                     return " app";
                 case DeviceType.Sticky:
                     return " sticky";
                 case DeviceType.Wpf:
-                    return " Windows";                
+                    return " Windows";
                 default:
                     throw new NotSupportedException();
-            }                
+            }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
-            throw new NotSupportedException(); 
+            throw new NotSupportedException();
         }
     }
 }

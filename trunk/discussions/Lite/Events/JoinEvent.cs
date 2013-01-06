@@ -10,9 +10,7 @@
 namespace Lite.Events
 {
     using System.Collections;
-
     using Lite.Operations;
-
     using Photon.SocketServer.Rpc;
 
     /// <summary>
@@ -32,20 +30,20 @@ namespace Lite.Events
         public JoinEvent(int actorNr, int[] actors)
             : base(actorNr)
         {
-            this.Code = (byte)EventCode.Join;
+            this.Code = (byte) EventCode.Join;
             this.Actors = actors;
         }
 
         /// <summary>
         /// Gets or sets the actor properties of the joined actor.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.ActorProperties, IsOptional = true)]
+        [DataMember(Code = (byte) ParameterKey.ActorProperties, IsOptional = true)]
         public Hashtable ActorProperties { get; set; }
 
         /// <summary>
         /// Gets or sets the actors in the game.
         /// </summary>
-        [DataMember(Code = (byte)ParameterKey.Actors)]
+        [DataMember(Code = (byte) ParameterKey.Actors)]
         public int[] Actors { get; set; }
     }
 }

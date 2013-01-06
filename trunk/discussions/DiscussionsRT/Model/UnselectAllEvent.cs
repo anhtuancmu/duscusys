@@ -10,14 +10,14 @@ namespace Discussions.RTModel.Model
     {
         public static UnselectAllEvent Read(Dictionary<byte, object> par)
         {
-            var res = new UnselectAllEvent();                          
+            var res = new UnselectAllEvent();
             return res;
         }
 
         public static Dictionary<byte, object> Write()
         {
-            var res = new Dictionary<byte, object>();                   
-            return res;      
+            var res = new Dictionary<byte, object>();
+            return res;
         }
     }
 }

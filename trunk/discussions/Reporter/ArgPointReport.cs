@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Discussions.DbModel;
+﻿using Discussions.DbModel;
 
 namespace Reporter
 {
     public class ArgPointReport
     {
         public int numPoints;
-        public int numPointsWithDescriptions;               
+        public int numPointsWithDescriptions;
         public int numMediaAttachments;
         public int numSources;
         public int numComments;

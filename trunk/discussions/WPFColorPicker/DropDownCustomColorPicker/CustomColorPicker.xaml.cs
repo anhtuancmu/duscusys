@@ -20,7 +20,7 @@ namespace DropDownCustomColorPicker
     {
         public event Action<Color> SelectedColorChanged;
 
-        String _hexValue = string.Empty;
+        private String _hexValue = string.Empty;
 
         public String HexValue
         {
@@ -29,29 +29,24 @@ namespace DropDownCustomColorPicker
         }
 
         public static readonly DependencyProperty SelectedColorProperty = DependencyProperty.Register(
-                "SelectedColor", 
-                typeof(Color), 
-                typeof(CustomColorPicker),
-                new PropertyMetadata(Colors.Transparent, ColorChangedCallback));
+            "SelectedColor",
+            typeof (Color),
+            typeof (CustomColorPicker),
+            new PropertyMetadata(Colors.Transparent, ColorChangedCallback));
 
         public Color SelectedColor
         {
-            get 
-            {
-                return (Color)this.GetValue(SelectedColorProperty); 
-            }
-            set
-            {
-                this.SetValue(SelectedColorProperty, value);
-            }
+            get { return (Color) this.GetValue(SelectedColorProperty); }
+            set { this.SetValue(SelectedColorProperty, value); }
         }
 
         public static void ColorChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CustomColorPicker)d).recContent.Fill = new SolidColorBrush((Color)e.NewValue);
-        }   
+            ((CustomColorPicker) d).recContent.Fill = new SolidColorBrush((Color) e.NewValue);
+        }
 
-        bool _isContexMenuOpened = false;
+        private bool _isContexMenuOpened = false;
+
         public CustomColorPicker()
         {
             InitializeComponent();
@@ -60,12 +55,12 @@ namespace DropDownCustomColorPicker
             b.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(b_PreviewMouseLeftButtonUp);
         }
 
-        void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
             _isContexMenuOpened = true;
         }
 
-        void ContextMenu_Closed(object sender, RoutedEventArgs e)
+        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
         {
             if (!b.ContextMenu.IsOpen)
             {
@@ -79,7 +74,7 @@ namespace DropDownCustomColorPicker
             _isContexMenuOpened = false;
         }
 
-        void b_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void b_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (!_isContexMenuOpened)
             {

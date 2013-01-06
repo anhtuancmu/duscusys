@@ -8,7 +8,7 @@ namespace Discussions.RTModel.Model
 {
     public class DiscUser
     {
-        public string Name {get;set;}
+        public string Name { get; set; }
         public int ActNr = -1;
         public int usrDbId = -1;
 
@@ -18,7 +18,7 @@ namespace Discussions.RTModel.Model
 
         public DiscUser(string Name, int ActNr)
         {
-            this.Name  = Name;
+            this.Name = Name;
             this.ActNr = ActNr;
         }
     }

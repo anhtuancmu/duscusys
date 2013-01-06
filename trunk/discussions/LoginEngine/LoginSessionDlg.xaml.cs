@@ -21,7 +21,7 @@ namespace Discussions
     /// </summary>
     public partial class LoginSessionDlg : Window
     {
-       // static Session _testSession = null; 
+        // static Session _testSession = null; 
         //public static Session TestSession
         //{
         //    get
@@ -34,10 +34,11 @@ namespace Discussions
         //        return _testSession;
         //    }
         //}        
-        
+
         public Session SelectedSession = null;
-      
-        ObservableCollection<Session> _sessions = null;
+
+        private ObservableCollection<Session> _sessions = null;
+
         public ObservableCollection<Session> Sessions
         {
             get
@@ -46,19 +47,16 @@ namespace Discussions
                 {
                     _sessions = new ObservableCollection<Session>();
 
-                    DiscCtx ctx = DbCtx.Get();                    
+                    DiscCtx ctx = DbCtx.Get();
                     foreach (var d in ctx.Session)
                         _sessions.Add(d);
 
-                  //  _sessions.Add(TestSession);                 
+                    //  _sessions.Add(TestSession);                 
                 }
 
                 return _sessions;
             }
-            set
-            {
-                _sessions = value;
-            }
+            set { _sessions = value; }
         }
 
         public LoginSessionDlg()

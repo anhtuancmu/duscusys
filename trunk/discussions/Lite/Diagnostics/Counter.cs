@@ -20,7 +20,6 @@ namespace Lite.Diagnostics
         /// <summary>
         /// Absolute number of games active (in the game cache).
         /// </summary>
-        [PublishCounter("Games")]
-        public static readonly NumericCounter Games = new NumericCounter("Games");
+        [PublishCounter("Games")] public static readonly NumericCounter Games = new NumericCounter("Games");
     }
 }

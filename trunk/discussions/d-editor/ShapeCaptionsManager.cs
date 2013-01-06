@@ -14,37 +14,27 @@ namespace DistributedEditor
         Text,
         FreeDraw
     }
-    
+
     public class ShapeCaptionsManager
     {
-        ICaptionHost _hostShape = null;
+        private ICaptionHost _hostShape = null;
+
         public ICaptionHost HostShape
         {
-            get
-            {
-                return _hostShape;
-            }
-            set
-            {
-                _hostShape = value;
-            }
+            get { return _hostShape; }
+            set { _hostShape = value; }
         }
-        
-        VdFreeForm _freeDraw = null;
+
+        private VdFreeForm _freeDraw = null;
+
         public VdFreeForm FreeDraw
         {
-            get
-            {
-                return _freeDraw;
-            }
-            set
-            {
-                _freeDraw = value;
-            }
+            get { return _freeDraw; }
+            set { _freeDraw = value; }
         }
 
         //origin relative to org of cluster 
-        public double freeDrawX; 
+        public double freeDrawX;
         public double freeDrawY;
 
         public VdText text = null;
@@ -56,7 +46,8 @@ namespace DistributedEditor
         public ClusterButton btnType;
 
         public delegate void CaptionCreationRequested(CaptionType type, ICaptionHost hostShape);
-        CaptionCreationRequested _captionCreationRequested;
+
+        private CaptionCreationRequested _captionCreationRequested;
 
         public ShapeCaptionsManager(ICaptionHost host, CaptionCreationRequested captionCreationRequested)
         {
@@ -66,23 +57,23 @@ namespace DistributedEditor
 
             btnDraw = new ClusterButton();
             btnDraw.btn.Click += __bntDraw;
-            btnDraw.SetBrush((System.Windows.Media.Brush)Application.Current.TryFindResource("editBrush"));
+            btnDraw.SetBrush((System.Windows.Media.Brush) Application.Current.TryFindResource("editBrush"));
 
             btnType = new ClusterButton();
             btnType.btn.Click += __bntType;
-            btnType.SetBrush((System.Windows.Media.Brush)Application.Current.TryFindResource("typeBrush"));
+            btnType.SetBrush((System.Windows.Media.Brush) Application.Current.TryFindResource("typeBrush"));
         }
 
-        void __bntDraw(object sender, RoutedEventArgs e)
+        private void __bntDraw(object sender, RoutedEventArgs e)
         {
             _captionCreationRequested(CaptionType.FreeDraw, _hostShape);
         }
 
-        void __bntType(object sender, RoutedEventArgs e)
+        private void __bntType(object sender, RoutedEventArgs e)
         {
-            _captionCreationRequested(CaptionType.Text, _hostShape);        
+            _captionCreationRequested(CaptionType.Text, _hostShape);
         }
-        
+
         //caption was removed
         public void InvalidateCaption(IVdShape caption)
         {
@@ -126,11 +117,11 @@ namespace DistributedEditor
             var btnOrg = HostShape.btnOrgProvider();
             //btn draw 
             Canvas.SetLeft(btnDraw, btnOrg.X);
-            Canvas.SetTop(btnDraw,  btnOrg.Y);
+            Canvas.SetTop(btnDraw, btnOrg.Y);
 
             //btn type
             Canvas.SetLeft(btnType, btnOrg.X + 50);
-            Canvas.SetTop(btnType,  btnOrg.Y);
+            Canvas.SetTop(btnType, btnOrg.Y);
         }
 
         //caption can be moved independently from cluster. when cluster begins movements,
@@ -155,16 +146,16 @@ namespace DistributedEditor
         }
 
         public void InitialResizeOfFreeForm()
-        {            
+        {
             if (_freeDraw != null)
             {
-                var capOrg   = _hostShape.capOrgProvider();
-                var fdWidth  = 200;
+                var capOrg = _hostShape.capOrgProvider();
+                var fdWidth = 200;
                 var fdHeight = 100;
                 _freeDraw.SetWH(fdWidth, fdHeight);
 
-                var fdX = capOrg.X - fdWidth  * 0.5;
-                var fdY = capOrg.Y - fdHeight * 0.5;
+                var fdX = capOrg.X - fdWidth*0.5;
+                var fdY = capOrg.Y - fdHeight*0.5;
                 _freeDraw.SetPosForCluster(fdX, fdY);
             }
         }

@@ -10,5 +10,5 @@ namespace EventGen.timeline
     {
         void ToUndone();
         void ToDone();
-    }    
+    }
 }

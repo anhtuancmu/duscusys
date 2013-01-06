@@ -22,8 +22,8 @@ namespace Discussions
     {
         public BrowserWindow(string Url)
         {
-            InitializeComponent();    
-        
+            InitializeComponent();
+
             browser.Source = new Uri(Url, UriKind.Absolute);
         }
 

@@ -31,41 +31,39 @@ namespace Discussions
             suggestions.DisplayMemberPath = "Name";
         }
 
-        SurfaceListBox suggestions = new SurfaceListBox();
-        
-        public Person SelectedPerson { 
+        private SurfaceListBox suggestions = new SurfaceListBox();
+
+        public Person SelectedPerson
+        {
             get
             {
                 if (DataContext == null)
-                    DataContext = Ctors.NewPerson((string)txtBxName.Content, (string)txtBxEmail.Content);
+                    DataContext = Ctors.NewPerson((string) txtBxName.Content, (string) txtBxEmail.Content);
                 EnsureNonNullPerson();
                 Person p = DataContext as Person;
                 return p;
             }
 
-            set
-            {
-                DataContext = value;
-            }
+            set { DataContext = value; }
         }
 
-        void EnsureNonNullPerson()
+        private void EnsureNonNullPerson()
         {
             Person p = DataContext as Person;
             if (p == null)
-                p = Ctors.NewPerson((string)txtBxName.Content, (string)txtBxEmail.Content);
+                p = Ctors.NewPerson((string) txtBxName.Content, (string) txtBxEmail.Content);
         }
 
-        void SuggestionKey(object sender, KeyEventArgs e)
+        private void SuggestionKey(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                OnSelectedSuggestedItem((Person)suggestions.SelectedItem);
+                OnSelectedSuggestedItem((Person) suggestions.SelectedItem);
         }
 
-        void SuggestionSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SuggestionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
-                OnSelectedSuggestedItem((Person)e.AddedItems[0]);
+                OnSelectedSuggestedItem((Person) e.AddedItems[0]);
         }
 
         public void SelectPerson(Person p)
@@ -73,7 +71,7 @@ namespace Discussions
             OnSelectedSuggestedItem(p);
         }
 
-        void OnSelectedSuggestedItem(Person p)
+        private void OnSelectedSuggestedItem(Person p)
         {
             txtBxName.Content = p.Name;
             txtBxEmail.Content = p.Email;
@@ -83,7 +81,7 @@ namespace Discussions
             HideSuggestions();
         }
 
-        void HideSuggestions()
+        private void HideSuggestions()
         {
             contentAssistStack.Children.Remove(suggestions);
         }
@@ -98,7 +96,7 @@ namespace Discussions
 
             foreach (Person p in ctx.Person)
                 suggestions.Items.Add(p);
-          
+
             if (!contentAssistStack.Children.Contains(suggestions))
                 contentAssistStack.Children.Add(suggestions);
         }

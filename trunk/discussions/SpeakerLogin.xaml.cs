@@ -20,7 +20,8 @@ namespace Discussions
     /// </summary>
     public partial class SpeakerLogin : Microsoft.Surface.Presentation.Controls.SurfaceWindow
     {
-        Person _person = null;
+        private Person _person = null;
+
         public Person SelectedPerson
         {
             get
@@ -29,33 +30,30 @@ namespace Discussions
                 return p;
             }
         }
+
         public bool ok = false;
+
         public SideCode SelectedSide
         {
-            get
-            {
-                return (SideCode)sideSelector.SelectedSide;
-            }
+            get { return (SideCode) sideSelector.SelectedSide; }
         }
 
-        Discussion _discussion = null;
+        private Discussion _discussion = null;
+
         public Discussion SelectedDiscussion
         {
-            get
-            {
-                return _discussion;
-            }
+            get { return _discussion; }
         }
 
         public void EnableSideSelector(bool value)
         {
-            sideSelector.Visibility = value ? Visibility.Visible : Visibility.Collapsed;            
+            sideSelector.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public SpeakerLogin()
         {
             InitializeComponent();
-  
+
             participantSelector.onSelected += ParticipantChanged;
 
             var persons =
@@ -68,25 +66,25 @@ namespace Discussions
             discSelector.onSelected += DiscussionChanged;
         }
 
-        void ParticipantChanged(object selected)
+        private void ParticipantChanged(object selected)
         {
             _discussion = null;
             _person = selected as Person;
 
             //enum all discussions of the person
-            DiscCtx ctx = CtxSingleton.Get();            
-            IQueryable<Discussion>  lookup =
-                            (from t in ctx.Topic
-                            where t.Person.Any(p0 => p0.Id == _person.Id)                
-                            select t.Discussion).Distinct();          
+            DiscCtx ctx = CtxSingleton.Get();
+            IQueryable<Discussion> lookup =
+                (from t in ctx.Topic
+                 where t.Person.Any(p0 => p0.Id == _person.Id)
+                 select t.Discussion).Distinct();
 
             discSelector.Set(lookup, "Subject");
             discSelector.IsEnabled = true;
         }
 
-        void DiscussionChanged(object selected)
+        private void DiscussionChanged(object selected)
         {
-            _discussion = selected as Discussion; 
+            _discussion = selected as Discussion;
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)

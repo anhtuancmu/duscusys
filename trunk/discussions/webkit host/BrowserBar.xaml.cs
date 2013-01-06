@@ -14,10 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Discussions.webkit_host
-{  
+{
     public partial class BrowserBar : System.Windows.Controls.UserControl
     {
-        public WebKit.WebKitBrowser Browser{get;set;}
+        public WebKit.WebKitBrowser Browser { get; set; }
         public Form WinForm { get; set; }
 
 
@@ -28,7 +28,7 @@ namespace Discussions.webkit_host
 
         private void btnBack_Click_1(object sender, RoutedEventArgs e)
         {
-            if(!Browser.CanGoBack)
+            if (!Browser.CanGoBack)
             {
                 Console.Beep();
                 return;
@@ -47,7 +47,7 @@ namespace Discussions.webkit_host
         }
 
         private void btnRefresh_Click_1(object sender, RoutedEventArgs e)
-        {          
+        {
             Browser.Refresh();
         }
 

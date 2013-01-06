@@ -13,14 +13,14 @@ using System.Windows.Shapes;
 
 namespace Discussions
 {
-	/// <summary>
-	/// Interaction logic for SeatUserItem.xaml
-	/// </summary>
-	public partial class SeatUserItem : UserControl
-	{
-		public SeatUserItem()
-		{
-			this.InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for SeatUserItem.xaml
+    /// </summary>
+    public partial class SeatUserItem : UserControl
+    {
+        public SeatUserItem()
+        {
+            this.InitializeComponent();
+        }
+    }
 }

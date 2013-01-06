@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace Discussions
 {
-    public class MediaTypeIconConverter : IValueConverter 
+    public class MediaTypeIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -18,19 +18,19 @@ namespace Discussions
             if (attach == null)
                 return null;
 
-            switch ((AttachmentFormat)attach.Format)
+            switch ((AttachmentFormat) attach.Format)
             {
                 case AttachmentFormat.Bmp:
                 case AttachmentFormat.Jpg:
                 case AttachmentFormat.Png:
                     return Application.Current.TryFindResource("flower");
                 case AttachmentFormat.PngScreenshot:
-                    return Application.Current.TryFindResource("camera"); 
+                    return Application.Current.TryFindResource("camera");
                 case AttachmentFormat.Pdf:
                     return Application.Current.TryFindResource("book");
                 case AttachmentFormat.Youtube:
                     return Application.Current.TryFindResource("ytIcon");
-                case AttachmentFormat. WordDocSet:
+                case AttachmentFormat.WordDocSet:
                     return Application.Current.TryFindResource("msOffice");
                 case AttachmentFormat.PowerPointDocSet:
                     return Application.Current.TryFindResource("msOffice");
@@ -41,7 +41,8 @@ namespace Discussions
             return null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

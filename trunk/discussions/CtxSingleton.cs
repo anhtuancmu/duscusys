@@ -11,13 +11,13 @@ namespace Discussions
 {
     public class CtxSingleton
     {
-        static StatsTrackingDbCtx ctx = null;
+        private static StatsTrackingDbCtx ctx = null;
 
         public static UISharedRTClient sharedClient = null;
 
         public static StatsTrackingDbCtx Get()
         {
-            if(ctx==null)
+            if (ctx == null)
             {
                 if (sharedClient == null)
                     throw new Exception();
@@ -41,7 +41,7 @@ namespace Discussions
 
         public static void DropContext()
         {
-            if(ctx!=null)
+            if (ctx != null)
             {
                 ctx = null;
                 SessionInfo.UpdateToNewCtx();

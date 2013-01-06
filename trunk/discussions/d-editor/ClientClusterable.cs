@@ -7,26 +7,22 @@ namespace DistributedEditor
 {
     public class ClientClusterable : ClientLinkable
     {
-        int _clusterId = -1;
+        private int _clusterId = -1;
+
         public int ClusterId
         {
-            get
-            {
-                return _clusterId;
-            }
+            get { return _clusterId; }
         }
 
         //if true, local cluster operation pending, ignore it local interactions until it's reset by server response 
-        bool _busy = false;
+        private bool _busy = false;
+
         public bool Busy
         {
-            get
-            {
-                return _busy;
-            }
+            get { return _busy; }
         }
 
-        public ClientClusterable(int id, BoundsProvider boundsProvider):
+        public ClientClusterable(int id, BoundsProvider boundsProvider) :
             base(id, boundsProvider)
         {
         }

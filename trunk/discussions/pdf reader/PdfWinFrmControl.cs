@@ -18,10 +18,7 @@ namespace Discussions.pdf_reader
 
         public string PdfPathName
         {
-            set
-            {
-                this.axAcroPDF2.LoadFile(value);
-            }
+            set { this.axAcroPDF2.LoadFile(value); }
         }
     }
 }

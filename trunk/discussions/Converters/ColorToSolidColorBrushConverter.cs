@@ -21,7 +21,7 @@ namespace Discussions
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value != null)
-                return new SolidColorBrush((Color)value);
+                return new SolidColorBrush((Color) value);
 
             return value;
         }
@@ -38,10 +38,11 @@ namespace Discussions
         /// <returns>
         /// A converted value. If the method returns null, the valid null value is used.
         /// </returns>
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  System.Globalization.CultureInfo culture)
         {
             if (value != null)
-				return ((SolidColorBrush)value).Color;
+                return ((SolidColorBrush) value).Color;
 
             return value;
         }
