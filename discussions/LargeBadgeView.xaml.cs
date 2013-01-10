@@ -563,5 +563,13 @@ namespace Discussions
             mediaDoubleClick.Click(sender, e);
             e.Handled = true;
         }
+
+        private void LargeBadgeView_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                btnSave_Click(null,null);
+            }
+        }
     }
 }

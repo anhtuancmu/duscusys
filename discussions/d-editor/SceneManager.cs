@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 using Discussions;
 using Discussions.d_editor;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using LoginEngine;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace DistributedEditor
 {
@@ -316,6 +312,7 @@ namespace DistributedEditor
                 linkCreation.end2 = end;
         }
 
+        private DateTime _recentInpDevDown = DateTime.Now;
         public bool InpDeviceDown(Point pos, TouchDevice touchDev)
         {
             DocTools.UnfocusAll(_doc.GetShapes().Where(sh => !sh.IsManipulated()));
@@ -347,6 +344,13 @@ namespace DistributedEditor
                     }
                     return true;
                 case ShapeInputMode.ManipulationExpected:
+                    if (DateTime.Now.Subtract(_recentInpDevDown).TotalMilliseconds < 500)
+                    {
+                        //this is the second click of double click series. ignore it. it can be large badge view request, 
+                        //so we don't start manipulating the badge, as it's now in modal state.
+                        return true;
+                    }
+                
                     //no current touch points on shapes (maybe touch points over empty space)
 
                     Shape resizeNode = null;
@@ -377,6 +381,7 @@ namespace DistributedEditor
                     {
                         CaptureAndStartManip(underContact, pos, resizeNode, touchDev);
                     }
+                    _recentInpDevDown = DateTime.Now;
                     return true;
                 case ShapeInputMode.Manipulating:
                     return true;
@@ -423,7 +428,7 @@ namespace DistributedEditor
             {
                 _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
             }
-
+          
             var lc = _doc.VolatileCtx.LocalCursor;
             if (lc != null)
             {
