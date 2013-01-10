@@ -338,7 +338,6 @@ Source: ..\bin\Debug\LoginEngine.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\Microsoft.Data.ConnectionUI.Dialog.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\Microsoft.Data.ConnectionUI.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\Microsoft.Data.ConnectionUI.SqlCeDataProvider.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\Debug\Microsoft.Expression.Drawing.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\Microsoft.SqlServerCe.Client.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\objc.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\Photon.SocketServer.dll; DestDir: {app}; Flags: ignoreversion
@@ -370,6 +369,11 @@ Source: ..\bin\Debug\RestSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\CloudStorage.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\Reporter\bin\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion; Tasks: ; Languages: 
 Source: ..\bin\Debug\Google.Apis.Authentication.OAuth2.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\DiscussionHTMLPage.html; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\NoBackgroundPage.html; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\MigraDoc.DocumentObjectModel-WPF.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\MigraDoc.Rendering-WPF.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
