@@ -1,27 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CloudStorage;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.webkit_host;
 using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
-using VE2;
 
 namespace Discussions
 {
@@ -823,13 +812,13 @@ namespace Discussions
 
         private void chooseDropboxFiles(object sender, RoutedEventArgs e)
         {
-            RunCloudStorageViewer(StorageType.Dropbox);
+            RunCloudStorageViewer(StorageType.Undefined);
         }
 
-        private void chooseGDriveFiles(object sender, RoutedEventArgs e)
-        {
-            RunCloudStorageViewer(StorageType.GoogleDrive);
-        }
+        //private void chooseGDriveFiles(object sender, RoutedEventArgs e)
+        //{
+        //    RunCloudStorageViewer(StorageType.GoogleDrive);
+        //}
 
         #endregion
 

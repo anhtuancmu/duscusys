@@ -11,6 +11,20 @@
 
     <s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
+        
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="17" />
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
     </s:SurfaceWindow.Resources>
 
     <StackPanel Orientation="Vertical">

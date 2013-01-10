@@ -77,7 +77,7 @@ namespace CloudStorage
         //for external use only
         public void LoginAndEnumFiles(StorageType storageType)
         {
-            if (IsBusy())
+            if (IsBusy() || storageType==StorageType.Undefined)
                 return;
 
             progressInfo.Visibility = Visibility.Visible;

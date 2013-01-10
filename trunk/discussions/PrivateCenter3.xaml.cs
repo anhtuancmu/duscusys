@@ -322,7 +322,7 @@ namespace Discussions
             BusyWndSingleton.Show("Creating new argument...");
             try
             {
-                int orderNumber = OwnArgPoints.Count() > 0 ? OwnArgPoints.Last().OrderNumber + 1 : 0;
+                int orderNumber = OwnArgPoints.Count() > 0 ? OwnArgPoints.Last().OrderNumber + 1 : 1;
 
                 var np = DaoUtils.NewPoint(lstTopics.SelectedItem as Topic, orderNumber);
                 if (np != null)
@@ -388,7 +388,7 @@ namespace Discussions
         private void RenumberPointsAfterDeletion(Topic t, int selfId)
         {
             //points follow in order of OrderNumber
-            int nextOrderNr = 0;
+            int nextOrderNr = 1;
             foreach (var ap in t.ArgPoint.Where(ap0 => ap0.Person.Id == selfId).OrderBy(ap0 => ap0.OrderNumber))
             {
                 ap.OrderNumber = nextOrderNr++;

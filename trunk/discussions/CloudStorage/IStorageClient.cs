@@ -23,6 +23,7 @@ namespace CloudStorage
     public enum StorageType
     {
         Dropbox,
-        GoogleDrive
+        GoogleDrive,
+        Undefined
     };
 }

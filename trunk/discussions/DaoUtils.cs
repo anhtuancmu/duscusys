@@ -435,7 +435,7 @@ namespace Discussions
                 return null;
 
             var ownPoints = top.ArgPoint.Where(p0 => p0.Person.Id == owner.Id);
-            int orderNr = 0;
+            int orderNr = 1;
             foreach (var pt in ownPoints)
             {
                 if (pt.OrderNumber > orderNr)
