@@ -374,6 +374,7 @@ Source: ..\bin\Debug\NoBackgroundPage.html; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\MigraDoc.DocumentObjectModel-WPF.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\MigraDoc.Rendering-WPF.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\Debug\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Debug\PdfSharp-WPF.dll; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
