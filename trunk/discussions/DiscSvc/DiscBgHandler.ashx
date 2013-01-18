@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="DiscBgHandler.ashx.cs" Class="DiscSvc.Handler1" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="DiscBgHandler.ashx.cs" Class="DiscSvc.DiscBgHandler" %>

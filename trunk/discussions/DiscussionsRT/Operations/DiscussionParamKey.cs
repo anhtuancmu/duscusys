@@ -73,6 +73,8 @@
         IntParameter1 = 58,
         IntParameter2 = 59,
         LinkCaption = 60,
-        ScreenshotsDict = 61
+        ScreenshotsDict = 61,
+        CommentId = 62,
+        PersonId = 63
     }
 }

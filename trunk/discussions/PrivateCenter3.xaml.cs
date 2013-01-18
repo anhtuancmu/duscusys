@@ -4,20 +4,13 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Objects;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Discussions.DbModel;
+using Discussions.RTModel.Model;
 using Discussions.model;
 using Discussions.rt;
-using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions
@@ -90,7 +83,7 @@ namespace Discussions
 
             theBadge.Hide();
 
-            Ctx2.DropContext();
+            PrivateCenterCtx.DropContext();
 
             SetListeners(true);
 
@@ -105,6 +98,9 @@ namespace Discussions
 
             lblWelcome.Content = SessionInfo.Get().person.Name;
 
+            _commentDismissalRecognizer = new CommentDismissalRecognizer(bigBadgeScroller, OnDismiss);
+            theBadge.CommentDismissalRecognizer = _commentDismissalRecognizer;
+
             initializing = true;
             DiscussionSelectionChanged();
             initializing = false;
@@ -113,7 +109,7 @@ namespace Discussions
         private Discussion selectedDiscussion()
         {
             int currentDiscId = SessionInfo.Get().discussion.Id;
-            return Ctx2.Get().Discussion.FirstOrDefault(d0 => d0.Id == currentDiscId);
+            return PrivateCenterCtx.Get().Discussion.FirstOrDefault(d0 => d0.Id == currentDiscId);
         }
 
         private void SetListeners(bool doSet)
@@ -122,12 +118,22 @@ namespace Discussions
             //    _sharedClient.clienRt.onStructChanged += onStructChanged;
             //else
             //    _sharedClient.clienRt.onStructChanged -= onStructChanged;
+
+            if (doSet)
+                _sharedClient.clienRt.onCommentRead += OnCommentRead;
+            else
+                _sharedClient.clienRt.onCommentRead -= OnCommentRead;
+
+            if (doSet)
+                _sharedClient.clienRt.argPointChanged += ArgPointChanged;
+            else
+                _sharedClient.clienRt.argPointChanged -= ArgPointChanged;
         }
 
         private void ForgetDBDiscussionState()
         {
             //forget cached state
-            Ctx2.DropContext();
+            PrivateCenterCtx.DropContext();
             //////////////////////
         }
 
@@ -188,7 +194,7 @@ namespace Discussions
         {
             OtherUsers.Clear();
 
-            var q = from p in Ctx2.Get().Person
+            var q = from p in PrivateCenterCtx.Get().Person
                     where p.Topic.Any(t0 => t0.Discussion.Id == discussionId) &&
                           p.Id != ownId
                     select p;
@@ -220,7 +226,7 @@ namespace Discussions
         {
             ArgPointsOfOtherUser.Clear();
 
-            var q = from ap in Ctx2.Get().ArgPoint
+            var q = from ap in PrivateCenterCtx.Get().ArgPoint
                     where ap.Person.Id == personId &&
                           ap.Topic.Id == topicId
                     select ap;
@@ -236,6 +242,11 @@ namespace Discussions
         {
             lstPoints.SelectedItem = null;
             selectBigBadge(lstBadgesOfOtherUser.SelectedItem as ArgPoint);
+        }
+
+        private void LstBadgesOfOtherUser_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            lstOtherUserBadges_SelectionChanged(null, null);
         }
 
         private void lstTopics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -280,7 +291,7 @@ namespace Discussions
 
         private void lstPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // lstBadgesOfOtherUser.SelectedItem = null;
+            //lstBadgesOfOtherUser.SelectedItem = null;
             lstPoints.ScrollIntoView(lstPoints.SelectedItem as ArgPoint);
             selectBigBadge(lstPoints.SelectedItem as ArgPoint);
         }
@@ -369,7 +380,7 @@ namespace Discussions
                     recentlyDeleted.point = ap;
                     recentlyDeleted.topic = ap.Topic;
 
-                    CtxSingleton.DropContext();
+                    PublicBoardCtx.DropContext();
                     DaoUtils.UnattachPoint(ap);
 
                     RenumberPointsAfterDeletion(t1, SessionInfo.Get().person.Id);
@@ -431,7 +442,7 @@ namespace Discussions
             GetChangeLists(out created, out edited, out deleted);
 
             //save changes 
-            Ctx2.SaveChangesIgnoreConflicts();
+            PrivateCenterCtx.SaveChangesIgnoreConflicts();
 
             //first notify about deleted point!
             if (deletedPt != null)
@@ -452,7 +463,7 @@ namespace Discussions
             edited = new List<ArgPoint>();
             deleted = new List<ArgPoint>();
 
-            var ctx = Ctx2.Get();
+            var ctx = PrivateCenterCtx.Get();
             foreach (var ap in OwnArgPoints)
             {
                 //if point is unnatached (removed in UI but preserved for UNDO), 
@@ -524,7 +535,7 @@ namespace Discussions
 
                 //select previously selected topic
                 if (topicUnderSelectionId != -1)
-                    lstTopics.SelectedItem = Ctx2.Get().Topic.FirstOrDefault(t0 => t0.Id == topicUnderSelectionId);
+                    lstTopics.SelectedItem = PrivateCenterCtx.Get().Topic.FirstOrDefault(t0 => t0.Id == topicUnderSelectionId);
 
                 //select previously selected point
                 if (selectedAp != null)
@@ -591,10 +602,10 @@ namespace Discussions
                 ap.SharedToPublic = true;
             else
             {
-                if (Ctx2.Get().ObjectStateManager.GetObjectStateEntry(ap).State == EntityState.Modified ||
-                    Ctx2.Get().ObjectStateManager.GetObjectStateEntry(ap).State == EntityState.Unchanged)
+                if (PrivateCenterCtx.Get().ObjectStateManager.GetObjectStateEntry(ap).State == EntityState.Modified ||
+                    PrivateCenterCtx.Get().ObjectStateManager.GetObjectStateEntry(ap).State == EntityState.Unchanged)
                 {
-                    Ctx2.Get().Refresh(RefreshMode.StoreWins, ap);
+                    PrivateCenterCtx.Get().Refresh(RefreshMode.StoreWins, ap);
                     DaoUtils.UnpublishPoint(ap);
                 }
             }
@@ -634,12 +645,12 @@ namespace Discussions
                 return;
             }
 
-            var np = DaoUtils.clonePoint(Ctx2.Get(),
+            var np = DaoUtils.clonePoint(PrivateCenterCtx.Get(),
                                          recentlyDeleted.point,
                                          recentlyDeleted.topic,
                                          recentlyDeleted.person,
                                          recentlyDeleted.point.Point);
-            DaoUtils.DeleteArgPoint(Ctx2.Get(), recentlyDeleted.point);
+            DaoUtils.DeleteArgPoint(PrivateCenterCtx.Get(), recentlyDeleted.point);
             recentlyDeleted = null;
             if (np == null)
             {
@@ -658,5 +669,39 @@ namespace Discussions
             DiscWindows.Get().mainWnd.Activate();
             //this.Close();
         }
+
+        #region comment notifications
+
+        private readonly CommentDismissalRecognizer _commentDismissalRecognizer;
+
+        private void BigBadgeScroller_OnScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            _commentDismissalRecognizer.CheckScrollState();
+        }
+     
+        void OnDismiss(ArgPoint ap)
+        {
+            Console.Beep();
+
+            CommentDismissalRecognizer.pushDismissal(ap, PrivateCenterCtx.Get());
+        }
+
+        private void OnCommentRead(CommentsReadEvent ev)
+        {
+            //we are only interested in comment read callbacks from ourselves, to update local label 
+            if (ev.PersonId == SessionInfo.Get().person.Id)
+                theBadge.OnCommentRead(ev);                       
+        }
+
+        private void ArgPointChanged(int argPointId, int topicId, PointChangedType change)
+        {
+            //if a comment has been added by someone except us, update number of unread comments
+
+            if (change == PointChangedType.Modified)
+            {
+                onStructChanged(-1, -1, DeviceType.Wpf);
+            }
+        }
+        #endregion
     }
 }

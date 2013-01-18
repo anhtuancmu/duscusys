@@ -99,7 +99,7 @@ namespace Discussions
 
             // background.onInitNewDiscussion += onInitNewDiscussion;
 
-            discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
+            discussionSelector.Set(PublicBoardCtx.Get().Discussion, "Subject");
 
             discussionSelector.onSelected += ExistingDiscussionSelected;
         }
@@ -253,11 +253,11 @@ namespace Discussions
             SaveParticipants();
 
             if (!Ctors.DiscussionExists(EditedDiscussion))
-                CtxSingleton.Get().Discussion.AddObject(EditedDiscussion);
+                PublicBoardCtx.Get().Discussion.AddObject(EditedDiscussion);
 
             background.SaveChanges();
 
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
         }
 
         private void ExistingDiscussionSelected(object selected)
@@ -286,7 +286,7 @@ namespace Discussions
                     }
 
                     DaoUtils.DeleteDiscussion(EditedDiscussion);
-                    discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
+                    discussionSelector.Set(PublicBoardCtx.Get().Discussion, "Subject");
                     EditedDiscussion = null;
                 }
                 finally
@@ -309,9 +309,9 @@ namespace Discussions
             newDisc.Background = new RichText();
             newDisc.Background.Text = "";
             EditedDiscussion = newDisc;
-            CtxSingleton.Get().Discussion.AddObject(EditedDiscussion);
-            CtxSingleton.Get().SaveChanges();
-            discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
+            PublicBoardCtx.Get().Discussion.AddObject(EditedDiscussion);
+            PublicBoardCtx.Get().SaveChanges();
+            discussionSelector.Set(PublicBoardCtx.Get().Discussion, "Subject");
             discussionSelector.Select(EditedDiscussion);
         }
 
@@ -363,7 +363,7 @@ namespace Discussions
                 }
             }
 
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
         }
 
         private void lstBoxTopics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -419,7 +419,7 @@ namespace Discussions
         private void btnBatch_Click_1(object sender, RoutedEventArgs e)
         {
             (new DiscussionAutoCreatorWnd()).ShowDialog();
-            discussionSelector.Set(CtxSingleton.Get().Discussion, "Subject");
+            discussionSelector.Set(PublicBoardCtx.Get().Discussion, "Subject");
         }
     }
 }

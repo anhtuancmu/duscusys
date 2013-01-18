@@ -79,6 +79,11 @@
 
 
         // reporting, screenshots
-        ScreenshotRequest = 37
+        ScreenshotRequest = 37,
+
+        //
+        //comment notifications
+        //
+        CommentReadRequest = 38
     }
 }

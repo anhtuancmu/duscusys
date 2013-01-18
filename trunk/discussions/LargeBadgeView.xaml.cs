@@ -1,26 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
 using Discussions.model;
 using Discussions.DbModel;
 using Discussions.rt;
 using LoginEngine;
 using Discussions.RTModel.Model;
 using System.Collections.ObjectModel;
-using System.Windows.Threading;
 
 namespace Discussions
 {
@@ -32,8 +22,6 @@ namespace Discussions
         private MultiClickRecognizer mediaDoubleClick;
 
         private UISharedRTClient _sharedClient;
-
-        public Action CloseRequest = null;
 
         //large badge view was open, explanation mode was enabled, another client closed badge, but badge
         //on current client wasn't closed as a comment was being edited on local client. this flag remembers 
@@ -137,6 +125,8 @@ namespace Discussions
 
             mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
 
+            _commentDismissalRecognizer = new CommentDismissalRecognizer(scrollViewer, OnDismiss);
+
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
 
@@ -164,6 +154,11 @@ namespace Discussions
                 _sharedClient.clienRt.argPointChanged += ArgPointChanged;
             else
                 _sharedClient.clienRt.argPointChanged -= ArgPointChanged;
+
+            if (doSet)
+                _sharedClient.clienRt.onCommentRead += OnCommentRead;
+            else
+                _sharedClient.clienRt.onCommentRead -= OnCommentRead;
         }
 
         private void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change)
@@ -180,7 +175,9 @@ namespace Discussions
 
             //using db ctx here from login engine, not to spoil others
             DbCtx.DropContext();
-            var ap2 = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
+            var ap2 = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);            
+
+            BadgesCtx.DropContext();
 
             DataContext = null;
             DataContext = ap2;
@@ -249,11 +246,15 @@ namespace Discussions
 
             //Drawing.HandleRecontext();
 
+            var ap = DataContext as ArgPoint;
+            _commentDismissalRecognizer.Reset(ap);
+            UpdateLocalReadCounts(DbCtx.Get(), ap);
+            UpdateRemoteReadCounts(DbCtx.Get(), ap);
+
             if (DataContext == null)
                 EditingMode = false;
             else
             {
-                var ap = (ArgPoint) DataContext;
                 EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
             }
 
@@ -571,5 +572,65 @@ namespace Discussions
                 btnSave_Click(null,null);
             }
         }
+
+        #region comment notificatinos
+
+        readonly CommentDismissalRecognizer _commentDismissalRecognizer;
+
+        private void UpdateLocalReadCounts(DiscCtx ctx, ArgPoint ap)
+        {
+            if (ap == null)
+                return;
+
+            SetNumUnreadComments(DaoUtils.NumCommentsUnreadBy(ctx, ap.Id));
+        }
+
+        void UpdateRemoteReadCounts(DiscCtx ctx, ArgPoint ap)
+        {
+            if (ap == null)
+                return;
+
+            largeBadgeView.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
+        }
+
+        private void SetNumUnreadComments(IEnumerable<NewCommentsFrom> newCommentBins)
+        {
+            notifications.ItemsSource = newCommentBins;
+            lblComments.Content = CommentDismissalRecognizer.FormatNumUnreadComments(newCommentBins.Total());
+        }
+
+        private void ScrollViewer_OnScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            _commentDismissalRecognizer.CheckScrollState();
+        }
+
+        void OnDismiss(ArgPoint ap)
+        {
+            Console.Beep();
+
+            CommentDismissalRecognizer.pushDismissal(ap, DbCtx.Get());
+        }
+
+        private void OnCommentRead(CommentsReadEvent ev)
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            if (ev.ArgPointId != ap.Id)
+                return;
+
+            if (ev.PersonId == SessionInfo.Get().person.Id)
+            {
+                //we are only interested in comment read callbacks from ourselves, to update local label 
+
+                UpdateLocalReadCounts(new DiscCtx(ConfigManager.ConnStr), ap);
+            }
+            else
+            {
+                UpdateRemoteReadCounts(new DiscCtx(ConfigManager.ConnStr), ap);
+            }
+        }     
+        #endregion
     }
 }

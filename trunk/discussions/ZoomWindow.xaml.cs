@@ -32,7 +32,6 @@ namespace Discussions
 
             largeBadgeView.DataContext = ap;
             largeBadgeView.SetRt(UISharedRTClient.Instance);
-            largeBadgeView.CloseRequest += CloseRequest;
 
             UISharedRTClient.Instance.clienRt.SendStatsEvent(StEvent.BadgeZoomIn,
                                                              SessionInfo.Get().person.Id,
@@ -43,7 +42,6 @@ namespace Discussions
 
         private void CloseRequest()
         {
-            largeBadgeView.CloseRequest -= CloseRequest;
             largeBadgeView = null;
             Close();
         }

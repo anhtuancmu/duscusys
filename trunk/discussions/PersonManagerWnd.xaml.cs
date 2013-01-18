@@ -56,7 +56,7 @@ namespace Discussions
             AddWindowAvailabilityHandlers();
 
             _closing = closing;
-            persons = new ObservableCollection<Person>(CtxSingleton.Get().Person);
+            persons = new ObservableCollection<Person>(PublicBoardCtx.Get().Person);
 
             DataContext = this;
 
@@ -131,7 +131,7 @@ namespace Discussions
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
             foreach (var p in persons)
             {
                 bool prevExists;

@@ -40,7 +40,7 @@ namespace Discussions
             _sharedClient = sharedClient;
 
             var dId = SessionInfo.Get().discussion.Id;
-            var disc = Ctx2.Get().Discussion.FirstOrDefault(d0 => d0.Id == dId);
+            var disc = PrivateCenterCtx.Get().Discussion.FirstOrDefault(d0 => d0.Id == dId);
 
             var topics = disc.Topic;
             srcTopics = new ObservableCollection<Topic>(topics);
@@ -127,7 +127,7 @@ namespace Discussions
                     copyArgPointTo(ap, dstTopic);
                 }
 
-                Ctx2.SaveChangesIgnoreConflicts();
+                PrivateCenterCtx.SaveChangesIgnoreConflicts();
 
                 _sharedClient.clienRt.SendNotifyStructureChanged(dstTopic.Id, ownId, DeviceType.Wpf);
                 var srcTopic = lstSrcTopics.SelectedItem as Topic;
@@ -144,7 +144,7 @@ namespace Discussions
 
         private void copyArgPointTo(ArgPoint ap, Topic t)
         {
-            var pointCopy = DaoUtils.clonePoint(Ctx2.Get(),
+            var pointCopy = DaoUtils.clonePoint(PrivateCenterCtx.Get(),
                                                 ap,
                                                 t,
                                                 SessionInfo.Get().person,

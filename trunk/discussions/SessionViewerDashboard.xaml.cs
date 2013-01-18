@@ -50,7 +50,7 @@ namespace Discussions
             {
                 if (_sessions == null)
                 {
-                    _sessions = new ObservableCollection<Session>(CtxSingleton.Get().Session);
+                    _sessions = new ObservableCollection<Session>(PublicBoardCtx.Get().Session);
                 }
                 return _sessions;
             }
@@ -72,7 +72,7 @@ namespace Discussions
 
             var sessionId = session.Id;
 
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
             var personsOfSession = ctx.Person.Where(p0 => p0.Session != null && p0.Session.Id == sessionId);
 
             SeatUsers.Clear();
@@ -103,9 +103,9 @@ namespace Discussions
 
         private void btnRefresh_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            CtxSingleton.DropContext();
+            PublicBoardCtx.DropContext();
 
-            _sessions = new ObservableCollection<Session>(CtxSingleton.Get().Session);
+            _sessions = new ObservableCollection<Session>(PublicBoardCtx.Get().Session);
 
             //trigger update of seat/users 
             var prevSelSession = lstSessions.SelectedItem;

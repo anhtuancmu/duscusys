@@ -35,7 +35,7 @@ namespace Discussions
             {
                 if (_sessions == null)
                 {
-                    _sessions = new ObservableCollection<Session>(CtxSingleton.Get().Session);
+                    _sessions = new ObservableCollection<Session>(PublicBoardCtx.Get().Session);
                 }
                 return _sessions;
             }
@@ -67,7 +67,7 @@ namespace Discussions
             s.EstimatedTimeSlot = (int) TimeSlot.Morning;
 
             Sessions.Add(s);
-            CtxSingleton.Get().Session.AddObject(s);
+            PublicBoardCtx.Get().Session.AddObject(s);
         }
 
         public Session SelectedSession
@@ -89,12 +89,12 @@ namespace Discussions
             }
 
             Sessions.Remove(ss);
-            CtxSingleton.Get().DeleteObject(ss);
+            PublicBoardCtx.Get().DeleteObject(ss);
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
         }
     }
 }

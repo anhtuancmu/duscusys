@@ -74,7 +74,7 @@ namespace Discussions
         private Person getFreshPerson()
         {
             var ownId = SessionInfo.Get().person.Id;
-            return CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == ownId);
+            return PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == ownId);
         }
 
         private void btnAttachFromUrl_Click_1(object sender, RoutedEventArgs e)
@@ -153,7 +153,7 @@ namespace Discussions
             DaoUtils.EnsureBgExists(_d);
             _d.Background.Text = "";
             _d.HtmlBackground = plainHtml.Text;
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
         }
 
         private static string GetPastableHtml(Attachment a)

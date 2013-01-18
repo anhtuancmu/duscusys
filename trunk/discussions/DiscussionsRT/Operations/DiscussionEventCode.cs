@@ -59,6 +59,12 @@
         //
         BadgeViewEvent = 26,
 
-        SourceViewEvent = 27
+        SourceViewEvent = 27,
+
+
+        //
+        //comment notifications
+        //
+        CommentReadEvent = 28
     }
 }

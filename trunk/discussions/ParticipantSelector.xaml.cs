@@ -107,7 +107,7 @@ namespace Discussions
         {
             suggestions.Items.Clear();
 
-            DiscCtx ctx = CtxSingleton.Get();
+            DiscCtx ctx = PublicBoardCtx.Get();
             if (ctx == null)
                 return;
 
@@ -186,7 +186,7 @@ namespace Discussions
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
             FullSelector selector = new FullSelector();
-            selector.Set(CtxSingleton.Get().Person, "Name");
+            selector.Set(PublicBoardCtx.Get().Person, "Name");
         }
 
         private void txtBxName_PreviewKeyDown(object sender, KeyEventArgs e)

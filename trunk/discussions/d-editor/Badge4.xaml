@@ -81,9 +81,17 @@
                 <DockPanel Panel.ZIndex="100" HorizontalAlignment="Stretch"
                            d:LayoutOverrides="VerticalAlignment, Margin">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
-                        <Grid Name="notDot" Visibility="Collapsed">
-                            <Ellipse Width="10" Height="10" Fill="#FFF0CC2A" />
-                            <Ellipse Width="5" Height="5" Fill="#FFFFF62F" />
+                        <Grid Name="notDot">
+                            <Ellipse Width="15" Height="15">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#FFFFAE00"/>
+                                        <GradientStop Color="#00FF9700" Offset="1"/>
+                                        <GradientStop Color="#E5FFED2E" Offset="0.568"/>
+                                        <GradientStop Color="#E5FFB900" Offset="0.365"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
                         </Grid>
 
                         <s:SurfaceButton x:Name="btnZoom" Background="{x:Null}"

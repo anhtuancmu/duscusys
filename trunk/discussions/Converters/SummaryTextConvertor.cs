@@ -19,11 +19,10 @@ namespace Discussions
                 return ShortenLine(fullText);
         }
 
-        public static string ShortenLine(string line)
+        public static string ShortenLine(string line, int len=40)
         {
-            const int truncatedLen = 40;
-            if (line.Length > truncatedLen)
-                return line.Substring(0, Math.Min(line.Length - 1, truncatedLen)) + "...";
+            if (line.Length > len)
+                return line.Substring(0, Math.Min(line.Length - 1, len)) + "...";
             else
                 return line;
         }

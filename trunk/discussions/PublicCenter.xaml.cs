@@ -151,7 +151,7 @@ namespace Discussions
 
         private void btnViewResults_Click(object sender, RoutedEventArgs e)
         {
-            CtxSingleton.SaveChangesIgnoreConflicts();
+            PublicBoardCtx.SaveChangesIgnoreConflicts();
             new ResultViewer(discussion, null).Show();
             Close();
         }
@@ -358,7 +358,7 @@ namespace Discussions
         private void ForgetDBDiscussionState()
         {
             //forget cached state
-            CtxSingleton.DropContext();
+            PublicBoardCtx.DropContext();
             _discussion = SessionInfo.Get().discussion;
             DataContext = this;
         }
@@ -581,7 +581,7 @@ namespace Discussions
         private void updateStopWatch(Topic displayedTopic, TimeSpan passedSinceLastUpdate)
         {
             var discId = SessionInfo.Get().discussion.Id;
-            var freshDisc = CtxSingleton.Get().Discussion.FirstOrDefault(d0 => d0.Id == discId);
+            var freshDisc = PublicBoardCtx.Get().Discussion.FirstOrDefault(d0 => d0.Id == discId);
             bool needSave = false;
             foreach (var topic in freshDisc.Topic)
             {
@@ -599,7 +599,7 @@ namespace Discussions
                     stopWatch.Text = TimeSpan.FromSeconds((double) topic.CumulativeDuration).ToString();
             }
             if (needSave)
-                CtxSingleton.Get().SaveChanges();
+                PublicBoardCtx.Get().SaveChanges();
         }
 
         private void startStopWatch()
@@ -625,7 +625,7 @@ namespace Discussions
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
-        {
+        {          
             CreateEditCtx();
         }
 
@@ -657,7 +657,7 @@ namespace Discussions
 
             if (bv.doExpand)
             {
-                ShowLargeBadgeView(CtxSingleton.Get().ArgPoint.FirstOrDefault(ap0 => ap0.Id == bv.argPointId));
+                ShowLargeBadgeView(PublicBoardCtx.Get().ArgPoint.FirstOrDefault(ap0 => ap0.Id == bv.argPointId));
             }
             else
             {
@@ -696,6 +696,7 @@ namespace Discussions
 
             _lbv = new LargeBadgeView();
             var ArgPointId = ap.Id;
+            DbCtx.DropContext();//it can become stale while modal view was closed.
             _lbv.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
             _lbv.SetRt(UISharedRTClient.Instance);
             mainGrid.Children.Add(_lbv);
@@ -763,18 +764,18 @@ namespace Discussions
                 switch (sm.syncMsgType)
                 {
                     case SyncMsgType.SourceView:
-                        var src = CtxSingleton.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
+                        var src = PublicBoardCtx.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
                         var browser = new WebKitFrm(src.Text);
                         browser.Show();
                         break;
                     case SyncMsgType.YoutubeView:
-                        var attach = CtxSingleton.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
+                        var attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         var embedUrl = AttachmentToVideoConvertor.AttachToYtInfo(attach).EmbedUrl;
                         browser = new WebKitFrm(embedUrl);
                         browser.Show();
                         break;
                     case SyncMsgType.ImageView:
-                        attach = CtxSingleton.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
+                        attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         if (attach != null && !ExplanationModeMediator.Inst.IsViewerOpened(attach.Id))
                             AttachmentManager.RunViewer(attach);
                         break;
