@@ -188,9 +188,9 @@ namespace Discussions
 
             var ownId = SessionInfo.Get().person.Id;
 
-            var freshTopic = CtxSingleton.Get().Topic.FirstOrDefault(t0 => t0.Id == topic.Id);
+            var freshTopic = PublicBoardCtx.Get().Topic.FirstOrDefault(t0 => t0.Id == topic.Id);
             freshTopic.Running = topic.Running;
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
 
             var evt = topic.Running ? StEvent.RecordingStarted : StEvent.RecordingStopped;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(evt, ownId,

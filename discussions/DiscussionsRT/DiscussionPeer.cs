@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using LiteLobby;
 using Photon.SocketServer;
 using Discussions.RTModel.Operations;
@@ -74,6 +72,7 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.LinkReportRequest:
                 case DiscussionOpCode.BadgeViewRequest:
                 case DiscussionOpCode.ExplanationModeSyncViewRequest:
+                case DiscussionOpCode.CommentReadRequest:
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:

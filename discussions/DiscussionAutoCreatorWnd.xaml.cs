@@ -17,7 +17,7 @@ namespace Discussions
 
             DataContext = this;
 
-            lstDiscussions.ItemsSource = CtxSingleton.Get().Discussion;
+            lstDiscussions.ItemsSource = PublicBoardCtx.Get().Discussion;
         }
 
         private Tuple<Discussion, Discussion> GetTemplates()
@@ -114,7 +114,7 @@ namespace Discussions
             if (range.Item3 != "")
                 return;
 
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
 
             var moderator = ctx.Person.FirstOrDefault(p => p.Name == "moderator");
             if (moderator == null)

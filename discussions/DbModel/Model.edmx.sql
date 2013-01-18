@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/15/2012 23:20:19
+-- Date Created: 01/17/2013 11:39:59
 -- Generated from EDMX file: C:\projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
 
@@ -80,6 +80,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AttachmentMediaData]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MediaDataSet] DROP CONSTRAINT [FK_AttachmentMediaData];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CommentCommentPersonReadEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CommentPersonReadEntrySet] DROP CONSTRAINT [FK_CommentCommentPersonReadEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PersonCommentPersonReadEntry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CommentPersonReadEntrySet] DROP CONSTRAINT [FK_PersonCommentPersonReadEntry];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -126,6 +132,9 @@ IF OBJECT_ID(N'[dbo].[Seat]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[MediaDataSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MediaDataSet];
+GO
+IF OBJECT_ID(N'[dbo].[CommentPersonReadEntrySet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CommentPersonReadEntrySet];
 GO
 IF OBJECT_ID(N'[dbo].[TopicPerson]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TopicPerson];
@@ -292,6 +301,14 @@ CREATE TABLE [dbo].[MediaDataSet] (
 );
 GO
 
+-- Creating table 'CommentPersonReadEntry'
+CREATE TABLE [dbo].[CommentPersonReadEntry] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Comment_Id] int  NULL,
+    [Person_Id] int  NULL
+);
+GO
+
 -- Creating table 'TopicPerson'
 CREATE TABLE [dbo].[TopicPerson] (
     [Topic_Id] int  NOT NULL,
@@ -384,6 +401,12 @@ GO
 -- Creating primary key on [Id] in table 'MediaDataSet'
 ALTER TABLE [dbo].[MediaDataSet]
 ADD CONSTRAINT [PK_MediaDataSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CommentPersonReadEntry'
+ALTER TABLE [dbo].[CommentPersonReadEntry]
+ADD CONSTRAINT [PK_CommentPersonReadEntry]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -684,6 +707,34 @@ ADD CONSTRAINT [FK_AttachmentMediaData]
 CREATE INDEX [IX_FK_AttachmentMediaData]
 ON [dbo].[MediaDataSet]
     ([Attachment_Id]);
+GO
+
+-- Creating foreign key on [Comment_Id] in table 'CommentPersonReadEntry'
+ALTER TABLE [dbo].[CommentPersonReadEntry]
+ADD CONSTRAINT [FK_CommentCommentPersonReadEntry]
+    FOREIGN KEY ([Comment_Id])
+    REFERENCES [dbo].[Comment]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CommentCommentPersonReadEntry'
+CREATE INDEX [IX_FK_CommentCommentPersonReadEntry]
+ON [dbo].[CommentPersonReadEntry]
+    ([Comment_Id]);
+GO
+
+-- Creating foreign key on [Person_Id] in table 'CommentPersonReadEntry'
+ALTER TABLE [dbo].[CommentPersonReadEntry]
+ADD CONSTRAINT [FK_PersonCommentPersonReadEntry]
+    FOREIGN KEY ([Person_Id])
+    REFERENCES [dbo].[Person]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PersonCommentPersonReadEntry'
+CREATE INDEX [IX_FK_PersonCommentPersonReadEntry]
+ON [dbo].[CommentPersonReadEntry]
+    ([Person_Id]);
 GO
 
 -- --------------------------------------------------

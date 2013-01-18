@@ -67,13 +67,13 @@ namespace Discussions
             else
                 selector1.SelectedSide = (int) SideCode.Neutral;
 
-            personSelector.Set(CtxSingleton.Get().Person, "Name");
+            personSelector.Set(PublicBoardCtx.Get().Person, "Name");
         }
 
         private void SurfaceButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             DaoUtils.SetGeneralSide(person, _d, selector1.SelectedSide);
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
             Close();
         }
     }

@@ -15,8 +15,6 @@ namespace Discussions
     {
         public delegate void OnToggleZoom();
 
-        public OnToggleZoom onToggleZoom = null;
-
         private MultiClickRecognizer mediaDoubleClick;
 
         public static readonly RoutedEvent RequestLargeViewEvent = EventManager.RegisterRoutedEvent(
@@ -35,7 +33,7 @@ namespace Discussions
             mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
         }
 
-        public void ToggleNotification(bool notificationsExist)
+        void ToggleDot(bool notificationsExist)
         {
             if (notificationsExist)
                 notDot.Visibility = Visibility.Visible;
@@ -60,6 +58,9 @@ namespace Discussions
                 ArgPoint p = (ArgPoint) DataContext;
                 if (p.Person == null)
                     return;
+
+                var numUnread = DaoUtils.NumCommentsUnreadBy(new DiscCtx(ConfigManager.ConnStr), p.Id).Total();
+                ToggleDot(numUnread>0);
 
                 mask.Background = new SolidColorBrush(Utils.IntToColor(p.Person.Color));
                 switch ((SideCode) p.SideCode)

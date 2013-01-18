@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Discussions;
-using Discussions.DbModel;
 using Discussions.rt;
 using Discussions.stats;
 
 namespace Discussions
 {
-    public class CtxSingleton
+    public class PrivateCenterCtx
     {
         private static StatsTrackingDbCtx ctx = null;
 

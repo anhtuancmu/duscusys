@@ -11,7 +11,7 @@ namespace Discussions.model
     {
         public static bool DiscussionExists(Discussion disc)
         {
-            return CtxSingleton.Get().Discussion.FirstOrDefault(d => d.Id == disc.Id) != null;
+            return PublicBoardCtx.Get().Discussion.FirstOrDefault(d => d.Id == disc.Id) != null;
         }
 
         public static Person NewPerson(string Name, string Email)

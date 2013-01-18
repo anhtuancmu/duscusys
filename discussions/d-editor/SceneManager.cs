@@ -7,6 +7,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using Discussions;
+using Discussions.DbModel;
 using Discussions.d_editor;
 using Discussions.model;
 using Discussions.rt;
@@ -344,13 +345,16 @@ namespace DistributedEditor
                     }
                     return true;
                 case ShapeInputMode.ManipulationExpected:
-                    if (DateTime.Now.Subtract(_recentInpDevDown).TotalMilliseconds < 500)
+                    var recentInpDevDown = _recentInpDevDown;
+                    _recentInpDevDown = DateTime.Now;
+                    if (DateTime.Now.Subtract(recentInpDevDown).TotalMilliseconds < 500)
                     {
                         //this is the second click of double click series. ignore it. it can be large badge view request, 
                         //so we don't start manipulating the badge, as it's now in modal state.
+                        InpDeviceUp(new Point());//release any previous contact
                         return true;
                     }
-                
+ 
                     //no current touch points on shapes (maybe touch points over empty space)
 
                     Shape resizeNode = null;
@@ -381,7 +385,6 @@ namespace DistributedEditor
                     {
                         CaptureAndStartManip(underContact, pos, resizeNode, touchDev);
                     }
-                    _recentInpDevDown = DateTime.Now;
                     return true;
                 case ShapeInputMode.Manipulating:
                     return true;
@@ -670,8 +673,7 @@ namespace DistributedEditor
 
         private void ReloadBadgeContexts()
         {
-            DbCtx.DropContext();
-            DocTools.ToggleBadgeContexts(_doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
+            DocTools.ToggleBadgeContexts(BadgesCtx.Get(), _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
         }
 
         private void argPointChanged(int ArgPointId, int topicId, PointChangedType change)
@@ -692,6 +694,15 @@ namespace DistributedEditor
                     break;
                 default:
                     throw new NotSupportedException();
+            }
+        }
+
+        private void OnCommentRead(CommentsReadEvent ev)
+        {
+            if (ev.TopicId == _doc.TopicId && ev.PersonId == SessionInfo.Get().person.Id)
+            {
+                //if a comment is read by us in the topic of scene, update the badge to trigger notifications dot
+                ReloadBadgeContexts();
             }
         }
 
@@ -724,14 +735,14 @@ namespace DistributedEditor
             }
         }
 
-        public void SetNotification(int argPointId, bool notificationExists)
-        {
-            //find badge with arg.point Id
-            var theBadge = Doc.GetShapes().FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge &&
-                                                                ((VdBadge) sh).ArgPtId == argPointId) as VdBadge;
-            if (theBadge != null)
-                theBadge.Badge.ToggleNotification(notificationExists);
-        }
+        //public void SetNotification(int argPointId, bool notificationExists)
+        //{
+        //    //find badge with arg.point Id
+        //    var theBadge = Doc.GetShapes().FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge &&
+        //                                                        ((VdBadge) sh).ArgPtId == argPointId) as VdBadge;
+        //    if (theBadge != null)
+        //        theBadge.Badge.ToggleDot(notificationExists);
+        //}
 
         #region photon events
 
@@ -762,6 +773,11 @@ namespace DistributedEditor
                 _rt.clienRt.inkEvent += inkStateEvent;
             else
                 _rt.clienRt.inkEvent -= inkStateEvent;
+
+            if (doSet)
+                _rt.clienRt.onCommentRead += OnCommentRead;
+            else
+                _rt.clienRt.onCommentRead -= OnCommentRead;            
         }
 
         #endregion photon events

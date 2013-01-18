@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Shapes;
 using System.Windows.Input;
 using System.Windows.Media;
 using Discussions;
-using System.Windows.Media.Effects;
-using LoginEngine;
+using Discussions.DbModel;
 using Discussions.RTModel.Model;
 
 namespace DistributedEditor
@@ -58,7 +54,7 @@ namespace DistributedEditor
         {
             _badge = new Badge4();
             _badge.Tag = this;
-            RecontextBadge();
+            RecontextBadge(BadgesCtx.Get());
         }
 
         public ShapeZ ShapeZLevel()
@@ -84,10 +80,10 @@ namespace DistributedEditor
             return true;
         }
 
-        public void RecontextBadge()
+        public void RecontextBadge(DiscCtx ctx)
         {
             _badge.DataContext = null;
-            _badge.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(ap => ap.Id == _argPtId);
+            _badge.DataContext = ctx.ArgPoint.FirstOrDefault(ap => ap.Id == _argPtId);
         }
 
         public UIElement UnderlyingControl()

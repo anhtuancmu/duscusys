@@ -39,6 +39,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("db", "PersonSeat", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Person), "Seat", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Seat), true)]
 [assembly: EdmRelationshipAttribute("db", "PersonSession", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Person), "Session", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Session), true)]
 [assembly: EdmRelationshipAttribute("db", "AttachmentMediaData", "Attachment", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Attachment), "MediaData", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.MediaData))]
+[assembly: EdmRelationshipAttribute("db", "CommentCommentPersonReadEntry", "Comment", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Comment), "CommentPersonReadEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.CommentPersonReadEntry))]
+[assembly: EdmRelationshipAttribute("db", "PersonCommentPersonReadEntry", "Person", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Person), "CommentPersonReadEntry", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.CommentPersonReadEntry))]
 
 #endregion
 
@@ -313,6 +315,22 @@ namespace Discussions.DbModel
             }
         }
         private ObjectSet<MediaData> _MediaDataSet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<CommentPersonReadEntry> CommentPersonReadEntry
+        {
+            get
+            {
+                if ((_CommentPersonReadEntry == null))
+                {
+                    _CommentPersonReadEntry = base.CreateObjectSet<CommentPersonReadEntry>("CommentPersonReadEntry");
+                }
+                return _CommentPersonReadEntry;
+            }
+        }
+        private ObjectSet<CommentPersonReadEntry> _CommentPersonReadEntry;
 
         #endregion
 
@@ -428,6 +446,14 @@ namespace Discussions.DbModel
         public void AddToMediaDataSet(MediaData mediaData)
         {
             base.AddObject("MediaDataSet", mediaData);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the CommentPersonReadEntry EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCommentPersonReadEntry(CommentPersonReadEntry commentPersonReadEntry)
+        {
+            base.AddObject("CommentPersonReadEntry", commentPersonReadEntry);
         }
 
         #endregion
@@ -1765,6 +1791,165 @@ namespace Discussions.DbModel
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("db", "CommentCommentPersonReadEntry", "CommentPersonReadEntry")]
+        public EntityCollection<CommentPersonReadEntry> ReadEntry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CommentPersonReadEntry>("db.CommentCommentPersonReadEntry", "CommentPersonReadEntry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CommentPersonReadEntry>("db.CommentCommentPersonReadEntry", "CommentPersonReadEntry", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="db", Name="CommentPersonReadEntry")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class CommentPersonReadEntry : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new CommentPersonReadEntry object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static CommentPersonReadEntry CreateCommentPersonReadEntry(global::System.Int32 id)
+        {
+            CommentPersonReadEntry commentPersonReadEntry = new CommentPersonReadEntry();
+            commentPersonReadEntry.Id = id;
+            return commentPersonReadEntry;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("db", "CommentCommentPersonReadEntry", "Comment")]
+        public Comment Comment
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Comment>("db.CommentCommentPersonReadEntry", "Comment").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Comment>("db.CommentCommentPersonReadEntry", "Comment").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Comment> CommentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Comment>("db.CommentCommentPersonReadEntry", "Comment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Comment>("db.CommentCommentPersonReadEntry", "Comment", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("db", "PersonCommentPersonReadEntry", "Person")]
+        public Person Person
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Person>("db.PersonCommentPersonReadEntry", "Person").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Person>("db.PersonCommentPersonReadEntry", "Person").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Person> PersonReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Person>("db.PersonCommentPersonReadEntry", "Person");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Person>("db.PersonCommentPersonReadEntry", "Person", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -2748,6 +2933,28 @@ namespace Discussions.DbModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Session>("db.PersonSession", "Session", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("db", "PersonCommentPersonReadEntry", "CommentPersonReadEntry")]
+        public EntityCollection<CommentPersonReadEntry> ReadEntry
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CommentPersonReadEntry>("db.PersonCommentPersonReadEntry", "CommentPersonReadEntry");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CommentPersonReadEntry>("db.PersonCommentPersonReadEntry", "CommentPersonReadEntry", value);
                 }
             }
         }

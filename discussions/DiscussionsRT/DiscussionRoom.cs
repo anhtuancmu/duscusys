@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using LiteLobby;
 using Lite;
-using LiteLobby.Operations;
 using Photon.SocketServer;
 using Discussions.RTModel.Operations;
 using Discussions.RTModel.Model;
-using Lite.Events;
-using Discussions.DbModel;
 using ExitGames.Logging;
-using Discussions.RTModel;
 using Lite.Messages;
 
 namespace Discussions.RTModel
@@ -32,7 +27,7 @@ namespace Discussions.RTModel
         private static readonly ILogger _log = LogManager.GetCurrentClassLogger();
 
         //maps topic id to its editor 
-        private Dictionary<int, VectProcessor> _vectEditors = new Dictionary<int, VectProcessor>();
+        private readonly Dictionary<int, VectProcessor> _vectEditors = new Dictionary<int, VectProcessor>();
 
         public VectProcessor VectEditor(int topicId)
         {
@@ -138,6 +133,9 @@ namespace Discussions.RTModel
                     break;
                 case (byte) DiscussionOpCode.ExplanationModeSyncViewRequest:
                     HandleSourceView(peer, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.CommentReadRequest:
+                    HandleCommentRead(peer, operationRequest, sendParameters);
                     break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
@@ -309,6 +307,14 @@ namespace Discussions.RTModel
         {
             Broadcast(peer, operationRequest, sendParameters,
                       (byte) DiscussionEventCode.SourceViewEvent, BroadcastTo.RoomExceptSelf);
+        }
+
+        private void HandleCommentRead(LitePeer peer,
+                                       OperationRequest operationRequest,
+                                       SendParameters sendParameters)
+        {
+            Broadcast(peer, operationRequest, sendParameters,
+                     (byte) DiscussionEventCode.CommentReadEvent, BroadcastTo.RoomAll);
         }
     }
 }

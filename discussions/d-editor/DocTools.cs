@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Discussions;
+using Discussions.DbModel;
 using Discussions.d_editor;
-using Discussions.rt;
 
 namespace DistributedEditor
 {
@@ -41,10 +39,10 @@ namespace DistributedEditor
         }
 
         //forces all badges to rebuild their views. but current instance of DB context is used (need to update it manually)
-        public static void ToggleBadgeContexts(IEnumerable<IVdShape> badges)
+        public static void ToggleBadgeContexts(DiscCtx ctx, IEnumerable<IVdShape> badges)
         {
             foreach (var v in badges)
-                ((VdBadge) v).RecontextBadge();
+                ((VdBadge) v).RecontextBadge(ctx);
         }
 
         public static int[] ShapesToIds(IEnumerable<IVdShape> shapes)

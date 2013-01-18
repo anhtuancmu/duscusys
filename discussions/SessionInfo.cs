@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Discussions.DbModel;
 using System.Data.Objects;
-using System.Data;
 using LoginEngine;
 
 namespace Discussions
@@ -64,10 +60,10 @@ namespace Discussions
             if (entity == null)
                 return _person;
 
-            if (IsAttachedTo(Ctx2.Get(), entity))
-                return Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
-            else if (IsAttachedTo(CtxSingleton.Get(), entity))
-                return CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
+            if (IsAttachedTo(PrivateCenterCtx.Get(), entity))
+                return PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
+            else if (IsAttachedTo(PublicBoardCtx.Get(), entity))
+                return PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
             else if (IsAttachedTo(DbCtx.Get(), entity))
                 return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
 
@@ -110,7 +106,7 @@ namespace Discussions
             if (_inst == null)
                 return;
 
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
 
             if (_inst.discussion != null)
                 _inst.discussion = ctx.Discussion.FirstOrDefault(d0 => d0.Id == _inst.discussion.Id);

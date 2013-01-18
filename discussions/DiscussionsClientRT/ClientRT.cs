@@ -136,6 +136,10 @@ namespace DiscussionsClientRT
 
         #endregion reporting
 
+        public delegate void OnCommentRead(CommentsReadEvent ev);
+
+        public OnCommentRead onCommentRead;
+
         private LiteLobbyPeer peer;
         private Hashtable gameList = new Hashtable();
         private Dictionary<int, DiscUser> usersOnline = new Dictionary<int, DiscUser>();
@@ -358,6 +362,10 @@ namespace DiscussionsClientRT
                 case (byte) DiscussionEventCode.SourceViewEvent:
                     if (onSourceViewRequest != null)
                         onSourceViewRequest(ExplanationModeSyncMsg.Read(eventData.Parameters));
+                    break;
+                case (byte)DiscussionEventCode.CommentReadEvent:
+                    if(onCommentRead!=null)
+                        onCommentRead(CommentsReadEvent.Read(eventData.Parameters));
                     break;
                 default:
                     Console.WriteLine("Unhandled event " + eventData.Code);
@@ -802,6 +810,16 @@ namespace DiscussionsClientRT
 
             peer.OpCustom((byte) DiscussionOpCode.ScreenshotRequest,
                           ScreenshotRequest.Write(topicId, discussionId),
+                          true);
+        }
+
+        public void SendCommentsRead(int PersonId, int TopicId, int ArgPointId)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.CommentReadRequest,
+                          CommentsReadEvent.Write(PersonId, TopicId, ArgPointId),
                           true);
         }
     }

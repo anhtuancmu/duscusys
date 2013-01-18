@@ -185,7 +185,7 @@ namespace Discussions
         private Person getFreshPerson()
         {
             var ownId = SessionInfo.Get().person.Id;
-            return CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == ownId);
+            return PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == ownId);
         }
 
         private void removeMedia_Click(object sender, RoutedEventArgs e)
@@ -196,8 +196,8 @@ namespace Discussions
             var mediaData = at.MediaData;
             at.MediaData = null;
             if (mediaData != null)
-                CtxSingleton.Get().DeleteObject(mediaData);
-            CtxSingleton.Get().DeleteObject(at);
+                PublicBoardCtx.Get().DeleteObject(mediaData);
+            PublicBoardCtx.Get().DeleteObject(at);
         }
 
         private void btnAddSrc_Click(object sender, RoutedEventArgs e)

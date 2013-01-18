@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Discussions"
              mc:Ignorable="d"
              DataContextChanged="UserControl_DataContextChanged_1"
-             d:DesignHeight="66" d:DesignWidth="290.333"
+             d:DesignHeight="97.333" d:DesignWidth="342.333"
              xmlns:my="http://schemas.microsoft.com/surface/2008">
     <Border BorderThickness="0,2,0,0" BorderBrush="#FFB2B2B2" Padding="4">
         <Grid>

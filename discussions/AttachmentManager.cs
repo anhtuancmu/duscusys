@@ -277,7 +277,7 @@ namespace Discussions
 
             if (Point != null)
                 Point.Attachment.Add(res);
-            //CtxSingleton.Get().SaveChanges();
+            //PublicBoardCtx.Get().SaveChanges();
 
             return res;
         }
@@ -311,7 +311,7 @@ namespace Discussions
 
             if (Point != null)
                 Point.Attachment.Add(res);
-            ///CtxSingleton.Get().SaveChanges();
+            ///PublicBoardCtx.Get().SaveChanges();
 
             return res;
         }
@@ -349,7 +349,7 @@ namespace Discussions
 
                 if (Point != null)
                     Point.Attachment.Add(res);
-                ///CtxSingleton.Get().SaveChanges();
+                ///PublicBoardCtx.Get().SaveChanges();
             }
             finally
             {

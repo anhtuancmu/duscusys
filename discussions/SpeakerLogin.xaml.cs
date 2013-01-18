@@ -57,7 +57,7 @@ namespace Discussions
             participantSelector.onSelected += ParticipantChanged;
 
             var persons =
-                from p in CtxSingleton.Get().Person
+                from p in PublicBoardCtx.Get().Person
                 where p.Name != "Name"
                 select p;
 
@@ -72,7 +72,7 @@ namespace Discussions
             _person = selected as Person;
 
             //enum all discussions of the person
-            DiscCtx ctx = CtxSingleton.Get();
+            DiscCtx ctx = PublicBoardCtx.Get();
             IQueryable<Discussion> lookup =
                 (from t in ctx.Topic
                  where t.Person.Any(p0 => p0.Id == _person.Id)

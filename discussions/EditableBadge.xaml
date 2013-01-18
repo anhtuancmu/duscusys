@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:Discussions"
     xmlns:yt="clr-namespace:Discussions.YouViewer"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     x:Class="Discussions.EditableBadge"
     mc:Ignorable="d"
     d:DesignHeight="1133"
@@ -15,15 +14,12 @@
     DataContextChanged="UserControl_DataContextChanged"
     Margin="4,9,0,2">
     <UserControl.Resources>
-        <local:LinkTruncater x:Key="linkTruncater" />
-        <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
         <local:MediaTypeIconConverter x:Key="mediaTypeIconConv" />
         <local:AttachmentToVisibilityConverter x:Key="owner2Visibility" />
         <DataTemplate x:Key="CommentItemTemplate">
             <local:CommentUC placeholderFocus="placeholderFocus" />
         </DataTemplate>
         <local:AttachToImageConvertor x:Key="attachImgConverter" />
-        <local:ARGBColorBrushConvertor x:Key="brushConverter" />
         <DataTemplate x:Key="ImageAttachmentTemplate">
             <Grid Margin="15" Name="mediaTemplRoot">
                 <Grid.ColumnDefinitions>
@@ -65,7 +61,6 @@
             </Grid>
         </DataTemplate>
 
-        <local:AttachmentToVideoConvertor x:Key="attachVideoConverter" />
         <DataTemplate x:Key="VideoAttachmentTemplate">
             <Grid Margin="15" Name="mediaTemplRoot">
                 <Grid.ColumnDefinitions>
@@ -323,7 +318,7 @@
                                       Grid.Column="1" />
             </Grid>
 
-            <Label Content="Comments" d:LayoutOverrides="Margin" />
+            <Label Name="lblComments" Content="Comments" d:LayoutOverrides="Margin" />
 
             <!--PreviewMouseDown="lstBxComments_PreviewMouseDown_1"
 				PreviewMouseUp="lstBxComments_PreviewMouseUp_1"  

@@ -90,7 +90,7 @@ namespace Discussions
         {
             suggestions.Items.Clear();
 
-            DiscCtx ctx = CtxSingleton.Get();
+            DiscCtx ctx = PublicBoardCtx.Get();
             if (ctx == null)
                 return;
 

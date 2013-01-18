@@ -33,7 +33,7 @@ namespace Discussions
             {
                 if (_seats == null)
                 {
-                    _seats = new ObservableCollection<Seat>(CtxSingleton.Get().Seat);
+                    _seats = new ObservableCollection<Seat>(PublicBoardCtx.Get().Seat);
                 }
                 return _seats;
             }
@@ -61,7 +61,7 @@ namespace Discussions
             s.Color = Utils.ColorToInt(Colors.LawnGreen);
 
             Seats.Add(s);
-            CtxSingleton.Get().Seat.AddObject(s);
+            PublicBoardCtx.Get().Seat.AddObject(s);
         }
 
         public Seat SelectedSeat
@@ -77,12 +77,12 @@ namespace Discussions
                 return;
 
             Seats.Remove(ss);
-            CtxSingleton.Get().DeleteObject(ss);
+            PublicBoardCtx.Get().DeleteObject(ss);
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
         }
 
         private void lstBxSeats_SelectionChanged_1(object sender, SelectionChangedEventArgs e)

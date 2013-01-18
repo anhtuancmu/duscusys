@@ -19,16 +19,12 @@
     <UserControl.Resources>
         <local:ARGBColorBrushConvertor x:Key="colorConv" />
 
-        <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
-
         <DataTemplate x:Key="CommentItemTemplate">
             <local:CommentUC Width="820"
                              CommentEditLockChanged="onCommentEditabilityChanged"
                              possibilityToClose="possibilityToClose"
                              placeholderFocus="placeholderFocus" />
         </DataTemplate>
-
-        <local:ARGBColorBrushConvertor x:Key="brushConverter" />
 
         <DataTemplate x:Key="ImageAttachmentTemplate">
             <local:LargeImageUC MaxWidth="400" />
@@ -78,10 +74,14 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Custom:SurfaceButton x:Name="btnSave" HorizontalAlignment="Right" Click="btnSave_Click"
-                                  VerticalAlignment="Bottom" Height="75" Width="75" Grid.Row="2" Background="{x:Null}">
-                <Border Background="{StaticResource save}" Width="60" Height="60" />
-            </Custom:SurfaceButton>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <TextBlock Name="largeBadgeView" Margin="0,0,50,0" VerticalAlignment="Bottom"/>                
+                
+                <Custom:SurfaceButton x:Name="btnSave"  Click="btnSave_Click"
+        			 Height="75" Width="75" Background="{x:Null}" Margin="0">
+                    <Border Background="{StaticResource save}" Width="60" Height="60" />
+                </Custom:SurfaceButton>
+            </StackPanel>
             <StackPanel x:Name="stkHeader" Orientation="Horizontal"
                         PreviewMouseDown="stkHeader_PreviewMouseDown_1"
                         PreviewTouchDown="stkHeader_PreviewTouchDown_1" Background="#02000000">
@@ -90,13 +90,26 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ItemsControl x:Name="notifications" Margin="0,0,50,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="15,0,0,0" 
+                                    BorderBrush="{Binding Person.Color, Converter={StaticResource brushConverter}}">
+                                <TextBlock FontSize="18" Foreground="Black" Text = "{Binding}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
                 <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0"
                                       HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75">
                     <Border Background="{StaticResource decrease2}" Width="60" Height="60" />
                 </Custom:SurfaceButton>
             </StackPanel>
 
-            <Custom:SurfaceScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+            <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="1" 
+                                        ScrollChanged="ScrollViewer_OnScrollChanged"
+                                        VerticalScrollBarVisibility="Visible">
                 <StackPanel>
                     <TextBlock x:Name="txtPoint"
                                TextAlignment="Center"
@@ -142,7 +155,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <Label Content="Comments" HorizontalAlignment="Left"
+                        <Label x:Name="lblComments" Content="Comments" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
                                Foreground="Black" d:LayoutOverrides="HorizontalMargin" />
                         <ItemsControl x:Name="lstBxComments1"

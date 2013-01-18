@@ -57,15 +57,15 @@ namespace Discussions
             if (SessionInfo.Get().ScreenshotMode)
             {
                 var discId = SessionInfo.Get().screenDiscId;
-                Ctx2.sharedClient = sharedClient;
-                CtxSingleton.sharedClient = sharedClient;
-                SessionInfo.Get().discussion = Ctx2.Get().Discussion.FirstOrDefault(d => d.Id == discId);
-                SessionInfo.Get().setPerson(Ctx2.Get().Person.FirstOrDefault(p => p.Name == "moderator"));
+                PrivateCenterCtx.sharedClient = sharedClient;
+                PublicBoardCtx.sharedClient = sharedClient;
+                SessionInfo.Get().discussion = PrivateCenterCtx.Get().Discussion.FirstOrDefault(d => d.Id == discId);
+                SessionInfo.Get().setPerson(PrivateCenterCtx.Get().Person.FirstOrDefault(p => p.Name == "moderator"));
                 var loginRes = new LoginResult();
                 loginRes.devType = DeviceType.Wpf;
                 loginRes.discussion = SessionInfo.Get().discussion;
                 loginRes.person = SessionInfo.Get().person;
-                sharedClient.start(loginRes, Ctx2.Get().Connection.DataSource, DeviceType.Wpf);
+                sharedClient.start(loginRes, PrivateCenterCtx.Get().Connection.DataSource, DeviceType.Wpf);
 
                 this.Hide();
 
@@ -97,8 +97,8 @@ namespace Discussions
 
             DataContext = this;
 
-            Ctx2.sharedClient = sharedClient;
-            CtxSingleton.sharedClient = sharedClient;
+            PrivateCenterCtx.sharedClient = sharedClient;
+            PublicBoardCtx.sharedClient = sharedClient;
 
             avatar.pointDown = AvatarPointDown;
 
@@ -136,7 +136,7 @@ namespace Discussions
             avatar.DataContext = login.person;
 
             //start rt client
-            sharedClient.start(login, CtxSingleton.Get().Connection.DataSource, DeviceType.Wpf);
+            sharedClient.start(login, PublicBoardCtx.Get().Connection.DataSource, DeviceType.Wpf);
 
             SetListeners(sharedClient, true);
         }
@@ -151,8 +151,8 @@ namespace Discussions
             discWindows.CloseAndDispose();
 
             SessionInfo.Reset();
-            CtxSingleton.DropContext();
-            Ctx2.DropContext();
+            PublicBoardCtx.DropContext();
+            PrivateCenterCtx.DropContext();
         }
 
         private static string SessionStr(Session s, Discussion d)
@@ -493,9 +493,9 @@ namespace Discussions
         private void CommitAvaNameChanges(Person pers)
         {
             var userId = pers.Id;
-            var usr = CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == userId);
+            var usr = PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == userId);
             usr.Name = pers.Name;
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
         }
 
         private void AvatarPointDown(bool name)
@@ -532,7 +532,7 @@ namespace Discussions
             Person currentPers = SessionInfo.Get().person;
 
             currentPers.AvatarAttachment = avaAttachment;
-            CtxSingleton.Get().SaveChanges();
+            PublicBoardCtx.Get().SaveChanges();
 
             //refresh avatar            
             avatar.DataContext = null;
@@ -548,7 +548,7 @@ namespace Discussions
             if (d == null)
                 return;
 
-            var diz = new DiscussionInfoZoom(CtxSingleton.Get().Discussion.FirstOrDefault(d0 => d0.Id == d.Id));
+            var diz = new DiscussionInfoZoom(PublicBoardCtx.Get().Discussion.FirstOrDefault(d0 => d0.Id == d.Id));
             diz.ShowDialog();
         }
 

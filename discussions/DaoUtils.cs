@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Discussions.model;
 using Discussions.DbModel;
-using System.IO;
 using System.Windows.Media;
 using Discussions.stats;
 using System.Linq;
 using System.Data.Objects;
+using LoginEngine;
 
 namespace Discussions
 {
@@ -20,7 +20,7 @@ namespace Discussions
             if (!Ctors.DiscussionExists(d))
                 return;
 
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
 
             //delete attachments 
             var attachments = new List<Attachment>();
@@ -49,7 +49,7 @@ namespace Discussions
 
         public static Person PersonSingleton(Person template, out bool prevExists)
         {
-            Person prev = CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Name == template.Name &&
+            Person prev = PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Name == template.Name &&
                                                                          p0.Email == template.Email);
             if (prev != null)
             {
@@ -65,7 +65,7 @@ namespace Discussions
 
         public static void EnsureModerExists()
         {
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
 
             var q = from p in ctx.Person
                     where p.Name.IndexOf(MODER_SUBNAME) != -1
@@ -80,7 +80,7 @@ namespace Discussions
 
         public static void deletePersonAndPoints(Person p)
         {
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
 
             //remove the point from topic 
             foreach (var pt in p.ArgPoint)
@@ -131,9 +131,9 @@ namespace Discussions
             DaoUtils.EnsurePtDescriptionExists(pt);
 
             pt.Description.Text = "Description";
-            pt.Topic = Ctx2.Get().Topic.FirstOrDefault(t0 => t0.Id == t.Id);
+            pt.Topic = PrivateCenterCtx.Get().Topic.FirstOrDefault(t0 => t0.Id == t.Id);
             int selfId = SessionInfo.Get().person.Id;
-            var pers = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == selfId);
+            var pers = PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == selfId);
             pt.Person = pers;
             pt.SharedToPublic = true;
             pt.SideCode = DaoUtils.GetGeneralSide(SessionInfo.Get().person,
@@ -172,7 +172,7 @@ namespace Discussions
             if (t == null)
                 return;
 
-            var ctx = CtxSingleton.Get();
+            var ctx = PublicBoardCtx.Get();
             t.Person.Clear();
             t.ArgPoint.Clear();
             t.Discussion = null;
@@ -185,13 +185,13 @@ namespace Discussions
             if (p == null || d == null)
                 return;
 
-            var q = from genSide in CtxSingleton.Get().GeneralSide
+            var q = from genSide in PublicBoardCtx.Get().GeneralSide
                     where genSide.Discussion.Id == d.Id && genSide.Person.Id == p.Id
                     select genSide;
             if (q.Count() > 0)
                 q.First().Side = side;
             else
-                CtxSingleton.Get().GeneralSide.AddObject(Ctors.NewGenSide(p, d, side));
+                PublicBoardCtx.Get().GeneralSide.AddObject(Ctors.NewGenSide(p, d, side));
         }
 
         public static int GetGeneralSide(Person p, Discussion d)
@@ -199,7 +199,7 @@ namespace Discussions
             if (p == null || d == null)
                 return -1;
 
-            var q = from genSide in CtxSingleton.Get().GeneralSide
+            var q = from genSide in PublicBoardCtx.Get().GeneralSide
                     where genSide.Discussion.Id == d.Id && genSide.Person.Id == p.Id
                     select genSide;
 
@@ -253,7 +253,7 @@ namespace Discussions
 
         public static IEnumerable<Annotation> GetAnnotations(Discussion d)
         {
-            var q = from ans in CtxSingleton.Get().Annotation
+            var q = from ans in PublicBoardCtx.Get().Annotation
                     where ans.Discussion.Id == d.Id
                     select ans;
             return q;
@@ -264,7 +264,7 @@ namespace Discussions
             a.Person = null;
             a.Discussion = null;
 
-            CtxSingleton.Get().DeleteObject(a);
+            PublicBoardCtx.Get().DeleteObject(a);
         }
 
         //invalidates cached data tree of argument point 
@@ -281,9 +281,9 @@ namespace Discussions
             objectsToUpdate.Add(ap.Person);
 
             //we don't update Topic. Topic change is structural change (requires struct update notification)
-            CtxSingleton.Get().Refresh(RefreshMode.StoreWins, objectsToUpdate);
+            PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, objectsToUpdate);
 
-            CtxSingleton.Get().Refresh(RefreshMode.StoreWins, ap);
+            PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, ap);
         }
 
         //refreshes top-level discussion node (for session management)
@@ -291,7 +291,7 @@ namespace Discussions
         {
             try
             {
-                CtxSingleton.Get().Refresh(RefreshMode.StoreWins, d);
+                PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, d);
             }
             catch (Exception)
             {
@@ -299,7 +299,7 @@ namespace Discussions
 
             try
             {
-                Ctx2.Get().Refresh(RefreshMode.StoreWins, d);
+                PrivateCenterCtx.Get().Refresh(RefreshMode.StoreWins, d);
             }
             catch (Exception)
             {
@@ -309,7 +309,7 @@ namespace Discussions
         //used for coloring shapes in graphics editor after users
         public static Color UserIdToColor(int id)
         {
-            Person p = CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == id);
+            Person p = PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == id);
             if (p == null)
                 return Colors.AliceBlue;
             else
@@ -318,7 +318,7 @@ namespace Discussions
 
         public static string UserIdToName(int id)
         {
-            Person p = CtxSingleton.Get().Person.FirstOrDefault(p0 => p0.Id == id);
+            Person p = PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == id);
             if (p == null)
                 return "";
             else
@@ -327,11 +327,11 @@ namespace Discussions
 
         public static Annotation GetUpdatedAnnotation(int annotId)
         {
-            var a = CtxSingleton.Get().Annotation.FirstOrDefault(a0 => a0.Id == annotId);
+            var a = PublicBoardCtx.Get().Annotation.FirstOrDefault(a0 => a0.Id == annotId);
             if (a == null)
                 return null;
-            CtxSingleton.Get().Refresh(RefreshMode.StoreWins, a);
-            return CtxSingleton.Get().Annotation.FirstOrDefault(a0 => a0.Id == annotId);
+            PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, a);
+            return PublicBoardCtx.Get().Annotation.FirstOrDefault(a0 => a0.Id == annotId);
         }
 
         public static void UnpublishPoint(ArgPoint ap)
@@ -343,12 +343,12 @@ namespace Discussions
         {
             var res = new List<EventViewModel>();
 
-            var events = (from s in CtxSingleton.Get().StatsEvent
+            var events = (from s in PublicBoardCtx.Get().StatsEvent
                           orderby s.Time descending
                           select s).Take(10);
 
             foreach (var e in events.ToArray().Reverse())
-                res.Add(new EventViewModel((StEvent) e.Event, e.UserId, e.Time, (DeviceType) e.DeviceType));
+                res.Add(new EventViewModel((StEvent)e.Event, e.UserId, e.Time, (DeviceType)e.DeviceType));
 
             return res;
         }
@@ -481,12 +481,12 @@ namespace Discussions
                 attach.OrderNumber = media.OrderNumber;
 
                 if (media.Thumb != null)
-                    attach.Thumb = (byte[]) media.Thumb.Clone();
+                    attach.Thumb = (byte[])media.Thumb.Clone();
 
                 if (media.MediaData != null && media.MediaData.Data != null)
                 {
                     var mediaClone = new MediaData();
-                    mediaClone.Data = (byte[]) media.MediaData.Data.Clone();
+                    mediaClone.Data = (byte[])media.MediaData.Data.Clone();
                     attach.MediaData = mediaClone;
                 }
 
@@ -508,7 +508,7 @@ namespace Discussions
 
         public static bool ArgPointInTopic(int apId, int topicId)
         {
-            var ap = CtxSingleton.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == apId);
+            var ap = PublicBoardCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == apId);
             if (ap == null)
                 return false;
 
@@ -528,5 +528,94 @@ namespace Discussions
         {
             return pers.ArgPoint.Where(ap => ap.Topic != null && ap.Topic.Id == t.Id);
         }
+
+        #region comment notifications
+
+        //we use separate context from one used by private board, not to interfere with it
+        public static IEnumerable<NewCommentsFrom> NumCommentsUnreadBy(DiscCtx ctx, int ArgPointId)
+        {
+            var res = new List<NewCommentsFrom>();
+
+            //new point that hasn't been saved
+            if (ArgPointId == 0)
+                return res;
+
+            var selfId = SessionInfo.Get().person.Id;
+
+            var ap = ctx.ArgPoint.FirstOrDefault(ap0 => ap0.Id == ArgPointId);
+
+            foreach (var c in ap.Comment)
+            {
+                if (c.Person == null)
+                    continue;
+
+                //skip own comment
+                if (c.Person.Id == selfId)
+                    continue;
+
+                //if self is not in number of those who read the comment
+                if (!c.ReadEntry.Any(re => re.Person.Id == selfId))
+                {
+                    var bin = res.Find(ncf => ncf.Person.Id == c.Person.Id);
+                    if (bin == null)
+                    {
+                        bin = new NewCommentsFrom(c.Person);
+                        res.Add(bin);
+                    }
+                    bin.NumNewComments++;
+                }
+            }
+
+            return res;
+        }
+       
+        public static string RecentCommentReadBy(DiscCtx ctx, int argPointId)
+        {
+            if (argPointId == 0)
+                return "";
+
+            var selfId = SessionInfo.Get().person.Id;
+
+            var ap = ctx.ArgPoint.FirstOrDefault(ap0 => ap0.Id == argPointId);
+            if (ap == null)
+                return "";
+
+            var recentComment = ap.Comment.LastOrDefault(c => c.Person != null && c.Person.Id == selfId);
+            if (recentComment == null)
+                return "";
+
+            var res = new StringBuilder(string.Format("\"{0}\" read by ", 
+                                            SummaryTextConvertor.ShortenLine(recentComment.Text, 15)
+                                           )
+                                       );
+            var atLeastOneReader = false;
+            var unreadUsers = new List<int>(ap.Topic.Person.Where(p => p.Id != selfId).Select(p => p.Id));          
+            foreach (var readEntry in recentComment.ReadEntry)
+            {
+                unreadUsers.Remove(readEntry.Person.Id);
+
+                if (readEntry.Person.Id != selfId)
+                {
+                    if (atLeastOneReader)
+                    {
+                        res.Append(", ");
+                    }
+                    atLeastOneReader = true;
+
+                    res.Append(readEntry.Person.Name);    
+                }
+            }
+
+            if (unreadUsers.Count == 0)
+            {
+                return string.Format("\"{0}\" read by all", SummaryTextConvertor.ShortenLine(recentComment.Text, 15) );
+            }
+
+            if (atLeastOneReader)
+                return res.ToString();
+
+            return "";
+        }
+        #endregion
     }
 }

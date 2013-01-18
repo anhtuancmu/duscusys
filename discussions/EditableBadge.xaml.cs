@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CloudStorage;
 using Discussions.DbModel;
+using Discussions.RTModel.Model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.webkit_host;
@@ -168,6 +169,14 @@ namespace Discussions
             UpdateOrderedMedia();
             BeginSrcNumberInjection();
             BeginAttachmentNumberInjection();
+
+            UpdateNotifications(DataContext as ArgPoint);
+
+            if (CommentDismissalRecognizer != null)
+            {
+                CommentDismissalRecognizer.Reset(DataContext as ArgPoint);
+                CommentDismissalRecognizer.CheckScrollState();
+            }
         }
 
         private void Attach(object sender, ExecutedRoutedEventArgs args)
@@ -197,7 +206,7 @@ namespace Discussions
             if (p == null)
                 return null;
 
-            return Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == p.Id);
+            return PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == p.Id);
         }
 
         private void SetStyle()
@@ -569,8 +578,8 @@ namespace Discussions
             var mediaData = at.MediaData;
             at.MediaData = null;
             if (mediaData != null)
-                Ctx2.Get().DeleteObject(mediaData);
-            Ctx2.Get().DeleteObject(at);
+                PrivateCenterCtx.Get().DeleteObject(mediaData);
+            PrivateCenterCtx.Get().DeleteObject(at);
 
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(
@@ -625,7 +634,7 @@ namespace Discussions
                     if (attach != null)
                     {
                         var seldId = SessionInfo.Get().person.Id;
-                        attach.Person = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
+                        attach.Person = PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
 
                         ap.ChangesPending = true;
                         UISharedRTClient.Instance.clienRt.SendStatsEvent(
@@ -765,7 +774,7 @@ namespace Discussions
                     {
                         var attach = AttachmentManager.AttachCloudEntry(ap, entry);
                         var seldId = SessionInfo.Get().person.Id;
-                        attach.Person = Ctx2.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
+                        attach.Person = PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == seldId);
 
                         ap.ChangesPending = true;
 
@@ -850,11 +859,7 @@ namespace Discussions
                 var child = VisualTreeHelper.GetChild(o, i);
 
                 var result = GetScrollViewer(child);
-                if (result == null)
-                {
-                    continue;
-                }
-                else
+                if (result != null)
                 {
                     return result;
                 }
@@ -953,5 +958,39 @@ namespace Discussions
             var browser = new WebKitFrm("http://google.com");
             browser.Show();
         }
+
+
+
+
+
+        #region comment notificatinos
+
+        public CommentDismissalRecognizer CommentDismissalRecognizer;
+
+        public void OnCommentRead(CommentsReadEvent ev)
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            if (ev.ArgPointId != ap.Id)
+                return;
+
+            UpdateNotifications(ap);
+        }
+
+        private void UpdateNotifications(ArgPoint ap)
+        {
+            if (ap == null)
+                return;
+
+            SetNumUnreadComments(DaoUtils.NumCommentsUnreadBy(new DiscCtx(ConfigManager.ConnStr), ap.Id).Total());
+        }
+
+        private void SetNumUnreadComments(int numUnread)
+        {
+            lblComments.Content = CommentDismissalRecognizer.FormatNumUnreadComments(numUnread);
+        }
+        #endregion
     }
 }
