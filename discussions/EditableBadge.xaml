@@ -145,7 +145,7 @@
             <VisualBrush Visual="{Binding ElementName=mask}" />
         </Grid.OpacityMask>
 
-        <Border CornerRadius="12" x:Name="mask" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="White" />
+        <Border CornerRadius="12" x:Name="mask" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="White"/>
 
         <StackPanel Grid.Column="1" x:Name="root" Background="LightGray">
             <StackPanel x:Name="stkHeader" Orientation="Horizontal" d:LayoutOverrides="HorizontalMargin">
@@ -153,7 +153,7 @@
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             </StackPanel>
 
-            <Label Content="Point" d:LayoutOverrides="Margin" />
+            <Label Content="Point" d:LayoutOverrides="Margin"/>
             <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="750"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    TextWrapping="Wrap"
@@ -333,6 +333,11 @@
                           BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch" />
             <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Comment"
                                   HorizontalAlignment="Right" Click="btnComment_Click" />
+            <Separator/>
+
+            <TextBlock Name="largeBadgeView" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                       FontSize="18" Foreground="#FF555555"
+                       Margin="0,0,50,0"/>
         </StackPanel>
         <Rectangle x:Name="lblColor" Fill="#FFF4F4F5" HorizontalAlignment="Left" Width="10" />
     </Grid>

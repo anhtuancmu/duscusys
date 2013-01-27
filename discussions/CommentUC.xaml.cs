@@ -151,7 +151,7 @@ namespace Discussions
             checkRemovability(c);
         }
 
-        private void btnRemoveComment_Click(object sender, RoutedEventArgs e)
+        public void btnRemoveComment_Click(object sender, RoutedEventArgs e)
         {
             var c = DataContext as Comment;
             if (c == null)

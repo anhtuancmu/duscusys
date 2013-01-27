@@ -168,6 +168,7 @@
     <Compile Include="HtmlEditWnd.xaml.cs">
       <DependentUpon>HtmlEditWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="model\ArgPointExt.cs" />
     <Compile Include="model\NewCommentsFrom.cs" />
     <Compile Include="OfficeWnd.xaml.cs">
       <DependentUpon>OfficeWnd.xaml</DependentUpon>
@@ -255,6 +256,7 @@
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
     <None Include="Reporter.pdf\ReportRun.csx" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Reporter.pdf\PdfAssembler4.cs" />
     <Compile Include="Reporter.pdf\PdfTools3.cs" />
     <Compile Include="Reporter.pdf\PdfAssembler3.cs" />
@@ -279,6 +281,7 @@
     <Compile Include="ScreenshotCaptureWnd.xaml.cs">
       <DependentUpon>ScreenshotCaptureWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestEventOrchestrater.cs" />
     <Compile Include="TopicSelectionDlg.xaml.cs">
       <DependentUpon>TopicSelectionDlg.xaml</DependentUpon>
     </Compile>

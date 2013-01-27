@@ -132,6 +132,7 @@ namespace Discussions
         {
             var ap = DataContext as ArgPoint;
 
+
             SetStyle();
 
             if (DataContext == null)
@@ -170,7 +171,11 @@ namespace Discussions
             BeginSrcNumberInjection();
             BeginAttachmentNumberInjection();
 
-            UpdateNotifications(DataContext as ArgPoint);
+            if (ap != null)
+            {
+                UpdateLocalReadCounts(PrivateCenterCtx.Get(), ap);
+                UpdateRemoteReadCounts(PrivateCenterCtx.Get(), ap);
+            }
 
             if (CommentDismissalRecognizer != null)
             {
@@ -976,20 +981,42 @@ namespace Discussions
             if (ev.ArgPointId != ap.Id)
                 return;
 
-            UpdateNotifications(ap);
+            if (ev.PersonId == SessionInfo.Get().person.Id)
+            {
+                //we are only interested in comment read callbacks from ourselves, to update local label 
+
+                UpdateLocalReadCounts(new DiscCtx(ConfigManager.ConnStr), ap);
+            }
+            else
+            {                
+                UpdateRemoteReadCounts(new DiscCtx(ConfigManager.ConnStr), ap);
+            }    
         }
 
-        private void UpdateNotifications(ArgPoint ap)
+        private void UpdateLocalReadCounts(DiscCtx ctx,  ArgPoint ap)
         {
             if (ap == null)
                 return;
 
-            SetNumUnreadComments(DaoUtils.NumCommentsUnreadBy(new DiscCtx(ConfigManager.ConnStr), ap.Id).Total());
+            SetNumUnreadComments(DaoUtils.NumCommentsUnreadBy(ctx, ap.Id).Total());
+        }
+
+        void UpdateRemoteReadCounts(DiscCtx ctx, ArgPoint ap)
+        {
+            if (ap == null)
+                return;
+
+            largeBadgeView.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
         }
 
         private void SetNumUnreadComments(int numUnread)
         {
             lblComments.Content = CommentDismissalRecognizer.FormatNumUnreadComments(numUnread);
+        }
+
+        public ItemsControl TestGetCommentsControl()
+        {
+            return lstBxComments;
         }
         #endregion
     }

@@ -29,9 +29,9 @@ namespace Discussions
             set { _topicsOfDiscussion = value; }
         }
 
-        private ObservableCollection<ArgPoint> _ownArgPoints = new ObservableCollection<ArgPoint>();
+        private ObservableCollection<ArgPointExt> _ownArgPoints = new ObservableCollection<ArgPointExt>();
 
-        public ObservableCollection<ArgPoint> OwnArgPoints
+        public ObservableCollection<ArgPointExt> OwnArgPoints
         {
             get { return _ownArgPoints; }
             set { _ownArgPoints = value; }
@@ -169,12 +169,14 @@ namespace Discussions
 
             int selfId = SessionInfo.Get().person.Id;
             foreach (var ap in t.ArgPoint.Where(ap0 => ap0.Person.Id == selfId).OrderBy(ap0 => ap0.OrderNumber))
-                OwnArgPoints.Add(ap);
+                OwnArgPoints.Add(new ArgPointExt(ap));
+
+            UpdateLocalUnreadCounts(new DiscCtx(ConfigManager.ConnStr));
 
             if (OwnArgPoints.Count > 0)
             {
-                lstPoints.SelectedItem = OwnArgPoints.First();
-                theBadge.DataContext = OwnArgPoints.First();
+                lstPoints.SelectedItem = OwnArgPoints.First().Ap;
+                theBadge.DataContext = OwnArgPoints.First().Ap;
             }
             else
                 theBadge.DataContext = null;
@@ -267,7 +269,7 @@ namespace Discussions
             if (otherPers != null)
                 UpdateBadgesOfOtherUser(otherPers.Id, st.Id);
 
-            UpdatePointsOfTopic(st);
+            UpdatePointsOfTopic(st);            
         }
 
         private void DiscussionSelectionChanged()
@@ -292,8 +294,12 @@ namespace Discussions
         private void lstPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //lstBadgesOfOtherUser.SelectedItem = null;
-            lstPoints.ScrollIntoView(lstPoints.SelectedItem as ArgPoint);
-            selectBigBadge(lstPoints.SelectedItem as ArgPoint);
+
+            var apExt = (ArgPointExt) lstPoints.SelectedItem;
+            var ap = apExt != null ? apExt.Ap : null;
+            if (ap!=null)
+                lstPoints.ScrollIntoView(ap);
+            selectBigBadge(ap);
         }
 
         private void selectBigBadge(ArgPoint ap)
@@ -333,7 +339,7 @@ namespace Discussions
             BusyWndSingleton.Show("Creating new argument...");
             try
             {
-                int orderNumber = OwnArgPoints.Count() > 0 ? OwnArgPoints.Last().OrderNumber + 1 : 1;
+                int orderNumber = OwnArgPoints.Any() ? OwnArgPoints.Last().Ap.OrderNumber + 1 : 1;
 
                 var np = DaoUtils.NewPoint(lstTopics.SelectedItem as Topic, orderNumber);
                 if (np != null)
@@ -406,7 +412,7 @@ namespace Discussions
             }
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        public void btnSave_Click(object sender, RoutedEventArgs e)
         {
             BusyWndSingleton.Show("Saving argument, please wait...");
             try
@@ -468,22 +474,22 @@ namespace Discussions
             {
                 //if point is unnatached (removed in UI but preserved for UNDO), 
                 //for this method it's removed
-                if (ap.Person == null || ap.Topic == null)
+                if (ap.Ap.Person == null || ap.Ap.Topic == null)
                 {
-                    deleted.Add(ap);
+                    deleted.Add(ap.Ap);
                     continue;
                 }
 
-                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap).State)
+                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap.Ap).State)
                 {
                     case EntityState.Added:
-                        created.Add(ap);
+                        created.Add(ap.Ap);
                         break;
                     case EntityState.Deleted:
-                        deleted.Add(ap);
+                        deleted.Add(ap.Ap);
                         break;
                     case EntityState.Modified:
-                        edited.Add(ap);
+                        edited.Add(ap.Ap);
                         break;
                 }
             }
@@ -544,7 +550,7 @@ namespace Discussions
                     if (selectedAp.Person.Id == SessionInfo.Get().person.Id)
                     {
                         lstPoints.SelectedItem = null;
-                        lstPoints.SelectedItem = OwnArgPoints.FirstOrDefault(ap0 => ap0.Id == selectedAp.Id);
+                        lstPoints.SelectedItem = OwnArgPoints.FirstOrDefault(ap0 => ap0.Ap.Id == selectedAp.Id);
                     }
                     else
                     {
@@ -681,16 +687,29 @@ namespace Discussions
      
         void OnDismiss(ArgPoint ap)
         {
-            Console.Beep();
+            //Console.Beep();
 
             CommentDismissalRecognizer.pushDismissal(ap, PrivateCenterCtx.Get());
         }
 
         private void OnCommentRead(CommentsReadEvent ev)
         {
-            //we are only interested in comment read callbacks from ourselves, to update local label 
-            if (ev.PersonId == SessionInfo.Get().person.Id)
-                theBadge.OnCommentRead(ev);                       
+            
+            theBadge.OnCommentRead(ev);
+
+            var topic = lstTopics.SelectedItem as Topic;
+            if (topic != null && topic.Id == ev.TopicId)
+            {
+                var changedOwnPoint = OwnArgPoints.FirstOrDefault(ap => ap.Ap.Id == ev.ArgPointId);
+                
+                //if the changed point is our own point
+                if (changedOwnPoint != null)
+                {
+                    changedOwnPoint.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(
+                        new DiscCtx(ConfigManager.ConnStr),
+                        changedOwnPoint.Ap.Id).Total();
+                }
+            }
         }
 
         private void ArgPointChanged(int argPointId, int topicId, PointChangedType change)
@@ -701,6 +720,19 @@ namespace Discussions
             {
                 onStructChanged(-1, -1, DeviceType.Wpf);
             }
+        }
+
+        private void UpdateLocalUnreadCounts(DiscCtx ctx)
+        {            
+            foreach(var ap in OwnArgPoints)
+            {
+                ap.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(ctx, ap.Ap.Id).Total();
+            }
+        }
+
+        private void BtnStartEvents_OnClick(object sender, RoutedEventArgs e)
+        {
+            TestEventOrchestrater.Inst.Start(theBadge, this);
         }
         #endregion
     }

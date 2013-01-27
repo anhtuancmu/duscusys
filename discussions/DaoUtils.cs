@@ -7,7 +7,6 @@ using System.Windows.Media;
 using Discussions.stats;
 using System.Linq;
 using System.Data.Objects;
-using LoginEngine;
 
 namespace Discussions
 {
