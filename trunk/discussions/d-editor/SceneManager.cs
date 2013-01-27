@@ -7,12 +7,10 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using Discussions;
-using Discussions.DbModel;
 using Discussions.d_editor;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
-using LoginEngine;
 
 namespace DistributedEditor
 {
@@ -673,6 +671,7 @@ namespace DistributedEditor
 
         private void ReloadBadgeContexts()
         {
+            BadgesCtx.DropContext();
             DocTools.ToggleBadgeContexts(BadgesCtx.Get(), _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
         }
 

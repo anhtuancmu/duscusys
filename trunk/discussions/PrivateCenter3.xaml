@@ -56,7 +56,7 @@
                 <RowDefinition Height="Auto" MinHeight="32.61" />
                 <RowDefinition Height="377*" />
             </Grid.RowDefinitions>
-            <Label x:Name="Arguments" Content="Arguments" d:LayoutOverrides="Margin" Foreground="Black" />
+            <Label x:Name="Arguments" Content="My Points" d:LayoutOverrides="Margin" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstPoints"
                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -65,13 +65,17 @@
                                    VerticalContentAlignment="Center"
                                    ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}"
                                    BorderThickness="2" Grid.RowSpan="2">
-
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
-                            <Custom:SurfaceCheckBox VerticalAlignment="Center" IsChecked="{Binding SharedToPublic}"
-                                                    Click="SurfaceCheckBox_Click" DockPanel.Dock="Left" />
-                            <local:StripBadge DockPanel.Dock="Right" />
+                            <TextBlock  Text="{Binding PlusNumUnreadComments}" FontSize="24" Foreground="#FFFFDC00" Margin="0,5,0,0" FontFamily="Segoe SemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="1" BlurRadius="10"/>
+                                </TextBlock.Effect>                               
+                            </TextBlock>
+                            <!--<Custom:SurfaceCheckBox VerticalAlignment="Center" IsChecked="{Binding SharedToPublic}"
+                                                    Click="SurfaceCheckBox_Click" DockPanel.Dock="Left" />-->
+                            <local:StripBadge DataContext="{Binding Ap}" DockPanel.Dock="Right" />
                         </DockPanel>
                     </DataTemplate>
                 </Custom:SurfaceListBox.ItemTemplate>
@@ -90,7 +94,7 @@
                     </DataTemplate>
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>
-            <Label Content="Arguments of other user" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
+            <Label Content="Other User's Points" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
                    Height="32.61" Width="184.173" d:LayoutOverrides="Margin" Foreground="Black" />
         </Grid>
         <StackPanel Grid.Column="2" d:LayoutOverrides="Margin">
@@ -178,6 +182,8 @@
             </s:SurfaceButton>
 
             <Label x:Name="dragDropTooltip" Content="" />
+            
+            <!--<s:SurfaceButton Name="btnStartEvents" Content="Start events" Click="BtnStartEvents_OnClick"/>-->
         </DockPanel>
         <Grid Grid.RowSpan="2" d:LayoutOverrides="Margin">
             <Grid.RowDefinitions>

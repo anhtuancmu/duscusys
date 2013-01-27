@@ -177,7 +177,7 @@ namespace Discussions
             DbCtx.DropContext();
             var ap2 = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);            
 
-            BadgesCtx.DropContext();
+            //BadgesCtx.DropContext();
 
             DataContext = null;
             DataContext = ap2;
@@ -571,6 +571,10 @@ namespace Discussions
             {
                 btnSave_Click(null,null);
             }
+            else if (e.Key == Key.Return)
+            {
+                btnSave_Click(null, null);
+            }
         }
 
         #region comment notificatinos
@@ -606,7 +610,7 @@ namespace Discussions
 
         void OnDismiss(ArgPoint ap)
         {
-            Console.Beep();
+            //Console.Beep();
 
             CommentDismissalRecognizer.pushDismissal(ap, DbCtx.Get());
         }

@@ -75,7 +75,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <TextBlock Name="largeBadgeView" Margin="0,0,50,0" VerticalAlignment="Bottom"/>                
+                <TextBlock Name="largeBadgeView" Margin="0,0,50,20" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555"/>                
                 
                 <Custom:SurfaceButton x:Name="btnSave"  Click="btnSave_Click"
         			 Height="75" Width="75" Background="{x:Null}" Margin="0">
@@ -95,7 +95,11 @@
                         <DataTemplate>
                             <Border BorderThickness="15,0,0,0" 
                                     BorderBrush="{Binding Person.Color, Converter={StaticResource brushConverter}}">
-                                <TextBlock FontSize="18" Foreground="Black" Text = "{Binding}"/>
+                                <TextBlock FontSize="18" Foreground="#FFFFDD03" Text = "{Binding}" Background="{x:Null}" FontFamily="Segoe UI Semibold">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect ShadowDepth="1" BlurRadius="10"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -110,16 +114,16 @@
             <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="1" 
                                         ScrollChanged="ScrollViewer_OnScrollChanged"
                                         VerticalScrollBarVisibility="Visible">
-                <StackPanel>
+                <StackPanel MaxWidth="850">
                     <TextBlock x:Name="txtPoint"
                                TextAlignment="Center"
-                               Text="{Binding Point}"
-                               MaxWidth="850"
+                               Text="{Binding Point}"     
                                TextWrapping="Wrap" VerticalAlignment="Center"
                                d:LayoutOverrides="Width" FontSize="48" />
                     <TextBlock x:Name="plainDescription"
+                               TextAlignment="Justify"
                                TextWrapping="Wrap"
-                               Text="{Binding Description.Text}" />
+                               Text="{Binding Description.Text}"/>
                     <StackPanel x:Name="media">
                         <Separator />
                         <Label Content="Media" HorizontalAlignment="Left" VerticalAlignment="Top"
