@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
 using Discussions;
@@ -15,6 +10,8 @@ using Discussions.d_editor;
 
 namespace DistributedEditor
 {
+    //now VdClusterLink doesn't support captions, i.e. ICaptionHost should not be implemented by this class. 
+    //for compatibility with already existing annotations we preserve ICaptionHost, but don't show buttons to create captions.
     public class VdClusterLink : VdBaseShape, IVdShape, ICaptionHost
     {
         private ArrowLine line;
@@ -113,11 +110,11 @@ namespace DistributedEditor
             _cursorView.Visibility = Visibility.Visible;
             line.Visibility = Visibility.Visible;
             VdSegmentUtil.ShowMarkers(selMarker1, selMarker2);
-            if (_captions != null)
-            {
-                _captions.btnDraw.Visibility = Visibility.Visible;
-                _captions.btnType.Visibility = Visibility.Visible;
-            }
+            //if (_captions != null)
+            //{
+            //    _captions.btnDraw.Visibility = Visibility.Visible;
+            //    _captions.btnType.Visibility = Visibility.Visible;
+            //}
         }
 
         public bool IsVisible()
@@ -185,11 +182,11 @@ namespace DistributedEditor
             Canvas.SetZIndex(selMarker1, z + 1);
             Canvas.SetZIndex(selMarker2, z + 2);
             Canvas.SetZIndex(_cursorView, z + 3);
-            if (_captions != null)
-            {
-                Canvas.SetZIndex(_captions.btnDraw, z + 4);
-                Canvas.SetZIndex(_captions.btnType, z + 5);
-            }
+            //if (_captions != null)
+            //{
+            //    Canvas.SetZIndex(_captions.btnDraw, z + 4);
+            //    Canvas.SetZIndex(_captions.btnType, z + 5);
+            //}
         }
 
         public void AttachToCanvas(Canvas c)
@@ -203,8 +200,8 @@ namespace DistributedEditor
             c.Children.Add(selMarker2);
             c.Children.Add(_cursorView);
 
-            c.Children.Add(_captions.btnDraw);
-            c.Children.Add(_captions.btnType);
+            //c.Children.Add(_captions.btnDraw);
+            //c.Children.Add(_captions.btnType);
         }
 
         public void DetachFromCanvas(Canvas c)
@@ -217,8 +214,8 @@ namespace DistributedEditor
             c.Children.Remove(selMarker2);
             c.Children.Remove(_cursorView);
 
-            c.Children.Remove(_captions.btnDraw);
-            c.Children.Remove(_captions.btnType);
+            //c.Children.Remove(_captions.btnDraw);
+            //c.Children.Remove(_captions.btnType);
         }
 
         public VdShapeType ShapeCode()
