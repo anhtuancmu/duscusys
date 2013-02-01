@@ -31,8 +31,9 @@ namespace Discussions.model
                 if (value != _numUnreadComments)
                 {
                     _numUnreadComments = value;
-                    OnPropertyChanged("NumUnreadComments");
-                    OnPropertyChanged("PlusNumUnreadComments"); 
+                    //OnPropertyChanged("NumUnreadComments");
+                    //OnPropertyChanged("PlusNumUnreadComments"); 
+                    OnPropertyChanged(""); 
                 }
             }
         }

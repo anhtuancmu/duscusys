@@ -20,9 +20,9 @@ namespace Discussions
     /// </summary>
     public partial class PrivateCenter3 : SurfaceWindow
     {
-        private Discussions.Main.OnDiscFrmClosing _closing;
-        private ObservableCollection<Topic> _topicsOfDiscussion = new ObservableCollection<Topic>();
+        private readonly Main.OnDiscFrmClosing _closing;
 
+        private ObservableCollection<Topic> _topicsOfDiscussion = new ObservableCollection<Topic>();
         public ObservableCollection<Topic> TopicsOfDiscussion
         {
             get { return _topicsOfDiscussion; }
@@ -30,34 +30,29 @@ namespace Discussions
         }
 
         private ObservableCollection<ArgPointExt> _ownArgPoints = new ObservableCollection<ArgPointExt>();
-
         public ObservableCollection<ArgPointExt> OwnArgPoints
         {
             get { return _ownArgPoints; }
             set { _ownArgPoints = value; }
         }
 
-        private ObservableCollection<Person> _otherUsers = new ObservableCollection<Person>();
-
-        public ObservableCollection<Person> OtherUsers
+        private ObservableCollection<PersonExt> _otherUsers = new ObservableCollection<PersonExt>();
+        public ObservableCollection<PersonExt> OtherUsers
         {
             get { return _otherUsers; }
             set { _otherUsers = value; }
         }
 
-        private ObservableCollection<ArgPoint> _argPointsOfOtherUser = new ObservableCollection<ArgPoint>();
-
-        public ObservableCollection<ArgPoint> ArgPointsOfOtherUser
+        private ObservableCollection<ArgPointExt> _argPointsOfOtherUser = new ObservableCollection<ArgPointExt>();
+        public ObservableCollection<ArgPointExt> ArgPointsOfOtherUser
         {
             get { return _argPointsOfOtherUser; }
             set { _argPointsOfOtherUser = value; }
         }
 
         private UISharedRTClient _sharedClient;
-        private ContactTimer dragTapRecognizer = new ContactTimer(null);
 
-        private bool initializing;
-
+        private readonly bool initializing;
 
         private class PointRemoveRecord
         {
@@ -171,11 +166,11 @@ namespace Discussions
             foreach (var ap in t.ArgPoint.Where(ap0 => ap0.Person.Id == selfId).OrderBy(ap0 => ap0.OrderNumber))
                 OwnArgPoints.Add(new ArgPointExt(ap));
 
-            UpdateLocalUnreadCounts(new DiscCtx(ConfigManager.ConnStr));
+            UpdateLocalUnreadCountsOwn(new DiscCtx(ConfigManager.ConnStr));
 
             if (OwnArgPoints.Count > 0)
             {
-                lstPoints.SelectedItem = OwnArgPoints.First().Ap;
+                lstPoints.SelectedItem = OwnArgPoints.First();
                 theBadge.DataContext = OwnArgPoints.First().Ap;
             }
             else
@@ -190,7 +185,7 @@ namespace Discussions
                 _closing();
         }
 
-        private bool otherUserSelectedManually = true;
+        private bool _otherUserSelectedManually = true;
 
         private void UpdateOtherUsers(int discussionId, int ownId)
         {
@@ -202,25 +197,27 @@ namespace Discussions
                     select p;
 
             foreach (var p in q)
-                OtherUsers.Add(p);
+                OtherUsers.Add(new PersonExt(p));
 
             if (OtherUsers.Count > 0)
             {
-                otherUserSelectedManually = false;
+                _otherUserSelectedManually = false;
                 lstOtherUsers.SelectedIndex = 0;
-                otherUserSelectedManually = true;
+                _otherUserSelectedManually = true;
+
+                UpdateOtherUsersDots(PrivateCenterCtx.Get());
             }
         }
 
         private void lstUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var pers = lstOtherUsers.SelectedItem as Person;
+            var pers = lstOtherUsers.SelectedItem as PersonExt;
             var topic = lstTopics.SelectedItem as Topic;
             //if(!initializing)
             //    theBadge.DataContext = null;
             if (pers != null && topic != null)
             {
-                UpdateBadgesOfOtherUser(pers.Id, topic.Id);
+                UpdateBadgesOfOtherUser(pers.Pers.Id, topic.Id);
             }
         }
 
@@ -234,16 +231,18 @@ namespace Discussions
                     select ap;
 
             foreach (var ap in q)
-                ArgPointsOfOtherUser.Add(ap);
+                ArgPointsOfOtherUser.Add(new ArgPointExt(ap)); 
 
-            if (otherUserSelectedManually && ArgPointsOfOtherUser.Count > 0)
-                theBadge.DataContext = ArgPointsOfOtherUser.First();
+            if (_otherUserSelectedManually && ArgPointsOfOtherUser.Count > 0)
+                theBadge.DataContext = ArgPointsOfOtherUser.First().Ap;
+
+            UpdateLocalUnreadCountsOfOtherUser(new DiscCtx(ConfigManager.ConnStr));
         }
 
         private void lstOtherUserBadges_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             lstPoints.SelectedItem = null;
-            selectBigBadge(lstBadgesOfOtherUser.SelectedItem as ArgPoint);
+            selectBigBadge(lstBadgesOfOtherUser.SelectedItem as ArgPointExt);
         }
 
         private void LstBadgesOfOtherUser_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -265,9 +264,9 @@ namespace Discussions
             UpdateOtherUsers(st.Discussion.Id, SessionInfo.Get().person.Id);
 
             //update points of other users
-            var otherPers = lstOtherUsers.SelectedItem as Person;
+            var otherPers = lstOtherUsers.SelectedItem as PersonExt;
             if (otherPers != null)
-                UpdateBadgesOfOtherUser(otherPers.Id, st.Id);
+                UpdateBadgesOfOtherUser(otherPers.Pers.Id, st.Id);
 
             UpdatePointsOfTopic(st);            
         }
@@ -299,16 +298,16 @@ namespace Discussions
             var ap = apExt != null ? apExt.Ap : null;
             if (ap!=null)
                 lstPoints.ScrollIntoView(ap);
-            selectBigBadge(ap);
+            selectBigBadge(apExt);
         }
 
-        private void selectBigBadge(ArgPoint ap)
+        private void selectBigBadge(ArgPointExt ap)
         {
             if (ap == null)
                 return;
 
-            theBadge.EditingMode = ap.Person.Id == SessionInfo.Get().person.Id;
-            theBadge.DataContext = ap;
+            theBadge.EditingMode = ap.Ap.Person.Id == SessionInfo.Get().person.Id;
+            theBadge.DataContext = ap.Ap;
         }
 
         private void getPointAndTopic(out ArgPoint ap, out Topic t)
@@ -321,8 +320,6 @@ namespace Discussions
                 return;
 
             ap = theBadge.DataContext as ArgPoint;
-            if (ap == null)
-                return;
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
@@ -348,7 +345,7 @@ namespace Discussions
                     t.ArgPoint.Add(np);
                 }
                 UpdatePointsOfTopic(lstTopics.SelectedItem as Topic);
-                lstPoints.SelectedItem = np;
+                lstPoints.SelectedItem = new ArgPointExt(np);
 
                 saveProcedure(null, -1);
             }
@@ -466,7 +463,7 @@ namespace Discussions
         private void GetChangeLists(out List<ArgPoint> created, out List<ArgPoint> edited, out List<ArgPoint> deleted)
         {
             created = new List<ArgPoint>();
-            edited = new List<ArgPoint>();
+            edited  = new List<ArgPoint>();
             deleted = new List<ArgPoint>();
 
             var ctx = PrivateCenterCtx.Get();
@@ -498,22 +495,22 @@ namespace Discussions
             {
                 //if point is unnatached (removed in UI but preserved for UNDO), 
                 //for this method it's removed
-                if (ap.Person == null || ap.Topic == null)
+                if (ap.Ap.Person == null || ap.Ap.Topic == null)
                 {
-                    deleted.Add(ap);
+                    deleted.Add(ap.Ap);
                     continue;
                 }
 
-                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap).State)
+                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap.Ap).State)
                 {
                     case EntityState.Added:
-                        created.Add(ap);
+                        created.Add(ap.Ap);
                         break;
                     case EntityState.Deleted:
-                        deleted.Add(ap);
+                        deleted.Add(ap.Ap);
                         break;
                     case EntityState.Modified:
-                        edited.Add(ap);
+                        edited.Add(ap.Ap);
                         break;
                 }
             }
@@ -529,7 +526,7 @@ namespace Discussions
             {
                 //save selected topic 
                 int topicUnderSelectionId = -1;
-                Topic sel = lstTopics.SelectedItem as Topic;
+                var sel = lstTopics.SelectedItem as Topic;
                 if (sel != null)
                     topicUnderSelectionId = sel.Id;
 
@@ -554,9 +551,10 @@ namespace Discussions
                     }
                     else
                     {
-                        lstOtherUsers.SelectedItem = OtherUsers.FirstOrDefault(u0 => u0.Id == selectedAp.Person.Id);
+                        lstOtherUsers.SelectedItem = OtherUsers.FirstOrDefault(u0 => u0.Pers.Id == selectedAp.Person.Id);
+                        
                         lstBadgesOfOtherUser.SelectedItem =
-                            ArgPointsOfOtherUser.FirstOrDefault(ap0 => ap0.Id == selectedAp.Id);
+                            ArgPointsOfOtherUser.FirstOrDefault(ap0 => ap0.Ap.Id == selectedAp.Id);
                     }
                 }
             }
@@ -630,6 +628,7 @@ namespace Discussions
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+            thereAreNewComments.Visibility = Visibility.Collapsed;            
             onStructChanged(-1, -1, DeviceType.Wpf);
         }
 
@@ -665,7 +664,7 @@ namespace Discussions
 
             lstTopics.SelectedItem = null;
             lstTopics.SelectedItem = np.Topic;
-            lstPoints.SelectedItem = np;
+            lstPoints.SelectedItem = new ArgPointExt(np);
 
             saveProcedure(null, -1);
         }
@@ -693,41 +692,103 @@ namespace Discussions
         }
 
         private void OnCommentRead(CommentsReadEvent ev)
-        {
-            
+        {            
             theBadge.OnCommentRead(ev);
 
             var topic = lstTopics.SelectedItem as Topic;
             if (topic != null && topic.Id == ev.TopicId)
             {
-                var changedOwnPoint = OwnArgPoints.FirstOrDefault(ap => ap.Ap.Id == ev.ArgPointId);
-                
-                //if the changed point is our own point
-                if (changedOwnPoint != null)
+                bool changedPointOwnedByOtherUser = false;
+                var changedPointExt = OwnArgPoints.FirstOrDefault(ap => ap.Ap.Id == ev.ArgPointId);
+                if (changedPointExt == null)
                 {
-                    changedOwnPoint.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(
-                        new DiscCtx(ConfigManager.ConnStr),
-                        changedOwnPoint.Ap.Id).Total();
+                    changedPointExt = ArgPointsOfOtherUser.FirstOrDefault(ap => ap.Ap.Id == ev.ArgPointId);
+                    changedPointOwnedByOtherUser = true;
+                }
+
+                var ctx = new DiscCtx(ConfigManager.ConnStr);
+
+                //if the changed point is our own point
+                if (changedPointExt != null)
+                {
+                    changedPointExt.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(
+                        ctx,
+                        changedPointExt.Ap.Id).Total();
+
+                    if (changedPointOwnedByOtherUser)
+                    {
+                        UpdateOtherUsersDots(ctx, changedPointExt.Ap.Person.Id);
+                    }
+                    else
+                    {
+                        UpdateLocalUnreadCountsOwn(ctx);
+                    }
                 }
             }
         }
 
         private void ArgPointChanged(int argPointId, int topicId, PointChangedType change)
-        {
-            //if a comment has been added by someone except us, update number of unread comments
-
+        {           
             if (change == PointChangedType.Modified)
             {
-                onStructChanged(-1, -1, DeviceType.Wpf);
+               //if a comment has been added by someone except us, update number of unread comments
+               // onStructChanged(-1, -1, DeviceType.Wpf);
+
+               //only show notification that there are new comments, not more. user will need to click Refresh
+               var currTopic = lstTopics.SelectedItem as Topic;
+               if (currTopic != null && topicId == currTopic.Id)
+               {
+                  if (DaoUtils.NumCommentsUnreadBy(new DiscCtx(ConfigManager.ConnStr), argPointId).Total() > 0)
+                      thereAreNewComments.Visibility = Visibility.Visible;                   
+               }
             }
         }
 
-        private void UpdateLocalUnreadCounts(DiscCtx ctx)
+        private void UpdateLocalUnreadCountsOwn(DiscCtx ctx)
         {            
             foreach(var ap in OwnArgPoints)
             {
                 ap.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(ctx, ap.Ap.Id).Total();
             }
+        }
+
+        private void UpdateLocalUnreadCountsOfOtherUser(DiscCtx ctx)
+        {
+            foreach (var ap in ArgPointsOfOtherUser)
+            {
+                ap.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(ctx, ap.Ap.Id).Total();
+            }
+        }
+        
+        private void UpdateOtherUsersDots(DiscCtx ctx, int singleUserId = -1) 
+        {
+            var topic = lstTopics.SelectedItem as Topic;
+            if (topic == null)
+                return;
+
+            List<int> usersWithUnreadComments;
+            if (singleUserId == -1)
+            {
+                usersWithUnreadComments = DaoUtils.SubsetOfPersonsWithDots(ctx,
+                                                                           OtherUsers.Select(u0 => u0.Pers.Id).ToArray(),
+                                                                           topic.Id);
+            }
+            else
+            {
+                usersWithUnreadComments = DaoUtils.SubsetOfPersonsWithDots(ctx,
+                                                                           new []{ singleUserId },
+                                                                           topic.Id);
+            }
+
+            foreach (var otherUser in OtherUsers)
+            {
+                if (singleUserId != -1 && otherUser.Pers.Id != singleUserId)
+                    continue;                
+
+                otherUser.HasPointsWithUnreadComments =
+                    usersWithUnreadComments != null &&
+                    usersWithUnreadComments.Contains(otherUser.Pers.Id);
+            }         
         }
 
         private void BtnStartEvents_OnClick(object sender, RoutedEventArgs e)

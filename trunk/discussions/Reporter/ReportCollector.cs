@@ -309,7 +309,7 @@ namespace Reporter
                     res.numPointsWithDescription += 1;
 
                 foreach (var c in ap.Comment)
-                    if (c.Text != "New comment" && res.accumulatedParticipants.Contains(c.Person.Id))
+                    if (c.Text != "New feedback" && res.accumulatedParticipants.Contains(c.Person.Id))
                         ++res.numComments;
 
                 foreach (var a in ap.Attachment)
@@ -456,7 +456,7 @@ namespace Reporter
                     if (c.Person == null)
                         return;
 
-                    if (c.Text != "New comment" && par.requiredUsers.Contains(c.Person.Id))
+                    if (c.Text != "New feedback" && par.requiredUsers.Contains(c.Person.Id))
                         ++numComments;
                 }
             }
@@ -513,7 +513,7 @@ namespace Reporter
                             ArgPointReports.Add(c.Person.Id, new List<ArgPointReport>());
                         var reportsOfCommenter = ArgPointReports[c.Person.Id];
 
-                        if (c.Text != "New comment")
+                        if (c.Text != "New feedback")
                         {
                             var topicReportOfCommenter = FindTopicArgPointReport(reportsOfCommenter, ap.Topic.Id);
                             if (topicReportOfCommenter == null)

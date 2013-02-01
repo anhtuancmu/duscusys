@@ -297,7 +297,7 @@ namespace Discussions
                 return null;
 
             var c = new DbModel.Comment();
-            c.Text = "New comment";
+            c.Text = DaoUtils.NEW_COMMENT;
             c.Person = SessionInfo.Get().getPerson(ap);
             ap.Comment.Add(c);
             return c;
@@ -1006,7 +1006,7 @@ namespace Discussions
             if (ap == null)
                 return;
 
-            largeBadgeView.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
+            txtCommentSeenBy.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
         }
 
         private void SetNumUnreadComments(int numUnread)
