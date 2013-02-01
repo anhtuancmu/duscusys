@@ -430,7 +430,7 @@ namespace Reporter.pdf
 
             foreach (var comment in comments)
             {
-                if (comment.Person == null || comment.Text == "New comment")
+                if (comment.Person == null || comment.Text == DaoUtils.NEW_COMMENT)
                     continue;
 
                 var row = t2.AddRow();

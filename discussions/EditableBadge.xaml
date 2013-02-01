@@ -318,7 +318,7 @@
                                       Grid.Column="1" />
             </Grid>
 
-            <Label Name="lblComments" Content="Comments" d:LayoutOverrides="Margin" />
+            <Label Name="lblComments" Content="Feedback" d:LayoutOverrides="Margin" />
 
             <!--PreviewMouseDown="lstBxComments_PreviewMouseDown_1"
 				PreviewMouseUp="lstBxComments_PreviewMouseUp_1"  
@@ -331,11 +331,11 @@
                           ItemTemplate="{StaticResource CommentItemTemplate}"
                           MouseLeave="lstBxComments_MouseLeave"
                           BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch" />
-            <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Comment"
+            <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Feedback"
                                   HorizontalAlignment="Right" Click="btnComment_Click" />
             <Separator/>
 
-            <TextBlock Name="largeBadgeView" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+            <TextBlock Name="txtCommentSeenBy" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
                        FontSize="18" Foreground="#FF555555"
                        Margin="0,0,50,0"/>
         </StackPanel>

@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ExitGames.Client.Photon;
-using Discussions.RTModel.Operations;
-using System.Collections;
-using Discussions.RTModel.Model;
-using Discussions.RTModel;
 using Discussions.model;
 
 namespace DiscussionsClientRT

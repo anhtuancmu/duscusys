@@ -75,7 +75,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <TextBlock Name="largeBadgeView" Margin="0,0,50,20" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555"/>                
+                <TextBlock Name="txtCommentSeenBy" Margin="0,0,50,20" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555"/>                
                 
                 <Custom:SurfaceButton x:Name="btnSave"  Click="btnSave_Click"
         			 Height="75" Width="75" Background="{x:Null}" Margin="0">
@@ -93,14 +93,7 @@
                 <ItemsControl x:Name="notifications" Margin="0,0,50,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderThickness="15,0,0,0" 
-                                    BorderBrush="{Binding Person.Color, Converter={StaticResource brushConverter}}">
-                                <TextBlock FontSize="18" Foreground="#FFFFDD03" Text = "{Binding}" Background="{x:Null}" FontFamily="Segoe UI Semibold">
-                                    <TextBlock.Effect>
-                                        <DropShadowEffect ShadowDepth="1" BlurRadius="10"/>
-                                    </TextBlock.Effect>
-                                </TextBlock>
-                            </Border>
+                            <local:NumNewCommentsByView/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -159,7 +152,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <Label x:Name="lblComments" Content="Comments" HorizontalAlignment="Left"
+                        <Label x:Name="lblComments" Content="Feedback" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
                                Foreground="Black" d:LayoutOverrides="HorizontalMargin" />
                         <ItemsControl x:Name="lstBxComments1"
@@ -169,7 +162,7 @@
                                       BorderThickness="0"
                                       HorizontalContentAlignment="Stretch" />
                         <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click"
-                                              Content="Comment" Margin="0" VerticalAlignment="Center"
+                                              Content="Feedback" Margin="0" VerticalAlignment="Center"
                                               Width="101" DockPanel.Dock="Right"
                                               HorizontalAlignment="Right" Height="35" MinHeight="12" />
                     </StackPanel>

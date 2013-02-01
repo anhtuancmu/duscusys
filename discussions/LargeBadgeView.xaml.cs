@@ -594,7 +594,7 @@ namespace Discussions
             if (ap == null)
                 return;
 
-            largeBadgeView.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
+            txtCommentSeenBy.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
         }
 
         private void SetNumUnreadComments(IEnumerable<NewCommentsFrom> newCommentBins)

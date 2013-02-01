@@ -5,14 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
-    xmlns:local="clr-namespace:Discussions"
+    xmlns:local="clr-namespace:Discussions" 
+    xmlns:vectorEditor="clr-namespace:Discussions.VectorEditor"
     x:Class="Discussions.PrivateCenter3"
     mc:Ignorable="d"
     Background="{StaticResource WndBg}"
-    d:DesignHeight="851.167" d:DesignWidth="1861.333"
+    d:DesignHeight="851.167" 
+    d:DesignWidth="1861.333"
     PreviewKeyDown="SurfaceWindow_KeyDown_1"
     Title="Private dashboard"
-    Closing="SurfaceWindow_Closing" Icon="discusys%20iconv3.ico">
+    Closing="SurfaceWindow_Closing" 
+    Icon="discusys%20iconv3.ico">
 
     <s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
@@ -33,10 +36,11 @@
 
         <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
 
+        <vectorEditor:BoolToVisibilityConverter x:Key="personToDotVisibility"/>
+        
         <DataTemplate x:Key="smallArgPointTemplate">
             <local:StripBadge />
         </DataTemplate>
-
     </s:SurfaceWindow.Resources>
 
     <Grid>
@@ -68,11 +72,7 @@
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
-                            <TextBlock  Text="{Binding PlusNumUnreadComments}" FontSize="24" Foreground="#FFFFDC00" Margin="0,5,0,0" FontFamily="Segoe SemiBold">
-                                <TextBlock.Effect>
-                                    <DropShadowEffect ShadowDepth="1" BlurRadius="10"/>
-                                </TextBlock.Effect>                               
-                            </TextBlock>
+                            <local:NotificationNumberView/>
                             <!--<Custom:SurfaceCheckBox VerticalAlignment="Center" IsChecked="{Binding SharedToPublic}"
                                                     Click="SurfaceCheckBox_Click" DockPanel.Dock="Left" />-->
                             <local:StripBadge DataContext="{Binding Ap}" DockPanel.Dock="Right" />
@@ -87,10 +87,12 @@
                                    d:LayoutOverrides="Margin" HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Center"
                                    ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}">
-
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
-                        <local:StripBadge />
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <local:NotificationNumberView/>
+                            <local:StripBadge DataContext="{Binding Ap}"/>
+                        </DockPanel>
                     </DataTemplate>
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>
@@ -139,15 +141,20 @@
                         <Label Content="INFO" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
-                <Custom:SurfaceButton x:Name="btnRefresh1" Click="btnRefresh_Click"
-                                      HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}"
+                <Custom:SurfaceButton x:Name="btnRefresh1" 
+                                      Click="btnRefresh_Click"
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" 
+                                      Background="{x:Null}"
                                       Padding="2">
                     <StackPanel Orientation="Horizontal">
                         <Border CornerRadius="30"
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource refreshIcon}" />
-                        <Label Content="REFRESH" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                         <Ellipse Name="thereAreNewComments" Fill="#FFFDB903" Width="10" Height="10" 
+                                     Visibility="Collapsed"/>
+                         <Label Content="REFRESH" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
             </StackPanel>
@@ -208,14 +215,18 @@
             </Custom:SurfaceListBox>
 
             <Label Content="Other users" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Margin="0"
-                   Height="32.61" Width="92.423" d:LayoutOverrides="Margin" Foreground="Black" />
+                   Height="32.61" d:LayoutOverrides="Margin" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstOtherUsers" ItemsSource="{Binding OtherUsers}"
                                    SelectionChanged="lstUsers_SelectionChanged" Grid.Row="3" Margin="0,2,0,0"
                                    d:LayoutOverrides="Margin"
                                    ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}">
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
-                        <local:StripUser />
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <Ellipse Fill="#FFFDB903" Width="10" Height="10" 
+                                     Visibility="{Binding HasPointsWithUnreadComments, Converter={StaticResource personToDotVisibility}}"/>   
+                            <local:StripUser DataContext="{Binding Pers}" DockPanel.Dock="Right" /> 
+                        </DockPanel>
                     </DataTemplate>
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>

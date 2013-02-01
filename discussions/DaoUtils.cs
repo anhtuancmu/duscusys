@@ -407,7 +407,7 @@ namespace Discussions
             return changed;
         }
 
-        public const string NEW_COMMENT = "New comment";
+        public const string NEW_COMMENT = "New feedback";
         public const string NEW_POINT_NAME = "Your point here";
 
         public static MediaData CreateMediaData(byte[] data)
@@ -567,6 +567,29 @@ namespace Discussions
 
             return res;
         }
+        
+        public static List<int> SubsetOfPersonsWithDots(DiscCtx ctx, int[] personIds, int topicId)
+        {
+            var topic = ctx.Topic.FirstOrDefault(t => t.Id == topicId);
+            if (topic == null)
+                return null;
+
+            var res = new List<int>();
+
+            foreach (var ap in topic.ArgPoint)
+            {
+                if (!personIds.Contains(ap.Person.Id))
+                    continue;                
+
+                if (NumCommentsUnreadBy(ctx, ap.Id).Total() > 0)
+                    if (!res.Contains(ap.Person.Id))
+                    {
+                        res.Add(ap.Person.Id);
+                    }
+            }
+
+            return res;
+        }
        
         public static string RecentCommentReadBy(DiscCtx ctx, int argPointId)
         {
@@ -579,11 +602,13 @@ namespace Discussions
             if (ap == null)
                 return "";
 
-            var recentComment = ap.Comment.LastOrDefault(c => c.Person != null && c.Person.Id == selfId);
+            //var recentComment = ap.Comment.LastOrDefault(c => c.Person != null && c.Person.Id == selfId);
+            //use recent comment by anyone
+            var recentComment = ap.Comment.LastOrDefault(c => c.Person != null);
             if (recentComment == null)
                 return "";
 
-            var res = new StringBuilder(string.Format("\"{0}\" read by ", 
+            var res = new StringBuilder(string.Format("\"{0}\" seen by ", 
                                             SummaryTextConvertor.ShortenLine(recentComment.Text, 15)
                                            )
                                        );

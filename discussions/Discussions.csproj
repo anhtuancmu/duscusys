@@ -155,6 +155,9 @@
       <DependentUpon>BusyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BusyWndSingleton.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\NumToVisibilityConverter.cs" />
+    <Compile Include="Converters\PersonExtToVisibilityConverter.cs" />
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
     <Compile Include="CommentEditabilityChanged.cs" />
@@ -170,6 +173,13 @@
     </Compile>
     <Compile Include="model\ArgPointExt.cs" />
     <Compile Include="model\NewCommentsFrom.cs" />
+    <Compile Include="model\PersonExt.cs" />
+    <Compile Include="NumNewCommentsByView.xaml.cs">
+      <DependentUpon>NumNewCommentsByView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotificationNumberView.xaml.cs">
+      <DependentUpon>NotificationNumberView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OfficeWnd.xaml.cs">
       <DependentUpon>OfficeWnd.xaml</DependentUpon>
     </Compile>
@@ -471,6 +481,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="HtmlEditWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumNewCommentsByView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotificationNumberView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
