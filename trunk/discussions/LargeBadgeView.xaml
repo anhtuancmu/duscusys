@@ -107,7 +107,7 @@
             <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="1" 
                                         ScrollChanged="ScrollViewer_OnScrollChanged"
                                         VerticalScrollBarVisibility="Visible">
-                <StackPanel MaxWidth="850">
+                <StackPanel MaxWidth="820">
                     <TextBlock x:Name="txtPoint"
                                TextAlignment="Center"
                                Text="{Binding Point}"     
