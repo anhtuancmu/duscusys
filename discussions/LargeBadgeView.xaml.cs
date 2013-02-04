@@ -249,8 +249,9 @@ namespace Discussions
             var ap = DataContext as ArgPoint;
             _commentDismissalRecognizer.Reset(ap);
             UpdateLocalReadCounts(DbCtx.Get(), ap);
+            new CommentNotificationDeferral(Dispatcher, DbCtx.Get(), lstBxComments1);
             UpdateRemoteReadCounts(DbCtx.Get(), ap);
-
+           
             if (DataContext == null)
                 EditingMode = false;
             else
@@ -626,9 +627,9 @@ namespace Discussions
 
             if (ev.PersonId == SessionInfo.Get().person.Id)
             {
-                //we are only interested in comment read callbacks from ourselves, to update local label 
-
-                UpdateLocalReadCounts(new DiscCtx(ConfigManager.ConnStr), ap);
+                var ctx = new DiscCtx(ConfigManager.ConnStr);
+                UpdateLocalReadCounts(ctx, ap);
+                new CommentNotificationDeferral(Dispatcher, ctx, lstBxComments1);
             }
             else
             {

@@ -605,7 +605,7 @@ namespace Discussions
             //var recentComment = ap.Comment.LastOrDefault(c => c.Person != null && c.Person.Id == selfId);
             //use recent comment by anyone
             var recentComment = ap.Comment.LastOrDefault(c => c.Person != null);
-            if (recentComment == null)
+            if (recentComment == null || recentComment.Person==null)
                 return "";
 
             var res = new StringBuilder(string.Format("\"{0}\" seen by ", 
@@ -618,7 +618,7 @@ namespace Discussions
             {
                 unreadUsers.Remove(readEntry.Person.Id);
 
-                if (readEntry.Person.Id != selfId)
+                if (readEntry.Person.Id != selfId && recentComment.Person.Id != readEntry.Person.Id)
                 {
                     if (atLeastOneReader)
                     {
@@ -632,13 +632,40 @@ namespace Discussions
 
             if (unreadUsers.Count == 0)
             {
-                return string.Format("\"{0}\" read by all", SummaryTextConvertor.ShortenLine(recentComment.Text, 15) );
+                return string.Format("\"{0}\" seen by all", SummaryTextConvertor.ShortenLine(recentComment.Text, 15) );
             }
 
             if (atLeastOneReader)
                 return res.ToString();
 
             return "";
+        }
+       
+        /// <summary>
+        /// Own comment cannot be new. 
+        /// Placeholder cannot be new. 
+        /// Comment of other user is new if unread by us.
+        /// </summary>
+        public static bool IsCommentNewForUs(DiscCtx ctx, int commentId)
+        {
+            //new comment that hasn't been saved
+            if (commentId == 0)
+                return false;
+
+            var selfId = SessionInfo.Get().person.Id;
+
+            var c = ctx.Comment.FirstOrDefault(c0 => c0.Id == commentId);
+            if (c == null)
+                return false;
+
+            if (c.Person == null)
+                return false;
+
+            if (c.Person.Id == selfId)
+                return false;
+
+            //if self is not in number of those who read the comment, the comment is new for us
+            return c.ReadEntry.All(re => re.Person.Id != selfId);            
         }
         #endregion
     }

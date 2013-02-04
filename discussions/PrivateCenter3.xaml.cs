@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Discussions.DbModel;
 using Discussions.RTModel.Model;
+using Discussions.ctx;
 using Discussions.model;
 using Discussions.rt;
 using Microsoft.Surface.Presentation.Controls;
@@ -79,6 +80,7 @@ namespace Discussions
             theBadge.Hide();
 
             PrivateCenterCtx.DropContext();
+            TimingCtx.Drop();           
 
             SetListeners(true);
 
@@ -129,6 +131,7 @@ namespace Discussions
         {
             //forget cached state
             PrivateCenterCtx.DropContext();
+            TimingCtx.Drop();
             //////////////////////
         }
 
@@ -166,7 +169,7 @@ namespace Discussions
             foreach (var ap in t.ArgPoint.Where(ap0 => ap0.Person.Id == selfId).OrderBy(ap0 => ap0.OrderNumber))
                 OwnArgPoints.Add(new ArgPointExt(ap));
 
-            UpdateLocalUnreadCountsOwn(new DiscCtx(ConfigManager.ConnStr));
+            UpdateLocalUnreadCountsOwn(TimingCtx.GetFresh());
 
             if (OwnArgPoints.Count > 0)
             {
@@ -186,7 +189,7 @@ namespace Discussions
         }
 
         private bool _otherUserSelectedManually = true;
-
+               
         private void UpdateOtherUsers(int discussionId, int ownId)
         {
             OtherUsers.Clear();
@@ -236,7 +239,7 @@ namespace Discussions
             if (_otherUserSelectedManually && ArgPointsOfOtherUser.Count > 0)
                 theBadge.DataContext = ArgPointsOfOtherUser.First().Ap;
 
-            UpdateLocalUnreadCountsOfOtherUser(new DiscCtx(ConfigManager.ConnStr));
+            UpdateLocalUnreadCountsOfOtherUser(TimingCtx.GetFresh());
         }
 
         private void lstOtherUserBadges_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -706,7 +709,8 @@ namespace Discussions
                     changedPointOwnedByOtherUser = true;
                 }
 
-                var ctx = new DiscCtx(ConfigManager.ConnStr);
+                TimingCtx.Drop();
+                var ctx = TimingCtx.GetFresh();
 
                 //if the changed point is our own point
                 if (changedPointExt != null)
@@ -738,7 +742,8 @@ namespace Discussions
                var currTopic = lstTopics.SelectedItem as Topic;
                if (currTopic != null && topicId == currTopic.Id)
                {
-                  if (DaoUtils.NumCommentsUnreadBy(new DiscCtx(ConfigManager.ConnStr), argPointId).Total() > 0)
+                  TimingCtx.Drop();
+                  if (DaoUtils.NumCommentsUnreadBy(TimingCtx.GetFresh(), argPointId).Total() > 0)
                       thereAreNewComments.Visibility = Visibility.Visible;                   
                }
             }
@@ -759,9 +764,14 @@ namespace Discussions
                 ap.NumUnreadComments = DaoUtils.NumCommentsUnreadBy(ctx, ap.Ap.Id).Total();
             }
         }
-        
-        private void UpdateOtherUsersDots(DiscCtx ctx, int singleUserId = -1) 
+
+        readonly DuplicateEventRecognizer _otherUsersDots = new DuplicateEventRecognizer(100);
+        private void UpdateOtherUsersDots(DiscCtx ctx, int singleUserId = -1)
         {
+            if (_otherUsersDots.IsDuplicate())
+                return;
+            _otherUsersDots.RecordEvent();
+
             var topic = lstTopics.SelectedItem as Topic;
             if (topic == null)
                 return;

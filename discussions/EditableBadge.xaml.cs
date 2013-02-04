@@ -132,7 +132,6 @@ namespace Discussions
         {
             var ap = DataContext as ArgPoint;
 
-
             SetStyle();
 
             if (DataContext == null)
@@ -152,7 +151,8 @@ namespace Discussions
             }
             else
             {
-                EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
+                if(ap!=null)
+                    EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
             }
 
             //if there are no comments, add placeholder
@@ -175,6 +175,7 @@ namespace Discussions
             {
                 UpdateLocalReadCounts(PrivateCenterCtx.Get(), ap);
                 UpdateRemoteReadCounts(PrivateCenterCtx.Get(), ap);
+                new CommentNotificationDeferral(Dispatcher, PrivateCenterCtx.Get(), lstBxComments);
             }
 
             if (CommentDismissalRecognizer != null)
@@ -983,8 +984,6 @@ namespace Discussions
 
             if (ev.PersonId == SessionInfo.Get().person.Id)
             {
-                //we are only interested in comment read callbacks from ourselves, to update local label 
-
                 UpdateLocalReadCounts(new DiscCtx(ConfigManager.ConnStr), ap);
             }
             else
@@ -999,6 +998,7 @@ namespace Discussions
                 return;
 
             SetNumUnreadComments(DaoUtils.NumCommentsUnreadBy(ctx, ap.Id).Total());
+            new CommentNotificationDeferral(Dispatcher, ctx, lstBxComments);
         }
 
         void UpdateRemoteReadCounts(DiscCtx ctx, ArgPoint ap)

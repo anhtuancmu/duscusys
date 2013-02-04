@@ -15,7 +15,7 @@
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -23,29 +23,32 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" Grid.Row="1"
-                        VerticalAlignment="Center">
+            
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="1"
+                        VerticalAlignment="Center" Margin="30,0,0,0">
+                <Ellipse Name="notDot" Fill="#FFFDB903" Width="10" Height="10"                    
+                    Visibility="Collapsed" VerticalAlignment="Center" Margin="0,0,5,0" />
                 <my:SurfaceTextBox LostFocus="txtBxText_LostFocus"
                                    KeyDown="txtBxText_KeyDown_1"
                                    TextChanged="txtBxText_TextChanged_1"
                                    TextWrapping="Wrap"
                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
                                    x:Name="txtBxText" d:LayoutOverrides="Width"
-                                   VerticalAlignment="Center" Margin="0" MaxWidth="600" />
+                                   VerticalAlignment="Center" Margin="0" Width="600" />
                 <TextBlock x:Name="lblText" Foreground="Black" Visibility="Collapsed"
                            TextWrapping="Wrap" MaxWidth="600"
-                           Text="{Binding Text}" VerticalAlignment="Top" />
+                           Text="{Binding Text}" VerticalAlignment="Center" />
             </StackPanel>
             <Rectangle x:Name="marker" Fill="{Binding Person.Color, Converter={StaticResource brushConverter}}"
-                       Height="30" Width="30" />
+                       Height="30" Width="30" Margin="0,2,0,1"/>
             <Label Content="{Binding Person.Name}"
                    Foreground="Black"
-                   x:Name="lblAuthor" FontSize="16" d:LayoutOverrides="Width"
-                   VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" />
+                   x:Name="lblAuthor" FontSize="16"
+                   VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" Margin="0,1"/>
             <my:SurfaceButton x:Name="btnRemoveComment" FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                               Foreground="DarkRed" Content=" X"
                               VerticalAlignment="Center" HorizontalAlignment="Center" Click="btnRemoveComment_Click"
-                              Grid.Row="1" Grid.Column="2" Background="{x:Null}" BorderBrush="#FF878787" />
+                              Grid.Row="1" Grid.Column="2" Background="{x:Null}" BorderBrush="#FF878787" Margin="1,3" />
         </Grid>
     </Border>
 </UserControl>
