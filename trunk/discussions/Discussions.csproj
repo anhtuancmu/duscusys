@@ -142,6 +142,7 @@
     <Compile Include="AttachmentTemplateSelector.cs" />
     <Compile Include="Bahaviour\VerticallyUnscrollableInnerList.cs" />
     <Compile Include="CommentDismissalRecognizer.cs" />
+    <Compile Include="CommentNotificationDeferral.cs" />
     <Compile Include="CommentRoutedEventArgs.cs" />
     <Compile Include="Converters\AttachmentToVideoConvertor.cs" />
     <Compile Include="Converters\AttachToImageConvertor.cs" />
@@ -161,7 +162,9 @@
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
     <Compile Include="CommentEditabilityChanged.cs" />
+    <Compile Include="ctx\TimingCtx.cs" />
     <Compile Include="d-editor\BadgesCtx.cs" />
+    <Compile Include="DuplicateEventRecognizer.cs" />
     <Compile Include="MediaMover.cs" />
     <Compile Include="DiscussionAutoCreatorWnd.xaml.cs">
       <DependentUpon>DiscussionAutoCreatorWnd.xaml</DependentUpon>
@@ -172,6 +175,7 @@
       <DependentUpon>HtmlEditWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="model\ArgPointExt.cs" />
+    <Compile Include="model\CommentExt.cs" />
     <Compile Include="model\NewCommentsFrom.cs" />
     <Compile Include="model\PersonExt.cs" />
     <Compile Include="NumNewCommentsByView.xaml.cs">

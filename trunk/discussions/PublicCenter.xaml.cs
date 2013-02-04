@@ -702,7 +702,7 @@ namespace Discussions
             mainGrid.Children.Add(_lbv);
             Grid.SetRowSpan(_lbv, 2);
             _lbv.HorizontalAlignment = HorizontalAlignment.Center;
-            _lbv.VerticalAlignment = VerticalAlignment.Center;
+            _lbv.VerticalAlignment = VerticalAlignment.Center;            
         }
 
         private void HideLargeBadgeView()

@@ -20,7 +20,7 @@
         <local:ARGBColorBrushConvertor x:Key="colorConv" />
 
         <DataTemplate x:Key="CommentItemTemplate">
-            <local:CommentUC Width="820"
+            <local:CommentUC
                              CommentEditLockChanged="onCommentEditabilityChanged"
                              possibilityToClose="possibilityToClose"
                              placeholderFocus="placeholderFocus" />

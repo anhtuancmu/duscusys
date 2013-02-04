@@ -82,6 +82,14 @@ namespace Discussions
             InitializeComponent();
         }
 
+        public void SetNotification(bool dotVisible)
+        {
+            if (dotVisible)
+                notDot.Visibility = Visibility.Visible;
+            else
+                notDot.Visibility = Visibility.Collapsed;
+        }
+
         public double MaxCommentWidth
         {
             set

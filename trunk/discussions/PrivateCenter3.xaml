@@ -68,7 +68,8 @@
                                    HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Center"
                                    ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}"
-                                   BorderThickness="2" Grid.RowSpan="2">
+                                   BorderThickness="2"
+                                   Grid.RowSpan="2">
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
@@ -224,7 +225,7 @@
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
                             <Ellipse Fill="#FFFDB903" Width="10" Height="10" 
-                                     Visibility="{Binding HasPointsWithUnreadComments, Converter={StaticResource personToDotVisibility}}"/>   
+                                     Visibility="{Binding HasPointsWithUnreadComments, Converter={StaticResource personToDotVisibility}}" Margin="7,0,0,0"/>   
                             <local:StripUser DataContext="{Binding Pers}" DockPanel.Dock="Right" /> 
                         </DockPanel>
                     </DataTemplate>
