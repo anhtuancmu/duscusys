@@ -73,7 +73,7 @@
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
-                            <local:NotificationNumberView/>
+                            <local:NotificationNumberView Margin="5,0,0,0"/>
                             <!--<Custom:SurfaceCheckBox VerticalAlignment="Center" IsChecked="{Binding SharedToPublic}"
                                                     Click="SurfaceCheckBox_Click" DockPanel.Dock="Left" />-->
                             <local:StripBadge DataContext="{Binding Ap}" DockPanel.Dock="Right" />
@@ -91,7 +91,7 @@
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
-                            <local:NotificationNumberView/>
+                            <local:NotificationNumberView Margin="5,0,0,0"/>
                             <local:StripBadge DataContext="{Binding Ap}"/>
                         </DockPanel>
                     </DataTemplate>
