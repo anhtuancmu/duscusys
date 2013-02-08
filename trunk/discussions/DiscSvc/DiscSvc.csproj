@@ -48,8 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4">
-      <HintPath>..\bin\Debug\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll</HintPath>
+    <Reference Include="Microsoft.CompilerServices.AsyncTargetingPack.Net4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.CompilerServices.AsyncTargetingPack.1.0.0\lib\net40\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll</HintPath>
     </Reference>
     <Reference Include="Photon3DotNet">
       <HintPath>..\CloudStorage\bin\Debug\Photon3DotNet.dll</HintPath>
@@ -76,6 +77,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="DiscSvc.svc" />
     <Content Include="Global.asax" />
+    <Content Include="Reporting\EmailReportPage.html" />
     <Content Include="Reporting\report.css" />
     <Content Include="Reporting\ReportTestPage.html" />
     <Content Include="Styles\Site.css" />
@@ -142,6 +144,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporting\LinkObject.cs" />
+    <Compile Include="Reporting\EmailHandler.cs" />
     <Compile Include="Reporting\PartialReport.cs" />
     <Compile Include="Reporting\Helpers.cs" />
     <Compile Include="Reporting\Report.cs">

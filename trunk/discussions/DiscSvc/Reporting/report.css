@@ -80,3 +80,23 @@ table td {
 .toc {
    padding-left:40px;
 }
+
+.siteBtn1 {
+  background-color: #7B4F9D;
+  border: 1px solid #7B4F9D;
+  color: #fff;
+  font: 30px 'Segoe UI Light','Segoe UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
+  /*font-weight: lighter;*/
+  text-align: center;
+  height: 80px;
+  min-width: 250px;
+}
+.siteBtn1:hover {
+    background-color: #8d5eaf;
+    border: 1px solid #8d5eaf;
+    cursor: pointer; 
+}
+.siteBtn1:active {
+    background-color: #8d5eaf;
+    border: 1px solid #8d5eaf;
+}

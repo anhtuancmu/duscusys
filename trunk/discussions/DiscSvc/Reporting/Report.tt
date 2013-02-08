@@ -252,6 +252,17 @@
 		
 		 <#LinkInformation(ComplexReport);#>
 
+	    <form name="emailForm" method="post" action="/discsvc/email">
+        <p>
+            <b>Enter email</b>
+			<br/>
+            <input type="email" name="email" id="email" size="40"/>
+            <input type="hidden" name="reportUrl" id="reportUrl" value="<#=ReportUrl#>"/>
+        </p>      
+        <p>
+            <input class="siteBtn1" type="submit" value="Send"/>
+        </p>
+    </form>
     </body>
 </html>
 
