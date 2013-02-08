@@ -8,7 +8,7 @@
     DataContextChanged="UserControl_DataContextChanged_1"
     mc:Ignorable="d" d:DesignWidth="54.563" 
     d:DesignHeight="54.812" 
-    Margin="1,7,7,7">
+    Margin="5,7,7,7">
 
     <UserControl.Resources>
         <local:ARGBColorBrushConvertor x:Key="argbConv" />
