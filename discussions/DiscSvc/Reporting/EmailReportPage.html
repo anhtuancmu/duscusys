@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="javascript">document.getElementById('reportUrl').value = window.location.href;</script>
+</head>
+<body>
+    <form name="test" method="post" action="/discsvc/email">
+        <p>
+            <b>Enter email</b><br/>
+            <input type="email" name="email" id="email" size="40"/>
+            <input type="hidden" name="reportUrl" id="reportUrl" value=""/>
+        </p>      
+        <p>
+            <input class="siteBtn1" type="submit" value="Send"/>
+        </p>
+    </form>
+</body>
+</html>

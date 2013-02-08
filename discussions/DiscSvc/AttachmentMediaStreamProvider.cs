@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Objects;
 using System.Data.Services;
 using System.Data.Services.Providers;
 using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Hosting;
 using Discussions;
 using Discussions.DbModel;
 using Discussions.model;

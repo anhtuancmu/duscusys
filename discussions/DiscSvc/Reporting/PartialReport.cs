@@ -11,6 +11,7 @@ namespace DiscSvc.Reporting
         public QueryParams QueryParams;
         public ReportParameters ReportParams;
         public IEnumerable<Tuple<Person, Person>> Participants;
+        public string ReportUrl;
 
         public Reporter.ReportCollector ComplexReport;
 
