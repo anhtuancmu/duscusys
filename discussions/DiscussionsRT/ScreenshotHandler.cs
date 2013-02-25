@@ -34,7 +34,7 @@ namespace Discussions.RTModel
         public string RunClientAndWait(int topicId, int discId)
         {
             var metaInfoPath = RandomFilePath(".txt");
-            var parameters = string.Format("{0} {1} {2}", topicId, discId, metaInfoPath);
+            var parameters = string.Format("{0} {1} \"{2}\"", topicId, discId, metaInfoPath);
 
             var psi = new ProcessStartInfo(ClientLocation(), parameters);
             psi.UseShellExecute = false;

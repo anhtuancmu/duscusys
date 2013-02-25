@@ -269,6 +269,7 @@
     <Compile Include="BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Reporter.pdf\ReportRun.csx" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Reporter.pdf\PdfAssembler4.cs" />
