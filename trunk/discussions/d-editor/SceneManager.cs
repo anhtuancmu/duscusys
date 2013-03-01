@@ -311,7 +311,6 @@ namespace DistributedEditor
                 linkCreation.end2 = end;
         }
 
-        private DateTime _recentInpDevDown = DateTime.Now;
         public bool InpDeviceDown(Point pos, TouchDevice touchDev)
         {
             DocTools.UnfocusAll(_doc.GetShapes().Where(sh => !sh.IsManipulated()));
@@ -343,16 +342,6 @@ namespace DistributedEditor
                     }
                     return true;
                 case ShapeInputMode.ManipulationExpected:
-                    var recentInpDevDown = _recentInpDevDown;
-                    _recentInpDevDown = DateTime.Now;
-                    if (DateTime.Now.Subtract(recentInpDevDown).TotalMilliseconds < 500)
-                    {
-                        //this is the second click of double click series. ignore it. it can be large badge view request, 
-                        //so we don't start manipulating the badge, as it's now in modal state.
-                        InpDeviceUp(new Point());//release any previous contact
-                        return true;
-                    }
- 
                     //no current touch points on shapes (maybe touch points over empty space)
 
                     Shape resizeNode = null;
@@ -419,6 +408,13 @@ namespace DistributedEditor
             }
         }
 
+        //used by large badge view mode
+        public void CancelManipulation()
+        {
+            _doc.VolatileCtx.skipNextAquiredCursor = true;
+            InpDeviceUp(new Point(0, 0));
+        }
+
         public void InpDeviceUp(Point pos)
         {
             if (_modeMgr.Mode == ShapeInputMode.Manipulating)
@@ -462,6 +458,13 @@ namespace DistributedEditor
         {
             if (mgr.LocalCursor == null)
                 return;
+
+            if (mgr.skipNextAquiredCursor)
+            {
+                mgr.skipNextAquiredCursor = false;
+                InpDeviceUp(new Point(0,0));
+                return;
+            }
 
             //local cursor approval
             switch (_modeMgr.Mode)
@@ -733,15 +736,6 @@ namespace DistributedEditor
                 UISharedRTClient.Instance.clienRt.SendInkRequest(_palette.GetOwnerId(), _doc.TopicId, s.ToArray());
             }
         }
-
-        //public void SetNotification(int argPointId, bool notificationExists)
-        //{
-        //    //find badge with arg.point Id
-        //    var theBadge = Doc.GetShapes().FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge &&
-        //                                                        ((VdBadge) sh).ArgPtId == argPointId) as VdBadge;
-        //    if (theBadge != null)
-        //        theBadge.Badge.ToggleDot(notificationExists);
-        //}
 
         #region photon events
 
