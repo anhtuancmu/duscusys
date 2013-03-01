@@ -98,7 +98,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <Custom:SurfaceButton x:Name="btnZoom" Background="{x:Null}" Click="btnZoom_Click" BorderThickness="0"
+                <Custom:SurfaceButton x:Name="btnZoom" Background="#02000000" Click="btnZoom_Click" BorderThickness="0"
                                       HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75">
                     <Border Background="{StaticResource decrease2}" Width="60" Height="60" />
                 </Custom:SurfaceButton>

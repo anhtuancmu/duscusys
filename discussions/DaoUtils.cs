@@ -7,6 +7,7 @@ using System.Windows.Media;
 using Discussions.stats;
 using System.Linq;
 using System.Data.Objects;
+using System.Diagnostics;
 
 namespace Discussions
 {
@@ -348,7 +349,7 @@ namespace Discussions
 
             foreach (var e in events.ToArray().Reverse())
                 res.Add(new EventViewModel((StEvent)e.Event, e.UserId, e.Time, (DeviceType)e.DeviceType));
-
+          
             return res;
         }
 

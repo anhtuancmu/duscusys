@@ -30,6 +30,9 @@ namespace DistributedEditor
         //has movement been detected during recent cursor ownership period ? 
         private bool _movementDetected = false;
 
+        //if we are in large badge view mode, we skip the next cursor 
+        public bool skipNextAquiredCursor;
+
         public void MovementDetected()
         {
             _movementDetected = true;

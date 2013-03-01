@@ -22,7 +22,7 @@ using System.Drawing;
 
 namespace Discussions
 {
-    public partial class PublicCenter : SurfaceWindow
+    public partial class PublicCenter : SurfaceWindow 
     {
         private Discussion _discussion;
 
@@ -691,6 +691,8 @@ namespace Discussions
             if (_lbv != null)
                 return;
 
+            if(editCtx!=null)
+                editCtx.SceneMgr.CancelManipulation(); 
             scene.IsHitTestVisible = false;
             blockWorkingAreaTransforms = true;
 
@@ -702,7 +704,7 @@ namespace Discussions
             mainGrid.Children.Add(_lbv);
             Grid.SetRowSpan(_lbv, 2);
             _lbv.HorizontalAlignment = HorizontalAlignment.Center;
-            _lbv.VerticalAlignment = VerticalAlignment.Center;            
+            _lbv.VerticalAlignment = VerticalAlignment.Center;                        
         }
 
         private void HideLargeBadgeView()
