@@ -113,7 +113,7 @@ namespace Discussions
             var dstTopic = lstDstTopics.SelectedItem as Topic;
             if (dstTopic == null)
             {
-                MessageBox.Show("Target topic not selected");
+                MessageDlg.Show("Target topic not selected");
                 return;
             }
 

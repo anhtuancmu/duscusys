@@ -49,7 +49,7 @@ namespace Discussions
                 htmlBackgroundWnd = null;
             }
 
-            MessageBox.Show("Moderator is offline or selected session is not running. User dashboards have been closed",
+            MessageDlg.Show("Moderator is offline or selected session is not running. User dashboards have been closed",
                             "Info",
                             MessageBoxButton.OK,
                             MessageBoxImage.Information);

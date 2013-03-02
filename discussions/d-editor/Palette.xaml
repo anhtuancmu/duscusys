@@ -404,7 +404,7 @@
         <DropShadowEffect Color="#FF494949" BlurRadius="20" />
     </UserControl.Effect>
     <Border x:Name="bdr" BorderThickness="4" Background="#FF747474" CornerRadius="5">
-        <UniformGrid Rows="7" Columns="1">
+        <UniformGrid Rows="6" Columns="1">
             <Custom:SurfaceToggleButton x:Name="btnCluster" Background="{x:Null}" Width="60" Height="60"
                                         Click="btnCluster_Click">
                 <Canvas>
@@ -506,7 +506,7 @@
                            FontFamily="Segoe UI" FontWeight="Bold" />
                 </Canvas>
             </Custom:SurfaceToggleButton>
-            <Custom:SurfaceToggleButton x:Name="btnReset" Background="Transparent" Click="btnReset_Click" Width="60"
+            <!--<Custom:SurfaceToggleButton x:Name="btnReset" Background="Transparent" Click="btnReset_Click" Width="60"
                                         Height="60" HorizontalAlignment="Center"
                                         Style="{DynamicResource CircularSurfaceToggleButtonStyle1}">
                 <Canvas>
@@ -514,7 +514,7 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"
                            FontWeight="Bold" />
                 </Canvas>
-            </Custom:SurfaceToggleButton>
+            </Custom:SurfaceToggleButton>-->
         </UniformGrid>
     </Border>
 </UserControl>

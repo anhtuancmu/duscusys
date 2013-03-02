@@ -42,7 +42,7 @@ namespace Reporter.pdf
             }
             catch (Exception e)
             {
-                MessageBox.Show("File I/O error " + e.Message);
+                MessageDlg.Show("File I/O error " + e.Message);
                 return;
             }
 

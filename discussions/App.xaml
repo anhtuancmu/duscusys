@@ -309,6 +309,8 @@
             <ImageBrush x:Key="AcceptIcon" ImageSource="Resources/accept-icon.png" Stretch="Uniform" />
             <ImageBrush x:Key="PrivIcon" ImageSource="Resources/privateIcon.png" Stretch="Uniform" />
             <ImageBrush x:Key="refreshIcon" ImageSource="Resources/loop2.png" Stretch="Uniform" />
+            <ImageBrush x:Key="loop1" ImageSource="Resources/loop1.png" Stretch="Uniform" />
+            <ImageBrush x:Key="trash" ImageSource="Resources/trash.png" Stretch="Uniform" />
 
             <SolidColorBrush x:Key="bgColor" Color="#FFFFA0A0" />
             <SolidColorBrush x:Key="linkColor" Color="#FF8296F2" />

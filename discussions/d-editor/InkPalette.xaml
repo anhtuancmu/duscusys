@@ -7,7 +7,8 @@
     mc:Ignorable="d"
     x:Class="DistributedEditor.InkPalette"
     x:Name="UserControl"
-    d:DesignWidth="390" d:DesignHeight="164">
+    Width="497" Height="175"
+    d:DesignWidth="497" d:DesignHeight="175">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
@@ -21,24 +22,28 @@
         <Border x:Name="bdr" CornerRadius="5" Background="#FF747474" BorderThickness="4">
 
             <Grid>
-                <StackPanel HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Top">
-                    <s:SurfaceToggleButton x:Name="radInk" Background="{x:Null}" IsChecked="True" Click="rad_Click"
-                                           Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Width="100">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90">
-                            <Border Background="{StaticResource pen}" Height="30" Width="30" />
-                            <TextBlock Foreground="White" Text="Ink" d:LayoutOverrides="Width" Margin="13,0,0,0" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="171"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Bottom" Height="72">
+                    <s:SurfaceToggleButton x:Name="radInk" Background="#02000000" IsChecked="True" Click="rad_Click"
+                                           Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Height="70">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Border Background="{StaticResource pen}" Height="50" Width="50" />
+                            <TextBlock Text="DRAW" d:LayoutOverrides="Width" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
-                    <s:SurfaceToggleButton x:Name="radErase" Background="{x:Null}" Click="rad_Click"
-                                           Tag="{x:Static s:SurfaceInkEditingMode.EraseByStroke}" Width="100">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90">
-                            <Border Background="{StaticResource eraser}" Height="30" Width="30" />
-                            <TextBlock Foreground="White" Text="Eraser" Margin="12,0,0,0" />
+                    <s:SurfaceToggleButton x:Name="radErase" Background="#02000000" Click="rad_Click"
+                                           Tag="{x:Static s:SurfaceInkEditingMode.EraseByStroke}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Border Background="{StaticResource trash}" Height="50" Width="50" />
+                            <TextBlock Text="ERASE" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Right">
+                <StackPanel Orientation="Vertical" Height="81" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <Label Content="Brush size" HorizontalAlignment="Center" FontSize="21.333" FontFamily="Segoe UI" />
                     <StackPanel Orientation="Horizontal">
                         <s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}"
@@ -60,8 +65,8 @@
                     </StackPanel>
                 </StackPanel>
 
-                <s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="Finish drawing" VerticalAlignment="Bottom"
-                                 Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="Finish drawing"
+                                 Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" />
             </Grid>
         </Border>
     </Grid>

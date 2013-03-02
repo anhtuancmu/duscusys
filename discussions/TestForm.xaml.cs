@@ -129,7 +129,7 @@ namespace Discussions
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(rtf);
+            MessageDlg.Show(rtf);
         }
     }
 }

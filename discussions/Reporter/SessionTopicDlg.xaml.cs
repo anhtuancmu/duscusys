@@ -20,6 +20,7 @@ using Discussions.DbModel;
 using Discussions.model;
 using System.Data;
 using Discussions.rt;
+using Discussions;
 
 namespace Reporter
 {
@@ -141,7 +142,7 @@ namespace Reporter
         {
             if (lstSessions.SelectedItem == null || lstTopics.SelectedItem == null)
             {
-                MessageBox.Show("Please select session and topic to generate report");
+                MessageDlg.Show("Please select session and topic to generate report");
                 return;
             }
 

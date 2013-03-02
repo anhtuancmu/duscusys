@@ -125,7 +125,7 @@ namespace EventGen
 
             if (login.discussion == null)
             {
-                System.Windows.MessageBox.Show(
+                MessageDlg.Show(
                     "In this application even moderator should select real, existing discussion");
                 System.Windows.Application.Current.Shutdown();
                 return;
@@ -171,7 +171,7 @@ namespace EventGen
         {
             if (cbxTopics.SelectedItem == null)
             {
-                MessageBox.Show("Please first select topic");
+                MessageDlg.Show("Please first select topic");
                 return false;
             }
 
@@ -179,7 +179,7 @@ namespace EventGen
             {
                 if (lstUsers.SelectedItem == null)
                 {
-                    MessageBox.Show("Please first select user who initiates the event");
+                    MessageDlg.Show("Please first select user who initiates the event");
                     return false;
                 }
                 personId = ((Person) lstUsers.SelectedItem).Id;
@@ -719,7 +719,7 @@ namespace EventGen
             catch (Exception e1)
             {
                 myMediaElement.Source = null;
-                MessageBox.Show(
+                MessageDlg.Show(
                     "Problem with video: " + e1.ToString() +
                     "  Ensure that selected video file can be played with Windows Media Player",
                     "Error",
@@ -800,7 +800,7 @@ namespace EventGen
 
                 if (!File.Exists(_session.videoPathName))
                 {
-                    MessageBox.Show("Cannot find video file " + _session.videoPathName +
+                    MessageDlg.Show("Cannot find video file " + _session.videoPathName +
                                     ". Selected MEG timeline references it");
                     return;
                 }
@@ -818,7 +818,7 @@ namespace EventGen
         {
             if (_session.videoPathName == "")
             {
-                MessageBox.Show("Cannot save timeline, no video selected");
+                MessageDlg.Show("Cannot save timeline, no video selected");
                 return;
             }
 

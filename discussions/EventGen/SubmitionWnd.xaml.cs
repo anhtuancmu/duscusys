@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using EventGen.timeline;
 using LoginEngine;
 using Reporter;
+using Discussions;
 
 namespace EventGen
 {
@@ -51,7 +52,7 @@ namespace EventGen
             }
             catch (Exception e1)
             {
-                MessageBox.Show(e1.ToString(),
+                MessageDlg.Show(e1.ToString(),
                                 "Cannot submit events due to error: " + e1,
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);

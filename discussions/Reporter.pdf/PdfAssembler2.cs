@@ -43,11 +43,11 @@ namespace Reporter.pdf
 
             if (topic == null)
             {
-                MessageBox.Show("Null topic");
+                MessageDlg.Show("Null topic");
             }
             if (discussion == null)
             {
-                MessageBox.Show("Null discussion");
+                MessageDlg.Show("Null discussion");
             }
         }
 
@@ -90,7 +90,7 @@ namespace Reporter.pdf
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.StackTrace);
+                MessageDlg.Show(e.StackTrace);
             }
 
             return _images;
@@ -343,7 +343,7 @@ namespace Reporter.pdf
             {
                 if (pers == null)
                 {
-                    MessageBox.Show("skipping a null person in session");
+                    MessageDlg.Show("skipping a null person in session");
                     continue;
                 }
 
@@ -358,7 +358,7 @@ namespace Reporter.pdf
 
                 if (!personValid)
                 {
-                    MessageBox.Show(
+                    MessageDlg.Show(
                         string.Format(
                             "{0}'s arg.point \"{1}\" has null (undefined) topic. Skipping the arg.point in report",
                             pers.Name, invalidAp.Point));
