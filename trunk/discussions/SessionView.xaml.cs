@@ -49,7 +49,7 @@ namespace Discussions
             var end = dateTime2.Value.Value;
             if (end.CompareTo(start) <= 0)
             {
-                MessageBox.Show("End date/time of session should be greater than start date/time");
+                MessageDlg.Show("End date/time of session should be greater than start date/time");
                 dateTime2.Value = start.Add(TimeSpan.FromHours(1));
             }
         }

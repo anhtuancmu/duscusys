@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Surface.Presentation.Controls;
+using Discussions;
 
 namespace CloudStorage
 {
@@ -106,7 +107,7 @@ namespace CloudStorage
                     catch (Exception e)
                     {
                         downloadProgress.Visibility = Visibility.Collapsed;
-                        MessageBox.Show("Authentication error. Please try to connect again: " + e.ToString(), "Error",
+                        MessageDlg.Show("Authentication error. Please try to connect again: " + e.ToString(), "Error",
                                         MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
@@ -316,7 +317,7 @@ namespace CloudStorage
 
             if (entries.Count() != 1)
             {
-                MessageBox.Show("Select single file to view");
+                MessageDlg.Show("Select single file to view");
                 return;
             }
 

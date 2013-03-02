@@ -119,7 +119,7 @@ namespace Discussions
             var moderator = ctx.Person.FirstOrDefault(p => p.Name == "moderator");
             if (moderator == null)
             {
-                MessageBox.Show("Cannot find moderator in DB");
+                MessageDlg.Show("Cannot find moderator in DB");
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace Discussions
             }
             ctx.SaveChanges();
 
-            MessageBox.Show("Done");
+            MessageDlg.Show("Done");
         }
 
         public Discussion cloneDiscussion(DiscCtx ctx, Discussion original, Person moderator, int i)

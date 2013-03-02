@@ -93,6 +93,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="MessageDlg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Metro\Blue2Skin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,6 +150,9 @@
     </Compile>
     <Compile Include="LoginDevTypeDlg.xaml.cs">
       <DependentUpon>LoginDevTypeDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageDlg.xaml.cs">
+      <DependentUpon>MessageDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="Metro\TopicTile.xaml.cs">
       <DependentUpon>TopicTile.xaml</DependentUpon>

@@ -62,7 +62,7 @@ namespace Discussions
 
         private static void MsgParticipantsShouldSelectDiscussion()
         {
-            MessageBox.Show("Participants should choose a discussion they are invited to");
+            MessageDlg.Show("Participants should choose a discussion they are invited to");
         }
 
         private static LoginResult LoginFlowEventGen()
@@ -278,7 +278,7 @@ namespace Discussions
 
         private static void MsgPlaceReserved()
         {
-            MessageBox.Show("Some online user has taken selected seat in current session",
+            MessageDlg.Show("Some online user has taken selected seat in current session",
                             "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 

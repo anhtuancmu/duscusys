@@ -8,6 +8,7 @@ using Discussions.d_editor;
 using Discussions.rt;
 using Discussions.RTModel;
 using Discussions.RTModel.Model;
+using Discussions;
 
 namespace DistributedEditor
 {
@@ -349,10 +350,8 @@ namespace DistributedEditor
 
             if (end1.HasAdjacent(end2))
             {
-                MessageBox.Show("Already linked",
-                                "Info",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                MessageDlg.Show("Already linked",
+                                "Info");
                 return -1;
             }
 

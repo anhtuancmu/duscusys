@@ -110,7 +110,7 @@ namespace Discussions
         {
             if (lstTopics.SelectedItem == null)
             {
-                MessageBox.Show("Please select topic");
+                MessageDlg.Show("Please select topic");
                 return;
             }
 

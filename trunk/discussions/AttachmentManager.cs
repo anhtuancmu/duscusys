@@ -207,9 +207,9 @@ namespace Discussions
             }
             catch (Exception)
             {
-                MessageBox.Show(
+                MessageDlg.Show(
                     "Cannot process attachment. If it's link, check it's correct. If it's file, ensure program has permissions to access it",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Error");
                 return null;
             }
 
@@ -653,7 +653,7 @@ namespace Discussions
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageDlg.Show(e.ToString(), "Error");
                 }
             }
             else if (MiniAttachmentManager.IsGraphicFormat(a))
@@ -682,7 +682,7 @@ namespace Discussions
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageDlg.Show(e.ToString(), "Error");
                 }
             }
         }

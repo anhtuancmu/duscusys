@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using Discussions.stats;
 using Reporter.pdf;
 using System.Threading.Tasks;
+using Discussions.webkit_host;
 
 namespace Discussions
 {
@@ -227,12 +228,12 @@ namespace Discussions
                 return;
 
             if (SessionInfo.Get().discussion == null)
-                MessageBox.Show("No default discussion");
+                MessageDlg.Show("No default discussion");
             else
             {
                 if (SessionInfo.Get().person.Session == null)
                 {
-                    MessageBox.Show(
+                    MessageDlg.Show(
                         string.Format(
                             "Current person ({0}) doesn't have associated session. PDF reporting works only with experimental login users",
                             SessionInfo.Get().person.Name));
@@ -251,7 +252,9 @@ namespace Discussions
                         SessionInfo.Get().discussion.Id,
                         tsd.topic.Id,
                         SessionInfo.Get().person.Session.Id);
-                    System.Diagnostics.Process.Start(reportUrl);
+                    //System.Diagnostics.Process.Start(reportUrl);
+                    var browser = new WebKitFrm(reportUrl);
+                    browser.ShowDialog();
                 }
                 else
                 {

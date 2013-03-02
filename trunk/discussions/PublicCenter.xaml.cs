@@ -122,6 +122,14 @@ namespace Discussions
             //SetWorkingAreaTransform(scaleTr, false, false, false, false);   
         }
 
+        void ResetZoomAndPanning()
+        {
+            SetWorkingAreaTransform(Matrix.Identity, false, false, false, false);
+            
+            //reset slider            
+            zoomSlider.Value = 1.0;
+        }
+
         private void frmLoaded(object sender, RoutedEventArgs args)
         {
         }
@@ -671,7 +679,11 @@ namespace Discussions
             if (badge == null)
                 return;
 
+            //block the badge movement
+            if (editCtx != null)
+                editCtx.SceneMgr.CancelManipulation();
             ShowLargeBadgeView(badge.DataContext as ArgPoint);
+
             UISharedRTClient.Instance.clienRt.SendStatsEvent(StEvent.BadgeZoomIn,
                                                              SessionInfo.Get().person.Id,
                                                              SessionInfo.Get().discussion.Id,
@@ -691,8 +703,6 @@ namespace Discussions
             if (_lbv != null)
                 return;
 
-            if(editCtx!=null)
-                editCtx.SceneMgr.CancelManipulation(); 
             scene.IsHitTestVisible = false;
             blockWorkingAreaTransforms = true;
 
@@ -859,5 +869,10 @@ namespace Discussions
         }
 
         #endregion
+
+        private void btnResetZoomAndPanning_Click_1(object sender, RoutedEventArgs e)
+        {
+            ResetZoomAndPanning();
+        }
     }
 }

@@ -200,7 +200,7 @@ namespace DistributedEditor
             var sh = _doc.VolatileCtx.LocalFocus;
             if (sh == null)
             {
-                MessageBox.Show("Please select shape to remove",
+                MessageDlg.Show("Please select shape to remove",
                                 "No shape selected",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -209,7 +209,7 @@ namespace DistributedEditor
 
             if (!editingPermission(sh))
             {
-                MessageBox.Show("Cannot remove shape under user cursor",
+                MessageDlg.Show("Cannot remove shape under user cursor",
                                 "No permission",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -231,7 +231,7 @@ namespace DistributedEditor
             foreach (var s in ownShapes)
                 if (!editingPermission(s))
                 {
-                    MessageBox.Show("To delete your shapes, wait until all your shapes are free of user cursors",
+                    MessageDlg.Show("To delete your shapes, wait until all your shapes are free of user cursors",
                                     "No permission",
                                     MessageBoxButton.OK,
                                     MessageBoxImage.Error);
@@ -289,7 +289,7 @@ namespace DistributedEditor
             var end = DocTools.RequestLinkable(sh);
             if (end == null)
             {
-                MessageBox.Show("Badges or clusters are accepted as link endpoints",
+                MessageDlg.Show("Badges or clusters are accepted as link endpoints",
                                 "Tip",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
@@ -302,7 +302,7 @@ namespace DistributedEditor
             }
             else if (end == linkCreation.end1)
             {
-                MessageBox.Show("Cannot link object with itself",
+                MessageDlg.Show("Cannot link object with itself",
                                 "Error",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);

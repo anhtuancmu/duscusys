@@ -84,7 +84,7 @@ namespace Discussions
 
             if (ss.Person.Count > 0)
             {
-                MessageBox.Show("Cannot remove session as it includes users");
+                MessageDlg.Show("Cannot remove session as it includes users");
                 return;
             }
 
