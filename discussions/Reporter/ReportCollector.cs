@@ -349,7 +349,7 @@ namespace Reporter
             _allTopicsReport.cumulativeDuration += topic.CumulativeDuration;
             var numArgPoints = topic.ArgPoint.Count();
             _allTopicsReport.numPoints += numArgPoints;
-            var numPointsWithDescription = topic.ArgPoint.Where(ap0 => ap0.Description.Text != "Description").Count();
+            var numPointsWithDescription = topic.ArgPoint.Where(ap0 => ap0.Description != null && ap0.Description.Text != "Description").Count();
             _allTopicsReport.numPointsWithDescription += numPointsWithDescription;
             //num media
             var nMedia = 0;
