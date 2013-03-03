@@ -80,9 +80,8 @@
     <Content Include="DiscSvc.svc" />
     <Content Include="Global.asax" />
     <Content Include="Reporting\EmailReportPage.html" />
-    <Content Include="Reporting\report.css" />
+    <Content Include="report.css" />
     <Content Include="Reporting\ReportTestPage.html" />
-    <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
@@ -171,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Styles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />

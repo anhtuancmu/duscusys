@@ -34,7 +34,7 @@ namespace DiscSvc.Reporting
 <html>
     <head>
         <title>Topic report</title>
-	    <link href=""Reporting/report.css"" rel=""stylesheet"" type=""text/css"" />
+	    <link href=""report.css"" rel=""stylesheet"" type=""text/css"" />
     </head>
 	
     <body> 
