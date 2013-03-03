@@ -59,12 +59,12 @@ namespace Discussions.webkit_host
 
         private void WebKitFrm_Load(object sender, EventArgs e)
         {
+            _browserBar.addressBar.Text = _url;
             webKitBrowser1.Navigate(_url);
         }
 
         private void webKitBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
-            _browserBar.addressBar.Text = webKitBrowser1.Url.ToString();
         }
 
         private void WebKitFrm_FormClosed(object sender, FormClosedEventArgs e)
