@@ -15,21 +15,23 @@
         ResizeMode="NoResize"
         Topmost="True">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="70"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock x:Name="message" Foreground="White" 
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" 
-                   FontSize="18"/>
-        
-        <Custom:SurfaceButton x:Name="btnOk" Content="Ok" HorizontalAlignment="Center"
-                              Grid.Row="1" VerticalAlignment="Center" 
-                              Margin="350,10,10,10" Width="120"
-                              HorizontalContentAlignment="Center" 
-                              VerticalContentAlignment="Center"
-                              Click="CloseClick"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <TextBlock x:Name="message" Foreground="White" 
+    			VerticalAlignment="Center" 
+    			HorizontalAlignment="Center" 
+    			FontSize="18"/>
+
+            <s:SurfaceButton x:Name="btnOk" Content="Ok" Width="120"
+    			HorizontalContentAlignment="Center" 
+    			VerticalContentAlignment="Center"
+    			Click="CloseClick" Height="100" HorizontalAlignment="Left" Margin="100,10,1,10"/>
+        </StackPanel>
     </Grid>
 </Window>

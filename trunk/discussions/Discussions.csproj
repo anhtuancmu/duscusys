@@ -170,6 +170,7 @@
     <Compile Include="d-editor\BadgesCtx.cs" />
     <Compile Include="d-editor\NumberedTickBar.cs" />
     <Compile Include="DuplicateEventRecognizer.cs" />
+    <Compile Include="HtmlReportBrowsing.cs" />
     <Compile Include="MediaMover.cs" />
     <Compile Include="DiscussionAutoCreatorWnd.xaml.cs">
       <DependentUpon>DiscussionAutoCreatorWnd.xaml</DependentUpon>

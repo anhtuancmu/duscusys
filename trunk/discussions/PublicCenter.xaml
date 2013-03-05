@@ -526,6 +526,11 @@
                              VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0">
                 <Border Background="{StaticResource home}" Width="70" Height="70" />
             </s:SurfaceButton>
+            <s:SurfaceButton x:Name="btnReport" Background="#02000000" Click="btnReport_Click_1"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
+                             VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0">
+                <Border Background="{StaticResource book}" Width="70" Height="70" />
+            </s:SurfaceButton> 
             <!--<s:SurfaceButton x:Name="btnRefresh1" Click="btnRefresh_Click" Background="#02000000"
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                              d:LayoutOverrides="Width">
@@ -562,8 +567,8 @@
                              HorizontalContentAlignment="Center" 
                              VerticalContentAlignment="Center"
                              d:LayoutOverrides="Width" MinWidth="20" MinHeight="20" HorizontalAlignment="Left" Padding="0">
-                <Border Width="30"
-                        Height="30"
+                <Border Width="50"
+                        Height="50"
                         Background="{StaticResource loop1}"/>
             </s:SurfaceButton>
         </StackPanel>

@@ -874,5 +874,12 @@ namespace Discussions
         {
             ResetZoomAndPanning();
         }
+
+        private void btnReport_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (CurrentTopic == null)
+                return;
+            HtmlReportBrowsing.startHtml5TopicReport(CurrentTopic.Id);
+        }
     }
 }

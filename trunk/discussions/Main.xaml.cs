@@ -227,51 +227,7 @@ namespace Discussions
             if (discWindows.resViewer != null)
                 return;
 
-            if (SessionInfo.Get().discussion == null)
-                MessageDlg.Show("No default discussion");
-            else
-            {
-                if (SessionInfo.Get().person.Session == null)
-                {
-                    MessageDlg.Show(
-                        string.Format(
-                            "Current person ({0}) doesn't have associated session. PDF reporting works only with experimental login users",
-                            SessionInfo.Get().person.Name));
-                    return;
-                }
-                var tsd = new TopicSelectionDlg(SessionInfo.Get().discussion);
-                tsd.ShowDialog();
-                if (tsd.topic == null)
-                    return;
-
-                if (tsd.Html)
-                {
-                    var reportUrl = string.Format(
-                        "http://{0}/discsvc/report?discussionId={1}&topicId={2}&sessionId={3}",
-                        ConfigManager.ServiceServer,
-                        SessionInfo.Get().discussion.Id,
-                        tsd.topic.Id,
-                        SessionInfo.Get().person.Session.Id);
-                    //System.Diagnostics.Process.Start(reportUrl);
-                    var browser = new WebKitFrm(reportUrl);
-                    browser.ShowDialog();
-                }
-                else
-                {
-                    BusyWndSingleton.Show("Exporting, please wait...");
-                    try
-                    {
-                        (new PdfReportDriver()).Run(SessionInfo.Get().person.Session,
-                                                    tsd.topic,
-                                                    SessionInfo.Get().discussion,
-                                                    SessionInfo.Get().person);
-                    }
-                    finally
-                    {
-                        BusyWndSingleton.Hide();
-                    }
-                }
-            }
+            HtmlReportBrowsing.startResultViewer();
         }
 
         //void startMeg()
