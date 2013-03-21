@@ -511,25 +511,25 @@
                              Click="btnDiscInfo_Click" 
                              VerticalAlignment="Center" 
                              Background="{x:Null}"
-                             Margin="0,12,0,0">
+                             Margin="0,12,0,0" MinWidth="0" MinHeight="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <Border 
-                        Width="70"
-                        Height="70"
+                        Width="52"
+                        Height="52"
                         BorderThickness="0" 
                         Background="{DynamicResource infoBrush}" />
                     <!--<Label Content="INFO" Foreground="Black" VerticalAlignment="Center" />-->
                 </StackPanel>
             </s:SurfaceButton>
             <s:SurfaceButton x:Name="btnHome" Background="#02000000" Click="btnHome_Click_1"
-                             HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
-                             VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0">
-                <Border Background="{StaticResource home}" Width="70" Height="70" />
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                             VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" MinWidth="0" MinHeight="0">
+                <Border Background="{StaticResource home}" Width="52" Height="52" />
             </s:SurfaceButton>
             <s:SurfaceButton x:Name="btnReport" Background="#02000000" Click="btnReport_Click_1"
-                             HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
-                             VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0">
-                <Border Background="{StaticResource book}" Width="70" Height="70" />
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                             VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" MinWidth="0" MinHeight="0">
+                <Border Background="{StaticResource book}" Width="52" Height="52" />
             </s:SurfaceButton> 
             <!--<s:SurfaceButton x:Name="btnRefresh1" Click="btnRefresh_Click" Background="#02000000"
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
