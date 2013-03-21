@@ -468,17 +468,17 @@
                         StrokeThickness="2" Canvas.Top="-25.75" Canvas.Left="-28" />
                 </Canvas>
             </Custom:SurfaceToggleButton>
-            <Custom:SurfaceToggleButton x:Name="btnText" Background="{x:Null}" Width="60" Height="60"
-                                        Click="btnText_Click">
-                <Canvas>
-                    <Label Content="T" FontSize="36" Foreground="Black" HorizontalAlignment="Center" Canvas.Left="-12"
-                           Canvas.Top="-29" FontFamily="Segoe UI" FontWeight="Bold" />
-                </Canvas>
-            </Custom:SurfaceToggleButton>
             <Custom:SurfaceToggleButton x:Name="btnFreeForm" Background="{x:Null}" Width="60" Height="60"
                                         Click="btnFreeForm_Click">
                 <Path Stroke="Black" StrokeThickness="4"
                       Data="M 1,10 C 15,70 30,-20 35,50" />
+            </Custom:SurfaceToggleButton>
+            <Custom:SurfaceToggleButton x:Name="btnText" Background="{x:Null}" Width="60" Height="60"
+                                        Click="btnText_Click">
+                <Canvas>
+                    <TextBlock Text="T" FontSize="36" Foreground="Black" HorizontalAlignment="Center"
+                               Canvas.Top="-24" FontFamily="Segoe UI" FontWeight="Bold" Canvas.Left="-10" />
+                </Canvas>
             </Custom:SurfaceToggleButton>
             <!--
             <Custom:SurfaceToggleButton x:Name="btnSegment" Background="{x:Null}" Width="60" Height="60" Click="btnSegment_Click">

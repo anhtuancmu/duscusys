@@ -14,6 +14,10 @@
         SizeToContent="Height" 
         ResizeMode="NoResize"
         Topmost="True">
+    <Window.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -31,7 +35,7 @@
             <s:SurfaceButton x:Name="btnOk" Content="Ok" Width="120"
     			HorizontalContentAlignment="Center" 
     			VerticalContentAlignment="Center"
-    			Click="CloseClick" Height="100" HorizontalAlignment="Left" Margin="100,10,1,10"/>
+    			Click="CloseClick" Height="100" HorizontalAlignment="Left" Margin="50,10,1,10"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -7,8 +7,8 @@
     mc:Ignorable="d"
     x:Class="DistributedEditor.InkPalette"
     x:Name="UserControl"
-    Width="497" Height="136"
-    d:DesignWidth="497" d:DesignHeight="136">
+    Width="497" Height="114"
+    d:DesignWidth="497">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
@@ -23,31 +23,31 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto" MinHeight="72"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="171"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="1" Width="295" VerticalAlignment="Bottom" Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center" Margin="0">
                     <s:SurfaceToggleButton x:Name="radInk" Background="#02000000" IsChecked="True" Click="rad_Click"
-                                           Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Height="70">
+                                           Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Padding="3,6" MinHeight="0" MinWidth="0" Width="150">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Border Background="{StaticResource pen}" Height="50" Width="50" />
+                            <Border Background="{StaticResource pen}" Height="40" Width="40" />
                             <TextBlock Text="Draw" d:LayoutOverrides="Width" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
                     <s:SurfaceToggleButton x:Name="radErase" Background="#02000000" Click="rad_Click"
-                                           Tag="{x:Static s:SurfaceInkEditingMode.EraseByStroke}">
+                                           Tag="{x:Static s:SurfaceInkEditingMode.EraseByStroke}" Padding="3" Width="150">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Border Background="{StaticResource trash}" Height="50" Width="50" />
+                            <Border Background="{StaticResource trash}" Height="40" Width="40" />
                             <TextBlock Text="Erase" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Height="43" Width="207">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Label Content="Size" FontSize="21.333" FontFamily="Segoe UI" />
                     <StackPanel Orientation="Horizontal">
                         <s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}"
@@ -70,7 +70,7 @@
                 </StackPanel>
 
                 <s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="Finish drawing"
-                                 Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.RowSpan="2" />
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.RowSpan="2" Padding="6" Margin="2,2,2,12" />
             </Grid>
         </Border>
     </Grid>
