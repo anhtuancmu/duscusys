@@ -298,9 +298,8 @@ namespace Discussions
             //lstBadgesOfOtherUser.SelectedItem = null;
 
             var apExt = (ArgPointExt) lstPoints.SelectedItem;
-            var ap = apExt != null ? apExt.Ap : null;
-            if (ap!=null)
-                lstPoints.ScrollIntoView(ap);
+            if (lstPoints.SelectedItem != null)
+                lstPoints.ScrollIntoView(lstPoints.SelectedItem);
             selectBigBadge(apExt);
         }
 
@@ -348,7 +347,10 @@ namespace Discussions
                     t.ArgPoint.Add(np);
                 }
                 UpdatePointsOfTopic(lstTopics.SelectedItem as Topic);
-                lstPoints.SelectedItem = new ArgPointExt(np);
+               
+                ArgPointExt newArgPointExt = OwnArgPoints.FirstOrDefault(i => i.Ap == np);
+
+                lstPoints.SelectedItem = newArgPointExt;
 
                 saveProcedure(null, -1);
             }

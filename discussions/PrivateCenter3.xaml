@@ -68,8 +68,7 @@
                                    HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Center"
                                    ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}"
-                                   BorderThickness="2"
-                                   Grid.RowSpan="2">
+                                   BorderThickness="2">
                 <Custom:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch">
