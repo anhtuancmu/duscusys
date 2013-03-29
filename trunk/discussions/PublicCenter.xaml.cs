@@ -428,7 +428,7 @@ namespace Discussions
             {
                 editCtx.ShapesVisility(false);
             }
-            modeInfoTip.Visibility = shVisible ? Visibility.Visible : Visibility.Hidden;
+            //modeInfoTip.Visibility = shVisible ? Visibility.Visible : Visibility.Hidden;
             this.shapesVisibile = shVisible; //save to preserve selected option between topics 
         }
 

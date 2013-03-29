@@ -496,9 +496,9 @@
                                    IsHighlighter="False" StylusTip="Ellipse" StylusTipTransform="Identity" Width="4" />
             </dedit:DistributedInkCanvas.DefaultDrawingAttributes>
         </dedit:DistributedInkCanvas>
-        <TextBlock x:Name="modeInfoTip" HorizontalAlignment="Center"
+        <!--<TextBlock x:Name="modeInfoTip" HorizontalAlignment="Center"
                    Text="{Binding Ctx.SceneMgr.ModeMgr.ReadableMode}" VerticalAlignment="Top" FontSize="29.333"
-                   Foreground="#FF0C00FF" Margin="0,58,0,0" Visibility="Hidden" />
+                   Foreground="#FF0C00FF" Margin="0,58,0,0" Visibility="Hidden" />-->
         <dedit:Palette x:Name="palette" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left"
                        VerticalAlignment="Center" Visibility="Hidden" />
         <TextBlock x:Name="stopWatch"
