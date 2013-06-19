@@ -198,7 +198,7 @@
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" TargetName="ButtonBody" Value="#FFF9F9F9" />
+                                    <Setter Property="Background" TargetName="ButtonBody" Value="#D3D3D3" />
                                     <Setter Property="Background" TargetName="PressOverlay" Value="LightBlue" />
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">

@@ -105,7 +105,7 @@ namespace DistributedEditor
             mgr = null;
 
             _palette.ResetOvers();
-        }
+        }        
 
         public void ShapesVisility(bool visible)
         {

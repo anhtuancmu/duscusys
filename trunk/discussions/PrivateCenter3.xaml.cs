@@ -244,13 +244,27 @@ namespace Discussions
 
         private void lstOtherUserBadges_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            lstPoints.SelectedItem = null;
+            if (lstBadgesOfOtherUser.SelectedItem != null)
+                lstPoints.SelectedItem = null;
+      
             selectBigBadge(lstBadgesOfOtherUser.SelectedItem as ArgPointExt);
+        }
+
+        void triggerBadgesOfOtherUserSelectionChanged()
+        {
+            var selected = lstBadgesOfOtherUser.SelectedItem;
+            lstBadgesOfOtherUser.SelectedItem = null;
+            lstBadgesOfOtherUser.SelectedItem = selected;
+        }
+
+        private void LstBadgesOfOtherUser_OnTouchDown(object sender, TouchEventArgs e)
+        {
+            triggerBadgesOfOtherUserSelectionChanged();
         }
 
         private void LstBadgesOfOtherUser_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            lstOtherUserBadges_SelectionChanged(null, null);
+            triggerBadgesOfOtherUserSelectionChanged();
         }
 
         private void lstTopics_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -293,9 +307,28 @@ namespace Discussions
             UpdateOtherUsers(dis.Id, SessionInfo.Get().person.Id);
         }
 
+
+        private void LstPoints_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            triggerPointsSelectionChanged();
+        }
+
+        private void LstPoints_OnPreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            triggerPointsSelectionChanged();
+        }
+
+        void triggerPointsSelectionChanged()
+        {
+            var selected = lstPoints.SelectedItem;
+            lstPoints.SelectedItem = null;
+            lstPoints.SelectedItem = selected;
+        }
+
         private void lstPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //lstBadgesOfOtherUser.SelectedItem = null;
+            if(lstPoints.SelectedItem!=null)
+                lstBadgesOfOtherUser.SelectedItem = null;
 
             var apExt = (ArgPointExt) lstPoints.SelectedItem;
             if (lstPoints.SelectedItem != null)
@@ -808,5 +841,6 @@ namespace Discussions
             TestEventOrchestrater.Inst.Start(theBadge, this);
         }
         #endregion
+
     }
 }

@@ -142,8 +142,8 @@
 			<a id="finalBoard">Final Public Dashboard</a>
 		</h3>
 		
-		<div class="centered">
-			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" width="1500">
+		<div class="finalScreenshot">
+			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" width="100%">
 		</div>
 
 		<!------------------------------------------------------------------------------------->

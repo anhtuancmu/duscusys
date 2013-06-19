@@ -199,14 +199,14 @@ namespace DiscSvc.Reporting
             #line hidden
             this.Write(" \r\n\t\t</div>\r\n\r\n\t\t<!--------------------------------------------------------------" +
                     "----------------------->\r\n\r\n\t\t<h3>\r\n\t\t\t<a id=\"finalBoard\">Final Public Dashboard" +
-                    "</a>\r\n\t\t</h3>\r\n\t\t\r\n\t\t<div class=\"centered\">\r\n\t\t\t<img src=\"");
+                    "</a>\r\n\t\t</h3>\r\n\t\t\r\n\t\t<div class=\"finalScreenshot\">\r\n\t\t\t<img src=\"");
             
             #line 146 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Screenshots[-1].url));
             
             #line default
             #line hidden
-            this.Write(@""" alt=""Final public dashboard"" width=""1500"">
+            this.Write(@""" alt=""Final public dashboard"" width=""100%"">
 		</div>
 
 		<!------------------------------------------------------------------------------------->

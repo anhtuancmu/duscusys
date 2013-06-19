@@ -64,6 +64,8 @@
             <Custom:SurfaceListBox x:Name="lstPoints"
                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                   PreviewMouseDown="LstPoints_OnPreviewMouseDown"
+                                   PreviewTouchDown="LstPoints_OnPreviewTouchDown"
                                    SelectionChanged="lstPoints_SelectionChanged" Grid.Row="1"
                                    HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Center"
@@ -82,8 +84,10 @@
             </Custom:SurfaceListBox>
             <Custom:SurfaceListBox x:Name="lstBadgesOfOtherUser"
                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                   ScrollViewer.VerticalScrollBarVisibility="Auto"                                   
                                    SelectionChanged="lstOtherUserBadges_SelectionChanged" Margin="0" Grid.Row="3"
+                                   PreviewTouchDown="LstBadgesOfOtherUser_OnTouchDown"
+                                   PreviewMouseDown="LstBadgesOfOtherUser_OnMouseDown"
                                    d:LayoutOverrides="Margin" HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Center"
                                    ItemContainerStyle="{DynamicResource SurfaceListBoxItemStyle1}">
