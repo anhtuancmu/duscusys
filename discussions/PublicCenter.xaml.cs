@@ -538,6 +538,9 @@ namespace Discussions
         {
             if (owner != -1)
             {
+                if(editCtx!=null)
+                    editCtx.SceneMgr.FinishFreeDrawing();
+
                 palette._ownerId = owner;
                 palette.bdr.BorderBrush = new SolidColorBrush(DaoUtils.UserIdToColor(owner));
                 inkPalette.bdr.BorderBrush = new SolidColorBrush(DaoUtils.UserIdToColor(owner));
@@ -846,21 +849,38 @@ namespace Discussions
             await Utils.Delay(3000);
 
             var screenshots = new Dictionary<int, string>();
-
+            
             //add main screen
-            var dpi = 200;
-            var screen = Screenshot.Take(scene, dpi);
-            screenshots.Add(-1, screen);
-
-            //add links and clusters
-            var bmp = new Bitmap(screen);
-
+            var dpi = 200; 
+            int maxWidth  = (int)this.ActualWidth;
+            int maxHeight = (int)this.ActualHeight;
             var subparts = editCtx.getMgr().Doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster ||
                                                                         sh.ShapeCode() == VdShapeType.ClusterLink);
             foreach (var subpartSh in subparts)
             {
+                var bounds = subpartSh.ReportingBoundsProvider();
+                if (bounds.X + bounds.Width > maxWidth)
+                    maxWidth = (int)(bounds.X + bounds.Width);
+                if (bounds.Y + bounds.Height > maxHeight)
+                    maxHeight = (int)(bounds.Y + bounds.Height);
+            }
+            const int margin = 20;
+            scene.Background = null;
+            scene.InvalidateVisual();
+            await Utils.Delay(50);
+
+            var screen = Screenshot.Take(scene,
+                                        new System.Windows.Size(maxWidth + margin, maxHeight + margin),
+                                        dpi);
+            screenshots.Add(-1, screen);
+
+            //add links and clusters
+            var bmp = new Bitmap(screen);           
+            foreach (var subpartSh in subparts)
+            {
+                var bounds = subpartSh.ReportingBoundsProvider();
                 var subpartScreen = Screenshot.TakeSubImage(bmp,
-                                                            TransformRectByDpi(subpartSh.ReportingBoundsProvider(), dpi));
+                                                            TransformRectByDpi(bounds, dpi));
                 screenshots.Add(subpartSh.Id(), subpartScreen);
             }
 

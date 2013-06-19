@@ -16,15 +16,24 @@ namespace Discussions
 {
     internal class Screenshot
     {
-        public static string Take(Visual visual, double dpi = 96)
+        public static string Take(Visual visual, System.Windows.Size size, double dpi = 96)
         {
             UIElement uiElement = visual as UIElement;
 
             if (uiElement == null)
                 return null;
 
-            int width = (int) (uiElement.RenderSize.Width*dpi/96);
-            int height = (int) (uiElement.RenderSize.Height*dpi/96);
+            PresentationSource source = PresentationSource.FromVisual(visual);
+            double dpiX = 96;
+            double dpiY = 96;
+            if (source != null)
+            {
+                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+                dpiY = 96.0 * source.CompositionTarget.TransformToDevice.M22;
+            }
+
+            int width = (int)(size.Width   * dpi / 96.0);
+            int height = (int)(size.Height * dpi / 96.0);
 
             // Render
             var bmp = new RenderTargetBitmap(width, height,
@@ -44,7 +53,7 @@ namespace Discussions
 
         public static string TakeSubImage(Bitmap original, Rect rect)
         {
-            using (var sliceImg = new Bitmap(new Bitmap((int) rect.Width, (int) rect.Height)))
+            using (var sliceImg = new Bitmap((int) rect.Width, (int) rect.Height))
             {
                 using (var g = Graphics.FromImage(sliceImg))
                 {

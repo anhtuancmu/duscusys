@@ -54,6 +54,11 @@ table td {
    text-align:center;
 }
 
+.finalScreenshot{
+    text-align:center;
+    background-color: #d1d1d1;
+}
+
 .argPoint {
     border-left: solid 20px;
     margin-bottom: 40px;
