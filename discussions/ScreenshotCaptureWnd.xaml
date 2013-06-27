@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" x:Class="Discussions.ScreenshotCaptureWnd"
     Background="{x:Null}"
+    WindowStartupLocation="CenterScreen"    
+    SizeToContent="Manual"
     Title="Screenshot Capture"
     TouchDown="SurfaceWindow_TouchDown_1"
     TouchMove="SurfaceWindow_TouchMove_1"

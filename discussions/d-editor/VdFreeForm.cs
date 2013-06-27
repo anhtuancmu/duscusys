@@ -543,6 +543,11 @@ namespace DistributedEditor
             return Math.Min(ShapeUtils.Min(d1, d2, d3, d4), d5);
         }
 
+        public override Rect ReportingBoundsProvider()
+        {
+            return _bounds;
+        }
+
         public void MoveBy(double dx, double dy)
         {
             _bounds.X += dx;

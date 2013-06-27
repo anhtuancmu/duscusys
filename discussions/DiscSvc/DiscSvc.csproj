@@ -144,8 +144,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\PartialReportMedia.cs" />
+    <Compile Include="Reporting\ReportingMediaHandler.cs" />
     <Compile Include="Reporting\LinkObject.cs" />
     <Compile Include="Reporting\EmailHandler.cs" />
+    <Compile Include="Reporting\MediaReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MediaReport.tt</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\PartialReport.cs" />
     <Compile Include="Reporting\Helpers.cs" />
     <Compile Include="Reporting\Report.cs">
@@ -215,6 +222,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reporting\MediaReport.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MediaReport.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -851,18 +851,24 @@ namespace Discussions
             var screenshots = new Dictionary<int, string>();
             
             //add main screen
-            var dpi = 200; 
+            var dpi = 200;
             int maxWidth  = (int)this.ActualWidth;
             int maxHeight = (int)this.ActualHeight;
-            var subparts = editCtx.getMgr().Doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster ||
-                                                                        sh.ShapeCode() == VdShapeType.ClusterLink);
-            foreach (var subpartSh in subparts)
+            var shapes = editCtx.getMgr().Doc.GetShapes();
+            foreach (var subpartSh in shapes)
             {
-                var bounds = subpartSh.ReportingBoundsProvider();
-                if (bounds.X + bounds.Width > maxWidth)
-                    maxWidth = (int)(bounds.X + bounds.Width);
-                if (bounds.Y + bounds.Height > maxHeight)
-                    maxHeight = (int)(bounds.Y + bounds.Height);
+                try
+                {
+                    var bounds = subpartSh.ReportingBoundsProvider();
+                    if (bounds.X + bounds.Width > maxWidth)
+                        maxWidth = (int) (bounds.X + bounds.Width);
+                    if (bounds.Y + bounds.Height > maxHeight)
+                        maxHeight = (int) (bounds.Y + bounds.Height);
+                }
+                catch
+                {
+                    //some shapes don't support bounds provider
+                }
             }
             const int margin = 20;
             scene.Background = null;
@@ -875,7 +881,9 @@ namespace Discussions
             screenshots.Add(-1, screen);
 
             //add links and clusters
-            var bmp = new Bitmap(screen);           
+            var bmp = new Bitmap(screen);
+            var subparts = editCtx.getMgr().Doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster ||
+                                                                        sh.ShapeCode() == VdShapeType.ClusterLink);
             foreach (var subpartSh in subparts)
             {
                 var bounds = subpartSh.ReportingBoundsProvider();
