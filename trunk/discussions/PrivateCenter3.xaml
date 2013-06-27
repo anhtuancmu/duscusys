@@ -8,6 +8,8 @@
     xmlns:local="clr-namespace:Discussions" 
     xmlns:vectorEditor="clr-namespace:Discussions.VectorEditor"
     x:Class="Discussions.PrivateCenter3"
+    WindowStartupLocation="CenterScreen" 
+    SizeToContent="Manual"
     mc:Ignorable="d"
     Background="{StaticResource WndBg}"
     d:DesignHeight="851.167" 

@@ -363,6 +363,14 @@ namespace DistributedEditor
             return dMin;
         }
 
+        public override Rect ReportingBoundsProvider()
+        {
+            var org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), scene);
+            var w = _textEnterUC.txtLabel.ActualWidth;
+            var h = _textEnterUC.txtLabel.ActualHeight;
+            return new Rect(new Point(org.X, org.Y), new Point(org.X+w, org.Y+h));
+        }
+
         public void MoveBy(double dx, double dy)
         {
             HandleMove(dx, dy);

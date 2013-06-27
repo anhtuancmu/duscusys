@@ -9,7 +9,8 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Topic report</title>
+	    <meta charset='utf-8'> 
+        <title>Topic report</title>		
 	    <link href="report.css" rel="stylesheet" type="text/css" />
     </head>
 	
