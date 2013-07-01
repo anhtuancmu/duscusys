@@ -81,6 +81,7 @@
     <Content Include="Global.asax" />
     <Content Include="Reporting\EmailReportPage.html" />
     <Content Include="report.css" />
+    <Content Include="Reporting\ReportFragments.txt" />
     <Content Include="Reporting\ReportTestPage.html" />
     <Content Include="Default.aspx" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
