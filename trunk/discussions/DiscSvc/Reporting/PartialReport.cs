@@ -13,6 +13,10 @@ namespace DiscSvc.Reporting
         public IEnumerable<Tuple<Person, Person>> Participants;
         public string ReportUrl;
         public string BaseUrl;
+        public string MediaUrl
+        {
+            get { return ReportUrl.Replace("report", "media"); }
+        }
 
         public Reporter.ReportCollector ComplexReport;
 

@@ -48,8 +48,8 @@
 		<div class="toc">
 			<a href="#basicInfo">Basic information</a><br>
 			<a href="#participants">Participants</a><br>
-			<a href="#bg">Background</a><br>
-			<a href="#media">Media of discussion background</a><br>
+			<a href="bgpage?id=<#= QueryParams.DiscussionId #>" target="_blank">Background</a><br>
+			<a href="<#= MediaUrl #>" target="_blank">Media of discussion background</a><br>
 			<a href="#sources">Sources of discussion background</a><br>
 			<a href="#finalBoard">Final Public Dashboard</a><br>
 			<a href="#summary">Summary information</a><br>
@@ -104,25 +104,6 @@
 				   </tr>
 			<# } #>
 		</table>
-		
-		<!------------------------------------------------------------------------------------->
-		
-		<div style="margin-bottom:40px">
-			<h3>
-				<a id="bg">Background</a>  
-			</h3>
-		
-			<a href="bgpage?id=<#= QueryParams.DiscussionId #>" target="_blank">Go to Background</a>
-		</div>
-
-		<!------------------------------------------------------------------------------------->
-		<h3>
-			<a id="media">Media of discussion background</a>
-		</h3>
-
-		<div style="background-color:#ffbb76">
-			<# EmitMediaTable(ReportParams.Discussion.Attachment); #>
-		</div>
 
 		<!------------------------------------------------------------------------------------->	
 
