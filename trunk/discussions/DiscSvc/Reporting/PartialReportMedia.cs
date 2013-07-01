@@ -5,8 +5,8 @@ using System.Web;
 
 namespace DiscSvc.Reporting
 {
-    //public partial class MediaReport
-    //{
-    //     public partial class Report : IDisposable             
-    //}
+    public partial class MediaReport 
+    {
+        public ReportParameters ReportParams;
+    }
 }

@@ -144,15 +144,15 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\PartialReportMedia.cs" />
-    <Compile Include="Reporting\ReportingMediaHandler.cs" />
-    <Compile Include="Reporting\LinkObject.cs" />
-    <Compile Include="Reporting\EmailHandler.cs" />
     <Compile Include="Reporting\MediaReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MediaReport.tt</DependentUpon>
     </Compile>
+    <Compile Include="Reporting\PartialReportMedia.cs" />
+    <Compile Include="Reporting\ReportingMediaHandler.cs" />
+    <Compile Include="Reporting\LinkObject.cs" />
+    <Compile Include="Reporting\EmailHandler.cs" />
     <Compile Include="Reporting\PartialReport.cs" />
     <Compile Include="Reporting\Helpers.cs" />
     <Compile Include="Reporting\Report.cs">
@@ -164,6 +164,7 @@
     <Compile Include="Reporting\QueryParams.cs" />
     <Compile Include="Reporting\ReportParameters.cs" />
     <Compile Include="Reporting\ReportingPhotonClient.cs" />
+    <Compile Include="Reporting\Utils.cs" />
     <Compile Include="ScreenshotHandler.ashx.cs">
       <DependentUpon>ScreenshotHandler.ashx</DependentUpon>
     </Compile>
@@ -225,7 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Reporting\MediaReport.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>MediaReport.cs</LastGenOutput>
     </Content>
   </ItemGroup>
@@ -243,8 +244,8 @@
           <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>83</DevelopmentServerPort>
-          <DevelopmentServerVPath>/DiscDisc</DevelopmentServerVPath>
-          <IISUrl>http://localhost:83/</IISUrl>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:85</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
