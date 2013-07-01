@@ -215,7 +215,7 @@ namespace Reporter.pdf
 
         private Task DiscussionBackground()
         {
-            var bgUrl = string.Format("http://{0}/discsvc/bgpage?id={1}", ConfigManager.ServiceServer, _discussion.Id);
+            var bgUrl = Background.getDiscussionBackgroundUrl(_discussion);
 
             var tcs = new TaskCompletionSource<int>();
             new WebScreenshoter(

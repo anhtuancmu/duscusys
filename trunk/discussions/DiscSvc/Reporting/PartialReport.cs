@@ -17,6 +17,10 @@ namespace DiscSvc.Reporting
         {
             get { return ReportUrl.Replace("report", "media"); }
         }
+        public string SourcesUrl
+        {
+            get { return ReportUrl.Replace("report", "sources"); }
+        }
 
         public Reporter.ReportCollector ComplexReport;
 

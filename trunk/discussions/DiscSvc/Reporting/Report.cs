@@ -93,8 +93,14 @@ namespace DiscSvc.Reporting
             
             #line default
             #line hidden
-            this.Write(@""" target=""_blank"">Media of discussion background</a><br>
-			<a href=""#sources"">Sources of discussion background</a><br>
+            this.Write("\" target=\"_blank\">Media of discussion background</a><br>\r\n\t\t\t<a href=\"");
+            
+            #line 53 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SourcesUrl));
+            
+            #line default
+            #line hidden
+            this.Write(@""" target=""_blank"">Sources of discussion background</a><br>
 			<a href=""#finalBoard"">Final Public Dashboard</a><br>
 			<a href=""#summary"">Summary information</a><br>
 			<a href=""#argPoints"">Argument points</a><br>
@@ -174,23 +180,10 @@ namespace DiscSvc.Reporting
             #line default
             #line hidden
             this.Write("\t\t</table>\r\n\r\n\t\t<!---------------------------------------------------------------" +
-                    "---------------------->\t\r\n\r\n\t\t<h3>\r\n\t\t\t<a id=\"sources\">Sources of discussion bac" +
-                    "kground</a>\r\n\t\t</h3>\r\n\r\n\t    <div style=\"text-align: left; padding-left:40px\">\r\n" +
-                    "\t\t\t");
+                    "---------------------->\r\n\r\n\t\t<h3>\r\n\t\t\t<a id=\"finalBoard\">Final Public Dashboard<" +
+                    "/a>\r\n\t\t</h3>\r\n\t\t\r\n\t\t<div class=\"finalScreenshot\">\r\n\t\t\t<img src=\"");
             
             #line 115 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
-   var i = 1;
-		         foreach(var s in ReportParams.Discussion.Background.Source.OrderBy(s=>s.OrderNumber))
-					EmitSourceCell(s, i++);
-			
-            
-            #line default
-            #line hidden
-            this.Write(" \r\n\t\t</div>\r\n\r\n\t\t<!--------------------------------------------------------------" +
-                    "----------------------->\r\n\r\n\t\t<h3>\r\n\t\t\t<a id=\"finalBoard\">Final Public Dashboard" +
-                    "</a>\r\n\t\t</h3>\r\n\t\t\r\n\t\t<div class=\"finalScreenshot\">\r\n\t\t\t<img src=\"");
-            
-            #line 128 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Screenshots[-1].url));
             
             #line default
@@ -209,42 +202,42 @@ namespace DiscSvc.Reporting
 			   <td>Arg.points</td>
 			   <td>");
             
-            #line 140 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 127 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComplexReport.TotalArgPointReport.numPoints));
             
             #line default
             #line hidden
             this.Write("</td>\r\n\t\t\t</tr>\r\n\t\t\t<tr>\r\n\t\t\t   <td>Attachments</td>\r\n\t\t\t   <td>");
             
-            #line 144 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 131 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComplexReport.TotalArgPointReport.numMediaAttachments));
             
             #line default
             #line hidden
             this.Write("</td>\r\n\t\t\t</tr>\r\n\t\t\t<tr>\r\n\t\t\t   <td>Sources (total events) </td>\r\n\t\t\t   <td>");
             
-            #line 148 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 135 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComplexReport.EventTotals.TotalSourceAdded));
             
             #line default
             #line hidden
             this.Write("</td>\r\n\t\t\t</tr>\r\n\t\t\t<tr>\r\n\t\t\t   <td>Clusters</td>\r\n\t\t\t   <td>");
             
-            #line 152 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 139 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComplexReport.ClusterReports.Count));
             
             #line default
             #line hidden
             this.Write("</td>\r\n\t\t\t</tr>\r\n\t\t\t<tr>\r\n\t\t\t   <td>Links</td>\r\n\t\t\t   <td>");
             
-            #line 156 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 143 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComplexReport.LinkReports.Count));
             
             #line default
             #line hidden
             this.Write("</td>\r\n\t\t\t</tr>\r\n\t\t\t<tr>\r\n\t\t\t   <td>Comments</td>\r\n\t\t\t   <td>");
             
-            #line 160 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 147 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ComplexReport.TotalArgPointReport.numComments));
             
             #line default
@@ -253,7 +246,7 @@ namespace DiscSvc.Reporting
                     "---------------------------------------->\r\n\r\n\t\t<h3>\r\n\t\t\t<a id=\"argPoints\">Argume" +
                     "nt points</a> \r\n\t\t</h3>\r\n\r\n\t\t");
             
-            #line 170 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 157 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 			foreach (var pers in ReportParams.Session.Person)
 			{
@@ -282,21 +275,21 @@ namespace DiscSvc.Reporting
             #line hidden
             this.Write("\t\t\t\t\r\n\t\t\t\t<h4>\r\n\t\t\t\t\t<a id=\"argPointsOf");
             
-            #line 195 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 182 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pers.Id));
             
             #line default
             #line hidden
             this.Write("\">Argument points of  ");
             
-            #line 195 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 182 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pers.Name));
             
             #line default
             #line hidden
             this.Write(" </a>  \r\n\t\t\t\t</h4>\r\n\t\t\t\t\r\n\t\t\t\t");
             
-            #line 198 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 185 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 
 				var argPointsOf = Helpers.ArgPointsOf(pers, ReportParams.Discussion, ReportParams.Topic);
@@ -318,7 +311,7 @@ namespace DiscSvc.Reporting
             #line hidden
             this.Write("\t\t\t\t\t\t<No arguments> \r\n\t\t\t\t\t");
             
-            #line 215 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 202 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 				}
 			}
@@ -330,7 +323,7 @@ namespace DiscSvc.Reporting
                     "----------->\r\n\r\n\t \t <h3>\r\n\t\t\t<a id=\"clustInfo\">Cluster information</a>\r\n\t\t </h3>" +
                     "\r\n\t\t\r\n\t\t ");
             
-            #line 226 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 213 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 ClusterInformation(ComplexReport);
             
             #line default
@@ -339,7 +332,7 @@ ClusterInformation(ComplexReport);
                     "------------->\r\n\r\n\t \t <h3>\t\t\t\r\n\t\t\t<a id=\"linkInfo\">Link information</a>\r\n\t\t </h3" +
                     ">\r\n\t\t\r\n\t\t ");
             
-            #line 235 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 222 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 LinkInformation(ComplexReport);
             
             #line default
@@ -352,7 +345,7 @@ LinkInformation(ComplexReport);
             <input type=""email"" name=""email"" id=""email"" size=""40""/>
             <input type=""hidden"" name=""reportUrl"" id=""reportUrl"" value=""");
             
-            #line 242 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+            #line 229 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ReportUrl));
             
             #line default
@@ -362,7 +355,7 @@ LinkInformation(ComplexReport);
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 251 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 238 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
  
 	void EmitColoredUserCell(Person p)
 	{
@@ -373,14 +366,14 @@ LinkInformation(ComplexReport);
         #line default
         #line hidden
         
-        #line 256 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 243 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t\t<td></td>\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 258 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 245 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 			return;
 		}
@@ -389,42 +382,42 @@ this.Write("\t\t\t\t<td></td>\r\n\t\t\t");
         #line default
         #line hidden
         
-        #line 261 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 248 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t<td style=\"padding:15px; border-left:solid 50px ");
 
         
         #line default
         #line hidden
         
-        #line 262 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 249 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.IntToHtml(p.Color)));
 
         
         #line default
         #line hidden
         
-        #line 262 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 249 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">");
 
         
         #line default
         #line hidden
         
-        #line 262 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 249 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
 
         
         #line default
         #line hidden
         
-        #line 262 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 249 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("</td>\t\r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 263 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 250 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 	}
 
@@ -438,56 +431,56 @@ this.Write("</td>\t\r\n\t\t");
         #line default
         #line hidden
         
-        #line 271 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 258 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t<div style=\"padding-top:40px\">\r\n\t\t\t<p> ");
 
         
         #line default
         #line hidden
         
-        #line 273 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 260 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(i));
 
         
         #line default
         #line hidden
         
-        #line 273 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 260 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(". ");
 
         
         #line default
         #line hidden
         
-        #line 273 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 260 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(a.Link));
 
         
         #line default
         #line hidden
         
-        #line 273 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 260 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("</p>\r\n\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 275 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 262 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a, BaseUrl)));
 
         
         #line default
         #line hidden
         
-        #line 275 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 262 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\r\n\t\t</div> \r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 277 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 264 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 	}
  
@@ -498,14 +491,14 @@ this.Write("\t\t\r\n\t\t</div> \r\n\t\t");
         #line default
         #line hidden
         
-        #line 282 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 269 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t    <div style=\"text-align: center\">\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 284 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 271 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
    var i = 1;
 		          foreach(var m in media.OrderBy(m=>m.OrderNumber))
 					 EmitMediaCell(m, i++);
@@ -514,14 +507,14 @@ this.Write("\t    <div style=\"text-align: center\">\r\n\t\t\t");
         #line default
         #line hidden
         
-        #line 287 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 274 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(" \r\n\t\t</div>\r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 289 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 276 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 	}
 
@@ -535,56 +528,56 @@ this.Write(" \r\n\t\t</div>\r\n\t\t");
         #line default
         #line hidden
         
-        #line 297 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 284 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t<div style=\"padding-top:40px\">\r\n\t\t   ");
 
         
         #line default
         #line hidden
         
-        #line 299 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 286 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(i));
 
         
         #line default
         #line hidden
         
-        #line 299 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 286 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(". <a href=\"");
 
         
         #line default
         #line hidden
         
-        #line 299 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 286 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(s.Text));
 
         
         #line default
         #line hidden
         
-        #line 299 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 286 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">");
 
         
         #line default
         #line hidden
         
-        #line 299 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 286 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(s.Text));
 
         
         #line default
         #line hidden
         
-        #line 299 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 286 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("</a>\r\n\t\t</div> \r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 301 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 288 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
     }
 
@@ -595,56 +588,56 @@ this.Write("</a>\r\n\t\t</div> \r\n\t\t");
         #line default
         #line hidden
         
-        #line 306 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 293 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t<tr>\r\n\t\t\t<td style=\"padding:15px; border:0px; border-left:solid 20px ");
 
         
         #line default
         #line hidden
         
-        #line 308 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 295 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.IntToHtml(p.Color)));
 
         
         #line default
         #line hidden
         
-        #line 308 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 295 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">");
 
         
         #line default
         #line hidden
         
-        #line 308 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 295 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
 
         
         #line default
         #line hidden
         
-        #line 308 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 295 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("</td>\r\n\t\t\t<td style=\"border:0px\">");
 
         
         #line default
         #line hidden
         
-        #line 309 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 296 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(link.Emit(Text)));
 
         
         #line default
         #line hidden
         
-        #line 309 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 296 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("</td>\r\n\t\t</tr>\r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 311 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 298 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
     }
 
@@ -658,56 +651,56 @@ this.Write("</td>\r\n\t\t</tr>\r\n\t\t");
         #line default
         #line hidden
         
-        #line 319 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 306 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\r\n\t\t<div class=\"argPoint\" style=\"border-left-color:");
 
         
         #line default
         #line hidden
         
-        #line 321 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 308 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.IntToHtml(ap.Person.Color)));
 
         
         #line default
         #line hidden
         
-        #line 321 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 308 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">\r\n\t\t\t<div class=\"boldCaption\">");
 
         
         #line default
         #line hidden
         
-        #line 322 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 309 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture((new DiscLink{Id=ap.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Anchor}).Emit("Point#" + ap.OrderNumber + ". " + ap.Point)));
 
         
         #line default
         #line hidden
         
-        #line 322 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 309 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("</div> \r\n\t\t\t\r\n\t\t\t<p>\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 325 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 312 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.processLineBreaks(ap.Description.Text)));
 
         
         #line default
         #line hidden
         
-        #line 325 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 312 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(" \r\n\t\t\t</p>\r\n\t\r\n\t\t\t<!-- media -->\r\n\t\t\t<div class=\"boldCaption\">Media</div> \r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 330 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 317 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 						
 			EmitMediaTable(ap.Attachment);
 			
@@ -715,7 +708,7 @@ this.Write(" \r\n\t\t\t</p>\r\n\t\r\n\t\t\t<!-- media -->\r\n\t\t\t<div class=\"
         #line default
         #line hidden
         
-        #line 332 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 319 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t\r\n\t\t\t<div class=\"boldCaption\">Sources</div> \r\n\t\t\t<div style=\"text-align: left;" +
         " padding-left:40px\">\r\n\t\t\t\t");
 
@@ -723,7 +716,7 @@ this.Write("\t\t\t\r\n\t\t\t<div class=\"boldCaption\">Sources</div> \r\n\t\t\t<
         #line default
         #line hidden
         
-        #line 336 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 323 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
  var i = 1;
 					foreach(var src in ap.Description.Source.OrderBy(s=>s.OrderNumber)) 
 					{ 
@@ -731,62 +724,62 @@ this.Write("\t\t\t\r\n\t\t\t<div class=\"boldCaption\">Sources</div> \r\n\t\t\t<
         #line default
         #line hidden
         
-        #line 338 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 325 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t\t       ");
 
         
         #line default
         #line hidden
         
-        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 326 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(i++));
 
         
         #line default
         #line hidden
         
-        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 326 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(". <a href=\"");
 
         
         #line default
         #line hidden
         
-        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 326 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(src.Text));
 
         
         #line default
         #line hidden
         
-        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 326 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">");
 
         
         #line default
         #line hidden
         
-        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 326 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(src.Text));
 
         
         #line default
         #line hidden
         
-        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 326 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("<a><br>\t\t\t\t\t   \r\n\t\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 340 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 327 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
  } 
         
         #line default
         #line hidden
         
-        #line 340 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 327 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t</div>\r\n\r\n\t\t\t<!-- comments -->\r\n\t\t\t<div class=\"boldCaption\">Comments</div> \r\n\t" +
         "\t\t<table>\r\n\t\t\t");
 
@@ -794,7 +787,7 @@ this.Write("\t\t\t</div>\r\n\r\n\t\t\t<!-- comments -->\r\n\t\t\t<div class=\"bo
         #line default
         #line hidden
         
-        #line 346 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 333 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 			foreach(var c in ap.Comment) 
 			{
@@ -806,14 +799,14 @@ this.Write("\t\t\t</div>\r\n\r\n\t\t\t<!-- comments -->\r\n\t\t\t<div class=\"bo
         #line default
         #line hidden
         
-        #line 352 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 339 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t</table>\r\n\t    </div>\r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 355 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 342 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 	
     }
 
@@ -823,28 +816,28 @@ this.Write("\t\t\t</table>\r\n\t    </div>\r\n\t\t");
         #line default
         #line hidden
         
-        #line 359 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 346 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t");
 
         
         #line default
         #line hidden
         
-        #line 360 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 347 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture((new DiscLink{Id=clustId, LinkObject=LinkObject.Cluster, EmitType=EmitType.Anchor}).Emit(strClusterTableLine(clustTitle,clustId))));
 
         
         #line default
         #line hidden
         
-        #line 360 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 347 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\r\n    ");
 
         
         #line default
         #line hidden
         
-        #line 361 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 348 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 }
 
 	string strClusterTableLine(string clustTitle, int clustId)
@@ -866,41 +859,41 @@ this.Write("\r\n    ");
         #line default
         #line hidden
         
-        #line 377 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 364 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\r\n\t\t<div class=\"cluster\" style=\"border-left-color:");
 
         
         #line default
         #line hidden
         
-        #line 379 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 366 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.IntToHtml(clustReport.initialOwner.Color)));
 
         
         #line default
         #line hidden
         
-        #line 379 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 366 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">\r\n\t\t\t<div class=\"boldCaption\">\r\n\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 381 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 368 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
  ClusterTableLine(clustReport.clusterTitle, clustReport.clusterId); 
         
         #line default
         #line hidden
         
-        #line 381 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 368 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\r\n\t\t\t</div>\r\n\t\t\r\n\t\t\t<table>\r\n\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 385 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 372 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 				foreach (var point in clustReport.points)
 				{
@@ -913,7 +906,7 @@ this.Write("\t\r\n\t\t\t</div>\r\n\t\t\r\n\t\t\t<table>\r\n\t\t\t\t");
         #line default
         #line hidden
         
-        #line 392 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 379 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t</table>\r\n\t\t\t\r\n\t\t\t<div style=\"text-align: center; padding-top:40px\">\r\n\t\t\t\t<img" +
         " src=");
 
@@ -921,21 +914,21 @@ this.Write("\t\t\t</table>\r\n\t\t\t\r\n\t\t\t<div style=\"text-align: center; p
         #line default
         #line hidden
         
-        #line 396 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 383 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(image));
 
         
         #line default
         #line hidden
         
-        #line 396 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 383 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(" style=\"max-width:1024px\"> \t\t\r\n\t\t\t</div>\r\n\r\n\t\t</div> \r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 400 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 387 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
     }
 
@@ -953,14 +946,14 @@ this.Write(" style=\"max-width:1024px\"> \t\t\r\n\t\t\t</div>\r\n\r\n\t\t</div> 
         #line default
         #line hidden
         
-        #line 412 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 399 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("             {No clusters}\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 414 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 401 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
         }
     }
@@ -972,28 +965,28 @@ this.Write("             {No clusters}\r\n\t\t\t");
         #line default
         #line hidden
         
-        #line 420 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 407 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\r\n\t\t<div class=\"link\" style=\"border-left-color:");
 
         
         #line default
         #line hidden
         
-        #line 422 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 409 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.IntToHtml(link.initOwner.Color)));
 
         
         #line default
         #line hidden
         
-        #line 422 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 409 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\">\r\n\t\t\t<div class=\"boldCaption\">\r\n\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 424 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 411 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 				if (string.IsNullOrEmpty(link.Caption))
 				{   
@@ -1001,14 +994,14 @@ this.Write("\">\r\n\t\t\t<div class=\"boldCaption\">\r\n\t\t\t\t");
         #line default
         #line hidden
         
-        #line 426 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 413 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t\t\tLink\r\n\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 428 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 415 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 }
 				else
 				{
@@ -1016,41 +1009,41 @@ this.Write("\t\t\t\t\tLink\r\n\t\t\t\t");
         #line default
         #line hidden
         
-        #line 430 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 417 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 431 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 418 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("Link \"{0}\"", link.Caption)));
 
         
         #line default
         #line hidden
         
-        #line 431 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 418 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write(" \r\n\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 432 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 419 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 }
         
         #line default
         #line hidden
         
-        #line 432 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 419 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t</div>\r\n\t\t\r\n\t\t\t<table>\r\n\t\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 436 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 423 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
 
 			    if (link.EndpointArgPoint1)
@@ -1079,14 +1072,14 @@ this.Write("\t\t\t</div>\r\n\t\t\r\n\t\t\t<table>\r\n\t\t\t\t");
         #line default
         #line hidden
         
-        #line 459 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 446 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("\t\t\t</table>\r\n\t\t</div> \r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 462 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 449 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
     }
 
@@ -1104,14 +1097,14 @@ this.Write("\t\t\t</table>\r\n\t\t</div> \r\n\t\t");
         #line default
         #line hidden
         
-        #line 474 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 461 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 this.Write("             {No links}\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 476 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
+        #line 463 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
 
         }
     }
