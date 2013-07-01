@@ -12,6 +12,7 @@ namespace DiscSvc.Reporting
         public ReportParameters ReportParams;
         public IEnumerable<Tuple<Person, Person>> Participants;
         public string ReportUrl;
+        public string BaseUrl;
 
         public Reporter.ReportCollector ComplexReport;
 
@@ -35,7 +36,7 @@ namespace DiscSvc.Reporting
                 var file = Path.GetRandomFileName() + ".png";
                 var vPathName = @"~\img\" + file;
                 var url = new System.Uri(context.Request.Url, @"img\" + file).AbsoluteUri;
-                var physPathName = context.Server.MapPath(vPathName);
+                var physPathName = Path.Combine(context.Server.MapPath("~"), "img", file);
 
                 var imgInfo = new ImgInfo { PhysPath = physPathName, VPath = vPathName, url = url };
               

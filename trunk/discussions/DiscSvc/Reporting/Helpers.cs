@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using Discussions;
 using Discussions.DbModel;
 using Discussions.model;
@@ -50,10 +51,10 @@ namespace DiscSvc.Reporting
             return "#" + (color & 0x00ffffff).ToString("X6");
         }
 
-        public static string GetPastableHtml(Attachment a)
+        public static string GetPastableHtml(Attachment a, string baseUrl)
         {
-            var imgThumbUrl = string.Format("http://{0}/discsvc/discsvc.svc/Attachment({1})/$value",
-                                            ConfigManager.ServiceServer, a.Id);
+            var imgThumbUrl = string.Format("{0}/discsvc.svc/Attachment({1})/$value",
+                                            baseUrl, a.Id);
             if (IsGraphicFormat((AttachmentFormat)a.Format))
             {
                 return string.Format("<img src=\"{0}\"  style=\"max-width:1024px\"/>", imgThumbUrl);
@@ -91,6 +92,13 @@ namespace DiscSvc.Reporting
         public static string ArgPointToStr(ArgPoint ap)
         {
             return string.Format("Point#{0}. {1}", ap.OrderNumber, ap.Point);
+        }
+
+        public static string BaseUrl(HttpRequest request)
+        {
+            string baseUrl = request.Url.Scheme + "://" + request.Url.Authority +
+                             request.ApplicationPath.TrimEnd('/') + "/";
+            return baseUrl;
         }
     }
 }

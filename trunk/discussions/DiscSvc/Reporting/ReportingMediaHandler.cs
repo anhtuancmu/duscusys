@@ -42,11 +42,12 @@ namespace DiscSvc.Reporting
                 context.Response.StatusCode = 400;
                 return;
             }
-
+            
             //compute and set report parameters 
             var report = new MediaReport
                 {
-                    ReportParams = reportParams
+                    ReportParams = reportParams,
+                    BaseUrl = Helpers.BaseUrl(context.Request)
                 };
 
            context.Response.Write(report.TransformText());

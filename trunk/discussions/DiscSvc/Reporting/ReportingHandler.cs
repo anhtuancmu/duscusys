@@ -57,7 +57,8 @@ namespace DiscSvc.Reporting
                     ReportParams = reportParams,
                     Participants = Helpers.ParticipantsTuples(reportParams.Topic, reportParams.Session),
                     ComplexReport  = await complexReportTask,
-                    ReportUrl = context.Request.Url.ToString()
+                    ReportUrl = context.Request.Url.ToString(),
+                    BaseUrl = Helpers.BaseUrl(context.Request)
                 };
 
             var screenshotTask = reportingTasks.Item1;

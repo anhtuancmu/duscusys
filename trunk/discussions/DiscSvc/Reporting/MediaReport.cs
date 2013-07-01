@@ -103,7 +103,7 @@ this.Write("</p>\r\n\r\n\t\t\t");
         #line hidden
         
         #line 39 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a)));
+this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a, BaseUrl)));
 
         
         #line default
@@ -124,20 +124,6 @@ this.Write("\t\t\r\n\t\t</div> \r\n\t\t");
 	{
 		if(media.Count()==0)
 		{
-			
-        
-        #line default
-        #line hidden
-        
-        #line 48 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write("\t\t\t{no attachments}\r\n\t\t\t");
-
-        
-        #line default
-        #line hidden
-        
-        #line 50 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-
 			return;
 		}
 		
@@ -145,14 +131,14 @@ this.Write("\t\t\t{no attachments}\r\n\t\t\t");
         #line default
         #line hidden
         
-        #line 53 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 50 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write("\r\n\t    <div style=\"text-align: center\">\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 56 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 53 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
    var i = 1; 
 		          foreach(var m in media.OrderBy(m=>m.OrderNumber))
 					 EmitMediaCell(m, i++);
@@ -161,14 +147,14 @@ this.Write("\r\n\t    <div style=\"text-align: center\">\r\n\t\t\t");
         #line default
         #line hidden
         
-        #line 59 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 56 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(" \r\n\t\t</div>\r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 61 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 58 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
 
 	}
 

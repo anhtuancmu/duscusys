@@ -486,7 +486,7 @@ this.Write("</p>\r\n\r\n\t\t\t");
         #line hidden
         
         #line 294 "C:\projects\TDS\discussions\DiscSvc\Reporting\Report.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a)));
+this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a, BaseUrl)));
 
         
         #line default
