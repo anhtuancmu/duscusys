@@ -1,5 +1,4 @@
-﻿using System.Timers;
-using System.Web;
+﻿using System.Web;
 using Discussions;
 using Discussions.DbModel;
 
@@ -21,10 +20,10 @@ namespace DiscSvc.Reporting
             get { return true; }
         }
 
-        public async void ProcessRequest(HttpContext context)
+        public void ProcessRequest(HttpContext context)
         {
             //validate query parameters
-            QueryParams queryParams = null;
+            QueryParams queryParams;
             try
             {
                 queryParams = new QueryParams(context.Request);
@@ -45,12 +44,9 @@ namespace DiscSvc.Reporting
             }
 
             //compute and set report parameters 
-            var report = new Report
+            var report = new MediaReport
                 {
-                    QueryParams = queryParams,
-                    ReportParams = reportParams,
-                    Participants = Helpers.ParticipantsTuples(reportParams.Topic, reportParams.Session),
-                    ReportUrl = context.Request.Url.ToString()
+                    ReportParams = reportParams
                 };
 
            context.Response.Write(report.TransformText());

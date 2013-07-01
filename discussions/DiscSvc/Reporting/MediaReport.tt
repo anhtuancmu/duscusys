@@ -3,9 +3,6 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Discussions.DbModel" #>
 <#@ import namespace="Discussions.RTModel.Model" #>
 
@@ -46,9 +43,17 @@
  
 	void EmitMediaTable(IEnumerable<Attachment> media)
 	{
+		if(media.Count()==0)
+		{
+			#>
+			{no attachments}
+			<#+
+			return;
+		}
 		#>
+
 	    <div style="text-align: center">
-			<#+   var i = 1;
+			<#+   var i = 1; 
 		          foreach(var m in media.OrderBy(m=>m.OrderNumber))
 					 EmitMediaCell(m, i++);
 			#> 

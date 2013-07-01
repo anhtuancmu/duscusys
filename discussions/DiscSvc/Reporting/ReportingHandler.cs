@@ -24,7 +24,7 @@ namespace DiscSvc.Reporting
         public async void ProcessRequest(HttpContext context)
         {
             //validate query parameters
-            QueryParams queryParams = null;
+            QueryParams queryParams;
             try
             {
                 queryParams = new QueryParams(context.Request);
@@ -63,7 +63,7 @@ namespace DiscSvc.Reporting
             var screenshotTask = reportingTasks.Item1;
             report.ReceiveScreenshots(await screenshotTask, context);
 
-            var cleanupTimer = new Timer(60*1000); //1 minute
+            var cleanupTimer = new Timer(10*60*1000); //10 minutes
             cleanupTimer.Elapsed += (sender, args) =>
                 {
                     cleanupTimer.Dispose();

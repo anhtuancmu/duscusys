@@ -227,7 +227,7 @@ namespace Reporter
                 return;
             }
 
-            //generate list if ArgPoints
+            //generate list of ArgPoints
             var argPoints = new ArgPoint[resp.points.Length];
             for (int i = 0; i < resp.points.Length; i++)
             {

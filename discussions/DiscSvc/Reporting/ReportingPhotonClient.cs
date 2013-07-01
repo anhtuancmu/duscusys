@@ -21,7 +21,7 @@ namespace DiscSvc.Reporting
         
         private ClientRT _clienRt;
 
-        private Timer _timer;
+        private bool _servicingPhotonClient = true;
 
         public Tuple<Task<Dictionary<int, byte[]>>, Task<ReportCollector>> 
                 StartReportingActivities(Topic topic, Discussion disc, Session session)
@@ -42,10 +42,16 @@ namespace DiscSvc.Reporting
             _hardReportTCS = new TaskCompletionSource<ReportCollector>();
             _remoteScreenshotTCS = new TaskCompletionSource<Dictionary<int, byte[]>>();
 
-            _timer = new Timer { Interval = 80 };
-            _timer.Elapsed += (sender, args) => _clienRt.Service();
-            _timer.Start();
-            
+            Task.Factory.StartNew(async () =>
+                {
+                    while (_servicingPhotonClient)
+                    {
+                        _clienRt.Service();
+                        await Utils.Delay(80);                        
+                    }
+                }, 
+                TaskCreationOptions.LongRunning);
+         
             return new Tuple<Task<Dictionary<int, byte[]>>, 
                             Task<ReportCollector>>( _remoteScreenshotTCS.Task,  _hardReportTCS.Task);
         }
@@ -80,17 +86,13 @@ namespace DiscSvc.Reporting
 
         public void Dispose()
         {
+            _servicingPhotonClient = false;       
+           
             if (_clienRt != null)
             {
                 _clienRt.SendLiveRequest();
                 _clienRt.Stop();
                 _clienRt = null;
-            }
-
-            if (_timer != null)
-            {         
-                _timer.Stop();
-                _timer.Dispose();
             }
         }        
     }
