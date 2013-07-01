@@ -36,7 +36,7 @@
 		<div style="padding-top:40px">
 			<p> <#= i#>. <#= a.Link#></p>
 
-			<#= Helpers.GetPastableHtml(a) #>		
+			<#= Helpers.GetPastableHtml(a, BaseUrl) #>		
 		</div> 
 		<#+
 	}
@@ -45,9 +45,6 @@
 	{
 		if(media.Count()==0)
 		{
-			#>
-			{no attachments}
-			<#+
 			return;
 		}
 		#>
