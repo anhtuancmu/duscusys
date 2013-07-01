@@ -1,8 +1,7 @@
 ﻿namespace DiscSvc.Reporting
 {
-    public partial class MediaReport 
+    public partial class SourcesReport 
     {
         public ReportParameters ReportParams;
-        public string BaseUrl;
     }
 }

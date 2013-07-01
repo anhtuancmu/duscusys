@@ -378,7 +378,7 @@ namespace Discussions
             }
         }
 
-        private static string getDiscussionBackgroundUrl(Discussion d)
+        public static string getDiscussionBackgroundUrl(Discussion d)
         {
             return string.Format("http://{0}/discsvc/bgpage?id={1}", ConfigManager.ServiceServer, d.Id);
         }

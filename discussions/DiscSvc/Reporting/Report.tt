@@ -50,7 +50,7 @@
 			<a href="#participants">Participants</a><br>
 			<a href="bgpage?id=<#= QueryParams.DiscussionId #>" target="_blank">Background</a><br>
 			<a href="<#= MediaUrl #>" target="_blank">Media of discussion background</a><br>
-			<a href="#sources">Sources of discussion background</a><br>
+			<a href="<#= SourcesUrl #>" target="_blank">Sources of discussion background</a><br>
 			<a href="#finalBoard">Final Public Dashboard</a><br>
 			<a href="#summary">Summary information</a><br>
 			<a href="#argPoints">Argument points</a><br>
@@ -104,19 +104,6 @@
 				   </tr>
 			<# } #>
 		</table>
-
-		<!------------------------------------------------------------------------------------->	
-
-		<h3>
-			<a id="sources">Sources of discussion background</a>
-		</h3>
-
-	    <div style="text-align: left; padding-left:40px">
-			<#   var i = 1;
-		         foreach(var s in ReportParams.Discussion.Background.Source.OrderBy(s=>s.OrderNumber))
-					EmitSourceCell(s, i++);
-			#> 
-		</div>
 
 		<!------------------------------------------------------------------------------------->
 

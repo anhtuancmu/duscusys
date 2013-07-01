@@ -144,6 +144,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\SourcesPartialReport.cs" />
+    <Compile Include="Reporting\ReportingSourcesHandler.cs" />
+    <Compile Include="Reporting\SourcesReport.cs">
+      <DependentUpon>SourcesReport.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Reporting\MediaReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,6 +235,12 @@
     <Content Include="Reporting\MediaReport.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>MediaReport.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reporting\SourcesReport.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SourcesReport.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>
