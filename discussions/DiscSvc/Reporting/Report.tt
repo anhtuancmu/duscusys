@@ -59,8 +59,8 @@
 		</div>
 
 		<!------------------------------------------------------------------------------------->
-
-	    <h3>
+		
+	    <h3 style="page-break-before: always;">
           <a id="basicInfo">Basic information</a>
         </h3>
  
@@ -112,13 +112,13 @@
 		</h3>
 		
 		<div class="finalScreenshot">
-			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" width="100%">
+			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard">
 		</div>
 
 		<!------------------------------------------------------------------------------------->
 
 		<h3>
-			<a id="summary">Summary information</a>
+			<a id="summary" style="page-break-before: always;">Summary information</a>
 		</h3>
 
 		<table>
@@ -150,7 +150,7 @@
 
 		 <!------------------------------------------------------------------------------------->
 
-	 	 <h3>
+	 	 <h3 style="page-break-before: always;">
 			<a id="clustInfo">Cluster information</a>
 		 </h3>
 		
@@ -306,8 +306,7 @@
 	private void ClusterTable(Reporter.ClusterReport clustReport, string image)
     {
 		#>
-		
-		<div class="cluster" style="border-left-color:<#= Helpers.IntToHtml(clustReport.initialOwner.Color)#>">
+		<div class="cluster" style="page-break-after: always; border-left-color:<#= Helpers.IntToHtml(clustReport.initialOwner.Color)#>">
 			<div class="boldCaption">
 				<#+ ClusterTableLine(clustReport.clusterTitle, clustReport.clusterId); #>	
 			</div>

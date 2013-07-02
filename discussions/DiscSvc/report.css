@@ -33,6 +33,14 @@ h4 {
     font-size: 1.5em;
 }
 
+img {
+    width: 100%;
+}
+
+td {
+    width: 50%;
+}
+
 .blueSpan {    
     background-color: #0699d3;
     color: white;
