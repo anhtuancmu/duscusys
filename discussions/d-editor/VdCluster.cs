@@ -691,6 +691,7 @@ namespace DistributedEditor
                 return new Rect(0, 0, 100, 100);
             var res = bezierBorder.Data.Bounds;
             res.Offset(_offset.X, _offset.Y);
+
             return res;
         }
 
@@ -712,7 +713,21 @@ namespace DistributedEditor
 
         public override Rect ReportingBoundsProvider()
         {
-            return boundsProvider();
+            var bounds = boundsProvider();
+            if (_captions.text != null)
+            {
+                var captionBounds = _captions.text.ReportingBoundsProvider();
+                bounds.Union(captionBounds);
+            }
+            else if (_captions.FreeDraw != null)
+            {
+                var captionBounds = _captions.FreeDraw.ReportingBoundsProvider();
+                bounds.Union(captionBounds);
+            }
+
+            bounds.Inflate(20,20); //include border in screenshot
+
+            return bounds;
         }
     }
 }

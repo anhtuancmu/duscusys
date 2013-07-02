@@ -368,7 +368,9 @@ namespace DistributedEditor
             var org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), scene);
             var w = _textEnterUC.txtLabel.ActualWidth;
             var h = _textEnterUC.txtLabel.ActualHeight;
-            return new Rect(new Point(org.X, org.Y), new Point(org.X+w, org.Y+h));
+            var bottomRight = _textEnterUC.txtLabel.TranslatePoint(new Point(w, h), scene);
+
+            return new Rect(org, bottomRight);
         }
 
         public void MoveBy(double dx, double dy)
