@@ -373,7 +373,6 @@ namespace DiscussionsClientRT
             }
         }
 
-        private bool receivedScreenshot;
         public void OnOperationResponse(OperationResponse operationResponse)
         {
             switch (operationResponse.OperationCode)
@@ -427,11 +426,8 @@ namespace DiscussionsClientRT
                     break;
 
                 case (byte) DiscussionOpCode.ScreenshotRequest:
-                    if (onScreenshotResponse != null && !receivedScreenshot)
-                    {
-                        receivedScreenshot = true;
+                    if (onScreenshotResponse != null)
                         onScreenshotResponse(ScreenshotResponse.Read(operationResponse.Parameters).screenshots);
-                    }
                     break;
                 default:
                     Console.WriteLine("Unhandled OnOperationResponse " + operationResponse.OperationCode);

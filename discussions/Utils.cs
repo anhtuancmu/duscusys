@@ -305,18 +305,21 @@ namespace Discussions
         }
 
         /// <summary>
-        /// Writes meta-information about screenshot pack to text file
+        /// Writes meta-information about screenshot IdsPaths to text file
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
-        public static void ScreenshotPackToMetaInfo(Dictionary<int, string> pack, string metaPathName)
+        public static void ScreenshotPackToMetaInfo(PublicCenter.ScreenshoReports screenshots, string metaPathName)
         {
             using (var fs = new BinaryWriter(new FileStream(metaPathName, FileMode.Create)))
             {
-                fs.Write(pack.Count);
-                foreach (var kvp in pack)
+                fs.Write(screenshots.ShapeIdsToShapes.Count + screenshots.ArgPointIdsToBadges.Count);
+                foreach (var kvp in screenshots.ShapeIdsToShapes)
                 {
                     fs.Write(kvp.Key);
+                    fs.Write(kvp.Value);
+                }
+                foreach (var kvp in screenshots.ArgPointIdsToBadges)
+                {
+                    fs.Write(-kvp.Key-1);//-1 is whole screenshot, so we have to start from -2
                     fs.Write(kvp.Value);
                 }
             }

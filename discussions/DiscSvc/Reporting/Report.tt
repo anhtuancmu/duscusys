@@ -1,10 +1,13 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ template debug="true" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Discussions.DbModel" #>
 <#@ import namespace="Discussions.RTModel.Model" #>
+<#@ import namespace="System.Diagnostics" #>
+ 
 
 <!DOCTYPE HTML>
 <html>
@@ -21,17 +24,13 @@
 			<h2>Tohoku University</h2>
 			<br />
 			<br />
-			<br />
 
 			<h1>Discussion System</h1>
 
 			<br />
 			<br />
-			<br />
 
 			<h2>Topic Report</h2>
-			<br />
-			<br />
 			<br />
 			<br />
 			<br />
@@ -55,6 +54,7 @@
 			<a href="#summary">Summary information</a><br>
 			<!--<a href="#argPoints">Argument points</a><br>-->
 			<a href="#clustInfo">Cluster information</a><br>
+	        <a href="#unclusteredArgs">Unclustered arguments</a><br>
     		<a href="#linkInfo">Link information</a><br>
 		</div>
 
@@ -112,7 +112,7 @@
 		</h3>
 		
 		<div class="finalScreenshot">
-			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard">
+			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" style="width:100%;">
 		</div>
 
 		<!------------------------------------------------------------------------------------->
@@ -156,6 +156,35 @@
 		
 		 <#ClusterInformation(ComplexReport);#>
 
+		 <!------------------------------------------------------------------------------------->
+
+		 <h3 style="page-break-before: always;">
+			<a id="unclusteredArgs">Unclustered arguments</a>
+	     </h3>
+		 <#
+		    var argPointsOf = ReportParams.Topic.ArgPoint.OrderBy(ap1=>ap1.OrderNumber);
+			if (argPointsOf.Count() > 0)
+			{ #>
+			   <table>
+			     <tbody>
+			     <#
+				foreach (var ap in argPointsOf)
+				{
+					if (ap.SharedToPublic && !ProcessedArgPoints.Contains(ap.Id))
+						ArgPointNode(ap);                      
+				}
+				#>				
+                </tbody>
+			  </table>
+			   <#
+			}
+			else
+			{
+				#>
+					<No unclustered arguments> 
+				<#
+			}		 
+		 #>
 		 <!------------------------------------------------------------------------------------->
 
 	 	 <h3>			
@@ -243,14 +272,20 @@
 
 	void ArgPointNode(ArgPoint ap)
     {
-		if(ap==null || ap.Person==null)
+		if(ap==null)
 			return;
-		
+		if(ap.Person==null)
+			return;	
+
 		#>
 		<tr>
 			<td style="padding:25px 0; border:0px; border-left:solid 20px; border-left-color:<#= Helpers.IntToHtml(ap.Person.Color)#>">
 				<div class="boldCaption"><#=(new DiscLink{Id=ap.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Anchor}).Emit("Point#" + ap.OrderNumber + ". " + ap.Point)#></div> 
 			
+				<div style="text-align: center; padding-top:40px">
+				    <img src=<#= Screenshots[-ap.Id-1].url#> > 		
+			    </div>
+
 				<p>
 				<#= Helpers.processLineBreaks(ap.Description.Text)#> 
 				</p>
@@ -323,6 +358,7 @@
 					if(point.Person!=null && point.Topic != null && point.SharedToPublic)
 					{
 						ArgPointNode(point);  
+						ProcessedArgPoints.Add(point.Id);
 						//EmitCommentOrArgPointLine(point.Person,  "Point# " + point.OrderNumber + ". " + point.Point, 
 						//				          new DiscLink{Id=point.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Ref});			
 					}

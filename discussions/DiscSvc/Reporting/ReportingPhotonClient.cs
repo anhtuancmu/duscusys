@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Timers;
 using Discussions.DbModel;
 using Discussions.model;
 using DiscussionsClientRT;
