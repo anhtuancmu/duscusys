@@ -254,5 +254,10 @@ namespace DistributedEditor
 
             return new Rect(_left, _top, _badge.ActualWidth, _badge.ActualHeight);
         }
+
+        public override Rect ReportingBoundsProvider()
+        {
+            return boundsProvider();
+        }
     }
 }

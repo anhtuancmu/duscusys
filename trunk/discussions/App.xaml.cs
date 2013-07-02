@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Windows;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions
 {
@@ -24,12 +19,13 @@ namespace Discussions
             {
                 int screentopicId;
                 int screenDiscId;
-                if (int.TryParse(e.Args[0], out screentopicId) && int.TryParse(e.Args[1], out screenDiscId))
+                if (int.TryParse(e.Args[0], out screentopicId) && 
+                    int.TryParse(e.Args[1], out screenDiscId))
                 {
-                    SessionInfo.Get().ScreenshotMode = true;
-                    SessionInfo.Get().screenTopicId = screentopicId;
-                    SessionInfo.Get().screenDiscId = screenDiscId;
-                    SessionInfo.Get().screenMetaInfo = e.Args[2];
+                    SessionInfo.Get().ScreenshotMode      = true;
+                    SessionInfo.Get().screenTopicId       = screentopicId;
+                    SessionInfo.Get().screenDiscId        = screenDiscId;
+                    SessionInfo.Get().screenMetaInfo      = e.Args[2];
                 }
             }
 

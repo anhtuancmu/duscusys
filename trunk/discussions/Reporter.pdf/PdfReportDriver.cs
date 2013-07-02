@@ -35,33 +35,6 @@ namespace Reporter.pdf
             ((TaskCompletionSource<ReportCollector>) args).SetResult(sender);
         }
 
-        public Task<Dictionary<int, string>> FinalSceneScreenshot(int topicId, int discId)
-        {
-            //close opened public center to prevent d-editor conflicts 
-            if (DiscWindows.Get().discDashboard != null)
-            {
-                DiscWindows.Get().discDashboard.Close();
-                DiscWindows.Get().discDashboard = null;
-            }
-
-            PublicCenter pubCenter = new PublicCenter(UISharedRTClient.Instance,
-                                                      () => { },
-                                                      topicId, discId
-                );
-
-            pubCenter.Show();
-            pubCenter.Hide();
-
-            Task<Dictionary<int, string>> t = pubCenter.FinalSceneScreenshots();
-            t.GetAwaiter().OnCompleted(() =>
-                {
-                    pubCenter.Close();
-                    pubCenter = null;
-                });
-
-            return t;
-        }
-
         private TaskCompletionSource<Dictionary<int, byte[]>> remoteScreenshotTCS;
 
         public Task<Dictionary<int, byte[]>> RemoteFinalSceneScreenshot(int topicId, int discId)

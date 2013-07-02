@@ -57,7 +57,7 @@ namespace DiscSvc.Reporting
                                             baseUrl, a.Id);
             if (IsGraphicFormat((AttachmentFormat)a.Format))
             {
-                return string.Format("<img src=\"{0}\"  style=\"width:100%\"/>", imgThumbUrl);
+                return string.Format("<img src=\"{0}\">", imgThumbUrl);
             }
             if (a.Format == (int)AttachmentFormat.Youtube)
             {

@@ -821,11 +821,18 @@ namespace Discussions
 
         #region screenshot of final scene
 
-        private TaskCompletionSource<Dictionary<int, string>> finalSceneTcs = null;
+        private TaskCompletionSource<ScreenshoReports> finalSceneTcs = null;
 
-        public Task<Dictionary<int, string>> FinalSceneScreenshots()
+
+        public struct ScreenshoReports
         {
-            finalSceneTcs = new TaskCompletionSource<Dictionary<int, string>>();
+            public Dictionary<int, string> ShapeIdsToShapes;
+            public Dictionary<int, string> ArgPointIdsToBadges;
+        }
+
+        public Task<ScreenshoReports> FinalSceneScreenshots()
+        {
+            finalSceneTcs = new TaskCompletionSource<ScreenshoReports>();
             _sharedClient.clienRt.loadingDoneEvent += shapeLoadingDone;
 
             ToggleShapes(true);
@@ -848,8 +855,6 @@ namespace Discussions
             //even though all d-editor objects are loaded, their visuals on canvas are created asynchronously
             await Utils.Delay(3000);
 
-            var screenshots = new Dictionary<int, string>();
-            
             //add main screen
             var dpi = 200;
             int maxWidth  = (int)this.ActualWidth;
@@ -878,7 +883,7 @@ namespace Discussions
             var screen = Screenshot.Take(scene,
                                         new System.Windows.Size(maxWidth + margin, maxHeight + margin),
                                         dpi);
-            screenshots.Add(-1, screen);
+            var linksAndClusters = new Dictionary<int, string> {{-1, screen}};
 
             //add links and clusters
             var bmp = new Bitmap(screen);
@@ -889,10 +894,25 @@ namespace Discussions
                 var bounds = subpartSh.ReportingBoundsProvider();
                 var subpartScreen = Screenshot.TakeSubImage(bmp,
                                                             TransformRectByDpi(bounds, dpi));
-                screenshots.Add(subpartSh.Id(), subpartScreen);
+                linksAndClusters.Add(subpartSh.Id(), subpartScreen);
             }
 
-            finalSceneTcs.SetResult(screenshots);
+            //badges
+            var badgeScreenshots = new Dictionary<int, string>();
+            var badges = editCtx.getMgr().Doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge);
+            foreach (var badge in badges)
+            {
+                var bounds = badge.ReportingBoundsProvider();
+                var subpartScreen = Screenshot.TakeSubImage(bmp,
+                                                            TransformRectByDpi(bounds, dpi));
+                badgeScreenshots.Add(((VdBadge)badge).ArgPtId, subpartScreen);
+            }
+
+            finalSceneTcs.SetResult(new ScreenshoReports
+                {
+                    ArgPointIdsToBadges = badgeScreenshots, 
+                    ShapeIdsToShapes = linksAndClusters
+                });
             finalSceneTcs = null;
         }
 

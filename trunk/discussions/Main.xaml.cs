@@ -81,13 +81,14 @@ namespace Discussions
                         pubCenter.Show();
                         pubCenter.Hide();
 
-                        Task<Dictionary<int, string>> t = pubCenter.FinalSceneScreenshots();
+                        Task<PublicCenter.ScreenshoReports> t = pubCenter.FinalSceneScreenshots();
                         t.GetAwaiter().OnCompleted(() =>
                             {
                                 pubCenter.Close();
                                 pubCenter = null;
 
-                                Utils.ScreenshotPackToMetaInfo(t.Result, SessionInfo.Get().screenMetaInfo);
+                                var reports = t.Result;
+                                Utils.ScreenshotPackToMetaInfo(reports, SessionInfo.Get().screenMetaInfo);
                                 Application.Current.Shutdown();                                   
                             });
                     };

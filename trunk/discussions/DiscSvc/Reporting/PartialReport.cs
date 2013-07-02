@@ -11,6 +11,7 @@ namespace DiscSvc.Reporting
         public QueryParams QueryParams;
         public ReportParameters ReportParams;
         public IEnumerable<Tuple<Person, Person>> Participants;
+        public readonly List<int> ProcessedArgPoints = new List<int>();
         public string ReportUrl;
         public string BaseUrl;
         public string MediaUrl
