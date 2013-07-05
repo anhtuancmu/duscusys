@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
 
 namespace DistributedEditor
@@ -9,7 +6,7 @@ namespace DistributedEditor
     public class ClientLinkable
     {
         private readonly int _id;
-        private List<VdClusterLink> _edges = new List<VdClusterLink>();
+        private readonly List<VdClusterLink> _edges = new List<VdClusterLink>();
 
         public delegate Rect BoundsProvider();
 

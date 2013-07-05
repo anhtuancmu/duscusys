@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using Discussions.RTModel.Model;
 using DistributedEditor;
 
 namespace Discussions.RTModel
@@ -10,11 +10,17 @@ namespace Discussions.RTModel
     public class ServerVdDoc
     {
         //maps shape id to shape
-        private Dictionary<int, IServerVdShape> shapeIdToShape = new Dictionary<int, IServerVdShape>();
+        private readonly Dictionary<int, IServerVdShape> _shapeIdToShape = new Dictionary<int, IServerVdShape>();
 
-        private Dictionary<int, IServerVdShape> userIdToCursor = new Dictionary<int, IServerVdShape>();
+        private readonly Dictionary<int, IServerVdShape> _userIdToCursor = new Dictionary<int, IServerVdShape>();
 
-        public byte[] inkData = null;
+        private readonly List<LaserPointer> _laserPointers = new List<LaserPointer>();
+        public List<LaserPointer> LaserPointers
+        {
+            get { return _laserPointers; }
+        }
+
+        public byte[] inkData;
 
         private BadgeShapeIdGenerator _badgeIdGen;
 
@@ -46,7 +52,7 @@ namespace Discussions.RTModel
             for (var i = 0; i < numShapes; i++)
             {
                 var sh = new ServerBaseVdShape(annotation);
-                shapeIdToShape.Add(sh.Id(), sh);
+                _shapeIdToShape.Add(sh.Id(), sh);
             }
         }
 
@@ -91,7 +97,7 @@ namespace Discussions.RTModel
 
         public IEnumerable<IServerVdShape> GetShapes()
         {
-            return shapeIdToShape.Values;
+            return _shapeIdToShape.Values;
         }
 
         //returns previously locked shape, caller should broadcast cursor free event if result != null
@@ -103,42 +109,42 @@ namespace Discussions.RTModel
             var cursor = new ServerCursor(owner);
             sh.SetCursor(cursor);
 
-            userIdToCursor.Add(owner, sh);
+            _userIdToCursor.Add(owner, sh);
         }
 
         public void UnlockShape(IServerVdShape sh, int owner)
         {
             sh.UnsetCursor();
-            userIdToCursor.Remove(owner);
+            _userIdToCursor.Remove(owner);
         }
 
         public bool UserHasCursor(int owner)
         {
-            return userIdToCursor.ContainsKey(owner);
+            return _userIdToCursor.ContainsKey(owner);
         }
 
         public IServerVdShape TryGetShape(int shapeId)
         {
-            if (!shapeIdToShape.ContainsKey(shapeId))
+            if (!_shapeIdToShape.ContainsKey(shapeId))
                 return null; //no such shape
 
-            return shapeIdToShape[shapeId];
+            return _shapeIdToShape[shapeId];
         }
 
         public IServerVdShape TryGetBadgeShapeByArgPt(int argPointId)
         {
             return
-                shapeIdToShape.Values.FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge && sh.Tag() == argPointId);
+                _shapeIdToShape.Values.FirstOrDefault(sh => sh.ShapeCode() == VdShapeType.Badge && sh.Tag() == argPointId);
         }
 
         public void AddShape(IServerVdShape sh)
         {
-            shapeIdToShape.Add(sh.Id(), sh);
+            _shapeIdToShape.Add(sh.Id(), sh);
         }
 
         public void AddShapeAndLock(IServerVdShape sh)
         {
-            shapeIdToShape.Add(sh.Id(), sh);
+            _shapeIdToShape.Add(sh.Id(), sh);
             LockShape(sh, sh.InitialOwner());
         }
 
@@ -147,7 +153,7 @@ namespace Discussions.RTModel
             if (sh.GetCursor() != null)
                 throw new InvalidOperationException("cannot remove shape locked by cursor!");
 
-            shapeIdToShape.Remove(sh.Id());
+            _shapeIdToShape.Remove(sh.Id());
         }
 
         public void UnlockAndRemoveShape(IServerVdShape sh)
@@ -166,6 +172,35 @@ namespace Discussions.RTModel
                 return true;
             else
                 return false;
+        }
+
+        public bool AttachLaserPointer(LaserPointer ptr)
+        {
+            if (LaserPointers.FirstOrDefault(l0 => l0.UserId == ptr.UserId && l0.TopicId == ptr.TopicId) != null)
+                return false;
+            LaserPointers.Add(ptr);
+            return true;
+        }
+
+        public bool DetachLaserPointer(LaserPointer ptr)
+        {
+            var p = LaserPointers.FirstOrDefault(l0 => l0.UserId == ptr.UserId && l0.TopicId == ptr.TopicId);
+            if (p == null)
+                return false;
+
+            return LaserPointers.Remove(p);
+        }
+
+        public bool MoveLaserPointer(LaserPointer ptr)
+        {
+            var p = LaserPointers.FirstOrDefault(l0 => l0.UserId == ptr.UserId && l0.TopicId == ptr.TopicId);            
+            if (p != null)
+            {
+                p.X = ptr.X;
+                p.Y = ptr.Y;
+                return true;
+            }
+            return false;
         }
     }
 }

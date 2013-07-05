@@ -168,6 +168,11 @@
     <Compile Include="CommentEditabilityChanged.cs" />
     <Compile Include="ctx\TimingCtx.cs" />
     <Compile Include="d-editor\BadgesCtx.cs" />
+    <Compile Include="d-editor\LaserCursorManager.cs" />
+    <Compile Include="d-editor\LaserPointerUC.xaml.cs">
+      <DependentUpon>LaserPointerUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="d-editor\LaserPointerWndCtx.cs" />
     <Compile Include="d-editor\NumberedTickBar.cs" />
     <Compile Include="DuplicateEventRecognizer.cs" />
     <Compile Include="HtmlReportBrowsing.cs" />
@@ -484,6 +489,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AvatarBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="d-editor\LaserPointerUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -806,6 +815,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\loop1.png" />
+    <Resource Include="Resources\laserPointer.png" />
     <Content Include="Resources\meiryo.ttf" />
     <None Include="Reporter.pdf\ReportInit.csx" />
     <None Include="VectorEditor\streaming.dgml" />

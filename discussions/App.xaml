@@ -23,7 +23,7 @@
 
             <BitmapImage x:Key="gdocExcel" UriSource="Resources/gdocExcel.png" />
             <BitmapImage x:Key="gdocPowerPoint" UriSource="Resources/gdocPowerPoint.png" />
-            <BitmapImage x:Key="gdocWord" UriSource="Resources/gdocWord.png" />
+            <BitmapImage x:Key="gdocWord" UriSource="Resources/gdocWord.png" />            
 
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="17" />
@@ -272,6 +272,7 @@
             </Style>
 
             <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
+            <ImageBrush x:Key="laserPointer" ImageSource="Resources/laserPointer.png" Stretch="Uniform" />
             <ImageBrush x:Key="msOffice" ImageSource="Resources/office.png" Stretch="Uniform" />
             <ImageBrush x:Key="msWord" ImageSource="Resources/WordIcon.png" Stretch="Uniform" />
             <ImageBrush x:Key="msPowerPoint" ImageSource="Resources/PowerpointIcon.png" Stretch="Uniform" />

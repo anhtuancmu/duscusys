@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B4BB98
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCursor", "CustomCursor\CustomCursor.csproj", "{055E85C3-4EB4-4C75-A836-21356747B3A5}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -227,6 +229,18 @@ Global
 		{2E9D8207-E25B-43DA-BAE6-AB830BC464A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2E9D8207-E25B-43DA-BAE6-AB830BC464A1}.Release|x64.ActiveCfg = Release|Any CPU
 		{2E9D8207-E25B-43DA-BAE6-AB830BC464A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dedit="clr-namespace:DistributedEditor"
-    xmlns:deditor="clr-namespace:Discussions.d_editor"
     WindowStartupLocation="CenterScreen"    
     SizeToContent="Manual"
     mc:Ignorable="d"
@@ -600,6 +599,9 @@
                     VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000">
                 <Border Background="{StaticResource explanation}" Width="70" Height="70" />
+            </s:SurfaceToggleButton>
+            <s:SurfaceToggleButton x:Name="btnLaserPointer" Click="BtnLaserPointer_OnClick" Background="#02000000">
+                <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
             <s:SurfaceToggleButton x:Name="btnToggleShapes" Click="btnToggleShapes_Click" Background="#02000000">
                 <Border Background="{StaticResource annotations}" Width="70" Height="70" />

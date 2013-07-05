@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using CustomCursor;
 using Microsoft.Surface.Presentation.Controls;
 using Discussions.model;
 using System.Windows.Threading;
@@ -69,13 +71,14 @@ namespace Discussions
         private ZoomSeriesAnalyser _zoomSeries;
 
         private EditorWndCtx editCtx;
-
         public EditorWndCtx Ctx
         {
             get { return editCtx; }
         }
 
-        private bool shapesVisibile = false;
+        private LaserPointerWndCtx _laserPointerWndCtx;
+
+        private bool _shapesVisibile = false;
 
         private Discussions.Main.OnDiscFrmClosing _closing;
 
@@ -146,6 +149,11 @@ namespace Discussions
 
         private void topicSelectionChanged(SelectionChangedEventArgs e)
         {
+            if (_laserPointerWndCtx != null)
+                _laserPointerWndCtx.Dispose();             
+            _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
+            btnLaserPointer.IsChecked = false;
+
             CleanupEditCtx();
 
             if (topicNavPanel.selectedTopic == null)
@@ -223,22 +231,6 @@ namespace Discussions
                 return;
 
             var mt = new MatrixTransform(m);
-
-            //var unsolved2Wnd = scene.TransformToVisual(mainGrid);
-
-            //var topLeft = unsolved2Wnd.Transform(new Point(0,0));
-            //if (!zoomIn && topLeft.X > 0 && !left)
-            //    return;
-
-            //var bottomRight = unsolved2Wnd.Transform(new Point(scene.ActualWidth, scene.ActualHeight));
-            //if (!zoomIn && bottomRight.X < mainGrid.ActualWidth && left)
-            //    return;
-
-            //if (!zoomIn && topLeft.Y > scene.ActualHeight && !top)
-            //    return;
-
-            //if (!zoomIn && bottomRight.Y < scene.ActualHeight && top)
-            //    return;
 
             scene.RenderTransform = mt;
             inkCanv.RenderTransform = mt;
@@ -388,6 +380,10 @@ namespace Discussions
             avaBar.Deinit();
             CleanupEditCtx();
             cleanupStopWatch();
+
+            if (_laserPointerWndCtx != null)
+                _laserPointerWndCtx.Dispose();
+
             if (_closing != null)
                 _closing();
         }
@@ -409,7 +405,7 @@ namespace Discussions
 
         private void btnToggleShapes_Click(object sender, RoutedEventArgs e)
         {
-            if (shapesVisibile)
+            if (_shapesVisibile)
                 ToggleShapes(false);
             else
                 ToggleShapes(true);
@@ -429,7 +425,7 @@ namespace Discussions
                 editCtx.ShapesVisility(false);
             }
             //modeInfoTip.Visibility = shVisible ? Visibility.Visible : Visibility.Hidden;
-            this.shapesVisibile = shVisible; //save to preserve selected option between topics 
+            this._shapesVisibile = shVisible; //save to preserve selected option between topics 
         }
 
         private void CreateEditCtx()
@@ -445,7 +441,7 @@ namespace Discussions
                                        this, //surface window for focus fix                                      
                                        _topicId != -1 ? _topicId : CurrentTopic.Id,
                                        _discussionId != -1 ? _discussionId : CurrentTopic.Discussion.Id,
-                                       shapesVisibile);
+                                       _shapesVisibile);
 
             editCtx.ZoomManipulator.Delta += SurfaceWindow_ManipulationDelta;
 
@@ -460,7 +456,7 @@ namespace Discussions
                 btnToggleShapes.IsChecked = !btnToggleShapes.IsChecked;
                 btnToggleShapes_Click(null, null);
             }
-            else if (e.Key == Key.Delete && shapesVisibile)
+            else if (e.Key == Key.Delete && _shapesVisibile)
             {
                 editCtx.RemoveShape(palette.GetOwnerId());
             }
@@ -545,24 +541,6 @@ namespace Discussions
                 palette.bdr.BorderBrush = new SolidColorBrush(DaoUtils.UserIdToColor(owner));
                 inkPalette.bdr.BorderBrush = new SolidColorBrush(DaoUtils.UserIdToColor(owner));
             }
-        }
-
-        private void SurfaceWindow_TouchDown_1(object sender, TouchEventArgs e)
-        {
-            //stop promoting to mouse event
-            //e.Handled = true;
-        }
-
-        private void SurfaceWindow_TouchMove_1(object sender, TouchEventArgs e)
-        {
-            //stop promoting to mouse event
-            // e.Handled = true;
-        }
-
-        private void SurfaceWindow_TouchUp_1(object sender, TouchEventArgs e)
-        {
-            //stop promoting to mouse event
-            //   e.Handled = true;
         }
 
         private void btnHome_Click_1(object sender, RoutedEventArgs e)
@@ -929,5 +907,22 @@ namespace Discussions
                 return;
             HtmlReportBrowsing.startHtml5TopicReport(CurrentTopic.Id);
         }
+
+        #region laser cursors
+        private void BtnLaserPointer_OnClick(object sender, RoutedEventArgs e)
+        {
+            Debug.Assert(btnLaserPointer.IsChecked != null, "btnLaserPointer.IsChecked != null");
+            var localLazerEnabled = btnLaserPointer.IsChecked.Value;
+
+            if (_laserPointerWndCtx == null)
+                _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
+
+            _laserPointerWndCtx.LocalLazerEnabled = localLazerEnabled;
+
+            if (editCtx != null)
+                editCtx.SetListeners(!localLazerEnabled);
+        }
+
+        #endregion
     }
 }

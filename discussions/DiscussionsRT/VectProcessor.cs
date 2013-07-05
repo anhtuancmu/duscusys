@@ -22,14 +22,14 @@ namespace Discussions.RTModel
 
         private ServerVdDoc _doc;
 
-        private Random _coordsRnd = new Random();
+        private readonly Random _coordsRnd = new Random();
 
         private ClusterTopology _topology;
 
         private static readonly ILogger _log = LogManager.GetCurrentClassLogger();
 
         //if true, annotation was changed since last save, need to resave
-        private bool pendingChanges = false;
+        private bool _pendingChanges;
 
         public VectProcessor(int topicId, DiscussionRoom room)
         {
@@ -74,9 +74,9 @@ namespace Discussions.RTModel
 
         public void CheckPersist()
         {
-            if (!pendingChanges)
+            if (!_pendingChanges)
                 return;
-            pendingChanges = false;
+            _pendingChanges = false;
 
             using (var dbCtx = new DiscCtx(Discussions.ConfigManager.ConnStr))
             {
@@ -170,7 +170,7 @@ namespace Discussions.RTModel
                             BroadcastTo.RoomExceptSelf);
                 //don't include self, we play shape creation locally without continuation
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleBadgeCreated(int argPointId,
@@ -209,7 +209,7 @@ namespace Discussions.RTModel
                             (byte) DiscussionEventCode.CreateShapeEvent,
                             BroadcastTo.RoomAll);
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleDeleteShapes(LitePeer peer,
@@ -234,7 +234,7 @@ namespace Discussions.RTModel
             foreach (var sr in shapesBeingRemoved.ToArray())
                 UnlockDeleteBroadcast(sr.Id(), req.ownerId);
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         private void __linkRemove(Linkable end1, Linkable end2, int linkShapeId, int usrId)
@@ -247,7 +247,7 @@ namespace Discussions.RTModel
                                         usrId,
                                         _topicId);
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleDeleteSingleShape(LitePeer peer,
@@ -275,7 +275,7 @@ namespace Discussions.RTModel
                     break;
             }
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         private void UnlockDeleteBroadcast(int shapeId, int indirectOwner)
@@ -297,7 +297,7 @@ namespace Discussions.RTModel
                     _topicId);
             }
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         private void __onLinkableDeleted(Linkable end, int usrId)
@@ -314,7 +314,7 @@ namespace Discussions.RTModel
                                             _topicId);
             }
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleBadgeDeleted(int argPointId,
@@ -328,7 +328,7 @@ namespace Discussions.RTModel
 
             _topology.DeleteBadge(sh.Id(), sh.InitialOwner());
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleBadgeModified(int argPointId,
@@ -396,7 +396,7 @@ namespace Discussions.RTModel
                     break;
             }
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         private void CleanupEmptyClusters()
@@ -405,11 +405,11 @@ namespace Discussions.RTModel
             foreach (var c in clusters.ToArray())
             {
                 var cluster = _topology.GetCluster(c.Id());
-                if (cluster.GetClusterables().Count() == 0)
+                if (!cluster.GetClusterables().Any())
                 {
                     _log.Error("found empty clusters during cleanup");
                     _doc.UnlockAndRemoveShape(c);
-                    pendingChanges = true;
+                    _pendingChanges = true;
                 }
             }
         }
@@ -425,7 +425,7 @@ namespace Discussions.RTModel
             CleanupEmptyClusters();
 
             //1st phase, send creation events for simple shapes (+cluster)  in the scene
-            var simpleShapes = _doc.GetShapes().Where(sh => sh.ShapeCode() != VdShapeType.ClusterLink);
+            var simpleShapes = _doc.GetShapes().Where(sh => sh.ShapeCode() != VdShapeType.ClusterLink).ToArray();
             foreach (var sh in simpleShapes)
             {
                 _room.PublishEventToSingle(peer,
@@ -521,6 +521,15 @@ namespace Discussions.RTModel
                                            (byte) DiscussionEventCode.InkEvent);
             }
 
+            //7th phase, send laser pointers
+            foreach (var laserPointer in _doc.LaserPointers)
+            {                
+                _room.PublishEventToSingle(peer,
+                                           laserPointer.ToDict(),
+                                           sendParameters,
+                                           (byte)DiscussionEventCode.AttachLaserPointerEvent);
+            }
+            
             //notify client loading sequence complete
             _room.PublishEventToSingle(peer,
                                        null,
@@ -578,7 +587,7 @@ namespace Discussions.RTModel
                                         model.StEvent.ClusterOut,
                                         userId,
                                         _topicId);
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleClusterBadgeRequest(LitePeer peer,
@@ -606,7 +615,7 @@ namespace Discussions.RTModel
                           "clusterId=" + req.clusterId);
             }
 
-            pendingChanges = true;
+            _pendingChanges = true;
         }
 
         public void HandleInkRequest(LitePeer peer,
@@ -623,7 +632,52 @@ namespace Discussions.RTModel
                             (byte) DiscussionEventCode.InkEvent,
                             BroadcastTo.RoomExceptSelf);
 
-            pendingChanges = true;
+            _pendingChanges = true;
+        }
+
+        public void HandleAttachLaserPointer(LitePeer peer,
+                                             LaserPointer pointer, 
+                                             OperationRequest operationRequest,
+                                             SendParameters sendParameters)
+        {
+            if(_doc.AttachLaserPointer(pointer))
+            {
+                _room.Broadcast(peer, 
+                                operationRequest, 
+                                sendParameters,
+                                (byte)DiscussionEventCode.AttachLaserPointerEvent,
+                                BroadcastTo.RoomExceptSelf);
+            }
+        }
+
+        public void HandleDetachLaserPointer(LitePeer peer,
+                                             LaserPointer pointer,
+                                             OperationRequest operationRequest,
+                                             SendParameters sendParameters)
+        {                        
+            if (_doc.DetachLaserPointer(pointer))
+            {
+                _room.Broadcast(peer,
+                                operationRequest,
+                                sendParameters,
+                                (byte)DiscussionEventCode.DetachLaserPointerEvent,
+                                BroadcastTo.RoomExceptSelf);
+            }
+        }
+
+        public void HandleLaserPointerMoved(LitePeer peer,
+                                            LaserPointer ptr,
+                                            OperationRequest operationRequest,
+                                            SendParameters sendParameters)
+        {
+            if (_doc.MoveLaserPointer(ptr))
+            {
+                _room.Broadcast(peer,
+                                operationRequest,
+                                sendParameters,
+                                (byte)DiscussionEventCode.LaserPointerMovedEvent,
+                                BroadcastTo.RoomExceptSelf);
+            }
         }
 
         #region reporting

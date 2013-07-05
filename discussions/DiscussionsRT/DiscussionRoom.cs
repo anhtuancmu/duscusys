@@ -137,6 +137,22 @@ namespace Discussions.RTModel
                 case (byte)DiscussionOpCode.CommentReadRequest:
                     HandleCommentRead(peer, operationRequest, sendParameters);
                     break;
+                case (byte)DiscussionOpCode.AttachLaserPointerRequest:
+                    var ptr = LaserPointer.Read(operationRequest.Parameters);
+                    VectEditor(ptr.TopicId).HandleAttachLaserPointer(peer, ptr, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.DetachLaserPointerRequest:
+                    ptr = LaserPointer.Read(operationRequest.Parameters);
+                    VectEditor(ptr.TopicId).HandleDetachLaserPointer(peer, ptr, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.LaserPointerMovedRequest:
+                    var ptrLoc = LaserPointer.Read(operationRequest.Parameters);
+                    VectEditor(ptrLoc.TopicId).HandleLaserPointerMoved(peer, ptrLoc, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.DetachLaserPointerFromAnyTopicRequest:
+                    var userId = (int)operationRequest.Parameters[(byte)DiscussionParamKey.UserId];
+                    DetachLaserPointerFormAnyTopic(peer, userId);
+                    break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
                     break;
@@ -145,15 +161,16 @@ namespace Discussions.RTModel
 
         protected override void ProcessMessage(IMessage message)
         {
-            switch ((DiscussionMsgCode) message.Action)
+            switch ((DiscussionMsgCode)message.Action)
             {
                 case DiscussionMsgCode.CheckPersistAnnotations:
                     foreach (var vp in _vectEditors.Values)
                         vp.CheckPersist();
-
+              
                     //sched next message  
                     SchedulePersist();
                     break;
+
                 default:
                     base.ProcessMessage(message);
                     break;
@@ -313,8 +330,22 @@ namespace Discussions.RTModel
                                        OperationRequest operationRequest,
                                        SendParameters sendParameters)
         {
-            Broadcast(peer, operationRequest, sendParameters,
-                     (byte) DiscussionEventCode.CommentReadEvent, BroadcastTo.RoomAll);
+            Broadcast(peer, operationRequest, 
+                     sendParameters,
+                     (byte) DiscussionEventCode.CommentReadEvent, 
+                     BroadcastTo.RoomAll);
+        }
+
+        void DetachLaserPointerFormAnyTopic(LitePeer peer, int ptrId)
+        {
+            foreach (var kv in _vectEditors)
+            {
+                var topicId = kv.Key;
+                var lp = new LaserPointer {TopicId = topicId, UserId = ptrId};                
+                kv.Value.HandleDetachLaserPointer(peer, lp, 
+                                                  new OperationRequest((byte)DiscussionOpCode.DetachLaserPointerRequest, lp.ToDict()), 
+                                                  new SendParameters());
+            }
         }
     }
 }
