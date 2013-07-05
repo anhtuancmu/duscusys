@@ -72,6 +72,8 @@
     <Compile Include="Model\ClusterStatsResponse.cs" />
     <Compile Include="Model\BadgeViewMessage.cs" />
     <Compile Include="Model\CommentsReadEvent.cs" />
+    <Compile Include="Model\LaserPointer.cs" />
+    <Compile Include="Model\PointerCleanupMessage.cs" />
     <Compile Include="Model\ScreenshotResponse.cs" />
     <Compile Include="Model\ScreenshotRequest.cs" />
     <Compile Include="Model\ExplanationModeSyncMsg.cs" />

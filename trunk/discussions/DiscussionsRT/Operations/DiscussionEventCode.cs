@@ -65,6 +65,15 @@
         //
         //comment notifications
         //
-        CommentReadEvent = 28
+        CommentReadEvent = 28,
+
+        //
+        //laser pointers
+        //
+        AttachLaserPointerEvent = 29,
+
+        DetachLaserPointerEvent = 30,
+
+        LaserPointerMovedEvent = 31
     }
 }

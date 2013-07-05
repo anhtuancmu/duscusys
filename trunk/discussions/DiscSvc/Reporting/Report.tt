@@ -33,8 +33,6 @@
 			<h2>Topic Report</h2>
 			<br />
 			<br />
-			<br />
-			<br />
 
 			<h3 style="color:white">  <#= DateTime.Now.Date.ToShortDateString() #> <h3>
          </div>
@@ -54,7 +52,7 @@
 			<a href="#summary">Summary information</a><br>
 			<!--<a href="#argPoints">Argument points</a><br>-->
 			<a href="#clustInfo">Cluster information</a><br>
-	        <a href="#unclusteredArgs">Unclustered arguments</a><br>
+	        <a href="#unclusteredArgs">Single Points</a><br>
     		<a href="#linkInfo">Link information</a><br>
 		</div>
 
@@ -159,7 +157,7 @@
 		 <!------------------------------------------------------------------------------------->
 
 		 <h3 style="page-break-before: always;">
-			<a id="unclusteredArgs">Unclustered arguments</a>
+			<a id="unclusteredArgs">Single Points</a>
 	     </h3>
 		 <#
 		    var argPointsOf = ReportParams.Topic.ArgPoint.OrderBy(ap1=>ap1.OrderNumber);
@@ -171,7 +169,7 @@
 				foreach (var ap in argPointsOf)
 				{
 					if (ap.SharedToPublic && !ProcessedArgPoints.Contains(ap.Id))
-						ArgPointNode(ap);                      
+						ArgPointNode(ap, true);                      
 				}
 				#>				
                 </tbody>
@@ -270,10 +268,13 @@
 		<#+
     }
 
-	void ArgPointNode(ArgPoint ap)
+	void ArgPointNode(ArgPoint ap, bool insertScreenshot)
     {
 		if(ap==null)
 			return;
+
+	    ProcessedArgPoints.Add(ap.Id);
+
 		if(ap.Person==null)
 			return;	
 
@@ -281,10 +282,17 @@
 		<tr>
 			<td style="padding:25px 0; border:0px; border-left:solid 20px; border-left-color:<#= Helpers.IntToHtml(ap.Person.Color)#>">
 				<div class="boldCaption"><#=(new DiscLink{Id=ap.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Anchor}).Emit("Point#" + ap.OrderNumber + ". " + ap.Point)#></div> 
-			
-				<div style="text-align: center; padding-top:40px">
-				    <img src=<#= Screenshots[-ap.Id-1].url#> > 		
-			    </div>
+				
+				<#+
+				if(insertScreenshot)
+				{
+				   #>
+				   <div style="text-align: center; padding-top:40px">
+				      <img src=<#= Screenshots[-ap.Id-1].url#> > 		
+			       </div>
+				   <#+
+				}
+				#>
 
 				<p>
 				<#= Helpers.processLineBreaks(ap.Description.Text)#> 
@@ -357,8 +365,7 @@
 				{
 					if(point.Person!=null && point.Topic != null && point.SharedToPublic)
 					{
-						ArgPointNode(point);  
-						ProcessedArgPoints.Add(point.Id);
+						ArgPointNode(point, false);  						
 						//EmitCommentOrArgPointLine(point.Person,  "Point# " + point.OrderNumber + ". " + point.Point, 
 						//				          new DiscLink{Id=point.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Ref});			
 					}

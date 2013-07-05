@@ -75,6 +75,8 @@
         LinkCaption = 60,
         ScreenshotsDict = 61,
         CommentId = 62,
-        PersonId = 63
+        PersonId = 63,
+
+        Color = 64
     }
 }

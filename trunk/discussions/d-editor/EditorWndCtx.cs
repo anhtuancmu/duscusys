@@ -22,31 +22,27 @@ namespace DistributedEditor
             get { return mgr; }
         }
 
-        private Canvas _canv;
-        private DistributedInkCanvas _inkCanv;
-        private Palette _palette;
+        private readonly Canvas _canv;
+        private readonly DistributedInkCanvas _inkCanv;
+        private readonly Palette _palette;
         private InkPalette _inkPalette;
 
-        private SurfaceWindow _keyboardWnd;
 
-        private enum AnnotationMode
-        {
-            NoAnnotation,
-            NewBeingEdited,
-            EditingExisting
-        };
+        private readonly SurfaceWindow _keyboardWnd;
+
+        private bool _listenersSet;
 
         //makes manipulation starting event come after StartManip for point-oriented handling
         //DispatcherTimer poinManipDeferrer;
 
-        private ManipulationProcessor2D _zoomManipProc;
-
+        private readonly ManipulationProcessor2D _zoomManipProc;
         public ManipulationProcessor2D ZoomManipulator
         {
             get { return _zoomManipProc; }
         }
 
-        private Dictionary<int, Manipulator2D> _manipulators = new Dictionary<int, Manipulator2D>();
+        private readonly Dictionary<int, Manipulator2D> _manipulators = new Dictionary<int, Manipulator2D>();        
+
 
         public EditorWndCtx(Canvas canv,
                             DistributedInkCanvas inkCanv,
@@ -133,6 +129,10 @@ namespace DistributedEditor
 
         public void SetListeners(bool doSet)
         {
+            if (doSet == _listenersSet)
+                return;
+            _listenersSet = doSet;
+
             if (delCanv_DeleteText == null)
                 delCanv_DeleteText = new RoutedEventHandler(canv_DeleteText);
 
@@ -141,13 +141,7 @@ namespace DistributedEditor
 
             if (delTextShapePaste == null)
                 delTextShapePaste = new RoutedEventHandler(textShapePaste);
-
-            //if(doSet)
-            //    UISharedRTClient.Instance.clienRt.onStatsEvent += OnStatsEvent;
-            //else
-            //    UISharedRTClient.Instance.clienRt.onStatsEvent -= OnStatsEvent;   
-
-
+           
             if (doSet)
             {
                 _palette.toolSelected += this.ToolSelected;
@@ -169,19 +163,19 @@ namespace DistributedEditor
                 //_canv.AddHandler(TextUC.TextShapeCopyEvent, delTextShapeCopy);
                 //_canv.AddHandler(TextUC.TextShapePasteEvent, delTextShapePaste);
 
-                _canv.TouchDown += canv_TouchDown;
-                _canv.TouchMove += canv_TouchMove;
-                _canv.TouchUp += canv_TouchUp;
+                _canv.TouchDown += drawingCanv_TouchDown;
+                _canv.TouchMove += drawingCanv_TouchMove;
+                _canv.TouchUp += drawingCanv_TouchUp;
 
-                _keyboardWnd.TouchDown += wnd_TouchDown;
-                _keyboardWnd.TouchMove += wnd_TouchMove;
-                _keyboardWnd.TouchUp += wnd_TouchUp;
+                _keyboardWnd.TouchDown += drawingWnd_TouchDown;
+                _keyboardWnd.TouchMove += drawingWnd_TouchMove;
+                _keyboardWnd.TouchUp += drawingWnd_TouchUp;
 
-                _canv.MouseDown += canv_MouseLeftButtonDown;
-                _canv.MouseMove += canv_MouseMove;
-                _canv.MouseUp += canv_MouseUp;
+                _canv.MouseDown += drawingCanv_MouseLeftButtonDown;
+                _canv.MouseMove += drawingCanv_MouseMove;
+                _canv.MouseUp += drawingCanv_MouseUp;
 
-                _canv.MouseWheel += canv_Wheel;
+                _canv.MouseWheel += drawingCanv_Wheel;
             }
             else
             {
@@ -189,19 +183,19 @@ namespace DistributedEditor
                 //_canv.RemoveHandler(TextUC.TextShapeCopyEvent, delTextShapeCopy);
                 //_canv.RemoveHandler(TextUC.TextShapePasteEvent, delTextShapePaste);                
 
-                _canv.MouseDown -= canv_MouseLeftButtonDown;
-                _canv.MouseMove -= canv_MouseMove;
-                _canv.MouseUp -= canv_MouseUp;
+                _canv.MouseDown -= drawingCanv_MouseLeftButtonDown;
+                _canv.MouseMove -= drawingCanv_MouseMove;
+                _canv.MouseUp -= drawingCanv_MouseUp;
 
-                _keyboardWnd.TouchDown -= wnd_TouchDown;
-                _keyboardWnd.TouchMove -= wnd_TouchMove;
-                _keyboardWnd.TouchUp -= wnd_TouchUp;
+                _keyboardWnd.TouchDown -= drawingWnd_TouchDown;
+                _keyboardWnd.TouchMove -= drawingWnd_TouchMove;
+                _keyboardWnd.TouchUp -= drawingWnd_TouchUp;
 
-                _canv.TouchDown -= canv_TouchDown;
-                _canv.TouchMove -= canv_TouchMove;
-                _canv.TouchUp -= canv_TouchUp;
+                _canv.TouchDown -= drawingCanv_TouchDown;
+                _canv.TouchMove -= drawingCanv_TouchMove;
+                _canv.TouchUp -= drawingCanv_TouchUp;
 
-                _canv.MouseWheel -= canv_Wheel;
+                _canv.MouseWheel -= drawingCanv_Wheel;
             }
         }
 
@@ -218,14 +212,14 @@ namespace DistributedEditor
 
         private void textShapeCopy(object sender, RoutedEventArgs e)
         {
-            //// mgr.CopySelected();
+            // mgr.CopySelected();
         }
 
         private Delegate delTextShapePaste = null;
 
         private void textShapePaste(object sender, RoutedEventArgs e)
         {
-            /// mgr.PasteCopied();
+            // mgr.PasteCopied();
         }
 
         public void RemoveShape(int owner)
@@ -273,30 +267,27 @@ namespace DistributedEditor
 
         #region mouse
 
-        private void canv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void drawingCanv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sceneProcessedAction)
                 return;
 
             mgr.InpDeviceDown(Mouse.GetPosition(_canv), NULL_TOUCH_DEVICE);
-            //e.Handled = true; 
         }
 
-        private void canv_MouseMove(object sender, MouseEventArgs e)
+        private void drawingCanv_MouseMove(object sender, MouseEventArgs e)
         {
             if (sceneProcessedAction)
                 return;
             mgr.InpDeviceMove(Mouse.GetPosition(_canv));
-            //e.Handled = true; 
         }
 
-        private void canv_MouseUp(object sender, MouseButtonEventArgs e)
+        private void drawingCanv_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (sceneProcessedAction)
                 return;
             mgr.InpDeviceUp(Mouse.GetPosition(_canv));
             Keyboard.Focus(_keyboardWnd);
-            //e.Handled = true; 
         }
 
         private void ToolSelected(VdShapeType shape, int shapeTag, int owner)
@@ -308,24 +299,23 @@ namespace DistributedEditor
 
         #region touch   
 
-        private bool sceneProcessedAction = false;
+        private bool sceneProcessedAction;
 
-        private void wnd_TouchDown(object sender, TouchEventArgs e)
+        private void drawingWnd_TouchDown(object sender, TouchEventArgs e)
         {
             TryAddManipulator(e.TouchDevice);
             _zoomManipProc.ProcessManipulators(this.Timestamp, _manipulators.Values);
         }
 
-        private void canv_TouchDown(object sender, TouchEventArgs e)
+        private void drawingCanv_TouchDown(object sender, TouchEventArgs e)
         {
             if (mgr.InpDeviceDown(e.TouchDevice.GetPosition(_canv), e.TouchDevice))
             {
-                // e.Handled = true;
                 sceneProcessedAction = true;
             }
         }
 
-        private void wnd_TouchMove(object sender, TouchEventArgs e)
+        private void drawingWnd_TouchMove(object sender, TouchEventArgs e)
         {
             //any touch events from ink canvas are ignored, as they are drawing events, InkCanvasSelectionAdorner, MS Internal
             if (!sceneProcessedAction && !(e.OriginalSource is Adorner))
@@ -337,43 +327,40 @@ namespace DistributedEditor
             }
         }
 
-        private void canv_TouchMove(object sender, TouchEventArgs e)
+        private void drawingCanv_TouchMove(object sender, TouchEventArgs e)
         {
             mgr.InpDeviceMove(e.TouchDevice.GetPosition(_canv));
-            //e.Handled = true; 
         }
 
-        private void wnd_TouchUp(object sender, TouchEventArgs e)
+        private void drawingWnd_TouchUp(object sender, TouchEventArgs e)
         {
             //TryRemoveManipulator(e.TouchDevice);
             _manipulators.Clear();
             _zoomManipProc.ProcessManipulators(this.Timestamp, _manipulators.Values);
         }
 
-        private void canv_TouchUp(object sender, TouchEventArgs e)
+        private void drawingCanv_TouchUp(object sender, TouchEventArgs e)
         {
             mgr.InpDeviceUp(e.TouchDevice.GetPosition(_canv));
             Keyboard.Focus(_keyboardWnd);
-            //  e.Handled = true;
             sceneProcessedAction = false;
         }
 
         public void CopySelected()
         {
-            /// mgr.CopySelected();
+            // mgr.CopySelected();
         }
 
         public void PasteSelected()
         {
-            //// mgr.PasteCopied();
+            // mgr.PasteCopied();
         }
 
         #endregion
 
-        private void canv_Wheel(object sender, MouseWheelEventArgs e)
+        private void drawingCanv_Wheel(object sender, MouseWheelEventArgs e)
         {
-            /// mgr.ScaleInPlace(e.Delta > 0);
-            //e.Handled = true;
+            // mgr.ScaleInPlace(e.Delta > 0);
         }
 
         private void Reset(int owner)

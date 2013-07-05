@@ -84,6 +84,23 @@
         //
         //comment notifications
         //
-        CommentReadRequest = 38
+        CommentReadRequest = 38,
+
+
+        /// <summary>
+        /// A user enables laser pointer mode. This event is broadcast to all clients. 
+        /// </summary>
+        AttachLaserPointerRequest = 39,
+
+        /// <summary>
+        /// A user with laser pointer either exits laser mode.
+        /// </summary>
+        DetachLaserPointerRequest = 40,
+
+
+        LaserPointerMovedRequest = 41,
+
+
+        DetachLaserPointerFromAnyTopicRequest = 42, 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lite;
 using LiteLobby;
 using Photon.SocketServer;
 using Discussions.RTModel.Operations;
@@ -23,16 +24,16 @@ namespace Discussions.RTModel
             get { return _dbId; }
         }
 
-        private IPhotonPeer _photonPer = null;
+        private readonly IPhotonPeer _photonPer = null;
 
         private const string DISCUSSION_LOBBY = "discussion_lobby";
 
         //person Db Id -> count online 
-        private static Dictionary<int, int> DbInstancesOnline = new Dictionary<int, int>();
+        private static readonly Dictionary<int, int> DbInstancesOnline = new Dictionary<int, int>();
 
         //photon peer -> db id
         //no record -> offline 
-        private static Dictionary<IPhotonPeer, int> PeerInstancesOnline = new Dictionary<IPhotonPeer, int>();
+        private static readonly Dictionary<IPhotonPeer, int> PeerInstancesOnline = new Dictionary<IPhotonPeer, int>();
 
         public DiscussionPeer(IRpcProtocol rpcProtocol, IPhotonPeer photonPeer)
             : base(rpcProtocol, photonPeer)
@@ -73,6 +74,9 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.BadgeViewRequest:
                 case DiscussionOpCode.ExplanationModeSyncViewRequest:
                 case DiscussionOpCode.CommentReadRequest:
+                case DiscussionOpCode.AttachLaserPointerRequest:
+                case DiscussionOpCode.DetachLaserPointerRequest:
+                case DiscussionOpCode.LaserPointerMovedRequest:
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:
@@ -84,7 +88,7 @@ namespace Discussions.RTModel
                     break;
                 case DiscussionOpCode.ScreenshotRequest:
                     HandleScreenshotRequest(operationRequest, sendParameters);
-                    break;
+                    break;            
             }
 
             base.OnOperationRequest(operationRequest, sendParameters);
@@ -194,11 +198,22 @@ namespace Discussions.RTModel
                 {
                     if (PeerInstancesOnline.ContainsKey(peer))
                     {
+                        RequestDetachLaserPointers();
+                        
                         ChangeDbOnlineStatus(PeerInstancesOnline[peer], false, deviceType);
-                        PeerInstancesOnline.Remove(peer);
+                        PeerInstancesOnline.Remove(peer);                        
                     }
                 }
             }
+        }
+
+        void RequestDetachLaserPointers()
+        {
+            var req = new OperationRequest
+                {
+                    Parameters = new Dictionary<byte, object> {{(byte)DiscussionParamKey.UserId, _dbId}}
+                };
+            HandleGameOperation(req, new SendParameters());                        
         }
 
         private void ChangeDbOnlineStatus(int dbId, bool online, int deviceType)
