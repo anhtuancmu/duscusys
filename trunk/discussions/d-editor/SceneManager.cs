@@ -18,13 +18,13 @@ namespace DistributedEditor
     //drawing state, invoking methods on document
     public class SceneManager : IDisposable
     {
-        private Canvas _scene;
-        private Palette _palette;
+        private readonly Canvas _scene;
+        private readonly Palette _palette;
 
-        private DistributedInkCanvas _ink;
-        private InkPalette _inkPalette;
+        private readonly DistributedInkCanvas _ink;
+        private readonly InkPalette _inkPalette;
 
-        private InpModeMgr _modeMgr = new InpModeMgr();
+        private readonly InpModeMgr _modeMgr = new InpModeMgr();
 
         public InpModeMgr ModeMgr
         {
@@ -38,15 +38,13 @@ namespace DistributedEditor
             get { return _doc; }
         }
 
-        private UISharedRTClient _rt = UISharedRTClient.Instance;
+        private readonly UISharedRTClient _rt = UISharedRTClient.Instance;
 
-        private CursorApprovalData cursorApproval;
+        private CursorApprovalData _cursorApproval;
 
-        private LinkCreationRecord linkCreation;
+        private LinkCreationRecord _linkCreation;
 
-        private ICaptionHost hostAwaitingCaption = null;
-
-        private bool touchDevice = false;
+        private ICaptionHost _hostAwaitingCaption;
 
         public SceneManager(Canvas scene, DistributedInkCanvas ink, Palette palette, InkPalette inkPalette,
                             int topicId, int discussionId, bool shapeVisibility)
@@ -138,52 +136,52 @@ namespace DistributedEditor
 
         private void BeginHostCaption(ICaptionHost host, CaptionType type)
         {
-            hostAwaitingCaption = host;
+            _hostAwaitingCaption = host;
 
             RemovePreviousCaption(host, type);
         }
 
         private void RemovePreviousCaption(ICaptionHost cluster, CaptionType type)
         {
-            if (hostAwaitingCaption.CapMgr().FreeDraw != null)
-                _doc.BeginRemoveSingleShape(hostAwaitingCaption.CapMgr().FreeDraw.Id());
-            if (hostAwaitingCaption.CapMgr().text != null)
-                _doc.BeginRemoveSingleShape(hostAwaitingCaption.CapMgr().text.Id());
+            if (_hostAwaitingCaption.CapMgr().FreeDraw != null)
+                _doc.BeginRemoveSingleShape(_hostAwaitingCaption.CapMgr().FreeDraw.Id());
+            if (_hostAwaitingCaption.CapMgr().text != null)
+                _doc.BeginRemoveSingleShape(_hostAwaitingCaption.CapMgr().text.Id());
         }
 
         private void TryEndHostCaption(IVdShape caption, CaptionType type)
         {
             //inject caption
-            if (hostAwaitingCaption == null)
+            if (_hostAwaitingCaption == null)
                 return;
 
-            RemovePreviousCaption(hostAwaitingCaption, type);
+            RemovePreviousCaption(_hostAwaitingCaption, type);
 
             if (caption is VdFreeForm)
             {
-                hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm) caption;
+                _hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm) caption;
 
                 //initial resize of free form
-                hostAwaitingCaption.CapMgr().InitialResizeOfFreeForm();
+                _hostAwaitingCaption.CapMgr().InitialResizeOfFreeForm();
 
                 //send resized free form 
-                SendSyncState(hostAwaitingCaption.CapMgr().FreeDraw);
+                SendSyncState(_hostAwaitingCaption.CapMgr().FreeDraw);
             }
             else if (caption is VdText)
             {
-                hostAwaitingCaption.CapMgr().text = (VdText) caption;
-                SendSyncState(hostAwaitingCaption.CapMgr().text);
+                _hostAwaitingCaption.CapMgr().text = (VdText) caption;
+                SendSyncState(_hostAwaitingCaption.CapMgr().text);
             }
             else
                 throw new NotSupportedException();
 
             //update first time after build
-            hostAwaitingCaption.CapMgr().UpdateRelatives();
+            _hostAwaitingCaption.CapMgr().UpdateRelatives();
 
             //send state of cluster to attach captions on other clients 
-            SendSyncState(hostAwaitingCaption);
+            SendSyncState(_hostAwaitingCaption);
 
-            hostAwaitingCaption = null;
+            _hostAwaitingCaption = null;
         }
 
         //we have editing permission if either shape is free or if shape is cursored by us
@@ -254,8 +252,8 @@ namespace DistributedEditor
             {
                 case VdShapeType.ClusterLink:
                     _modeMgr.Mode = ShapeInputMode.LinkedObj1Expected;
-                    linkCreation.linkId = -1; //reset Id of previously locally created link
-                    linkCreation.headType = (LinkHeadType) shapeTag;
+                    _linkCreation.linkId = -1; //reset Id of previously locally created link
+                    _linkCreation.headType = (LinkHeadType) shapeTag;
                     break;
                 case VdShapeType.FreeForm:
                     _modeMgr.Mode = ShapeInputMode.CreationExpected;
@@ -296,11 +294,11 @@ namespace DistributedEditor
                 return;
             }
 
-            if (linkCreation.end1 == null)
+            if (_linkCreation.end1 == null)
             {
-                linkCreation.end1 = end;
+                _linkCreation.end1 = end;
             }
-            else if (end == linkCreation.end1)
+            else if (end == _linkCreation.end1)
             {
                 MessageDlg.Show("Cannot link object with itself",
                                 "Error",
@@ -308,7 +306,7 @@ namespace DistributedEditor
                                 MessageBoxImage.Error);
             }
             else
-                linkCreation.end2 = end;
+                _linkCreation.end2 = end;
         }
 
         public bool InpDeviceDown(Point pos, TouchDevice touchDev)
@@ -324,17 +322,17 @@ namespace DistributedEditor
                     return true;
                 case ShapeInputMode.LinkedObj1Expected:
                     GetLinkables(pos, touchDev);
-                    if (linkCreation.end1 != null)
+                    if (_linkCreation.end1 != null)
                         ModeMgr.Mode = ShapeInputMode.LinkedObj2Expected;
                     return true;
                 case ShapeInputMode.LinkedObj2Expected:
                     GetLinkables(pos, touchDev);
-                    if (linkCreation.end1 != null && linkCreation.end2 != null)
+                    if (_linkCreation.end1 != null && _linkCreation.end2 != null)
                     {
-                        linkCreation.linkId = _doc.BeginCreateLink(linkCreation.end1.GetId(), linkCreation.end2.GetId(),
-                                                                   linkCreation.headType);
-                        linkCreation.end1 = null;
-                        linkCreation.end2 = null;
+                        _linkCreation.linkId = _doc.BeginCreateLink(_linkCreation.end1.GetId(), _linkCreation.end2.GetId(),
+                                                                   _linkCreation.headType);
+                        _linkCreation.end1 = null;
+                        _linkCreation.end2 = null;
                         ModeMgr.Mode = ShapeInputMode.ManipulationExpected;
 
                         if (_palette != null)
@@ -359,9 +357,9 @@ namespace DistributedEditor
                     {
                         //shape free, try lock it and schedule cursor approval continuation                        
                         {
-                            cursorApproval.resizeNode = resizeNode;
-                            cursorApproval.pos = pos;
-                            cursorApproval.td = touchDev;
+                            _cursorApproval.resizeNode = resizeNode;
+                            _cursorApproval.pos = pos;
+                            _cursorApproval.td = touchDev;
                             _modeMgr.Mode = ShapeInputMode.CursorApprovalExpected;
                         }
 
@@ -384,8 +382,6 @@ namespace DistributedEditor
 
         private void CaptureAndStartManip(IVdShape sh, Point pt, object sender, TouchDevice td)
         {
-            touchDevice = td != null;
-
             sh.StartManip(pt, sender);
             sh.UnderlyingControl().CaptureMouse();
             if (td != null)
@@ -471,8 +467,8 @@ namespace DistributedEditor
             {
                 case ShapeInputMode.CursorApprovalExpected:
                     _modeMgr.Mode = ShapeInputMode.Manipulating;
-                    CaptureAndStartManip(mgr.LocalCursor, cursorApproval.pos, cursorApproval.resizeNode,
-                                         cursorApproval.td);
+                    CaptureAndStartManip(mgr.LocalCursor, _cursorApproval.pos, _cursorApproval.resizeNode,
+                                         _cursorApproval.td);
                     mgr.LocalCursor.SetFocus();
                     break;
             }
@@ -509,10 +505,10 @@ namespace DistributedEditor
                     ((ICaptionHost) sh).InitCaptions(CaptionCreationRequested);
 
                     //if the link was created locally, send its state 
-                    if (sh.Id() == linkCreation.linkId)
+                    if (sh.Id() == _linkCreation.linkId)
                     {
                         SendSyncState(sh);
-                        linkCreation.linkId = -1;
+                        _linkCreation.linkId = -1;
                     }
                     break;
             }

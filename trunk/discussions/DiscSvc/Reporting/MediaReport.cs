@@ -68,49 +68,49 @@ namespace DiscSvc.Reporting
         #line hidden
         
         #line 35 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write("\t\t<div style=\"padding-top:40px\">\r\n\t\t\t<p> ");
+this.Write("\t\t<div style=\"padding-top:40px\">\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
         #line 37 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture(i));
-
-        
-        #line default
-        #line hidden
-        
-        #line 37 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write(". ");
-
-        
-        #line default
-        #line hidden
-        
-        #line 37 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write(this.ToStringHelper.ToStringWithCulture(a.Link));
-
-        
-        #line default
-        #line hidden
-        
-        #line 37 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write("</p>\r\n\r\n\t\t\t");
-
-        
-        #line default
-        #line hidden
-        
-        #line 39 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a, BaseUrl)));
 
         
         #line default
         #line hidden
         
+        #line 37 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+this.Write("\t\r\n\t\t\t\r\n\t\t    <p> ");
+
+        
+        #line default
+        #line hidden
+        
         #line 39 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
-this.Write("\t\t\r\n\t\t</div> \r\n\t\t");
+this.Write(this.ToStringHelper.ToStringWithCulture(i));
+
+        
+        #line default
+        #line hidden
+        
+        #line 39 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+this.Write(". ");
+
+        
+        #line default
+        #line hidden
+        
+        #line 39 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+this.Write(this.ToStringHelper.ToStringWithCulture(a.Link));
+
+        
+        #line default
+        #line hidden
+        
+        #line 39 "C:\projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+this.Write("</p>\t\r\n\t\t</div> \r\n\t\t");
 
         
         #line default

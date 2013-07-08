@@ -4,16 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Width="30"
+             Height="30">
     <Grid>
-        <Grid.Background>
-            <RadialGradientBrush>
-                <GradientStop Offset="1"/>
-                <GradientStop x:Name="gradStop1" Color="Red" Offset="0.073"/>
-                <GradientStop Color="#00FDECEC"/>
-                <GradientStop x:Name="gradStop3" Color="Red" Offset="0.371"/>
-            </RadialGradientBrush>
-        </Grid.Background>
+        <Canvas>
+            <TextBlock x:Name="txtName" Background="#66000000" 
+                           Canvas.Top="-50"
+                           Text=""
+                           FontSize="36" Foreground="White"/>
+        </Canvas>
 
+        <Border Width="30" Height="30">
+            <Border.Background>
+                <RadialGradientBrush>
+                    <GradientStop Offset="1" Color="#00A0A0A0"/>
+                    <GradientStop x:Name="gradStop1" Color="Red" Offset="0.069"/>
+                    <GradientStop Color="#00FDECEC"/>
+                    <GradientStop x:Name="gradStop3" Color="Red" Offset="0.371"/>
+                    <GradientStop Color="#FFC9C9C9" Offset="0.75"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
     </Grid>
 </UserControl>

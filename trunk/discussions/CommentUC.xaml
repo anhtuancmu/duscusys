@@ -37,7 +37,7 @@
                                    VerticalAlignment="Center" Margin="0" Width="600" />
                 <TextBlock x:Name="lblText" Foreground="Black" Visibility="Collapsed"
                            TextWrapping="Wrap" MaxWidth="600"
-                           Text="{Binding Text}" VerticalAlignment="Center" />
+                           VerticalAlignment="Center" />
             </StackPanel>
             <Rectangle x:Name="marker" Fill="{Binding Person.Color, Converter={StaticResource brushConverter}}"
                        Height="30" Width="30" Margin="0,2,0,1"/>

@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using System.Linq;
+using Discussions.webkit_host;
 
 namespace Discussions
 {
@@ -76,6 +80,14 @@ namespace Discussions
         }
 
         /***************************************************************************/
+
+        readonly Regex _hyperlinkSplitter =
+              new Regex(@"((\s|^)http://\S+?(\s|$))",
+              RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private readonly Regex _hyperlinkValidator =
+            new Regex(
+                @"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$");
 
         public CommentUC()
         {
@@ -157,6 +169,39 @@ namespace Discussions
             var c = DataContext as Comment;
             checkReadonly(c);
             checkRemovability(c);
+            ParseTextAndBuildHyperlinkedText(c);
+        }
+
+        void ParseTextAndBuildHyperlinkedText(Comment c)
+        {
+            lblText.Inlines.Clear();
+            if (c == null || c.Text==null)
+                return;
+
+            var runs = _hyperlinkSplitter.Split(c.Text);
+            foreach (var run in runs)
+            {
+                var trimmed = run.Trim();
+                if (_hyperlinkValidator.IsMatch(trimmed))
+                {
+                    var hyperLink = new Hyperlink {NavigateUri = new Uri(trimmed)};
+                    hyperLink.Inlines.Add(new Run(run));
+                    hyperLink.Click += hyperLink_Click;
+                    hyperLink.TouchDown += hyperLink_Click;
+                    lblText.Inlines.Add(hyperLink);
+                }
+                else
+                {
+                    lblText.Inlines.Add(run);
+                }
+            }
+        }
+
+        void hyperLink_Click(object sender, RoutedEventArgs e)
+        {
+            var link = (Hyperlink) sender;
+            var browser = new WebKitFrm(link.NavigateUri.ToString());
+            browser.ShowDialog();
         }
 
         public void btnRemoveComment_Click(object sender, RoutedEventArgs e)
@@ -176,7 +221,7 @@ namespace Discussions
                     PrivateCenterCtx.Get().DeleteObject(commentPersonReadEntry);
                 PrivateCenterCtx.Get().DeleteObject(c);
             }
-            catch (Exception)
+            catch
             {
                 //doesn't exist in content 
             }

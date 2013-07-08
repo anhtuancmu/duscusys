@@ -40,26 +40,25 @@ namespace CustomCursor
         {          
             TouchVisualizer.SetVisualizationColor1(elem, clr);
             TouchVisualizer.SetVisualizationColor2(elem, clr);
-            TouchVisualizer.SetVisualizationColor3(elem, Colors.White);
+            TouchVisualizer.SetVisualizationColor3(elem, Colors.White);            
         }
 
-        public void SetLaserColor(int pointerId, Color clr)
+        public void SetLaserModel(int pointerId, Color clr, string name)
         {
             var ptrToUpdate = _attachedPointers.FirstOrDefault(ptr => (int)ptr.Tag == pointerId);
             if (ptrToUpdate != null)
-            {
-                ptrToUpdate.SetColor(clr); 
-            }
+                ptrToUpdate.SetModel(clr, name);
         }
 
-        public void AttachLaserPointer(int pointerId, Color clr)
+        public void AttachLaserPointer(int pointerId, Color clr, string name)
         {
             if (_attachedPointers.FirstOrDefault(ptr => (int)ptr.Tag == pointerId) == null)
             {
-                var newPtr = new LaserPointerUC {Tag = pointerId, Width = 20, Height = 20};
-                Panel.SetZIndex(newPtr, int.MaxValue);                
-                newPtr.SetColor(clr);
-                SetTouchVisualizationColors(newPtr, clr);
+                var newPtr = new LaserPointerUC {Tag = pointerId};
+                Panel.SetZIndex(newPtr, int.MaxValue);
+                newPtr.SetModel(clr, name);
+                //TouchVisualizer.SetShowsVisualizations(newPtr, false);
+                //SetTouchVisualizationColors(newPtr, clr);
                 _attachedPointers.Add(newPtr);
                 _visualizationCanvas.Children.Add(newPtr);
             }

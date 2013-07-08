@@ -20,6 +20,7 @@ using LoginEngine;
 using Discussions.webkit_host;
 using System.Threading.Tasks;
 using System.Drawing;
+using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
 
 
 namespace Discussions
@@ -153,6 +154,7 @@ namespace Discussions
                 _laserPointerWndCtx.Dispose();             
             _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
             btnLaserPointer.IsChecked = false;
+            TouchVisualizer.SetShowsVisualizations(scene, true);
 
             CleanupEditCtx();
 
@@ -918,6 +920,7 @@ namespace Discussions
                 _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
 
             _laserPointerWndCtx.LocalLazerEnabled = localLazerEnabled;
+            TouchVisualizer.SetShowsVisualizations(scene, !localLazerEnabled);
 
             if (editCtx != null)
                 editCtx.SetListeners(!localLazerEnabled);
