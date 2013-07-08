@@ -13,9 +13,11 @@ namespace CustomCursor
             InitializeComponent();
         }
 
-        public void SetColor(Color clr)
+        public void SetModel(Color clr, string name)
         {
             gradStop1.Color = gradStop3.Color = clr;
+            //txtName.Foreground = new SolidColorBrush(clr);
+            txtName.Text = name;
         }
     }
 }

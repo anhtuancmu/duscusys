@@ -38,7 +38,8 @@ namespace DistributedEditor
                 if (_localLazerEnabled)
                 {
                     _laserCursorMgr.AttachLaserPointer(LocalLaserPointer.UserId,
-                                                       Utils.IntToColor(SessionInfo.Get().person.Color));
+                                                       Utils.IntToColor(SessionInfo.Get().person.Color),
+                                                       SessionInfo.Get().person.Name);
                     _laserCursorMgr.DisableStandardCursor(_ptrCanvas);
                     SetListeners(true);
                 }
@@ -81,7 +82,8 @@ namespace DistributedEditor
                         {
                             Color = SessionInfo.Get().person.Color,
                             TopicId = _topicId,
-                            UserId = SessionInfo.Get().person.Id
+                            UserId = SessionInfo.Get().person.Id,
+                            Name = SessionInfo.Get().person.Name
                         };
                 }
                 return _localLaserPointer;
@@ -126,7 +128,7 @@ namespace DistributedEditor
             if (ptr.TopicId != _topicId)
                 return;
 
-            _laserCursorMgr.AttachLaserPointer(ptr.UserId, Utils.IntToColor(ptr.Color));
+            _laserCursorMgr.AttachLaserPointer(ptr.UserId, Utils.IntToColor(ptr.Color), ptr.Name);
             _laserCursorMgr.UpdatePointerLocation(ptr.UserId, new System.Windows.Point(ptr.X, ptr.Y));
         }
         #endregion
@@ -213,7 +215,8 @@ namespace DistributedEditor
 
             //local
             _laserCursorMgr.AttachLaserPointer(LocalLaserPointer.UserId, 
-                                               Utils.IntToColor(LocalLaserPointer.Color));
+                                               Utils.IntToColor(LocalLaserPointer.Color),
+                                               LocalLaserPointer.Name);
             UpdateLocalPosition(p);
             ShowUpdatedLocalPosition();
 
