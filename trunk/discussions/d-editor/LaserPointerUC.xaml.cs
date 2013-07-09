@@ -16,6 +16,7 @@ namespace CustomCursor
         public void SetModel(Color clr, string name)
         {
             gradStop1.Color = gradStop3.Color = clr;
+            userLines.BorderBrush = new SolidColorBrush(clr);
             //txtName.Foreground = new SolidColorBrush(clr);
             txtName.Text = name;
         }

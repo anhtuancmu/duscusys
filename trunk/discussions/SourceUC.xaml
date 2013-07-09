@@ -17,7 +17,7 @@
                 <Run x:Name="linkTarget" Text="{Binding Path=TruncatedLink}" />
             </Hyperlink>
         </Label>
-
+       
         <StackPanel Orientation="Horizontal" Grid.Column="2">
             <Custom:SurfaceButton x:Name="btnReposition"
                                   Visibility="Collapsed"

@@ -10,20 +10,22 @@
              Height="30">
     <Grid>
         <Canvas>
-            <TextBlock x:Name="txtName" Background="#66000000" 
-                           Canvas.Top="-50"
-                           Text=""
-                           FontSize="36" Foreground="White"/>
+            <Border x:Name="userLines" Canvas.Top="-65" BorderThickness="0,0,0,5" BorderBrush="#FFF92626" Padding="2">
+                <Border Background="#99000000" CornerRadius="5">
+                    <TextBlock x:Name="txtName"        			    
+        			    FontSize="36" Foreground="White"/>
+                </Border>
+            </Border>
         </Canvas>
 
         <Border Width="30" Height="30">
             <Border.Background>
                 <RadialGradientBrush>
-                    <GradientStop Offset="1" Color="#00A0A0A0"/>
-                    <GradientStop x:Name="gradStop1" Color="Red" Offset="0.069"/>
+                    <GradientStop Offset="0.836" Color="#00000000"/>
+                    <GradientStop x:Name="gradStop1" Color="Red" Offset="0.052"/>
                     <GradientStop Color="#00FDECEC"/>
                     <GradientStop x:Name="gradStop3" Color="Red" Offset="0.371"/>
-                    <GradientStop Color="#FFC9C9C9" Offset="0.75"/>
+                    <GradientStop Color="#FF424242" Offset="0.772"/>
                 </RadialGradientBrush>
             </Border.Background>
         </Border>

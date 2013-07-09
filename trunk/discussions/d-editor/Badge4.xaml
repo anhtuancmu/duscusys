@@ -11,7 +11,9 @@
     mc:Ignorable="d"
     DataContextChanged="UserControl_DataContextChanged"
     Width="112"
-    Height="75" Margin="0" FontSize="8">
+    Height="75" 
+    Margin="0" 
+    FontSize="8">
     <UserControl.Resources>
         <local:SummaryTextConvertor x:Key="txtSummaryConv" />
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
