@@ -395,7 +395,7 @@ namespace DiscussionsClientRT
             switch (operationResponse.OperationCode)
             {
                 case (byte)DiscussionOpCode.Test:
-                    Console.WriteLine(operationResponse.Parameters[(byte)DiscussionParamKey.Message]);
+                    //Console.WriteLine(operationResponse.Parameters[(byte)DiscussionParamKey.Message]);
                     break;
 
                 case (byte)LiteOpCode.Join:
@@ -475,7 +475,7 @@ namespace DiscussionsClientRT
                 case StatusCode.ExceptionOnConnect:
                     throw new Exception("ExceptionOnConnect. Peer.state: " + peer.PeerState);
 
-                case StatusCode.Exception:
+                case StatusCode.Exception:                    
                     throw new Exception("Exception. Peer.state: " + peer.PeerState);
                 case StatusCode.SendError:
                     //throw new Exception("SendError! Peer.state: " + peer.PeerState);
