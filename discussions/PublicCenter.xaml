@@ -8,7 +8,7 @@
     xmlns:dedit="clr-namespace:DistributedEditor"
     WindowStartupLocation="CenterScreen"    
     SizeToContent="Manual"
-    mc:Ignorable="d"
+    mc:Ignorable="d"    
     x:Class="Discussions.PublicCenter"
     Closing="SurfaceWindow_Closing"
     KeyDown="SurfaceWindow_KeyDown"   
@@ -513,6 +513,7 @@
                              Click="btnDiscInfo_Click" 
                              VerticalAlignment="Center" 
                              Background="{x:Null}"
+                             RenderOptions.BitmapScalingMode="HighQuality"
                              Margin="0,12,0,0" MinWidth="0" MinHeight="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <Border 
@@ -525,11 +526,13 @@
             </s:SurfaceButton>
             <s:SurfaceButton x:Name="btnHome" Background="#02000000" Click="btnHome_Click_1"
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                             RenderOptions.BitmapScalingMode="HighQuality"
                              VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" MinWidth="0" MinHeight="0">
                 <Border Background="{StaticResource home}" Width="52" Height="52" />
             </s:SurfaceButton>
             <s:SurfaceButton x:Name="btnReport" Background="#02000000" Click="btnReport_Click_1"
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                             RenderOptions.BitmapScalingMode="HighQuality"
                              VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0" MinWidth="0" MinHeight="0">
                 <Border Background="{StaticResource book}" Width="52" Height="52" />
             </s:SurfaceButton> 
@@ -568,6 +571,7 @@
                              Background="#02000000"
                              HorizontalContentAlignment="Center" 
                              VerticalContentAlignment="Center"
+                             RenderOptions.BitmapScalingMode="HighQuality"
                              d:LayoutOverrides="Width" MinWidth="20" MinHeight="20" HorizontalAlignment="Left" Padding="0">
                 <Border Width="50"
                         Height="50"
@@ -598,16 +602,23 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" d:LayoutOverrides="Height"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000">
+            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
+                                   RenderOptions.BitmapScalingMode="HighQuality">
                 <Border Background="{StaticResource explanation}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
-            <s:SurfaceToggleButton x:Name="btnLaserPointer" Click="BtnLaserPointer_OnClick" Background="#02000000">
-                <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
+            <s:SurfaceToggleButton x:Name="btnLaserPointer" 
+                                   RenderOptions.BitmapScalingMode="HighQuality" 
+                                   Click="BtnLaserPointer_OnClick" Background="#02000000">
+                <Border Background="{StaticResource laserPointer}" Width="70" Height="70"/>
             </s:SurfaceToggleButton>
-            <s:SurfaceToggleButton x:Name="btnToggleShapes" Click="btnToggleShapes_Click" Background="#02000000">
+            <s:SurfaceToggleButton x:Name="btnToggleShapes" 
+                                   RenderOptions.BitmapScalingMode="HighQuality" 
+                                   Click="btnToggleShapes_Click" 
+                                   Background="#02000000">
                 <Border Background="{StaticResource annotations}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
             <s:SurfaceButton x:Name="btnToPrivate" Background="#02000000" Click="btnGoPrivate_Click"
+                             RenderOptions.BitmapScalingMode="HighQuality"
                              HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" Padding="6,2,10,8"
                              Margin="1,5,1,1">
                 <Border Background="{StaticResource private}" Width="70" Height="70" Padding="0" Margin="0,0,0,2" />

@@ -97,6 +97,7 @@
                         </Grid>
 
                         <s:SurfaceButton x:Name="btnZoom" Background="{x:Null}"
+                                         RenderOptions.BitmapScalingMode="HighQuality"
                                          Click="btnZoom_Click" MinWidth="1" MinHeight="1" BorderThickness="0"
                                          Padding="0" HorizontalContentAlignment="Center">
                             <Border Background="{StaticResource enlarge2white}" Width="18" Height="18" />
