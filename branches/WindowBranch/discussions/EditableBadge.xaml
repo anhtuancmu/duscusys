@@ -14,8 +14,11 @@
     DataContextChanged="UserControl_DataContextChanged"
     Margin="4,9,0,2">
     <UserControl.Resources>
+        <Style TargetType="{x:Type Custom:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
+
         <local:MediaTypeIconConverter x:Key="mediaTypeIconConv" />
         <local:AttachmentToVisibilityConverter x:Key="owner2Visibility" />
+
         <DataTemplate x:Key="CommentItemTemplate">
             <local:CommentUC placeholderFocus="placeholderFocus" />
         </DataTemplate>
@@ -45,11 +48,13 @@
 
                 <StackPanel Grid.Column="1" Grid.RowSpan="2">
                     <Custom:SurfaceButton Foreground="DarkRed" VerticalAlignment="Top"
+                                          RenderOptions.BitmapScalingMode="HighQuality"
                                           FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                                           Visibility="{Binding Converter={StaticResource owner2Visibility}}"
                                           Content="X" Background="{x:Null}" Click="removeMedia_Click" />
-                    <Custom:SurfaceButton x:Name="btnReposition"
+                    <Custom:SurfaceButton x:Name="btnReposition"                                        
                                           Background="{x:Null}"
+                                          RenderOptions.BitmapScalingMode="HighQuality"
                                           FontSize="26.667"
                                           FontFamily="Segoe UI Symbol"
                                           Content="&#x21c6;"
@@ -103,8 +108,6 @@
             ImageTemplate="{StaticResource ImageAttachmentTemplate}"
             VideoTemplate="{StaticResource VideoAttachmentTemplate}"
             x:Key="attachmentTemplateSelector" />
-
-        <Style TargetType="{x:Type Custom:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
 
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="30" />
