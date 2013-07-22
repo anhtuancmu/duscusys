@@ -25,6 +25,10 @@ namespace DistributedEditor
 
         private System.Windows.Point _recentSentPoint;
 
+        private DateTime _recentAttach;
+        private DateTime _recentDetach;
+        private DateTime _recentMove;
+
         private bool _localLazerEnabled;
         public bool LocalLazerEnabled
         {
@@ -41,6 +45,8 @@ namespace DistributedEditor
                                                        Utils.IntToColor(SessionInfo.Get().person.Color),
                                                        SessionInfo.Get().person.Name);
                     _laserCursorMgr.DisableStandardCursor(_ptrCanvas);
+                    _ptrCanvas.IsHitTestVisible = true;
+
                     SetListeners(true);
                 }
                 else
@@ -48,6 +54,7 @@ namespace DistributedEditor
                     _laserCursorMgr.DetachLaserPointer(LocalLaserPointer.UserId);
                     _laserCursorMgr.EnableStandardCursor(_ptrCanvas);
                     _rt.clienRt.SendDetachLaserPointer(LocalLaserPointer);
+                    _ptrCanvas.IsHitTestVisible = false;
 
                     SetListeners(false);
                 }
@@ -173,7 +180,7 @@ namespace DistributedEditor
         void UpdateLocalPosition(System.Windows.Point p)
         {
             LocalLaserPointer.X = p.X;
-            LocalLaserPointer.Y = p.Y;
+            LocalLaserPointer.Y = p.Y;            
         }
 
         private void ShowUpdatedLocalPosition()
@@ -185,7 +192,7 @@ namespace DistributedEditor
 
         void HandleDetach(InputEventArgs e)
         {
-            if (e.Handled)
+            if (e.Handled || DateTime.Now.Subtract(_recentDetach).TotalMilliseconds < 5)            
                 return;
 
             //local
@@ -194,6 +201,7 @@ namespace DistributedEditor
             //remote
             _rt.clienRt.SendDetachLaserPointer(LocalLaserPointer);
 
+            _recentDetach = DateTime.Now;
             e.Handled = true;
         }
 
@@ -210,7 +218,7 @@ namespace DistributedEditor
 
         void HandleAttach(Point p, InputEventArgs e)
         {
-            if (e.Handled)
+            if (e.Handled || DateTime.Now.Subtract(_recentAttach).TotalMilliseconds < 5)
                 return;
 
             //local
@@ -223,21 +231,23 @@ namespace DistributedEditor
             //remote 
             _rt.clienRt.SendAttachLaserPointer(LocalLaserPointer);
 
+            _recentAttach = DateTime.Now;
             e.Handled = true;
         }
 
         void HandleMove(Point p, InputEventArgs e)
         {
-            if (e.Handled)
+            UpdateLocalPosition(p);
+            if (e.Handled || DateTime.Now.Subtract(_recentMove).TotalMilliseconds < 15)
                 return;
 
             //local
-            UpdateLocalPosition(p);
             ShowUpdatedLocalPosition();
 
             //remote
             CheckSendLaserPointerMoved();
 
+            _recentMove = DateTime.Now;
             e.Handled = true;
         }
 
