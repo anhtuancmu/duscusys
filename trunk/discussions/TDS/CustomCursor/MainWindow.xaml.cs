@@ -10,7 +10,7 @@ namespace CustomCursor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : SurfaceWindow
+    public partial class MainWindow : Window
     {
         private const int PointerId = 1;
         private readonly LaserCursorManager _cursorManager;

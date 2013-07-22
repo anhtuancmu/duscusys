@@ -10,10 +10,10 @@
              Height="30">
     <Grid>
         <Canvas>
-            <Border x:Name="userLines" Canvas.Top="-65" BorderThickness="0,0,0,5" BorderBrush="#FFF92626" Padding="2">
-                <Border Background="#99000000" CornerRadius="5">
-                    <TextBlock x:Name="txtName"        			    
-        			    FontSize="36" Foreground="White"/>
+            <Border x:Name="userLines" Canvas.Top="-55" BorderThickness="0,5" BorderBrush="#FFF92626" Padding="2">
+                <Border Background="#7F000000" CornerRadius="5">
+                    <TextBlock x:Name="txtName" Text="Alice"       			    
+        			    FontSize="30" Foreground="White"/>
                 </Border>
             </Border>
         </Canvas>

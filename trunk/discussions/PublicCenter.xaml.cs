@@ -110,6 +110,8 @@ namespace Discussions
 
             _zoomSeries = new ZoomSeriesAnalyser(OnSeriesEnd);
 
+            TouchVisualizer.SetShowsVisualizations(laserScene, false);
+
             if (SessionInfo.Get().person.Name.StartsWith(DaoUtils.MODER_SUBNAME))
             {
                 startStopWatch();
@@ -152,9 +154,8 @@ namespace Discussions
         {
             if (_laserPointerWndCtx != null)
                 _laserPointerWndCtx.Dispose();             
-            _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
+            _laserPointerWndCtx = new LaserPointerWndCtx(laserScene, CurrentTopic.Id);
             btnLaserPointer.IsChecked = false;
-            TouchVisualizer.SetShowsVisualizations(scene, true);
 
             CleanupEditCtx();
 
@@ -920,7 +921,6 @@ namespace Discussions
                 _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
 
             _laserPointerWndCtx.LocalLazerEnabled = localLazerEnabled;
-            TouchVisualizer.SetShowsVisualizations(scene, !localLazerEnabled);
 
             if (editCtx != null)
                 editCtx.SetListeners(!localLazerEnabled);
