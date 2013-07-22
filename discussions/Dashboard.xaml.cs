@@ -28,7 +28,7 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for Dashboard.xaml
     /// </summary>
-    public partial class Dashboard : SurfaceWindow
+    public partial class Dashboard : Window
     {
         public Discussion EditedDiscussion
         {

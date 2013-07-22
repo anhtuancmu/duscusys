@@ -28,7 +28,7 @@ namespace DistributedEditor
         private InkPalette _inkPalette;
 
 
-        private readonly SurfaceWindow _keyboardWnd;
+        private readonly Window _keyboardWnd;
 
         private bool _listenersSet;
 
@@ -48,7 +48,7 @@ namespace DistributedEditor
                             DistributedInkCanvas inkCanv,
                             Palette palette,
                             InkPalette inkPalette,
-                            SurfaceWindow keyboardWnd,
+                            Window keyboardWnd,
                             int topicId,
                             int discussionId,
                             bool shapesVisibility)

@@ -25,7 +25,7 @@ using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
 
 namespace Discussions
 {
-    public partial class PublicCenter : SurfaceWindow 
+    public partial class PublicCenter : Window 
     {
         private Discussion _discussion;
 

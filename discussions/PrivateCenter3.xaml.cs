@@ -19,7 +19,7 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for PrivateCenter.xaml
     /// </summary>
-    public partial class PrivateCenter3 : SurfaceWindow
+    public partial class PrivateCenter3 : Window
     {
         private readonly Main.OnDiscFrmClosing _closing;
 

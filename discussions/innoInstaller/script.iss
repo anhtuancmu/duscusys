@@ -21,7 +21,7 @@ OutputDir=.
 OutputBaseFilename=setup
 Compression=lzma/Max
 SolidCompression=true
-MinVersion=,6.1.7600
+//MinVersion=,6.1.7600
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl

@@ -32,7 +32,7 @@ namespace DistributedEditor
             _finishDrawing = finishDrawing;
         }
 
-        public InkCanvas InkCanvas
+        public SurfaceInkCanvas InkCanvas
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace DistributedEditor
         private void rad_Click(object sender, RoutedEventArgs e)
         {
             RadioButton rad = sender as RadioButton;
-            this.InkCanvas.EditingMode = (InkCanvasEditingMode)rad.Tag;
+            this.InkCanvas.EditingMode = (SurfaceInkEditingMode)rad.Tag;
         }
 
         private void btnFinishDrawing_Click_1(object sender, RoutedEventArgs e)

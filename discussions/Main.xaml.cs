@@ -20,7 +20,7 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for SurfaceWindow1.xaml
     /// </summary>
-    public partial class Main : SurfaceWindow
+    public partial class Main : Window
     {
         private readonly UISharedRTClient sharedClient = UISharedRTClient.Instance;
 
