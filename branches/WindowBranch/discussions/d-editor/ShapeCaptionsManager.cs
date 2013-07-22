@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Discussions.d_editor;
 
 namespace DistributedEditor
@@ -56,10 +57,12 @@ namespace DistributedEditor
             _captionCreationRequested = captionCreationRequested;
 
             btnDraw = new ClusterButton();
+            btnDraw.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.HighQuality);
             btnDraw.btn.Click += __bntDraw;
             btnDraw.SetBrush((System.Windows.Media.Brush) Application.Current.TryFindResource("editBrush"));
 
             btnType = new ClusterButton();
+            btnType.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.HighQuality);
             btnType.btn.Click += __bntType;
             btnType.SetBrush((System.Windows.Media.Brush) Application.Current.TryFindResource("typeBrush"));
         }
