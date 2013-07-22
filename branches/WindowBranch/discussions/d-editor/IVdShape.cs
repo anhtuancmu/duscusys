@@ -1,0 +1,61 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Discussions.RTModel.Model;
+
+namespace DistributedEditor
+{
+    public enum PointApplyResult
+    {
+        None,
+        Move,
+        Resize,
+        MoveResize
+    }
+
+    public interface IVdShape
+    {
+        int Id();
+
+        //focus and cursor
+        Cursor GetCursor();
+        void SetCursor(Cursor c);
+        void UnsetCursor();
+        void SetFocus();
+        void RemoveFocus();
+        bool IsFocused();
+
+        void AttachToCanvas(Canvas c);
+        void DetachFromCanvas(Canvas c);
+
+        //manipulations
+        void StartManip(Point p, object sender);
+        PointApplyResult ApplyCurrentPoint(Point p);
+        void FinishManip();
+        void ScaleInPlace(bool plus);
+        void MoveBy(double dx, double dy);
+        double distToFigure(Point from);
+        void ManipulationStarting(object sender, ManipulationStartingEventArgs e);
+        void ManipulationDelta(object sender, ManipulationDeltaEventArgs e);
+        void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e);
+        bool IsManipulated();
+
+        //d-editor
+        int InitialOwner();
+        VdShapeType ShapeCode();
+        UIElement UnderlyingControl();
+        ShapeState GetState(int topicId);
+        void ApplyState(ShapeState st);
+        ShapeZ ShapeZLevel();
+        void SetZIndex(int z);
+
+        void Hide();
+        void Show();
+        bool IsVisible();
+
+        //this method is only for reporting needs
+        //for cluster, it reports bounds of cluster.
+        //for link, it reports minimal AABB containing both ends of link.
+        Rect ReportingBoundsProvider();
+    }
+}

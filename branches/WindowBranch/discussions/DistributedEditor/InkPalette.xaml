@@ -1,0 +1,53 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:s="http://schemas.microsoft.com/surface/2008"    
+	mc:Ignorable="d"
+	x:Class="DistributedEditor.InkPalette"
+	x:Name="UserControl"
+	d:DesignWidth="390" d:DesignHeight="164">
+
+	<UserControl.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}"/>
+    </UserControl.Resources>
+
+	<UserControl.Effect>
+		<DropShadowEffect BlurRadius="40" Color="#FF272727"/>
+    </UserControl.Effect>
+
+	<Grid x:Name="LayoutRoot">
+		<Border CornerRadius="8">
+			<Border.Background>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+   				<GradientStop Color="#FF357A7A" Offset="1"/>
+      			<GradientStop Color="#FF6FC7B3"/>
+      			</LinearGradientBrush>
+			</Border.Background>
+
+			<Grid>
+
+				<StackPanel HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Top">
+					<s:SurfaceRadioButton x:Name="radInk" IsChecked="True" Content="Ink" Foreground="#FFFFFFFF" Click="rad_Click" Tag="{x:Static InkCanvasEditingMode.Ink}" d:LayoutOverrides="Width"/>			
+					<s:SurfaceRadioButton x:Name="radErase" Content="Erase" Foreground="#FFFFFFFF" Click="rad_Click"  Tag="{x:Static InkCanvasEditingMode.EraseByStroke}" d:LayoutOverrides="Width"/>                  
+                </StackPanel>
+
+				<StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Right">
+					<Label Content="Brush size" HorizontalAlignment="Center" FontSize="21.333" FontFamily="Segoe UI"/>
+					<StackPanel Orientation="Horizontal">
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_2" FontSize="2" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_4" FontSize="4" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_6" FontSize="6" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" IsChecked="True" Content="RadioButton" x:Name="b_8" FontSize="8" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_10" FontSize="10" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_12" FontSize="12" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+						<s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}" Content="RadioButton" x:Name="b_14" FontSize="14" d:LayoutOverrides="Height" HorizontalAlignment="Left" Margin="0,5,0,0" VerticalAlignment="Top" Click="penSize_Click"/>
+					</StackPanel>		
+				</StackPanel>
+
+				<s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="Finish drawing" VerticalAlignment="Bottom" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="58"/>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Discussions.UserAccount"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Discussions"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignWidth="298.667" Height="109.333">
+    <Grid>
+        <Grid.Resources>
+            <local:AvatarImgConverter x:Key="AvaConverter" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="imgAvatar" Source="{Binding AvatarAttachment, Converter={StaticResource AvaConverter}}"
+               HorizontalAlignment="Center" Height="100"
+               VerticalAlignment="Center" Width="100" />
+        <Label Content="{Binding Name}"
+               HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" />
+    </Grid>
+</UserControl>

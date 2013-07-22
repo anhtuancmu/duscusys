@@ -1,0 +1,456 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ template debug="true" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Discussions.DbModel" #>
+<#@ import namespace="Discussions.RTModel.Model" #>
+<#@ import namespace="System.Diagnostics" #>
+ 
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+	    <meta charset='utf-8'> 
+        <title>Topic report</title>		
+	    <link href="report.css" rel="stylesheet" type="text/css" />
+    </head>
+	
+    <body> 
+        
+		 <div class="blueSpan">
+
+			<h2>Tohoku University</h2>
+			<br />
+			<br />
+
+			<h1>Discussion System</h1>
+
+			<br />
+			<br />
+
+			<h2>Topic Report</h2>
+			<br />
+			<br />
+
+			<h3 style="color:white">  <#= DateTime.Now.Date.ToShortDateString() #> <h3>
+         </div>
+		    
+	    <!------------------------------------------------------------------------------------->
+	    <h3>
+			Contents
+	    </h3>
+
+		<div class="toc">
+			<a href="#basicInfo">Basic information</a><br>
+			<a href="#participants">Participants</a><br>
+			<a href="bgpage?id=<#= QueryParams.DiscussionId #>" target="_blank">Background</a><br>
+			<a href="<#= MediaUrl #>" target="_blank">Media of discussion background</a><br>
+			<a href="<#= SourcesUrl #>" target="_blank">Sources of discussion background</a><br>
+			<a href="#finalBoard">Final Public Dashboard</a><br>
+			<a href="#summary">Summary information</a><br>
+			<!--<a href="#argPoints">Argument points</a><br>-->
+			<a href="#clustInfo">Cluster information</a><br>
+	        <a href="#unclusteredArgs">Single Points</a><br>
+    		<a href="#linkInfo">Link information</a><br>
+		</div>
+
+		<!------------------------------------------------------------------------------------->
+		
+	    <h3 style="page-break-before: always;">
+          <a id="basicInfo">Basic information</a>
+        </h3>
+ 
+		<table>
+			<tr>
+				<td>Discussion</td>
+				<td><#= ReportParams.Discussion.Subject #></td>
+			</tr>
+			<tr>
+				<td>Topic</td>
+				<td><#= ReportParams.Topic.Name #></td>
+			</tr>
+			<tr>
+				<td>Session</td>
+				<td><#= ReportParams.Session.Name #></td>
+			</tr>
+			<tr>
+				<td>Date and time of discussion</td>
+				<td><#= ReportParams.Session.EstimatedDateTime.ToString()#></td>
+			</tr>
+			<tr>
+				<td>Total time of one topic</td>
+				<td><#= TimeSpan.FromSeconds(ReportParams.Topic.CumulativeDuration).ToString()#></td>
+			</tr>	
+        </table>
+
+		<!------------------------------------------------------------------------------------->
+
+		<h3>
+			<a id="participants">Participants</a>
+		</h3>
+
+		<table style="width:auto">
+			<# foreach(var tuple in Participants) 
+			   { #>
+				   <tr>
+					   <#
+						   EmitColoredUserCell(tuple.Item1);
+						   EmitColoredUserCell(tuple.Item2);
+					   #>
+				   </tr>
+			<# } #>
+		</table>
+
+		<!------------------------------------------------------------------------------------->
+
+		<h3>
+			<a id="finalBoard">Final Public Dashboard</a>
+		</h3>
+		
+		<div class="finalScreenshot">
+			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" style="width:100%;">
+		</div>
+
+		<!------------------------------------------------------------------------------------->
+
+		<h3>
+			<a id="summary" style="page-break-before: always;">Summary information</a>
+		</h3>
+
+		<table>
+			<tr>
+			   <td>Arg.points</td>
+			   <td><#=ComplexReport.TotalArgPointReport.numPoints#></td>
+			</tr>
+			<tr>
+			   <td>Attachments</td>
+			   <td><#=ComplexReport.TotalArgPointReport.numMediaAttachments#></td>
+			</tr>
+			<tr>
+			   <td>Sources (total events) </td>
+			   <td><#=ComplexReport.EventTotals.TotalSourceAdded#></td>
+			</tr>
+			<tr>
+			   <td>Clusters</td>
+			   <td><#=ComplexReport.ClusterReports.Count#></td>
+			</tr>
+			<tr>
+			   <td>Links</td>
+			   <td><#=ComplexReport.LinkReports.Count#></td>
+			</tr>
+			<tr>
+			   <td>Comments</td>
+			   <td><#=ComplexReport.TotalArgPointReport.numComments#></td> 
+			</tr>
+		</table>
+
+		 <!------------------------------------------------------------------------------------->
+
+	 	 <h3 style="page-break-before: always;">
+			<a id="clustInfo">Cluster information</a>
+		 </h3>
+		
+		 <#ClusterInformation(ComplexReport);#>
+
+		 <!------------------------------------------------------------------------------------->
+
+		 <h3 style="page-break-before: always;">
+			<a id="unclusteredArgs">Single Points</a>
+	     </h3>
+		 <#
+		    var argPointsOf = ReportParams.Topic.ArgPoint.OrderBy(ap1=>ap1.OrderNumber);
+			if (argPointsOf.Count() > 0)
+			{ #>
+			   <table>
+			     <tbody>
+			     <#
+				foreach (var ap in argPointsOf)
+				{
+					if (ap.SharedToPublic && !ProcessedArgPoints.Contains(ap.Id))
+						ArgPointNode(ap, true);                      
+				}
+				#>				
+                </tbody>
+			  </table>
+			   <#
+			}
+			else
+			{
+				#>
+					<No unclustered arguments> 
+				<#
+			}		 
+		 #>
+		 <!------------------------------------------------------------------------------------->
+
+	 	 <h3>			
+			<a id="linkInfo">Link information</a>
+		 </h3>
+		
+		 <#LinkInformation(ComplexReport);#>
+
+	    <form name="emailForm" method="post" action="/discsvc/email">
+        <p>
+            <b>Enter email</b>
+			<br/>
+            <input type="email" name="email" id="email" size="40"/>
+            <input type="hidden" name="reportUrl" id="reportUrl" value="<#=ReportUrl#>"/>
+        </p>      
+        <p>
+            <input class="siteBtn1" type="submit" value="Send"/>
+        </p>
+    </form>
+    </body>
+</html>
+
+<#+ 
+	void EmitColoredUserCell(Person p)
+	{
+		if(p==null)
+		{
+			#>
+				<td></td>
+			<#+
+			return;
+		}
+		#>
+		<td style="padding:15px; border-left:solid 50px <#= Helpers.IntToHtml(p.Color)#>"><#= p.Name #></td>	
+		<#+
+	}
+
+	void EmitMediaCell(Attachment a, int i)
+	{
+		if(a==null)
+			return;
+
+		#>
+		<div style="padding-top:40px">
+			<#= Helpers.GetPastableHtml(a, BaseUrl) #>	
+			
+			<p> <#= i#>. <#= a.Link#></p>	
+		</div> 
+		<#+
+	}
+ 
+	void EmitMediaTable(IEnumerable<Attachment> media)
+	{
+		#>
+	    <div style="text-align: center">
+			<#+   var i = 1;
+		          foreach(var m in media.OrderBy(m=>m.OrderNumber))
+					 EmitMediaCell(m, i++);
+			#> 
+		</div>
+		<#+
+	}
+
+	void EmitSourceCell(Source s, int i)
+    {
+		if(s==null)
+			return;
+
+		#>
+		<div style="padding-top:40px">
+		   <#=i#>. <a href="<#=s.Text#>"><#=s.Text#></a>
+		</div> 
+		<#+
+    }
+
+	void EmitCommentOrArgPointLine(Person p, string Text, DiscLink link)
+    {
+		#>
+		<tr>
+			<td style="padding:15px; border:0px; border-left:solid 20px <#= Helpers.IntToHtml(p.Color)#>"><#=p.Name#></td>
+			<td style="border:0px"><#=link.Emit(Text)#></td>
+		</tr>
+		<#+
+    }
+
+	void ArgPointNode(ArgPoint ap, bool insertScreenshot)
+    {
+		if(ap==null)
+			return;
+
+	    ProcessedArgPoints.Add(ap.Id);
+
+		if(ap.Person==null)
+			return;	
+
+		#>
+		<tr>
+			<td style="padding:25px 0; border:0px; border-left:solid 20px; border-left-color:<#= Helpers.IntToHtml(ap.Person.Color)#>">
+				<div class="boldCaption"><#=(new DiscLink{Id=ap.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Anchor}).Emit("Point#" + ap.OrderNumber + ". " + ap.Point)#></div> 
+				
+				<#+
+				if(insertScreenshot)
+				{
+				   #>
+				   <div style="text-align: center; padding-top:40px">
+				      <img src=<#= Screenshots[-ap.Id-1].url#> > 		
+			       </div>
+				   <#+
+				}
+				#>
+
+				<p>
+				<#= Helpers.processLineBreaks(ap.Description.Text)#> 
+				</p>
+	
+				<!-- media -->
+				<div class="boldCaption">Media</div> 
+				<#+						
+				EmitMediaTable(ap.Attachment);
+				#>
+			
+				<div class="boldCaption">Sources</div> 
+				<div style="text-align: left; padding-left:40px">
+					<#+ var i = 1;
+						foreach(var src in ap.Description.Source.OrderBy(s=>s.OrderNumber)) 
+						{ #>
+						   <#=i++#>. <a href="<#=src.Text#>"><#=src.Text#><a><br>					   
+						<#+ } #>
+				</div>
+
+				<!-- comments -->
+				<div class="boldCaption">Comments</div> 
+				<table>
+				<#+
+				foreach(var c in ap.Comment) 
+				{
+					if(c.Person==null)
+						continue;
+					EmitCommentOrArgPointLine(c.Person, c.Text, new DiscLink{Id=c.Id, LinkObject=LinkObject.Comment, EmitType=EmitType.Anchor});
+				}#>
+				</table>
+			</td>
+	    </tr>
+		<#+	
+    }
+
+	void ClusterTableLine(string clustTitle, int clustId)
+    {#>
+		<#=(new DiscLink{Id=clustId, LinkObject=LinkObject.Cluster, EmitType=EmitType.Anchor}).Emit(strClusterTableLine(clustTitle,clustId))#>
+    <#+}
+
+	string strClusterTableLine(string clustTitle, int clustId)
+    {
+		if (string.IsNullOrEmpty(clustTitle))
+		{   
+			return string.Format("Cluster_{0}", clustId);
+		}
+		else
+		{
+			return string.Format("Cluster \"{0}\"", clustTitle); 
+		}
+    }
+
+	private void ClusterTable(Reporter.ClusterReport clustReport, string image)
+    {
+		#>
+		<div class="cluster" style="page-break-after: always; border-left-color:<#= Helpers.IntToHtml(clustReport.initialOwner.Color)#>">
+			<div class="boldCaption">
+				<#+ ClusterTableLine(clustReport.clusterTitle, clustReport.clusterId); #>	
+			</div>
+		
+			<div style="text-align: center; padding-top:40px">
+				<img src=<#=image#> style="max-width:1024px"> 		
+			</div>
+
+			<table>
+			 <tbody>
+				<#+
+				foreach (var point in clustReport.points)
+				{
+					if(point.Person!=null && point.Topic != null && point.SharedToPublic)
+					{
+						ArgPointNode(point, false);  						
+						//EmitCommentOrArgPointLine(point.Person,  "Point# " + point.OrderNumber + ". " + point.Point, 
+						//				          new DiscLink{Id=point.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Ref});			
+					}
+				};
+				#>
+		    	</tbody>
+			</table>
+		</div> 
+		<#+
+    }
+
+	void ClusterInformation(Reporter.ReportCollector hardReport)
+    {
+        if (hardReport.ClusterReports.Count > 0)
+        {
+            foreach (var clusterReport in hardReport.ClusterReports)            
+                ClusterTable(clusterReport, Screenshots[clusterReport.clusterShId].url);                           
+        }
+        else
+        {
+			#>
+             {No clusters}
+			<#+
+        }
+    }
+
+	private void LinkTable(Reporter.ReportCollector hardReport, LinkReportResponse link, string image)
+    {
+		#>
+		
+		<div class="link" style="border-left-color:<#= Helpers.IntToHtml(link.initOwner.Color)#>">
+			<div class="boldCaption">
+				<#+
+				if (string.IsNullOrEmpty(link.Caption))
+				{   #>
+					Link
+				<#+}
+				else
+				{#>
+					<#=string.Format("Link \"{0}\"", link.Caption)#> 
+				<#+}#>
+			</div>
+		
+			<table>
+				<#+
+
+			    if (link.EndpointArgPoint1)
+					EmitCommentOrArgPointLine(link.ArgPoint1.Person, Helpers.ArgPointToStr(link.ArgPoint1), 
+											 new DiscLink{Id=link.ArgPoint1.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Ref});			
+				else
+                {
+					var idOfCluster = link.IdOfCluster1;
+					var cluster = hardReport.ClusterReports.Single(c=>c.clusterId==idOfCluster);
+					EmitCommentOrArgPointLine(cluster.initialOwner, strClusterTableLine(link.ClusterCaption1, link.IdOfCluster1), 
+												new DiscLink{Id=link.IdOfCluster1, LinkObject=LinkObject.Cluster, EmitType=EmitType.Ref});
+                }
+				
+			    if (link.EndpointArgPoint2)
+					EmitCommentOrArgPointLine(link.ArgPoint2.Person, Helpers.ArgPointToStr(link.ArgPoint2),
+										     new DiscLink{Id=link.ArgPoint2.Id, LinkObject=LinkObject.ArgPoint, EmitType=EmitType.Ref});			
+				else
+                {
+					var idOfCluster = link.IdOfCluster2;
+					var cluster = hardReport.ClusterReports.Single(c=>c.clusterId==idOfCluster);
+					EmitCommentOrArgPointLine(cluster.initialOwner, strClusterTableLine(link.ClusterCaption2, link.IdOfCluster2),
+											 new DiscLink{Id=link.IdOfCluster2, LinkObject=LinkObject.Cluster, EmitType=EmitType.Ref});				
+                }
+				#>
+			</table>
+		</div> 
+		<#+
+    }
+
+	void LinkInformation(Reporter.ReportCollector hardReport)
+    {
+        if (hardReport.LinkReports.Count > 0)
+        {
+            foreach (var linkReport in hardReport.LinkReports)            
+                LinkTable(hardReport, linkReport, Screenshots[linkReport.linkShId].url);                           
+        }
+        else
+        {
+			#>
+             {No links}
+			<#+
+        }
+    }
+#>

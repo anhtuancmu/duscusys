@@ -1,0 +1,27 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" x:Class="Discussions.FullSelector"
+    d:DesignHeight="337"
+    d:DesignWidth="402" ClipToBounds="True">
+    <Grid Background="{StaticResource frmGrayBg}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <s:SurfaceListBox x:Name="lstBxChoices"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Opacity="0.995"
+                          ItemsSource="{Binding Choices}" SelectionChanged="lstBxChoices_SelectionChanged">
+            <s:SurfaceListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </s:SurfaceListBox.ItemsPanel>
+        </s:SurfaceListBox>
+
+    </Grid>
+</UserControl>

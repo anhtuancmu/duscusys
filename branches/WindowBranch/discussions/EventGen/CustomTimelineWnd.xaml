@@ -1,0 +1,31 @@
+﻿<s:SurfaceWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:EventGen.timeline"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    x:Class="EventGen.CustomTimelineWnd"
+    Title="CustomTimelineWnd"
+    Height="306" Width="731">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1">
+            <s:SurfaceButton Name="AddEvent" Content="AddEvent" HorizontalAlignment="Left" Height="36"
+                             VerticalAlignment="Top" Width="139" Click="AddEvent_Click_1" />
+            <s:SurfaceButton Name="RemoveEvent" Content="RemoveEvent" HorizontalAlignment="Left"
+                             Height="25" VerticalAlignment="Top" Width="139" Click="RemoveEvent_Click_1" />
+        </StackPanel>
+        <s:SurfaceScrollViewer>
+            <local:TimelineView x:Name="timelineView" Grid.RowSpan="1" MouseWheel="timelineView_MouseWheel_1" />
+        </s:SurfaceScrollViewer>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="Zoom" Foreground="White" />
+            <s:SurfaceSlider Name="zoomSlider" Minimum="1" Maximum="300" SmallChange="1" Width="400"
+                             ValueChanged="Slider_ValueChanged_1" VerticalAlignment="Center" />
+        </StackPanel>
+        <TextBlock Name="currentTime" Text="{Binding CurrentTime, Mode=OneWay, StringFormat={}{0:hh\\:mm\\:ss}}"
+                   HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" FontSize="34" Foreground="White" />
+    </Grid>
+</s:SurfaceWindow>

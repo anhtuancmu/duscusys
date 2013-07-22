@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Discussions.SideStatusBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Discussions"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:AvatarImgConverter x:Key="AvaConverter" />
+        <local:ARGBColorBrushConvertor x:Key="ColorConv" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="25.96" />
+            <RowDefinition Height="0.669*" />
+            <RowDefinition Height="0.331*" />
+        </Grid.RowDefinitions>
+
+        <s:SurfaceListBox x:Name="lstBxPlayers" Grid.Row="1" ItemsSource="{Binding UsersStatus}" Background="#00243885">
+
+            <s:SurfaceListBox.ItemContainerStyle>
+                <Style TargetType="s:SurfaceListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type s:SurfaceListBoxItem}">
+                                <Grid x:Name="itemContainer"
+                                      Background="{Binding Path=Color, Converter={StaticResource ColorConv}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Name="contPres" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </s:SurfaceListBox.ItemContainerStyle>
+
+            <s:SurfaceListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding Name}" Foreground="#E63F396C"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" />
+                        <Image x:Name="imgAvatar"
+                               Source="{Binding AvatarAttachment, Converter={StaticResource AvaConverter}}"
+                               Stretch="Uniform"
+                               HorizontalAlignment="Center" Height="50"
+                               VerticalAlignment="Center" Width="50" Grid.Column="1" />
+                    </Grid>
+                </DataTemplate>
+            </s:SurfaceListBox.ItemTemplate>
+        </s:SurfaceListBox>
+        <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
+            <Label x:Name="lblPlayer" Background="#006483FF" Foreground="White" Content="" Margin="0,0,0,1"
+                   BorderBrush="#FF071168" BorderThickness="0,0,0,1" />
+            <Label x:Name="lblOnlinePlayers" Content="Online players" Background="#006483FF" Foreground="White"
+                   BorderThickness="0,0,0,1" BorderBrush="#FF071168" />
+            <Label x:Name="lblDiscussion" Background="#006483FF" Foreground="White" Content=""
+                   BorderThickness="0,0,0,1" />
+            <Rectangle Height="16" />
+        </StackPanel>
+        <s:SurfaceTextBox x:Name="chatArea" Grid.Row="2" TextWrapping="Wrap" d:LayoutOverrides="Width, Height"
+                          Background="#E678989B" />
+    </Grid>
+</UserControl>

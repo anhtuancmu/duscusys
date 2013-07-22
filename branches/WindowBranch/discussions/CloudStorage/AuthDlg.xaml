@@ -1,0 +1,29 @@
+﻿<s:SurfaceWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="CloudStorage.AuthDlg"
+    Title="Cloud storage login"
+    Height="173" Width="442"
+    WindowStartupLocation="Manual"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center" Background="{DynamicResource WndBg}">
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Name="txtInfo" HorizontalAlignment="Left" Content="Tip" VerticalAlignment="Top" />
+            <s:SurfaceTextBox x:Name="gdriveAuthCode" HorizontalAlignment="Left" TextWrapping="Wrap"
+                              Text="&lt;PASTE AUTH CODE FROM BROWSER&gt;"
+                              TextChanged="gdriveAuthCode_TextChanged_1"
+                              VerticalAlignment="Top" />
+            <s:SurfaceButton x:Name="btnOk" HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom" Background="{x:Null}"
+                             Click="btnOk_Click_1">
+                <Border Width="40" Height="40" CornerRadius="30" Background="{DynamicResource next}" />
+            </s:SurfaceButton>
+        </StackPanel>
+    </Grid>
+</s:SurfaceWindow>

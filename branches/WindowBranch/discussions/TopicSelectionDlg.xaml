@@ -1,0 +1,49 @@
+﻿<s:SurfaceWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="TopicSelectionDlg_OnLoaded"
+    x:Class="Discussions.TopicSelectionDlg"
+    Title="Topic selection"
+    WindowStartupLocation="CenterScreen"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"
+    MaxWidth="500"
+    MaxHeight="500"
+    Icon="discusys iconv3.ico" SizeToContent="Height">
+
+    <s:SurfaceWindow.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+    </s:SurfaceWindow.Resources>
+
+    <s:SurfaceWindow.Background>
+        <StaticResource ResourceKey="WndBg"/>
+    </s:SurfaceWindow.Background>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MinHeight="0.333" />
+        </Grid.RowDefinitions>
+        <s:SurfaceListBox x:Name="lstTopics" DisplayMemberPath="Name" Grid.Row="1"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Select topic" VerticalAlignment="Top"
+                   FontSize="21.333"/>
+        <s:SurfaceButton x:Name="btnOk" Click="btnOk_Click_1" Content="Ok" HorizontalAlignment="Right" Grid.Row="4"
+                         VerticalAlignment="Bottom" Width="68"/>
+        <s:SurfaceListBox x:Name="lstFormat" Grid.Row="3">
+        </s:SurfaceListBox>
+        <TextBlock HorizontalAlignment="Left" FontSize="21.333"  Grid.Row="2" TextWrapping="Wrap" Text="Select format" VerticalAlignment="Top"/>
+    </Grid>
+</s:SurfaceWindow>

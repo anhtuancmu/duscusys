@@ -1,0 +1,53 @@
+﻿	<h3>
+			<a id="argPoints">Argument points</a> 
+		</h3>
+
+		<#
+			foreach (var pers in ReportParams.Session.Person)
+			{
+				if (pers == null)
+				{
+					continue;
+				}
+
+				bool personValid = true;
+				ArgPoint invalidAp = null;
+				foreach (var ap in pers.ArgPoint)
+					if (ap==null || ap.Topic == null)
+					{
+						personValid = false;
+						invalidAp = ap;
+					}
+
+				if (!personValid)
+				{                    									
+					continue;
+				}
+
+				#>
+				
+				<h4>
+					<a id="argPointsOf<#=pers.Id#>">Argument points of  <#= pers.Name #> </a>  
+				</h4>
+				
+				<#
+
+				var argPointsOf = Helpers.ArgPointsOf(pers, ReportParams.Discussion, ReportParams.Topic);
+				if (argPointsOf.Count() > 0)
+				{
+					foreach (var ap in argPointsOf.OrderBy(ap=>ap.OrderNumber))
+					{
+						if (!ap.SharedToPublic)
+							continue;
+						
+						ArgPointNode(ap);                      
+					}
+				}
+				else
+				{
+					#>
+						<No arguments> 
+					<#
+				}
+			}
+			#>

@@ -1,0 +1,13 @@
+﻿<Window x:Class="Discussions.VideoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Video" xmlns:my="clr-namespace:Discussions.YouViewer"
+        Background="{x:Null}" Foreground="{x:Null}"
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        HorizontalAlignment="Center" VerticalAlignment="Center"
+        WindowStartupLocation="Manual" WindowStyle="None"
+        Activated="Window_Activated" SizeChanged="Window_SizeChanged">
+    <Grid>
+        <my:Viewer x:Name="viewer" />
+    </Grid>
+</Window>

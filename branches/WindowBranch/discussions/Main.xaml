@@ -1,0 +1,414 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:local="clr-namespace:Discussions"
+    xmlns:localLE="clr-namespace:Discussions;assembly=LoginEngine"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:stats="clr-namespace:Discussions.stats;assembly=LoginEngine"
+    xmlns:metro="clr-namespace:Discussions.Metro;assembly=LoginEngine"
+    x:Class="Discussions.Main"
+    Title="Discussions" mc:Ignorable="d"
+    d:DesignHeight="757" d:DesignWidth="1423"
+    WindowStartupLocation="CenterScreen"
+    SizeToContent="Manual"
+    Initialized="MainWindow_Initialized"
+    Loaded="MainWindow_Loaded"
+    Closing="SurfaceWindow_Closing" Background="{x:Null}" Icon="discusys%20iconv3.ico">
+
+    <Window.Resources>
+        <local:OnlineToStrConvertor x:Key="OnlineToStr" />
+        <local:OnlineToColorBrushConverter x:Key="OnlineBrushConv" />
+        <localLE:DevTypeConverter x:Key="devTypeConv" />
+        <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
+
+        <Style x:Key="CloseButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Viewbox x:Name="Close">
+                                <Canvas Width="15.4167" Height="15.5001">
+                                    <Path x:Name="Rect1" Width="15.4167" Height="15.5001" Canvas.Left="0"
+                                          Canvas.Top="0" Stretch="Fill" Fill="#00000000"
+                                          Data="F1 M 2,0L 13.4167,0C 14.5212,0 15.4167,0.895447 15.4167,2L 15.4167,13.5001C 15.4167,14.6046 14.5212,15.5001 13.4167,15.5001L 2,15.5001C 0.895447,15.5001 0,14.6046 0,13.5001L 0,2C 0,0.895447 0.895447,0 2,0 Z " />
+                                    <Path x:Name="X1" Width="15.001" Height="15.001" Canvas.Left="0.209"
+                                          Canvas.Top="0.235" Stretch="Fill" Fill="#FF000000"
+                                          Data="F1 M 14.7216,0.723328C 15.3725,1.37421 15.3725,2.4295 14.7216,3.08038L 10.0667,7.73535L 14.7218,12.3905C 15.3727,13.0414 15.3726,14.0966 14.7217,14.7475C 14.0709,15.3984 13.0156,15.3984 12.3647,14.7475L 7.70959,10.0924L 3.05438,14.7476C 2.4035,15.3985 1.34827,15.3985 0.697388,14.7476C 0.0465088,14.0967 0.0465088,13.0414 0.697388,12.3906L 5.3526,7.73541L 0.697449,3.08026C 0.0465698,2.42938 0.0465698,1.37415 0.697449,0.723267C 1.34833,0.0723877 2.40363,0.0723877 3.0545,0.723267L 7.70966,5.37836L 12.3646,0.723328C 13.0155,0.0724487 14.0707,0.0724487 14.7216,0.723328 Z " />
+                                    <Path x:Name="X2" Width="13.6364" Height="13.6351" Canvas.Left="0.891403"
+                                          Canvas.Top="0.91861" Stretch="Fill" Fill="#FFD7D7D7"
+                                          Data="F1 M 1.19855,1.2243C 1.60614,0.816711 2.26715,0.816711 2.67474,1.2243L 7.70966,6.25922L 12.7444,1.22443C 13.152,0.816711 13.813,0.816711 14.2207,1.22437C 14.6284,1.63202 14.6284,2.29303 14.2206,2.70062L 9.18585,7.73541L 14.222,12.7716C 14.6297,13.1793 14.6297,13.8402 14.222,14.2479C 13.8143,14.6556 13.1535,14.6556 12.7458,14.2479L 7.70966,9.21173L 2.67346,14.2479C 2.26575,14.6556 1.6048,14.6556 1.19714,14.2479C 0.78949,13.8403 0.78949,13.1793 1.19714,12.7716L 6.23334,7.73541L 1.19855,2.70062C 0.790894,2.29297 0.790833,1.63202 1.19855,1.2243 Z " />
+                                </Canvas>
+                            </Viewbox>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="X2" Value="#FF67C8FF" />
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True" />
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MinimizeButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Viewbox x:Name="Minimize">
+                                <Canvas Width="15.4166" Height="15.5">
+                                    <Path x:Name="Rect" Width="15.4166" Height="15.5" Canvas.Left="0" Canvas.Top="0"
+                                          Stretch="Fill" Fill="#00C80000"
+                                          Data="F1 M 2,0L 13.4166,0C 14.5212,0 15.4166,0.895386 15.4166,2L 15.4166,13.5C 15.4166,14.6046 14.5212,15.5 13.4166,15.5L 2,15.5C 0.895386,15.5 0,14.6046 0,13.5L 0,2C 0,0.895386 0.895386,0 2,0 Z " />
+                                    <Path x:Name="Path" Width="15" Height="3.29211" Canvas.Left="0.203247"
+                                          Canvas.Top="12.0621" Stretch="Fill" Fill="#FF000000"
+                                          Data="F1 M 1.84924,12.0621L 13.5572,12.0621C 14.4663,12.0621 15.2032,12.7991 15.2032,13.7082L 15.2032,13.7082C 15.2032,14.6173 14.4663,15.3542 13.5572,15.3542L 1.84924,15.3542C 0.940186,15.3542 0.203247,14.6173 0.203247,13.7082L 0.203247,13.7082C 0.203247,12.7991 0.940186,12.0621 1.84924,12.0621 Z " />
+                                    <Path x:Name="Path_0" Width="13.6262" Height="2.20911" Canvas.Left="0.890076"
+                                          Canvas.Top="12.6036" Stretch="Fill" Fill="#FFCBCBCB"
+                                          Data="F1 M 1.99463,12.6036L 13.4117,12.6036C 14.0218,12.6036 14.5162,13.0981 14.5162,13.7082L 14.5162,13.7082C 14.5162,14.3182 14.0218,14.8127 13.4117,14.8127L 1.99463,14.8127C 1.38458,14.8127 0.890076,14.3182 0.890076,13.7082L 0.890076,13.7082C 0.890076,13.0981 1.38458,12.6036 1.99463,12.6036 Z " />
+                                </Canvas>
+                            </Viewbox>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="Path_0" Value="#FF67C8FF" />
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True" />
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Key="OnMouseEnter1">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ExtrasGrid"
+                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" />
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="-35" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeave1">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ExtrasGrid"
+                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="-35" />
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Style x:Key="SkinButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle Fill="#FFB50000" Stroke="{x:Null}" x:Name="rectangle" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FFD10000" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GreenButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle Fill="#FF04822A" Stroke="{x:Null}" x:Name="rectangle" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FF05A234" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BlueButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle Fill="#FF0099cc" Stroke="{x:Null}" x:Name="rectangle" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FF035396" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PurpleButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle Fill="#FF67037A" Stroke="{x:Null}" x:Name="rectangle" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="rectangle" Value="#FF85029E" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SettingsButtonStyle" BasedOn="{x:Null}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="RotateCogReverse">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="path"
+                                                               Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00" Value="179.06" />
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="90" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="RotateCog">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="path"
+                                                               Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00" Value="90" />
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="179.06" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Grid>
+                            <Rectangle Fill="#00FFFFFF" Stroke="#FF000000" />
+                            <Path Fill="#FFFFFFFF" Stretch="Fill" Stroke="{x:Null}"
+                                  RenderTransformOrigin="0.500000004069009,0.5"
+                                  Data="M11.2495,6.0420003 C8.3734743,6.0420003 6.0420003,8.3737047 6.0420003,11.25 6.0420003,14.126296 8.3734766,16.458 11.2495,16.458 14.125523,16.458 16.457001,14.126297 16.457001,11.25 16.457001,8.3737034 14.125525,6.0420003 11.2495,6.0420003 z M9.4165001,0 L13.0835,0 13.0835,3.2868118 14.492886,3.5713878 15.593504,4.3135347 17.90847,1.9985683 20.501431,4.5915289 18.186081,6.9068799 18.927191,8.0062256 19.211878,9.4165001 22.5,9.4165001 22.5,13.0835 19.211878,13.0835 18.927191,14.493774 18.186081,15.59312 20.501431,17.90847 17.90847,20.501432 15.593504,18.186464 14.492886,18.928612 13.0835,19.213188 13.0835,22.5 9.4165001,22.5 9.4165001,19.21339 8.006115,18.928612&#xa;6.9060936,18.186867 4.5915289,20.501432 1.9985685,17.90847 4.3133221,15.593717 3.5718093,14.493774 3.2871222,13.0835 0,13.0835 0,9.4165001 3.2871222,9.4165001 3.5718093,8.0062256 4.3133221,6.9062824 1.9985685,4.5915289 4.5915289,1.9985683 6.9060926,4.3131323 8.006115,3.5713878 9.4165001,3.2866099 z"
+                                  x:Name="path">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        <SkewTransform AngleX="0" AngleY="0" />
+                                        <RotateTransform Angle="90" />
+                                        <TranslateTransform X="0" Y="0" />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True" />
+                            <Trigger Property="IsDefaulted" Value="True" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource RotateCogReverse}" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource RotateCog}"
+                                                     x:Name="RotateCog_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True" />
+                            <Trigger Property="IsEnabled" Value="False" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="SettingsButtonTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <Rectangle Fill="#FF1E8E88" Stroke="#FF7C7C7C" x:Name="rectangle" />
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" TargetName="rectangle" Value="#FF12A59D" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="ExtrasCanvas">
+            <BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}" />
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="ExtrasCanvas">
+            <BeginStoryboard Storyboard="{StaticResource OnMouseLeave1}" x:Name="OnMouseLeave1_BeginStoryboard" />
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Rectangle x:Name="MainBgrndRct" Fill="{DynamicResource MainBgrndRctFill}"
+                   Stroke="{DynamicResource MainBgrndRctStroke}" />
+
+        <Grid HorizontalAlignment="Right" Margin="0,0,-44,-49" VerticalAlignment="Bottom" Width="321" Height="271"
+              Visibility="Visible">
+            <Ellipse Fill="#00FFFFFF" Stroke="#22FFFFFF" StrokeThickness="3" Margin="79,23,0,0"
+                     RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                        <SkewTransform AngleX="0" AngleY="0" />
+                        <RotateTransform Angle="0" />
+                        <TranslateTransform X="0" Y="0" />
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse Fill="#00FFFFFF" Stroke="#19FFFFFF" StrokeThickness="3" HorizontalAlignment="Left"
+                     Margin="-36.333,35,0,76" Width="155.333" />
+            <Ellipse Fill="#00FFFFFF" Stroke="#1EFFFFFF" StrokeThickness="3" Margin="86,7,131,0"
+                     VerticalAlignment="Top" Height="96" />
+        </Grid>
+        <Grid Margin="100,0,0,0" Height="521.767" Visibility="Visible" Width="550" HorizontalAlignment="Left"
+              VerticalAlignment="Top">
+            <Ellipse Fill="{x:Null}" Stroke="#25FFFFFF" StrokeThickness="3" Margin="-49,-72,0,0"
+                     HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="120" />
+            <Ellipse Fill="{x:Null}" Stroke="#24FFFFFF" StrokeThickness="3" Margin="-21,-25,94,71"
+                     RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                        <SkewTransform AngleX="0" AngleY="0" />
+                        <RotateTransform Angle="0" />
+                        <TranslateTransform X="0" Y="0" />
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse Fill="{x:Null}" Stroke="#1FFFFFFF" StrokeThickness="3" Margin="100,82,61,52" />
+            <Ellipse Fill="{x:Null}" Stroke="#1EFFFFFF" StrokeThickness="3" Margin="0,48,60,0" VerticalAlignment="Top"
+                     Height="56" Width="56" HorizontalAlignment="Right" />
+        </Grid>
+        <UniformGrid x:Name="buttonGrid" Rows="2" Columns="4"
+                     VerticalAlignment="Center" Margin="0,0,0,96" Width="809" HorizontalAlignment="Center" Height="401">
+            <metro:TopicTile x:Name="btnModeratorBoard" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnUserManager" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnSeatManager" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnSessionManager" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnSessionViewer" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnDiscussionInfo" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnPrivate" Height="Auto" Margin="0,0,12.25,11" />
+            <metro:TopicTile x:Name="btnPublic" Height="Auto" Margin="0,0,12.25,11" />
+            <metro:TopicTile x:Name="btnMeg" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnReporter" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnResults" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnLogOut" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </UniformGrid>
+
+        <Button Style="{DynamicResource CloseButtonStyle}" Width="11.195" Content="Button" x:Name="CloseButton"
+                Click="CloseButton_Click" Cursor="Hand" HorizontalAlignment="Right" Margin="0,5.583,126,0"
+                VerticalAlignment="Top" Height="12.77" Visibility="Collapsed" />
+        <Button Style="{DynamicResource MinimizeButtonStyle}" Width="12.402" Content="Button" x:Name="MinimizeButton"
+                Click="MinimizeButton_Click" Cursor="Hand" HorizontalAlignment="Right" Margin="0,4.733,141,0"
+                VerticalAlignment="Top" Height="13.537" Visibility="Collapsed" />
+
+        <Canvas x:Name="ExtrasCanvas" VerticalAlignment="Bottom" Height="33" Background="#00000000" Margin="0,0,-1,0">
+            <Grid Width="1408.5" Height="33" x:Name="ExtrasGrid" Background="#FF000000" Canvas.Top="35"
+                  RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                        <SkewTransform AngleX="0" AngleY="0" />
+                        <RotateTransform Angle="0" />
+                        <TranslateTransform X="0" Y="0" />
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid Margin="651.5,6,586,6">
+                    <s:SurfaceButton MinWidth="1" MinHeight="1" HorizontalAlignment="Left" Click="RedSkinButton_Click"
+                                     Style="{DynamicResource SkinButtonStyle}" Width="21" Content="Button"
+                                     x:Name="RedSkinButton" Cursor="Hand" />
+                    <s:SurfaceButton MinWidth="1" MinHeight="1" HorizontalAlignment="Left"
+                                     Click="GreenSkinButton_Click" Margin="49,0,0,0" x:Name="GreenSkinButton"
+                                     Style="{DynamicResource GreenButtonStyle}" Width="21" Content="Button"
+                                     Cursor="Hand" />
+                    <s:SurfaceButton MinWidth="1" MinHeight="1" Margin="0,0,50,0" Click="BlueSkinButton_Click"
+                                     x:Name="BlueSkinButton" Style="{DynamicResource BlueButtonStyle}" Content="Button"
+                                     Width="21" HorizontalAlignment="Right" Cursor="Hand" />
+                    <s:SurfaceButton MinWidth="1" MinHeight="1" x:Name="PurpleSkinButton"
+                                     Click="PurpleSkinButton_Click" Style="{DynamicResource PurpleButtonStyle}"
+                                     Content="Button" HorizontalAlignment="Right" Width="21" Cursor="Hand" />
+                </Grid>
+            </Grid>
+        </Canvas>
+
+        <Label Content="Version" HorizontalAlignment="Right" x:Name="lblVersion" VerticalAlignment="Bottom"
+               Foreground="White" FontSize="18.667" />
+        <Label Content="Tohoku University  Discussion Support System" VerticalAlignment="Top" FontSize="26.667"
+               HorizontalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" />
+        <Label x:Name="lblWelcome" Content="Welcome" HorizontalAlignment="Right" VerticalAlignment="Top"
+               Margin="0,62,0,0" Foreground="White" FontSize="18.667" Visibility="Collapsed" />
+        <s:SurfaceListBox x:Name="lstBxPlayers"
+                          ItemsSource="{Binding UsersStatus}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          Background="Transparent" BorderBrush="Transparent"
+                          HorizontalAlignment="Left" Width="225" Focusable="False">
+            <s:SurfaceListBox.Resources>
+                <Style TargetType="{x:Type s:SurfaceListBoxItem}">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </s:SurfaceListBox.Resources>
+
+            <s:SurfaceListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Name}"
+                                   Foreground="{Binding Online, Converter={StaticResource OnlineBrushConv}}" />
+                        <TextBlock Text="{Binding Online, Converter={StaticResource OnlineToStr}}"
+                                   Foreground="{Binding Online, Converter={StaticResource OnlineBrushConv}}"
+                                   Grid.Column="1" />
+                        <TextBlock Foreground="White"
+                                   Visibility="{Binding Online, Converter={StaticResource VisibilityOfBool}}"
+                                   Text="{Binding OnlineDevType, Converter={StaticResource devTypeConv}}"
+                                   Grid.Column="2" />
+                    </Grid>
+                </DataTemplate>
+            </s:SurfaceListBox.ItemTemplate>
+        </s:SurfaceListBox>
+        <local:MiniUserAccount x:Name="avatar" HorizontalAlignment="Right" VerticalAlignment="Top"
+                               d:LayoutOverrides="Height" Width="Auto" />
+        <s:SurfaceListBox x:Name="lstBxEvents" Focusable="False" HorizontalAlignment="Right" Margin="0,85,0,34"
+                          Width="228"
+                          Background="Transparent" BorderBrush="Transparent"
+                          ItemsSource="{Binding RecentEvents}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <s:SurfaceListBox.Resources>
+                <Style TargetType="{x:Type s:SurfaceListBoxItem}">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </s:SurfaceListBox.Resources>
+
+            <s:SurfaceListBox.ItemTemplate>
+                <DataTemplate>
+                    <stats:EventView />
+                </DataTemplate>
+            </s:SurfaceListBox.ItemTemplate>
+        </s:SurfaceListBox>
+        <Label x:Name="lblSessionInfo" Content="Tohoku University  Discussion Support System" VerticalAlignment="Top"
+               FontSize="22.667" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+               Foreground="#FFFFFF6F" Margin="0,43,0,0" Background="#00000000" />
+    </Grid>
+</Window>

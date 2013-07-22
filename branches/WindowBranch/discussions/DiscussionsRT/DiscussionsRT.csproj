@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F9AA08F9-C441-4BDA-8029-DC702643B09A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Discussions.RTModel</RootNamespace>
+    <AssemblyName>DiscussionsRT</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\DiscussionsRT\bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ExitGamesLibs, Version=0.9.9.3, Culture=neutral, PublicKeyToken=eac0edd9746a4aa0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\ExitGamesLibs.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon.SocketServer">
+      <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\Photon.SocketServer.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonHostRuntimeInterfaces">
+      <HintPath>..\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.cs" />
+    <Compile Include="BadgeShapeIdGenerator.cs" />
+    <Compile Include="BroadcastTo.cs" />
+    <Compile Include="Caching\DiscussionGameCache.cs" />
+    <Compile Include="Caching\DiscussionLobbyCache.cs" />
+    <Compile Include="ClusterTopology.cs" />
+    <Compile Include="ConvexHull.cs" />
+    <Compile Include="DiscussionLobby.cs" />
+    <Compile Include="EventLogger.cs" />
+    <Compile Include="IServerVdShape.cs" />
+    <Compile Include="Model\ActProps.cs" />
+    <Compile Include="Model\ClusterBadgeMessage.cs" />
+    <Compile Include="Model\ClusterCreateMessage.cs" />
+    <Compile Include="Model\ClusterStatsRequest.cs" />
+    <Compile Include="Model\ClusterStatsResponse.cs" />
+    <Compile Include="Model\BadgeViewMessage.cs" />
+    <Compile Include="Model\CommentsReadEvent.cs" />
+    <Compile Include="Model\LaserPointer.cs" />
+    <Compile Include="Model\PointerCleanupMessage.cs" />
+    <Compile Include="Model\ScreenshotResponse.cs" />
+    <Compile Include="Model\ScreenshotRequest.cs" />
+    <Compile Include="Model\ExplanationModeSyncMsg.cs" />
+    <Compile Include="Model\LinkHeadType.cs" />
+    <Compile Include="Model\LinkReportRequest.cs" />
+    <Compile Include="Model\DEditorStatsResponse.cs" />
+    <Compile Include="Model\DEditorStatsRequest.cs" />
+    <Compile Include="Model\InkMessage.cs" />
+    <Compile Include="Model\LinkReportResponse.cs" />
+    <Compile Include="Model\UnclusterBadgeMessage.cs" />
+    <Compile Include="Model\LinkCreateMessage.cs" />
+    <Compile Include="Model\InitialSceneLoadRequest.cs" />
+    <Compile Include="Model\PointChangedType.cs" />
+    <Compile Include="Model\ServerCursor.cs" />
+    <Compile Include="Model\ShapeState.cs" />
+    <Compile Include="Model\DeleteSingleShapeEvent.cs" />
+    <Compile Include="Model\DeleteSingleShapeRequest.cs" />
+    <Compile Include="Model\UnselectAllEvent.cs" />
+    <Compile Include="Model\UnselectAllRequest.cs" />
+    <Compile Include="Model\VdShapeType.cs" />
+    <Compile Include="Normalizer.cs" />
+    <Compile Include="Model\CursorEvent.cs" />
+    <Compile Include="Model\CursorRequest.cs" />
+    <Compile Include="Model\PointMove.cs" />
+    <Compile Include="Model\DeleteShapesRequest.cs" />
+    <Compile Include="Model\CreateShape.cs" />
+    <Compile Include="Model\DiscUser.cs" />
+    <Compile Include="Model\LockShapeRequest.cs" />
+    <Compile Include="Model\LockShapeEvent.cs" />
+    <Compile Include="Model\SharedView.cs" />
+    <Compile Include="BadgeGeometry.cs" />
+    <Compile Include="DiscussionPeer.cs" />
+    <Compile Include="DiscussionRoom.cs" />
+    <Compile Include="Model\Serializers.cs" />
+    <Compile Include="Model\TestHelper.cs" />
+    <Compile Include="Model\UserCursor.cs" />
+    <Compile Include="Operations\BadgeGeometryOperation.cs" />
+    <Compile Include="Operations\DiscussionMsgCode.cs" />
+    <Compile Include="Operations\DiscussionEventCode.cs" />
+    <Compile Include="Operations\DiscussionParamKey.cs" />
+    <Compile Include="Operations\DiscussionOpCode.cs" />
+    <Compile Include="Operations\TestOperation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenshotHandler.cs" />
+    <Compile Include="ServerBaseVdShape.cs" />
+    <Compile Include="ServerVdDoc.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="VectProcessor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PhotonServer.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DbModel\DbModel.csproj">
+      <Project>{A833B419-0DE5-4B12-8C15-31995EB1DC27}</Project>
+      <Name>DbModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LiteLobby\LiteLobby.csproj">
+      <Project>{FA7E92F0-41E3-4295-9CB1-1B9A2F0605B5}</Project>
+      <Name>LiteLobby</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lite\Lite.csproj">
+      <Project>{E1F918F4-F581-4280-9D91-3CF77B24C290}</Project>
+      <Name>Lite</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

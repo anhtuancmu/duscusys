@@ -1,0 +1,29 @@
+﻿<Application x:Class="EventGen.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             StartupUri="EventGenWnd.xaml">
+    <Application.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+
+        <Style TargetType="{x:Type TextElement}">
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+
+        <Style TargetType="{x:Type s:SurfaceButton}">
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+
+        <Style TargetType="{x:Type s:SurfaceTextBox}">
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+        </Style>
+    </Application.Resources>
+</Application>

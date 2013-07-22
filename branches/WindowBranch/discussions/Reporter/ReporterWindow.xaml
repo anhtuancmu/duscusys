@@ -1,0 +1,93 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Reporter"
+    mc:Ignorable="d"
+    x:Class="Reporter.ReporterWindow"
+    KeyDown="MainWindow_KeyDown_1"
+    Title="Discusys reporting" Height="613" Width="835" Background="#FF858585" WindowState="Maximized">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="136*" />
+            <ColumnDefinition Width="137*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <local:ReportSummaryUC x:Name="reportHeader1" Grid.Row="1" Margin="0,0,0,4" />
+        <local:ReportSummaryUC x:Name="reportHeader2" Grid.Row="1" Grid.Column="1" />
+        <StackPanel Orientation="Horizontal">
+
+            <s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh"
+                             HorizontalAlignment="Left" VerticalAlignment="Top"
+                             Height="50" Width="150" Margin="0" Background="#CC7DF7B4" />
+            <s:SurfaceButton x:Name="btnSpss" Content="SPSS" VerticalAlignment="Top" Height="50" Click="btnSpss_Click"
+                             Margin="0" />
+            <s:SurfaceButton x:Name="btnExcel" Content="Excel" VerticalAlignment="Top" Height="50"
+                             Click="btnExcel_Click_1" Margin="0" />
+        </StackPanel>
+
+        <s:SurfaceScrollViewer Grid.Row="2" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">
+            <TreeView Name="leftReportTree" Background="LightGray" FontSize="21.333"
+                      SelectedItemChanged="leftReportTree_SelectedItemChanged_1">
+                <TreeView.Resources>
+                    <ResourceDictionary Source="GroupedTreeViewItemStyle.xaml" />
+                </TreeView.Resources>
+                <TreeView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </TreeView.ItemsPanel>
+
+                <TreeViewItem Name="topicSection1" Header="Topic" IsExpanded="True" />
+                <TreeViewItem Name="usersSection1" Header="Users" IsExpanded="True" />
+                <TreeViewItem Name="eventSection1" Header="Events" IsExpanded="True" />
+            </TreeView>
+        </s:SurfaceScrollViewer>
+        <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Discusys Reporting System"
+                   VerticalAlignment="Top" FontSize="35.333" Grid.ColumnSpan="2" Foreground="White" />
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="500" Margin="0,47,0,0" Grid.ColumnSpan="2"
+              Height="21">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="293*" />
+                <ColumnDefinition Width="207*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <TextBlock TextWrapping="Wrap" Text="Last Sync:" FontSize="16" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Foreground="White" />
+                <TextBlock Text=" " />
+                <TextBlock x:Name="txtLastSync" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"
+                           FontSize="16" Text="" Foreground="White" />
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="version 0.9" VerticalAlignment="Center"
+                       FontSize="16" Grid.Column="1" Foreground="White" />
+        </Grid>
+
+        <s:SurfaceScrollViewer Grid.Row="2" Grid.Column="1" PreviewMouseWheel="SurfaceScrollViewer_MouseWheel_1">
+            <TreeView Name="rightReportTree" Background="LightGray" FontSize="21.333"
+                      SelectedItemChanged="rightReportTree_SelectedItemChanged_1">
+                <TreeView.Resources>
+                    <ResourceDictionary Source="GroupedTreeViewItemStyle.xaml" />
+                </TreeView.Resources>
+                <TreeView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </TreeView.ItemsPanel>
+
+                <TreeViewItem x:Name="topicSection2" Header="Topic" IsExpanded="True" />
+                <TreeViewItem x:Name="usersSection2" Header="Users" IsExpanded="True" />
+                <TreeViewItem x:Name="eventSection2" Header="Events" IsExpanded="True" />
+            </TreeView>
+        </s:SurfaceScrollViewer>
+    </Grid>
+</Window>

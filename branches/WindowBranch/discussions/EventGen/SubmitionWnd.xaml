@@ -1,0 +1,19 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    x:Class="EventGen.SubmitionWnd"
+    Title="Timeline submission" WindowStartupLocation="CenterScreen" Width="400">
+    <Grid Background="#FFAEAEAE">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer>
+            <TextBlock Name="stats" FontSize="14" />
+        </ScrollViewer>
+        <Custom:SurfaceButton Name="Submit" Content="Submit" Click="Submit_Click_1"
+                              HorizontalAlignment="Right" Height="19"
+                              Grid.Row="1" VerticalAlignment="Top" Width="67" />
+    </Grid>
+</Window>
