@@ -20,6 +20,7 @@
         </Grid.ColumnDefinitions>
         <yt:YouTubeResultControl DataContext="{Binding}" VerticalAlignment="Center" Margin="0,30" Grid.Column="1" />
         <Rectangle Width="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}"
+                   RenderOptions.BitmapScalingMode="HighQuality"
                    HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Grid.Row="1" />
 
         <StackPanel Grid.Column="2" VerticalAlignment="Center">
