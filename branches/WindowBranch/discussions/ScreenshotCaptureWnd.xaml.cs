@@ -4,11 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions
 {
-    public partial class ScreenshotCaptureWnd : SurfaceWindow
+    public partial class ScreenshotCaptureWnd : Window
     {
         private System.Windows.Point _topLeft;
 

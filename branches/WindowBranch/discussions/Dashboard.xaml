@@ -9,7 +9,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Closing="SurfaceWindow_Closing"
         Background="{StaticResource WndBg}"
-        WindowStyle="SingleBorderWindow" ResizeMode="CanResize" WindowState="Maximized" Topmost="False"
+        WindowState="Maximized"
+        WindowStyle="SingleBorderWindow" 
+        ResizeMode="CanResize" 
+        Topmost="False"
         d:DesignHeight="785" d:DesignWidth="910"
         WindowStartupLocation="CenterScreen">
 

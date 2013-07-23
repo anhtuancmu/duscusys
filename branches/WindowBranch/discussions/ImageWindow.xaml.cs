@@ -1,25 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Discussions.DbModel;
-using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
 
 namespace Discussions
 {
-    public partial class ImageWindow : SurfaceWindow
+    public partial class ImageWindow : Window
     {
         private const double MIN_ZOOM = 0.5;
         private const double MAX_ZOOM = 5;

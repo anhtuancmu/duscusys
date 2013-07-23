@@ -1,4 +1,4 @@
-﻿<my1:SurfaceWindow
+﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
@@ -22,4 +22,4 @@
         <my:FullSelector x:Name="participantSelector" d:LayoutOverrides="Height" />
         <my:SideSelector x:Name="sideSelector" Grid.Row="3" />
     </Grid>
-</my1:SurfaceWindow>
+</Window>

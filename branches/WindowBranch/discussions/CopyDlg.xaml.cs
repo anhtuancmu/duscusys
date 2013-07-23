@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions
 {
     /// <summary>
     /// Interaction logic for CopyDlg.xaml
     /// </summary>
-    public partial class CopyDlg : SurfaceWindow
+    public partial class CopyDlg : Window
     {
         public ObservableCollection<Topic> srcTopics { get; set; }
         public ObservableCollection<Topic> dstTopics { get; set; }

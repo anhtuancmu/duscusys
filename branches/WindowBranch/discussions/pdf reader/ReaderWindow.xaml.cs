@@ -18,7 +18,7 @@ using Microsoft.Surface.Presentation.Input;
 
 namespace Discussions.pdf_reader
 {
-    public partial class ReaderWindow : SurfaceWindow
+    public partial class ReaderWindow : Window
     {
         public ReaderWindow(string PdfPathName)
         {

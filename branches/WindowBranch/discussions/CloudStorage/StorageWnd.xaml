@@ -1,4 +1,4 @@
-﻿<s:SurfaceWindow
+﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
@@ -9,7 +9,7 @@
     Title="Cloud storage viewer"
     Height="389" Width="931.5"
     Background="{DynamicResource WndBg}">
-    <s:SurfaceWindow.Resources>
+    <Window.Resources>
         <ImageBrush x:Key="greenTick" ImageSource="Resources/accept-icon.png" Stretch="Uniform" />
 
         <Style TargetType="{x:Type Label}">
@@ -116,7 +116,7 @@
                 </Style>
             </Style.BasedOn>
         </Style>
-    </s:SurfaceWindow.Resources>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -262,4 +262,4 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-</s:SurfaceWindow>
+</Window>
