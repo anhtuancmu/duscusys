@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Microsoft.Surface.Presentation.Controls;
 using Discussions;
 using System.Windows.Threading;
 using VectorEngine;
@@ -22,15 +19,17 @@ namespace DistributedEditor
         private const int UNDEFINED_CLUSTER = -1;
 
         //used to show border being drawn
-        private Polygon drawingBorder;
-        private Polygon convexHull;
-        private System.Windows.Shapes.Path bezierBorder;
+        private Polygon _drawingBorder;
+        private Polygon _convexHull;
+        private System.Windows.Shapes.Path _bezierBorder;
 
-        private Canvas scene;
+        private Canvas _scene;
 
-        private ClientCluster _endpoint;
+        private readonly ClientCluster _endpoint;
 
-        private VdDocument _doc;
+        private readonly VdDocument _doc;
+
+        public int numManipulators;
 
         private ShapeCaptionsManager _captions;
 
@@ -98,7 +97,7 @@ namespace DistributedEditor
 
         public void SetZIndex(int z)
         {
-            Canvas.SetZIndex(bezierBorder, z);
+            Canvas.SetZIndex(_bezierBorder, z);
             if (_captions != null)
             {
                 Canvas.SetZIndex(_captions.btnDraw, z + 1);
@@ -113,35 +112,39 @@ namespace DistributedEditor
 
         private void init(Color c)
         {
-            convexHull = new System.Windows.Shapes.Polygon();
+            _convexHull = new System.Windows.Shapes.Polygon();
             //convexHull.Stroke = new SolidColorBrush(Colors.Red);
             //convexHull.StrokeThickness = ShapeUtils.LINE_WIDTH;
             // hull.Fill = new SolidColorBrush(Color.FromArgb(30, 10, 50, 10));
             //hull.Effect = ShapeUtils.ShadowProvider();
-            convexHull.Tag = this;
+            _convexHull.Tag = this;
 
-            drawingBorder = new System.Windows.Shapes.Polygon();
-            drawingBorder.Stroke = new SolidColorBrush(c);
-            drawingBorder.StrokeThickness = ShapeUtils.LINE_WIDTH;
-            drawingBorder.Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
-            drawingBorder.Tag = this;
+            _drawingBorder = new System.Windows.Shapes.Polygon
+                {
+                    Stroke = new SolidColorBrush(c),
+                    StrokeThickness = ShapeUtils.LINE_WIDTH,
+                    Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0)),
+                    Tag = this
+                };
 
-            bezierBorder = new System.Windows.Shapes.Path();
-            bezierBorder.Stroke = new SolidColorBrush(c);
-            bezierBorder.StrokeThickness = ShapeUtils.LINE_WIDTH;
-            bezierBorder.Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
-            bezierBorder.Tag = this;
+            _bezierBorder = new System.Windows.Shapes.Path
+                {
+                    Stroke = new SolidColorBrush(c),
+                    StrokeThickness = ShapeUtils.LINE_WIDTH,
+                    Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0)),
+                    Tag = this
+                };
         }
 
         public UIElement UnderlyingControl()
         {
-            return bezierBorder;
+            return _bezierBorder;
         }
 
         public void Hide()
         {
             _cursorView.Visibility = Visibility.Hidden;
-            bezierBorder.Visibility = Visibility.Hidden;
+            _bezierBorder.Visibility = Visibility.Hidden;
             _captions.btnDraw.Visibility = Visibility.Hidden;
             _captions.btnType.Visibility = Visibility.Hidden;
         }
@@ -149,14 +152,14 @@ namespace DistributedEditor
         public void Show()
         {
             _cursorView.Visibility = Visibility.Visible;
-            bezierBorder.Visibility = Visibility.Visible;
+            _bezierBorder.Visibility = Visibility.Visible;
             _captions.btnDraw.Visibility = Visibility.Visible;
             _captions.btnType.Visibility = Visibility.Visible;
         }
 
         public bool IsVisible()
         {
-            return bezierBorder.Visibility == Visibility.Visible;
+            return _bezierBorder.Visibility == Visibility.Visible;
         }
 
         //callback from EditorWndCtx
@@ -194,14 +197,14 @@ namespace DistributedEditor
 
         void IVdShape.AttachToCanvas(Canvas c)
         {
-            scene = c;
+            _scene = c;
 
-            if (c.Children.Contains(convexHull))
+            if (c.Children.Contains(_convexHull))
                 return;
 
-            c.Children.Add(drawingBorder);
-            c.Children.Add(convexHull);
-            c.Children.Add(bezierBorder);
+            c.Children.Add(_drawingBorder);
+            c.Children.Add(_convexHull);
+            c.Children.Add(_bezierBorder);
 
             c.Children.Add(_cursorView);
 
@@ -211,10 +214,10 @@ namespace DistributedEditor
 
         void IVdShape.DetachFromCanvas(Canvas c)
         {
-            scene = null;
-            c.Children.Remove(drawingBorder);
-            c.Children.Remove(convexHull);
-            c.Children.Remove(bezierBorder);
+            _scene = null;
+            c.Children.Remove(_drawingBorder);
+            c.Children.Remove(_convexHull);
+            c.Children.Remove(_bezierBorder);
 
             c.Children.Remove(_cursorView);
 
@@ -239,7 +242,7 @@ namespace DistributedEditor
                     setUsrCursor();
                 }
 
-                drawingBorder.Points.Add(p);
+                _drawingBorder.Points.Add(p);
             }
             else
             {
@@ -248,8 +251,7 @@ namespace DistributedEditor
 
             CurrentPoint = p;
 
-            cleanerTimer = new DispatcherTimer();
-            cleanerTimer.Interval = TimeSpan.FromSeconds(3);
+            cleanerTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(3)};
             cleanerTimer.Tick += cleanerTick;
             cleanerTimer.Start();
         }
@@ -268,17 +270,21 @@ namespace DistributedEditor
 
         public PointApplyResult ApplyCurrentPoint(Point p)
         {
-            PointApplyResult res = PointApplyResult.None;
+            var res = PointApplyResult.None;
+            
+            if (numManipulators >=2)
+                return res;
 
             if (!clusterCreated)
             {
-                drawingBorder.Points.Add(p);
+                _drawingBorder.Points.Add(p);
             }
             else
             {
                 //movement
                 _dx = p.X - CurrentPoint.X;
                 _dy = p.Y - CurrentPoint.Y;
+            
                 MoveBy(_dx, _dy);
                 res = PointApplyResult.Move;
             }
@@ -298,20 +304,20 @@ namespace DistributedEditor
         {
             if (!clusterCreated)
             {
-                buildInitialCluster(drawingBorder);
+                buildInitialCluster(_drawingBorder);
 
                 //if (scene != null)
                 //    TryAddAnnotateBtn();          
             }
 
-            if (scene != null)
-                scene.Children.Remove(drawingBorder);
+            if (_scene != null)
+                _scene.Children.Remove(_drawingBorder);
 
             base.FinishManip();
         }
 
         public void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
-        {
+        {         
             e.Handled = true;
         }
 
@@ -377,10 +383,10 @@ namespace DistributedEditor
         //returns false if badge cannot be inside
         private bool CoarseHitTest(ClientClusterable badge)
         {
-            if (bezierBorder.Data == null)
+            if (_bezierBorder.Data == null)
                 return true;
 
-            var borders = bezierBorder.Data.Bounds;
+            var borders = _bezierBorder.Data.Bounds;
             borders.Offset(_offset.X, _offset.Y);
 
             return borders.IntersectsWith(badge.GetBounds());
@@ -398,8 +404,8 @@ namespace DistributedEditor
                 return;
             }
 
-            convexHull.Points = ConvexHull.FindConvexPolygon(BadgesCorners);
-            var convexPoints = convexHull.Points;
+            _convexHull.Points = ConvexHull.FindConvexPolygon(BadgesCorners);
+            var convexPoints = _convexHull.Points;
             _topLeft = new Point(convexPoints.Min(pt => pt.X), convexPoints.Min(pt => pt.Y));
 
             //build bezier curve      
@@ -443,7 +449,7 @@ namespace DistributedEditor
 
             var pathGeom = new PathGeometry();
             pathGeom.Figures.Add(pathFigure);
-            bezierBorder.Data = pathGeom;
+            _bezierBorder.Data = pathGeom;
             _offset = new Point(0, 0);
 
             if (_endpoint.GetClusterables().Count() > 0)
@@ -468,10 +474,10 @@ namespace DistributedEditor
                 return;
 
             //hull doesn't exist             
-            if (convexHull.Points.Count <= 2)
+            if (_convexHull.Points.Count <= 2)
                 return;
 
-            var contents = GetBadgeList(convexHull.Points.ToList());
+            var contents = GetBadgeList(_convexHull.Points.ToList());
             var added = contents.Except(_endpoint.GetClusterables());
             var removed = _endpoint.GetClusterables().Except(contents);
             foreach (var a in added)
@@ -570,8 +576,8 @@ namespace DistributedEditor
 
         private void SetBounds()
         {
-            Canvas.SetLeft(bezierBorder, _offset.X);
-            Canvas.SetTop(bezierBorder, _offset.Y);
+            Canvas.SetLeft(_bezierBorder, _offset.X);
+            Canvas.SetTop(_bezierBorder, _offset.Y);
 
             setUsrCursor();
 
@@ -619,11 +625,11 @@ namespace DistributedEditor
         public void MoveBy(double dx, double dy)
         {
             //update convex hull
-            for (int i = 0; i < convexHull.Points.Count; i++)
+            for (int i = 0; i < _convexHull.Points.Count; i++)
             {
-                var p = convexHull.Points[i];
+                var p = _convexHull.Points[i];
                 p.Offset(dx, dy);
-                convexHull.Points[i] = p;
+                _convexHull.Points[i] = p;
             }
 
             //update badges 
@@ -650,24 +656,24 @@ namespace DistributedEditor
 
         double IVdShape.distToFigure(Point from)
         {
-            if (bezierBorder == null)
+            if (_bezierBorder == null)
                 return double.MaxValue;
 
-            if (bezierBorder.Data == null)
+            if (_bezierBorder.Data == null)
                 return double.MaxValue;
 
-            var center = new Point(bezierBorder.Data.Bounds.X + bezierBorder.Data.Bounds.Width/2,
-                                   bezierBorder.Data.Bounds.Y + bezierBorder.Data.Bounds.Height/2);
+            var center = new Point(_bezierBorder.Data.Bounds.X + _bezierBorder.Data.Bounds.Width/2,
+                                   _bezierBorder.Data.Bounds.Y + _bezierBorder.Data.Bounds.Height/2);
 
             return ShapeUtils.Dist(from, center);
         }
 
         public Point GetOrigin()
         {
-            if (bezierBorder.Data == null)
+            if (_bezierBorder.Data == null)
                 return new Point(0, 0);
 
-            return bezierBorder.Data.Bounds.TopLeft;
+            return _bezierBorder.Data.Bounds.TopLeft;
         }
 
         public VdShapeType ShapeCode()
@@ -687,9 +693,9 @@ namespace DistributedEditor
 
         public Rect boundsProvider()
         {
-            if (bezierBorder.Data == null)
+            if (_bezierBorder.Data == null)
                 return new Rect(0, 0, 100, 100);
-            var res = bezierBorder.Data.Bounds;
+            var res = _bezierBorder.Data.Bounds;
             res.Offset(_offset.X, _offset.Y);
 
             return res;
