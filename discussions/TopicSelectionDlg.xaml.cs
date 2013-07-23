@@ -1,12 +1,11 @@
 using System;
 using System.Windows;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 using Discussions.DbModel;
 
 namespace Discussions
 {
-    public partial class TopicSelectionDlg : SurfaceWindow
+    public partial class TopicSelectionDlg : Window
     {
         private Topic _topic = null;
 

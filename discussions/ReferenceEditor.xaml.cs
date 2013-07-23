@@ -1,21 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
-using System.Collections.ObjectModel;
 using Discussions.DbModel;
 
 namespace Discussions
@@ -23,7 +8,7 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for ReferenceEditor.xaml
     /// </summary>
-    public partial class ReferenceEditor : SurfaceWindow
+    public partial class ReferenceEditor : Window
     {
         public RichText richText { get; set; }
 

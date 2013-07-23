@@ -14,6 +14,7 @@
     Background="{StaticResource WndBg}"
     d:DesignHeight="851.167" 
     d:DesignWidth="1861.333"
+    WindowState="Maximized"
     PreviewKeyDown="SurfaceWindow_KeyDown_1"
     Title="Private dashboard"
     Closing="SurfaceWindow_Closing" 

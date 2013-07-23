@@ -4,26 +4,94 @@
              xmlns:s="http://schemas.microsoft.com/surface/2008"
              StartupUri="EventGenWnd.xaml">
     <Application.Resources>
-        <Style TargetType="Label">
-            <Setter Property="FontSize" Value="17" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontFamily" Value="Segoe UI Light" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/LoginEngine;component/Metro/Blue2Skin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style TargetType="{x:Type TextElement}">
-            <Setter Property="FontFamily" Value="Segoe UI Light" />
-        </Style>
+            <Style x:Key="roundButtonStyle" TargetType="{x:Type s:SurfaceButton}">
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ButtonBase}">
+                            <Grid x:Name="Grid" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <Rectangle x:Name="ButtonBody" Fill="{TemplateBinding Background}"
+                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RadiusX="5"
+                                           RadiusY="5" />
+                                <Rectangle x:Name="PressOverlay" Fill="LightBlue" Opacity="0"
+                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RadiusX="5"
+                                           RadiusY="5" />
+                                <ContentPresenter x:Name="Content" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames BeginTime="0"
+                                                                               Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                               Storyboard.TargetName="PressOverlay">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.1" Value="1" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames BeginTime="0"
+                                                                               Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                               Storyboard.TargetName="PressOverlay">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="0" />
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type s:SurfaceColors}}}" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Fill" TargetName="ButtonBody"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type s:SurfaceColors}}}" />
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type s:SurfaceColors}}}" />
+                                    <Setter Property="Opacity" TargetName="Content" Value="0.33" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily" Value="Segoe UI Light" />
-        </Style>
 
-        <Style TargetType="{x:Type s:SurfaceButton}">
-            <Setter Property="FontFamily" Value="Segoe UI Light" />
-        </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="17" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+            </Style>
 
-        <Style TargetType="{x:Type s:SurfaceTextBox}">
-            <Setter Property="FontFamily" Value="Segoe UI Light" />
-        </Style>
+            <Style TargetType="{x:Type TextElement}">
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+            </Style>
+
+            <Style TargetType="{x:Type s:SurfaceButton}">
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+            </Style>
+
+            <Style TargetType="{x:Type s:SurfaceTextBox}">
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

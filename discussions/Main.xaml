@@ -13,10 +13,13 @@
     Title="Discussions" mc:Ignorable="d"
     d:DesignHeight="757" d:DesignWidth="1423"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     SizeToContent="Manual"
     Initialized="MainWindow_Initialized"
     Loaded="MainWindow_Loaded"
-    Closing="SurfaceWindow_Closing" Background="{x:Null}" Icon="discusys%20iconv3.ico">
+    Closing="SurfaceWindow_Closing" 
+    Background="{x:Null}"
+    Icon="discusys%20iconv3.ico">
 
     <Window.Resources>
         <local:OnlineToStrConvertor x:Key="OnlineToStr" />

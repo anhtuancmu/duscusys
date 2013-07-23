@@ -1,31 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
-using Discussions.model;
-using System.ComponentModel;
-using System.Data;
 using System.Collections.ObjectModel;
-using System.Data.Objects.DataClasses;
 using Discussions.DbModel;
-using Discussions.rt;
 
 namespace Discussions
 {
-    public partial class SessionViewerDashboard : SurfaceWindow
+    public partial class SessionViewerDashboard : Window
     {
         private ObservableCollection<SeatUserViewModel> _seatUsers = null;
 
