@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input.StylusPlugIns;
-using Discussions.rt;
 using Microsoft.Surface.Presentation.Controls;
 
 namespace DistributedEditor
 {
     public class DistributedInkCanvas : SurfaceInkCanvas
     {
-        private InkInterceptorPlugin interceptor = new InkInterceptorPlugin();
+        private InkInterceptorPlugin _interceptor = new InkInterceptorPlugin();
 
         public Action OnInkChanged;
 

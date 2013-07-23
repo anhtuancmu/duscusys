@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using System.Windows.Input.Manipulations;
 
@@ -31,6 +30,8 @@ namespace DistributedEditor
         private readonly Window _keyboardWnd;
 
         private bool _listenersSet;
+
+        private int _numTouchPoints;
 
         //makes manipulation starting event come after StartManip for point-oriented handling
         //DispatcherTimer poinManipDeferrer;
@@ -162,7 +163,7 @@ namespace DistributedEditor
                 _canv.AddHandler(TextUC.VdTextDeleteEvent, delCanv_DeleteText);
                 //_canv.AddHandler(TextUC.TextShapeCopyEvent, delTextShapeCopy);
                 //_canv.AddHandler(TextUC.TextShapePasteEvent, delTextShapePaste);
-
+                 
                 _canv.TouchDown += drawingCanv_TouchDown;
                 _canv.TouchMove += drawingCanv_TouchMove;
                 _canv.TouchUp += drawingCanv_TouchUp;
@@ -269,22 +270,23 @@ namespace DistributedEditor
 
         private void drawingCanv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (sceneProcessedAction)
+            if (_sceneProcessedAction)
                 return;
 
-            mgr.InpDeviceDown(Mouse.GetPosition(_canv), NULL_TOUCH_DEVICE);
+            mgr.InpDeviceDown(Mouse.GetPosition(_canv), NULL_TOUCH_DEVICE, 1);
         }
 
         private void drawingCanv_MouseMove(object sender, MouseEventArgs e)
         {
-            if (sceneProcessedAction)
+            if (_sceneProcessedAction)
                 return;
-            mgr.InpDeviceMove(Mouse.GetPosition(_canv));
+
+            mgr.InpDeviceMove(Mouse.GetPosition(_canv), Mouse.LeftButton==MouseButtonState.Pressed);
         }
 
         private void drawingCanv_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (sceneProcessedAction)
+            if (_sceneProcessedAction)
                 return;
             mgr.InpDeviceUp(Mouse.GetPosition(_canv));
             Keyboard.Focus(_keyboardWnd);
@@ -299,7 +301,7 @@ namespace DistributedEditor
 
         #region touch   
 
-        private bool sceneProcessedAction;
+        private bool _sceneProcessedAction;
 
         private void drawingWnd_TouchDown(object sender, TouchEventArgs e)
         {
@@ -309,16 +311,18 @@ namespace DistributedEditor
 
         private void drawingCanv_TouchDown(object sender, TouchEventArgs e)
         {
-            if (mgr.InpDeviceDown(e.TouchDevice.GetPosition(_canv), e.TouchDevice))
+            ++_numTouchPoints;
+            Console.WriteLine("_numTouchPoints {0}", _numTouchPoints);
+            if (mgr.InpDeviceDown(e.TouchDevice.GetPosition(_canv), e.TouchDevice, _numTouchPoints))
             {
-                sceneProcessedAction = true;
+                _sceneProcessedAction = true;
             }
         }
 
         private void drawingWnd_TouchMove(object sender, TouchEventArgs e)
         {
             //any touch events from ink canvas are ignored, as they are drawing events, InkCanvasSelectionAdorner, MS Internal
-            if (!sceneProcessedAction && !(e.OriginalSource is Adorner))
+            if (!_sceneProcessedAction && !(e.OriginalSource is Adorner))
             {
                 //force update by remove/add
                 TryRemoveManipulator(e.TouchDevice);
@@ -328,22 +332,23 @@ namespace DistributedEditor
         }
 
         private void drawingCanv_TouchMove(object sender, TouchEventArgs e)
-        {
-            mgr.InpDeviceMove(e.TouchDevice.GetPosition(_canv));
+        {                    
+            mgr.InpDeviceMove(e.TouchDevice.GetPosition(_canv), true);
         }
 
         private void drawingWnd_TouchUp(object sender, TouchEventArgs e)
         {
-            //TryRemoveManipulator(e.TouchDevice);
             _manipulators.Clear();
             _zoomManipProc.ProcessManipulators(this.Timestamp, _manipulators.Values);
         }
 
         private void drawingCanv_TouchUp(object sender, TouchEventArgs e)
         {
+            --_numTouchPoints;
+            Console.WriteLine("_numTouchPoints {0}", _numTouchPoints);
             mgr.InpDeviceUp(e.TouchDevice.GetPosition(_canv));
             Keyboard.Focus(_keyboardWnd);
-            sceneProcessedAction = false;
+            _sceneProcessedAction = false;
         }
 
         public void CopySelected()

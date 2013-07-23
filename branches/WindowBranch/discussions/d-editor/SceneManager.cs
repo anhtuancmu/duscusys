@@ -309,8 +309,8 @@ namespace DistributedEditor
                 _linkCreation.end2 = end;
         }
 
-        public bool InpDeviceDown(Point pos, TouchDevice touchDev)
-        {
+        public bool InpDeviceDown(Point pos, TouchDevice touchDev, int numTouchPoints)
+        {            
             DocTools.UnfocusAll(_doc.GetShapes().Where(sh => !sh.IsManipulated()));
             switch (_modeMgr.Mode)
             {
@@ -347,6 +347,10 @@ namespace DistributedEditor
                     if (underContact == null)
                         return false;
 
+                    var cluster = underContact as VdCluster;
+                    if (cluster != null)
+                        cluster.numManipulators = numTouchPoints; 
+
                     var shapeFree = underContact.GetCursor() == null;
                     var shapeLockedByUs = false;
                     if (!shapeFree)
@@ -372,6 +376,9 @@ namespace DistributedEditor
                     }
                     return true;
                 case ShapeInputMode.Manipulating:
+                    cluster = _doc.VolatileCtx.LocalCursor as VdCluster;
+                    if (cluster != null)
+                        cluster.numManipulators = numTouchPoints; 
                     return true;
                 case ShapeInputMode.CursorApprovalExpected:
                     return true;
@@ -386,7 +393,6 @@ namespace DistributedEditor
             sh.UnderlyingControl().CaptureMouse();
             if (td != null)
                 sh.UnderlyingControl().CaptureTouch(td);
-            Console.WriteLine("Scene Mgr : CaptureAndStartManip");
         }
 
         private void ReleaseCaptureAndFinishManip(IVdShape sh)
@@ -431,14 +437,18 @@ namespace DistributedEditor
                 //if this finish manip completes initial cluster drawing, don't generate move event
                 var supressClusterMoveEvent = false;
 
-                if (clust != null && !clust.ClusterCreated)
+                if (clust != null)
                 {
-                    supressClusterMoveEvent = true;
-                    _rt.clienRt.SendStatsEvent(StEvent.ClusterCreated,
-                                               _palette.GetOwnerId(),
-                                               _doc.DiscussionId,
-                                               _doc.TopicId,
-                                               DeviceType.Wpf);
+                    clust.numManipulators = 0;
+                    if (!clust.ClusterCreated)
+                    {
+                        supressClusterMoveEvent = true;
+                        _rt.clienRt.SendStatsEvent(StEvent.ClusterCreated,
+                                                   _palette.GetOwnerId(),
+                                                   _doc.DiscussionId,
+                                                   _doc.TopicId,
+                                                   DeviceType.Wpf);
+                    }
                 }
 
                 ReleaseCaptureAndFinishManip(lc);
@@ -474,9 +484,9 @@ namespace DistributedEditor
             }
         }
 
-        public void InpDeviceMove(Point pos)
+        public void InpDeviceMove(Point pos, bool pointedPressed)
         {
-            if (Mouse.LeftButton != MouseButtonState.Pressed)
+            if (!pointedPressed)
                 return;
 
             if (_modeMgr.Mode == ShapeInputMode.Manipulating && _doc.VolatileCtx.LocalCursor != null)
@@ -528,7 +538,7 @@ namespace DistributedEditor
                     EnterShapeCreationMode(VdShapeType.Text, -1);
 
                     var clickLocation = host.capOrgProvider();
-                    InpDeviceDown(new Point(clickLocation.X, clickLocation.Y), null);
+                    InpDeviceDown(new Point(clickLocation.X, clickLocation.Y), null, 0);
                     break;
             }
         }
@@ -536,12 +546,10 @@ namespace DistributedEditor
         private void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
             e.ManipulationContainer = _scene;
-            e.Handled = true;
-
-            var underContact = (IVdShape) ((FrameworkElement) sender).Tag;
-
-            underContact.ManipulationStarting(sender, e);
-            Console.WriteLine("Scene Mgr : ManipulationStarting");
+            e.Handled = true; 
+            var underContact = (IVdShape) ((FrameworkElement) sender).Tag;         
+           
+            underContact.ManipulationStarting(sender, e);   
         }
 
         private void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
