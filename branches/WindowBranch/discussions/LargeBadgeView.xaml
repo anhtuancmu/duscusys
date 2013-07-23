@@ -88,7 +88,6 @@
                 <Label Content="BY:  " HorizontalAlignment="Left" />
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             </StackPanel>
-
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <ItemsControl x:Name="notifications" Margin="0,0,50,0">
                     <ItemsControl.ItemTemplate>
@@ -99,7 +98,7 @@
                 </ItemsControl>
 
                 <Custom:SurfaceButton x:Name="btnZoom" Background="#02000000" Click="btnZoom_Click" BorderThickness="0"
-                                      HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75">
+            		HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75">
                     <Border Background="{StaticResource decrease2}" Width="60" Height="60" />
                 </Custom:SurfaceButton>
             </StackPanel>

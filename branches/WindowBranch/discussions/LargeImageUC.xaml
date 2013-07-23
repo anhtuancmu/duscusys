@@ -25,6 +25,7 @@
                PreviewMouseDown="Image_MouseDown"
                PreviewTouchDown="Image_TouchDown" Grid.Column="1" />
         <Rectangle Width="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}"
+                   RenderOptions.BitmapScalingMode="HighQuality"
                    HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" />
         <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left">
             <TextBlock FontSize="18" Text="{Binding Title}" TextWrapping="Wrap" Foreground="Black"

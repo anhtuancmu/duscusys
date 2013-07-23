@@ -8,8 +8,16 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     Title="Cloud storage viewer"
     Height="389" Width="931.5"
+    WindowState="Maximized"
     Background="{DynamicResource WndBg}">
     <Window.Resources>
+        <Style TargetType="{x:Type s:SurfaceButton}" >
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+        </Style>
+        <Style TargetType="{x:Type s:SurfaceToggleButton}" >
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+        </Style>
+
         <ImageBrush x:Key="greenTick" ImageSource="Resources/accept-icon.png" Stretch="Uniform" />
 
         <Style TargetType="{x:Type Label}">

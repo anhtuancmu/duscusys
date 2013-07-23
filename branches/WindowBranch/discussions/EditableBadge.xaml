@@ -54,14 +54,15 @@
                                           Content="X" Background="{x:Null}" Click="removeMedia_Click" />
                     <Custom:SurfaceButton x:Name="btnReposition"                                        
                                           Background="{x:Null}"
-                                          RenderOptions.BitmapScalingMode="HighQuality"
                                           FontSize="26.667"
                                           FontFamily="Segoe UI Symbol"
                                           Content="&#x21c6;"
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Right"
                                           Click="btnReposition_Click_1" />
-                    <Rectangle Width="40" Height="40" Fill="{Binding Converter={StaticResource mediaTypeIconConv}}" />
+                    <Rectangle RenderOptions.BitmapScalingMode="HighQuality"
+                               Width="40" Height="40" 
+                               Fill="{Binding Converter={StaticResource mediaTypeIconConv}}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -99,7 +100,7 @@
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Right"
                                           Click="btnReposition_Click_1" />
-                    <Rectangle Width="40" Height="40" Fill="{StaticResource ytIcon}" />
+                    <Rectangle RenderOptions.BitmapScalingMode="HighQuality" Width="40" Height="40" Fill="{StaticResource ytIcon}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
