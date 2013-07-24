@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace CloudStorage
+namespace CloudStorage.Model
 {
     internal interface IStorageClient
     {
@@ -19,11 +14,4 @@ namespace CloudStorage
 
         string RootFolder();
     }
-
-    public enum StorageType
-    {
-        Dropbox,
-        GoogleDrive,
-        Undefined
-    };
 }

@@ -97,16 +97,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\PathToName.cs" />
-    <Compile Include="DropStorage.cs" />
-    <Compile Include="FileEntry.cs" />
+    <Compile Include="Model\DropStorage.cs" />
+    <Compile Include="Model\FileEntry.cs" />
     <Compile Include="FileEntryControl.xaml.cs">
       <DependentUpon>FileEntryControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileViewState.cs" />
-    <Compile Include="GDriveStorage.cs" />
+    <Compile Include="Model\FileViewState.cs" />
+    <Compile Include="Model\GDriveStorage.cs" />
     <Compile Include="Icons\FileToIcon.cs" />
     <Compile Include="Icons\SysImageList.cs" />
-    <Compile Include="IStorageClient.cs" />
+    <Compile Include="Model\IStorageClient.cs" />
+    <Compile Include="Model\NavigationDirection.cs" />
+    <Compile Include="Model\SortingFunction.cs" />
+    <Compile Include="Model\StorageSelectionEntry.cs" />
+    <Compile Include="Model\StorageType.cs" />
     <Compile Include="StorageWnd.xaml.cs">
       <DependentUpon>StorageWnd.xaml</DependentUpon>
       <SubType>Code</SubType>

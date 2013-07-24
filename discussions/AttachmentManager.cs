@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Net;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CloudStorage;
+using CloudStorage.Model;
 using Discussions.model;
 using Discussions.DbModel;
 using System.Diagnostics;
@@ -530,7 +532,7 @@ namespace Discussions
         {
         };
 
-        public static Attachment AttachCloudEntry(ArgPoint Point, CloudStorage.StorageWnd.StorageSelectionEntry selEntry)
+        public static Attachment AttachCloudEntry(ArgPoint Point, StorageSelectionEntry selEntry)
         {
             Attachment a = new Attachment();
             a.Name = selEntry.Title;

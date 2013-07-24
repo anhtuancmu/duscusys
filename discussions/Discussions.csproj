@@ -806,6 +806,8 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\loop1.png" />
     <Resource Include="Resources\laserPointer.png" />
+    <Resource Include="Resources\Dropbox_Folder.png" />
+    <Resource Include="Resources\Google_Drive_Folder.png" />
     <Content Include="Resources\meiryo.ttf" />
     <None Include="Reporter.pdf\ReportInit.csx" />
     <None Include="VectorEditor\streaming.dgml" />
