@@ -156,6 +156,9 @@
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
     <Compile Include="CommentEditabilityChanged.cs" />
+    <Compile Include="CtxMenuWrapper.xaml.cs">
+      <DependentUpon>CtxMenuWrapper.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ctx\TimingCtx.cs" />
     <Compile Include="d-editor\BadgesCtx.cs" />
     <Compile Include="d-editor\LaserCursorManager.cs" />
@@ -481,6 +484,10 @@
     <Page Include="AvatarBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CtxMenuWrapper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="d-editor\LaserPointerUC.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -853,6 +860,7 @@
   <ItemGroup>
     <Folder Include="docs\" />
     <Folder Include="Fonts\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CloudStorage\CloudStorage.csproj">

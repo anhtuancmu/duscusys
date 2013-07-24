@@ -163,15 +163,24 @@
                                    TextWrapping="Wrap"
                                    VerticalAlignment="Center"
                                    d:LayoutOverrides="HorizontalMargin"
-                                   Margin="1,0" FontSize="37.333" />
+                                   Margin="1,0" FontSize="37.333">
+                <Custom:SurfaceTextBox.ContextMenu>
+                    <local:CtxMenuWrapper/>
+                </Custom:SurfaceTextBox.ContextMenu>
+            </Custom:SurfaceTextBox>
 
             <Label Content="Details" d:LayoutOverrides="Margin" />
 
             <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="750"
                                    KeyDown="plainDescription_KeyDown_1"
                                    TextWrapping="Wrap" AcceptsReturn="True"
-                                   Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}" />
-            <StackPanel Orientation="Horizontal">
+                                   Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">
+                <Custom:SurfaceTextBox.ContextMenu>
+                    <local:CtxMenuWrapper/>
+                </Custom:SurfaceTextBox.ContextMenu>
+            </Custom:SurfaceTextBox>
+
+                <StackPanel Orientation="Horizontal">
                 <Label Content="Media" d:LayoutOverrides="Margin" VerticalAlignment="Center" />
                 <Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
