@@ -200,13 +200,7 @@ namespace CloudStorage
 
         private IEnumerable<FileEntry> SelectedEntries()
         {
-            var res = new List<FileEntry>();
-            foreach (FileEntry selected in fileList.SelectedItems)
-            {
-                if (!selected.IsFolder)
-                    res.Add(selected);
-            }
-            return res;
+            return fileList.SelectedItems.Cast<FileEntry>().Where(selected => !selected.IsFolder).ToList();
         }
 
         private bool IsBusy()
@@ -390,18 +384,6 @@ namespace CloudStorage
         private void btnCancelFetch_Click_1(object sender, RoutedEventArgs e)
         {
             _cancelled = true;
-        }
-
-        private void btnSelMode_Click_1(object sender, RoutedEventArgs e)
-        {
-            if ((bool) btnSelMode.IsChecked)
-            {
-                fileList.SelectionMode = SelectionMode.Multiple;
-            }
-            else
-            {
-                fileList.SelectionMode = SelectionMode.Single;
-            }
-        }
+        }     
     }
 }
