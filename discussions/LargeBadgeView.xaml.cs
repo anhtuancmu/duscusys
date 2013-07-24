@@ -524,6 +524,19 @@ namespace Discussions
             if (ap == null)
                 return;
 
+            //finalize edited comment
+            var editedComment = ap.Comment.FirstOrDefault(c => c.Person == null && c.Text != DaoUtils.NEW_COMMENT);
+            if (editedComment != null)
+            {
+                var cnt = lstBxComments1.ItemContainerGenerator.ContainerFromItem(editedComment);
+                if (cnt != null)
+                {
+                    var cmntUC = GuiHelpers.GetChildObject<CommentUC>(cnt);
+                    if (cmntUC != null)
+                        cmntUC.RequestFinishEditing();
+                }
+            }
+
             if (!ap.ChangesPending)
                 return;
 
@@ -534,7 +547,7 @@ namespace Discussions
             {
                 DbCtx.Get().SaveChanges();
             }
-            catch (Exception)
+            catch
             {
             }
 
