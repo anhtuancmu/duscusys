@@ -35,10 +35,6 @@ namespace DistributedEditor
 
         public RemoveShape removeShape;
 
-        public delegate void NoTool(int owner);
-
-        public NoTool noTool;
-
         public delegate void Reset(int owner);
 
         public Reset reset;
@@ -115,7 +111,12 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.ClusterLink;
             if (toolSelected != null)
-                toolSelected(VdShapeType.ClusterLink, (int) LinkHeadType.SingleHeaded, _ownerId);
+            {
+                if(btnClusterLink.IsChecked.Value)
+                    toolSelected(VdShapeType.ClusterLink, (int) LinkHeadType.SingleHeaded, _ownerId);
+                else
+                    toolSelected(VdShapeType.None, (int)LinkHeadType.SingleHeaded, _ownerId);
+            }
 
             //ResetOvers();            
         }
@@ -124,7 +125,12 @@ namespace DistributedEditor
         {
             shapeType = VdShapeType.ClusterLink;
             if (toolSelected != null)
-                toolSelected(VdShapeType.ClusterLink, (int) LinkHeadType.DoubleHeaded, _ownerId);
+            {
+                if (btnClusterLink2.IsChecked.Value)
+                    toolSelected(VdShapeType.ClusterLink, (int) LinkHeadType.DoubleHeaded, _ownerId);
+                else
+                    toolSelected(VdShapeType.None, (int)LinkHeadType.DoubleHeaded, _ownerId);
+            }
 
             //ResetOvers();            
         }
@@ -140,8 +146,7 @@ namespace DistributedEditor
         private void btnNOP_Click(object sender, RoutedEventArgs e)
         {
             shapeType = VdShapeType.None;
-            if (noTool != null)
-                noTool(_ownerId);
+            toolSelected(VdShapeType.None, 0,0);
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)

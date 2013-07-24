@@ -147,14 +147,12 @@ namespace DistributedEditor
             {
                 _palette.toolSelected += this.ToolSelected;
                 _palette.removeShape += this.RemoveShape;
-                _palette.noTool += this.NoTool;
                 _palette.reset += this.Reset;
             }
             else
             {
                 _palette.toolSelected -= this.ToolSelected;
                 _palette.removeShape -= this.RemoveShape;
-                _palette.noTool -= this.NoTool;
                 _palette.reset -= this.Reset;
             }
 
@@ -226,13 +224,6 @@ namespace DistributedEditor
         public void RemoveShape(int owner)
         {
             mgr.RemoveShape(owner);
-        }
-
-        private void NoTool(int owner)
-        {
-            //// checkInjectNewOwner(owner);
-
-            /// mgr.ExitShapeCreationMode();
         }
 
         private void TryAddManipulator(TouchDevice td)

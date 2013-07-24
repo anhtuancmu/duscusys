@@ -80,7 +80,7 @@ namespace Discussions
             lstBxAttachments.DataContext = this;
 
             srcMover = new SourceMover(srcRepositionPopup);
-            mediaMover = new MediaMover(mediaRepositionPopup);
+            mediaMover = new MediaMover(mediaRepositionPopup);            
         }
 
         public SurfaceScrollViewer MainScroller
