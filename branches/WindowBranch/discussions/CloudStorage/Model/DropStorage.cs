@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using DropNet;
-using DropNet.Exceptions;
 using DropNet.Models;
 using QuickZip.Tools;
 
-namespace CloudStorage
+namespace CloudStorage.Model
 {
     public class DropStorage : IStorageClient
     {
@@ -28,11 +23,11 @@ namespace CloudStorage
         private UserLogin _accessToken = null;
 
         //folder id to thumb
-        private Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
+        private readonly Dictionary<string, BitmapImage> _thumbCache = new Dictionary<string, BitmapImage>();
 
         private volatile List<TaskCompletionSource<byte[]>> _thumbDownloaders = new List<TaskCompletionSource<byte[]>>();
 
-        private Action<string> _webViewCallback = null;
+        private readonly Action<string> _webViewCallback = null;
 
         public DropStorage(Action<string> webViewCallback)
         {
@@ -182,14 +177,14 @@ namespace CloudStorage
 
         private ImageSource GetFileIcon(MetaData md)
         {
-            ImageSource src = null;
+            ImageSource src;
             if (md.Is_Dir)
             {
-                src = (ImageSource) App.Current.FindResource("FolderIcon");
+                src = (ImageSource)App.Current.FindResource("dropboxFolder");
             }
             else
             {
-                FileToIconConverter conv = (FileToIconConverter) App.Current.FindResource("iconConv");
+                var conv = (FileToIconConverter) App.Current.FindResource("iconConv");
                 src = conv.GetImage(md.Extension, 64);
             }
             return src;

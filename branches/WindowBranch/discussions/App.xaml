@@ -273,6 +273,8 @@
             </Style>
 
             <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
+            <BitmapImage x:Key="dropboxFolder" UriSource="Resources/Dropbox_Folder.png"/>
+            <BitmapImage x:Key="gdriveFolder" UriSource="Resources/Google_Drive_Folder.png"/>
             <ImageBrush x:Key="laserPointer" ImageSource="Resources/laserPointer.png" Stretch="Uniform" />
             <ImageBrush x:Key="msOffice" ImageSource="Resources/office.png" Stretch="Uniform" />
             <ImageBrush x:Key="msWord" ImageSource="Resources/WordIcon.png" Stretch="Uniform" />

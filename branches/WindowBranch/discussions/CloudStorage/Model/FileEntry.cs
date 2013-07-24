@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Media;
 using DropNet.Models;
 
-namespace CloudStorage
+namespace CloudStorage.Model
 {
     public class FileEntry
     {
@@ -15,7 +12,7 @@ namespace CloudStorage
         public string IdString { get; set; }
         public bool IsFolder { get; set; }
         public string GdocWebUrl { get; set; }
-        public bool IsGDrive { get; set; } //true iif it's gdrive's file
+        public bool IsGDrive { get; set; } //true iif it's gdrive file
 
         public FileEntry(DateTime modified, string title, ImageSource img, string idString, bool isFolder)
         {

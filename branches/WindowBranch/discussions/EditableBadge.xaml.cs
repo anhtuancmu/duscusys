@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using CloudStorage;
+using CloudStorage.Model;
 using Discussions.DbModel;
 using Discussions.RTModel.Model;
 using Discussions.model;
@@ -774,7 +775,7 @@ namespace Discussions
 
             if (_storageWnd.filesToAttach != null)
             {
-                foreach (CloudStorage.StorageWnd.StorageSelectionEntry entry in _storageWnd.filesToAttach)
+                foreach (StorageSelectionEntry entry in _storageWnd.filesToAttach)
                 {
                     try
                     {

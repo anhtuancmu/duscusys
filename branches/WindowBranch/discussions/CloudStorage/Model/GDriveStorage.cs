@@ -16,7 +16,7 @@ using Google.Apis.Drive.v2.Data;
 using Google.Apis.Util;
 using QuickZip.Tools;
 
-namespace CloudStorage
+namespace CloudStorage.Model
 {
     public class GDriveStorage : IStorageClient
     {
@@ -59,7 +59,7 @@ namespace CloudStorage
             Uri authUri = arg.RequestUserAuthorization(_state);
 
             //Show Login UI. It's tip for user 
-            var dlg = new AuthDlg(StorageType.GoogleDrive);
+            var dlg = new AuthDlg(StorageType.GDrive);
             dlg.Top = 0;
             dlg.Show();
 
@@ -70,8 +70,7 @@ namespace CloudStorage
             dlg.Close(); //close non-modal stub dialog 
 
             //open another, modal dialog to block execution until user clicks OK
-            dlg = new AuthDlg(StorageType.GoogleDrive);
-            dlg.Top = 0;
+            dlg = new AuthDlg(StorageType.GDrive) {Top = 0};
             dlg.ShowDialog();
 
             // Retrieve the access token by using the authorization code:
@@ -282,7 +281,7 @@ namespace CloudStorage
         {
             var tcs = new TaskCompletionSource<byte[]>();
 
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 // Download data
                 try
@@ -305,7 +304,7 @@ namespace CloudStorage
 
             if (IsFolder(file))
             {
-                src = (ImageSource) App.Current.FindResource("FolderIcon");
+                src = (ImageSource)App.Current.FindResource("gdriveFolder");
             }
             else
             {

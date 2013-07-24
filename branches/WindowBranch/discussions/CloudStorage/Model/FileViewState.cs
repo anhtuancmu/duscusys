@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Windows.Data;
 
-namespace CloudStorage
+namespace CloudStorage.Model
 {
     public class NavState : INotifyPropertyChanged
     {
@@ -44,19 +42,19 @@ namespace CloudStorage
         }
 
         //id of the parent folder of currently viewed folder. If null, there is no parent folder.
-        private Stack<Tuple<string, string>> _stackOfParents = new Stack<Tuple<string, string>>();
+        private readonly Stack<Tuple<string, string>> _stackOfParents = new Stack<Tuple<string, string>>();
 
         public Stack<Tuple<string, string>> StackOfParents
         {
             get { return _stackOfParents; }
         }
 
-        public void LevelDown(string FolderToView, string displayName)
+        public void LevelDown(string folderToView, string displayName)
         {
             if (_currentFolderId != null)
                 _stackOfParents.Push(new Tuple<string, string>(_currentFolderId, displayName));
 
-            _currentFolderId = FolderToView;
+            _currentFolderId = folderToView;
             NotifyPropertyChanged("CurrentFolderId");
 
             _currentFolderName = displayName;
