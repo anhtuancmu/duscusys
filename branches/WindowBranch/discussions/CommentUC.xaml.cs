@@ -236,7 +236,7 @@ namespace Discussions
                 DeviceType.Wpf);
         }
 
-        private void RequestFinishEditing()
+        public void RequestFinishEditing()
         {
             checkRemovability(DataContext as Comment);
             checkReadonly(DataContext as Comment);
