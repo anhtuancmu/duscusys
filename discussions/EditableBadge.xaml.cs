@@ -21,22 +21,22 @@ namespace Discussions
     /// </summary>
     public partial class EditableBadge : UserControl
     {
-        private MultiClickRecognizer mediaDoubleClick;
+        private readonly MultiClickRecognizer _mediaDoubleClick;
 
         private StorageWnd _storageWnd = null;
 
-        private ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        private readonly ObservableCollection<Source> _sources = new ObservableCollection<Source>();
 
         public ObservableCollection<Source> Sources
         {
-            get { return sources; }
+            get { return _sources; }
         }
 
-        private ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        private readonly ObservableCollection<Attachment> _attachments = new ObservableCollection<Attachment>();
 
         public ObservableCollection<Attachment> Attachments
         {
-            get { return attachments; }
+            get { return _attachments; }
         }
 
         //if source order or data context changes, we update 
@@ -74,7 +74,7 @@ namespace Discussions
 
             //  Drawing.dataContextHandled += DrawingDataContextHandled;
 
-            mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
+            _mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
 
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
@@ -268,12 +268,12 @@ namespace Discussions
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            mediaDoubleClick.Click(sender, e);
+            _mediaDoubleClick.Click(sender, e);
         }
 
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
-            mediaDoubleClick.Click(sender, e);
+            _mediaDoubleClick.Click(sender, e);
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -766,7 +766,7 @@ namespace Discussions
 
         private void onStorageWndClosed(object sender, EventArgs e)
         {
-            ArgPoint ap = DataContext as ArgPoint;
+            var ap = DataContext as ArgPoint;
             if (ap == null)
                 return;
 

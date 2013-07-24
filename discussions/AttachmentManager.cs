@@ -517,7 +517,7 @@ namespace Discussions
             var screenPath = Utils.RandomFilePath(".png");
             screenshot.Save(screenPath, ImageFormat.Png);
 
-            Attachment a = new Attachment();
+            var a = new Attachment();
             a.Name = screenPath;
             a.Format = (int) AttachmentFormat.PngScreenshot;
             a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(screenPath));
@@ -534,8 +534,7 @@ namespace Discussions
 
         public static Attachment AttachCloudEntry(ArgPoint Point, StorageSelectionEntry selEntry)
         {
-            Attachment a = new Attachment();
-            a.Name = selEntry.Title;
+            var a = new Attachment {Name = selEntry.Title};
             try
             {
                 a.Format = (int) GetImgFmt(selEntry.Title); //may throw exception in case of unsupported file format
@@ -546,7 +545,7 @@ namespace Discussions
             }
 
             a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(selEntry.PathName));
-            a.Title = selEntry.Title;
+            a.Title = "";// selEntry.Title;
             a.Link = selEntry.Title;
             if (a.Format == (int) AttachmentFormat.Pdf)
                 a.Thumb = TryCreatePdfThumb(selEntry.PathName);
