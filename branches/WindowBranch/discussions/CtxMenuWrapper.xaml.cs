@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Surface.Presentation.Controls;
 
@@ -16,23 +15,44 @@ namespace Discussions
         }
 
         public CtxMenuWrapper()
-        {       
+        {
             InitializeComponent();
         }
 
         private void Cut_OnClick(object sender, RoutedEventArgs e)
-        {            
-            textBox.Cut();
+        {
+            if (string.IsNullOrWhiteSpace(textBox.SelectedText))
+                return;
+
+            Clipboard.SetText(textBox.SelectedText);
+            if (textBox.SelectionStart >= 0 && textBox.SelectionLength >= 1)
+            {
+                var newText = textBox.Text.Remove(textBox.SelectionStart, textBox.SelectionLength);
+                textBox.Text = newText;
+            }
         }
 
         private void Copy_OnClick(object sender, RoutedEventArgs e)
         {
-            textBox.Copy();
+            if (string.IsNullOrWhiteSpace(textBox.SelectedText))
+                return;
+
+            Clipboard.SetText(textBox.SelectedText);
         }
 
         private void Paste_OnClick(object sender, RoutedEventArgs e)
         {
-            textBox.Paste();
+            var textToPaste = Clipboard.GetText();
+            if (string.IsNullOrWhiteSpace(textToPaste))
+                return;
+
+            if (textBox.SelectionStart >= 0 && textBox.SelectionLength >= 1)
+            {
+                var text = textBox.Text.Remove(textBox.SelectionStart, textBox.SelectionLength);
+                textBox.Text = text.Insert(textBox.SelectionStart, textToPaste);
+            }
+            else
+                textBox.Text = textBox.Text.Insert(textBox.CaretIndex, textToPaste);
         }
 
         private void Select_All_OnClick(object sender, RoutedEventArgs e)
@@ -42,6 +62,7 @@ namespace Discussions
 
         private void CtxMenuWrapper_OnOpened(object sender, RoutedEventArgs e)
         {
+            textBox.SelectsAllOnFocus = false;
             // Only allow copy/cut if something is selected to copy/cut. 
             if (textBox.SelectedText == "")
                 Copy.IsEnabled = Cut.IsEnabled = false;
@@ -54,5 +75,6 @@ namespace Discussions
             else
                 Paste.IsEnabled = false;
         }
+
     }
 }

@@ -412,11 +412,21 @@ namespace Discussions
             if (e.Key != Key.Return)
                 return;
 
-            if (txtAttachmentURL.Text.Trim() == "")
+            AttachMediaFromUrl();
+        }
+
+        private void AttachMediaFromUrl()
+        {
+            string url = txtAttachmentURL.Text.Trim();
+
+            if (url == "")
                 return;
 
             var ap = DataContext as ArgPoint;
             if (ap == null)
+                return;
+
+            if (ap.Attachment.Any(at => at.Link == url))
                 return;
 
             ap.RecentlyEnteredMediaUrl = txtAttachmentURL.Text;
@@ -966,10 +976,6 @@ namespace Discussions
             browser.Show();
         }
 
-
-
-
-
         #region comment notificatinos
 
         public CommentDismissalRecognizer CommentDismissalRecognizer;
@@ -1020,5 +1026,10 @@ namespace Discussions
             return lstBxComments;
         }
         #endregion
+
+        private void TxtAttachmentURL_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            AttachMediaFromUrl();
+        }
     }
 }

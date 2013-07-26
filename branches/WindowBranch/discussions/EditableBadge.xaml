@@ -161,7 +161,7 @@
             <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="750"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    TextWrapping="Wrap"
-                                   VerticalAlignment="Center"
+                                   VerticalAlignment="Center"                                     
                                    d:LayoutOverrides="HorizontalMargin"
                                    Margin="1,0" FontSize="37.333">
                 <Custom:SurfaceTextBox.ContextMenu>
@@ -174,7 +174,7 @@
             <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="750"
                                    KeyDown="plainDescription_KeyDown_1"
                                    TextWrapping="Wrap" AcceptsReturn="True"
-                                   Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">
+                                   Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">                
                 <Custom:SurfaceTextBox.ContextMenu>
                     <local:CtxMenuWrapper/>
                 </Custom:SurfaceTextBox.ContextMenu>
@@ -226,9 +226,15 @@
                 </Grid.ColumnDefinitions>
                 <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap"
                                        Text="{Binding RecentlyEnteredMediaUrl, UpdateSourceTrigger=PropertyChanged}"
-                                       d:LayoutOverrides="Height, HorizontalMargin"
-                                       KeyDown="txtAttachmentURL_KeyDown_1" Margin="1,1,1,0.999" />
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                                       d:LayoutOverrides="Height, HorizontalMargin"   
+                                       TextChanged="TxtAttachmentURL_OnTextChanged"
+                                       KeyDown="txtAttachmentURL_KeyDown_1" Margin="1,1,1,0.999">
+                    <Custom:SurfaceTextBox.ContextMenu>
+                        <local:CtxMenuWrapper/>
+                    </Custom:SurfaceTextBox.ContextMenu>
+                 </Custom:SurfaceTextBox>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
                     <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1"
                                           Content="Screenshot"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
@@ -325,8 +331,13 @@
                 </Grid.ColumnDefinitions>
                 <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"
                                        MaxWidth="600" TextWrapping="Wrap"
-                                       Text="{Binding RecentlyEnteredSource, UpdateSourceTrigger=PropertyChanged}" />
-                <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
+                                       Text="{Binding RecentlyEnteredSource, UpdateSourceTrigger=PropertyChanged}">
+                    <Custom:SurfaceTextBox.ContextMenu>
+                        <local:CtxMenuWrapper/>
+                    </Custom:SurfaceTextBox.ContextMenu>
+                 </Custom:SurfaceTextBox>
+
+                    <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
                                       Content="Add source" HorizontalAlignment="Left" VerticalAlignment="Center"
                                       Grid.Column="1" />
             </Grid>
