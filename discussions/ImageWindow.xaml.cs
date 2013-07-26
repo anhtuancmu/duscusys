@@ -1,7 +1,9 @@
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Discussions
 {
@@ -19,25 +21,25 @@ namespace Discussions
             {
                 if (value != _zoomFactor)
                 {
-                    var zoomIn = value > _zoomFactor;
-                    var zoomOut = value < _zoomFactor;
-
                     _zoomFactor = value;
-
-                    zoomBySlider(_zoomFactor, zoomIn, zoomOut);
+                    zoomBySlider(_zoomFactor);
                 }
             }
         }
 
-        private void zoomBySlider(double finalFactor, bool zoomIn, bool zoomOut)
+        private void zoomBySlider(double finalFactor)
         {
             var matrix = GetTransform();
 
-            var stepFactor = finalFactor/matrix.M11;
-            matrix.ScaleAt(stepFactor,
-                           stepFactor,
-                           0.5*this.ActualWidth,
-                           0.5*this.ActualHeight);
+            var factorStep = finalFactor / matrix.M11;
+
+            var t = img.TransformToVisual(this);
+            var center = t.Transform(new Point(0.5 * img.ActualWidth, 0.5 * img.ActualHeight));
+
+            matrix.ScaleAt(factorStep,
+                           factorStep,
+                           center.X,
+                           center.Y);
 
             SetTransform(matrix);
         }
@@ -63,11 +65,20 @@ namespace Discussions
 
             DataContext = this;
 
-            Width = 0.8*System.Windows.SystemParameters.PrimaryScreenWidth;
-            Height = 0.8*System.Windows.SystemParameters.PrimaryScreenHeight;
-            this.WindowState = WindowState.Normal;
+            Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
+            Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
 
             ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
+
+            //we cannot use HorizontalAlignment==Center, so center the image via RenderTransform
+            Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    var mt = (MatrixTransform)img.RenderTransform;
+                    var matrix = mt.Matrix;
+                    matrix.Translate(0.5 * (this.ActualWidth - img.ActualWidth), 0);
+                    mt.Matrix = matrix;
+                }),
+                DispatcherPriority.Background);
         }
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)
@@ -75,38 +86,36 @@ namespace Discussions
             Close();
         }
 
-        private void img_ManipulationStarting_1(object sender, ManipulationStartingEventArgs e)
+        protected override void OnManipulationStarting(ManipulationStartingEventArgs e)
         {
             e.ManipulationContainer = this;
             e.Handled = true;
+
+            base.OnManipulationStarting(e);
         }
 
-        private void img_ManipulationDelta_1(object sender, ManipulationDeltaEventArgs e)
+        protected override void OnManipulationDelta(ManipulationDeltaEventArgs args)
         {
-            var matrix = GetTransform();
+            UIElement element = args.Source as UIElement;
+            MatrixTransform xform = element.RenderTransform as MatrixTransform;
+            Matrix matrix = xform.Matrix;
+            ManipulationDelta delta = args.DeltaManipulation;
 
-            ///var xScale = (e.DeltaManipulation.Scale.X + 2) / 3;
-            var xScale = e.DeltaManipulation.Scale.X;
+            var finalFactor = matrix.M11 * delta.Scale.X;
+            if (finalFactor > MIN_ZOOM && finalFactor < MAX_ZOOM)
+            {
+                Point center = args.ManipulationOrigin;
 
-            var finalFact = matrix.M11*xScale;
-            if (finalFact > MAX_ZOOM || finalFact < MIN_ZOOM)
-                return;
+                matrix.ScaleAt(delta.Scale.X, delta.Scale.Y, center.X, center.Y);
+                //matrix.RotateAt(delta.Rotation, center.X, center.Y);
+                matrix.Translate(delta.Translation.X, delta.Translation.Y);
+                xform.Matrix = matrix;
 
-            matrix.ScaleAt(xScale,
-                           xScale,
-                           e.ManipulationOrigin.X,
-                           e.ManipulationOrigin.Y);
+                updateZoomFactor(finalFactor);
+            }
 
-            //matrix.RotateAt(e.DeltaManipulation.Rotation,
-            //                e.ManipulationOrigin.X,
-            //                e.ManipulationOrigin.Y);
-
-            matrix.Translate(e.DeltaManipulation.Translation.X,
-                             e.DeltaManipulation.Translation.Y);
-
-            updateZoomFactor(matrix.M11);
-
-            SetTransform(matrix);
+            args.Handled = true;
+            base.OnManipulationDelta(args);
         }
 
         private void updateZoomFactor(double val)
@@ -115,7 +124,7 @@ namespace Discussions
             zoomSlider.Value = val;
         }
 
-        private double PrevX, PrevY;
+        private double _prevX, _prevY;
 
         private void SurfaceWindow_MouseMove(object sender, MouseEventArgs e)
         {
@@ -126,16 +135,16 @@ namespace Discussions
             {
                 var matrix = GetTransform();
 
-                if (PrevX > 0 && PrevY > 0)
+                if (_prevX > 0 && _prevY > 0)
                 {
-                    matrix.Translate(mousePos.X - PrevX, mousePos.Y - PrevY);
+                    matrix.Translate(mousePos.X - _prevX, mousePos.Y - _prevY);
                 }
 
                 SetTransform(matrix);
             }
 
-            PrevX = mousePos.X;
-            PrevY = mousePos.Y;
+            _prevX = mousePos.X;
+            _prevY = mousePos.Y;
         }
 
         private void SurfaceWindow_MouseWheel_1(object sender, MouseWheelEventArgs e)
@@ -145,7 +154,7 @@ namespace Discussions
             Point mousePos = e.GetPosition(this);
             double factor = e.Delta > 0 ? 1.1 : 0.9;
 
-            var finalFact = matrix.M11*factor;
+            var finalFact = matrix.M11 * factor;
             if (finalFact > MAX_ZOOM || finalFact < MIN_ZOOM)
                 return;
 
@@ -154,14 +163,9 @@ namespace Discussions
                            mousePos.X,
                            mousePos.Y);
 
+            updateZoomFactor(matrix.M11);
 
             SetTransform(matrix);
-
-            updateZoomFactor(matrix.M11);
-        }
-
-        private void SurfaceWindow_Loaded_1(object sender, RoutedEventArgs e)
-        {
         }
 
         private void ImageWindow_Closed_1(object sender, EventArgs e)
