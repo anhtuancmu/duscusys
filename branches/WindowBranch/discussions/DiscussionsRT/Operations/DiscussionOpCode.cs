@@ -102,5 +102,13 @@
 
 
         DetachLaserPointerFromAnyTopicRequest = 42, 
+
+
+        /// <summary>
+        /// Any manipulation in image viewer happens and client notifies the server
+        /// </summary>
+        ImageViewerManipulateRequest = 43,
+
+        ImageViewerStateRequest = 44
     }
 }

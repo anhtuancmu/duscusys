@@ -153,6 +153,14 @@ namespace Discussions.RTModel
                     var userId = (int)operationRequest.Parameters[(byte)DiscussionParamKey.UserId];
                     DetachLaserPointerFormAnyTopic(peer, userId);
                     break;
+                case (byte)DiscussionOpCode.ImageViewerManipulateRequest:
+                    var mat = ImageViewerMatrix.Read(operationRequest.Parameters);
+                    VectEditor(mat.TopicId).HandleManipulateImageViewer(peer, mat, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.ImageViewerStateRequest:
+                    var sr = ImageViewerStateRequest.Read(operationRequest.Parameters);
+                    VectEditor(sr.TopicId).HandleImageViewerStateRequest(peer, sr, operationRequest, sendParameters);
+                    break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
                     break;

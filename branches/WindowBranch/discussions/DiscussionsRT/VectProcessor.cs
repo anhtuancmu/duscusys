@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Discussions.DbModel;
-using Discussions.model;
 using Discussions.RTModel.Model;
 using Discussions.RTModel.Operations;
 using DistributedEditor;
@@ -635,6 +633,8 @@ namespace Discussions.RTModel
             _pendingChanges = true;
         }
 
+        #region laser pointers
+
         public void HandleAttachLaserPointer(LitePeer peer,
                                              LaserPointer pointer, 
                                              OperationRequest operationRequest,
@@ -679,7 +679,34 @@ namespace Discussions.RTModel
                                 BroadcastTo.RoomExceptSelf);
             }
         }
+        #endregion
 
+        public void HandleManipulateImageViewer(LitePeer peer,
+                                                ImageViewerMatrix imgMatrix,
+                                                OperationRequest operationRequest,
+                                                SendParameters sendParameters)
+        {
+            _doc.SetImageViewer(imgMatrix);
+            
+            _room.Broadcast(peer,
+                            operationRequest,
+                            sendParameters,
+                            (byte)DiscussionEventCode.ImageViewerManipulatedEvent,
+                            BroadcastTo.RoomExceptSelf);            
+        }
+
+        public void HandleImageViewerStateRequest(LitePeer peer,
+                                                ImageViewerStateRequest req,
+                                                OperationRequest operationRequest,
+                                                SendParameters sendParameters)
+        {
+            var state  = _doc.GetImageViewer(req.ImageAttachmentId);
+            if (state!=null)
+                _room.PublishEventToSingle(peer, 
+                                           state.ToDict(), 
+                                           sendParameters, 
+                                           (byte)DiscussionEventCode.ImageViewerManipulatedEvent);                       
+        }
         #region reporting
 
         public void HandleDEditorStatsRequest(LitePeer peer,

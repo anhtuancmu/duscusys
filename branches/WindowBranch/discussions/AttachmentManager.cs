@@ -664,7 +664,7 @@ namespace Discussions
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
 
-                ImageWindow wnd = new ImageWindow(a.Id);
+                ImageWindow wnd = new ImageWindow(a.Id, a.ArgPoint.Topic.Id);
                 wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
                 wnd.Show();
             }
@@ -698,7 +698,7 @@ namespace Discussions
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {
-                ImageWindow wnd = new ImageWindow(-1);
+                var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT);
                 var bi = new BitmapImage(new Uri(pathName));
                 wnd.img.Source = bi;
                 wnd.Show();

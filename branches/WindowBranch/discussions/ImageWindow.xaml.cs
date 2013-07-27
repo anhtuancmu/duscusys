@@ -1,14 +1,19 @@
 using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Discussions.RTModel.Model;
+using Discussions.rt;
 
 namespace Discussions
 {
     public partial class ImageWindow : Window
     {
+        public const int NO_ATTACHMENT = -1;
+        private readonly int _attachId;
+        private readonly int _topicId;
         private const double MIN_ZOOM = 0.5;
         private const double MAX_ZOOM = 5;
 
@@ -42,6 +47,8 @@ namespace Discussions
                            center.Y);
 
             SetTransform(matrix);
+
+            CheckSendMatrixBackground();
         }
 
         private Matrix GetTransform()
@@ -59,9 +66,13 @@ namespace Discussions
             img.RenderTransform = mt;
         }
 
-        public ImageWindow(int attachId)
+        public ImageWindow(int attachId, int topicId)
         {
+            _attachId = attachId;
+            _topicId = topicId;
             InitializeComponent();
+
+            btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
 
             DataContext = this;
 
@@ -79,6 +90,61 @@ namespace Discussions
                     mt.Matrix = matrix;
                 }),
                 DispatcherPriority.Background);
+
+            SetListeners(true);
+
+            CheckSendImgStateRequest();
+        }
+
+        private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            SetListeners(false);
+        }
+
+        void SetListeners(bool doSet)
+        {
+            if (doSet)
+                UISharedRTClient.Instance.clienRt.onImageViewerManipulated += OnImageViewerManipulated;
+            else
+                UISharedRTClient.Instance.clienRt.onImageViewerManipulated -= OnImageViewerManipulated;
+
+            if (doSet)
+                ExplanationModeMediator.Inst.PropertyChanged += Inst_PropertyChanged;
+            else
+                ExplanationModeMediator.Inst.PropertyChanged -= Inst_PropertyChanged;
+        }
+
+        void Inst_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ExplanationModeEnabled")
+            {
+                CheckSendImgStateRequest();
+            }
+        }
+
+        void CheckSendImgStateRequest()
+        {
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled && _attachId != NO_ATTACHMENT)
+                UISharedRTClient.Instance.clienRt.SendImageViewerStateRequest(
+                    new ImageViewerStateRequest
+                    {
+                        ImageAttachmentId = _attachId,
+                        OwnerId = SessionInfo.Get().person.Id,
+                        TopicId = _topicId
+                    });
+        }
+
+        private void OnImageViewerManipulated(ImageViewerMatrix mat)
+        {
+            if (!ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                return;
+
+            if (_topicId != mat.TopicId || _attachId != mat.ImageAttachmentId)
+                return;
+
+            SetTransform(new Matrix(mat.M11, mat.M12, mat.M21, mat.M22, mat.OffsetX, mat.OffsetY));
+
+            updateZoomFactor(mat.M11);
         }
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)
@@ -112,6 +178,8 @@ namespace Discussions
                 xform.Matrix = matrix;
 
                 updateZoomFactor(finalFactor);
+
+                CheckSendMatrixBackground();
             }
 
             args.Handled = true;
@@ -141,6 +209,8 @@ namespace Discussions
                 }
 
                 SetTransform(matrix);
+
+                CheckSendMatrixBackground();
             }
 
             _prevX = mousePos.X;
@@ -166,11 +236,43 @@ namespace Discussions
             updateZoomFactor(matrix.M11);
 
             SetTransform(matrix);
+
+            CheckSendMatrixBackground();
         }
 
         private void ImageWindow_Closed_1(object sender, EventArgs e)
         {
             ExplanationModeMediator.Inst.OnWndClosed(this);
+        }
+
+        void CheckSendMatrixBackground()
+        {
+            Dispatcher.BeginInvoke((Action)CheckSendMatrix, DispatcherPriority.Normal);
+        }
+
+        void CheckSendMatrix()
+        {
+            if (!ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                return;
+
+            if (_attachId == NO_ATTACHMENT)
+                return;
+
+            var tr = GetTransform();
+            var mat = new ImageViewerMatrix
+                {
+                    ImageAttachmentId = _attachId,
+                    M11 = tr.M11,
+                    M12 = tr.M12,
+                    M21 = tr.M21,
+                    M22 = tr.M22,
+                    OffsetX = tr.OffsetX,
+                    OffsetY = tr.OffsetY,
+                    OwnerId = SessionInfo.Get().person.Id,
+                    TopicId = _topicId
+                };
+
+            UISharedRTClient.Instance.clienRt.SendManipulateImageViewer(mat);
         }
     }
 }

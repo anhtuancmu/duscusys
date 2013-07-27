@@ -12,6 +12,7 @@
     Closed="ImageWindow_Closed_1"
     Background="{StaticResource WndBg}"    
     WindowStartupLocation="CenterScreen"
+    Closing="ImageWindow_OnClosing"
     Topmost="True"
     d:DesignWidth="657.233"
     d:DesignHeight="574"
@@ -31,6 +32,14 @@
                RenderTransform="1 0 0 1 0 0" 
                d:LayoutOverrides="Width, Height">          
         </Image>
+
+        <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
+                               IsChecked="{Binding ExplanationModeEnabled}"
+                               RenderOptions.BitmapScalingMode="HighQuality" 
+                               HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Border Background="{StaticResource explanation}" Width="70" Height="70" />
+        </s:SurfaceToggleButton>
+
         <s:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
                          Click="btnZoom_Click" Content="X" FontSize="48" Foreground="Black" MinWidth="137"
                          MinHeight="107" BorderThickness="0" HorizontalContentAlignment="Center"

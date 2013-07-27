@@ -74,6 +74,9 @@
 
         DetachLaserPointerEvent = 30,
 
-        LaserPointerMovedEvent = 31
+        LaserPointerMovedEvent = 31,
+
+        //image viewer, explanation mode
+        ImageViewerManipulatedEvent = 32
     }
 }
