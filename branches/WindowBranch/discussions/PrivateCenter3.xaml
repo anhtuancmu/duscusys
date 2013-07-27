@@ -179,14 +179,15 @@
                    d:LayoutOverrides="Margin">
             <Separator VerticalAlignment="Top" DockPanel.Dock="Top" />
             <!--<Custom:SurfaceButton x:Name="btnOk" DockPanel.Dock="Right" Content="OK" HorizontalAlignment="Right" Click="btnOk_Click"/>-->
-            <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" DockPanel.Dock="Right"
-                                  HorizontalAlignment="Right" Click="btnSave_Click">
-                <Border Background="{StaticResource save}" Width="70" Height="70" />
-            </Custom:SurfaceButton>
-
+           
             <Custom:SurfaceButton x:Name="btnDiscuBoard" Background="{x:Null}" DockPanel.Dock="Right"
                                   HorizontalAlignment="Right" Click="btnDiscu_Click" Margin="1">
                 <Border Background="{StaticResource keyboard}" Width="70" Height="70" />
+            </Custom:SurfaceButton>
+
+            <Custom:SurfaceButton x:Name="btnSave" Background="{x:Null}" DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right" Click="btnSave_Click">
+                <Border Background="{StaticResource save}" Width="70" Height="70" />
             </Custom:SurfaceButton>
 
             <s:SurfaceButton x:Name="btnHome" Background="{x:Null}" Click="btnHome_Click_1"
