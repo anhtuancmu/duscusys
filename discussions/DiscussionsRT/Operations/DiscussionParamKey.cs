@@ -77,6 +77,15 @@
         CommentId = 62,
         PersonId = 63,
 
-        Color = 64
+        Color = 64,
+
+        //image viewer manipulations
+        M11Key = 65,
+        M12Key = 66,
+        M21Key = 67,
+        M22Key = 68,
+        OffsetXKey = 69,
+        OffsetYKey = 70,
+        AttachmentId = 71
     }
 }

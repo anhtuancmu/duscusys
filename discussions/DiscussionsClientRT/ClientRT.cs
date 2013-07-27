@@ -64,6 +64,12 @@ namespace DiscussionsClientRT
 
         public OnSourceViewRequest onSourceViewRequest;
 
+
+        public delegate void ImageViewerManipulatedEvent(ImageViewerMatrix mat);
+
+        public ImageViewerManipulatedEvent onImageViewerManipulated;
+
+
         #region vector editor
 
         public delegate void OnLinkCreateEvent(LinkCreateMessage ev);
@@ -383,6 +389,10 @@ namespace DiscussionsClientRT
                 case (byte)DiscussionEventCode.LaserPointerMovedEvent:
                     if (onLaserPointerMoved != null)
                         onLaserPointerMoved(LaserPointer.Read(eventData.Parameters));
+                    break;
+                case (byte)DiscussionEventCode.ImageViewerManipulatedEvent:
+                    if (onImageViewerManipulated != null)
+                        onImageViewerManipulated(ImageViewerMatrix.Read(eventData.Parameters));
                     break;
                 default:
                     Console.WriteLine("Unhandled event " + eventData.Code);
@@ -867,6 +877,26 @@ namespace DiscussionsClientRT
 
             peer.OpCustom((byte)DiscussionOpCode.LaserPointerMovedRequest,
                           ptr.ToDict(),
+                          true);
+        }
+
+        public void SendManipulateImageViewer(ImageViewerMatrix mat)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.ImageViewerManipulateRequest,
+                          mat.ToDict(),
+                          true);
+        }
+
+        public void SendImageViewerStateRequest(ImageViewerStateRequest req)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.ImageViewerStateRequest,
+                          req.ToDict(),
                           true);
         }
     }

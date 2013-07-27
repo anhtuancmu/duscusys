@@ -608,6 +608,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="1" d:LayoutOverrides="Height"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
+                                   IsChecked="{Binding ExplanationModeEnabled}"
                                    RenderOptions.BitmapScalingMode="HighQuality">
                 <Border Background="{StaticResource explanation}" Width="70" Height="70" />
             </s:SurfaceToggleButton>

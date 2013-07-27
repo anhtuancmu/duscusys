@@ -20,6 +20,9 @@ namespace Discussions.RTModel
             get { return _laserPointers; }
         }
 
+        private readonly Dictionary<int, ImageViewerMatrix> _attachmentIdToViewer =
+                new Dictionary<int, ImageViewerMatrix>();
+
         public byte[] inkData;
 
         private BadgeShapeIdGenerator _badgeIdGen;
@@ -174,6 +177,7 @@ namespace Discussions.RTModel
                 return false;
         }
 
+        #region laser pointers
         public bool AttachLaserPointer(LaserPointer ptr)
         {
             if (LaserPointers.FirstOrDefault(l0 => l0.UserId == ptr.UserId && l0.TopicId == ptr.TopicId) != null)
@@ -202,5 +206,26 @@ namespace Discussions.RTModel
             }
             return false;
         }
+        #endregion
+
+        #region image viewer
+
+        public void SetImageViewer(ImageViewerMatrix imgViewer)
+        {
+            if (!_attachmentIdToViewer.ContainsKey(imgViewer.ImageAttachmentId))
+                _attachmentIdToViewer.Add(imgViewer.ImageAttachmentId, imgViewer);
+            else
+                _attachmentIdToViewer[imgViewer.ImageAttachmentId] = imgViewer;
+        }
+        
+        public ImageViewerMatrix GetImageViewer(int attachmentId)
+        {
+            if (!_attachmentIdToViewer.ContainsKey(attachmentId))
+                return null;
+
+            return _attachmentIdToViewer[attachmentId];
+        }
+
+        #endregion
     }
 }
