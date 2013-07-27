@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\PathToName.cs" />
     <Compile Include="Model\DropStorage.cs" />
     <Compile Include="Model\FileEntry.cs" />
@@ -202,6 +203,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\notepad_list3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\eye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

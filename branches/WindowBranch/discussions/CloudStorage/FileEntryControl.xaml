@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Microsoft.Surface.Presentation.Controls;assembly=Microsoft.Surface.Presentation"
+             xmlns:converters="clr-namespace:CloudStorage.Converters"
              mc:Ignorable="d"
-             PreviewMouseDown="FileEntryControl_PreviewMouseDown_1"
-             PreviewTouchDown="FileEntryControl_PreviewTouchDown_1"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <ImageBrush x:Key="Eye" ImageSource="Resources/eye.png" Stretch="Uniform" />
+        <converters:BoolToVisibilityConverter x:Key="bool2vis"/>
     </UserControl.Resources>
 
     <Grid>
@@ -18,14 +20,26 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <Image Stretch="Uniform" Source="{Binding Image}"
+               PreviewMouseDown="OnSingleClick"
+               PreviewTouchDown="OnSingleClick"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                Margin="0" />
+
+        <controls:SurfaceButton x:Name="btnView" Click="BtnView_OnClick"                                 
+                                Visibility="{Binding IsViewable, Converter={StaticResource bool2vis}}"
+                                VerticalAlignment="Top" Padding="0" 
+                                MinHeight="20" MinWidth="20"
+    		HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1,0,0,0" HorizontalAlignment="Left">
+            <Border Background="{StaticResource Eye}"                     
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </controls:SurfaceButton>
+
         <StackPanel Grid.Column="0" Grid.Row="1">
             <TextBlock Text="{Binding Title}" TextWrapping="Wrap" HorizontalAlignment="Left" MaxWidth="300"
                        Margin="20,0,0,0" />
-            <!--<TextBlock Text="{Binding IdString}" HorizontalAlignment="Center"/>-->
         </StackPanel>
     </Grid>
 </UserControl>
