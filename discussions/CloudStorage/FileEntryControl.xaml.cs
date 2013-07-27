@@ -1,15 +1,11 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Discussions;
 
 namespace CloudStorage
 {
     public partial class FileEntryControl : UserControl
     {
-        private readonly MultiClickRecognizer _mediaDoubleClick;
-
         public static readonly RoutedEvent RequestViewEvent = EventManager.RegisterRoutedEvent(
             "RequestView", RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (FileEntryControl));
 
@@ -31,30 +27,18 @@ namespace CloudStorage
         public FileEntryControl()
         {
             InitializeComponent();
-
-            _mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null, onSingleClick);
         }
 
-        private void badgeDoubleTap(object sender, InputEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(RequestViewEvent));
-        }
-
-        private void FileEntryControl_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
-        {
-            _mediaDoubleClick.Click(sender, e);
-            e.Handled = true;
-        }
-
-        private void FileEntryControl_PreviewTouchDown_1(object sender, TouchEventArgs e)
-        {
-            _mediaDoubleClick.Click(sender, e);
-            e.Handled = true;
-        }
-
-        private void onSingleClick(object sender, InputEventArgs e)
+        private void OnSingleClick(object sender, InputEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(CustSelectionEvent));
+            e.Handled = true;
+        }
+
+        private void BtnView_OnClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(RequestViewEvent));
+            e.Handled = true;
         }
     }
 }
