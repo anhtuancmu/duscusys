@@ -241,6 +241,13 @@ namespace DistributedEditor
 
         public void EnterShapeCreationMode(VdShapeType shapeType, int shapeTag)
         {
+            if (shapeType == VdShapeType.None)
+            {
+                _linkCreation.end1 = _linkCreation.end2 = null;
+                _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
+                return;
+            }
+
             if (_doc.VolatileCtx.LocalCursor != null)
             {
                 _palette.ResetOvers();

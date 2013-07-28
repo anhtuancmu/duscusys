@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using CloudStorage;
+using CloudStorage.Model;
 using Discussions.DbModel;
 using Discussions.RTModel.Model;
 using Discussions.model;
@@ -20,22 +21,22 @@ namespace Discussions
     /// </summary>
     public partial class EditableBadge : UserControl
     {
-        private MultiClickRecognizer mediaDoubleClick;
+        private readonly MultiClickRecognizer _mediaDoubleClick;
 
         private StorageWnd _storageWnd = null;
 
-        private ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        private readonly ObservableCollection<Source> _sources = new ObservableCollection<Source>();
 
         public ObservableCollection<Source> Sources
         {
-            get { return sources; }
+            get { return _sources; }
         }
 
-        private ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        private readonly ObservableCollection<Attachment> _attachments = new ObservableCollection<Attachment>();
 
         public ObservableCollection<Attachment> Attachments
         {
-            get { return attachments; }
+            get { return _attachments; }
         }
 
         //if source order or data context changes, we update 
@@ -73,13 +74,13 @@ namespace Discussions
 
             //  Drawing.dataContextHandled += DrawingDataContextHandled;
 
-            mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
+            _mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
 
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
 
             srcMover = new SourceMover(srcRepositionPopup);
-            mediaMover = new MediaMover(mediaRepositionPopup);
+            mediaMover = new MediaMover(mediaRepositionPopup);            
         }
 
         public SurfaceScrollViewer MainScroller
@@ -267,12 +268,12 @@ namespace Discussions
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            mediaDoubleClick.Click(sender, e);
+            _mediaDoubleClick.Click(sender, e);
         }
 
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
-            mediaDoubleClick.Click(sender, e);
+            _mediaDoubleClick.Click(sender, e);
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -411,11 +412,21 @@ namespace Discussions
             if (e.Key != Key.Return)
                 return;
 
-            if (txtAttachmentURL.Text.Trim() == "")
+            AttachMediaFromUrl();
+        }
+
+        private void AttachMediaFromUrl()
+        {
+            string url = txtAttachmentURL.Text.Trim();
+
+            if (url == "")
                 return;
 
             var ap = DataContext as ArgPoint;
             if (ap == null)
+                return;
+
+            if (ap.Attachment.Any(at => at.Link == url))
                 return;
 
             ap.RecentlyEnteredMediaUrl = txtAttachmentURL.Text;
@@ -765,7 +776,7 @@ namespace Discussions
 
         private void onStorageWndClosed(object sender, EventArgs e)
         {
-            ArgPoint ap = DataContext as ArgPoint;
+            var ap = DataContext as ArgPoint;
             if (ap == null)
                 return;
 
@@ -774,7 +785,7 @@ namespace Discussions
 
             if (_storageWnd.filesToAttach != null)
             {
-                foreach (CloudStorage.StorageWnd.StorageSelectionEntry entry in _storageWnd.filesToAttach)
+                foreach (StorageSelectionEntry entry in _storageWnd.filesToAttach)
                 {
                     try
                     {
@@ -965,10 +976,6 @@ namespace Discussions
             browser.Show();
         }
 
-
-
-
-
         #region comment notificatinos
 
         public CommentDismissalRecognizer CommentDismissalRecognizer;
@@ -1019,5 +1026,10 @@ namespace Discussions
             return lstBxComments;
         }
         #endregion
+
+        private void TxtAttachmentURL_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            AttachMediaFromUrl();
+        }
     }
 }

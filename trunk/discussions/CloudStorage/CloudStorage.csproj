@@ -47,7 +47,7 @@
       <HintPath>lib\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="DropNet">
-      <HintPath>..\TDS\packages\DropNet.1.9.3\lib\net35\DropNet.dll</HintPath>
+      <HintPath>..\packages\DropNet.1.9.5\lib\net40\DropNet.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis">
       <HintPath>lib\Google.Apis.dll</HintPath>
@@ -61,7 +61,7 @@
     <Reference Include="Microsoft.Surface, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Surface.Presentation, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="RestSharp">
-      <HintPath>..\TDS\packages\DropNet.1.9.3\lib\net35\RestSharp.dll</HintPath>
+      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -92,17 +92,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\PathToName.cs" />
-    <Compile Include="DropStorage.cs" />
-    <Compile Include="FileEntry.cs" />
+    <Compile Include="Model\DropStorage.cs" />
+    <Compile Include="Model\FileEntry.cs" />
     <Compile Include="FileEntryControl.xaml.cs">
       <DependentUpon>FileEntryControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileViewState.cs" />
-    <Compile Include="GDriveStorage.cs" />
+    <Compile Include="Model\FileViewState.cs" />
+    <Compile Include="Model\GDriveStorage.cs" />
     <Compile Include="Icons\FileToIcon.cs" />
     <Compile Include="Icons\SysImageList.cs" />
-    <Compile Include="IStorageClient.cs" />
+    <Compile Include="Model\IStorageClient.cs" />
+    <Compile Include="Model\NavigationDirection.cs" />
+    <Compile Include="Model\SortingFunction.cs" />
+    <Compile Include="Model\StorageSelectionEntry.cs" />
+    <Compile Include="Model\StorageType.cs" />
     <Compile Include="StorageWnd.xaml.cs">
       <DependentUpon>StorageWnd.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -194,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\notepad_list3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\eye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

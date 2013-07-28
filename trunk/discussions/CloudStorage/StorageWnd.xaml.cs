@@ -16,24 +16,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Surface.Presentation.Controls;
+using CloudStorage.Model;
 using Discussions;
 
 namespace CloudStorage
 {
     public partial class StorageWnd : SurfaceWindow
     {
-        public enum NavitionType
-        {
-            LevelDown,
-            LevelUp
-        };
-
-        public enum SortingFunction
-        {
-            ByTime,
-            ByName
-        };
-
         //file entries of currently viewed level
         private ObservableCollection<FileEntry> _entries = new ObservableCollection<FileEntry>();
 
@@ -56,12 +45,6 @@ namespace CloudStorage
         private bool _isBusy = false;
         private bool _cancelled = false;
         private int _folderRequestId = 0;
-
-        public struct StorageSelectionEntry
-        {
-            public string PathName;
-            public string Title;
-        }
 
         public List<StorageSelectionEntry> filesToAttach = null;
 
@@ -94,7 +77,7 @@ namespace CloudStorage
                                 _storage = new DropStorage(webViewCallback);
                                 _navState.Reset("Dropbox");
                                 break;
-                            case StorageType.GoogleDrive:
+                            case StorageType.GDrive:
                                 _storage = new GDriveStorage(webViewCallback);
                                 _navState.Reset("Google Drive");
                                 break;
@@ -102,7 +85,7 @@ namespace CloudStorage
                                 throw new NotSupportedException();
                         }
 
-                        NavigateTo(_storage.RootFolder(), null, NavitionType.LevelDown, true);
+                        NavigateTo(_storage.RootFolder(), null, NavigationDirection.LevelDown, true);
                     }
                     catch (Exception e)
                     {
@@ -130,23 +113,23 @@ namespace CloudStorage
         {
             if (IsBusy())
                 return;
-            LoginAndEnumFiles(StorageType.GoogleDrive);
+            LoginAndEnumFiles(StorageType.GDrive);
         }
 
         //if nav up, folderId doesn't matter
-        private void NavigateTo(string folderId, string folderPathName, NavitionType navType, bool directCall)
+        private void NavigateTo(string folderId, string folderPathName, NavigationDirection navDirection, bool directCall)
         {
             if (IsBusy())
                 return;
 
-            switch (navType)
+            switch (navDirection)
             {
-                case NavitionType.LevelDown:
+                case NavigationDirection.LevelDown:
                     if (folderId == null)
                         return;
                     _navState.LevelDown(folderId, folderPathName);
                     break;
-                case NavitionType.LevelUp:
+                case NavigationDirection.LevelUp:
                     if (_navState.LevelUp() == null)
                         return;
                     break;
@@ -208,7 +191,7 @@ namespace CloudStorage
                 if (fe.IsFolder)
                 {
                     fileList.UnselectAll();
-                    NavigateTo(fe.IdString, fe.Title, NavitionType.LevelDown, false);
+                    NavigateTo(fe.IdString, fe.Title, NavigationDirection.LevelDown, false);
                 }
             }
         }
@@ -225,13 +208,7 @@ namespace CloudStorage
 
         private IEnumerable<FileEntry> SelectedEntries()
         {
-            var res = new List<FileEntry>();
-            foreach (FileEntry selected in fileList.SelectedItems)
-            {
-                if (!selected.IsFolder)
-                    res.Add(selected);
-            }
-            return res;
+            return fileList.SelectedItems.Cast<FileEntry>().Where(selected => !selected.IsFolder).ToList();
         }
 
         private bool IsBusy()
@@ -400,7 +377,7 @@ namespace CloudStorage
         {
             if (IsBusy())
                 return;
-            NavigateTo(null, null, NavitionType.LevelUp, false);
+            NavigateTo(null, null, NavigationDirection.LevelUp, false);
         }
 
         private void btnRootFolder_Click_1(object sender, RoutedEventArgs e)
@@ -409,24 +386,12 @@ namespace CloudStorage
                 return;
 
             _navState.Reset(null);
-            NavigateTo(_storage.RootFolder(), null, NavitionType.LevelDown, false);
+            NavigateTo(_storage.RootFolder(), null, NavigationDirection.LevelDown, false);
         }
 
         private void btnCancelFetch_Click_1(object sender, RoutedEventArgs e)
         {
             _cancelled = true;
-        }
-
-        private void btnSelMode_Click_1(object sender, RoutedEventArgs e)
-        {
-            if ((bool) btnSelMode.IsChecked)
-            {
-                fileList.SelectionMode = SelectionMode.Multiple;
-            }
-            else
-            {
-                fileList.SelectionMode = SelectionMode.Single;
-            }
-        }
+        }     
     }
 }

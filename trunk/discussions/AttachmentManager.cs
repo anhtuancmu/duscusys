@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Net;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CloudStorage;
+using CloudStorage.Model;
 using Discussions.model;
 using Discussions.DbModel;
 using System.Diagnostics;
@@ -515,7 +517,7 @@ namespace Discussions
             var screenPath = Utils.RandomFilePath(".png");
             screenshot.Save(screenPath, ImageFormat.Png);
 
-            Attachment a = new Attachment();
+            var a = new Attachment();
             a.Name = screenPath;
             a.Format = (int) AttachmentFormat.PngScreenshot;
             a.MediaData = DaoUtils.CreateMediaData(ImgFileToBytes(screenPath));
@@ -530,10 +532,9 @@ namespace Discussions
         {
         };
 
-        public static Attachment AttachCloudEntry(ArgPoint Point, CloudStorage.StorageWnd.StorageSelectionEntry selEntry)
+        public static Attachment AttachCloudEntry(ArgPoint Point, StorageSelectionEntry selEntry)
         {
-            Attachment a = new Attachment();
-            a.Name = selEntry.Title;
+            var a = new Attachment {Name = selEntry.Title};
             try
             {
                 a.Format = (int) GetImgFmt(selEntry.Title); //may throw exception in case of unsupported file format
@@ -544,7 +545,7 @@ namespace Discussions
             }
 
             a.MediaData = DaoUtils.CreateMediaData(AnyFileToBytes(selEntry.PathName));
-            a.Title = selEntry.Title;
+            a.Title = "";// selEntry.Title;
             a.Link = selEntry.Title;
             if (a.Format == (int) AttachmentFormat.Pdf)
                 a.Thumb = TryCreatePdfThumb(selEntry.PathName);
@@ -663,7 +664,7 @@ namespace Discussions
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
 
-                ImageWindow wnd = new ImageWindow(a.Id);
+                ImageWindow wnd = new ImageWindow(a.Id, a.ArgPoint.Topic.Id);
                 wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
                 wnd.Show();
             }
@@ -697,7 +698,7 @@ namespace Discussions
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {
-                ImageWindow wnd = new ImageWindow(-1);
+                var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT);
                 var bi = new BitmapImage(new Uri(pathName));
                 wnd.img.Source = bi;
                 wnd.Show();

@@ -6,35 +6,40 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     x:Class="Discussions.ImageWindow"
-    Title="Image viewer"
-    Loaded="SurfaceWindow_Loaded_1"
-    WindowStartupLocation="CenterScreen"
+    Title="Image viewer"    
     MouseMove="SurfaceWindow_MouseMove"
-    IsManipulationEnabled="True"
-    ManipulationStarting="img_ManipulationStarting_1"
-    ManipulationDelta="img_ManipulationDelta_1"
     MouseWheel="SurfaceWindow_MouseWheel_1"
     Closed="ImageWindow_Closed_1"
-    Background="{StaticResource WndBg}"
-    Width="500"
-    Height="500"
+    Background="{StaticResource WndBg}"    
+    WindowStartupLocation="CenterScreen"
+    Closing="ImageWindow_OnClosing"
     Topmost="True"
     d:DesignWidth="657.233"
     d:DesignHeight="574"
     Icon="discusys%20iconv3.ico">
-    <Grid>
+
+    <Window.Resources>
+        <Style TargetType="Image">
+            <Setter Property="Stretch" Value="Uniform" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="root">
         <Image x:Name="img"
-               d:LayoutOverrides="Width, Height"
-               RenderTransformOrigin="0,0">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform />
-                    <SkewTransform />
-                    <RotateTransform />
-                    <TranslateTransform X="0.5" Y="0.5" />
-                </TransformGroup>
-            </Image.RenderTransform>
+               IsManipulationEnabled="True" 
+               RenderTransform="1 0 0 1 0 0" 
+               d:LayoutOverrides="Width, Height">          
         </Image>
+
+        <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
+                               IsChecked="{Binding ExplanationModeEnabled}"
+                               RenderOptions.BitmapScalingMode="HighQuality" 
+                               HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Border Background="{StaticResource explanation}" Width="70" Height="70" />
+        </s:SurfaceToggleButton>
+
         <s:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
                          Click="btnZoom_Click" Content="X" FontSize="48" Foreground="Black" MinWidth="137"
                          MinHeight="107" BorderThickness="0" HorizontalContentAlignment="Center"
@@ -44,7 +49,7 @@
             <TextBlock x:Name="txtZoom" HorizontalAlignment="Left" FontSize="25" TextWrapping="Wrap"
                        Text="{Binding Value, ElementName=zoomSlider, StringFormat=x\{0:0.0\}}" VerticalAlignment="Top" />
             <s:SurfaceSlider x:Name="zoomSlider" HorizontalAlignment="Right" VerticalAlignment="Center"
-                             Orientation="Vertical" Minimum="0.5" Maximum="5"
+                             Orientation="Vertical" Minimum="0.51" Maximum="4.9"
                              Height="189" d:LayoutOverrides="VerticalMargin"
                              Value="{Binding ZoomFactor}" />
         </StackPanel>

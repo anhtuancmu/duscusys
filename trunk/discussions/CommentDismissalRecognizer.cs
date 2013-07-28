@@ -18,7 +18,7 @@ namespace Discussions
 
         private readonly SurfaceScrollViewer _scrollViewer;
 
-        private Action<ArgPoint> _onDismiss;
+        private readonly Action<ArgPoint> _onDismiss;
 
         public CommentDismissalRecognizer(SurfaceScrollViewer scrollViewer, Action<ArgPoint> onDismiss)
         {

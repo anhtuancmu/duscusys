@@ -34,7 +34,12 @@
                                    TextWrapping="Wrap"
                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
                                    x:Name="txtBxText" d:LayoutOverrides="Width"
-                                   VerticalAlignment="Center" Margin="0" Width="600" />
+                                   VerticalAlignment="Center" Margin="0" Width="600">
+                    <my:SurfaceTextBox.ContextMenu>
+                        <local:CtxMenuWrapper/>
+                    </my:SurfaceTextBox.ContextMenu>
+                </my:SurfaceTextBox>
+                    
                 <TextBlock x:Name="lblText" Foreground="Black" Visibility="Collapsed"
                            TextWrapping="Wrap" MaxWidth="600"
                            VerticalAlignment="Center" />
