@@ -124,7 +124,7 @@ namespace Discussions
             if (c == null)
                 return;
 
-            var commentFilled = c.Text != DaoUtils.NEW_COMMENT && !string.IsNullOrWhiteSpace(c.Text);
+            var commentFilled = c.Person!=null && c.Text != DaoUtils.NEW_COMMENT && !string.IsNullOrWhiteSpace(c.Text);
             if (commentFilled)
             {
                 txtBxText.Visibility = Visibility.Collapsed;
@@ -236,7 +236,7 @@ namespace Discussions
                 DeviceType.Wpf);
         }
 
-        private void RequestFinishEditing()
+        public void RequestFinishEditing()
         {
             checkRemovability(DataContext as Comment);
             checkReadonly(DataContext as Comment);

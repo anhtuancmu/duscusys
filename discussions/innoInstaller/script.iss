@@ -359,7 +359,7 @@ Source: ..\bin\x86\Debug\CFLite.resources\CFUniCharPropertyDatabase.data; DestDi
 Source: ..\bin\x86\Debug\CFLite.resources\CFUnicodeData-L.mapping; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CFLite.resources\Info.plist; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\x86\Debug\JavaScriptCore.resources\Info.plist; DestDir: {app}\JavaScriptCore.resources\; Flags: ignoreversion
-Source: ..\EventGen\bin\x86\Debug\EventGen.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EventGen.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\DropNet.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\DotNetOpenAuth.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\Google.Apis.dll; DestDir: {app}; Flags: ignoreversion
@@ -367,7 +367,7 @@ Source: ..\bin\x86\Debug\Google.Apis.Drive.v2.dll; DestDir: {app}; Flags: ignore
 Source: ..\bin\x86\Debug\Newtonsoft.Json.Net35.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\RestSharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CloudStorage.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\Reporter\bin\x86\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion; Tasks: ; Languages: 
+Source: ..\Reporter\bin\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion; Tasks: ; Languages: 
 Source: ..\bin\x86\Debug\Google.Apis.Authentication.OAuth2.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\DiscussionHTMLPage.html; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\NoBackgroundPage.html; DestDir: {app}; Flags: ignoreversion

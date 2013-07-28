@@ -61,14 +61,18 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="tickHost" Background="{StaticResource greenTick}" Width="20" Height="20"
-                                    HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden"
+                            <Border x:Name="tickHost" 
+                                    Background="{StaticResource greenTick}" 
+                                    Width="20" Height="20"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Hidden"
                                     Margin="0,55,0,0" />
-                            <ContentPresenter x:Name="Content" ContentTemplate="{TemplateBinding ContentTemplate}"
+                            <ContentPresenter x:Name="Content" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
                                               Content="{TemplateBinding Content}"
                                               ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              Margin="6,2,0,0"
+                                              Margin="0,2,0,0"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Grid.ColumnSpan="1" Grid.Column="1" />
@@ -147,7 +151,7 @@
 
         <s:SurfaceListBox x:Name="fileList"
                           Grid.Row="2"
-                          SelectionMode="Single"
+                          SelectionMode="Multiple"
                           SelectionChanged="SurfaceListBox_SelectionChanged_1"
                           ItemsSource="{Binding Entries}"
                           Background="{x:Null}"
@@ -235,16 +239,7 @@
                     <Border Width="45" Height="45" Background="{StaticResource view}" />
                 </s:SurfaceButton>
                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="View" />
-            </StackPanel>
-
-            <StackPanel Orientation="Vertical" Margin="0,5,0,0">
-                <s:SurfaceToggleButton x:Name="btnSelMode" Click="btnSelMode_Click_1" HorizontalAlignment="Center"
-                                       VerticalAlignment="Center" Background="{x:Null}" Margin="0" Grid.Column="1">
-                    <Border Width="45" Height="45" Background="{DynamicResource mselect}" HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
-                </s:SurfaceToggleButton>
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Multiselect" Margin="0,2,0,0" />
-            </StackPanel>
+            </StackPanel>           
 
             <StackPanel Orientation="Vertical" Margin="0,9,0,0">
                 <s:SurfaceButton x:Name="btnRefresh" Click="btnRefresh_Click_1" HorizontalAlignment="Center"

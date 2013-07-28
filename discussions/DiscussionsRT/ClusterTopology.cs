@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Discussions.RTModel.Model;
-using Discussions.RTModel.Operations;
-using DistributedEditor;
 using ExitGames.Logging;
-using Lite;
-using Photon.SocketServer;
 
 namespace Discussions.RTModel
 {
@@ -31,7 +26,7 @@ namespace Discussions.RTModel
     public class Linkable
     {
         private readonly int _id;
-        private List<Edge> _edges = new List<Edge>();
+        private readonly List<Edge> _edges = new List<Edge>();
 
         public Linkable(int id)
         {
@@ -79,7 +74,7 @@ namespace Discussions.RTModel
     {
         public const int UNDEFINED_CLUSTER = -1;
 
-        private Cluster _cluster = null;
+        private Cluster _cluster;
 
         public Clusterable(int id) :
             base(id)
@@ -118,7 +113,7 @@ namespace Discussions.RTModel
 
     public class Cluster : Linkable
     {
-        private List<Clusterable> _badges = new List<Clusterable>();
+        private readonly List<Clusterable> _badges = new List<Clusterable>();
 
         public Cluster(int id) :
             base(id)
@@ -148,16 +143,16 @@ namespace Discussions.RTModel
 
     public class ClusterTopology
     {
-        private static readonly ILogger _log = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
         //Id to clusters
-        private Dictionary<int, Cluster> _clusters = new Dictionary<int, Cluster>();
+        private readonly Dictionary<int, Cluster> _clusters = new Dictionary<int, Cluster>();
 
         //badge id to Clusterables
-        private Dictionary<int, Clusterable> _badges = new Dictionary<int, Clusterable>();
+        private readonly Dictionary<int, Clusterable> _badges = new Dictionary<int, Clusterable>();
 
         //maps IDs of link shapes to forward edges
-        private Dictionary<int, Edge> _forwardEdges = new Dictionary<int, Edge>();
+        private readonly Dictionary<int, Edge> _forwardEdges = new Dictionary<int, Edge>();
 
         private readonly DiscussionRoom _room;
 
@@ -319,7 +314,7 @@ namespace Discussions.RTModel
         {
             if (!badge.IsInCluster())
             {
-                _log.Warn("badge " + badge.GetId() + " is already unclustered");
+                Log.Warn("badge " + badge.GetId() + " is already unclustered");
                 return;
             }
 
@@ -347,7 +342,7 @@ namespace Discussions.RTModel
             if (badge.IsInCluster())
             {
                 //two or more clients sent clustering requests in the same time. first wins
-                _log.Warn("cluster failed: badge=" + badge.GetId() + " cluster=" + cluster.GetId() +
+                Log.Warn("cluster failed: badge=" + badge.GetId() + " cluster=" + cluster.GetId() +
                           " current cluster of badge=" + badge.GetCluster().GetId());
                 return false;
             }

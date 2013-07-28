@@ -101,6 +101,8 @@ namespace Discussions
             topicNavPanel.discussion = SessionInfo.Get().discussion;
             topicNavPanel.topicAnimate += TopicAnimate;
 
+            btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
+
             localAccount.DataContext = SessionInfo.Get().person;
 
             avaBar.Init(_sharedClient);
@@ -927,5 +929,10 @@ namespace Discussions
         }
 
         #endregion
+
+        private void BtnExplanationMode_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExplanationModeMediator.Inst.ExplanationModeEnabled = btnExplanationMode.IsChecked.Value;
+        }
     }
 }

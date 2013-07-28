@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using LiteLobby;
+﻿using LiteLobby;
 using Photon.SocketServer;
 using Discussions.DbModel;
 
@@ -10,10 +6,6 @@ namespace Discussions.RTModel
 {
     public class App : LiteLobbyApplication
     {
-        public App()
-        {
-        }
-
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             return new DiscussionPeer(initRequest.Protocol, initRequest.PhotonPeer);

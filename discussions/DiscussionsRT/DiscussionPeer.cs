@@ -77,6 +77,8 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.AttachLaserPointerRequest:
                 case DiscussionOpCode.DetachLaserPointerRequest:
                 case DiscussionOpCode.LaserPointerMovedRequest:
+                case DiscussionOpCode.ImageViewerManipulateRequest:
+                case DiscussionOpCode.ImageViewerStateRequest:
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:

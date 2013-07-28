@@ -19,7 +19,7 @@ namespace Discussions
     /// </summary>
     public partial class LargeBadgeView : UserControl
     {
-        private MultiClickRecognizer mediaDoubleClick;
+        private readonly MultiClickRecognizer _mediaDoubleClick;
 
         private UISharedRTClient _sharedClient;
 
@@ -37,14 +37,14 @@ namespace Discussions
             remove { RemoveHandler(RequestSmallViewEvent, value); }
         }
 
-        private ObservableCollection<Source> sources = new ObservableCollection<Source>();
+        private readonly ObservableCollection<Source> sources = new ObservableCollection<Source>();
 
         public ObservableCollection<Source> Sources
         {
             get { return sources; }
         }
 
-        private ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
+        private readonly ObservableCollection<Attachment> attachments = new ObservableCollection<Attachment>();
 
         public ObservableCollection<Attachment> Attachments
         {
@@ -123,7 +123,7 @@ namespace Discussions
 
             //  Drawing.dataContextHandled += DrawingDataContextHandled; 
 
-            mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
+            _mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
 
             _commentDismissalRecognizer = new CommentDismissalRecognizer(scrollViewer, OnDismiss);
 
@@ -173,6 +173,12 @@ namespace Discussions
             if (change != PointChangedType.Modified)
                 return;
 
+            //save edited comment
+            string editedCommentText = null;
+            var editedComment = ap.Comment.FirstOrDefault(c => c.Person == null && c.Text != DaoUtils.NEW_COMMENT);
+            if (editedComment != null)
+                editedCommentText = editedComment.Text;
+
             //using db ctx here from login engine, not to spoil others
             DbCtx.DropContext();
             var ap2 = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);            
@@ -180,6 +186,18 @@ namespace Discussions
             //BadgesCtx.DropContext();
 
             DataContext = null;
+           
+            //restore edited comment 
+            if (!string.IsNullOrWhiteSpace(editedCommentText))
+            {
+                var placeholder = ap2.Comment.FirstOrDefault(c => c.Person == null);
+                if (placeholder != null)
+                {
+                    placeholder.Text = editedCommentText;
+                    placeholder.Person = null;
+                }
+            }
+
             DataContext = ap2;
         }
 
@@ -524,6 +542,19 @@ namespace Discussions
             if (ap == null)
                 return;
 
+            //finalize edited comment
+            var editedComment = ap.Comment.FirstOrDefault(c => c.Person == null && c.Text != DaoUtils.NEW_COMMENT);
+            if (editedComment != null)
+            {
+                var cnt = lstBxComments1.ItemContainerGenerator.ContainerFromItem(editedComment);
+                if (cnt != null)
+                {
+                    var cmntUC = GuiHelpers.GetChildObject<CommentUC>(cnt);
+                    if (cmntUC != null)
+                        cmntUC.RequestFinishEditing();
+                }
+            }
+
             if (!ap.ChangesPending)
                 return;
 
@@ -534,7 +565,7 @@ namespace Discussions
             {
                 DbCtx.Get().SaveChanges();
             }
-            catch (Exception)
+            catch
             {
             }
 
@@ -554,7 +585,7 @@ namespace Discussions
         {
             if (e.OriginalSource is Image)
                 return;
-            mediaDoubleClick.Click(sender, e);
+            _mediaDoubleClick.Click(sender, e);
             e.Handled = true;
         }
 
@@ -562,7 +593,7 @@ namespace Discussions
         {
             if (e.OriginalSource is Image)
                 return;
-            mediaDoubleClick.Click(sender, e);
+            _mediaDoubleClick.Click(sender, e);
             e.Handled = true;
         }
 

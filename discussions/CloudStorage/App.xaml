@@ -4,10 +4,73 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:t="clr-namespace:QuickZip.Tools"
+    xmlns:Custom="clr-namespace:Microsoft.Surface.Presentation;assembly=Microsoft.Surface.Presentation"
+    xmlns:s="clr-namespace:Microsoft.Surface.Presentation.Controls;assembly=Microsoft.Surface.Presentation"
     mc:Ignorable="d" x:Class="CloudStorage.App"
     StartupUri="StorageWnd.xaml">
     <Application.Resources>
         <SolidColorBrush x:Key="WndBg" Color="#FF2B2B2B" />
         <t:FileToIconConverter x:Key="iconConv" />
+
+        <Style x:Key="roundButtonStyle" TargetType="{x:Type s:SurfaceButton}">
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <Grid x:Name="Grid" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <Rectangle x:Name="ButtonBody" Fill="{TemplateBinding Background}"
+                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RadiusX="5"
+                                           RadiusY="5" />
+                            <Rectangle x:Name="PressOverlay" Fill="LightBlue" Opacity="0"
+                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RadiusX="5"
+                                           RadiusY="5" />
+                            <ContentPresenter x:Name="Content" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="0"
+                                                                               Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                               Storyboard.TargetName="PressOverlay">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.1" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="0"
+                                                                               Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                               Storyboard.TargetName="PressOverlay">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.15" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter Property="Foreground"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type Custom:SurfaceColors}}}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Fill" TargetName="ButtonBody"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type Custom:SurfaceColors}}}" />
+                                <Setter Property="Foreground"
+                                            Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type Custom:SurfaceColors}}}" />
+                                <Setter Property="Opacity" TargetName="Content" Value="0.33" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

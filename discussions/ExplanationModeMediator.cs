@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using Discussions.DbModel;
+using Discussions.Annotations;
 
 namespace Discussions
 {
-    public class ExplanationModeMediator
+    public class ExplanationModeMediator : INotifyPropertyChanged
     {
         private static ExplanationModeMediator _inst = null;
 
@@ -26,14 +26,27 @@ namespace Discussions
             public int attachId;
         }
 
+
+        public bool ExplanationModeEnabled
+        {
+            get { return _explanationModeEnabled; }
+            set
+            {
+                if (value.Equals(_explanationModeEnabled)) return;
+                _explanationModeEnabled = value;
+                OnPropertyChanged("ExplanationModeEnabled");
+            }
+        }
+
         //all locally opened image windows 
-        private List<ViewerRecord> _openedViewers = new List<ViewerRecord>();
+        private readonly List<ViewerRecord> _openedViewers = new List<ViewerRecord>();
 
         //called when window is closed by any initiator 
         public Action<int> CloseReq;
 
         //called when window is opened by any initiator 
         public Action<int> OpenReq;
+        private bool _explanationModeEnabled;
 
         //called every time a window is closed by any initiator
         public void OnWndClosed(ImageWindow wnd)
@@ -75,6 +88,15 @@ namespace Discussions
             {
                 prevInstOfAttach.wnd.Close();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
