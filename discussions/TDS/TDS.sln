@@ -243,14 +243,14 @@ Global
 		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|x64.ActiveCfg = Release|Any CPU
 		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|x86.ActiveCfg = Release|x86
 		{055E85C3-4EB4-4C75-A836-21356747B3A5}.Release|x86.Build.0 = Release|x86
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|x64.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|x86.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|Any CPU.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|Mixed Platforms.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|x64.ActiveCfg = Debug|x64
-		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|x86.ActiveCfg = Debug|x64
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|Any CPU.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|x64.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Debug|x86.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|Any CPU.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|Mixed Platforms.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|x64.ActiveCfg = Debug
+		{EEE544E4-66A1-4997-959E-EAFB8811B169}.Release|x86.ActiveCfg = Debug
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
