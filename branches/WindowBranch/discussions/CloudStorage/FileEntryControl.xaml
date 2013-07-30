@@ -22,8 +22,8 @@
         </Grid.ColumnDefinitions>
 
         <Image Stretch="Uniform" Source="{Binding Image}"
-               PreviewMouseDown="OnSingleClick"
-               PreviewTouchDown="OnSingleClick"
+               MouseDown="OnSingleClick"
+               TouchDown="OnSingleClick"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                Margin="0" />
 
