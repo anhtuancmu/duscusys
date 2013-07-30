@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Discussions.model;
 using Discussions.DbModel;
 using Discussions.rt;
@@ -188,17 +190,36 @@ namespace Discussions
             DataContext = null;
            
             //restore edited comment 
+            Comment placeholder = null;
             if (!string.IsNullOrWhiteSpace(editedCommentText))
             {
-                var placeholder = ap2.Comment.FirstOrDefault(c => c.Person == null);
+                placeholder = ap2.Comment.FirstOrDefault(c => c.Person == null);
                 if (placeholder != null)
                 {
                     placeholder.Text = editedCommentText;
                     placeholder.Person = null;
                 }
-            }
+            }           
 
             DataContext = ap2;
+
+            //focus the placeholder again
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)(async ()=>
+            {
+                if (placeholder != null)
+                {
+                    var container = lstBxComments1.ItemContainerGenerator.ContainerFromItem(placeholder);
+                    if (container != null)
+                    {
+                        var commentUC = GuiHelpers.GetChildObject<CommentUC>(container);
+                        if (commentUC != null)
+                        {                            
+                            scrollViewer.ScrollToBottom();                            
+                            commentUC.FocusPlaceholder();
+                        }
+                    }                    
+                }
+            }));
         }
 
         private void BeginSrcNumberInjection()
