@@ -31,6 +31,7 @@
                 <my:SurfaceTextBox LostFocus="txtBxText_LostFocus"
                                    KeyDown="txtBxText_KeyDown_1"
                                    TextChanged="txtBxText_TextChanged_1"
+                                   SelectsAllOnFocus="False"
                                    TextWrapping="Wrap"
                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
                                    x:Name="txtBxText" d:LayoutOverrides="Width"

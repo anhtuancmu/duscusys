@@ -294,5 +294,11 @@ namespace Discussions
 
             return res;
         }
+
+        public void FocusPlaceholder()
+        {
+            txtBxText.Focus();
+            txtBxText.CaretIndex = txtBxText.Text.Length;
+        }
     }
 }
