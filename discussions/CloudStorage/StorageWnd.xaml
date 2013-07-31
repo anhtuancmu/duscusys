@@ -165,8 +165,7 @@
                           Background="{x:Null}"
                           ItemsPanel="{DynamicResource FilePanelTemplate}"
                           ItemContainerStyle="{DynamicResource SurfaceListFileEntryItemStyle}"
-                          local:FileEntryControl.RequestView="fileRequestView"
-                          local:FileEntryControl.CustSelection="custSelectionEvent">
+                          local:FileEntryControl.RequestView="fileRequestView">
             <s:SurfaceListBox.ItemTemplate>
                 <DataTemplate>
                     <local:FileEntryControl />
