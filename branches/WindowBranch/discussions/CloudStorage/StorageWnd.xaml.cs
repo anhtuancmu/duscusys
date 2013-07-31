@@ -256,27 +256,6 @@ namespace CloudStorage
             OpenFileViewer(fe);
         }
 
-        private void custSelectionEvent(object sender, RoutedEventArgs e)
-        {
-            var fec = e.OriginalSource as FileEntryControl;
-            if (fec == null)
-                return;
-
-            //invert selection
-            if (fileList.SelectedItems.Contains(fec.DataContext))
-            {
-                if (fileList.SelectionMode == SelectionMode.Multiple)
-                    fileList.SelectedItems.Remove(fec.DataContext);
-            }
-            else
-            {
-                if (fileList.SelectionMode == SelectionMode.Multiple)
-                    fileList.SelectedItems.Add(fec.DataContext);
-                else
-                    fileList.SelectedItem = fec.DataContext;
-            }
-        }
-
         private void btnView_Click_1(object sender, RoutedEventArgs e)
         {
             if (fileViewCallback == null)
