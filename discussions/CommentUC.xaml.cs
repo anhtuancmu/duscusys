@@ -217,8 +217,8 @@ namespace Discussions
             try
             {
                 foreach (var commentPersonReadEntry in c.ReadEntry.ToArray())
-                    PrivateCenterCtx.Get().DeleteObject(commentPersonReadEntry);
-                PrivateCenterCtx.Get().DeleteObject(c);
+                    PrivateCenterCtx.Get().CommentPersonReadEntry.Remove(commentPersonReadEntry);
+                PrivateCenterCtx.Get().Comment.Remove(c);
             }
             catch
             {

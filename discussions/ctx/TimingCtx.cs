@@ -9,6 +9,10 @@ namespace Discussions.ctx
 
         private static DiscCtx _cached;
 
+        public TimingCtx(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+        }
+
         public static DiscCtx GetFresh()
         {            
             if (_cached==null || !_dup.IsDuplicate())

@@ -55,7 +55,7 @@ namespace EventGen
             s.Time = startTime.Add(evt.Span);
             s.DeviceType = (int) evt.devType;
 
-            _ctx.StatsEvent.AddObject(s);
+            _ctx.StatsEvent.Add(s);
         }
     }
 }

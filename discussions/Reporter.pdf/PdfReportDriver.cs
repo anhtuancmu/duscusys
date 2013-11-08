@@ -22,15 +22,16 @@ namespace Reporter.pdf
             var reportParameters = new ReportParameters(session.Person.Select(p => p.Id).ToList(),
                                                         session, topic, discussion);
             var tcs = new TaskCompletionSource<ReportCollector>();
-            new ReportCollector(null, reportGenerated, reportParameters, tcs, UISharedRTClient.Instance.clienRt);
+            new ReportCollector(null, ReportGenerated, reportParameters, tcs, UISharedRTClient.Instance.clienRt);
 
             var pdfAsm = new Reporter.pdf.PdfAssembler2(discussion, topic, person, session,
                                                         Utils.RandomFilePath(".pdf"), tcs.Task,
                                                         RemoteFinalSceneScreenshot(topic.Id, discussion.Id));
-            pdfAsm.Run();
+
+            pdfAsm.RunAsync().GetAwaiter().OnCompleted(() => { });
         }
 
-        public void reportGenerated(ReportCollector sender, object args)
+        public void ReportGenerated(ReportCollector sender, object args)
         {
             ((TaskCompletionSource<ReportCollector>) args).SetResult(sender);
         }

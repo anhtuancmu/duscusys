@@ -139,7 +139,7 @@ namespace Discussions
                 if (!prevExists)
                     try
                     {
-                        ctx.Person.AddObject(prev);
+                        ctx.Person.Add(prev);
                     }
                     catch (Exception)
                     {

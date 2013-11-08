@@ -66,7 +66,7 @@ namespace Discussions
                 loginRes.devType = DeviceType.Wpf;
                 loginRes.discussion = SessionInfo.Get().discussion;
                 loginRes.person = SessionInfo.Get().person;
-                sharedClient.start(loginRes, PrivateCenterCtx.Get().Connection.DataSource, DeviceType.Wpf);
+                sharedClient.start(loginRes, ConfigManager.ServiceServer, DeviceType.Wpf);
 
                 this.Hide();
 
@@ -138,7 +138,7 @@ namespace Discussions
             avatar.DataContext = login.person;
 
             //start rt client
-            sharedClient.start(login, PublicBoardCtx.Get().Connection.DataSource, DeviceType.Wpf);
+            sharedClient.start(login, ConfigManager.ServiceServer, DeviceType.Wpf);
 
             SetListeners(sharedClient, true);
         }
@@ -170,7 +170,7 @@ namespace Discussions
         {
             if (session.discussion != null)
             {
-                btnResults.LaunchDel = startResultViewer;
+                btnResults.LaunchDel = StartResultViewer;
                 btnDiscussionInfo.LaunchDel = ShowDiscussionInfo;
                 btnPrivate.LaunchDel = startPrivateBoard;
                 btnPublic.LaunchDel = startPublicBoard;
@@ -223,7 +223,7 @@ namespace Discussions
             discWindows.moderDashboard.Show();
         }
 
-        private async void startResultViewer()
+        private void StartResultViewer()
         {
             if (discWindows.resViewer != null)
                 return;

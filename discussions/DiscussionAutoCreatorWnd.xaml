@@ -54,7 +54,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,60,0,0">
-                <TextBlock Text="Run # from" FontSize="18" Margin="0" />
+                <TextBlock Text="RunAsync # from" FontSize="18" Margin="0" />
                 <s:SurfaceTextBox Name="from" Text="1" HorizontalAlignment="Left" Margin="0"
                                   TextChanged="from_TextChanged_1" />
                 <TextBlock Text="to" FontSize="18" />

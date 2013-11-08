@@ -1,35 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Discussions.DbModel;
-using System.Collections.ObjectModel;
 using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface;
 using Microsoft.Surface.Presentation.Input;
 using Discussions.model;
-using System.Windows.Ink;
-using System.Diagnostics;
-using System.Timers;
-using DiscussionsClientRT;
-using Discussions.RTModel;
-using System.Windows.Threading;
-using Discussions.RTModel.Model;
 using Discussions.rt;
-using System.IO;
-using System.Data.Objects;
-using Discussions.VectorEditor;
-using System.Windows.Media.Animation;
 
 namespace Discussions
 {
