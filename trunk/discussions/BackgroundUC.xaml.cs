@@ -196,8 +196,8 @@ namespace Discussions
             var mediaData = at.MediaData;
             at.MediaData = null;
             if (mediaData != null)
-                PublicBoardCtx.Get().DeleteObject(mediaData);
-            PublicBoardCtx.Get().DeleteObject(at);
+                PublicBoardCtx.Get().MediaDataSet.Remove(mediaData);
+            PublicBoardCtx.Get().Attachment.Remove(at);
         }
 
         private void btnAddSrc_Click(object sender, RoutedEventArgs e)

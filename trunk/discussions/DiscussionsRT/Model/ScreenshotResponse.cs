@@ -22,7 +22,7 @@ namespace Discussions.RTModel.Model
                     int mediaId = (int) par[(byte) i];
                     var mediaEntity = ctx.MediaDataSet.Single(m => m.Id == mediaId);
                     res.screenshots.Add(shapeIds[i], mediaEntity.Data);
-                    ctx.DeleteObject(mediaEntity);
+                    ctx.MediaDataSet.Remove(mediaEntity);
                 }
                 ctx.SaveChanges(); //deleted entities 
                 return res;
@@ -42,7 +42,7 @@ namespace Discussions.RTModel.Model
                 for (int i = 0; i < shapeIds.Length; i++)
                 {
                     var md = new MediaData {Data = screenshots[shapeIds[i]]};
-                    ctx.MediaDataSet.AddObject(md);
+                    ctx.MediaDataSet.Add(md);
                     ctx.SaveChanges();//save here, need Id
                     res.Add((byte) i, md.Id);
                 }                

@@ -43,7 +43,7 @@ namespace Discussions.RTModel
             s.Time = DateTime.Now;
             s.DeviceType = (int) devType;
 
-            ctx.StatsEvent.AddObject(s);
+            ctx.StatsEvent.Add(s);
             ctx.SaveChanges();
 
             return true;

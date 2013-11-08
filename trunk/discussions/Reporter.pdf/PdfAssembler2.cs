@@ -51,7 +51,7 @@ namespace Reporter.pdf
             }
         }
 
-        public async Task<List<string>> Run()
+        public async Task<List<string>> RunAsync()
         {
             _document = new Document();
 

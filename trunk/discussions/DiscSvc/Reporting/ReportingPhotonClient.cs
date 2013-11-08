@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Discussions;
 using Discussions.DbModel;
 using Discussions.model;
 using DiscussionsClientRT;
@@ -31,7 +32,7 @@ namespace DiscSvc.Reporting
             
             var moder = DbCtx.Get().Person.Single(p => p.Name.StartsWith("moder"));
             _clienRt = new ClientRT(disc.Id,
-                                     DbCtx.Get().Connection.DataSource,
+                                     ConfigManager.ServiceServer,                 
                                      moder.Name,
                                      moder.Id,
                                      DeviceType.Wpf);

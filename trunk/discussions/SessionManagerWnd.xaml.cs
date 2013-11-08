@@ -67,7 +67,7 @@ namespace Discussions
             s.EstimatedTimeSlot = (int) TimeSlot.Morning;
 
             Sessions.Add(s);
-            PublicBoardCtx.Get().Session.AddObject(s);
+            PublicBoardCtx.Get().Session.Add(s);
         }
 
         public Session SelectedSession
@@ -89,7 +89,7 @@ namespace Discussions
             }
 
             Sessions.Remove(ss);
-            PublicBoardCtx.Get().DeleteObject(ss);
+            PublicBoardCtx.Get().Session.Remove(ss);
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

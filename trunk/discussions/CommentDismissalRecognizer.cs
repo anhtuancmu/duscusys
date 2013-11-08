@@ -121,7 +121,7 @@ namespace Discussions
                             Comment = c,
                             Person = ctx.Person.Single(p => p.Id == persId)
                         };
-                    ctx.AddToCommentPersonReadEntry(entry);
+                    ctx.CommentPersonReadEntry.Add(entry);
                 }                
             }
 

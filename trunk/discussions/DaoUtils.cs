@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Text;
 using Discussions.model;
 using Discussions.DbModel;
 using System.Windows.Media;
 using Discussions.stats;
 using System.Linq;
-using System.Data.Objects;
-using System.Diagnostics;
 
 namespace Discussions
 {
@@ -27,7 +26,7 @@ namespace Discussions
             foreach (var a in d.Attachment)
                 attachments.Add(a);
             foreach (var a in attachments)
-                ctx.DeleteObject(a);
+                ctx.Attachment.Remove(a);
 
             //delete background             
             if (d.Background != null)
@@ -42,7 +41,7 @@ namespace Discussions
 
             d.GeneralSide.Clear();
 
-            ctx.DeleteObject(d);
+            ctx.Discussion.Remove(d);
 
             ctx.SaveChanges();
         }
@@ -73,7 +72,7 @@ namespace Discussions
 
             if (q.Count() == 0)
             {
-                ctx.Person.AddObject(Ctors.NewPerson("moderator", "moder-mail"));
+                ctx.Person.Add(Ctors.NewPerson("moderator", "moder-mail"));
                 ctx.SaveChanges();
             }
         }
@@ -95,7 +94,7 @@ namespace Discussions
             {
                 s.Discussion = null;
                 s.Person = null;
-                ctx.DeleteObject(s);
+                ctx.Annotation.Remove(s);
             }
 
             //remove the speaker from all topics
@@ -108,7 +107,7 @@ namespace Discussions
             //delete the person
             try
             {
-                ctx.DeleteObject(p);
+                ctx.Person.Remove(p);
             }
             catch (Exception)
             {
@@ -153,7 +152,7 @@ namespace Discussions
 
             try
             {
-                ctx.DeleteObject(p);
+                ctx.ArgPoint.Remove(p);
             }
             catch (Exception)
             {
@@ -176,7 +175,7 @@ namespace Discussions
             t.Person.Clear();
             t.ArgPoint.Clear();
             t.Discussion = null;
-            ctx.DeleteObject(t);
+            ctx.Topic.Remove(t);
             ctx.SaveChanges();
         }
 
@@ -191,7 +190,7 @@ namespace Discussions
             if (q.Count() > 0)
                 q.First().Side = side;
             else
-                PublicBoardCtx.Get().GeneralSide.AddObject(Ctors.NewGenSide(p, d, side));
+                PublicBoardCtx.Get().GeneralSide.Add(Ctors.NewGenSide(p, d, side));
         }
 
         public static int GetGeneralSide(Person p, Discussion d)
@@ -264,46 +263,7 @@ namespace Discussions
             a.Person = null;
             a.Discussion = null;
 
-            PublicBoardCtx.Get().DeleteObject(a);
-        }
-
-        //invalidates cached data tree of argument point 
-        public static void RefreshArgPointCache(ArgPoint ap)
-        {
-            if (ap == null)
-                return;
-
-            var objectsToUpdate = new List<object>();
-            objectsToUpdate.AddRange(ap.Comment);
-            objectsToUpdate.Add(ap.Description);
-            objectsToUpdate.AddRange(ap.Description.Source);
-            objectsToUpdate.AddRange(ap.Attachment);
-            objectsToUpdate.Add(ap.Person);
-
-            //we don't update Topic. Topic change is structural change (requires struct update notification)
-            PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, objectsToUpdate);
-
-            PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, ap);
-        }
-
-        //refreshes top-level discussion node (for session management)
-        public static void RefreshDiscussion(Discussion d)
-        {
-            try
-            {
-                PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, d);
-            }
-            catch (Exception)
-            {
-            }
-
-            try
-            {
-                PrivateCenterCtx.Get().Refresh(RefreshMode.StoreWins, d);
-            }
-            catch (Exception)
-            {
-            }
+            PublicBoardCtx.Get().Annotation.Remove(a);
         }
 
         //used for coloring shapes in graphics editor after users
@@ -314,24 +274,6 @@ namespace Discussions
                 return Colors.AliceBlue;
             else
                 return Utils.IntToColor(p.Color);
-        }
-
-        public static string UserIdToName(int id)
-        {
-            Person p = PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == id);
-            if (p == null)
-                return "";
-            else
-                return p.Name;
-        }
-
-        public static Annotation GetUpdatedAnnotation(int annotId)
-        {
-            var a = PublicBoardCtx.Get().Annotation.FirstOrDefault(a0 => a0.Id == annotId);
-            if (a == null)
-                return null;
-            PublicBoardCtx.Get().Refresh(RefreshMode.StoreWins, a);
-            return PublicBoardCtx.Get().Annotation.FirstOrDefault(a0 => a0.Id == annotId);
         }
 
         public static void UnpublishPoint(ArgPoint ap)

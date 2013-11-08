@@ -61,7 +61,7 @@ namespace Discussions
             s.Color = Utils.ColorToInt(Colors.LawnGreen);
 
             Seats.Add(s);
-            PublicBoardCtx.Get().Seat.AddObject(s);
+            PublicBoardCtx.Get().Seat.Add(s);
         }
 
         public Seat SelectedSeat
@@ -77,7 +77,7 @@ namespace Discussions
                 return;
 
             Seats.Remove(ss);
-            PublicBoardCtx.Get().DeleteObject(ss);
+            PublicBoardCtx.Get().Seat.Remove(ss);
         }
 
         private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

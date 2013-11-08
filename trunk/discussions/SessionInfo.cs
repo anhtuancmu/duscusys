@@ -1,13 +1,13 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using Discussions.DbModel;
-using System.Data.Objects;
 using LoginEngine;
 
 namespace Discussions
 {
     public class SessionInfo
     {
-        private static SessionInfo _inst = null;
+        private static SessionInfo _inst;
 
         public static SessionInfo Get()
         {
@@ -62,9 +62,9 @@ namespace Discussions
 
             if (IsAttachedTo(PrivateCenterCtx.Get(), entity))
                 return PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
-            else if (IsAttachedTo(PublicBoardCtx.Get(), entity))
+            if (IsAttachedTo(PublicBoardCtx.Get(), entity))
                 return PublicBoardCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
-            else if (IsAttachedTo(DbCtx.Get(), entity))
+            if (IsAttachedTo(DbCtx.Get(), entity))
                 return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == _person.Id);
 
             return _person;
@@ -79,16 +79,11 @@ namespace Discussions
 
         public int currentTopicId = -1;
 
-        public static bool IsAttachedTo(ObjectContext context, object entity)
+        public static bool IsAttachedTo(DbContext context, object entity)
         {
             if (entity == null)
                 return false;
-            ObjectStateEntry entry;
-            if (context.ObjectStateManager.TryGetObjectStateEntry(entity, out entry))
-            {
-                return true;
-            }
-            return false;
+            return context.ChangeTracker.Entries().Any(e => e.Entity == entity);
         }
 
         public bool IsModerator

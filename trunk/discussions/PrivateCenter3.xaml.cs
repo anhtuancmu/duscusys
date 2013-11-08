@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.Objects;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -477,9 +477,9 @@ namespace Discussions
         private void saveProcedure(ArgPoint deletedPt, int TopicOfDeletedPointId)
         {
             //extract modification lists
-            List<ArgPoint> created = null;
-            List<ArgPoint> edited = null;
-            List<ArgPoint> deleted = null;
+            List<ArgPoint> created;
+            List<ArgPoint> edited;
+            List<ArgPoint> deleted;
             GetChangeLists(out created, out edited, out deleted);
 
             //save changes 
@@ -515,7 +515,7 @@ namespace Discussions
                     continue;
                 }
 
-                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap.Ap).State)
+                switch (ctx.ChangeTracker.Entries<ArgPoint>().First(e=>e.Entity==ap.Ap).State)
                 {
                     case EntityState.Added:
                         created.Add(ap.Ap);
@@ -539,7 +539,7 @@ namespace Discussions
                     continue;
                 }
 
-                switch (ctx.ObjectStateManager.GetObjectStateEntry(ap.Ap).State)
+                switch (ctx.ChangeTracker.Entries<ArgPoint>().First(e => e.Entity == ap.Ap).State)
                 {
                     case EntityState.Added:
                         created.Add(ap.Ap);
@@ -628,32 +628,32 @@ namespace Discussions
         }
 
         //publish/unpublish                        
-        private void SurfaceCheckBox_Click(object sender, RoutedEventArgs e)
-        {
-            ArgPoint ap = (((SurfaceCheckBox) sender).DataContext) as ArgPoint;
-            if (ap == null)
-                return;
+        //private void SurfaceCheckBox_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ArgPoint ap = (((SurfaceCheckBox) sender).DataContext) as ArgPoint;
+        //    if (ap == null)
+        //        return;
 
-            Topic t;
-            ArgPoint ap1;
-            getPointAndTopic(out ap1, out t);
-            if (t == null)
-                return;
+        //    Topic t;
+        //    ArgPoint ap1;
+        //    getPointAndTopic(out ap1, out t);
+        //    if (t == null)
+        //        return;
 
-            if (((SurfaceCheckBox) sender).IsChecked.Value)
-                ap.SharedToPublic = true;
-            else
-            {
-                if (PrivateCenterCtx.Get().ObjectStateManager.GetObjectStateEntry(ap).State == EntityState.Modified ||
-                    PrivateCenterCtx.Get().ObjectStateManager.GetObjectStateEntry(ap).State == EntityState.Unchanged)
-                {
-                    PrivateCenterCtx.Get().Refresh(RefreshMode.StoreWins, ap);
-                    DaoUtils.UnpublishPoint(ap);
-                }
-            }
+        //    if (((SurfaceCheckBox) sender).IsChecked.Value)
+        //        ap.SharedToPublic = true;
+        //    else
+        //    {
+        //        if (PrivateCenterCtx.Get().ChangeTracker.Entries().First(e=>e.Entity==ap).State == EntityState.Modified ||
+        //            PrivateCenterCtx.Get().ChangeTracker.Entries().First(e=>e.Entity==ap).State == EntityState.Unchanged)
+        //        {
+        //            PrivateCenterCtx.Get().Refresh(RefreshMode.StoreWins, ap);
+        //            DaoUtils.UnpublishPoint(ap);
+        //        }
+        //    }
 
-            saveProcedure(null, -1);
-        }
+        //    saveProcedure(null, -1);
+        //}
 
         private void btnCopy_Click_1(object sender, RoutedEventArgs e)
         {

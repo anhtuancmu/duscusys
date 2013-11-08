@@ -127,11 +127,11 @@ namespace Discussions
             {
                 var disc = cloneDiscussion(ctx, A, moderator, i);
                 DaoUtils.SetGeneralSide(moderator, disc, (int) SideCode.Neutral);
-                ctx.AddToDiscussion(disc);
+                ctx.Discussion.Add(disc);
 
                 var disc2 = cloneDiscussion(ctx, B, moderator, i);
                 DaoUtils.SetGeneralSide(moderator, disc2, (int) SideCode.Neutral);
-                ctx.AddToDiscussion(disc2);
+                ctx.Discussion.Add(disc2);
             }
             ctx.SaveChanges();
 
