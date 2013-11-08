@@ -16,6 +16,7 @@ namespace Discussions.RTModel
             base.Setup();
 
             var ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
+             
             foreach (var p in ctx.Person)
                 p.Online = false;
             ctx.SaveChanges();
