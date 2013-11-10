@@ -595,8 +595,8 @@ namespace Discussions
             var mediaData = at.MediaData;
             at.MediaData = null;
             if (mediaData != null)
-                PrivateCenterCtx.Get().MediaDataSet.Remove(mediaData);
-            PrivateCenterCtx.Get().Attachment.Remove(at);
+                PrivateCenterCtx.Get().DeleteObject(mediaData);
+            PrivateCenterCtx.Get().DeleteObject(at);
 
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(

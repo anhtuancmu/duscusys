@@ -26,7 +26,7 @@ namespace Discussions
             foreach (var a in d.Attachment)
                 attachments.Add(a);
             foreach (var a in attachments)
-                ctx.Attachment.Remove(a);
+                ctx.DeleteObject(a);
 
             //delete background             
             if (d.Background != null)
@@ -41,7 +41,7 @@ namespace Discussions
 
             d.GeneralSide.Clear();
 
-            ctx.Discussion.Remove(d);
+            ctx.DeleteObject(d);
 
             ctx.SaveChanges();
         }
@@ -72,7 +72,7 @@ namespace Discussions
 
             if (q.Count() == 0)
             {
-                ctx.Person.Add(Ctors.NewPerson("moderator", "moder-mail"));
+                ctx.AddToPerson(Ctors.NewPerson("moderator", "moder-mail"));
                 ctx.SaveChanges();
             }
         }
@@ -94,7 +94,7 @@ namespace Discussions
             {
                 s.Discussion = null;
                 s.Person = null;
-                ctx.Annotation.Remove(s);
+                ctx.Annotation.DeleteObject(s);
             }
 
             //remove the speaker from all topics
@@ -107,7 +107,7 @@ namespace Discussions
             //delete the person
             try
             {
-                ctx.Person.Remove(p);
+                ctx.Person.DeleteObject(p);
             }
             catch (Exception)
             {
@@ -152,7 +152,7 @@ namespace Discussions
 
             try
             {
-                ctx.ArgPoint.Remove(p);
+                ctx.DeleteObject(p);
             }
             catch (Exception)
             {
@@ -175,7 +175,6 @@ namespace Discussions
             t.Person.Clear();
             t.ArgPoint.Clear();
             t.Discussion = null;
-            ctx.Topic.Remove(t);
             ctx.SaveChanges();
         }
 
@@ -190,7 +189,7 @@ namespace Discussions
             if (q.Count() > 0)
                 q.First().Side = side;
             else
-                PublicBoardCtx.Get().GeneralSide.Add(Ctors.NewGenSide(p, d, side));
+                PublicBoardCtx.Get().AddToGeneralSide(Ctors.NewGenSide(p, d, side));
         }
 
         public static int GetGeneralSide(Person p, Discussion d)
@@ -263,7 +262,7 @@ namespace Discussions
             a.Person = null;
             a.Discussion = null;
 
-            PublicBoardCtx.Get().Annotation.Remove(a);
+            PublicBoardCtx.Get().Annotation.DeleteObject(a);
         }
 
         //used for coloring shapes in graphics editor after users

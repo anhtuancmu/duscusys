@@ -255,7 +255,7 @@ namespace Discussions
                 foreach (var topic in disc.Topic)
                     p.Topic.Add(topic);
 
-                ctx.Person.Add(p);
+                ctx.AddToPerson(p);
                 DbCtx.Get().SaveChanges();
                 return p;
             }
