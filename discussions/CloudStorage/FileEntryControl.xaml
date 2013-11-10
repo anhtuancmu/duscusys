@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <ImageBrush x:Key="Eye" ImageSource="Resources/eye.png" Stretch="Uniform" />
+        <ImageBrush x:Key="Eye" ImageSource="Assets/eye.png" Stretch="Uniform" />
         <converters:BoolToVisibilityConverter x:Key="bool2vis"/>
     </UserControl.Resources>
 

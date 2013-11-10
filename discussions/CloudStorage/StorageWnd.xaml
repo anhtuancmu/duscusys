@@ -10,7 +10,7 @@
     Height="389" Width="931.5"
     Background="{DynamicResource WndBg}">
     <s:SurfaceWindow.Resources>
-        <ImageBrush x:Key="greenTick" ImageSource="Resources/accept-icon.png" Stretch="Uniform" />
+        <ImageBrush x:Key="greenTick" ImageSource="Assets/accept-icon.png" Stretch="Uniform" />
 
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="17" />
@@ -29,19 +29,19 @@
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
-        <ImageBrush x:Key="mselect" ImageSource="Resources/notepad_list3.png" Stretch="Uniform" />
-        <ImageBrush x:Key="view" ImageSource="Resources/enlarge2.png" Stretch="Uniform" />
-        <ImageBrush x:Key="home" ImageSource="Resources/home.png" Stretch="Uniform" />
-        <ImageBrush x:Key="navUp" ImageSource="Resources/nav_up.png" Stretch="Uniform" />
-        <ImageBrush x:Key="attach" ImageSource="Resources/attachment.png" Stretch="Uniform" />
-        <ImageBrush x:Key="letter" ImageSource="Resources/letter.png" Stretch="Uniform" />
-        <ImageBrush x:Key="clock" ImageSource="Resources/clock.png" Stretch="Uniform" />
-        <ImageBrush x:Key="refresh" ImageSource="Resources/refresh.png" Stretch="Uniform" />
-        <ImageBrush x:Key="next" ImageSource="Resources/next.png" Stretch="Uniform" />
-        <ImageBrush x:Key="back" ImageSource="Resources/back.png" Stretch="Uniform" />
-        <ImageBrush x:Key="dropbox" ImageSource="Resources/dropbox.png" Stretch="Uniform" />
-        <ImageBrush x:Key="gdrive" ImageSource="Resources/drive_icon.png" Stretch="Uniform" />
-        <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
+        <ImageBrush x:Key="mselect" ImageSource="Assets/notepad_list3.png" Stretch="Uniform" />
+        <ImageBrush x:Key="view" ImageSource="Assets/enlarge2.png" Stretch="Uniform" />
+        <ImageBrush x:Key="home" ImageSource="Assets/home.png" Stretch="Uniform" />
+        <ImageBrush x:Key="navUp" ImageSource="Assets/nav_up.png" Stretch="Uniform" />
+        <ImageBrush x:Key="attach" ImageSource="Assets/attachment.png" Stretch="Uniform" />
+        <ImageBrush x:Key="letter" ImageSource="Assets/letter.png" Stretch="Uniform" />
+        <ImageBrush x:Key="clock" ImageSource="Assets/clock.png" Stretch="Uniform" />
+        <ImageBrush x:Key="refresh" ImageSource="Assets/refresh.png" Stretch="Uniform" />
+        <ImageBrush x:Key="next" ImageSource="Assets/next.png" Stretch="Uniform" />
+        <ImageBrush x:Key="back" ImageSource="Assets/back.png" Stretch="Uniform" />
+        <ImageBrush x:Key="dropbox" ImageSource="Assets/dropbox.png" Stretch="Uniform" />
+        <ImageBrush x:Key="gdrive" ImageSource="Assets/drive_icon.png" Stretch="Uniform" />
+        <BitmapImage x:Key="FolderIcon" UriSource="Assets/folder128.png" />
 
         <ItemsPanelTemplate x:Key="FilePanelTemplate">
             <UniformGrid IsItemsHost="True" Columns="4" />

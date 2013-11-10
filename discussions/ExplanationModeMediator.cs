@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Discussions.Annotations;
+using Discussions.view;
 
 namespace Discussions
 {

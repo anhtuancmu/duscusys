@@ -9,7 +9,7 @@
     Title="Discussion selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
     <Grid>
         <Grid.Resources>
-            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform" />
+            <ImageBrush x:Key="backArrow" ImageSource="Resources\back.png" Stretch="Uniform" />
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>

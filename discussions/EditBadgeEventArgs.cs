@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Discussions.DbModel;
+using Discussions.view;
 
 namespace Discussions
 {

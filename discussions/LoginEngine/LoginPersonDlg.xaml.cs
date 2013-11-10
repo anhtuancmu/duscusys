@@ -52,7 +52,7 @@ namespace Discussions
 
             lblVersion.Content = Utils2.VersionString();
 
-            //SkinManager.ChangeSkin("GreenSkin.xaml", this.Resources);
+            //SkinManager.ChangeSkin("GreenSkin.xaml", this.Assets);
             SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);
 
             if (backAvailable)

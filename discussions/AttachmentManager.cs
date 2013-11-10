@@ -16,6 +16,7 @@ using CloudStorage.Model;
 using Discussions.model;
 using Discussions.DbModel;
 using System.Diagnostics;
+using Discussions.view;
 using Discussions.YouViewer;
 using System.Runtime.InteropServices;
 using Discussions.pdf_reader;
@@ -33,7 +34,7 @@ namespace Discussions
             {
                 if (_pdfIcon == null)
                 {
-                    _pdfIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/PDF_ICON.png"));
+                    _pdfIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/PDF_ICON.png"));
                 }
 
                 return _pdfIcon;
@@ -48,7 +49,7 @@ namespace Discussions
             {
                 if (_excelIcon == null)
                 {
-                    _excelIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/ExcelIcon.png"));
+                    _excelIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/ExcelIcon.png"));
                 }
 
                 return _excelIcon;
@@ -63,7 +64,7 @@ namespace Discussions
             {
                 if (_wordIcon == null)
                 {
-                    _wordIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/WordIcon.png"));
+                    _wordIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/WordIcon.png"));
                 }
 
                 return _wordIcon;
@@ -78,7 +79,7 @@ namespace Discussions
             {
                 if (_powerPointIcon == null)
                 {
-                    _powerPointIcon = new BitmapImage(new Uri("pack://application:,,,/Resources/PowerPointIcon.png"));
+                    _powerPointIcon = new BitmapImage(new Uri("pack://application:,,,/Assets/PowerPointIcon.png"));
                 }
 
                 return _powerPointIcon;
@@ -630,7 +631,7 @@ namespace Discussions
 
         public static string GetResourcesDir()
         {
-            return Path.Combine(GetAppDir(), "Resources");
+            return Path.Combine(GetAppDir(), "Assets");
         }
 
         public static void RunViewer(Attachment a)

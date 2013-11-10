@@ -7,6 +7,7 @@ using Discussions.DbModel;
 using System.Windows.Media;
 using Discussions.stats;
 using System.Linq;
+using Discussions.view;
 
 namespace Discussions
 {

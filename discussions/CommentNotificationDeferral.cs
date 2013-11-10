@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Discussions.DbModel;
+using Discussions.view;
 
 namespace Discussions
 {

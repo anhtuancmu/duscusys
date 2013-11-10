@@ -33,9 +33,6 @@
             </Setter>
         </Style>
         <Style TargetType="Button" x:Key="ColorPickerButton">
-            <Style.Resources>
-                <ResourceDictionary />
-            </Style.Resources>
             <Style.BasedOn>
                 <Style TargetType="ButtonBase">
                     <Style.Resources>
@@ -175,7 +172,7 @@
             <Button.ContextMenu>
                 <ContextMenu Style="{StaticResource ColorPickerContextMenu}">
                     <Border Background="GhostWhite">
-                        <d:ColorPicker x:Name="cp"></d:ColorPicker>
+                        <d:ColorPicker x:Name="cp"/>
                     </Border>
                 </ContextMenu>
             </Button.ContextMenu>

@@ -20,7 +20,7 @@ namespace Discussions
                 if (_emptyAvatar == null)
                 {
                     _emptyAvatar =
-                        new BitmapImage(new Uri("pack://application:,,,/LoginEngine;component/Resources/non_avatar.jpg"));
+                        new BitmapImage(new Uri("pack://application:,,,/LoginEngine;component/Assets/non_avatar.jpg"));
                 }
 
                 return _emptyAvatar;

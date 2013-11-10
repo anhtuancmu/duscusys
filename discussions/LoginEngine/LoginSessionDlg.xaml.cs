@@ -65,7 +65,7 @@ namespace Discussions
 
             DataContext = this;
 
-            //SkinManager.ChangeSkin("GreenSkin.xaml", this.Resources);
+            //SkinManager.ChangeSkin("GreenSkin.xaml", this.Assets);
             SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);
 
             lblVersion.Content = Utils2.VersionString();

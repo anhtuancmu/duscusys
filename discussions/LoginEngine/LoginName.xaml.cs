@@ -34,7 +34,7 @@ namespace Discussions
 
             DataContext = this;
 
-            //SkinManager.ChangeSkin("GreenSkin.xaml", this.Resources);
+            //SkinManager.ChangeSkin("GreenSkin.xaml", this.Assets);
             SkinManager.ChangeSkin("Blue2Skin.xaml", this.Resources);
 
             if (selectedSeat != null && selectedSeat.Person != null)

@@ -57,7 +57,7 @@
 //          //  try
 //            {
 //                var fos = new FileStream(_PdfPathName, FileMode.Create);
-//                _fontStream = new FileStream(System.IO.Path.Combine(Utils.ExeDir(), @"Resources\Meiryo.ttf"), FileMode.Open, FileAccess.Read);
+//                _fontStream = new FileStream(System.IO.Path.Combine(Utils.ExeDir(), @"Assets\Meiryo.ttf"), FileMode.Open, FileAccess.Read);
 
 //                var bos = new BufferedStream(fos);
 //                _document = new PDF(bos);

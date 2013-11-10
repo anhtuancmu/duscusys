@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
+using Discussions.view;
 using Discussions.webkit_host;
 
 namespace Discussions.YouViewer

@@ -6,7 +6,7 @@
              xmlns:t="clr-namespace:QuickZip.Tools;assembly=CloudStorage"
              Startup="Application_Startup"
              xmlns:local="clr-namespace:Discussions"
-             StartupUri="Main.xaml">
+             StartupUri="view\Main.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,9 +21,9 @@
 
             <t:FileToIconConverter x:Key="iconConv" />
 
-            <BitmapImage x:Key="gdocExcel" UriSource="Resources/gdocExcel.png" />
-            <BitmapImage x:Key="gdocPowerPoint" UriSource="Resources/gdocPowerPoint.png" />
-            <BitmapImage x:Key="gdocWord" UriSource="Resources/gdocWord.png" />
+            <BitmapImage x:Key="gdocExcel" UriSource="Assets/gdocExcel.png" />
+            <BitmapImage x:Key="gdocPowerPoint" UriSource="Assets/gdocPowerPoint.png" />
+            <BitmapImage x:Key="gdocWord" UriSource="Assets/gdocWord.png" />
 
             <!-- context menu -->
             <!--Control colors.-->
@@ -369,49 +369,49 @@
                 </Style.BasedOn>
             </Style>
 
-            <BitmapImage x:Key="FolderIcon" UriSource="Resources/folder128.png" />
-            <BitmapImage x:Key="dropboxFolder" UriSource="Resources/Dropbox_Folder.png"/>
-            <BitmapImage x:Key="gdriveFolder" UriSource="Resources/Google_Drive_Folder.png"/>
-            <ImageBrush x:Key="laserPointer" ImageSource="Resources/laserPointer.png" Stretch="Uniform" />
-            <ImageBrush x:Key="msOffice" ImageSource="Resources/office.png" Stretch="Uniform" />
-            <ImageBrush x:Key="msWord" ImageSource="Resources/WordIcon.png" Stretch="Uniform" />
-            <ImageBrush x:Key="msPowerPoint" ImageSource="Resources/PowerpointIcon.png" Stretch="Uniform" />
-            <ImageBrush x:Key="msExcel" ImageSource="Resources/ExcelIcon.png" Stretch="Uniform" />
-            <ImageBrush x:Key="explanation" ImageSource="Resources/profile_group.png" Stretch="Uniform" />
-            <ImageBrush x:Key="keyboard" ImageSource="Resources/keyboard.png" Stretch="Uniform" />
-            <ImageBrush x:Key="save" ImageSource="Resources/save.png" Stretch="Uniform" />
-            <ImageBrush x:Key="eraser" ImageSource="Resources/eraser.png" Stretch="Uniform" />
-            <ImageBrush x:Key="pen" ImageSource="Resources/pen.png" Stretch="Uniform" />
-            <ImageBrush x:Key="home" ImageSource="Resources/home.png" Stretch="Uniform" />
-            <ImageBrush x:Key="enlarge2" ImageSource="Resources/enlarge2.png" Stretch="Uniform" />
-            <ImageBrush x:Key="enlarge2white" ImageSource="Resources/enlarge2white.png" Stretch="Uniform" />
-            <ImageBrush x:Key="decrease2" ImageSource="Resources/decrease2.png" Stretch="Uniform" />
-            <ImageBrush x:Key="private" ImageSource="Resources/private.png" Stretch="Uniform" />
-            <ImageBrush x:Key="book" ImageSource="Resources/book.png" Stretch="Uniform" />
-            <ImageBrush x:Key="camera" ImageSource="Resources/Camera.png" Stretch="Uniform" />
-            <ImageBrush x:Key="annotations" ImageSource="Resources/annotations.png" Stretch="Uniform" />
-            <ImageBrush x:Key="flower" ImageSource="Resources/flower.png" Stretch="Uniform" />
-            <ImageBrush x:Key="ytIcon" ImageSource="Resources/yt.png" Stretch="Uniform" />
-            <ImageBrush x:Key="enlarge" ImageSource="Resources/enlarge.png" Stretch="Uniform" />
-            <ImageBrush x:Key="decrease" ImageSource="Resources/decrease.png" Stretch="Uniform" />
-            <ImageBrush x:Key="infoBrush" ImageSource="Resources/information.png" Stretch="Uniform" />
-            <ImageBrush x:Key="transferBrush" ImageSource="Resources/swap.png" Stretch="Uniform" />
-            <ImageBrush x:Key="editBrush" ImageSource="Resources/edit.png" Stretch="Uniform" />
-            <ImageBrush x:Key="typeBrush" ImageSource="Resources/word.png" Stretch="Uniform" />
-            <ImageBrush x:Key="minusBrush" ImageSource="Resources/minus.png" Stretch="Uniform" />
-            <ImageBrush x:Key="addBrush" ImageSource="Resources/add.png" Stretch="Uniform" />
-            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform" />
-            <ImageBrush x:Key="nextArrow" ImageSource="Resources/next.png" Stretch="Uniform" />
-            <ImageBrush x:Key="next" ImageSource="Resources/next.png" Stretch="Uniform" />
-            <ImageBrush x:Key="refresh" ImageSource="Resources/refresh.png" Stretch="Uniform" />
-            <ImageBrush x:Key="RecBin" ImageSource="Resources/Image1.png" Stretch="Uniform" />
-            <ImageBrush x:Key="Globe" ImageSource="Resources/globe.png" Stretch="Uniform" />
-            <ImageBrush x:Key="ErrorIcon" ImageSource="Resources/Error-icon.png" Stretch="Uniform" />
-            <ImageBrush x:Key="AcceptIcon" ImageSource="Resources/accept-icon.png" Stretch="Uniform" />
-            <ImageBrush x:Key="PrivIcon" ImageSource="Resources/privateIcon.png" Stretch="Uniform" />
-            <ImageBrush x:Key="refreshIcon" ImageSource="Resources/loop2.png" Stretch="Uniform" />
-            <ImageBrush x:Key="loop1" ImageSource="Resources/loop1.png" Stretch="Uniform" />
-            <ImageBrush x:Key="trash" ImageSource="Resources/trash.png" Stretch="Uniform" />
+            <BitmapImage x:Key="FolderIcon" UriSource="Assets/folder128.png" />
+            <BitmapImage x:Key="dropboxFolder" UriSource="Assets/Dropbox_Folder.png"/>
+            <BitmapImage x:Key="gdriveFolder" UriSource="Assets/Google_Drive_Folder.png"/>
+            <ImageBrush x:Key="laserPointer" ImageSource="Assets/laserPointer.png" Stretch="Uniform" />
+            <ImageBrush x:Key="msOffice" ImageSource="Assets/office.png" Stretch="Uniform" />
+            <ImageBrush x:Key="msWord" ImageSource="Assets/WordIcon.png" Stretch="Uniform" />
+            <ImageBrush x:Key="msPowerPoint" ImageSource="Assets/PowerpointIcon.png" Stretch="Uniform" />
+            <ImageBrush x:Key="msExcel" ImageSource="Assets/ExcelIcon.png" Stretch="Uniform" />
+            <ImageBrush x:Key="explanation" ImageSource="Assets/profile_group.png" Stretch="Uniform" />
+            <ImageBrush x:Key="keyboard" ImageSource="Assets/keyboard.png" Stretch="Uniform" />
+            <ImageBrush x:Key="save" ImageSource="Assets/save.png" Stretch="Uniform" />
+            <ImageBrush x:Key="eraser" ImageSource="Assets/eraser.png" Stretch="Uniform" />
+            <ImageBrush x:Key="pen" ImageSource="Assets/pen.png" Stretch="Uniform" />
+            <ImageBrush x:Key="home" ImageSource="Assets/home.png" Stretch="Uniform" />
+            <ImageBrush x:Key="enlarge2" ImageSource="Assets/enlarge2.png" Stretch="Uniform" />
+            <ImageBrush x:Key="enlarge2white" ImageSource="Assets/enlarge2white.png" Stretch="Uniform" />
+            <ImageBrush x:Key="decrease2" ImageSource="Assets/decrease2.png" Stretch="Uniform" />
+            <ImageBrush x:Key="private" ImageSource="Assets/private.png" Stretch="Uniform" />
+            <ImageBrush x:Key="book" ImageSource="Assets/book.png" Stretch="Uniform" />
+            <ImageBrush x:Key="camera" ImageSource="Assets/Camera.png" Stretch="Uniform" />
+            <ImageBrush x:Key="annotations" ImageSource="Assets/annotations.png" Stretch="Uniform" />
+            <ImageBrush x:Key="flower" ImageSource="Assets/flower.png" Stretch="Uniform" />
+            <ImageBrush x:Key="ytIcon" ImageSource="Assets/yt.png" Stretch="Uniform" />
+            <ImageBrush x:Key="enlarge" ImageSource="Assets/enlarge.png" Stretch="Uniform" />
+            <ImageBrush x:Key="decrease" ImageSource="Assets/decrease.png" Stretch="Uniform" />
+            <ImageBrush x:Key="infoBrush" ImageSource="Assets/information.png" Stretch="Uniform" />
+            <ImageBrush x:Key="transferBrush" ImageSource="Assets/swap.png" Stretch="Uniform" />
+            <ImageBrush x:Key="editBrush" ImageSource="Assets/edit.png" Stretch="Uniform" />
+            <ImageBrush x:Key="typeBrush" ImageSource="Assets/word.png" Stretch="Uniform" />
+            <ImageBrush x:Key="minusBrush" ImageSource="Assets/minus.png" Stretch="Uniform" />
+            <ImageBrush x:Key="addBrush" ImageSource="Assets/add.png" Stretch="Uniform" />
+            <ImageBrush x:Key="backArrow" ImageSource="Assets/back.png" Stretch="Uniform" />
+            <ImageBrush x:Key="nextArrow" ImageSource="Assets/next.png" Stretch="Uniform" />
+            <ImageBrush x:Key="next" ImageSource="Assets/next.png" Stretch="Uniform" />
+            <ImageBrush x:Key="refresh" ImageSource="Assets/refresh.png" Stretch="Uniform" />
+            <ImageBrush x:Key="RecBin" ImageSource="Assets/Image1.png" Stretch="Uniform" />
+            <ImageBrush x:Key="Globe" ImageSource="Assets/globe.png" Stretch="Uniform" />
+            <ImageBrush x:Key="ErrorIcon" ImageSource="Assets/Error-icon.png" Stretch="Uniform" />
+            <ImageBrush x:Key="AcceptIcon" ImageSource="Assets/accept-icon.png" Stretch="Uniform" />
+            <ImageBrush x:Key="PrivIcon" ImageSource="Assets/privateIcon.png" Stretch="Uniform" />
+            <ImageBrush x:Key="refreshIcon" ImageSource="Assets/loop2.png" Stretch="Uniform" />
+            <ImageBrush x:Key="loop1" ImageSource="Assets/loop1.png" Stretch="Uniform" />
+            <ImageBrush x:Key="trash" ImageSource="Assets/trash.png" Stretch="Uniform" />
 
             <SolidColorBrush x:Key="bgColor" Color="#FFFFA0A0" />
             <SolidColorBrush x:Key="linkColor" Color="#FF8296F2" />

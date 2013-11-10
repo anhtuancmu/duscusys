@@ -9,7 +9,7 @@
     Title="Person selection" Height="676" Width="1000.5" WindowState="Maximized">
     <Grid>
         <Grid.Resources>
-            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform" />
+            <ImageBrush x:Key="backArrow" ImageSource="Resources\back.png" Stretch="Uniform" />
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>

@@ -1,0 +1,31 @@
+﻿<s:SurfaceWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Reference_Editor"
+    mc:Ignorable="d" x:Class="Discussions.view.ReferenceEditor"
+    Title="Reference Editor" d:DesignHeight="628" d:DesignWidth="768" WindowStartupLocation="CenterScreen"
+    WindowState="Maximized" WindowStyle="None">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" MinHeight="43.065" />
+        </Grid.RowDefinitions>
+        <s:SurfaceListBox x:Name="lstBxReferences" ItemsSource="{Binding richText.Source}"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <s:SurfaceListBox.ItemTemplate>
+                <DataTemplate>
+                    <s:SurfaceTextBox Text="{Binding Text}" HorizontalAlignment="Stretch" MinWidth="800" />
+                </DataTemplate>
+            </s:SurfaceListBox.ItemTemplate>
+        </s:SurfaceListBox>
+        <StackPanel Orientation="Horizontal" d:LayoutOverrides="Height" HorizontalAlignment="Right" Margin="0,3,0,0"
+                    Grid.Row="1">
+            <s:SurfaceButton x:Name="btnAdd" Content="Add" Click="btnAdd_Click" />
+            <s:SurfaceButton x:Name="btnRemove" Content="Remove" Click="btnRemove_Click" />
+            <s:SurfaceButton Content="Ok" x:Name="btnOk" Click="btnOk_Click" />
+        </StackPanel>
+    </Grid>
+</s:SurfaceWindow>
