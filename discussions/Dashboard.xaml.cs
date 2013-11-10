@@ -240,7 +240,7 @@ namespace Discussions
             SaveParticipants();
 
             if (!Ctors.DiscussionExists(EditedDiscussion))
-                PublicBoardCtx.Get().Discussion.Add(EditedDiscussion);
+                PublicBoardCtx.Get().AddToDiscussion(EditedDiscussion);
 
             background.SaveChanges();
 
@@ -296,7 +296,7 @@ namespace Discussions
             newDisc.Background = new RichText();
             newDisc.Background.Text = "";
             EditedDiscussion = newDisc;
-            PublicBoardCtx.Get().Discussion.Add(EditedDiscussion);
+            PublicBoardCtx.Get().AddToDiscussion(EditedDiscussion);
             PublicBoardCtx.Get().SaveChanges();
             discussionSelector.Set(PublicBoardCtx.Get().Discussion, "Subject");
             discussionSelector.Select(EditedDiscussion);
