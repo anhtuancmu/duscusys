@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Discussions.view;
 using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Controls;
 using System.Windows;

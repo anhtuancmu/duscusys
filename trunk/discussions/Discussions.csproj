@@ -176,7 +176,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddCommentPopup.xaml.cs">
+    <Compile Include="SpeakerLogin.xaml.cs">
+      <DependentUpon>SpeakerLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VideoWindow.xaml.cs">
+      <DependentUpon>VideoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\AddCommentPopup.xaml.cs">
       <DependentUpon>AddCommentPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="AttachCmd.cs" />
@@ -188,13 +194,13 @@
     <Compile Include="CommentRoutedEventArgs.cs" />
     <Compile Include="Converters\AttachmentToVideoConvertor.cs" />
     <Compile Include="Converters\AttachToImageConvertor.cs" />
-    <Compile Include="BackgroundUC.xaml.cs">
+    <Compile Include="view\BackgroundUC.xaml.cs">
       <DependentUpon>BackgroundUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="BadgeVsBadgeFolderStyleSelector.cs" />
     <Compile Include="BadgeVsBadgeFolderTemplateSelector.cs" />
     <Compile Include="BoundRichTextBox.cs" />
-    <Compile Include="BusyWindow.xaml.cs">
+    <Compile Include="view\BusyWindow.xaml.cs">
       <DependentUpon>BusyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BusyWndSingleton.cs" />
@@ -204,7 +210,7 @@
     <Compile Include="Converters\ModeratorToVisibilityConvertor.cs" />
     <Compile Include="Converters\BoolToOnOffConvertor.cs" />
     <Compile Include="CommentEditabilityChanged.cs" />
-    <Compile Include="CtxMenuWrapper.xaml.cs">
+    <Compile Include="view\CtxMenuWrapper.xaml.cs">
       <DependentUpon>CtxMenuWrapper.xaml</DependentUpon>
     </Compile>
     <Compile Include="ctx\TimingCtx.cs" />
@@ -223,20 +229,20 @@
     </Compile>
     <Compile Include="d-editor\ICaptionHost.cs" />
     <Compile Include="ExplanationModeMediator.cs" />
-    <Compile Include="HtmlEditWnd.xaml.cs">
+    <Compile Include="view\HtmlEditWnd.xaml.cs">
       <DependentUpon>HtmlEditWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="model\ArgPointExt.cs" />
     <Compile Include="model\CommentExt.cs" />
     <Compile Include="model\NewCommentsFrom.cs" />
     <Compile Include="model\PersonExt.cs" />
-    <Compile Include="NumNewCommentsByView.xaml.cs">
+    <Compile Include="view\NumNewCommentsByView.xaml.cs">
       <DependentUpon>NumNewCommentsByView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NotificationNumberView.xaml.cs">
+    <Compile Include="view\NotificationNumberView.xaml.cs">
       <DependentUpon>NotificationNumberView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OfficeWnd.xaml.cs">
+    <Compile Include="view\OfficeWnd.xaml.cs">
       <DependentUpon>OfficeWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="d-editor\AnchorPoint.cs" />
@@ -291,7 +297,7 @@
     <Compile Include="d-editor\VdText.cs" />
     <Compile Include="DiscussionColors.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
-    <Compile Include="CommentUC.xaml.cs">
+    <Compile Include="view\CommentUC.xaml.cs">
       <DependentUpon>CommentUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ARGBColorBrushConvertor.cs" />
@@ -304,7 +310,7 @@
     <Compile Include="Converters\RunningToStrConverter.cs" />
     <Compile Include="Converters\OnlineToColorBrushConverter.cs" />
     <Compile Include="Converters\OnlineToStrConvertor.cs" />
-    <Compile Include="AvatarBar.xaml.cs">
+    <Compile Include="view\AvatarBar.xaml.cs">
       <DependentUpon>AvatarBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="d-editor\InkPalette.xaml.cs" />
@@ -318,7 +324,7 @@
     <Compile Include="pdf reader\ReaderWindow.xaml.cs">
       <DependentUpon>ReaderWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BrowserWindow.xaml.cs">
+    <Compile Include="view\BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
     <None Include="ClassDiagram1.cd" />
@@ -330,77 +336,77 @@
     <Compile Include="Reporter.pdf\PdfAssembler2.cs" />
     <Compile Include="Reporter.pdf\PdfReportDriver.cs" />
     <Compile Include="Reporter.pdf\PdfTools2.cs" />
-    <Compile Include="ReadOnlyCommentUC.xaml.cs">
+    <Compile Include="view\ReadOnlyCommentUC.xaml.cs">
       <DependentUpon>ReadOnlyCommentUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LargeImageUC.xaml.cs">
+    <Compile Include="view\LargeImageUC.xaml.cs">
       <DependentUpon>LargeImageUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LargeVideoUC.xaml.cs">
+    <Compile Include="view\LargeVideoUC.xaml.cs">
       <DependentUpon>LargeVideoUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CopyDlg.xaml.cs">
+    <Compile Include="view\CopyDlg.xaml.cs">
       <DependentUpon>CopyDlg.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LargeBadgeView.xaml.cs">
+    <Compile Include="view\LargeBadgeView.xaml.cs">
       <DependentUpon>LargeBadgeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScreenshotCaptureWnd.xaml.cs">
+    <Compile Include="view\ScreenshotCaptureWnd.xaml.cs">
       <DependentUpon>ScreenshotCaptureWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestEventOrchestrater.cs" />
-    <Compile Include="TopicSelectionDlg.xaml.cs">
+    <Compile Include="view\TopicSelectionDlg.xaml.cs">
       <DependentUpon>TopicSelectionDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="SourceMover.cs" />
-    <Compile Include="SourceUC.xaml.cs">
+    <Compile Include="view\SourceUC.xaml.cs">
       <DependentUpon>SourceUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StripUser.xaml.cs">
+    <Compile Include="view\StripUser.xaml.cs">
       <DependentUpon>StripUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StripBadge.xaml.cs">
+    <Compile Include="view\StripBadge.xaml.cs">
       <DependentUpon>StripBadge.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PrivateCenter3.xaml.cs">
+    <Compile Include="view\PrivateCenter3.xaml.cs">
       <DependentUpon>PrivateCenter3.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditBadgeEventArgs.cs" />
-    <Compile Include="EditableBadge.xaml.cs">
+    <Compile Include="view\EditableBadge.xaml.cs">
       <DependentUpon>EditableBadge.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SeatUserItem.xaml.cs">
+    <Compile Include="view\SeatUserItem.xaml.cs">
       <DependentUpon>SeatUserItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="SeatUserViewModel.cs" />
-    <Compile Include="SessionView.xaml.cs">
+    <Compile Include="view\SessionView.xaml.cs">
       <DependentUpon>SessionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SessionViewerDashboard.xaml.cs">
+    <Compile Include="view\SessionViewerDashboard.xaml.cs">
       <DependentUpon>SessionViewerDashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SessionManagerWnd.xaml.cs">
+    <Compile Include="view\SessionManagerWnd.xaml.cs">
       <DependentUpon>SessionManagerWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SeatItem.xaml.cs">
+    <Compile Include="view\SeatItem.xaml.cs">
       <DependentUpon>SeatItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SeatManagerWnd.xaml.cs">
+    <Compile Include="view\SeatManagerWnd.xaml.cs">
       <DependentUpon>SeatManagerWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="GroupManager.cs" />
-    <Compile Include="ImageWindow.xaml.cs">
+    <Compile Include="view\ImageWindow.xaml.cs">
       <DependentUpon>ImageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ListBoxExtensions.cs.cs" />
-    <Compile Include="MiniUserAccount.xaml.cs">
+    <Compile Include="view\MiniUserAccount.xaml.cs">
       <DependentUpon>MiniUserAccount.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PublicCenter.xaml.cs">
+    <Compile Include="view\PublicCenter.xaml.cs">
       <DependentUpon>PublicCenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="PrivateCenterCtx.cs" />
-    <Compile Include="DiscussionInfoZoom.xaml.cs">
+    <Compile Include="view\DiscussionInfoZoom.xaml.cs">
       <DependentUpon>DiscussionInfoZoom.xaml</DependentUpon>
     </Compile>
     <Compile Include="PublicBoardCtx.cs" />
@@ -410,27 +416,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>discDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="PersonDiscConfigWnd.xaml.cs">
+    <Compile Include="view\PersonDiscConfigWnd.xaml.cs">
       <DependentUpon>PersonDiscConfigWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PersonManagerWnd.xaml.cs">
+    <Compile Include="view\PersonManagerWnd.xaml.cs">
       <DependentUpon>PersonManagerWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PersonSelector.xaml.cs">
+    <Compile Include="view\PersonSelector.xaml.cs">
       <DependentUpon>PersonSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReadOnlyParticipantSelector.xaml.cs">
+    <Compile Include="view\ReadOnlyParticipantSelector.xaml.cs">
       <DependentUpon>ReadOnlyParticipantSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Screenshot.cs" />
     <Compile Include="SessionInfo.cs" />
-    <Compile Include="SideSelectorWnd.xaml.cs">
+    <Compile Include="view\SideSelectorWnd.xaml.cs">
       <DependentUpon>SideSelectorWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SideStatusBar.xaml.cs">
+    <Compile Include="view\SideStatusBar.xaml.cs">
       <DependentUpon>SideStatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SourceDialog.xaml.cs">
+    <Compile Include="view\SourceDialog.xaml.cs">
       <DependentUpon>SourceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataConnectionConfiguration.cs" />
@@ -440,44 +446,41 @@
     <Compile Include="GuiHelpers.cs" />
     <Compile Include="IDataConnectionConfiguration.cs" />
     <Compile Include="model\Ctors.cs" />
-    <Compile Include="PopupWindow.xaml.cs">
+    <Compile Include="view\PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReferenceEditor.xaml.cs">
+    <Compile Include="view\ReferenceEditor.xaml.cs">
       <DependentUpon>ReferenceEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReportGenerator.cs" />
-    <Compile Include="FullSelector.xaml.cs">
+    <Compile Include="view\FullSelector.xaml.cs">
       <DependentUpon>FullSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SideSelector.xaml.cs">
+    <Compile Include="view\SideSelector.xaml.cs">
       <DependentUpon>SideSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SourcesPopup.xaml.cs">
+    <Compile Include="view\SourcesPopup.xaml.cs">
       <DependentUpon>SourcesPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SpeakerLogin.xaml.cs">
-      <DependentUpon>SpeakerLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="stats\StatsTrackingDbCtx.cs" />
     <Compile Include="Converters\SummaryTextConvertor.cs" />
-    <Compile Include="SurfaceCombobox.xaml.cs">
+    <Compile Include="view\SurfaceCombobox.xaml.cs">
       <DependentUpon>SurfaceCombobox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestForm.xaml.cs">
+    <Compile Include="view\TestForm.xaml.cs">
       <DependentUpon>TestForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TopicNavPanel.xaml.cs">
+    <Compile Include="view\TopicNavPanel.xaml.cs">
       <DependentUpon>TopicNavPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InpDialog.xaml.cs">
+    <Compile Include="view\InpDialog.xaml.cs">
       <DependentUpon>InpDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserCursorUC.xaml.cs">
+    <Compile Include="view\UserCursorUC.xaml.cs">
       <DependentUpon>UserCursorUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
-    <Compile Include="ResultViewer.xaml.cs">
+    <Compile Include="view\ResultViewer.xaml.cs">
       <DependentUpon>ResultViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="VectorEditor\AnnotationImgConverter.cs" />
@@ -486,9 +489,6 @@
     </Compile>
     <Compile Include="VectorEditor\Clustering.cs" />
     <Compile Include="VectorEditor\Streaming.cs" />
-    <Compile Include="VideoWindow.xaml.cs">
-      <DependentUpon>VideoWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DiscWindows.cs" />
     <Compile Include="VisualCommentsHelper.cs" />
     <Compile Include="webkit host\BrowserBar.xaml.cs">
@@ -510,30 +510,38 @@
     </Compile>
     <Compile Include="youtube\YouTubeResultEventArgs.cs" />
     <Compile Include="ZoomSeriesAnalyser.cs" />
-    <Compile Include="ZoomWindow.xaml.cs">
+    <Compile Include="view\ZoomWindow.xaml.cs">
       <DependentUpon>ZoomWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="AddCommentPopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BackgroundUC.xaml">
+    <Page Include="SpeakerLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BusyWindow.xaml">
+    <Page Include="VideoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CommentUC.xaml">
+    <Page Include="view\AddCommentPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AvatarBar.xaml">
+    <Page Include="view\BackgroundUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CtxMenuWrapper.xaml">
+    <Page Include="view\BusyWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="view\CommentUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\AvatarBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="view\CtxMenuWrapper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -545,19 +553,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="HtmlEditWnd.xaml">
+    <Page Include="view\HtmlEditWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumNewCommentsByView.xaml">
+    <Page Include="view\NumNewCommentsByView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NotificationNumberView.xaml">
+    <Page Include="view\NotificationNumberView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OfficeWnd.xaml">
+    <Page Include="view\OfficeWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -589,107 +597,107 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BrowserWindow.xaml">
+    <Page Include="view\BrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ReadOnlyCommentUC.xaml">
+    <Page Include="view\ReadOnlyCommentUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LargeImageUC.xaml">
+    <Page Include="view\LargeImageUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LargeVideoUC.xaml">
+    <Page Include="view\LargeVideoUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CopyDlg.xaml">
+    <Page Include="view\CopyDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LargeBadgeView.xaml">
+    <Page Include="view\LargeBadgeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ScreenshotCaptureWnd.xaml">
+    <Page Include="view\ScreenshotCaptureWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TopicSelectionDlg.xaml">
+    <Page Include="view\TopicSelectionDlg.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SourceUC.xaml">
+    <Page Include="view\SourceUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StripUser.xaml">
+    <Page Include="view\StripUser.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="StripBadge.xaml">
+    <Page Include="view\StripBadge.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PrivateCenter3.xaml">
+    <Page Include="view\PrivateCenter3.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="EditableBadge.xaml">
+    <Page Include="view\EditableBadge.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SeatUserItem.xaml">
+    <Page Include="view\SeatUserItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SessionView.xaml">
+    <Page Include="view\SessionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SessionViewerDashboard.xaml">
+    <Page Include="view\SessionViewerDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SessionManagerWnd.xaml">
+    <Page Include="view\SessionManagerWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SeatItem.xaml">
+    <Page Include="view\SeatItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SeatManagerWnd.xaml">
+    <Page Include="view\SeatManagerWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ImageWindow.xaml">
+    <Page Include="view\ImageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MiniUserAccount.xaml">
+    <Page Include="view\MiniUserAccount.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PublicCenter.xaml">
+    <Page Include="view\PublicCenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DiscussionInfoZoom.xaml">
+    <Page Include="view\DiscussionInfoZoom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PersonDiscConfigWnd.xaml">
+    <Page Include="view\PersonDiscConfigWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PersonManagerWnd.xaml">
+    <Page Include="view\PersonManagerWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PersonSelector.xaml">
+    <Page Include="view\PersonSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -698,19 +706,19 @@
       <SubType>Designer</SubType>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
-    <Page Include="ReadOnlyParticipantSelector.xaml">
+    <Page Include="view\ReadOnlyParticipantSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SideSelectorWnd.xaml">
+    <Page Include="view\SideSelectorWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SideStatusBar.xaml">
+    <Page Include="view\SideStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SourceDialog.xaml">
+    <Page Include="view\SourceDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -718,11 +726,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ParticipantSelector.xaml">
+    <Page Include="view\ParticipantSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Main.xaml">
+    <Page Include="view\Main.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -733,66 +741,58 @@
     <Compile Include="Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ParticipantSelector.xaml.cs">
+    <Compile Include="view\ParticipantSelector.xaml.cs">
       <DependentUpon>ParticipantSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Main.xaml.cs">
+    <Compile Include="view\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PopupWindow.xaml">
+    <Page Include="view\PopupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ReferenceEditor.xaml">
+    <Page Include="view\ReferenceEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FullSelector.xaml">
+    <Page Include="view\FullSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SideSelector.xaml">
+    <Page Include="view\SideSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SourcesPopup.xaml">
+    <Page Include="view\SourcesPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SpeakerLogin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SurfaceCombobox.xaml">
+    <Page Include="view\SurfaceCombobox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TestForm.xaml">
+    <Page Include="view\TestForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TopicNavPanel.xaml">
+    <Page Include="view\TopicNavPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResultViewer.xaml">
+    <Page Include="view\ResultViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InpDialog.xaml">
+    <Page Include="view\InpDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserCursorUC.xaml">
+    <Page Include="view\UserCursorUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="VectorEditor\AnnotationItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VideoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -808,7 +808,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ZoomWindow.xaml">
+    <Page Include="view\ZoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -827,7 +827,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Resources\trash.png" />
+    <Resource Include="Assets\trash.png" />
     <EmbeddedResource Include="pdf reader\PdfWinFrmControl.resx">
       <DependentUpon>PdfWinFrmControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -859,29 +859,30 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\loop1.png" />
-    <Resource Include="Resources\laserPointer.png" />
-    <Resource Include="Resources\Dropbox_Folder.png" />
-    <Resource Include="Resources\Google_Drive_Folder.png" />
-    <Content Include="Resources\meiryo.ttf" />
+    <Resource Include="Assets\loop1.png" />
+    <Resource Include="Assets\laserPointer.png" />
+    <Resource Include="Assets\Dropbox_Folder.png" />
+    <Resource Include="Assets\Google_Drive_Folder.png" />
+    <Resource Include="Assets\discusys iconv3.ico" />
+    <Content Include="Assets\meiryo.ttf" />
     <None Include="Reporter.pdf\ReportInit.csx" />
     <None Include="VectorEditor\streaming.dgml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\minus.png" />
-    <Resource Include="Resources\next.png" />
-    <Resource Include="Resources\PDF_ICON.png" />
-    <Resource Include="Resources\privateIcon.png" />
-    <Resource Include="Resources\globe.png" />
-    <Resource Include="Resources\desktop-icon.png">
+    <Resource Include="Assets\minus.png" />
+    <Resource Include="Assets\next.png" />
+    <Resource Include="Assets\PDF_ICON.png" />
+    <Resource Include="Assets\privateIcon.png" />
+    <Resource Include="Assets\globe.png" />
+    <Resource Include="Assets\desktop-icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\accept-icon.png" />
-    <Resource Include="Resources\Error-icon.png" />
-    <Resource Include="Resources\back.png" />
-    <Resource Include="Resources\add.png" />
-    <Resource Include="Resources\edit.png" />
-    <Resource Include="Resources\Image1.png" />
+    <Resource Include="Assets\accept-icon.png" />
+    <Resource Include="Assets\Error-icon.png" />
+    <Resource Include="Assets\back.png" />
+    <Resource Include="Assets\add.png" />
+    <Resource Include="Assets\edit.png" />
+    <Resource Include="Assets\Image1.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -944,17 +945,17 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\swap.png" />
+    <Resource Include="Assets\swap.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\information.png" />
+    <Resource Include="Assets\information.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\loop2.png" />
+    <Resource Include="Assets\loop2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\decrease.png" />
-    <Resource Include="Resources\enlarge.png" />
+    <Resource Include="Assets\decrease.png" />
+    <Resource Include="Assets\enlarge.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Acrobat">
@@ -976,77 +977,77 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\book.png" />
-    <Resource Include="Resources\Camera.png" />
-    <Resource Include="Resources\flower.png" />
-    <Resource Include="Resources\yt.png" />
+    <Resource Include="Assets\book.png" />
+    <Resource Include="Assets\Camera.png" />
+    <Resource Include="Assets\flower.png" />
+    <Resource Include="Assets\yt.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="discusys iconv3.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\word.png" />
+    <Resource Include="Assets\word.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\annotations.png" />
+    <Resource Include="Assets\annotations.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\enlarge2.png" />
+    <Resource Include="Assets\enlarge2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\decrease2.png" />
+    <Resource Include="Assets\decrease2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\private.png" />
+    <Resource Include="Assets\private.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\home.png" />
+    <Resource Include="Assets\home.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\pen.png" />
+    <Resource Include="Assets\pen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\eraser.png" />
+    <Resource Include="Assets\eraser.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\save.png" />
+    <Resource Include="Assets\save.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\keyboard.png" />
+    <Resource Include="Assets\keyboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\refresh.png" />
+    <Resource Include="Assets\refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\profile_group.png" />
+    <Resource Include="Assets\profile_group.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\office.png" />
+    <Resource Include="Assets\office.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ExcelIcon.png" />
-    <Resource Include="Resources\PowerpointIcon.png" />
-    <Resource Include="Resources\WordIcon.png" />
+    <Resource Include="Assets\ExcelIcon.png" />
+    <Resource Include="Assets\PowerpointIcon.png" />
+    <Resource Include="Assets\WordIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\attachment.png" />
-    <Resource Include="Resources\clock.png" />
-    <Resource Include="Resources\drive_icon.png" />
-    <Resource Include="Resources\dropbox.png" />
-    <Resource Include="Resources\folder.png" />
-    <Resource Include="Resources\folder128.png" />
-    <Resource Include="Resources\folder64.png" />
-    <Resource Include="Resources\letter.png" />
-    <Resource Include="Resources\nav_up.png" />
+    <Resource Include="Assets\attachment.png" />
+    <Resource Include="Assets\clock.png" />
+    <Resource Include="Assets\drive_icon.png" />
+    <Resource Include="Assets\dropbox.png" />
+    <Resource Include="Assets\folder.png" />
+    <Resource Include="Assets\folder128.png" />
+    <Resource Include="Assets\folder64.png" />
+    <Resource Include="Assets\letter.png" />
+    <Resource Include="Assets\nav_up.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gdocExcel.png" />
+    <Resource Include="Assets\gdocExcel.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gdocPowerPoint.png" />
+    <Resource Include="Assets\gdocPowerPoint.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gdocWord.png" />
+    <Resource Include="Assets\gdocWord.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DiscussionHTMLPage.html">
@@ -1055,8 +1056,8 @@
     <Content Include="NoBackgroundPage.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\notificationDot.png" />
-    <Resource Include="Resources\enlarge2white.png" />
+    <Resource Include="Assets\notificationDot.png" />
+    <Resource Include="Assets\enlarge2white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -1,4 +1,5 @@
-﻿using Discussions.webkit_host;
+﻿using Discussions.view;
+using Discussions.webkit_host;
 using Reporter.pdf;
 using System;
 using System.Collections.Generic;

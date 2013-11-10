@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Discussions.DbModel;
+using Discussions.view;
 using Microsoft.Surface.Presentation.Input;
 
 namespace Discussions

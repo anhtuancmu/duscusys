@@ -9,6 +9,7 @@ using Discussions;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.RTModel.Model;
+using Discussions.view;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.DocumentObjectModel.Tables;

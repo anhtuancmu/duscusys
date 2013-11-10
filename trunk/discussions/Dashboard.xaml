@@ -7,6 +7,7 @@
                  Title="Moderator dashboard" mc:Ignorable="d"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:view="clr-namespace:Discussions.view"
                  Closing="SurfaceWindow_Closing"
                  Background="{StaticResource WndBg}"
                  WindowStyle="SingleBorderWindow" ResizeMode="CanResize" WindowState="Maximized" Topmost="False"
@@ -61,7 +62,7 @@
         </Grid.RowDefinitions>
 
         <s:SurfaceScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="2" Margin="0,16,0,0">
-            <local:Background x:Name="background"
+            <view:Background x:Name="background"
                               DataContext="{Binding}" d:LayoutOverrides="Margin" />
         </s:SurfaceScrollViewer>
 
@@ -130,7 +131,7 @@
                                   d:LayoutOverrides="Margin">
                     <s:SurfaceListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:ReadOnlyParticipantSelector />
+                            <view:ReadOnlyParticipantSelector />
                         </DataTemplate>
                     </s:SurfaceListBox.ItemTemplate>
                 </s:SurfaceListBox>
@@ -152,9 +153,9 @@
                                  Margin="0,0,0,2" />
             </StackPanel>
         </Grid>
-        <local:FullSelector x:Name="discussionSelector" Grid.Row="1"
+        <view:FullSelector x:Name="discussionSelector" Grid.Row="1"
                             d:LayoutOverrides="Margin" Margin="2,2,2,0" Grid.RowSpan="1" />
-        <local:SourcesPopup StaysOpen="false"
+        <view:SourcesPopup StaysOpen="false"
                             x:Name="allRefsPopup" Placement="Bottom"
                             PlacementTarget="{Binding ElementName=background}" d:LayoutOverrides="Margin"
                             Grid.ColumnSpan="2" />

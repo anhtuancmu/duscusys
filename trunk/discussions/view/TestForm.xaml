@@ -1,0 +1,25 @@
+﻿<s:SurfaceWindow x:Class="Discussions.view.TestForm"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:s="http://schemas.microsoft.com/surface/2008"
+                 xmlns:local="clr-namespace:Discussions"
+                 xmlns:yt="clr-namespace:Discussions.YouViewer"
+                 Title="Discussions" mc:Ignorable="d"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:view="clr-namespace:Discussions.view"
+                 d:DesignWidth="800"
+                 d:DesignHeight="952" Foreground="#FFC2C2C2">
+
+    <Grid Background="{x:Null}">
+        <yt:YouTubeResultControl Height="150" HorizontalAlignment="Left" Margin="58,123,0,0"
+                                 x:Name="youTubeResultControl1" VerticalAlignment="Top" Width="150" />
+        <Button Content="Button" Height="32" HorizontalAlignment="Left" Margin="351,12,0,0" Name="button1"
+                VerticalAlignment="Top" Width="238" Click="button1_Click" />
+        <view:SurfaceCombobox Height="290" HorizontalAlignment="Left" Margin="350,197,0,0" x:Name="surfaceCombobox1"
+                               VerticalAlignment="Top" />
+        <s:ScatterView Margin="58,0,58,136" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment, Width"
+                       Height="154" />
+    </Grid>
+</s:SurfaceWindow>

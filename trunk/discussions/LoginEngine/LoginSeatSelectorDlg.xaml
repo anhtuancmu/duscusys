@@ -131,7 +131,7 @@
     </Window.Resources>
     <Grid>
         <Grid.Resources>
-            <ImageBrush x:Key="backArrow" ImageSource="Resources/back.png" Stretch="Uniform" />
+            <ImageBrush x:Key="backArrow" ImageSource="Assets/back.png" Stretch="Uniform" />
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>

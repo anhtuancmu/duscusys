@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Discussions.view;
 using Microsoft.Surface;
 using Microsoft.Surface.Presentation.Controls;
 using Discussions.model;
@@ -68,12 +69,12 @@ namespace Discussions
 
         private UISharedRTClient _sharedClient = null;
 
-        private Discussions.Main.OnDiscFrmClosing _closing;
+        private Main.OnDiscFrmClosing _closing;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public Dashboard(UISharedRTClient sharedClient, Discussions.Main.OnDiscFrmClosing closing)
+        public Dashboard(UISharedRTClient sharedClient, Main.OnDiscFrmClosing closing)
         {
             InitializeComponent();
 

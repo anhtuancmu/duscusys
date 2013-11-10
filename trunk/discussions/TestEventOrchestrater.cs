@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Discussions.view;
 
 namespace Discussions
 {

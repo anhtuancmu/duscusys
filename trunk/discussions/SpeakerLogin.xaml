@@ -4,7 +4,9 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:my="clr-namespace:Discussions" xmlns:my1="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:Discussions.view"
+    mc:Ignorable="d"
     x:Class="Discussions.SpeakerLogin"
     Title="Speaker login" Height="408" Width="520">
     <Grid>
@@ -18,8 +20,8 @@
         <StackPanel x:Name="stackPanel1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <my1:SurfaceButton Content="Ok" x:Name="btnOk" HorizontalAlignment="Right" Click="btnOk_Click" Grid.Row="4"
                            VerticalAlignment="Center" />
-        <my:FullSelector x:Name="discSelector" IsEnabled="True" d:LayoutOverrides="Height" Grid.Row="2" />
-        <my:FullSelector x:Name="participantSelector" d:LayoutOverrides="Height" />
-        <my:SideSelector x:Name="sideSelector" Grid.Row="3" />
+        <view:FullSelector x:Name="discSelector" IsEnabled="True" d:LayoutOverrides="Height" Grid.Row="2" />
+        <view:FullSelector x:Name="participantSelector" d:LayoutOverrides="Height" />
+        <view:SideSelector x:Name="sideSelector" Grid.Row="3" />
     </Grid>
 </my1:SurfaceWindow>
