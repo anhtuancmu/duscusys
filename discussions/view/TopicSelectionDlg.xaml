@@ -13,7 +13,7 @@
     VerticalAlignment="Center"
     MaxWidth="500"
     MaxHeight="500"
-    Icon="discusys iconv3.ico" SizeToContent="Height">
+    Icon="/Assets\discusys iconv3.ico" SizeToContent="Height">
 
     <s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type TextBlock}">

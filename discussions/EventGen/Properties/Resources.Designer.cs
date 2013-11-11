@@ -25,7 +25,7 @@ namespace EventGen.Properties
     internal class Assets
     {
 
-        private static global::System.Assets.ResourceManager resourceMan;
+        private static global::System.Resources.ResourceManager resourceMan;
 
         private static global::System.Globalization.CultureInfo resourceCulture;
 
@@ -38,13 +38,13 @@ namespace EventGen.Properties
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Assets.ResourceManager ResourceManager
+        internal static global::System.Resources.ResourceManager ResourceManager
         {
             get
             {
                 if ((resourceMan == null))
                 {
-                    global::System.Assets.ResourceManager temp = new global::System.Assets.ResourceManager("EventGen.Properties.Assets", typeof(Assets).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EventGen.Properties.Assets", typeof(Assets).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
