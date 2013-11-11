@@ -6,7 +6,7 @@
         Title2="Message" 
         xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
         WindowStartupLocation="CenterScreen" 
-        Background="{DynamicResource MainBgrndRctFill}"     
+        Background="#898989"     
         Foreground="{x:Null}"  
         WindowStyle="None"
         Visibility="Visible" 
@@ -15,8 +15,14 @@
         ResizeMode="NoResize"
         Topmost="True">
     <al:PortableWindow.Resources>
-        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
+        <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}">
+            <Setter Property="Background" Value="{DynamicResource MainBgrndRctFill}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>   
     </al:PortableWindow.Resources>
+    <al:PortableWindow.Effect>
+        <DropShadowEffect ShadowDepth="10" BlurRadius="100" Direction="270"/>
+    </al:PortableWindow.Effect>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,6 +31,9 @@
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="70"/>
         </Grid.RowDefinitions>
+
+        <Rectangle Fill="{DynamicResource MainBgrndRctFill}" Height="5" VerticalAlignment="Top"/>        
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <TextBlock x:Name="message" Foreground="White" 
