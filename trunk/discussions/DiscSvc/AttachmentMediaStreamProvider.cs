@@ -4,7 +4,6 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Services;
 using System.Data.Services.Providers;
 using System.IO;
-using System.Linq;
 using Discussions;
 using Discussions.DbModel;
 using Discussions.model;
@@ -42,8 +41,8 @@ namespace DiscSvc
                 var mediaData = attachment.MediaData;
                 attachment.MediaData = null;
                 if (mediaData != null)
-                    context.MediaDataSet.Remove(mediaData);
-                context.Attachment.Remove(attachment);
+                    context.DeleteObject(mediaData);
+                context.DeleteObject(attachment);
             }
             catch (IOException ex)
             {
@@ -193,13 +192,13 @@ namespace DiscSvc
             if (cachedEntity != null && mediaStream != null)
             {
                 // Get the new entity from the Entity Framework object state manager.
-                var entry = this.context.ChangeTracker.Entries().FirstOrDefault(e=>e.Entity==cachedEntity);
+                ObjectStateEntry entry = this.context.ObjectStateManager.GetObjectStateEntry(cachedEntity);
 
                 if (entry.State == EntityState.Unchanged)
                 {
                     {
                         var ctx = new DiscCtx(ConfigManager.ConnStr);
-                        //ctx.Attach(cachedEntity);
+                        ctx.Attach(cachedEntity);
                         cachedEntity.MediaData.Data = mediaStream.ToArray();
                         ctx.SaveChanges();
                     }
@@ -213,11 +212,11 @@ namespace DiscSvc
                     var ctx = new DiscCtx(ConfigManager.ConnStr);
                     if (mediaData != null)
                     {
-                        //ctx.Attach(mediaData);
-                        ctx.MediaDataSet.Remove(mediaData);
+                        ctx.Attach(mediaData);
+                        ctx.DeleteObject(mediaData);
                     }
-                    //ctx.Attach(cachedEntity);
-                    ctx.Attachment.Remove(cachedEntity);
+                    ctx.Attach(cachedEntity);
+                    ctx.DeleteObject(cachedEntity);
 
                     throw new DataServiceException("An error occurred. The media resource could not be saved.");
                 }

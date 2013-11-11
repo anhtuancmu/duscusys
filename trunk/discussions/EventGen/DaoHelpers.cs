@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Discussions.DbModel;
-using Discussions.model;
 using LoginEngine;
 
 namespace EventGen
@@ -55,7 +53,7 @@ namespace EventGen
             s.Time = startTime.Add(evt.Span);
             s.DeviceType = (int) evt.devType;
 
-            _ctx.StatsEvent.Add(s);
+            _ctx.AddToStatsEvent(s);
         }
     }
 }
