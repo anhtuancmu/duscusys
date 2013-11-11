@@ -2,17 +2,17 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for CopyDlg.xaml
     /// </summary>
-    public partial class CopyDlg : SurfaceWindow
+    public partial class CopyDlg : PortableWindow
     {
         public ObservableCollection<Topic> srcTopics { get; set; }
         public ObservableCollection<Topic> dstTopics { get; set; }

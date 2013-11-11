@@ -1,27 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
 
-namespace Discussions
+namespace Discussions.view
 {
-    public partial class ZoomWindow : Window
+    public partial class ZoomWindow : PortableWindow
     {
         public ZoomWindow(ArgPoint ap)
         {
@@ -112,7 +98,7 @@ namespace Discussions
             //TODO: disable audio, animations here
         }
 
-        private void SurfaceWindow_Activated(object sender, EventArgs e)
+        private void Window_Activated(object sender, EventArgs e)
         {
             this.Height = largeBadgeView.ActualHeight;
             this.Width = largeBadgeView.ActualWidth;

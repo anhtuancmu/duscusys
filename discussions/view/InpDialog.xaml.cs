@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using AbstractionLayer;
 
 namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for URLDialog.xaml
     /// </summary>
-    public partial class InpDialog : Window
+    public partial class InpDialog : PortableWindow
     {
         public string Answer = null;
 
@@ -18,7 +19,7 @@ namespace Discussions.view
         {
             InitializeComponent();
 
-            Title = title;
+            Title2 = title;
             txtBxURL.Text = initialText;
         }
 

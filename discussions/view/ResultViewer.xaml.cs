@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for Viewer2.xaml
     /// </summary>
-    public partial class ResultViewer : SurfaceWindow
+    public partial class ResultViewer : PortableWindow
     {
         private Discussion discussion;
 
@@ -126,12 +126,12 @@ namespace Discussions.view
             (new ReportGenerator()).Generate(discussion, reportPathName);
         }
 
-        private void SurfaceWindow_Activated(object sender, EventArgs e)
+        private void Window_Activated(object sender, EventArgs e)
         {
             /// this.WindowState = WindowState.Normal;
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (_closing != null)
                 _closing();

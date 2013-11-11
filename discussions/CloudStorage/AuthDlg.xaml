@@ -1,12 +1,13 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     mc:Ignorable="d"
     x:Class="CloudStorage.AuthDlg"
-    Title="Cloud storage login"
+    Title2="Cloud storage login"
     Height="173" Width="442"
     WindowStartupLocation="Manual"
     HorizontalAlignment="Center"
@@ -26,4 +27,4 @@
             </s:SurfaceButton>
         </StackPanel>
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

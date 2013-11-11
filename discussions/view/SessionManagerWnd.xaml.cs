@@ -1,14 +1,14 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
-    public partial class SessionManagerWnd : SurfaceWindow
+    public partial class SessionManagerWnd : PortableWindow
     {
         private UISharedRTClient _rtClient = null;
 
@@ -77,7 +77,7 @@ namespace Discussions.view
             PublicBoardCtx.Get().DeleteObject(ss);
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             PublicBoardCtx.Get().SaveChanges();
         }

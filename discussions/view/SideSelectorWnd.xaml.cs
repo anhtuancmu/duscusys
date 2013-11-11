@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.model;
 using Microsoft.Surface;
 
@@ -8,7 +9,7 @@ namespace Discussions.view
     /// <summary>
     /// Interaction logic for SideSelectorWnd.xaml
     /// </summary>
-    public partial class SideSelectorWnd : Window
+    public partial class SideSelectorWnd : PortableWindow 
     {
         /// <summary>
         /// Default constructor.

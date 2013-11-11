@@ -1,14 +1,15 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    mc:Ignorable="d"    
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     x:Class="Discussions.view.ImageWindow"
-    Title="Image viewer"    
-    MouseMove="SurfaceWindow_MouseMove"
-    MouseWheel="SurfaceWindow_MouseWheel_1"
+    Title2="Image viewer"    
+    MouseMove="WindowMouseMove"
+    MouseWheel="Window_MouseWheel_1"
     Closed="ImageWindow_Closed_1"
     Background="{StaticResource WndBg}"    
     WindowStartupLocation="CenterScreen"
@@ -18,13 +19,13 @@
     d:DesignHeight="574"
     Icon="/Assets/discusys iconv3.ico">
 
-    <Window.Resources>
+    <al:PortableWindow.Resources>
         <Style TargetType="Image">
             <Setter Property="Stretch" Value="Uniform" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
         </Style>
-    </Window.Resources>
+    </al:PortableWindow.Resources>
 
     <Grid x:Name="root">
         <Image x:Name="img"
@@ -54,4 +55,4 @@
                              Value="{Binding ZoomFactor}" />
         </StackPanel>
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

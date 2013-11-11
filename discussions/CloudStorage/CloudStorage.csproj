@@ -187,6 +187,10 @@
     <Resource Include="Resources\accept-icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AbstractionLayer\AbstractionLayer.csproj">
+      <Project>{619bbf6b-a5cb-4245-9096-faae447a4dc5}</Project>
+      <Name>AbstractionLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoginEngine\LoginEngine.csproj">
       <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
       <Name>LoginEngine</Name>

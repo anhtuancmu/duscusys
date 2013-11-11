@@ -1,14 +1,15 @@
-﻿<s:SurfaceWindow x:Class="Discussions.view.ResultViewer"
-                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                 xmlns:s="http://schemas.microsoft.com/surface/2008"
-                 xmlns:local="clr-namespace:Discussions"
-                 Title="Results" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 d:DesignHeight="782" d:DesignWidth="1932"
-                 Closing="SurfaceWindow_Closing"
-                 WindowStyle="None" Activated="SurfaceWindow_Activated" ResizeMode="NoResize" WindowState="Maximized"
-                 Topmost="False" Background="#FF525252">
+﻿<al:PortableWindow x:Class="Discussions.view.ResultViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
+    xmlns:local="clr-namespace:Discussions"
+    Title2="Results" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="782" d:DesignWidth="1932"
+    Closing="Window_Closing"
+    WindowStyle="None" Activated="Window_Activated" ResizeMode="NoResize" WindowState="Maximized"
+    Topmost="False" Background="#FF525252">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -58,4 +59,4 @@
         </StackPanel>
     </Grid>
 
-</s:SurfaceWindow>
+</al:PortableWindow>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AbstractionLayer;
 using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
@@ -19,7 +20,7 @@ namespace Discussions.view
     /// <summary>
     /// Interaction logic for PrivateCenter.xaml
     /// </summary>
-    public partial class PrivateCenter3 : SurfaceWindow
+    public partial class PrivateCenter3 : PortableWindow
     {
         private readonly Main.OnDiscFrmClosing _closing;
 
@@ -84,7 +85,7 @@ namespace Discussions.view
 
             SetListeners(true);
 
-            Title = string.Format("{0} on {1} - private dashboard",
+            Title2 = string.Format("{0} on {1} - private dashboard",
                                   SessionInfo.Get().person.Name,
                                   SessionInfo.Get().discussion.Subject);
 
@@ -180,7 +181,7 @@ namespace Discussions.view
                 theBadge.DataContext = null;
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SetListeners(false);
 
@@ -670,7 +671,7 @@ namespace Discussions.view
             onStructChanged(-1, -1, DeviceType.Wpf);
         }
 
-        private void SurfaceWindow_KeyDown_1(object sender, KeyEventArgs e)
+        private void Window_KeyDown_1(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Z && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 TryUndo();

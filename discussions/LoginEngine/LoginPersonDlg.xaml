@@ -1,12 +1,13 @@
-﻿<Window
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Discussions"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     x:Class="Discussions.LoginPerson"
-    Title="Person selection" Height="676" Width="1000.5" WindowState="Maximized">
+    Title2="Person selection" Height="676" Width="1000.5" WindowState="Maximized">
     <Grid>
         <Grid.Resources>
             <ImageBrush x:Key="backArrow" ImageSource="Resources\back.png" Stretch="Uniform" />
@@ -64,4 +65,4 @@
         </StackPanel>
         <local:LoginDecoration Margin="0,37.5,0,169.265" />
     </Grid>
-</Window>
+</al:PortableWindow>

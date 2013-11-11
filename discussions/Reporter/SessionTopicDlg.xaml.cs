@@ -1,30 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using AbstractionLayer;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
-using System.Collections.ObjectModel;
 using Discussions.DbModel;
-using Discussions.model;
-using System.Data;
-using Discussions.rt;
 using Discussions;
 
 namespace Reporter
 {
-    public partial class SessionTopicDlg : SurfaceWindow
+    public partial class SessionTopicDlg : PortableWindow
     {
         private List<int> _users;
 
@@ -134,7 +119,7 @@ namespace Reporter
             //TODO: disable audio, animations here
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
 

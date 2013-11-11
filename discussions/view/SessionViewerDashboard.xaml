@@ -1,18 +1,19 @@
-﻿<s:SurfaceWindow x:Class="Discussions.view.SessionViewerDashboard"
+﻿<al:PortableWindow x:Class="Discussions.view.SessionViewerDashboard"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:s="http://schemas.microsoft.com/surface/2008"
+                 xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
                  xmlns:local="clr-namespace:Discussions"
                  xmlns:yt="clr-namespace:Discussions.YouViewer"
                  Background="{StaticResource WndBg}"
-                 Title="Session viewer" mc:Ignorable="d"
+                 Title2="Session viewer" mc:Ignorable="d"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:view="clr-namespace:Discussions.view"
                  d:DesignHeight="746" d:DesignWidth="900"
                  Width="879" Height="525" WindowStartupLocation="CenterScreen">
 
-    <s:SurfaceWindow.Resources>
+    <al:PortableWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
 
         <Style TargetType="Label">
@@ -27,7 +28,7 @@
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Foreground" Value="Black" />
         </Style>
-    </s:SurfaceWindow.Resources>
+    </al:PortableWindow.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -65,4 +66,4 @@
         <Label Content="Sessions" HorizontalAlignment="Left"
                VerticalAlignment="Top" />
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

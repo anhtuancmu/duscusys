@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using AbstractionLayer;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using System.Windows.Input.Manipulations;
@@ -28,7 +29,7 @@ namespace DistributedEditor
         private InkPalette _inkPalette;
 
 
-        private readonly SurfaceWindow _keyboardWnd;
+        private readonly PortableWindow _keyboardWnd;
 
         private bool _listenersSet;
 
@@ -48,7 +49,7 @@ namespace DistributedEditor
                             DistributedInkCanvas inkCanv,
                             Palette palette,
                             InkPalette inkPalette,
-                            SurfaceWindow keyboardWnd,
+                            PortableWindow keyboardWnd,
                             int topicId,
                             int discussionId,
                             bool shapesVisibility)

@@ -1,12 +1,13 @@
-﻿<Window
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:local="clr-namespace:Discussions" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" mc:Ignorable="d"
+    mc:Ignorable="d"
     x:Class="Discussions.LoginDiscussionDlg"
-    Title="Discussion selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
+    Title2="Discussion selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
     <Grid>
         <Grid.Resources>
             <ImageBrush x:Key="backArrow" ImageSource="Resources\back.png" Stretch="Uniform" />
@@ -34,4 +35,4 @@
             <Label Content="Select discussion" HorizontalAlignment="Right" VerticalAlignment="Top" />
         </StackPanel>
     </Grid>
-</Window>
+</al:PortableWindow>

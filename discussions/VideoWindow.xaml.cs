@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows;
+using AbstractionLayer;
 
 namespace Discussions
 {
     /// <summary>
     /// Interaction logic for VideoWindow.xaml
     /// </summary>
-    public partial class VideoWindow : Window
+    public partial class VideoWindow : PortableWindow
     {
         public VideoWindow()
         {

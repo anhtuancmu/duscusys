@@ -1,10 +1,10 @@
 using System;
 using System.Windows;
-using Microsoft.Surface.Presentation.Controls;
+using AbstractionLayer;
 
 namespace Discussions.view
 {
-    public partial class BrowserWindow : SurfaceWindow
+    public partial class BrowserWindow : PortableWindow
     {
         public BrowserWindow(string Url)
         {
@@ -18,7 +18,7 @@ namespace Discussions.view
             Close();
         }
 
-        private void SurfaceWindow_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             browser.Dispose();
         }

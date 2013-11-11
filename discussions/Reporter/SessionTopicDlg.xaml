@@ -1,4 +1,4 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
@@ -6,8 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     x:Class="Reporter.SessionTopicDlg"
-    Title="Session and topic selector"
+    Title2="Session and topic selector"
     WindowStartupLocation="CenterScreen"
     HorizontalAlignment="Center"
     VerticalAlignment="Center"
@@ -39,4 +40,4 @@
         <s:SurfaceButton x:Name="btnOk" Click="btnOk_Click_1" Content="Ok" Grid.Column="2" HorizontalAlignment="Right"
                          Grid.Row="2" VerticalAlignment="Bottom" Height="38" Margin="0,0,1,0.667" Width="38" />
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

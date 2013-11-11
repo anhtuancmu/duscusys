@@ -1,14 +1,15 @@
-﻿<Window
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Reporter"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     mc:Ignorable="d"
     x:Class="Reporter.ReporterWindow"
     KeyDown="MainWindow_KeyDown_1"
-    Title="Discusys reporting" Height="613" Width="835" Background="#FF858585" WindowState="Maximized">
+    Title2="Discusys reporting" Height="613" Width="835" Background="#FF858585" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="136*" />
@@ -90,4 +91,4 @@
             </TreeView>
         </s:SurfaceScrollViewer>
     </Grid>
-</Window>
+</al:PortableWindow>

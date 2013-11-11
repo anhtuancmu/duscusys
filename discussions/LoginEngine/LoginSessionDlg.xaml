@@ -1,13 +1,14 @@
-﻿<Window
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:local="clr-namespace:Discussions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
     mc:Ignorable="d" x:Class="Discussions.LoginSessionDlg"
-    Title="Session selection"
+    Title2="Session selection"
     WindowState="Maximized"
     d:DesignWidth="963" d:DesignHeight="596.5">
     <Grid>
@@ -35,4 +36,4 @@
         <Label x:Name="lblVersion" Content="version" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                Grid.Column="1" d:LayoutOverrides="GridBox" />
     </Grid>
-</Window>
+</al:PortableWindow>

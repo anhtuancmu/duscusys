@@ -5,19 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.stats;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
-    /// <summary>
-    /// Interaction logic for SurfaceWindow1.xaml
-    /// </summary>
-    public partial class Main : SurfaceWindow
+    public partial class Main : PortableWindow
     {
         private readonly UISharedRTClient sharedClient = UISharedRTClient.Instance;
 
@@ -270,7 +267,7 @@ namespace Discussions.view
             sesViewer.ShowDialog();
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             LogoutProcedures();
         }

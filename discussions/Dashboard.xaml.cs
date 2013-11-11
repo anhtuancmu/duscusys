@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using AbstractionLayer;
 using Discussions.view;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 using Discussions.model;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for Dashboard.xaml
     /// </summary>
-    public partial class Dashboard : SurfaceWindow
+    public partial class Dashboard : PortableWindow
     {
         public Discussion EditedDiscussion
         {
@@ -321,7 +321,7 @@ namespace Discussions
             DaoUtils.AddSource(EditedDiscussion.Background);
         }
 
-        private void SurfaceWindow_Closing(object sender, CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (_closing != null)
                 _closing();

@@ -1,14 +1,14 @@
-﻿<Window
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
     xmlns:local="clr-namespace:Discussions"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
     mc:Ignorable="d" x:Class="Discussions.LoginSeatSelectorDlg"
-    Title="Seat selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
-    <Window.Resources>
+    Title2="Seat selection" WindowState="Maximized" d:DesignWidth="963" d:DesignHeight="596.5">
+    <al:PortableWindow.Resources>
         <Style x:Key="SurfaceListBoxItemStyle1" TargetType="{x:Type Custom:SurfaceListBoxItem}">
             <Setter Property="Background"
                     Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type Custom:SurfaceColors}}}" />
@@ -128,7 +128,7 @@
                 </Style>
             </Style.BasedOn>
         </Style>
-    </Window.Resources>
+    </al:PortableWindow.Resources>
     <Grid>
         <Grid.Resources>
             <ImageBrush x:Key="backArrow" ImageSource="Assets/back.png" Stretch="Uniform" />
@@ -163,4 +163,4 @@
             <Label Content="Select your seat" HorizontalAlignment="Right" VerticalAlignment="Top" />
         </StackPanel>
     </Grid>
-</Window>
+</al:PortableWindow>

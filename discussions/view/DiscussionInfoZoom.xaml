@@ -1,9 +1,10 @@
-﻿<Window x:Class="Discussions.view.DiscussionInfoZoom"
+﻿<al:PortableWindow x:Class="Discussions.view.DiscussionInfoZoom"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="http://schemas.microsoft.com/surface/2008"
         Background="{StaticResource WndBg}"
-        Title="Discussions"
+        Title2="Discussions"
+        xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
         xmlns:my="clr-namespace:Discussions"
         mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +13,7 @@
         Foreground="{x:Null}"
         WindowStyle="None"
         WindowState="Normal"
-        Activated="SurfaceWindow_Activated"
+        Activated="Window_Activated"
         Visibility="Visible"
         SizeToContent="Manual"
         ResizeMode="NoResize">
@@ -57,4 +58,4 @@
         <Label x:Name="lblDiscussion" Content="{Binding Subject}" Grid.Column="1" HorizontalAlignment="Center"
                VerticalAlignment="Center" FontSize="24" />
     </Grid>
-</Window>
+</al:PortableWindow>

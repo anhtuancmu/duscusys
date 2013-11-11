@@ -1,12 +1,12 @@
 using System;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
-    public partial class TopicSelectionDlg : SurfaceWindow
+    public partial class TopicSelectionDlg : PortableWindow
     {
         private Topic _topic = null;
 
@@ -102,7 +102,7 @@ namespace Discussions.view
             //TODO: disable audio, animations here
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
 

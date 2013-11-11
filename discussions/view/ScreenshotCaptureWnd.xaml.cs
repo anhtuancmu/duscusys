@@ -4,11 +4,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.Surface.Presentation.Controls;
+using AbstractionLayer;
 
 namespace Discussions.view
 {
-    public partial class ScreenshotCaptureWnd : SurfaceWindow
+    public partial class ScreenshotCaptureWnd : PortableWindow
     {
         private System.Windows.Point _topLeft;
 
@@ -151,36 +151,36 @@ namespace Discussions.view
         }
 
         //touch
-        private void SurfaceWindow_TouchDown_1(object sender, TouchEventArgs e)
+        private void Window_TouchDown_1(object sender, TouchEventArgs e)
         {
             PointDown(e.GetTouchPoint(canv).Position);
         }
 
-        private void SurfaceWindow_TouchMove_1(object sender, TouchEventArgs e)
+        private void Window_TouchMove_1(object sender, TouchEventArgs e)
         {
             if (state == CaptureState.SelectingCaptureArea)
                 onDrawing(e.GetTouchPoint(canv).Position);
         }
 
-        private void SurfaceWindow_TouchUp_1(object sender, TouchEventArgs e)
+        private void Window_TouchUp_1(object sender, TouchEventArgs e)
         {
             PointUp();
         }
 
 
         //mouse 
-        private void SurfaceWindow_MouseDown_1(object sender, MouseButtonEventArgs e)
+        private void Window_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             PointDown(e.GetPosition(canv));
         }
 
-        private void SurfaceWindow_MouseMove_1(object sender, MouseEventArgs e)
+        private void Window_MouseMove_1(object sender, MouseEventArgs e)
         {
             if (state == CaptureState.SelectingCaptureArea)
                 onDrawing(e.GetPosition(canv));
         }
 
-        private void SurfaceWindow_MouseUp_1(object sender, MouseButtonEventArgs e)
+        private void Window_MouseUp_1(object sender, MouseButtonEventArgs e)
         {
             PointUp();
         }

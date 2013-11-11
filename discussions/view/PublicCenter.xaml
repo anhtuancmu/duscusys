@@ -1,30 +1,31 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:local="clr-namespace:Discussions"
+    xmlns:local="clr-namespace:Discussions"    
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dedit="clr-namespace:DistributedEditor"
     xmlns:view="clr-namespace:Discussions.view"
-    WindowStartupLocation="CenterScreen"    
-    SizeToContent="Manual"
+    WindowStartupLocation="CenterScreen"        
+    WindowState="Maximized"   
     mc:Ignorable="d"
     x:Class="Discussions.view.PublicCenter"
-    Closing="SurfaceWindow_Closing"
-    KeyDown="SurfaceWindow_KeyDown"   
+    Closing="Window_Closing"
+    KeyDown="Window_KeyDown"   
     WindowStyle="SingleBorderWindow"
     Topmost="False"
-    Title="Public discussion dashboard"
+    Title2="Public discussion dashboard"
     ClipToBounds="False"
     Background="{StaticResource WndBg}"
     d:DesignWidth="1128" d:DesignHeight="718"
     Loaded="frmLoaded"
     MouseWheel="unsolved_MouseWheel"
-    MouseMove="SurfaceWindow_MouseMove"
+    MouseMove="Window_MouseMove"
     Icon="/Assets/discusys iconv3.ico">
 
-    <s:SurfaceWindow.Resources>
+    <al:PortableWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
 
         <Style TargetType="Label">
@@ -477,7 +478,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-    </s:SurfaceWindow.Resources>
+    </al:PortableWindow.Resources>
 
     <Grid x:Name="mainGrid" ClipToBounds="False"
           local:Badge4.RequestLargeView="LargeRequest"
@@ -634,4 +635,4 @@
             </view:TopicNavPanel.RenderTransform>
         </view:TopicNavPanel>
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>
