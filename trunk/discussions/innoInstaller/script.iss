@@ -373,7 +373,6 @@ Source: ..\bin\x86\Debug\DiscussionHTMLPage.html; DestDir: {app}; Flags: ignorev
 Source: ..\bin\x86\Debug\NoBackgroundPage.html; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\MigraDoc.DocumentObjectModel-WPF.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\MigraDoc.Rendering-WPF.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Microsoft.CompilerServices.AsyncTargetingPack.Net4.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\PdfSharp-WPF.dll; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
