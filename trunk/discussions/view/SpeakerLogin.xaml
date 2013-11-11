@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:Discussions.view"
     mc:Ignorable="d"
-    x:Class="Discussions.SpeakerLogin"
+    x:Class="Discussions.view.SpeakerLogin"
     Title2="Speaker login" Height="408" Width="520">
     <Grid>
         <Grid.RowDefinitions>

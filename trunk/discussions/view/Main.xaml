@@ -324,10 +324,9 @@
         <Button Style="{DynamicResource MinimizeButtonStyle}" Width="12.402" Content="Button" x:Name="MinimizeButton"
                 Click="MinimizeButton_Click" Cursor="Hand" HorizontalAlignment="Right" Margin="0,4.733,141,0"
                 VerticalAlignment="Top" Height="13.537" Visibility="Collapsed" />
-
-        <Canvas x:Name="ExtrasCanvas" VerticalAlignment="Bottom" Height="33" Margin="0,0,-1,0">
+        <Canvas x:Name="ExtrasCanvas" VerticalAlignment="Bottom" Height="33" Margin="0,0,-1,0" Background="#01FFFFFF">
             <Border Height="33" x:Name="ExtrasGrid" Background="#FF000000" Canvas.Top="35"
-                  RenderTransformOrigin="0.5,0.5">
+        		RenderTransformOrigin="0.5,0.5">
                 <Border.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1" ScaleY="1" />
@@ -338,22 +337,22 @@
                 </Border.RenderTransform>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel.Resources>
-                        <Style TargetType="s:SurfaceButton">
+                        <Style TargetType="{x:Type s:SurfaceButton}">
                             <Setter Property="Width" Value="21"/>
                             <Setter Property="Height" Value="21"/>
                             <Setter Property="Cursor" Value="Hand"/>
                         </Style>
                     </StackPanel.Resources>
                     <s:SurfaceButton Click="RedSkinButton_Click" Margin="4,2,0,2"
-                                     Style="{DynamicResource SkinButtonStyle}" 
-                                     x:Name="RedSkinButton"/>
+        				Style="{DynamicResource SkinButtonStyle}" 
+        				x:Name="RedSkinButton"/>
                     <s:SurfaceButton Click="GreenSkinButton_Click" x:Name="GreenSkinButton" Margin="4,2,0,2"
-                                     Style="{DynamicResource GreenButtonStyle}"/>
+        				Style="{DynamicResource GreenButtonStyle}"/>
                     <s:SurfaceButton Click="BlueSkinButton_Click" Margin="4,2,0,2"
-                                     x:Name="BlueSkinButton" Style="{DynamicResource BlueButtonStyle}"/>
+        				x:Name="BlueSkinButton" Style="{DynamicResource BlueButtonStyle}"/>
                     <s:SurfaceButton x:Name="PurpleSkinButton" Margin="4,2,0,2"
-                                     Click="PurpleSkinButton_Click" Style="{DynamicResource PurpleButtonStyle}"
-                                     Content="Button"/>
+        				Click="PurpleSkinButton_Click" Style="{DynamicResource PurpleButtonStyle}"
+        				Content="Button"/>
                 </StackPanel>
             </Border>
         </Canvas>

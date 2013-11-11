@@ -2,7 +2,7 @@
 using System.Windows;
 using AbstractionLayer;
 
-namespace Discussions
+namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for VideoWindow.xaml

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Discussions.DbModel;
 
-namespace Discussions
+namespace Discussions.selectors
 {
     public class BadgeVsBadgeFolderTemplateSelector : DataTemplateSelector
     {
