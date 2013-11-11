@@ -182,6 +182,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AbstractionLayer\AbstractionLayer.csproj">
+      <Project>{619bbf6b-a5cb-4245-9096-faae447a4dc5}</Project>
+      <Name>AbstractionLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DbModel\DbModel.csproj">
       <Project>{a833b419-0de5-4b12-8c15-31995eb1dc27}</Project>
       <Name>DbModel</Name>

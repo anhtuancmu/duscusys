@@ -1,8 +1,9 @@
-﻿<Window x:Class="Discussions.view.OfficeWnd"
+﻿<al:PortableWindow x:Class="Discussions.view.OfficeWnd"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Microsoft Office document"
+        Title2="Microsoft Office document"
         Background="{x:Null}" Foreground="{x:Null}"
+        xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
         SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         HorizontalAlignment="Center" VerticalAlignment="Center"
         WindowStartupLocation="Manual" WindowStyle="None"
@@ -10,4 +11,4 @@
     <Grid>
         <WebBrowser Name="browser" />
     </Grid>
-</Window>
+</al:PortableWindow>

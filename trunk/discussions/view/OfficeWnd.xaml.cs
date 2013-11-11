@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows;
+using AbstractionLayer;
 
 namespace Discussions.view
 {
-    public partial class OfficeWnd : Window
+    public partial class OfficeWnd : PortableWindow
     {
         public OfficeWnd(string docPathName)
         {

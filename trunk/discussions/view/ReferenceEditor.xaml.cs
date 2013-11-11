@@ -1,15 +1,15 @@
 using System;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for ReferenceEditor.xaml
     /// </summary>
-    public partial class ReferenceEditor : SurfaceWindow
+    public partial class ReferenceEditor : PortableWindow
     {
         public RichText richText { get; set; }
 

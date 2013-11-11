@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using AbstractionLayer;
 using Discussions;
 using Discussions.DbModel;
 using Discussions.model;
@@ -17,7 +18,7 @@ using Microsoft.Surface.Presentation.Controls;
 
 namespace Reporter
 {
-    public partial class ReporterWindow : Window
+    public partial class ReporterWindow : PortableWindow
     {
         private ReportCollector _reportCollector1 = null;
         private ReportCollector _reportCollector2 = null;

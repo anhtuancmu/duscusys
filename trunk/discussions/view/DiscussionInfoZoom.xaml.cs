@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Microsoft.Surface;
 
@@ -8,7 +9,7 @@ namespace Discussions.view
     /// <summary>
     /// Interaction logic for ZoomWindow.xaml
     /// </summary>
-    public partial class DiscussionInfoZoom : Window
+    public partial class DiscussionInfoZoom : PortableWindow
     {
         /// <summary>
         /// Default constructor.
@@ -91,7 +92,7 @@ namespace Discussions.view
             //TODO: disable audio, animations here
         }
 
-        private void SurfaceWindow_Activated(object sender, EventArgs e)
+        private void Window_Activated(object sender, EventArgs e)
         {
             //this.Height = height;
             //this.Width =  argumentPointUC1.detailedArgPointBadge1.ActualWidth;            

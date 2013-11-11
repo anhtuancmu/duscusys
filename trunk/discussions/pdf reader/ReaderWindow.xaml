@@ -1,17 +1,18 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:PdfViewer="clr-namespace:Discussions.pdf_reader"
-    mc:Ignorable="d" x:Class="Discussions.pdf_reader.ReaderWindow"
-    Title="Pdf viewer"
+    mc:Ignorable="d" x:Class="Discussions.pdf_reader.ReaderWindow"    
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
+    Title2="Pdf viewer"
     ResizeMode="CanResize"
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"
     Topmost="True"
-    Closing="SurfaceWindow_Closing_1"
+    Closing="Window_Closing_1"
     d:DesignWidth="657.233"
     d:DesignHeight="574" Background="#FFCBCBCB" Icon="/Discussions;component/discusys iconv3.ico">
     <Grid>
@@ -45,4 +46,4 @@
             <PdfViewer:PdfWinFrmControl x:Name="pdfViewerUC" />
         </WindowsFormsHost>
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

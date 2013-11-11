@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for PersonManagerWnd.xaml
     /// </summary>
-    public partial class PersonManagerWnd : SurfaceWindow
+    public partial class PersonManagerWnd : PortableWindow
     {
         private bool changesExist = false;
 
@@ -176,7 +176,7 @@ namespace Discussions.view
             }
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (_closing != null)
                 _closing();

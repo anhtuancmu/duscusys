@@ -78,7 +78,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -467,9 +467,6 @@
     <Compile Include="view\SurfaceCombobox.xaml.cs">
       <DependentUpon>SurfaceCombobox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\TestForm.xaml.cs">
-      <DependentUpon>TestForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="view\TopicNavPanel.xaml.cs">
       <DependentUpon>TopicNavPanel.xaml</DependentUpon>
     </Compile>
@@ -772,10 +769,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="view\TestForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="view\TopicNavPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -912,6 +905,10 @@
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AbstractionLayer\AbstractionLayer.csproj">
+      <Project>{619bbf6b-a5cb-4245-9096-faae447a4dc5}</Project>
+      <Name>AbstractionLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="CloudStorage\CloudStorage.csproj">
       <Project>{33a42676-f8b1-4c3c-b88a-d78de9d0ef4c}</Project>
       <Name>CloudStorage</Name>

@@ -1,12 +1,13 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Reference_Editor"
     mc:Ignorable="d" x:Class="Discussions.view.ReferenceEditor"
-    Title="Reference Editor" d:DesignHeight="628" d:DesignWidth="768" WindowStartupLocation="CenterScreen"
+    Title2="Reference Editor" d:DesignHeight="628" d:DesignWidth="768" WindowStartupLocation="CenterScreen"
     WindowState="Maximized" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
@@ -28,4 +29,4 @@
             <s:SurfaceButton Content="Ok" x:Name="btnOk" Click="btnOk_Click" />
         </StackPanel>
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

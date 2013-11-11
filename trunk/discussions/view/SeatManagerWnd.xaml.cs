@@ -2,12 +2,12 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using AbstractionLayer;
 using Discussions.DbModel;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
-    public partial class SeatManagerWnd : SurfaceWindow
+    public partial class SeatManagerWnd : PortableWindow
     {
         private ObservableCollection<Seat> _seats = null;
 
@@ -64,7 +64,7 @@ namespace Discussions.view
             PublicBoardCtx.Get().DeleteObject(ss);
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             PublicBoardCtx.Get().SaveChanges();
         }

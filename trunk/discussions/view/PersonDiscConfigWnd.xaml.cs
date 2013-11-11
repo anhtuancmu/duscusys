@@ -1,14 +1,14 @@
 ﻿using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for PersonDiscConfigWnd.xaml
     /// </summary>
-    public partial class PersonDiscConfigWnd : SurfaceWindow
+    public partial class PersonDiscConfigWnd : PortableWindow
     {
         private Discussion _d;
 

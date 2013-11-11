@@ -3,13 +3,13 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Surface.Presentation.Controls;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 
 namespace Discussions
 {
-    public partial class DiscussionAutoCreatorWnd : SurfaceWindow
+    public partial class DiscussionAutoCreatorWnd : PortableWindow
     {
         public DiscussionAutoCreatorWnd()
         {

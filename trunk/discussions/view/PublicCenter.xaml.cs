@@ -11,6 +11,7 @@ using System.Windows.Input.Manipulations;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
@@ -18,12 +19,11 @@ using Discussions.RTModel.Model;
 using Discussions.webkit_host;
 using DistributedEditor;
 using LoginEngine;
-using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
 
 namespace Discussions.view
 {
-    public partial class PublicCenter : SurfaceWindow 
+    public partial class PublicCenter : PortableWindow 
     {
         private Discussion _discussion;
 
@@ -175,13 +175,13 @@ namespace Discussions.view
             Close();
         }
 
-        //private void SurfaceWindow_ManipulationStarting(object sender, Manipulation2DStartedEventArgs e)
+        //private void Window_ManipulationStarting(object sender, Manipulation2DStartedEventArgs e)
         //{
         //    //e.Handled = true;
         //    //e.ManipulationContainer = this;            
         //}
 
-        private void SurfaceWindow_ManipulationDelta(object sender, Manipulation2DDeltaEventArgs e)
+        private void Window_ManipulationDelta(object sender, Manipulation2DDeltaEventArgs e)
         {
             //e.Handled = true;
             unsolved_ManipulationDelta(sender, e);
@@ -302,14 +302,14 @@ namespace Discussions.view
             SetWorkingAreaTransform(matrix, false, false, zoomIn, zoomOut);
         }
 
-        private void SurfaceWindow_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             unsolved_MouseWheel(sender, e);
         }
 
         private double PrevX, PrevY;
 
-        private void SurfaceWindow_MouseMove(object sender, MouseEventArgs e)
+        private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             var mousePos = e.GetPosition(this);
 
@@ -370,14 +370,14 @@ namespace Discussions.view
         {
             if (editCtx != null)
             {
-                editCtx.ZoomManipulator.Delta -= SurfaceWindow_ManipulationDelta;
+                editCtx.ZoomManipulator.Delta -= Window_ManipulationDelta;
 
                 editCtx.CleanupScene();
                 editCtx = null;
             }
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SetListeners(_sharedClient, false);
             avaBar.Deinit();
@@ -446,13 +446,13 @@ namespace Discussions.view
                                        _discussionId != -1 ? _discussionId : CurrentTopic.Discussion.Id,
                                        _shapesVisibile);
 
-            editCtx.ZoomManipulator.Delta += SurfaceWindow_ManipulationDelta;
+            editCtx.ZoomManipulator.Delta += Window_ManipulationDelta;
 
             DataContext = this;
             _sharedClient.clienRt.SendInitialSceneLoadRequest(_topicId != -1 ? _topicId : CurrentTopic.Id);
         }
 
-        private void SurfaceWindow_KeyDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Tab)
             {

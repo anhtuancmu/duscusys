@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 
 namespace Discussions.view
 {
-    public partial class HtmlEditWnd : Window
+    public partial class HtmlEditWnd : PortableWindow
     {
         private Discussion _d;
 
@@ -113,7 +114,7 @@ namespace Discussions.view
             AttachFile(DataContext as ArgPoint, "Image");
         }
 
-        private void SurfaceWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveDiscussion();
 

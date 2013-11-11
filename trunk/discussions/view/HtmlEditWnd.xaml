@@ -1,11 +1,12 @@
-﻿<Window x:Class="Discussions.view.HtmlEditWnd"
+﻿<al:PortableWindow x:Class="Discussions.view.HtmlEditWnd"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Custom="http://schemas.microsoft.com/surface/2008"
-        Title="Discussion background editor" Height="350"
+        Title2="Discussion background editor" Height="350"
+        xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
         Background="{StaticResource WndBg}"
         Unloaded="UserControl_Unloaded_1"
-        Closing="SurfaceWindow_Closing"
+        Closing="WindowClosing"
         WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
@@ -31,4 +32,4 @@
         <Custom:SurfaceButton Content="Update" HorizontalAlignment="Right" Click="SurfaceButton_Click_1" Grid.Row="1"
                               Grid.Column="1" VerticalAlignment="Top" />
     </Grid>
-</Window>
+</al:PortableWindow>

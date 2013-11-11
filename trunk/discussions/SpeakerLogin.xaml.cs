@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 
@@ -8,7 +9,7 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for SpeakerLogin.xaml
     /// </summary>
-    public partial class SpeakerLogin : Microsoft.Surface.Presentation.Controls.SurfaceWindow
+    public partial class SpeakerLogin : PortableWindow
     {
         private Person _person = null;
 

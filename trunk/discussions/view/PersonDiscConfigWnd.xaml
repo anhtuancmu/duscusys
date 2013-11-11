@@ -1,16 +1,18 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:Discussions" xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    xmlns:local="clr-namespace:Discussions" 
+    xmlns:Custom="http://schemas.microsoft.com/surface/2008"
     xmlns:view="clr-namespace:Discussions.view"
     mc:Ignorable="d" x:Class="Discussions.view.PersonDiscConfigWnd"
     Background="{StaticResource WndBg}"
-    Title="Speaker options " Height="481.208" Width="336" WindowStartupLocation="CenterScreen">
+    Title2="Speaker options " Height="481.208" Width="336" WindowStartupLocation="CenterScreen">
 
-    <s:SurfaceWindow.Resources>
+    <al:PortableWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
         
         <Style TargetType="Label">
@@ -26,7 +28,7 @@
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
-    </s:SurfaceWindow.Resources>
+    </al:PortableWindow.Resources>
 
     <StackPanel Orientation="Vertical">
         <Label x:Name="lblDiscussion" Content="Discussion" HorizontalAlignment="Left" VerticalAlignment="Top" />
@@ -45,4 +47,4 @@
                               d:LayoutOverrides="Width" HorizontalAlignment="Right" />
     </StackPanel>
 
-</s:SurfaceWindow>
+</al:PortableWindow>

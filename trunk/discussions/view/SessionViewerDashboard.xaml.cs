@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using AbstractionLayer;
 using Discussions.DbModel;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
-    public partial class SessionViewerDashboard : SurfaceWindow
+    public partial class SessionViewerDashboard : PortableWindow
     {
         private ObservableCollection<SeatUserViewModel> _seatUsers = null;
 

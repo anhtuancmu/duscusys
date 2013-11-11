@@ -1,19 +1,20 @@
-﻿<s:SurfaceWindow
+﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:local="clr-namespace:Discussions"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:Discussions.view"
     mc:Ignorable="d"
     x:Class="Discussions.view.CopyDlg"
-    Title="Copy argument points"
+    Title2="Copy argument points"
     Background="{StaticResource frmGrayBg}">
 
-    <s:SurfaceWindow.Resources>
+    <al:PortableWindow.Resources>
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
-    </s:SurfaceWindow.Resources>
+    </al:PortableWindow.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -103,4 +104,4 @@
             </s:SurfaceListBox.ItemTemplate>
         </s:SurfaceListBox>
     </Grid>
-</s:SurfaceWindow>
+</al:PortableWindow>

@@ -4,13 +4,13 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using AbstractionLayer;
 using Discussions.rt;
 using Discussions.RTModel.Model;
-using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
 {
-    public partial class ImageWindow : SurfaceWindow
+    public partial class ImageWindow : PortableWindow
     {
         public const int NO_ATTACHMENT = -1;
         private readonly int _attachId;
@@ -195,7 +195,7 @@ namespace Discussions.view
 
         private double _prevX, _prevY;
 
-        private void SurfaceWindow_MouseMove(object sender, MouseEventArgs e)
+        private void WindowMouseMove(object sender, MouseEventArgs e)
         {
             Point mousePos = e.GetPosition(this);
 
@@ -218,7 +218,7 @@ namespace Discussions.view
             _prevY = mousePos.Y;
         }
 
-        private void SurfaceWindow_MouseWheel_1(object sender, MouseWheelEventArgs e)
+        private void Window_MouseWheel_1(object sender, MouseWheelEventArgs e)
         {
             var matrix = GetTransform();
 

@@ -1,22 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using AbstractionLayer;
 using CloudStorage.Model;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation;
-using Microsoft.Surface.Presentation.Controls;
-using Microsoft.Surface.Presentation.Input;
-using System.Collections.ObjectModel;
 
 namespace CloudStorage
 {
     /// <summary>
     /// Interaction logic for PersonManagerWnd.xaml
     /// </summary>
-    public partial class AuthDlg : SurfaceWindow
+    public partial class AuthDlg : PortableWindow
     {
         public string AuthCode = "";
 
@@ -35,10 +29,10 @@ namespace CloudStorage
                 case StorageType.Dropbox:
                     txtInfo.Content = "Authorize Discusys on Dropbox site and Continue";
                     gdriveAuthCode.Visibility = Visibility.Collapsed;
-                    Title = "Dropbox login";
+                    Title2 = "Dropbox login";
                     break;
                 case StorageType.GDrive:
-                    Title = "Google Drive login";
+                    Title2 = "Google Drive login";
                     txtInfo.Visibility = Visibility.Collapsed;
                     break;
                 default:
