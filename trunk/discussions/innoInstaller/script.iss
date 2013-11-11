@@ -297,83 +297,117 @@ Source: ..\bin\x86\Debug\WebKit.resources\inspector\WebKit.qrc; DestDir: {app}\W
 Source: ..\bin\x86\Debug\WebKit.resources\inspector\WelcomeView.js; DestDir: {app}\WebKit.resources\inspector; Flags: ignoreversion
 Source: ..\bin\x86\Debug\WebKit.resources\inspector\WorkersSidebarPane.js; DestDir: {app}\WebKit.resources\inspector; Flags: ignoreversion
 Source: ..\bin\x86\Debug\WebKit.resources\Info.plist; DestDir: {app}\WebKit.resources\; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.application; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.vshost.application; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\CustomColorPicker.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DbModel.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DiscussionsClientRT.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DiscussionsRT.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Lite.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\LiteLobby.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\LoginEngine.pdb; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.exe.config; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.vshost.exe.config; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.vshost.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DiscussionsClientRT.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\AxInterop.AcroPDFLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\CFLite.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\CustomColorPicker.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DbModel.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DiscussionsRT.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\ExitGames.Logging.Log4Net.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\ExitGamesLibs.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\icudt40.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\icuin40.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\icuuc40.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Interop.Acrobat.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Interop.AcroPDFLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\itextsharp.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\JavaScriptCore.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\libcurl.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\libeay32.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\libexslt.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\libxml2.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\libxslt.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Lite.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\LiteLobby.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\log4net.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\LoginEngine.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Microsoft.Data.ConnectionUI.Dialog.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Microsoft.Data.ConnectionUI.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Microsoft.Data.ConnectionUI.SqlCeDataProvider.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Microsoft.SqlServerCe.Client.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\objc.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Photon.SocketServer.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Photon3DotNet.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\PhotonHostRuntimeInterfaces.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\pthreadVC2.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\SQLite3.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\ssleay32.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\System.Windows.Interactivity.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\WebKit.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\WebKit.Interop.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\WebKitBrowser.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\WPFToolkit.Extended.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.exe.manifest; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Discussions.vshost.exe.manifest; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\WebKitBrowser.dll.manifest; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CFLite.resources\CFCharacterSetBitmaps.bitmap; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CFLite.resources\CFUniCharPropertyDatabase.data; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CFLite.resources\CFUnicodeData-L.mapping; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CFLite.resources\Info.plist; DestDir: {app}\CFLite.resources\; Flags: ignoreversion
 Source: ..\bin\x86\Debug\JavaScriptCore.resources\Info.plist; DestDir: {app}\JavaScriptCore.resources\; Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EventGen.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DropNet.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DotNetOpenAuth.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Google.Apis.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Google.Apis.Drive.v2.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Newtonsoft.Json.Net35.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\RestSharp.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\CloudStorage.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\Reporter\bin\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion; Tasks: ; Languages: 
-Source: ..\bin\x86\Debug\Google.Apis.Authentication.OAuth2.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\DiscussionHTMLPage.html; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\NoBackgroundPage.html; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\MigraDoc.DocumentObjectModel-WPF.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\MigraDoc.Rendering-WPF.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\PdfSharp-WPF.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\x86\Debug\AbstractionLayer.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\AbstractionLayer.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\AxInterop.AcroPDFLib.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\CFLite.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\CloudStorage.exe; DestDir: {app}
+Source: ..\bin\x86\Debug\CloudStorage.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\CustomColorPicker.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\CustomColorPicker.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\DbModel.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\DbModel.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\DiscussionHTMLPage.html; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.application; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.exe; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.exe.config; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.exe.manifest; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.vshost.application; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.vshost.exe; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.vshost.exe.config; DestDir: {app}
+Source: ..\bin\x86\Debug\Discussions.vshost.exe.manifest; DestDir: {app}
+Source: ..\bin\x86\Debug\DiscussionsClientRT.exe; DestDir: {app}
+Source: ..\bin\x86\Debug\DiscussionsClientRT.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\DiscussionsRT.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\DiscussionsRT.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\DotNetOpenAuth.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\DropNet.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\EntityFramework.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\EntityFramework.SqlServer.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\EntityFramework.SqlServer.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\EntityFramework.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\ExitGames.Logging.Log4Net.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\ExitGames.Logging.Log4Net.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\ExitGames.Logging.Log4Net.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\ExitGamesLibs.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\ExitGamesLibs.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\ExitGamesLibs.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.Authentication.OAuth2.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.Authentication.OAuth2.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.Authentication.OAuth2.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.Drive.v2.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.Drive.v2.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.Drive.v2.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Google.Apis.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\icudt40.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\icuin40.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\icuuc40.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Interop.Acrobat.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Interop.AcroPDFLib.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\itextsharp.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\JavaScriptCore.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\libcurl.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\libeay32.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\libexslt.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\libxml2.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\libxslt.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Lite.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Lite.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\LiteLobby.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\LiteLobby.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\log4net.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\LoginEngine.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\LoginEngine.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Data.ConnectionUI.Dialog.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Data.ConnectionUI.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Data.ConnectionUI.SqlCeDataProvider.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.SqlServerCe.Client.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Threading.Tasks.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Threading.Tasks.Extensions.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Threading.Tasks.Extensions.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\Microsoft.Threading.Tasks.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\MigraDoc.DocumentObjectModel-WPF.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\MigraDoc.Rendering-WPF.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Newtonsoft.Json.Net35.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Newtonsoft.Json.Net35.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\NoBackgroundPage.html; DestDir: {app}
+Source: ..\bin\x86\Debug\objc.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\PdfSharp-WPF.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Photon.SocketServer.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Photon.SocketServer.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Photon.SocketServer.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\Photon3DotNet.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Photon3DotNet.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\Photon3DotNet.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\PhotonHostRuntimeInterfaces.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\pthreadVC2.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\Reporter.exe; DestDir: {app}
+Source: ..\bin\x86\Debug\Reporter.pdb; DestDir: {app}
+Source: ..\bin\x86\Debug\RestSharp.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\RestSharp.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\SQLite3.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\ssleay32.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\System.Runtime.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\System.Runtime.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\System.Threading.Tasks.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\System.Threading.Tasks.xml; DestDir: {app}
+Source: ..\bin\x86\Debug\System.Windows.Interactivity.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\WebKit.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\WebKit.Interop.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\WebKitBrowser.dll; DestDir: {app}
+Source: ..\bin\x86\Debug\WebKitBrowser.dll.manifest; DestDir: {app}
+Source: ..\bin\x86\Debug\WebKitBrowserTest.exe; DestDir: {app}
+Source: ..\bin\x86\Debug\WPFToolkit.Extended.dll; DestDir: {app}
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
