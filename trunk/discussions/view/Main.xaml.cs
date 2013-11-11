@@ -521,5 +521,10 @@ namespace Discussions.view
         {
             UISharedRTClient.Instance.clienRt.SendScreenshotRequest(1, 2);
         }
+
+        private void Main_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ExtrasGrid.Width = e.NewSize.Width;
+        }
     }
 }
