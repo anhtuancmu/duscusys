@@ -4,7 +4,7 @@ using AbstractionLayer;
 using Discussions.DbModel;
 using Discussions.model;
 
-namespace Discussions
+namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for SpeakerLogin.xaml

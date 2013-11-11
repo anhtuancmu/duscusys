@@ -1,17 +1,16 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using AbstractionLayer;
-using Discussions.view;
-using Microsoft.Surface;
-using Discussions.model;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
 using Discussions.DbModel;
+using Discussions.model;
 using Discussions.rt;
+using Microsoft.Surface;
 
-namespace Discussions
+namespace Discussions.view
 {
     /// <summary>
     /// Interaction logic for Dashboard.xaml
