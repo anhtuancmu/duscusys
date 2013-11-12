@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using Discussions.d_editor;
 using Discussions.rt;
-using Discussions.RTModel;
 using Discussions.RTModel.Model;
 using Discussions;
 

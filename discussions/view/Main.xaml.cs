@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using AbstractionLayer;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;

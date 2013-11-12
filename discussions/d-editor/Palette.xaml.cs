@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DistributedEditor
 {
@@ -145,8 +134,7 @@ namespace DistributedEditor
 
         private void btnNOP_Click(object sender, RoutedEventArgs e)
         {
-            shapeType = VdShapeType.None;
-            toolSelected(VdShapeType.None, 0,0);
+            ResetTool();
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -155,6 +143,13 @@ namespace DistributedEditor
                 reset(_ownerId);
 
             //ResetOvers();      
+        }
+
+        public void ResetTool()
+        {
+            shapeType = VdShapeType.None;
+            toolSelected(VdShapeType.None, 0, 0);
+            ResetOvers();
         }
     }
 }

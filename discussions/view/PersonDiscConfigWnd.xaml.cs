@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using AbstractionLayer;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
 

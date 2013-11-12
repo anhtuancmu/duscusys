@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using AbstractionLayer;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;

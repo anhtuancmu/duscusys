@@ -1,5 +1,4 @@
-﻿using AbstractionLayer;
-using System.Windows;
+﻿using System.Windows;
 using System.Media;
 
 namespace Discussions
@@ -7,14 +6,14 @@ namespace Discussions
     /// <summary>
     /// Interaction logic for BusyWindow.xaml
     /// </summary>
-    public partial class MessageDlg : PortableWindow
+    public partial class MessageDlg : Window
     {
         public MessageDlg(string Message, string title="Message")
         {
             InitializeComponent();
 
             message.Text = Message;
-            Title2 = title;
+            Title = title;
             Width = SystemParameters.PrimaryScreenWidth;
 
             SystemSounds.Asterisk.Play();
