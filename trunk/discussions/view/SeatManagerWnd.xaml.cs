@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AbstractionLayer;
+using Discussions.ctx;
 using Discussions.DbModel;
 
 namespace Discussions.view

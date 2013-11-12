@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using AbstractionLayer;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;

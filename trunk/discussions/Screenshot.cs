@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.IO;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
 
 namespace Discussions
 {

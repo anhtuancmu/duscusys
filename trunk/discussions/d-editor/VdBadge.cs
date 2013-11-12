@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Discussions;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.RTModel.Model;
 

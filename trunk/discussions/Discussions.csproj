@@ -214,7 +214,7 @@
       <DependentUpon>CtxMenuWrapper.xaml</DependentUpon>
     </Compile>
     <Compile Include="ctx\TimingCtx.cs" />
-    <Compile Include="d-editor\BadgesCtx.cs" />
+    <Compile Include="ctx\BadgesCtx.cs" />
     <Compile Include="d-editor\LaserCursorManager.cs" />
     <Compile Include="d-editor\LaserPointerUC.xaml.cs">
       <DependentUpon>LaserPointerUC.xaml</DependentUpon>

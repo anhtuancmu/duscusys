@@ -7,6 +7,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using Discussions;
+using Discussions.ctx;
 using Discussions.d_editor;
 using Discussions.model;
 using Discussions.rt;
@@ -294,10 +295,12 @@ namespace DistributedEditor
             var end = DocTools.RequestLinkable(sh);
             if (end == null)
             {
-                MessageDlg.Show("Badges or clusters are accepted as link endpoints",
+                MessageDlg.Show("Can only link badges and clusters",
                                 "Tip",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
+                _palette.ResetTool();
+                _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
                 return;
             }
 
@@ -307,6 +310,8 @@ namespace DistributedEditor
             }
             else if (end == _linkCreation.end1)
             {
+                _palette.ResetTool();
+                _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
                 MessageDlg.Show("Cannot link object with itself",
                                 "Error",
                                 MessageBoxButton.OK,

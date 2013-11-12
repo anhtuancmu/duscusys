@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
 using Microsoft.Surface.Presentation.Controls;

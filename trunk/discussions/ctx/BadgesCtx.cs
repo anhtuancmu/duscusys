@@ -1,7 +1,7 @@
 ﻿using System;
 using Discussions.DbModel;
 
-namespace Discussions
+namespace Discussions.ctx
 {
     public class BadgesCtx
     {

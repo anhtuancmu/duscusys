@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using AbstractionLayer;
+using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;

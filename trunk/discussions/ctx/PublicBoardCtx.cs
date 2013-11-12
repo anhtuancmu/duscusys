@@ -2,7 +2,7 @@
 using Discussions.rt;
 using Discussions.stats;
 
-namespace Discussions
+namespace Discussions.ctx
 {
     public class PublicBoardCtx
     {
