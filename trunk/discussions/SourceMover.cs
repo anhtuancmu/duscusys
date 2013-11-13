@@ -24,7 +24,7 @@ namespace Discussions
             if (current.RichText.Source.Count <= 1)
                 return false;
 
-            //ensure strong ordering
+            //ensure strict ordering
             var orderNr = 0;
             foreach (var s in current.RichText.Source.OrderBy(s => s.OrderNumber))
             {
