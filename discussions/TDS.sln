@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discussions", "Discussions.csproj", "{6D915AE6-5F7D-4227-B041-DE0542C9A3B2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF} = {077D1A18-86BA-4F00-B344-1ED401D2FADF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage", "CloudStorage\CloudStorage.csproj", "{33A42676-F8B1-4C3C-B88A-D78DE9D0EF4C}"
 EndProject
@@ -42,6 +45,8 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitG
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer", "..\AbstractionLayer\AbstractionLayer.csproj", "{619BBF6B-A5CB-4245-9096-FAAE447A4DC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdsSvc", "..\TdsSvc\TdsSvc.csproj", "{077D1A18-86BA-4F00-B344-1ED401D2FADF}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -236,6 +241,18 @@ Global
 		{619BBF6B-A5CB-4245-9096-FAAE447A4DC5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{619BBF6B-A5CB-4245-9096-FAAE447A4DC5}.Release|x64.ActiveCfg = Release|Any CPU
 		{619BBF6B-A5CB-4245-9096-FAAE447A4DC5}.Release|x86.ActiveCfg = Release|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|x64.ActiveCfg = Release|Any CPU
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
