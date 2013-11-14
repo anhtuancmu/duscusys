@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Windows.Threading;
 using Discussions.DbModel;
 using Discussions.rt;
@@ -135,7 +134,7 @@ namespace Discussions
 
             UISharedRTClient.Instance.clienRt.SendCommentsRead(SessionInfo.Get().person.Id,
                                                               ap.Topic.Id,
-                                                              ap.Id);
+                                                              ap.Id, -1);
         }
 
         #endregion

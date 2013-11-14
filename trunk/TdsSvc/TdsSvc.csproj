@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="DAL\Helper.cs" />
     <Compile Include="Model\ConverterExtensions.cs" />
+    <Compile Include="Model\SCommentReadInfo.cs" />
     <Compile Include="Model\SInAttachment.cs" />
     <Compile Include="Model\SOutAttachment.cs" />
     <Compile Include="Model\SOrderInfo.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Model\SComment.cs" />
     <Compile Include="Model\SNewCommentsFrom.cs" />
     <Compile Include="Model\SPerson.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="TdsService.svc.cs">
       <DependentUpon>TdsService.svc</DependentUpon>
     </Compile>

@@ -48,6 +48,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer", "..\Abst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdsSvc", "..\TdsSvc\TdsSvc.csproj", "{077D1A18-86BA-4F00-B344-1ED401D2FADF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionsTests", "..\DiscussionsTests\DiscussionsTests.csproj", "{947A3060-EA30-4EE0-B6A5-07B862CD54BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelObjectCache", "..\ViewModelObjectCache\ViewModelObjectCache.csproj", "{99E8317B-E226-4DB9-9B14-10330C923B3E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{077D1A18-86BA-4F00-B344-1ED401D2FADF} = {077D1A18-86BA-4F00-B344-1ED401D2FADF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -253,6 +260,30 @@ Global
 		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|x64.ActiveCfg = Release|Any CPU
 		{077D1A18-86BA-4F00-B344-1ED401D2FADF}.Release|x86.ActiveCfg = Release|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Release|x64.ActiveCfg = Release|Any CPU
+		{947A3060-EA30-4EE0-B6A5-07B862CD54BD}.Release|x86.ActiveCfg = Release|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Release|x64.ActiveCfg = Release|Any CPU
+		{99E8317B-E226-4DB9-9B14-10330C923B3E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

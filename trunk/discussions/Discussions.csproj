@@ -183,15 +183,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="service\NetworkManager.cs" />
-    <Compile Include="service\ReconnectionMachine.cs" />
-    <Compile Include="service\Syncer.cs" />
-    <Compile Include="service\TdsServiceClient.cs" />
-    <Compile Include="ViewModel\ArgPointViewModel.cs" />
-    <Compile Include="ViewModel\AttachmentViewModel.cs" />
-    <Compile Include="ViewModel\ConverterExtensions.cs" />
-    <Compile Include="ViewModel\EditableBadgeViewModel.cs" />
-    <Compile Include="ViewModel\SourceViewModel.cs" />
     <Compile Include="view\SpeakerLogin.xaml.cs">
       <DependentUpon>SpeakerLogin.xaml</DependentUpon>
     </Compile>
@@ -836,6 +827,9 @@
     <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SComment.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SCommentReadInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SNewCommentsFrom.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -939,7 +933,7 @@
   <ItemGroup>
     <Folder Include="docs\" />
     <Folder Include="Fonts\" />
-    <Folder Include="Tools\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbstractionLayer\AbstractionLayer.csproj">

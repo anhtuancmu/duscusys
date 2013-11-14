@@ -1,47 +1,28 @@
-﻿using System.Runtime.Serialization;
-using Discussions.DbModel;
+﻿using Discussions.TdsSvcRef;
 
-namespace TdsSvc.Model
+namespace Discussions.ViewModel
 {
-    [DataContract]
-    public class SPerson
+    public class PersonViewModel
     {
-        [DataMember]
         public int Id { get; set; }
 
-
-        [DataMember]
         public string Name { get; set; }
 
-
-        [DataMember]
         public string Email { get; set; }
 
-
-        [DataMember]
         public int Color { get; set; }
 
-
-        [DataMember]
         public bool Online { get; set; }
 
-
-        [DataMember]
         public int? SeatId { get; set; }
 
-
-        [DataMember]
         public int OnlineDevType { get; set; }
 
-
-        [DataMember]
         public int? SessionId { get; set; }
 
-
-        [DataMember]
         public int? AvatarAttachmentId { get; set; }
 
-        public SPerson(Person person)
+        public PersonViewModel(SPerson person)
         {
             Id = person.Id;
             Name = person.Name;
@@ -51,7 +32,7 @@ namespace TdsSvc.Model
             SeatId = person.SeatId;
             OnlineDevType = person.OnlineDevType;
             SessionId = person.SessionId;
-            AvatarAttachmentId = person.AvatarAttachment!=null ? person.AvatarAttachment.Id : (int?)null;
+            AvatarAttachmentId = person.AvatarAttachmentId;
         }
     }
 }

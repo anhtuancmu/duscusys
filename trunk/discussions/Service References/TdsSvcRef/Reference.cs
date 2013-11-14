@@ -29,6 +29,9 @@ namespace Discussions.TdsSvcRef {
         private int IdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumUnreadCommentsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int OrderNumberField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -81,6 +84,19 @@ namespace Discussions.TdsSvcRef {
                 if ((this.IdField.Equals(value) != true)) {
                     this.IdField = value;
                     this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int NumUnreadComments {
+            get {
+                return this.NumUnreadCommentsField;
+            }
+            set {
+                if ((this.NumUnreadCommentsField.Equals(value) != true)) {
+                    this.NumUnreadCommentsField = value;
+                    this.RaisePropertyChanged("NumUnreadComments");
                 }
             }
         }
@@ -358,6 +374,256 @@ namespace Discussions.TdsSvcRef {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SCommentReadInfo", Namespace="http://schemas.datacontract.org/2004/07/TdsSvc.Model")]
+    [System.SerializableAttribute()]
+    public partial class SCommentReadInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Discussions.TdsSvcRef.SComment CommentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool EveryoneInTopicReadField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Discussions.TdsSvcRef.SPerson[] PersonsWhoReadField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Discussions.TdsSvcRef.SComment Comment {
+            get {
+                return this.CommentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CommentField, value) != true)) {
+                    this.CommentField = value;
+                    this.RaisePropertyChanged("Comment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool EveryoneInTopicRead {
+            get {
+                return this.EveryoneInTopicReadField;
+            }
+            set {
+                if ((this.EveryoneInTopicReadField.Equals(value) != true)) {
+                    this.EveryoneInTopicReadField = value;
+                    this.RaisePropertyChanged("EveryoneInTopicRead");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Discussions.TdsSvcRef.SPerson[] PersonsWhoRead {
+            get {
+                return this.PersonsWhoReadField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PersonsWhoReadField, value) != true)) {
+                    this.PersonsWhoReadField = value;
+                    this.RaisePropertyChanged("PersonsWhoRead");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SPerson", Namespace="http://schemas.datacontract.org/2004/07/TdsSvc.Model")]
+    [System.SerializableAttribute()]
+    public partial class SPerson : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> AvatarAttachmentIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string EmailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool OnlineField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int OnlineDevTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> SeatIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> SessionIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> AvatarAttachmentId {
+            get {
+                return this.AvatarAttachmentIdField;
+            }
+            set {
+                if ((this.AvatarAttachmentIdField.Equals(value) != true)) {
+                    this.AvatarAttachmentIdField = value;
+                    this.RaisePropertyChanged("AvatarAttachmentId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Color {
+            get {
+                return this.ColorField;
+            }
+            set {
+                if ((this.ColorField.Equals(value) != true)) {
+                    this.ColorField = value;
+                    this.RaisePropertyChanged("Color");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Email {
+            get {
+                return this.EmailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
+                    this.EmailField = value;
+                    this.RaisePropertyChanged("Email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Online {
+            get {
+                return this.OnlineField;
+            }
+            set {
+                if ((this.OnlineField.Equals(value) != true)) {
+                    this.OnlineField = value;
+                    this.RaisePropertyChanged("Online");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int OnlineDevType {
+            get {
+                return this.OnlineDevTypeField;
+            }
+            set {
+                if ((this.OnlineDevTypeField.Equals(value) != true)) {
+                    this.OnlineDevTypeField = value;
+                    this.RaisePropertyChanged("OnlineDevType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> SeatId {
+            get {
+                return this.SeatIdField;
+            }
+            set {
+                if ((this.SeatIdField.Equals(value) != true)) {
+                    this.SeatIdField = value;
+                    this.RaisePropertyChanged("SeatId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> SessionId {
+            get {
+                return this.SessionIdField;
+            }
+            set {
+                if ((this.SessionIdField.Equals(value) != true)) {
+                    this.SessionIdField = value;
+                    this.RaisePropertyChanged("SessionId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SSource", Namespace="http://schemas.datacontract.org/2004/07/TdsSvc.Model")]
     [System.SerializableAttribute()]
     public partial class SSource : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -519,9 +785,6 @@ namespace Discussions.TdsSvcRef {
         private string NameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int OrderNumberField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private byte[] ThumbField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -607,19 +870,6 @@ namespace Discussions.TdsSvcRef {
                 if ((object.ReferenceEquals(this.NameField, value) != true)) {
                     this.NameField = value;
                     this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int OrderNumber {
-            get {
-                return this.OrderNumberField;
-            }
-            set {
-                if ((this.OrderNumberField.Equals(value) != true)) {
-                    this.OrderNumberField = value;
-                    this.RaisePropertyChanged("OrderNumber");
                 }
             }
         }
@@ -989,18 +1239,18 @@ namespace Discussions.TdsSvcRef {
     public interface ITdsService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITdsService/GetArgPoint", ReplyAction="http://tempuri.org/ITdsService/GetArgPointResponse")]
-        Discussions.TdsSvcRef.SArgPoint GetArgPoint(int pointId);
+        Discussions.TdsSvcRef.SArgPoint GetArgPoint(int pointId, int callerId);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/ITdsService/GetArgPoint", ReplyAction="http://tempuri.org/ITdsService/GetArgPointResponse")]
-        System.IAsyncResult BeginGetArgPoint(int pointId, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetArgPoint(int pointId, int callerId, System.AsyncCallback callback, object asyncState);
         
         Discussions.TdsSvcRef.SArgPoint EndGetArgPoint(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITdsService/GetArgPointsInTopic", ReplyAction="http://tempuri.org/ITdsService/GetArgPointsInTopicResponse")]
-        Discussions.TdsSvcRef.SArgPoint[] GetArgPointsInTopic(int topicId);
+        Discussions.TdsSvcRef.SArgPoint[] GetArgPointsInTopic(int topicId, int callerId);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/ITdsService/GetArgPointsInTopic", ReplyAction="http://tempuri.org/ITdsService/GetArgPointsInTopicResponse")]
-        System.IAsyncResult BeginGetArgPointsInTopic(int topicId, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginGetArgPointsInTopic(int topicId, int callerId, System.AsyncCallback callback, object asyncState);
         
         Discussions.TdsSvcRef.SArgPoint[] EndGetArgPointsInTopic(System.IAsyncResult result);
         
@@ -1051,6 +1301,14 @@ namespace Discussions.TdsSvcRef {
         System.IAsyncResult BeginGetCommentsInArgPoint(int pointId, System.AsyncCallback callback, object asyncState);
         
         Discussions.TdsSvcRef.SComment[] EndGetCommentsInArgPoint(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITdsService/GetCommentReadInfo", ReplyAction="http://tempuri.org/ITdsService/GetCommentReadInfoResponse")]
+        Discussions.TdsSvcRef.SCommentReadInfo GetCommentReadInfo(int commentId, int callerId);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/ITdsService/GetCommentReadInfo", ReplyAction="http://tempuri.org/ITdsService/GetCommentReadInfoResponse")]
+        System.IAsyncResult BeginGetCommentReadInfo(int commentId, int callerId, System.AsyncCallback callback, object asyncState);
+        
+        Discussions.TdsSvcRef.SCommentReadInfo EndGetCommentReadInfo(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITdsService/GetSourcesInArgPoint", ReplyAction="http://tempuri.org/ITdsService/GetSourcesInArgPointResponse")]
         Discussions.TdsSvcRef.SSource[] GetSourcesInArgPoint(int pointId);
@@ -1252,6 +1510,25 @@ namespace Discussions.TdsSvcRef {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((Discussions.TdsSvcRef.SComment[])(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetCommentReadInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetCommentReadInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public Discussions.TdsSvcRef.SCommentReadInfo Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((Discussions.TdsSvcRef.SCommentReadInfo)(this.results[0]));
             }
         }
     }
@@ -1460,6 +1737,12 @@ namespace Discussions.TdsSvcRef {
         
         private System.Threading.SendOrPostCallback onGetCommentsInArgPointCompletedDelegate;
         
+        private BeginOperationDelegate onBeginGetCommentReadInfoDelegate;
+        
+        private EndOperationDelegate onEndGetCommentReadInfoDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetCommentReadInfoCompletedDelegate;
+        
         private BeginOperationDelegate onBeginGetSourcesInArgPointDelegate;
         
         private EndOperationDelegate onEndGetSourcesInArgPointDelegate;
@@ -1573,6 +1856,8 @@ namespace Discussions.TdsSvcRef {
         
         public event System.EventHandler<GetCommentsInArgPointCompletedEventArgs> GetCommentsInArgPointCompleted;
         
+        public event System.EventHandler<GetCommentReadInfoCompletedEventArgs> GetCommentReadInfoCompleted;
+        
         public event System.EventHandler<GetSourcesInArgPointCompletedEventArgs> GetSourcesInArgPointCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> AddSourceArgPointCompleted;
@@ -1599,13 +1884,13 @@ namespace Discussions.TdsSvcRef {
         
         public event System.EventHandler<GetAttachmentsInArgPointCompletedEventArgs> GetAttachmentsInArgPointCompleted;
         
-        public Discussions.TdsSvcRef.SArgPoint GetArgPoint(int pointId) {
-            return base.Channel.GetArgPoint(pointId);
+        public Discussions.TdsSvcRef.SArgPoint GetArgPoint(int pointId, int callerId) {
+            return base.Channel.GetArgPoint(pointId, callerId);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        public System.IAsyncResult BeginGetArgPoint(int pointId, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetArgPoint(pointId, callback, asyncState);
+        public System.IAsyncResult BeginGetArgPoint(int pointId, int callerId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetArgPoint(pointId, callerId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1615,7 +1900,8 @@ namespace Discussions.TdsSvcRef {
         
         private System.IAsyncResult OnBeginGetArgPoint(object[] inValues, System.AsyncCallback callback, object asyncState) {
             int pointId = ((int)(inValues[0]));
-            return this.BeginGetArgPoint(pointId, callback, asyncState);
+            int callerId = ((int)(inValues[1]));
+            return this.BeginGetArgPoint(pointId, callerId, callback, asyncState);
         }
         
         private object[] OnEndGetArgPoint(System.IAsyncResult result) {
@@ -1631,11 +1917,11 @@ namespace Discussions.TdsSvcRef {
             }
         }
         
-        public void GetArgPointAsync(int pointId) {
-            this.GetArgPointAsync(pointId, null);
+        public void GetArgPointAsync(int pointId, int callerId) {
+            this.GetArgPointAsync(pointId, callerId, null);
         }
         
-        public void GetArgPointAsync(int pointId, object userState) {
+        public void GetArgPointAsync(int pointId, int callerId, object userState) {
             if ((this.onBeginGetArgPointDelegate == null)) {
                 this.onBeginGetArgPointDelegate = new BeginOperationDelegate(this.OnBeginGetArgPoint);
             }
@@ -1646,16 +1932,17 @@ namespace Discussions.TdsSvcRef {
                 this.onGetArgPointCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetArgPointCompleted);
             }
             base.InvokeAsync(this.onBeginGetArgPointDelegate, new object[] {
-                        pointId}, this.onEndGetArgPointDelegate, this.onGetArgPointCompletedDelegate, userState);
+                        pointId,
+                        callerId}, this.onEndGetArgPointDelegate, this.onGetArgPointCompletedDelegate, userState);
         }
         
-        public Discussions.TdsSvcRef.SArgPoint[] GetArgPointsInTopic(int topicId) {
-            return base.Channel.GetArgPointsInTopic(topicId);
+        public Discussions.TdsSvcRef.SArgPoint[] GetArgPointsInTopic(int topicId, int callerId) {
+            return base.Channel.GetArgPointsInTopic(topicId, callerId);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        public System.IAsyncResult BeginGetArgPointsInTopic(int topicId, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginGetArgPointsInTopic(topicId, callback, asyncState);
+        public System.IAsyncResult BeginGetArgPointsInTopic(int topicId, int callerId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetArgPointsInTopic(topicId, callerId, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1665,7 +1952,8 @@ namespace Discussions.TdsSvcRef {
         
         private System.IAsyncResult OnBeginGetArgPointsInTopic(object[] inValues, System.AsyncCallback callback, object asyncState) {
             int topicId = ((int)(inValues[0]));
-            return this.BeginGetArgPointsInTopic(topicId, callback, asyncState);
+            int callerId = ((int)(inValues[1]));
+            return this.BeginGetArgPointsInTopic(topicId, callerId, callback, asyncState);
         }
         
         private object[] OnEndGetArgPointsInTopic(System.IAsyncResult result) {
@@ -1681,11 +1969,11 @@ namespace Discussions.TdsSvcRef {
             }
         }
         
-        public void GetArgPointsInTopicAsync(int topicId) {
-            this.GetArgPointsInTopicAsync(topicId, null);
+        public void GetArgPointsInTopicAsync(int topicId, int callerId) {
+            this.GetArgPointsInTopicAsync(topicId, callerId, null);
         }
         
-        public void GetArgPointsInTopicAsync(int topicId, object userState) {
+        public void GetArgPointsInTopicAsync(int topicId, int callerId, object userState) {
             if ((this.onBeginGetArgPointsInTopicDelegate == null)) {
                 this.onBeginGetArgPointsInTopicDelegate = new BeginOperationDelegate(this.OnBeginGetArgPointsInTopic);
             }
@@ -1696,7 +1984,8 @@ namespace Discussions.TdsSvcRef {
                 this.onGetArgPointsInTopicCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetArgPointsInTopicCompleted);
             }
             base.InvokeAsync(this.onBeginGetArgPointsInTopicDelegate, new object[] {
-                        topicId}, this.onEndGetArgPointsInTopicDelegate, this.onGetArgPointsInTopicCompletedDelegate, userState);
+                        topicId,
+                        callerId}, this.onEndGetArgPointsInTopicDelegate, this.onGetArgPointsInTopicCompletedDelegate, userState);
         }
         
         public void AddComment(Discussions.TdsSvcRef.SComment comment) {
@@ -2002,6 +2291,58 @@ namespace Discussions.TdsSvcRef {
             }
             base.InvokeAsync(this.onBeginGetCommentsInArgPointDelegate, new object[] {
                         pointId}, this.onEndGetCommentsInArgPointDelegate, this.onGetCommentsInArgPointCompletedDelegate, userState);
+        }
+        
+        public Discussions.TdsSvcRef.SCommentReadInfo GetCommentReadInfo(int commentId, int callerId) {
+            return base.Channel.GetCommentReadInfo(commentId, callerId);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public System.IAsyncResult BeginGetCommentReadInfo(int commentId, int callerId, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetCommentReadInfo(commentId, callerId, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        public Discussions.TdsSvcRef.SCommentReadInfo EndGetCommentReadInfo(System.IAsyncResult result) {
+            return base.Channel.EndGetCommentReadInfo(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetCommentReadInfo(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int commentId = ((int)(inValues[0]));
+            int callerId = ((int)(inValues[1]));
+            return this.BeginGetCommentReadInfo(commentId, callerId, callback, asyncState);
+        }
+        
+        private object[] OnEndGetCommentReadInfo(System.IAsyncResult result) {
+            Discussions.TdsSvcRef.SCommentReadInfo retVal = this.EndGetCommentReadInfo(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetCommentReadInfoCompleted(object state) {
+            if ((this.GetCommentReadInfoCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetCommentReadInfoCompleted(this, new GetCommentReadInfoCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetCommentReadInfoAsync(int commentId, int callerId) {
+            this.GetCommentReadInfoAsync(commentId, callerId, null);
+        }
+        
+        public void GetCommentReadInfoAsync(int commentId, int callerId, object userState) {
+            if ((this.onBeginGetCommentReadInfoDelegate == null)) {
+                this.onBeginGetCommentReadInfoDelegate = new BeginOperationDelegate(this.OnBeginGetCommentReadInfo);
+            }
+            if ((this.onEndGetCommentReadInfoDelegate == null)) {
+                this.onEndGetCommentReadInfoDelegate = new EndOperationDelegate(this.OnEndGetCommentReadInfo);
+            }
+            if ((this.onGetCommentReadInfoCompletedDelegate == null)) {
+                this.onGetCommentReadInfoCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetCommentReadInfoCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetCommentReadInfoDelegate, new object[] {
+                        commentId,
+                        callerId}, this.onEndGetCommentReadInfoDelegate, this.onGetCommentReadInfoCompletedDelegate, userState);
         }
         
         public Discussions.TdsSvcRef.SSource[] GetSourcesInArgPoint(int pointId) {

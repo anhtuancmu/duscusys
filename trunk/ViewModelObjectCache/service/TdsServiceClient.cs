@@ -1,6 +1,5 @@
 ﻿using System.Windows.Threading;
 using Discussions.Annotations;
-using Discussions.ViewModel;
 
 namespace Discussions.service
 {
@@ -13,7 +12,7 @@ namespace Discussions.service
             _netMgr = new NetworkManager(dispatcher, SvcConnection);      
         }
 
-        private void SvcConnection(bool connOk, TdsServiceClient tdsServiceClient)
+        private void SvcConnection(bool connOk, TdsSvcRef.TdsServiceClient client)
         {
             if (connOk)
             {

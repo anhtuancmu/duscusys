@@ -10,10 +10,10 @@ namespace TdsSvc
         #region arg points
 
         [OperationContract]
-        SArgPoint GetArgPoint(int pointId);
+        SArgPoint GetArgPoint(int pointId, int callerId);
 
         [OperationContract]
-        List<SArgPoint> GetArgPointsInTopic(int topicId);
+        List<SArgPoint> GetArgPointsInTopic(int topicId, int callerId);
 
         #endregion
 
@@ -36,6 +36,9 @@ namespace TdsSvc
 
         [OperationContract]
         List<SComment> GetCommentsInArgPoint(int pointId);
+
+        [OperationContract]
+        SCommentReadInfo GetCommentReadInfo(int commentId, int callerId);
         #endregion
 
 

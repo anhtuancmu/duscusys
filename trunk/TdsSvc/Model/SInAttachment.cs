@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Discussions.DbModel;
 
 namespace TdsSvc.Model
@@ -35,9 +34,6 @@ namespace TdsSvc.Model
         public byte[] Thumb { get; set; }
 
         [DataMember]
-        public int OrderNumber { get; set; }
-
-        [DataMember]
         public byte[] MediaData { get; set; }
 
         public SInAttachment()
@@ -55,8 +51,7 @@ namespace TdsSvc.Model
                 VideoLinkURL = this.VideoLinkURL,
                 Link = this.Link,
                 Title = this.Title,
-                Thumb = this.Thumb,
-                OrderNumber = this.OrderNumber,
+                Thumb = this.Thumb
             };
         }
     }
