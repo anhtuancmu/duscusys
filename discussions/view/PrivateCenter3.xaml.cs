@@ -732,7 +732,7 @@ namespace Discussions.view
 
         private void OnCommentRead(CommentsReadEvent ev)
         {            
-            theBadge.OnCommentRead(ev);
+            theBadge.HandleCommentRead(ev);
 
             var topic = lstTopics.SelectedItem as Topic;
             if (topic != null && topic.Id == ev.TopicId)

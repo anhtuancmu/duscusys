@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Discussions;
 using Discussions.DbModel;
@@ -80,7 +81,29 @@ namespace TdsSvc
             } 
         }
 
-        public SArgPoint GetArgPoint(int pointId)
+        public SCommentReadInfo GetCommentReadInfo(int commentId, int callerId)
+        {
+            using (var ctx = new DiscCtx(ConfigManager.ConnStr))
+            {
+                var result = new SCommentReadInfo {PersonsWhoRead = new List<SPerson>()};
+
+                var comment = ctx.Comment.FirstOrDefault(c => c.Id == commentId);
+                if(comment==null)
+                    return result;
+
+                result.PersonsWhoRead = comment.ReadEntry.Select(re => new SPerson(re.Person)).ToList();
+
+                var allUsersWhoCanRead =
+                    new List<int>(comment.ArgPoint.Topic.Person.Select(p => p.Id));
+
+                result.EveryoneInTopicRead =
+                    allUsersWhoCanRead.Except(result.PersonsWhoRead.Select(p => p.Id)).Count() == 0;
+
+                return result;
+            }
+        }
+
+        public SArgPoint GetArgPoint(int pointId, int callerId)
         {
             using (var ctx = new DiscCtx(ConfigManager.ConnStr))
             {
@@ -88,16 +111,16 @@ namespace TdsSvc
                 if (point == null)
                     return null;
 
-                return point.ToServiceEntity();
-            } 
+                return new SArgPoint(point, ctx, callerId);              
+            }                         
         }
 
-        public List<SArgPoint> GetArgPointsInTopic(int topicId)
+        public List<SArgPoint> GetArgPointsInTopic(int topicId, int callerId)
         {
             using (var ctx = new DiscCtx(ConfigManager.ConnStr))
             {
                 var points = ctx.ArgPoint.Where(ap => ap.Topic.Id==topicId);
-                return points.Select(p => p.ToServiceEntity()).ToList();                
+                return points.Select(p => new SArgPoint(p, ctx, callerId)).ToList();                
             }
         }
 
@@ -126,7 +149,7 @@ namespace TdsSvc
 
                 var lastSrc = point.Description.Source.OrderBy(s => s.OrderNumber).LastOrDefault();
 
-                int orderNumber = lastSrc != null ? lastSrc.OrderNumber + 1 : 0;
+                int orderNumber = lastSrc != null ? lastSrc.OrderNumber + 1 : 1;
 
                 var source = new Source
                 {
@@ -256,6 +279,7 @@ namespace TdsSvc
 
                 return point.Attachment
                         .Where(at => at.ArgPoint.Id == pointId)
+                        .OrderBy(at=>at.OrderNumber)
                         .Select(at => new SOutAttachment(at, includeMediaData))
                         .ToList();
             }

@@ -840,13 +840,13 @@ namespace DiscussionsClientRT
                           true);
         }
 
-        public void SendCommentsRead(int PersonId, int TopicId, int ArgPointId)
+        public void SendCommentsRead(int PersonId, int TopicId, int ArgPointId, int CommentId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
             peer.OpCustom((byte)DiscussionOpCode.CommentReadRequest,
-                          CommentsReadEvent.Write(PersonId, TopicId, ArgPointId),
+                          CommentsReadEvent.Write(PersonId, TopicId, ArgPointId, CommentId),
                           true);
         }
 

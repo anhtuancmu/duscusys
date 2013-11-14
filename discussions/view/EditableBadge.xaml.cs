@@ -981,7 +981,7 @@ namespace Discussions.view
 
         public CommentDismissalRecognizer CommentDismissalRecognizer;
 
-        public void OnCommentRead(CommentsReadEvent ev)
+        public void HandleCommentRead(CommentsReadEvent ev)
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
