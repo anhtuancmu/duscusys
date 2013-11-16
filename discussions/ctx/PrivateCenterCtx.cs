@@ -34,7 +34,8 @@ namespace Discussions.ctx
         public static void SaveChangesIgnoreConflicts()
         {
             int nAttempts = 0;
-            bool saveFailed;    
+            bool saveFailed;
+            ArgPoint conflictedArgPoint = null;
             do   
             {        
                 saveFailed = false;
@@ -47,12 +48,18 @@ namespace Discussions.ctx
                     saveFailed = true;            
 
                     Comment[] addedConflictedComments =
-                        ex.StateEntries.Where(se => se.State == EntityState.Modified && (se.Entity as Comment)!=null)
+                        ex.StateEntries.Where(se => se.State == EntityState.Modified && 
+                                                    (se.Entity as DbModel.Comment)!=null)
                             .Select(se => se.Entity)
                             .Cast<Comment>()
                             .ToArray();
 
-                    ArgPoint conflictedArgPoint = null;
+                    if (ex.StateEntries.Any() && addedConflictedComments.Length == 0)
+                    {
+                        //if placeholder comment is in the conflict
+                        Get().Refresh(RefreshMode.StoreWins, 
+                                     ex.StateEntries.Where(se => se.Entity != null).Select(se => se.Entity));                                               
+                    }
 
                     //detach conflicted comments to prevent their modification by the Refresh() call
                     foreach (var addedConflictedComment in addedConflictedComments)
@@ -69,11 +76,12 @@ namespace Discussions.ctx
                         {
                             Get().AddToComment(comment);
                         }
-
-                        DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                     }
                 }
             } while (saveFailed && ++nAttempts < 6);
+
+            if (conflictedArgPoint!=null)
+                DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
         }
 
         public static void DropContext()
