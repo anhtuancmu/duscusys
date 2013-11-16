@@ -295,5 +295,10 @@ namespace Discussions.view
 
             return res;
         }
+
+        private void TxtBxText_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            txtBxText.CaretIndex = txtBxText.Text.Length;
+        }
     }
 }
