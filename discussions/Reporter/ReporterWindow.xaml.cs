@@ -37,7 +37,7 @@ namespace Reporter
             }
 
             UISharedRTClient.Instance.start(loginInfo,
-                                            ConfigManager.ServiceServer,
+                                            discCtx.Connection.DataSource,
                                             DeviceType.Wpf);
 
             UISharedRTClient.Instance.clienRt.onJoin += onJoin;

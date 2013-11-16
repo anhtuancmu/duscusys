@@ -139,7 +139,7 @@ namespace EventGen
 
             FillTopics(login.discussion);
 
-            sharedClient.start(login, ConfigManager.ServiceServer, login.devType);
+            sharedClient.start(login, DbCtx.Get().Connection.DataSource, login.devType);
             sharedClient.clienRt.onStatsEvent += OnStatsEvent;
         }
 
