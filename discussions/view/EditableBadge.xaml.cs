@@ -157,6 +157,15 @@ namespace Discussions.view
                     EditingMode = SessionInfo.Get().person.Id == ap.Person.Id;
             }
 
+            UpdateOrderedSources();
+            UpdateOrderedMedia();
+            BeginSrcNumberInjection();
+            BeginAttachmentNumberInjection();
+
+
+            if (ap != null)
+                DaoUtils.RemoveDuplicateComments(ap);
+
             //if there are no comments, add placeholder
             var ap1 = DataContext as ArgPoint;
             if (ap1 != null)
@@ -164,14 +173,6 @@ namespace Discussions.view
                 var commentAuthor = SessionInfo.Get().getPerson(DataContext);
                 DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint);
             }
-
-            if (ap != null)
-                DaoUtils.RemoveDuplicateComments(ap);
-
-            UpdateOrderedSources();
-            UpdateOrderedMedia();
-            BeginSrcNumberInjection();
-            BeginAttachmentNumberInjection();
 
             if (ap != null)
             {

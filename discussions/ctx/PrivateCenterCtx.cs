@@ -36,7 +36,7 @@ namespace Discussions.ctx
             {        
                 saveFailed = false;
                 try
-                {
+                { 
                     Get().SaveChanges();
                 }
                 catch (System.Data.Entity.Core.OptimisticConcurrencyException ex)        
@@ -50,31 +50,35 @@ namespace Discussions.ctx
                             .Cast<Comment>()
                             .ToArray();
 
-                    if (ex.StateEntries.Any() && addedConflictedComments.Length == 0)
+                    if ((ex.StateEntries.Any() && addedConflictedComments.Length == 0) ||
+                        (addedConflictedComments.Length > 0 && DaoUtils.IsPlaceholder(addedConflictedComments[0]))
+                        )
                     {
                         //if placeholder comment is in the conflict
-                        Get().Refresh(RefreshMode.StoreWins, 
-                                     ex.StateEntries.Where(se => se.Entity != null).Select(se => se.Entity));                                               
+                        Get().Refresh(RefreshMode.StoreWins,
+                            ex.StateEntries.Where(se => se.Entity != null).Select(se => se.Entity));
                     }
-
-                    //detach conflicted comments to prevent their modification by the Refresh() call
-                    foreach (var addedConflictedComment in addedConflictedComments)
+                    else
                     {
-                        conflictedArgPoint = addedConflictedComment.ArgPoint;
-                        Get().Detach(addedConflictedComment);
-                    }
-
-                    if (conflictedArgPoint != null)
-                    {
-                        Get().Refresh(RefreshMode.StoreWins, conflictedArgPoint);
-
-                        foreach (var comment in addedConflictedComments)
+                        //detach conflicted comments to prevent their modification by the Refresh() call
+                        foreach (var addedConflictedComment in addedConflictedComments)
                         {
-                            Get().AddToComment(comment);
+                            conflictedArgPoint = addedConflictedComment.ArgPoint;
+                            Get().Detach(addedConflictedComment);
                         }
+
+                        if (conflictedArgPoint != null)
+                        {
+                            Get().Refresh(RefreshMode.StoreWins, conflictedArgPoint);
+
+                            foreach (var comment in addedConflictedComments)
+                            {
+                                Get().AddToComment(comment);
+                            }
+                        }
+                        if (conflictedArgPoint != null)
+                            DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                     }
-                    if (conflictedArgPoint != null)
-                        DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                 }
             } while (saveFailed && ++nAttempts < 6);
         }

@@ -309,6 +309,11 @@ namespace Discussions
                 ap.Comment.Remove(placeholderComment);
         }
 
+        public static bool IsPlaceholder(Comment c)
+        {
+            return (c.Text == NewComment || string.IsNullOrWhiteSpace(c.Text));
+        }
+
         public static Comment EnsureCommentPlaceholderExists(ArgPoint ap)
         {
             if (ap == null)
