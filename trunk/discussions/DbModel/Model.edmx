@@ -755,7 +755,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="None" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="Fixed" />
           <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointComment" FromRole="Comment" ToRole="ArgPoint" />
           <NavigationProperty Name="Person" Relationship="db.PersonComment" FromRole="Comment" ToRole="Person" />
