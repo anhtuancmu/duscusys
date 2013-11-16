@@ -41,6 +41,8 @@ namespace Discussions.ctx
                 saveFailed = false;
                 try
                 {
+                    //needed for conflict tracking
+                    DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                     Get().SaveChanges();
                 }
                 catch (System.Data.Entity.Core.OptimisticConcurrencyException ex)        
@@ -77,9 +79,8 @@ namespace Discussions.ctx
                             Get().AddToComment(comment);
                         }
                     }
-
-                    //if (conflictedArgPoint != null)
-                    //    DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
+                    if (conflictedArgPoint != null)
+                        DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                 }
             } while (saveFailed && ++nAttempts < 6);
         }
