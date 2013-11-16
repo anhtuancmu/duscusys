@@ -298,6 +298,17 @@ namespace Discussions
 
         private const string NewComment = NEW_COMMENT;
 
+        public static void RemovePlaceholders(ArgPoint ap)
+        {
+            if (ap == null)
+                return;
+
+            var placeholderComment =
+                   ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
+            if (placeholderComment != null)
+                ap.Comment.Remove(placeholderComment);
+        }
+
         public static Comment EnsureCommentPlaceholderExists(ArgPoint ap)
         {
             if (ap == null)
