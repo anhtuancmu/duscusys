@@ -31,10 +31,6 @@
       <End Role="Discussion" EntitySet="Discussion" />
       <End Role="Topic" EntitySet="Topic" />
     </AssociationSet>
-    <AssociationSet Name="ArgPointComment" Association="db.Store.ArgPointComment">
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
-      <End Role="Comment" EntitySet="Comment" />
-    </AssociationSet>
     <AssociationSet Name="ArgPointAttachment" Association="db.Store.ArgPointAttachment">
       <End Role="ArgPoint" EntitySet="ArgPoint" />
       <End Role="Attachment" EntitySet="Attachment" />
@@ -114,6 +110,10 @@
     <AssociationSet Name="PersonCommentPersonReadEntry" Association="db.Store.PersonCommentPersonReadEntry">
       <End Role="Person" EntitySet="Person" />
       <End Role="CommentPersonReadEntry" EntitySet="CommentPersonReadEntry" />
+    </AssociationSet>
+    <AssociationSet Name="CommentArgPoint" Association="db.Store.CommentArgPoint">
+      <End Role="Comment" EntitySet="Comment" />
+      <End Role="ArgPoint" EntitySet="ArgPoint" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Person">
@@ -310,18 +310,6 @@
       </Principal>
       <Dependent Role="Topic">
         <PropertyRef Name="Discussion_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ArgPointComment">
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
-    <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ArgPoint">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Comment">
-        <PropertyRef Name="ArgPoint_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -541,6 +529,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CommentArgPoint">
+    <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
+    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ArgPoint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ArgPoint_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_TopicPerson_Topic">
     <End Role="Topic" Type="db.Store.Topic" Multiplicity="1" />
     <End Role="TopicPerson" Type="db.Store.TopicPerson" Multiplicity="*" />
@@ -583,10 +583,6 @@
             <End Role="Topic" EntitySet="Topic" />
           </AssociationSet>
           <EntitySet Name="Comment" EntityType="db.Comment" />
-          <AssociationSet Name="ArgPointComment" Association="db.ArgPointComment">
-            <End Role="ArgPoint" EntitySet="ArgPoint" />
-            <End Role="Comment" EntitySet="Comment" />
-          </AssociationSet>
           <EntitySet Name="Attachment" EntityType="db.Attachment" />
           <AssociationSet Name="ArgPointAttachment" Association="db.ArgPointAttachment">
             <End Role="ArgPoint" EntitySet="ArgPoint" />
@@ -673,6 +669,10 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="CommentPersonReadEntry" EntitySet="CommentPersonReadEntry" />
           </AssociationSet>
+          <AssociationSet Name="CommentArgPoint" Association="db.CommentArgPoint">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Person">
           <Key>
@@ -716,7 +716,6 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Point" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Topic" Relationship="db.TopicArgPoint" FromRole="ArgPoint" ToRole="Topic" />
-          <NavigationProperty Name="Comment" Relationship="db.ArgPointComment" FromRole="ArgPoint" ToRole="Comment" />
           <Property Type="Int32" Name="SideCode" Nullable="false" />
           <NavigationProperty Name="Attachment" Relationship="db.ArgPointAttachment" FromRole="ArgPoint" ToRole="Attachment" />
           <NavigationProperty Name="Person" Relationship="db.PersonArgPoint" FromRole="ArgPoint" ToRole="Person" />
@@ -726,6 +725,7 @@
           <Property Type="String" Name="RecentlyEnteredMediaUrl" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Boolean" Name="ChangesPending" Nullable="false" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
+          <NavigationProperty Name="Comment" Relationship="db.CommentArgPoint" FromRole="ArgPoint" ToRole="Comment" />
         </EntityType>
         <EntityType Name="Topic">
           <Key>
@@ -755,17 +755,13 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="Fixed" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="None" />
           <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" ConcurrencyMode="Fixed" />
-          <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointComment" FromRole="Comment" ToRole="ArgPoint" />
           <NavigationProperty Name="Person" Relationship="db.PersonComment" FromRole="Comment" ToRole="Person" />
           <NavigationProperty Name="ReadEntry" Relationship="db.CommentCommentPersonReadEntry" FromRole="Comment" ToRole="CommentPersonReadEntry" />
+          <NavigationProperty Name="ArgPoint" Relationship="db.CommentArgPoint" FromRole="Comment" ToRole="ArgPoint" />
+          <Property Name="ArgPoint_Id" Type="Int32" Nullable="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="Fixed" />
         </EntityType>
-        <Association Name="ArgPointComment">
-          <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1">
-          </End>
-          <End Type="db.Comment" Role="Comment" Multiplicity="*" />
-        </Association>
         <EntityType Name="Attachment" m:HasStream="true" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
           <Key>
             <PropertyRef Name="Id" />
@@ -971,6 +967,18 @@
           <End Type="db.Person" Role="Person" Multiplicity="0..1" />
           <End Type="db.CommentPersonReadEntry" Role="CommentPersonReadEntry" Multiplicity="*" />
         </Association>
+        <Association Name="CommentArgPoint">
+          <End Type="db.Comment" Role="Comment" Multiplicity="*" />
+          <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ArgPoint">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ArgPoint_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1030,6 +1038,7 @@
         <MappingFragment StoreEntitySet="Comment">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="ArgPoint_Id" ColumnName="ArgPoint_Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1155,15 +1164,6 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="Discussion_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ArgPointComment" TypeName="db.ArgPointComment" StoreEntitySet="Comment">
-      <EndProperty Name="ArgPoint">
-        <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
-      </EndProperty>
-      <EndProperty Name="Comment">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="ArgPoint_Id" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="ArgPointAttachment" TypeName="db.ArgPointAttachment" StoreEntitySet="Attachment">
       <EndProperty Name="ArgPoint">
@@ -1354,10 +1354,6 @@
           <edmx:ConnectorPoint PointX="5.25" PointY="5.9901432291666659" />
         </edmx:AssociationConnector>
         <edmx:EntityTypeShape EntityType="db.Comment" Width="2" PointX="9" PointY="2.625" Height="1.59568359375" />
-        <edmx:AssociationConnector Association="db.ArgPointComment">
-          <edmx:ConnectorPoint PointX="10" PointY="3.125" />
-          <edmx:ConnectorPoint PointX="10" PointY="2.2879850260416665" />
-        </edmx:AssociationConnector>
         <edmx:EntityTypeShape EntityType="db.Attachment" Width="1.5" PointX="11.5" PointY="7.25" Height="2.7494921874999996" />
         <edmx:AssociationConnector Association="db.ArgPointAttachment">
           <edmx:ConnectorPoint PointX="10.625" PointY="5.9804996744791659" />
@@ -1425,6 +1421,7 @@
         <edmx:EntityTypeShape EntityType="db.CommentPersonReadEntry" Width="2.25" PointX="11.875" PointY="4.125" />
         <edmx:AssociationConnector Association="db.CommentCommentPersonReadEntry" />
         <edmx:AssociationConnector Association="db.PersonCommentPersonReadEntry" />
+        <edmx:AssociationConnector Association="db.CommentArgPoint" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

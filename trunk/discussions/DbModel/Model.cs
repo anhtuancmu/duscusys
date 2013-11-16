@@ -21,7 +21,6 @@ using System.Xml.Serialization;
 
 [assembly: EdmRelationshipAttribute("db", "TopicArgPoint", "Topic", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Topic), "ArgPoint", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.ArgPoint))]
 [assembly: EdmRelationshipAttribute("db", "DiscussionTopic", "Discussion", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Discussion), "Topic", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Topic))]
-[assembly: EdmRelationshipAttribute("db", "ArgPointComment", "ArgPoint", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.ArgPoint), "Comment", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Comment))]
 [assembly: EdmRelationshipAttribute("db", "ArgPointAttachment", "ArgPoint", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.ArgPoint), "Attachment", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Attachment))]
 [assembly: EdmRelationshipAttribute("db", "TopicPerson", "Topic", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Topic), "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Person))]
 [assembly: EdmRelationshipAttribute("db", "PersonArgPoint", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Person), "ArgPoint", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.ArgPoint))]
@@ -41,6 +40,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("db", "AttachmentMediaData", "Attachment", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Attachment), "MediaData", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.MediaData))]
 [assembly: EdmRelationshipAttribute("db", "CommentCommentPersonReadEntry", "Comment", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Comment), "CommentPersonReadEntry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.CommentPersonReadEntry))]
 [assembly: EdmRelationshipAttribute("db", "PersonCommentPersonReadEntry", "Person", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.Person), "CommentPersonReadEntry", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.CommentPersonReadEntry))]
+[assembly: EdmRelationshipAttribute("db", "CommentArgPoint", "Comment", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Discussions.DbModel.Comment), "ArgPoint", System.Data.Entity.Core.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Discussions.DbModel.ArgPoint), true)]
 
 #endregion
 
@@ -1036,28 +1036,6 @@ namespace Discussions.DbModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("db", "ArgPointComment", "Comment")]
-        public EntityCollection<Comment> Comment
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Comment>("db.ArgPointComment", "Comment");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Comment>("db.ArgPointComment", "Comment", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("db", "ArgPointAttachment", "Attachment")]
         public EntityCollection<Attachment> Attachment
         {
@@ -1146,6 +1124,28 @@ namespace Discussions.DbModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<RichText>("db.ArgPointRichText", "RichText", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("db", "CommentArgPoint", "Comment")]
+        public EntityCollection<Comment> Comment
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Comment>("db.CommentArgPoint", "Comment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Comment>("db.CommentArgPoint", "Comment", value);
                 }
             }
         }
@@ -1707,48 +1707,34 @@ namespace Discussions.DbModel
         private global::System.String _Text;
         partial void OnTextChanging(global::System.String value);
         partial void OnTextChanged();
-
-        #endregion
-
-        #region Navigation Properties
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("db", "ArgPointComment", "ArgPoint")]
-        public ArgPoint ArgPoint
+        public Nullable<global::System.Int32> ArgPoint_Id
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ArgPoint>("db.ArgPointComment", "ArgPoint").Value;
+                return _ArgPoint_Id;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ArgPoint>("db.ArgPointComment", "ArgPoint").Value = value;
+                OnArgPoint_IdChanging(value);
+                ReportPropertyChanging("ArgPoint_Id");
+                _ArgPoint_Id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ArgPoint_Id");
+                OnArgPoint_IdChanged();
             }
         }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<ArgPoint> ArgPointReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ArgPoint>("db.ArgPointComment", "ArgPoint");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ArgPoint>("db.ArgPointComment", "ArgPoint", value);
-                }
-            }
-        }
+        private Nullable<global::System.Int32> _ArgPoint_Id;
+        partial void OnArgPoint_IdChanging(Nullable<global::System.Int32> value);
+        partial void OnArgPoint_IdChanged();
+
+        #endregion
+
+        #region Navigation Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1806,6 +1792,44 @@ namespace Discussions.DbModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CommentPersonReadEntry>("db.CommentCommentPersonReadEntry", "CommentPersonReadEntry", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("db", "CommentArgPoint", "ArgPoint")]
+        public ArgPoint ArgPoint
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ArgPoint>("db.CommentArgPoint", "ArgPoint").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ArgPoint>("db.CommentArgPoint", "ArgPoint").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ArgPoint> ArgPointReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ArgPoint>("db.CommentArgPoint", "ArgPoint");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ArgPoint>("db.CommentArgPoint", "ArgPoint", value);
                 }
             }
         }

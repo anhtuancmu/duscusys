@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/10/2013 18:23:21
--- Generated from EDMX file: C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DbModel\Model.edmx
+-- Date Created: 11/16/2013 17:28:54
+-- Generated from EDMX file: C:\Users\insenle3\Documents\Visual Studio 2013\Projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -22,9 +22,6 @@ IF OBJECT_ID(N'[dbo].[FK_TopicArgPoint]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_DiscussionTopic]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Topic] DROP CONSTRAINT [FK_DiscussionTopic];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ArgPointComment]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Comment] DROP CONSTRAINT [FK_ArgPointComment];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ArgPointAttachment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Attachment] DROP CONSTRAINT [FK_ArgPointAttachment];
@@ -85,6 +82,9 @@ IF OBJECT_ID(N'[dbo].[FK_CommentCommentPersonReadEntry]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_PersonCommentPersonReadEntry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CommentPersonReadEntry] DROP CONSTRAINT [FK_PersonCommentPersonReadEntry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CommentArgPoint]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Comment] DROP CONSTRAINT [FK_CommentArgPoint];
 GO
 
 -- --------------------------------------------------
@@ -448,20 +448,6 @@ ON [dbo].[Topic]
     ([Discussion_Id]);
 GO
 
--- Creating foreign key on [ArgPoint_Id] in table 'Comment'
-ALTER TABLE [dbo].[Comment]
-ADD CONSTRAINT [FK_ArgPointComment]
-    FOREIGN KEY ([ArgPoint_Id])
-    REFERENCES [dbo].[ArgPoint]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ArgPointComment'
-CREATE INDEX [IX_FK_ArgPointComment]
-ON [dbo].[Comment]
-    ([ArgPoint_Id]);
-GO
-
 -- Creating foreign key on [ArgPoint_Id] in table 'Attachment'
 ALTER TABLE [dbo].[Attachment]
 ADD CONSTRAINT [FK_ArgPointAttachment]
@@ -735,6 +721,20 @@ ADD CONSTRAINT [FK_PersonCommentPersonReadEntry]
 CREATE INDEX [IX_FK_PersonCommentPersonReadEntry]
 ON [dbo].[CommentPersonReadEntry]
     ([Person_Id]);
+GO
+
+-- Creating foreign key on [ArgPoint_Id] in table 'Comment'
+ALTER TABLE [dbo].[Comment]
+ADD CONSTRAINT [FK_CommentArgPoint]
+    FOREIGN KEY ([ArgPoint_Id])
+    REFERENCES [dbo].[ArgPoint]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CommentArgPoint'
+CREATE INDEX [IX_FK_CommentArgPoint]
+ON [dbo].[Comment]
+    ([ArgPoint_Id]);
 GO
 
 -- --------------------------------------------------
