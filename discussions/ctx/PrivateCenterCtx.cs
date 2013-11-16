@@ -77,11 +77,11 @@ namespace Discussions.ctx
                             Get().AddToComment(comment);
                         }
                     }
+
+                    //if (conflictedArgPoint != null)
+                    //    DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                 }
             } while (saveFailed && ++nAttempts < 6);
-
-            if (conflictedArgPoint!=null)
-                DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
         }
 
         public static void DropContext()
