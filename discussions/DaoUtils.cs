@@ -331,11 +331,11 @@ namespace Discussions
                 var placeholderComment =
                     ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
                 needNewPlaceholder = (placeholderComment == null);
-                if (placeholderComment != null)
-                {
-                    placeholderComment.Person = null;
-                    placeholderComment.Text = DaoUtils.NEW_COMMENT; //in case of comment was whitespace  
-                }
+                //if (placeholderComment != null)
+                //{
+                //    placeholderComment.Person = null;
+                //    placeholderComment.Text = DaoUtils.NEW_COMMENT; //in case of comment was whitespace  
+                //}
             }
 
             if (needNewPlaceholder)

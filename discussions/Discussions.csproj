@@ -178,11 +178,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Service References\TdsSvcRef\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="view\SpeakerLogin.xaml.cs">
       <DependentUpon>SpeakerLogin.xaml</DependentUpon>
     </Compile>
@@ -821,34 +816,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SArgPoint.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SComment.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SCommentReadInfo.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SNewCommentsFrom.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SOrderInfo.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SOutAttachment.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Discussions.TdsSvcRef.SSource.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TdsSvcRef\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\TdsSvcRef\configuration.svcinfo" />
-    <None Include="Service References\TdsSvcRef\configuration91.svcinfo" />
-    <None Include="Service References\TdsSvcRef\TdsService.disco" />
     <Resource Include="Assets\trash.png" />
     <EmbeddedResource Include="pdf reader\PdfWinFrmControl.resx">
       <DependentUpon>PdfWinFrmControl.cs</DependentUpon>
@@ -877,19 +844,6 @@
     <Resource Include="Assets\discusys iconv3.ico" />
     <Content Include="Assets\meiryo.ttf" />
     <None Include="Reporter.pdf\ReportInit.csx" />
-    <None Include="Service References\TdsSvcRef\TdsService.wsdl" />
-    <None Include="Service References\TdsSvcRef\TdsService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TdsSvcRef\TdsService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TdsSvcRef\TdsService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TdsSvcRef\TdsService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="VectorEditor\streaming.dgml" />
   </ItemGroup>
   <ItemGroup>
@@ -1086,9 +1040,6 @@
     </Content>
     <Resource Include="Assets\notificationDot.png" />
     <Resource Include="Assets\enlarge2white.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\TdsSvcRef\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

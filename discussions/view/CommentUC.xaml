@@ -30,9 +30,11 @@
                 <Ellipse Name="notDot" Fill="#FFFDB903" Width="10" Height="10"                    
                     Visibility="Collapsed" VerticalAlignment="Center" Margin="0,0,5,0" />
                 <my:SurfaceTextBox LostFocus="txtBxText_LostFocus"
+                                   GotFocus="TxtBxText_OnGotFocus"
                                    KeyDown="txtBxText_KeyDown_1"
                                    TextChanged="txtBxText_TextChanged_1"
                                    TextWrapping="Wrap"
+                                   SelectsAllOnFocus="False"
                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
                                    x:Name="txtBxText" d:LayoutOverrides="Width"
                                    VerticalAlignment="Center" Margin="0" Width="600">

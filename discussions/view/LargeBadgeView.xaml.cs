@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
@@ -195,11 +196,33 @@ namespace Discussions.view
                 {
                     placeholder.Text = editedCommentText;
                     placeholder.Person = null;
+
+                    ////restore focus
+                    Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                        (Action) (() =>
+                        {
+                            FocusCommentTextBox(placeholder);
+                        })
+                        );
                 }
             }
 
             DataContext = ap2;
         }
+
+        void FocusCommentTextBox(Comment comment)
+        {
+            DependencyObject editedContainer =
+                        lstBxComments1.ItemContainerGenerator.ContainerFromItem(comment);
+            if (editedContainer != null)
+            {
+                var commentTextbox = Utils.FindChild<TextBox>(editedContainer);
+                if (commentTextbox != null)
+                    commentTextbox.Focus();
+            }
+        }
+
 
         private void BeginSrcNumberInjection()
         {
