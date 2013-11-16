@@ -61,7 +61,7 @@ namespace Discussions.view
                 loginRes.devType = DeviceType.Wpf;
                 loginRes.discussion = SessionInfo.Get().discussion;
                 loginRes.person = SessionInfo.Get().person;
-                sharedClient.start(loginRes, ConfigManager.ServiceServer, DeviceType.Wpf);
+                sharedClient.start(loginRes, PrivateCenterCtx.Get().Connection.DataSource, DeviceType.Wpf);
 
                 this.Hide();
 
@@ -133,7 +133,7 @@ namespace Discussions.view
             avatar.DataContext = login.person;
 
             //start rt client
-            sharedClient.start(login, ConfigManager.ServiceServer, DeviceType.Wpf);
+            sharedClient.start(login, PrivateCenterCtx.Get().Connection.DataSource, DeviceType.Wpf);
 
             SetListeners(sharedClient, true);
         }
