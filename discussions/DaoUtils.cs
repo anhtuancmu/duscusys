@@ -306,7 +306,7 @@ namespace Discussions
             var placeholderComment =
                    ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
             if (placeholderComment != null)
-                ap.Comment.Remove(placeholderComment);
+                placeholderComment.ArgPoint.Comment.Remove(placeholderComment);
         }
 
         public static bool IsPlaceholder(Comment c)

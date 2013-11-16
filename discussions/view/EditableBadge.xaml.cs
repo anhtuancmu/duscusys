@@ -162,6 +162,12 @@ namespace Discussions.view
             BeginSrcNumberInjection();
             BeginAttachmentNumberInjection();
 
+            if (ap != null)
+            {
+                UpdateLocalReadCounts(PrivateCenterCtx.Get(), ap);
+                UpdateRemoteReadCounts(PrivateCenterCtx.Get(), ap);
+                new CommentNotificationDeferral(Dispatcher, PrivateCenterCtx.Get(), lstBxComments);
+            }
 
             if (ap != null)
                 DaoUtils.RemoveDuplicateComments(ap);
@@ -174,12 +180,6 @@ namespace Discussions.view
                 DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint);
             }
 
-            if (ap != null)
-            {
-                UpdateLocalReadCounts(PrivateCenterCtx.Get(), ap);
-                UpdateRemoteReadCounts(PrivateCenterCtx.Get(), ap);
-                new CommentNotificationDeferral(Dispatcher, PrivateCenterCtx.Get(), lstBxComments);
-            }
 
             if (CommentDismissalRecognizer != null)
             {
