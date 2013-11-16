@@ -298,7 +298,7 @@ namespace Discussions
 
         private const string NewComment = NEW_COMMENT;
 
-        public static void RemovePlaceholders(ArgPoint ap)
+        static void RemovePlaceholders(ArgPoint ap)
         {
             if (ap == null)
                 return;
@@ -313,6 +313,8 @@ namespace Discussions
         {
             if (ap == null)
                 return null;
+
+            RemovePlaceholders(ap);
 
             bool needNewPlaceholder = false;
             if (ap.Comment.Count == 0)

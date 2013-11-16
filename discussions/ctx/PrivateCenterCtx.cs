@@ -70,7 +70,6 @@ namespace Discussions.ctx
                             Get().AddToComment(comment);
                         }
 
-                        DaoUtils.RemovePlaceholders(conflictedArgPoint);
                         DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                     }
                 }
