@@ -755,7 +755,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="None" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="Fixed" />
           <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointComment" FromRole="Comment" ToRole="ArgPoint" />
           <NavigationProperty Name="Person" Relationship="db.PersonComment" FromRole="Comment" ToRole="Person" />
@@ -1409,10 +1409,10 @@
         </edmx:AssociationConnector>
         <edmx:AssociationConnector Association="db.PersonAttachment1" ManuallyRouted="true">
           <edmx:ConnectorPoint PointX="7.7656275" PointY="7.105205078125" />
-          <edmx:ConnectorPoint PointX="7.7656275" PointY="10.473426979166668" />
-          <edmx:ConnectorPoint PointX="9.4166666666666661" PointY="10.473426979166668" />
-          <edmx:ConnectorPoint PointX="9.5833333333333339" PointY="10.473426979166668" />
-          <edmx:ConnectorPoint PointX="11.5" PointY="10.473426979166668" />
+          <edmx:ConnectorPoint PointX="7.7656275" PointY="10.497465908203127" />
+          <edmx:ConnectorPoint PointX="9.4166666666666661" PointY="10.497465908203127" />
+          <edmx:ConnectorPoint PointX="9.5833333333333339" PointY="10.497465908203127" />
+          <edmx:ConnectorPoint PointX="11.5" PointY="10.497465908203127" />
         </edmx:AssociationConnector>
         <edmx:EntityTypeShape EntityType="db.StatsEvent" Width="1.5" PointX="11.25" PointY="0.5" />
         <edmx:EntityTypeShape EntityType="db.Session" Width="1.875" PointX="3.75" PointY="0.5" />
