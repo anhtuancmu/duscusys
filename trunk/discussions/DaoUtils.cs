@@ -313,7 +313,7 @@ namespace Discussions
         {
             if (ap == null)
                 return null;
-
+            
             RemovePlaceholders(ap);
 
             bool needNewPlaceholder = false;
