@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows.Controls.Primitives;
 using Discussions.DbModel;
 using Discussions.rt;
 using Discussions.stats;
@@ -41,8 +37,6 @@ namespace Discussions.ctx
                 saveFailed = false;
                 try
                 {
-                    //needed for conflict tracking
-                    DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                     Get().SaveChanges();
                 }
                 catch (System.Data.Entity.Core.OptimisticConcurrencyException ex)        

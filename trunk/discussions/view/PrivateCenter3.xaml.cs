@@ -483,6 +483,10 @@ namespace Discussions.view
             List<ArgPoint> deleted = null;
             GetChangeLists(out created, out edited, out deleted);
 
+            Topic t;
+            ArgPoint editedPoint;
+            getPointAndTopic(out editedPoint, out t);
+
             //save changes 
             PrivateCenterCtx.SaveChangesIgnoreConflicts();
 

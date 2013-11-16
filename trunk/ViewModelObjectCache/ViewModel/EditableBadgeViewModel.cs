@@ -1,7 +1,7 @@
 ﻿namespace Discussions.ViewModel
 {
-    public class EditableBadgeViewModel : ArgPointViewModel
-    {
+    //public class EditableBadgeViewModel : ArgPointViewModel
+    //{
 
-    }
+    //}
 }
