@@ -78,6 +78,8 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.LaserPointerMovedRequest:
                 case DiscussionOpCode.ImageViewerManipulateRequest:
                 case DiscussionOpCode.ImageViewerStateRequest:
+                case DiscussionOpCode.BrowserScrollChanged:
+                case DiscussionOpCode.GetBrowserScrollPos:                  
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:

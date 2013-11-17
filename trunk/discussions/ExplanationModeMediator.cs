@@ -27,6 +27,10 @@ namespace Discussions
             public int attachId;
         }
 
+        public int? CurrentTopicId
+        {
+            get; set;
+        }
 
         public bool ExplanationModeEnabled
         {

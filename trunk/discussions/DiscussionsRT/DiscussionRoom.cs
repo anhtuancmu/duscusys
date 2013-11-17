@@ -161,6 +161,14 @@ namespace Discussions.RTModel
                     var sr = ImageViewerStateRequest.Read(operationRequest.Parameters);
                     VectEditor(sr.TopicId).HandleImageViewerStateRequest(peer, sr, operationRequest, sendParameters);
                     break;
+                case (byte)DiscussionOpCode.BrowserScrollChanged:
+                    var browserScroll = BrowserScrollPosition.Read(operationRequest.Parameters);
+                    VectEditor(browserScroll.topicId).HandleBrowserScrollSubmitted(peer, browserScroll, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.GetBrowserScrollPos:
+                    var browserScrollReq = BrowserScrollPositionRequest.Read(operationRequest.Parameters);
+                    VectEditor(browserScrollReq.topicId).HandleBrowserScrollRequested(peer, operationRequest, sendParameters);                    
+                    break;
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
                     break;

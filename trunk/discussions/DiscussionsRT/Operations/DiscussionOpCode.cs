@@ -109,6 +109,12 @@
         /// </summary>
         ImageViewerManipulateRequest = 43,
 
-        ImageViewerStateRequest = 44
+        ImageViewerStateRequest = 44,
+
+
+        //browser scroll bar sync.
+        BrowserScrollChanged = 45,
+
+        GetBrowserScrollPos = 46, 
     }
 }

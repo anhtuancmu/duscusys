@@ -200,7 +200,8 @@ namespace Discussions.view
         void hyperLink_Click(object sender, RoutedEventArgs e)
         {
             var link = (Hyperlink) sender;
-            var browser = new WebKitFrm(link.NavigateUri.ToString());
+            var c = DataContext as Comment;
+            var browser = new WebKitFrm(link.NavigateUri.ToString(), c!=null? c.ArgPoint.Topic.Id : (int?)null);
             browser.ShowDialog();
         }
 

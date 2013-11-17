@@ -772,7 +772,11 @@ namespace Discussions.view
 
         private void onWebViewerRequest(string Uri)
         {
-            var browser = new WebKitFrm(Uri);
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
+                return;
+
+            var browser = new WebKitFrm(Uri, ap.Topic.Id);
             browser.ShowDialog();
         }
 
@@ -974,7 +978,8 @@ namespace Discussions.view
 
         private void btnGoogle_Click_1(object sender, RoutedEventArgs e)
         {
-            var browser = new WebKitFrm("http://google.com");
+            var ap = DataContext as ArgPoint;
+            var browser = new WebKitFrm("http://google.com", ap.Topic.Id);
             browser.Show();
         }
 

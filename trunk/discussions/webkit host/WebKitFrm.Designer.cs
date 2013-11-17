@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebKitFrm));
             this.webKitBrowser1 = new WebKit.WebKitBrowser();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // webKitBrowser1
@@ -45,6 +46,7 @@
             this.webKitBrowser1.TabIndex = 0;
             this.webKitBrowser1.Url = null;
             this.webKitBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webKitBrowser1_Navigated);
+            this.webKitBrowser1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.webKitBrowser1_Scroll);
             // 
             // elementHost1
             // 
@@ -57,11 +59,22 @@
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(665, 90);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // WebKitFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 436);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.webKitBrowser1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -80,5 +93,6 @@
 
         private WebKit.WebKitBrowser webKitBrowser1;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private System.Windows.Forms.Button button1;
     }
 }
