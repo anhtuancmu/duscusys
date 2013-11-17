@@ -65,7 +65,9 @@ namespace Discussions.webkit_host
                 _mediator.CurrentTopicId == scroll.topicId &&
                 _mediator.ExplanationModeEnabled)
             {
-                ScrollBrowserTo(new Point(scroll.X, scroll.Y));
+                var newScrollState = new Point(scroll.X, scroll.Y);
+                if(newScrollState != _lastSentScrollState)
+                    ScrollBrowserTo(newScrollState);
             }
         }
 
@@ -75,10 +77,7 @@ namespace Discussions.webkit_host
                 return; //already closed 
 
             try
-            {
-                _inst._scrollStateChecker.Stop();
-                _inst._scrollStateChecker.Tick -= _inst._scrollStateChecker_Tick;                
-                UISharedRTClient.Instance.clienRt.onBrowserScroll -= _inst.OnBrowserScroll;
+            { 
                 _inst.Close();
             }
             catch 
@@ -100,6 +99,10 @@ namespace Discussions.webkit_host
 
         private void WebKitFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _scrollStateChecker.Stop();
+            _scrollStateChecker.Tick -= _scrollStateChecker_Tick;
+            _scrollStateChecker = null;
+            UISharedRTClient.Instance.clienRt.onBrowserScroll -= OnBrowserScroll;
             _inst = null;
         }
 
@@ -131,27 +134,31 @@ namespace Discussions.webkit_host
         }
 
 
-        private Point _prevScrollState;
+        private Point _prevLocalScrollState;
+        private Point _lastSentScrollState;
         void _scrollStateChecker_Tick(object sender, EventArgs e)
         {
-            if (webKitBrowser1.ScrollOffset != _prevScrollState)
+            if (webKitBrowser1.ScrollOffset != _prevLocalScrollState)
             {
                 if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
                 {
                     var pers = SessionInfo.Get().person;
                     if (pers != null)
+                    {
+                        _lastSentScrollState = webKitBrowser1.ScrollOffset;
                         UISharedRTClient.Instance.clienRt.SendBrowserScrolled(
                             new BrowserScrollPosition
                             {
                                 ownerId = pers.Id,
-                                topicId = (int)_mediator.CurrentTopicId,
-                                X = webKitBrowser1.ScrollOffset.X,
-                                Y = webKitBrowser1.ScrollOffset.Y
+                                topicId = (int) _mediator.CurrentTopicId,
+                                X = _lastSentScrollState.X,
+                                Y = _lastSentScrollState.Y
                             });
+                    }
                 }
             }
 
-            _prevScrollState = webKitBrowser1.ScrollOffset;
+            _prevLocalScrollState = webKitBrowser1.ScrollOffset;
         }
 
         private void webKitBrowser1_Scroll(object sender, ScrollEventArgs e)
