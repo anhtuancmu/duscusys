@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 
@@ -18,6 +19,8 @@ namespace Discussions.webkit_host
         public static UserRequestedClosing userRequestedClosing = null;
 
         private readonly ExplanationModeMediator _mediator;
+
+        private DispatcherTimer _scrollStateChecker;
 
         public WebKitFrm(string url, int? topicId)
         {
@@ -50,6 +53,10 @@ namespace Discussions.webkit_host
                     new BrowserScrollPositionRequest { topicId = (int)_mediator.CurrentTopicId }
                 );
             }
+
+            _scrollStateChecker = new DispatcherTimer(DispatcherPriority.Background) {Interval = new TimeSpan(200)};
+            _scrollStateChecker.Tick += _scrollStateChecker_Tick;
+            _scrollStateChecker.Start();
         }
 
         private void OnBrowserScroll(BrowserScrollPosition scroll)
@@ -69,6 +76,8 @@ namespace Discussions.webkit_host
 
             try
             {
+                _inst._scrollStateChecker.Stop();
+                _inst._scrollStateChecker.Tick -= _inst._scrollStateChecker_Tick;                
                 UISharedRTClient.Instance.clienRt.onBrowserScroll -= _inst.OnBrowserScroll;
                 _inst.Close();
             }
@@ -121,21 +130,33 @@ namespace Discussions.webkit_host
             ScrollBrowserTo(pt);
         }
 
+
+        private Point _prevScrollState;
+        void _scrollStateChecker_Tick(object sender, EventArgs e)
+        {
+            if (webKitBrowser1.ScrollOffset != _prevScrollState)
+            {
+                if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
+                {
+                    var pers = SessionInfo.Get().person;
+                    if (pers != null)
+                        UISharedRTClient.Instance.clienRt.SendBrowserScrolled(
+                            new BrowserScrollPosition
+                            {
+                                ownerId = pers.Id,
+                                topicId = (int)_mediator.CurrentTopicId,
+                                X = webKitBrowser1.ScrollOffset.X,
+                                Y = webKitBrowser1.ScrollOffset.Y
+                            });
+                }
+            }
+
+            _prevScrollState = webKitBrowser1.ScrollOffset;
+        }
+
         private void webKitBrowser1_Scroll(object sender, ScrollEventArgs e)
         {
-            if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
-            {                
-                var pers = SessionInfo.Get().person;
-                if(pers != null)
-                    UISharedRTClient.Instance.clienRt.SendBrowserScrolled(
-                        new BrowserScrollPosition
-                        {
-                            ownerId = pers.Id,
-                            topicId = (int)_mediator.CurrentTopicId,
-                            X = webKitBrowser1.ScrollOffset.X,
-                            Y = webKitBrowser1.ScrollOffset.Y
-                        });
-            }
+            //never called 
         }
     }
 }

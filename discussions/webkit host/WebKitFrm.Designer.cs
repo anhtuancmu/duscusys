@@ -45,7 +45,7 @@
             this.webKitBrowser1.Size = new System.Drawing.Size(752, 317);
             this.webKitBrowser1.TabIndex = 0;
             this.webKitBrowser1.Url = null;
-            this.webKitBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webKitBrowser1_Navigated);
+            this.webKitBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webKitBrowser1_Navigated);            
             this.webKitBrowser1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.webKitBrowser1_Scroll);
             // 
             // elementHost1
