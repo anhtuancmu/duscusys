@@ -39,9 +39,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.webKitBrowser1.BackColor = System.Drawing.Color.White;
-            this.webKitBrowser1.Location = new System.Drawing.Point(0, 119);
+            this.webKitBrowser1.Location = new System.Drawing.Point(0, 115);
+            this.webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
             this.webKitBrowser1.Name = "webKitBrowser1";
-            this.webKitBrowser1.Size = new System.Drawing.Size(752, 317);
+            this.webKitBrowser1.Size = new System.Drawing.Size(752, 322);
             this.webKitBrowser1.TabIndex = 0;
             this.webKitBrowser1.Url = null;
             this.webKitBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webKitBrowser1_Navigated);
@@ -53,7 +54,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.elementHost1.Location = new System.Drawing.Point(0, 0);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(752, 113);
+            this.elementHost1.Size = new System.Drawing.Size(752, 108);
             this.elementHost1.TabIndex = 1;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;

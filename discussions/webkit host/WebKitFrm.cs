@@ -66,8 +66,11 @@ namespace Discussions.webkit_host
                 _mediator.ExplanationModeEnabled)
             {
                 var newScrollState = new Point(scroll.X, scroll.Y);
-                if(newScrollState != _lastSentScrollState)
+                if (newScrollState != _lastSentScrollState)
+                {
                     ScrollBrowserTo(newScrollState);
+                    _skipNextScrollPosChange = true;
+                }
             }
         }
 
@@ -136,9 +139,10 @@ namespace Discussions.webkit_host
 
         private Point _prevLocalScrollState;
         private Point _lastSentScrollState;
+        private bool _skipNextScrollPosChange;
         void _scrollStateChecker_Tick(object sender, EventArgs e)
         {
-            if (webKitBrowser1.ScrollOffset != _prevLocalScrollState)
+            if (webKitBrowser1.ScrollOffset != _prevLocalScrollState && !_skipNextScrollPosChange)
             {
                 if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
                 {
@@ -158,6 +162,7 @@ namespace Discussions.webkit_host
                 }
             }
 
+            _skipNextScrollPosChange = false;
             _prevLocalScrollState = webKitBrowser1.ScrollOffset;
         }
 
