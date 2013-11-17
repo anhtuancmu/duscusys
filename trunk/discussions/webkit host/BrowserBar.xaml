@@ -28,16 +28,24 @@
 
             <s:SurfaceTextBox Name="addressBar" FontSize="24" VerticalAlignment="Center" KeyDown="addressBar_KeyDown_1" />
         </DockPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
 
-        <s:SurfaceButton x:Name="btnClose"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Top"
-                         Click="btnClose_Click_1"
-                         Content="X"
-                         FontSize="48"
-                         MinWidth="137" MinHeight="107" BorderThickness="0"
-                         HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         Background="#66000000" Grid.Column="1" Margin="0,1,1,0" />
+            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
+        		IsChecked="{Binding ExplanationModeEnabled}"
+        		RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0">
+                <Border Background="{StaticResource explanation}" Width="70" Height="70" />
+            </s:SurfaceToggleButton>
+
+            <s:SurfaceButton x:Name="btnClose"
+        		HorizontalAlignment="Right"
+        		VerticalAlignment="Top"
+        		Click="btnClose_Click_1"
+        		Content="X"
+        		FontSize="48"
+        		MinWidth="137" MinHeight="107" BorderThickness="0"
+        		HorizontalContentAlignment="Center"
+        		VerticalContentAlignment="Center"
+        		Background="#66000000" Margin="0,0,1,0" />
+        </StackPanel>
     </Grid>
 </UserControl>
