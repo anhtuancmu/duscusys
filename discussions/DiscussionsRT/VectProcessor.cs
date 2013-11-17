@@ -707,6 +707,33 @@ namespace Discussions.RTModel
                                            sendParameters, 
                                            (byte)DiscussionEventCode.ImageViewerManipulatedEvent);                       
         }
+
+        public void HandleBrowserScrollSubmitted(LitePeer peer,
+                                               BrowserScrollPosition req,
+                                               OperationRequest operationRequest,
+                                               SendParameters sendParameters)
+        {            
+            _doc.BrowserScrollbarPosition = req;
+            _room.Broadcast(peer,
+                            req.ToDict(),
+                            sendParameters,
+                            (byte)DiscussionEventCode.BrowserScrollChangedEvent);
+        }
+
+        public void HandleBrowserScrollRequested(LitePeer peer,
+                                                 OperationRequest operationRequest,
+                                                 SendParameters sendParameters)
+        {            
+            if (_doc.BrowserScrollbarPosition != null)
+            {
+                _room.PublishEventToSingle(peer,
+                        _doc.BrowserScrollbarPosition.ToDict(),
+                        sendParameters,
+                        (byte)DiscussionEventCode.BrowserScrollChangedEvent);
+            }
+        }
+
+
         #region reporting
 
         public void HandleDEditorStatsRequest(LitePeer peer,

@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Discussions.DbModel;
 using Discussions.model;
-using Discussions.rt;
 using Discussions.view;
 using Discussions.webkit_host;
 
@@ -84,7 +73,9 @@ namespace Discussions.YouViewer
 
             RaiseEvent(new RoutedEventArgs(SourceUC.SourceViewEvent));
 
-            var browser = new WebKitFrm(e.Info.EmbedUrl);
+            var attachment = DataContext as Attachment;
+            var browser = new WebKitFrm(e.Info.EmbedUrl, 
+                                        attachment!=null ? attachment.ArgPoint.Topic.Id : (int?)null);
             browser.ShowDialog();
         }
 

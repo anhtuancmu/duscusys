@@ -77,12 +77,14 @@
     <Compile Include="EventLogger.cs" />
     <Compile Include="IServerVdShape.cs" />
     <Compile Include="Model\ActProps.cs" />
+    <Compile Include="Model\BrowserScrollPositionRequest.cs" />
     <Compile Include="Model\ClusterBadgeMessage.cs" />
     <Compile Include="Model\ClusterCreateMessage.cs" />
     <Compile Include="Model\ClusterStatsRequest.cs" />
     <Compile Include="Model\ClusterStatsResponse.cs" />
     <Compile Include="Model\BadgeViewMessage.cs" />
     <Compile Include="Model\CommentsReadEvent.cs" />
+    <Compile Include="Model\BrowserScrollPosition.cs" />
     <Compile Include="Model\ImageViewerStateRequest.cs" />
     <Compile Include="Model\ImageViewerMatrix.cs" />
     <Compile Include="Model\LaserPointer.cs" />

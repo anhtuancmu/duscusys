@@ -77,6 +77,8 @@
         LaserPointerMovedEvent = 31,
 
         //image viewer, explanation mode
-        ImageViewerManipulatedEvent = 32
+        ImageViewerManipulatedEvent = 32,
+        
+        BrowserScrollChangedEvent = 33,
     }
 }

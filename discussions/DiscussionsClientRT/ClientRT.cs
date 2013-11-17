@@ -70,6 +70,11 @@ namespace DiscussionsClientRT
         public ImageViewerManipulatedEvent onImageViewerManipulated;
 
 
+        public delegate void BrowserScrollEvent(BrowserScrollPosition scroll);
+
+        public BrowserScrollEvent onBrowserScroll;
+
+
         #region vector editor
 
         public delegate void OnLinkCreateEvent(LinkCreateMessage ev);
@@ -393,6 +398,10 @@ namespace DiscussionsClientRT
                 case (byte)DiscussionEventCode.ImageViewerManipulatedEvent:
                     if (onImageViewerManipulated != null)
                         onImageViewerManipulated(ImageViewerMatrix.Read(eventData.Parameters));
+                    break;
+                case (byte)DiscussionEventCode.BrowserScrollChangedEvent:
+                    if (onBrowserScroll != null)
+                        onBrowserScroll(BrowserScrollPosition.Read(eventData.Parameters));
                     break;
                 default:
                     Console.WriteLine("Unhandled event " + eventData.Code);
@@ -896,6 +905,26 @@ namespace DiscussionsClientRT
                 return;
 
             peer.OpCustom((byte)DiscussionOpCode.ImageViewerStateRequest,
+                          req.ToDict(),
+                          true);
+        }
+
+        public void SendBrowserScrolled(BrowserScrollPosition req)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.BrowserScrollChanged,
+                          req.ToDict(),
+                          true);
+        }
+
+        public void SendBrowserScrollGetPos(BrowserScrollPositionRequest req)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            peer.OpCustom((byte)DiscussionOpCode.GetBrowserScrollPos,
                           req.ToDict(),
                           true);
         }

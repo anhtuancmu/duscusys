@@ -86,6 +86,6 @@
         M22Key = 68,
         OffsetXKey = 69,
         OffsetYKey = 70,
-        AttachmentId = 71
+        AttachmentId = 71,
     }
 }
