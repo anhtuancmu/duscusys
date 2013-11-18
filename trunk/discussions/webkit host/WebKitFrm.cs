@@ -66,7 +66,7 @@ namespace Discussions.webkit_host
                 _mediator.ExplanationModeEnabled)
             {
                 var newScrollState = new Point(scroll.X, scroll.Y);
-                if (newScrollState != _lastSentScrollState)
+                //if (newScrollState != _lastSentScrollState)
                 {
                     ScrollBrowserTo(newScrollState);
                     _skipNextScrollPosChange = true;
@@ -138,10 +138,14 @@ namespace Discussions.webkit_host
 
 
         private Point _prevLocalScrollState;
-        private Point _lastSentScrollState;
+        //private Point _lastSentScrollState;
         private bool _skipNextScrollPosChange;
         void _scrollStateChecker_Tick(object sender, EventArgs e)
         {
+            //randomize _lastSentScrollState in case we don't send anything.
+            //Otherwise locations like Point(0,0) are ignored when received
+            //_lastSentScrollState = new Point(235,742);
+
             if (webKitBrowser1.ScrollOffset != _prevLocalScrollState && !_skipNextScrollPosChange)
             {
                 if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
@@ -149,7 +153,7 @@ namespace Discussions.webkit_host
                     var pers = SessionInfo.Get().person;
                     if (pers != null)
                     {
-                        _lastSentScrollState = webKitBrowser1.ScrollOffset;
+                        var _lastSentScrollState = webKitBrowser1.ScrollOffset;
                         UISharedRTClient.Instance.clienRt.SendBrowserScrolled(
                             new BrowserScrollPosition
                             {
