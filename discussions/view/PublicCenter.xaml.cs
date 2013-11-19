@@ -696,8 +696,14 @@ namespace Discussions.view
             DbCtx.DropContext();//it can become stale while modal view was closed.
             _lbv.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
             _lbv.SetRt(UISharedRTClient.Instance);
-            mainGrid.Children.Add(_lbv);
+
+            int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
+            
+            //mainGrid.Children.Add(_lbv);
+            mainGrid.Children.Insert(indexOfLaserScene, _lbv);
+
             Grid.SetRowSpan(_lbv, 2);
+
             _lbv.HorizontalAlignment = HorizontalAlignment.Center;
             _lbv.VerticalAlignment = VerticalAlignment.Center;
         }
