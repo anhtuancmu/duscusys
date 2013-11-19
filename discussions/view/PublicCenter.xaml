@@ -492,9 +492,8 @@
                 <Setter Property="MinWidth" Value="80" />
             </Style>
         </Grid.Resources>
-        <!--Background="#FFC9C9C9"-->
-        <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#5E3BA3FF"
-                />
+       
+        <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#FFC9C9C9"/>
         <dedit:DistributedInkCanvas x:Name="inkCanv" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5"
                                     Background="{x:Null}">
             <dedit:DistributedInkCanvas.DefaultDrawingAttributes>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 using Microsoft.Surface.Presentation.Controls;
 
 namespace AbstractionLayer
@@ -39,5 +40,10 @@ namespace AbstractionLayer
                 Title = _title2;
             }
         }
+
+        public PortableWindow()
+        {
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
+        }   
     }
 }
