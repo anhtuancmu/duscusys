@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using AbstractionLayer;
-using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using System.Windows.Input.Manipulations;
 
@@ -26,7 +25,6 @@ namespace DistributedEditor
         private readonly Canvas _canv;
         private readonly DistributedInkCanvas _inkCanv;
         private readonly Palette _palette;
-        private InkPalette _inkPalette;
 
 
         private readonly PortableWindow _keyboardWnd;
@@ -57,7 +55,6 @@ namespace DistributedEditor
             _canv = canv;
             _inkCanv = inkCanv;
             _palette = palette;
-            _inkPalette = inkPalette;
             _keyboardWnd = keyboardWnd;
 
             _zoomManipProc = new ManipulationProcessor2D(Manipulations2D.All);
@@ -166,13 +163,13 @@ namespace DistributedEditor
                 _canv.TouchMove += drawingCanv_TouchMove;
                 _canv.TouchUp += drawingCanv_TouchUp;
 
-                _keyboardWnd.TouchDown += drawingWnd_TouchDown;
-                _keyboardWnd.TouchMove += drawingWnd_TouchMove;
-                _keyboardWnd.TouchUp += drawingWnd_TouchUp;
-
                 _canv.MouseDown += drawingCanv_MouseLeftButtonDown;
                 _canv.MouseMove += drawingCanv_MouseMove;
                 _canv.MouseUp += drawingCanv_MouseUp;
+
+                _keyboardWnd.TouchDown += drawingWnd_TouchDown;
+                _keyboardWnd.TouchMove += drawingWnd_TouchMove;
+                _keyboardWnd.TouchUp += drawingWnd_TouchUp;
 
                 _canv.MouseWheel += drawingCanv_Wheel;
             }
@@ -186,13 +183,13 @@ namespace DistributedEditor
                 _canv.MouseMove -= drawingCanv_MouseMove;
                 _canv.MouseUp -= drawingCanv_MouseUp;
 
-                _keyboardWnd.TouchDown -= drawingWnd_TouchDown;
-                _keyboardWnd.TouchMove -= drawingWnd_TouchMove;
-                _keyboardWnd.TouchUp -= drawingWnd_TouchUp;
-
                 _canv.TouchDown -= drawingCanv_TouchDown;
                 _canv.TouchMove -= drawingCanv_TouchMove;
                 _canv.TouchUp -= drawingCanv_TouchUp;
+                 
+                _keyboardWnd.TouchDown -= drawingWnd_TouchDown;
+                _keyboardWnd.TouchMove -= drawingWnd_TouchMove;
+                _keyboardWnd.TouchUp   -= drawingWnd_TouchUp;
 
                 _canv.MouseWheel -= drawingCanv_Wheel;
             }
@@ -200,7 +197,7 @@ namespace DistributedEditor
 
         //now only used for public board. we are in free form drawing, and switching to read-only mode
 
-        private Delegate delCanv_DeleteText = null;
+        private Delegate delCanv_DeleteText;
 
         private void canv_DeleteText(object sender, RoutedEventArgs e)
         {
@@ -261,26 +258,28 @@ namespace DistributedEditor
 
         private void drawingCanv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (sceneProcessedAction)
+            if (_sceneProcessedAction)
                 return;
 
             mgr.InpDeviceDown(Mouse.GetPosition(_canv), NULL_TOUCH_DEVICE);
         }
-
         private void drawingCanv_MouseMove(object sender, MouseEventArgs e)
         {
-            if (sceneProcessedAction)
+            if (_sceneProcessedAction)
                 return;
-            mgr.InpDeviceMove(Mouse.GetPosition(_canv));
+
+            if(Mouse.LeftButton == MouseButtonState.Pressed)
+                mgr.InpDeviceMove(Mouse.GetPosition(_canv));
         }
 
         private void drawingCanv_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (sceneProcessedAction)
+            if (_sceneProcessedAction)
                 return;
             mgr.InpDeviceUp(Mouse.GetPosition(_canv));
             Keyboard.Focus(_keyboardWnd);
         }
+
 
         private void ToolSelected(VdShapeType shape, int shapeTag, int owner)
         {
@@ -291,26 +290,25 @@ namespace DistributedEditor
 
         #region touch   
 
-        private bool sceneProcessedAction;
+        private bool _sceneProcessedAction;
 
         private void drawingWnd_TouchDown(object sender, TouchEventArgs e)
         {
             TryAddManipulator(e.TouchDevice);
             _zoomManipProc.ProcessManipulators(this.Timestamp, _manipulators.Values);
         }
-
         private void drawingCanv_TouchDown(object sender, TouchEventArgs e)
         {
             if (mgr.InpDeviceDown(e.TouchDevice.GetPosition(_canv), e.TouchDevice))
             {
-                sceneProcessedAction = true;
+                _sceneProcessedAction = true;
             }
         }
 
         private void drawingWnd_TouchMove(object sender, TouchEventArgs e)
         {
             //any touch events from ink canvas are ignored, as they are drawing events, InkCanvasSelectionAdorner, MS Internal
-            if (!sceneProcessedAction && !(e.OriginalSource is Adorner))
+            if (!_sceneProcessedAction && !(e.OriginalSource is Adorner))
             {
                 //force update by remove/add
                 TryRemoveManipulator(e.TouchDevice);
@@ -318,7 +316,6 @@ namespace DistributedEditor
                 _zoomManipProc.ProcessManipulators(this.Timestamp, _manipulators.Values);
             }
         }
-
         private void drawingCanv_TouchMove(object sender, TouchEventArgs e)
         {
             mgr.InpDeviceMove(e.TouchDevice.GetPosition(_canv));
@@ -326,7 +323,6 @@ namespace DistributedEditor
 
         private void drawingWnd_TouchUp(object sender, TouchEventArgs e)
         {
-            //TryRemoveManipulator(e.TouchDevice);
             _manipulators.Clear();
             _zoomManipProc.ProcessManipulators(this.Timestamp, _manipulators.Values);
         }
@@ -335,7 +331,7 @@ namespace DistributedEditor
         {
             mgr.InpDeviceUp(e.TouchDevice.GetPosition(_canv));
             Keyboard.Focus(_keyboardWnd);
-            sceneProcessedAction = false;
+            _sceneProcessedAction = false;
         }
 
         public void CopySelected()

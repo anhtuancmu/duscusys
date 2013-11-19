@@ -15,6 +15,8 @@
     Closing="Window_Closing"
     KeyDown="Window_KeyDown"   
     WindowStyle="SingleBorderWindow"
+    Stylus.IsPressAndHoldEnabled="false" 
+    Stylus.IsFlicksEnabled="false" 
     Topmost="False"
     Title2="Public discussion dashboard"
     ClipToBounds="False"
@@ -490,8 +492,9 @@
                 <Setter Property="MinWidth" Value="80" />
             </Style>
         </Grid.Resources>
-
-        <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#FFC9C9C9" />
+        <!--Background="#FFC9C9C9"-->
+        <Canvas x:Name="scene" RenderTransformOrigin="0.5 0.5" Background="#5E3BA3FF"
+                />
         <dedit:DistributedInkCanvas x:Name="inkCanv" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5"
                                     Background="{x:Null}">
             <dedit:DistributedInkCanvas.DefaultDrawingAttributes>

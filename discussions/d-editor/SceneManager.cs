@@ -489,9 +489,6 @@ namespace DistributedEditor
 
         public void InpDeviceMove(Point pos)
         {
-            if (Mouse.LeftButton != MouseButtonState.Pressed)
-                return;
-
             if (_modeMgr.Mode == ShapeInputMode.Manipulating && _doc.VolatileCtx.LocalCursor != null)
                 BeginApplyPoint(_doc.VolatileCtx.LocalCursor, pos.X, pos.Y);
         }

@@ -33,9 +33,9 @@ EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe", "{47F6D757-C129-4D75-8A7E-8384952580D6}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Users\insenle3\Documents\Visual Studio 2013\Projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe
+		Executable = C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe
 		RemoteMachine = CYBERARENA-PC
-		StartingDirectory = C:\Users\insenle3\Documents\Visual Studio 2013\Projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\
+		StartingDirectory = C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64
 		Arguments = /debug Instance1
 		Environment = Default
 		LaunchingEngine = fb0d4648-f776-4980-95f8-bb7f36ebc1ee
@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelObjectCache", "..\
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badass", "..\Badass\Badass.csproj", "{F99E3EB0-C9F9-4668-953C-8416EBCCFE7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer.Input", "..\AbstractionLayer.Input\AbstractionLayer.Input.csproj", "{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -298,6 +300,18 @@ Global
 		{F99E3EB0-C9F9-4668-953C-8416EBCCFE7A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F99E3EB0-C9F9-4668-953C-8416EBCCFE7A}.Release|x64.ActiveCfg = Release|Any CPU
 		{F99E3EB0-C9F9-4668-953C-8416EBCCFE7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
