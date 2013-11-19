@@ -113,7 +113,8 @@ namespace Discussions
         private void badgeDoubleTap(object sender, InputEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
-            e.Handled = true;
+            if(e!=null)
+                e.Handled = true;
             //var ap = DataContext as ArgPoint;
             //var id = ap.Id;
             //var zoomedAp = DbCtx.Get().ArgPoint.FirstOrDefault(ap0 => ap0.Id == id);

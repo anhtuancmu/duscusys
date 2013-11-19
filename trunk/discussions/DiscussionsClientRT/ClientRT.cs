@@ -466,7 +466,7 @@ namespace DiscussionsClientRT
                         onScreenshotResponse(ScreenshotResponse.Read(operationResponse.Parameters).screenshots);
                     break;
                 default:
-                    Console.WriteLine("Unhandled OnOperationResponse " + operationResponse.OperationCode);
+                    //Console.WriteLine("Unhandled OnOperationResponse " + operationResponse.OperationCode);
                     break;
             }
         }
