@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Discussions.webkit_host
@@ -8,7 +7,7 @@ namespace Discussions.webkit_host
     public partial class BrowserBar : System.Windows.Controls.UserControl
     {
         public WebKit.WebKitBrowser Browser { get; set; }
-        public Form WinForm { get; set; }
+        public Window Window { get; set; }
 
 
         public BrowserBar()
@@ -45,7 +44,7 @@ namespace Discussions.webkit_host
 
         private void btnClose_Click_1(object sender, RoutedEventArgs e)
         {
-            WinForm.Close();
+            Window.Close();
         }
 
         private void addressBar_KeyDown_1(object sender, System.Windows.Input.KeyEventArgs e)

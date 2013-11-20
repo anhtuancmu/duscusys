@@ -101,6 +101,7 @@ namespace Discussions.view
             topicNavPanel.topicAnimate += TopicAnimate;
 
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
+            btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
 
             localAccount.DataContext = SessionInfo.Get().person;
 
@@ -345,7 +346,7 @@ namespace Discussions.view
             {
                 clienRt.onBadgeViewRequest += __badgeViewEvent;
                 clienRt.onSourceViewRequest += __sourceView;
-                WebKitFrm.userRequestedClosing += onLocalSourceViewerClosed;
+                WebkitBrowserWindow.userRequestedClosing += onLocalSourceViewerClosed;
                 ExplanationModeMediator.Inst.CloseReq += onImgViewerClosed;
                 ExplanationModeMediator.Inst.OpenReq += onImgViewerOpened;
             }
@@ -353,7 +354,7 @@ namespace Discussions.view
             {
                 clienRt.onBadgeViewRequest -= __badgeViewEvent;
                 clienRt.onSourceViewRequest -= __sourceView;
-                WebKitFrm.userRequestedClosing -= onLocalSourceViewerClosed;
+                WebkitBrowserWindow.userRequestedClosing -= onLocalSourceViewerClosed;
                 ExplanationModeMediator.Inst.CloseReq -= onImgViewerClosed;
                 ExplanationModeMediator.Inst.OpenReq -= onImgViewerOpened;
             }
@@ -629,7 +630,7 @@ namespace Discussions.view
 
         private bool IsExplanationModeEnabled()
         {
-            return btnExplanationMode.IsChecked.HasValue && btnExplanationMode.IsChecked.Value;
+            return ExplanationModeMediator.Inst.ExplanationModeEnabled;           
         }
 
         private bool IsEditingCommentInLargeBadgeView()
@@ -697,10 +698,9 @@ namespace Discussions.view
             _lbv.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
             _lbv.SetRt(UISharedRTClient.Instance);
 
-            int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
-            
-            //mainGrid.Children.Add(_lbv);
-            mainGrid.Children.Insert(indexOfLaserScene, _lbv);
+            mainGrid.Children.Add(_lbv);
+            //int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
+            //mainGrid.Children.Insert(indexOfLaserScene, _lbv);
 
             Grid.SetRowSpan(_lbv, 2);
 
@@ -759,7 +759,7 @@ namespace Discussions.view
         //message from remote client
         private void __sourceView(ExplanationModeSyncMsg sm)
         {
-            if (!btnExplanationMode.IsChecked.HasValue || !btnExplanationMode.IsChecked.Value)
+            if (!ExplanationModeMediator.Inst.ExplanationModeEnabled)
                 return;
 
             if (sm.doExpand)
@@ -768,13 +768,13 @@ namespace Discussions.view
                 {
                     case SyncMsgType.SourceView:
                         var src = PublicBoardCtx.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
-                        var browser = new WebKitFrm(src.Text, CurrentTopic!=null ? CurrentTopic.Id : (int?)null);
+                        var browser = new WebkitBrowserWindow(src.Text, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
                         browser.Show();
                         break;
                     case SyncMsgType.YoutubeView:
                         var attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         var embedUrl = AttachmentToVideoConvertor.AttachToYtInfo(attach).EmbedUrl;
-                        browser = new WebKitFrm(embedUrl, CurrentTopic!=null ? CurrentTopic.Id : (int?)null);
+                        browser = new WebkitBrowserWindow(embedUrl, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
                         browser.Show();
                         break;
                     case SyncMsgType.ImageView:
@@ -791,13 +791,13 @@ namespace Discussions.view
                 switch (sm.syncMsgType)
                 {
                     case SyncMsgType.SourceView:
-                        WebKitFrm.EnsureInstanceClosed();
+                        WebkitBrowserWindow.EnsureInstanceClosed();
                         break;
                     case SyncMsgType.ImageView:
                         ExplanationModeMediator.Inst.EnsureInstanceClosed(sm.viewObjectId);
                         break;
                     case SyncMsgType.YoutubeView:
-                        WebKitFrm.EnsureInstanceClosed();
+                        WebkitBrowserWindow.EnsureInstanceClosed();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -921,23 +921,15 @@ namespace Discussions.view
         #region laser cursors
         private void BtnLaserPointer_OnClick(object sender, RoutedEventArgs e)
         {
-            Debug.Assert(btnLaserPointer.IsChecked != null, "btnLaserPointer.IsChecked != null");
-            var localLazerEnabled = btnLaserPointer.IsChecked.Value;
-
             if (_laserPointerWndCtx == null)
                 _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
 
-            _laserPointerWndCtx.LocalLazerEnabled = localLazerEnabled;
+            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasetPointersEnabled;
 
             if (editCtx != null)
-                editCtx.SetListeners(!localLazerEnabled);
+                editCtx.SetListeners(!ExplanationModeMediator.Inst.LasetPointersEnabled);
         }
 
         #endregion
-
-        private void BtnExplanationMode_OnClick(object sender, RoutedEventArgs e)
-        {
-            ExplanationModeMediator.Inst.ExplanationModeEnabled = btnExplanationMode.IsChecked.Value;
-        }
     }
 }

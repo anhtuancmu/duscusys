@@ -201,7 +201,7 @@ namespace Discussions.view
         {
             var link = (Hyperlink) sender;
             var c = DataContext as Comment;
-            var browser = new WebKitFrm(link.NavigateUri.ToString(), c!=null? c.ArgPoint.Topic.Id : (int?)null);
+            var browser = new WebkitBrowserWindow(link.NavigateUri.ToString(), c != null ? c.ArgPoint.Topic.Id : (int?)null);
             browser.ShowDialog();
         }
 

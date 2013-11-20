@@ -496,6 +496,9 @@
     <Compile Include="webkit host\BrowserBar.xaml.cs">
       <DependentUpon>BrowserBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="webkit host\WebkitBrowserWindow.xaml.cs">
+      <DependentUpon>WebkitBrowserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="webkit host\WebKitFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -797,6 +800,10 @@
     <Page Include="webkit host\BrowserBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="webkit host\WebkitBrowserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="youtube\Viewer.xaml">
       <Generator>MSBuild:Compile</Generator>

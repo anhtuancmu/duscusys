@@ -361,7 +361,7 @@ namespace Discussions.view
             {
                 if (d.HtmlBackground != null)
                 {
-                    var browser = new WebKitFrm(getDiscussionBackgroundUrl(d), 0);//0 TopicId for background
+                    var browser = new WebkitBrowserWindow(getDiscussionBackgroundUrl(d), 0);//0 TopicId for background
                     browser.ShowDialog();
                 }
             }

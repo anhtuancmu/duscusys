@@ -39,10 +39,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.webKitBrowser1.BackColor = System.Drawing.Color.White;
-            this.webKitBrowser1.Location = new System.Drawing.Point(0, 108);
+            this.webKitBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
+            this.webKitBrowser1.MaximumSize = new System.Drawing.Size(1024, 768);
             this.webKitBrowser1.Name = "webKitBrowser1";
-            this.webKitBrowser1.Size = new System.Drawing.Size(1008, 615);
+            this.webKitBrowser1.Size = new System.Drawing.Size(1024, 768);
             this.webKitBrowser1.TabIndex = 0;
             this.webKitBrowser1.Url = null;
             this.webKitBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webKitBrowser1_Navigated);
