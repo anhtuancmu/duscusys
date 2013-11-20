@@ -159,7 +159,7 @@ namespace Discussions.view
             _laserPointerWndCtx = new LaserPointerWndCtx(laserScene, 
                                                          CurrentTopic.Id, 
                                                          LaserPointerTargetSurface.PublicBoard);
-            ExplanationModeMediator.Inst.LaserPointersEnabled = false;            
+            ExplanationModeMediator.Inst.LasersEnabled = false;            
 
             CleanupEditCtx();
 
@@ -927,10 +927,10 @@ namespace Discussions.view
                 _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id, 
                     LaserPointerTargetSurface.PublicBoard);
 
-            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LaserPointersEnabled;
+            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
 
             if (editCtx != null)
-                editCtx.SetListeners(!ExplanationModeMediator.Inst.LaserPointersEnabled);
+                editCtx.SetListeners(!ExplanationModeMediator.Inst.LasersEnabled);
         }
 
         #endregion

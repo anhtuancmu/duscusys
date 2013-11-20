@@ -5,7 +5,6 @@ using AbstractionLayer;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.webkit_host;
-using DistributedEditor;
 using Point = System.Drawing.Point;
 
 namespace Discussions.view
@@ -69,14 +68,8 @@ namespace Discussions.view
                 _mediator.CurrentTopicId = topicId;
             UISharedRTClient.Instance.clienRt.onBrowserScroll += OnBrowserScroll;
 
-            if (_mediator.ExplanationModeEnabled &&
-                _mediator.CurrentTopicId != null &&
-                SessionInfo.Get().person != null)
-            {
-                UISharedRTClient.Instance.clienRt.SendBrowserScrollGetPos(
-                    new BrowserScrollPositionRequest { topicId = (int)_mediator.CurrentTopicId }
-                );
-            }
+            if (_mediator.ExplanationModeEnabled)
+                RequestScrollPosition();
 
             _scrollStateChecker = new DispatcherTimer(DispatcherPriority.Background)
             {
@@ -170,18 +163,29 @@ namespace Discussions.view
 
         private void WebkitBrowserWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
+            ToggleLaserPointer();
+        }
+
+        public void RequestScrollPosition()
+        {
+            if (_mediator.CurrentTopicId != 0)
+            {
+                UISharedRTClient.Instance.clienRt.SendBrowserScrollGetPos(
+                    new BrowserScrollPositionRequest {topicId = (int) _mediator.CurrentTopicId}
+                    );
+            }
         }
 
         public void ToggleLaserPointer()
         {
-            if (_overlayWnd == null)
+            if (ExplanationModeMediator.Inst.LasersEnabled && _overlayWnd == null)
             {
                 _overlayWnd = new BrowserOverlayWindow();                
                 _overlayWnd.ToggleLaserPointer();
                 AlignLaserWindow();
                 _overlayWnd.Show();
             }
-            else
+            else if (!ExplanationModeMediator.Inst.LasersEnabled && _overlayWnd != null)
             {
                 _overlayWnd.Close();
                 _overlayWnd = null;
@@ -190,7 +194,7 @@ namespace Discussions.view
 
         private void WebkitBrowserWindow_OnLocationChanged(object sender, EventArgs e)
         {
-            if (_overlayWnd == null || !ExplanationModeMediator.Inst.LaserPointersEnabled)
+            if (_overlayWnd == null || !ExplanationModeMediator.Inst.LasersEnabled)
                 return;
 
             AlignLaserWindow();

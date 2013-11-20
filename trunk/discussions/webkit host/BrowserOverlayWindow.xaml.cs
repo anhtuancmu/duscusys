@@ -26,7 +26,7 @@ namespace Discussions.webkit_host
                     LaserPointerTargetSurface.WebBrowser
                     );
 
-            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LaserPointersEnabled;
+            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
         }
 
         private void BrowserOverlayWindow_OnClosing(object sender, CancelEventArgs e)

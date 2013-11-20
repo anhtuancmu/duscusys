@@ -33,12 +33,13 @@
 
             <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
         		IsChecked="{Binding ExplanationModeEnabled}"
-        		RenderOptions.BitmapScalingMode="HighQuality">
+                Click="BtnExplanationMode_OnClick"                   
+        		>
                 <Border Background="{StaticResource explanation}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
 
             <s:SurfaceToggleButton x:Name="btnLaserPointer" 
-        		IsChecked="{Binding LaserPointersEnabled}"
+        		IsChecked="{Binding LasersEnabled}"
         		Click="BtnLaserPointer_OnClick" Background="#02000000">
                 <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
