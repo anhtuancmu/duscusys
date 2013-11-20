@@ -1,0 +1,28 @@
+﻿<al:PortableWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
+    xmlns:webkitHost="clr-namespace:Discussions.webkit_host"
+    mc:Ignorable="d" x:Class="Discussions.view.WebkitBrowserWindow"
+    Title2="Web viewer"
+    ResizeMode="CanResize"
+    Background="{StaticResource WndBg}"
+    WindowStartupLocation="CenterScreen"
+    IsManipulationEnabled="True"
+    Topmost="True"
+    Width="1024"
+    Height="768"
+    Loaded="WebkitBrowserWindow_OnLoaded"   
+    Closing="Window_Closing_1">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <webkitHost:BrowserBar x:Name="browserBar"/>
+
+        <WindowsFormsHost x:Name="webkitHost" Grid.Row="1"/>
+    </Grid>
+</al:PortableWindow>

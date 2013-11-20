@@ -164,7 +164,7 @@ namespace Discussions.view
 
                     RaiseEvent(new RoutedEventArgs(SourceViewEvent));
 
-                    var browser = new WebKitFrm(src.Text, src.RichText.ArgPoint.Topic.Id);
+                    var browser = new WebkitBrowserWindow(src.Text, src.RichText.ArgPoint.Topic.Id);
                     browser.ShowDialog();
                 }
             }

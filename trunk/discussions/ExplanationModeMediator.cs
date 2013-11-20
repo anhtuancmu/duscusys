@@ -43,6 +43,18 @@ namespace Discussions
             }
         }
 
+        private bool _lasetPointersEnabled;
+        public bool LasetPointersEnabled
+        {
+            get { return _lasetPointersEnabled; }
+            set
+            {
+                if (value.Equals(_lasetPointersEnabled)) return;
+                _lasetPointersEnabled = value;
+                OnPropertyChanged("LasetPointersEnabled");
+            }
+        }
+
         //all locally opened image windows 
         private readonly List<ViewerRecord> _openedViewers = new List<ViewerRecord>();
 
