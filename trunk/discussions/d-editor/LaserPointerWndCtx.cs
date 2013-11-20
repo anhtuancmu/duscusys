@@ -29,6 +29,8 @@ namespace DistributedEditor
         private DateTime _recentDetach;
         private DateTime _recentMove;
 
+        private readonly LaserPointerTargetSurface _targetSurface;       
+
         private bool _localLazerEnabled;
         public bool LocalLazerEnabled
         {
@@ -61,11 +63,12 @@ namespace DistributedEditor
             }
         }
 
-        public LaserPointerWndCtx(Canvas ptrCanvas, int topicId)
+        public LaserPointerWndCtx(Canvas ptrCanvas, int topicId, LaserPointerTargetSurface targetSurface)
         {
             _ptrCanvas = ptrCanvas;
             _topicId = topicId;
 
+            _targetSurface = targetSurface;
             _laserCursorMgr = new LaserCursorManager(ptrCanvas);
                    
             SetPhotonListeners(true);
@@ -90,7 +93,8 @@ namespace DistributedEditor
                             Color = SessionInfo.Get().person.Color,
                             TopicId = _topicId,
                             UserId = SessionInfo.Get().person.Id,
-                            Name = SessionInfo.Get().person.Name
+                            Name = SessionInfo.Get().person.Name,
+                            TargetSurface = _targetSurface
                         };
                 }
                 return _localLaserPointer;
@@ -116,7 +120,7 @@ namespace DistributedEditor
         #region photon listeners
         private void OnLaserPointerMoved(LaserPointer ptr)
         {
-            if (ptr.TopicId != _topicId)
+            if (ptr.TopicId != _topicId || ptr.TargetSurface!=_targetSurface)
                 return;
 
             _laserCursorMgr.UpdatePointerLocation(ptr.UserId, new System.Windows.Point(ptr.X, ptr.Y));
@@ -124,7 +128,7 @@ namespace DistributedEditor
 
         private void OnDetachLaserPointer(LaserPointer ptr)
         {
-            if (ptr.TopicId != _topicId)
+            if (ptr.TopicId != _topicId || ptr.TargetSurface != _targetSurface)
                 return;
             
             _laserCursorMgr.DetachLaserPointer(ptr.UserId);
@@ -132,7 +136,7 @@ namespace DistributedEditor
 
         private void OnAttachLaserPointer(LaserPointer ptr)
         {
-            if (ptr.TopicId != _topicId)
+            if (ptr.TopicId != _topicId || ptr.TargetSurface != _targetSurface)   
                 return;
 
             _laserCursorMgr.AttachLaserPointer(ptr.UserId, Utils.IntToColor(ptr.Color), ptr.Name);

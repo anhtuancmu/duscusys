@@ -3,6 +3,13 @@ using Discussions.RTModel.Operations;
 
 namespace Discussions.RTModel.Model
 {
+    public enum LaserPointerTargetSurface
+    {
+        PublicBoard,
+        WebBrowser,
+        ImageViewer,
+    }
+
     public class LaserPointer
     {
         public int UserId;
@@ -11,6 +18,7 @@ namespace Discussions.RTModel.Model
         public int TopicId;
         public double X;
         public double Y;
+        public LaserPointerTargetSurface TargetSurface;
 
         public static LaserPointer Read(Dictionary<byte, object> par)
         {
@@ -21,14 +29,17 @@ namespace Discussions.RTModel.Model
                     Name = (string)par[(byte)DiscussionParamKey.UserCursorName],
                     TopicId = (int)par[(byte)DiscussionParamKey.ChangedTopicId],
                     X = (double)par[(byte)DiscussionParamKey.UserCursorX],
-                    Y = (double)par[(byte)DiscussionParamKey.UserCursorY]
+                    Y = (double)par[(byte)DiscussionParamKey.UserCursorY],
+                    TargetSurface = (LaserPointerTargetSurface)par[(byte)DiscussionParamKey.IntParameter1],
                 };
             return res;
         }
 
-        public static Dictionary<byte, object> Write(int userId, int color, string name, int topicId, double x, double y)
+        public static Dictionary<byte, object> Write(int userId, int color, string name, int topicId, double x, double y, 
+                                                     LaserPointerTargetSurface targetSurface)
         {
-            var lp = new LaserPointer { Color = color, Name = name, TopicId = topicId, UserId = userId, X = x, Y = y };
+            var lp = new LaserPointer { Color = color, Name = name, TopicId = topicId, 
+                UserId = userId, X = x, Y = y, TargetSurface = targetSurface };
             return lp.ToDict();
         }
 
@@ -42,6 +53,7 @@ namespace Discussions.RTModel.Model
                     {(byte) DiscussionParamKey.ChangedTopicId, TopicId} ,
                     {(byte) DiscussionParamKey.UserCursorX, X},
                     {(byte) DiscussionParamKey.UserCursorY, Y},
+                    {(byte) DiscussionParamKey.IntParameter1, TargetSurface},
                 };
             return res;
         }

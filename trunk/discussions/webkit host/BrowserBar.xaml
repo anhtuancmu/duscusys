@@ -13,39 +13,45 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <DockPanel VerticalAlignment="Top" Margin="0">
-            <s:SurfaceButton Name="btnBack" VerticalAlignment="Top" Background="{x:Null}" Click="btnBack_Click_1">
+        <DockPanel VerticalAlignment="Center" Margin="0">
+            <s:SurfaceButton Name="btnBack" Background="{x:Null}" Click="btnBack_Click_1">
                 <Border Background="{StaticResource backArrow}" Width="60" Height="60" />
             </s:SurfaceButton>
 
-            <s:SurfaceButton Name="btnNext" VerticalAlignment="Top" Background="{x:Null}" Click="btnNext_Click_1">
+            <s:SurfaceButton Name="btnNext" Background="{x:Null}" Click="btnNext_Click_1">
                 <Border Background="{StaticResource nextArrow}" Width="60" Height="60" />
             </s:SurfaceButton>
 
-            <s:SurfaceButton Name="btnRefresh" VerticalAlignment="Top" Background="{x:Null}" Click="btnRefresh_Click_1">
+            <s:SurfaceButton Name="btnRefresh" Background="{x:Null}" Click="btnRefresh_Click_1">
                 <Border Background="{StaticResource refresh}" Width="60" Height="60" />
             </s:SurfaceButton>
 
-            <s:SurfaceTextBox Name="addressBar" FontSize="24" VerticalAlignment="Center" KeyDown="addressBar_KeyDown_1" />
+            <s:SurfaceTextBox Name="addressBar" FontSize="24" KeyDown="addressBar_KeyDown_1" VerticalAlignment="Center" />
         </DockPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1">
 
             <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
         		IsChecked="{Binding ExplanationModeEnabled}"
-        		RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0">
+        		RenderOptions.BitmapScalingMode="HighQuality">
                 <Border Background="{StaticResource explanation}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
 
+            <s:SurfaceToggleButton x:Name="btnLaserPointer" 
+        		IsChecked="{Binding LaserPointersEnabled}"
+        		Click="BtnLaserPointer_OnClick" Background="#02000000">
+                <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
+            </s:SurfaceToggleButton>
             <s:SurfaceButton x:Name="btnClose"
-        		HorizontalAlignment="Right"
-        		VerticalAlignment="Top"
-        		Click="btnClose_Click_1"
-        		Content="X"
-        		FontSize="48"
-        		MinWidth="137" MinHeight="107" BorderThickness="0"
-        		HorizontalContentAlignment="Center"
-        		VerticalContentAlignment="Center"
-        		Background="#66000000" Margin="0,0,1,0" />
+            	HorizontalAlignment="Right"
+            	VerticalAlignment="Top"
+            	Click="btnClose_Click_1"
+            	Content="X"
+            	FontSize="48"
+            	MinWidth="137" MinHeight="107" BorderThickness="0"
+            	HorizontalContentAlignment="Center"
+            	VerticalContentAlignment="Center"
+            	Background="#66000000" Margin="0,0,1,0" />
         </StackPanel>
     </Grid>
 </UserControl>

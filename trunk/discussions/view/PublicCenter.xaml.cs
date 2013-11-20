@@ -156,8 +156,10 @@ namespace Discussions.view
         {
             if (_laserPointerWndCtx != null)
                 _laserPointerWndCtx.Dispose();             
-            _laserPointerWndCtx = new LaserPointerWndCtx(laserScene, CurrentTopic.Id);
-            btnLaserPointer.IsChecked = false;
+            _laserPointerWndCtx = new LaserPointerWndCtx(laserScene, 
+                                                         CurrentTopic.Id, 
+                                                         LaserPointerTargetSurface.PublicBoard);
+            ExplanationModeMediator.Inst.LaserPointersEnabled = false;            
 
             CleanupEditCtx();
 
@@ -922,12 +924,13 @@ namespace Discussions.view
         private void BtnLaserPointer_OnClick(object sender, RoutedEventArgs e)
         {
             if (_laserPointerWndCtx == null)
-                _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id);
+                _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id, 
+                    LaserPointerTargetSurface.PublicBoard);
 
-            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasetPointersEnabled;
+            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LaserPointersEnabled;
 
             if (editCtx != null)
-                editCtx.SetListeners(!ExplanationModeMediator.Inst.LasetPointersEnabled);
+                editCtx.SetListeners(!ExplanationModeMediator.Inst.LaserPointersEnabled);
         }
 
         #endregion

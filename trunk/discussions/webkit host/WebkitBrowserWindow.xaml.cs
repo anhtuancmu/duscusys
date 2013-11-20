@@ -5,6 +5,7 @@ using AbstractionLayer;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.webkit_host;
+using DistributedEditor;
 using Point = System.Drawing.Point;
 
 namespace Discussions.view
@@ -13,7 +14,7 @@ namespace Discussions.view
     {
         private static WebkitBrowserWindow _inst;
 
-        private readonly string _url;
+        private string _url;
 
         private readonly WebKit.WebKitBrowser _webKitBrowser1;
 
@@ -24,6 +25,8 @@ namespace Discussions.view
         private readonly ExplanationModeMediator _mediator;
 
         private DispatcherTimer _scrollStateChecker;
+
+        private BrowserOverlayWindow _overlayWnd;
 
         public WebkitBrowserWindow(string url, int? topicId)
         {
@@ -117,6 +120,9 @@ namespace Discussions.view
             //if this is local initiative, close             
             if (userRequestedClosing != null)
                 userRequestedClosing();
+
+            if (_overlayWnd != null)
+                _overlayWnd.Close();
         }
 
         public void ScrollBrowserTo(Point offset)
@@ -164,6 +170,49 @@ namespace Discussions.view
 
         private void WebkitBrowserWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        public void ToggleLaserPointer()
+        {
+            if (_overlayWnd == null)
+            {
+                _overlayWnd = new BrowserOverlayWindow();                
+                _overlayWnd.ToggleLaserPointer();
+                AlignLaserWindow();
+                _overlayWnd.Show();
+            }
+            else
+            {
+                _overlayWnd.Close();
+                _overlayWnd = null;
+            }           
+        }
+
+        private void WebkitBrowserWindow_OnLocationChanged(object sender, EventArgs e)
+        {
+            if (_overlayWnd == null || !ExplanationModeMediator.Inst.LaserPointersEnabled)
+                return;
+
+            AlignLaserWindow();
+        }
+
+        void AlignLaserWindow()
+        {
+            try
+            {
+                System.Windows.Point topLeft = webkitHost.PointToScreen(new System.Windows.Point(0, 0));
+                System.Windows.Point bottomRight = webkitHost.PointToScreen(
+                    new System.Windows.Point(webkitHost.ActualWidth, webkitHost.ActualHeight));
+
+                _overlayWnd.Width = bottomRight.X - topLeft.X;
+                _overlayWnd.Height = bottomRight.Y - topLeft.Y;
+                _overlayWnd.Top = topLeft.Y;
+                _overlayWnd.Left = topLeft.X;
+            }
+            catch
+            {
+                //can throw presentation source not attached during loading 
+            }
         }
     }
 }
