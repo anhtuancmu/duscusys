@@ -712,9 +712,9 @@ namespace Discussions.view
             _lbv.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
             _lbv.SetRt(UISharedRTClient.Instance);
 
-            mainGrid.Children.Add(_lbv);
-            //int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
-            //mainGrid.Children.Insert(indexOfLaserScene, _lbv);
+            //mainGrid.Children.Add(_lbv);
+            int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
+            mainGrid.Children.Insert(indexOfLaserScene, _lbv);
 
             Grid.SetRowSpan(_lbv, 2);
 
