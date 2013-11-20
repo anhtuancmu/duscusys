@@ -66,8 +66,7 @@ namespace Discussions.view
 
             if (topicId != null)
                 _mediator.CurrentTopicId = topicId;
-            UISharedRTClient.Instance.clienRt.onBrowserScroll += OnBrowserScroll;
-
+           
             if (_mediator.ExplanationModeEnabled)
                 RequestScrollPosition();
 
@@ -77,6 +76,30 @@ namespace Discussions.view
             };
             _scrollStateChecker.Tick += _scrollStateChecker_Tick;
             _scrollStateChecker.Start();
+
+            SetListeners(true);
+        }
+
+        public void SetListeners(bool doSet)
+        {
+            if (doSet)
+            {
+                UISharedRTClient.Instance.clienRt.onBrowserScroll += OnBrowserScroll;
+                ExplanationModeMediator.Inst.PropertyChanged += Inst_PropertyChanged;
+            }
+            else
+            {
+                UISharedRTClient.Instance.clienRt.onBrowserScroll -= OnBrowserScroll;
+                ExplanationModeMediator.Inst.PropertyChanged -= Inst_PropertyChanged;
+            }
+        }
+
+        void Inst_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "LasersEnabled")
+            {
+                ToggleLaserPointer();
+            }
         }
 
         private void OnBrowserScroll(BrowserScrollPosition scroll)
@@ -114,6 +137,8 @@ namespace Discussions.view
             if (userRequestedClosing != null)
                 userRequestedClosing();
 
+            SetListeners(false);
+
             if (_overlayWnd != null)
                 _overlayWnd.Close();
         }
@@ -129,14 +154,9 @@ namespace Discussions.view
         }
 
         private Point _prevLocalScrollState;
-        //private Point _lastSentScrollState;
         private bool _skipNextScrollPosChange;
         void _scrollStateChecker_Tick(object sender, EventArgs e)
         {
-            //randomize _lastSentScrollState in case we don't send anything.
-            //Otherwise locations like Point(0,0) are ignored when received
-            //_lastSentScrollState = new Point(235,742);
-
             if (_webKitBrowser1.ScrollOffset != _prevLocalScrollState && !_skipNextScrollPosChange)
             {
                 if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
@@ -176,7 +196,7 @@ namespace Discussions.view
             }
         }
 
-        public void ToggleLaserPointer()
+        void ToggleLaserPointer()
         {
             if (ExplanationModeMediator.Inst.LasersEnabled && _overlayWnd == null)
             {

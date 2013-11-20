@@ -127,7 +127,15 @@ namespace Discussions.view
             //scaleTr.ScaleAt(2,2, 
             //                0.5, 
             //                0.5);
-            //SetWorkingAreaTransform(scaleTr, false, false, false, false);   
+            //SetWorkingAreaTransform(scaleTr, false, false, false, false);  
+        }
+
+        void Inst_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "LasersEnabled")
+            {
+                ToggleLaserPointer();
+            }
         }
 
         void ResetZoomAndPanning()
@@ -351,6 +359,8 @@ namespace Discussions.view
                 WebkitBrowserWindow.userRequestedClosing += onLocalSourceViewerClosed;
                 ExplanationModeMediator.Inst.CloseReq += onImgViewerClosed;
                 ExplanationModeMediator.Inst.OpenReq += onImgViewerOpened;
+
+                ExplanationModeMediator.Inst.PropertyChanged += Inst_PropertyChanged;
             }
             else
             {
@@ -359,6 +369,8 @@ namespace Discussions.view
                 WebkitBrowserWindow.userRequestedClosing -= onLocalSourceViewerClosed;
                 ExplanationModeMediator.Inst.CloseReq -= onImgViewerClosed;
                 ExplanationModeMediator.Inst.OpenReq -= onImgViewerOpened;
+
+                ExplanationModeMediator.Inst.PropertyChanged -= Inst_PropertyChanged;
             }
         }
 
@@ -921,10 +933,11 @@ namespace Discussions.view
         }
 
         #region laser cursors
-        private void BtnLaserPointer_OnClick(object sender, RoutedEventArgs e)
+   
+        public void ToggleLaserPointer()
         {
             if (_laserPointerWndCtx == null)
-                _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id, 
+                _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id,
                     LaserPointerTargetSurface.PublicBoard);
 
             _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;

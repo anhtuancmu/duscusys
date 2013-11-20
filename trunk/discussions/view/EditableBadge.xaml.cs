@@ -777,7 +777,7 @@ namespace Discussions.view
                 return;
 
             var browser = new WebkitBrowserWindow(Uri, ap.Topic.Id);
-            browser.ShowDialog();
+            browser.Show();
         }
 
         private void onStorageWndClosed(object sender, EventArgs e)
