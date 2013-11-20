@@ -61,5 +61,10 @@ namespace Discussions.webkit_host
         {
             Window.ToggleLaserPointer();
         }
+
+        private void BtnExplanationMode_OnClick(object sender, RoutedEventArgs e)
+        {
+            Window.RequestScrollPosition();
+        }
     }
 }

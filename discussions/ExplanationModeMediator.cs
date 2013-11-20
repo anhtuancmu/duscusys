@@ -43,15 +43,27 @@ namespace Discussions
             }
         }
 
-        private bool _laserPointersEnabled;
-        public bool LaserPointersEnabled
+        private bool _lasersEnabled;
+        public bool LasersEnabled
         {
-            get { return _laserPointersEnabled; }
+            get { return _lasersEnabled; }
             set
             {
-                if (value.Equals(_laserPointersEnabled)) return;
-                _laserPointersEnabled = value;
-                OnPropertyChanged("LaserPointersEnabled");
+                if (value.Equals(_lasersEnabled)) return;
+                _lasersEnabled = value;
+                OnPropertyChanged("LasersEnabled");
+            }
+        }
+
+        private bool _imageLasersEnabled;
+        public bool ImageLasersEnabled
+        {
+            get { return _imageLasersEnabled; }
+            set
+            {
+                if (value.Equals(_imageLasersEnabled)) return;
+                _imageLasersEnabled = value;
+                OnPropertyChanged("ImageLasersEnabled");
             }
         }
 
