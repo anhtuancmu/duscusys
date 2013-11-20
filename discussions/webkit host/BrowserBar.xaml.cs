@@ -44,11 +44,6 @@ namespace Discussions.webkit_host
             Browser.Refresh();
         }
 
-        private void btnClose_Click_1(object sender, RoutedEventArgs e)
-        {
-            Window.Close();
-        }
-
         private void addressBar_KeyDown_1(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -57,14 +52,14 @@ namespace Discussions.webkit_host
             }
         }
 
-        private void BtnLaserPointer_OnClick(object sender, RoutedEventArgs e)
-        {
-            Window.ToggleLaserPointer();
-        }
-
         private void BtnExplanationMode_OnClick(object sender, RoutedEventArgs e)
         {
             Window.RequestScrollPosition();
+        }
+
+        private void BtnClose_OnClick(object sender, RoutedEventArgs e)
+        {
+            Window.Close();
         }
     }
 }

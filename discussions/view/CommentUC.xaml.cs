@@ -202,7 +202,7 @@ namespace Discussions.view
             var link = (Hyperlink) sender;
             var c = DataContext as Comment;
             var browser = new WebkitBrowserWindow(link.NavigateUri.ToString(), c != null ? c.ArgPoint.Topic.Id : (int?)null);
-            browser.ShowDialog();
+            browser.Show();
         }
 
         public void btnRemoveComment_Click(object sender, RoutedEventArgs e)

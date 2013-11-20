@@ -40,13 +40,13 @@
 
             <s:SurfaceToggleButton x:Name="btnLaserPointer" 
         		IsChecked="{Binding LasersEnabled}"
-        		Click="BtnLaserPointer_OnClick" Background="#02000000">
+        		Background="#02000000">
                 <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
             <s:SurfaceButton x:Name="btnClose"
+                Click="BtnClose_OnClick"
             	HorizontalAlignment="Right"
             	VerticalAlignment="Top"
-            	Click="btnClose_Click_1"
             	Content="X"
             	FontSize="48"
             	MinWidth="137" MinHeight="107" BorderThickness="0"
