@@ -936,11 +936,14 @@ namespace Discussions.view
    
         public void ToggleLaserPointer()
         {
-            if (_laserPointerWndCtx == null)
+            if (ExplanationModeMediator.Inst.LasersEnabled && _laserPointerWndCtx == null)
+            {
                 _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id,
                     LaserPointerTargetSurface.PublicBoard);
+            }
 
-            _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
+            if (_laserPointerWndCtx!=null)
+                _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
 
             if (editCtx != null)
                 editCtx.SetListeners(!ExplanationModeMediator.Inst.LasersEnabled);

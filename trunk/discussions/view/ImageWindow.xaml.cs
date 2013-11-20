@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using AbstractionLayer;
 using Discussions.rt;
 using Discussions.RTModel.Model;
+using DistributedEditor;
 
 namespace Discussions.view
 {
@@ -67,6 +68,8 @@ namespace Discussions.view
             img.RenderTransform = mt;
         }
 
+        private LaserPointerWndCtx _laserPointerWndCtx;
+
         public ImageWindow(int attachId, int topicId)
         {
             _attachId = attachId;
@@ -74,11 +77,14 @@ namespace Discussions.view
             InitializeComponent();
 
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
+            btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
 
             DataContext = this;
 
-            Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
-            Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
+            //Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
+            //Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
+            Width = 1024;
+            Height = 768;
 
             ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
 
@@ -100,6 +106,12 @@ namespace Discussions.view
         private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
         {
             SetListeners(false);
+
+            if (_laserPointerWndCtx != null)
+            {
+                _laserPointerWndCtx.Dispose();
+                _laserPointerWndCtx = null;
+            }
         }
 
         void SetListeners(bool doSet)
@@ -121,6 +133,23 @@ namespace Discussions.view
             {
                 CheckSendImgStateRequest();
             }
+            else if (e.PropertyName == "LasersEnabled")
+            {
+                ToggleLaserPointer();
+            }
+        }
+
+        void ToggleLaserPointer()
+        {
+            if (ExplanationModeMediator.Inst.LasersEnabled && _laserPointerWndCtx == null)
+            {
+                _laserPointerWndCtx = new LaserPointerWndCtx(laserScene,
+                    _topicId,
+                    LaserPointerTargetSurface.ImageViewer);
+            }
+
+            if(_laserPointerWndCtx!=null)
+                _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
         }
 
         void CheckSendImgStateRequest()
@@ -241,11 +270,6 @@ namespace Discussions.view
             CheckSendMatrixBackground();
         }
 
-        private void ImageWindow_Closed_1(object sender, EventArgs e)
-        {
-            ExplanationModeMediator.Inst.OnWndClosed(this);
-        }
-
         void CheckSendMatrixBackground()
         {
             Dispatcher.BeginInvoke((Action)CheckSendMatrix, DispatcherPriority.Normal);
@@ -274,6 +298,16 @@ namespace Discussions.view
                 };
 
             UISharedRTClient.Instance.clienRt.SendManipulateImageViewer(mat);
+        }
+
+        private void ImageWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ToggleLaserPointer();
+        }
+
+        private void ImageWindow_OnClosed(object sender, EventArgs e)
+        {
+            ExplanationModeMediator.Inst.OnWndClosed(this);
         }
     }
 }

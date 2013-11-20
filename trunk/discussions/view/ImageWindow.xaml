@@ -10,14 +10,15 @@
     Title2="Image viewer"    
     MouseMove="WindowMouseMove"
     MouseWheel="Window_MouseWheel_1"
-    Closed="ImageWindow_Closed_1"
+    Closed="ImageWindow_OnClosed"
     Background="{StaticResource WndBg}"    
     WindowStartupLocation="CenterScreen"
     WindowState="Normal"
     Closing="ImageWindow_OnClosing"
+    Loaded="ImageWindow_OnLoaded"
     d:DesignWidth="657.233"
     d:DesignHeight="574"
-    Icon="/Assets/discusys iconv3.ico">
+    Icon="/Assets/discusys iconv3.ico" ResizeMode="NoResize">
 
     <al:PortableWindow.Resources>
         <Style TargetType="Image">
@@ -31,15 +32,22 @@
         <Image x:Name="img"
                IsManipulationEnabled="True" 
                RenderTransform="1 0 0 1 0 0" 
-               d:LayoutOverrides="Width, Height">          
+               d:LayoutOverrides="Width, Height">
         </Image>
 
-        <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
-                               IsChecked="{Binding ExplanationModeEnabled}"
-                               RenderOptions.BitmapScalingMode="HighQuality" 
-                               HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Border Background="{StaticResource explanation}" Width="70" Height="70" />
-        </s:SurfaceToggleButton>
+        <Canvas x:Name="laserScene" RenderTransformOrigin="0.5 0.5" Background="#02C9C9C9" IsHitTestVisible="False"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" IsChecked="{Binding ExplanationModeEnabled}">
+
+                <Border Background="{StaticResource explanation}" Width="70" Height="70" />
+              
+            </s:SurfaceToggleButton>
+
+            <s:SurfaceToggleButton x:Name="btnLaserPointer" 
+        		    IsChecked="{Binding LasersEnabled}" Background="#02000000">
+                <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
+            </s:SurfaceToggleButton>
+        </StackPanel>
 
         <s:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
                          Click="btnZoom_Click" Content="X" FontSize="48" Foreground="Black" MinWidth="137"

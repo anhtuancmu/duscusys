@@ -33,8 +33,7 @@
 
             <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" 
         		IsChecked="{Binding ExplanationModeEnabled}"
-                Click="BtnExplanationMode_OnClick"                   
-        		>
+                Click="BtnExplanationMode_OnClick">
                 <Border Background="{StaticResource explanation}" Width="70" Height="70" />
             </s:SurfaceToggleButton>
 
