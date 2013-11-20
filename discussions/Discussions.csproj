@@ -496,14 +496,11 @@
     <Compile Include="webkit host\BrowserBar.xaml.cs">
       <DependentUpon>BrowserBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="webkit host\BrowserOverlayWindow.xaml.cs">
+      <DependentUpon>BrowserOverlayWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="webkit host\WebkitBrowserWindow.xaml.cs">
       <DependentUpon>WebkitBrowserWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="webkit host\WebKitFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="webkit host\WebKitFrm.Designer.cs">
-      <DependentUpon>WebKitFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="youtube\Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
@@ -801,6 +798,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="webkit host\BrowserOverlayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="webkit host\WebkitBrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -839,9 +840,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="webkit host\WebKitFrm.resx">
-      <DependentUpon>WebKitFrm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.Config">
       <SubType>Designer</SubType>

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Discussions.view;
 
 namespace Discussions.webkit_host
 {
     public partial class BrowserBar : System.Windows.Controls.UserControl
     {
         public WebKit.WebKitBrowser Browser { get; set; }
-        public Window Window { get; set; }
+        public WebkitBrowserWindow Window { get; set; }
 
 
         public BrowserBar()
@@ -15,6 +16,7 @@ namespace Discussions.webkit_host
             InitializeComponent();
 
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
+            btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
         }
 
         private void btnBack_Click_1(object sender, RoutedEventArgs e)
@@ -53,6 +55,11 @@ namespace Discussions.webkit_host
             {
                 Browser.Navigate(addressBar.Text);
             }
+        }
+
+        private void BtnLaserPointer_OnClick(object sender, RoutedEventArgs e)
+        {
+            Window.ToggleLaserPointer();
         }
     }
 }
