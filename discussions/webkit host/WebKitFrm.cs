@@ -31,9 +31,9 @@ namespace Discussions.webkit_host
             _browserBar = new BrowserBar {Browser = webKitBrowser1, WinForm = this};
             elementHost1.Child = _browserBar;
 
-            Width = (int) (0.8*Screen.PrimaryScreen.Bounds.Width);
-            Height = (int) (0.8*Screen.PrimaryScreen.Bounds.Height);
-            WindowState = FormWindowState.Normal;
+            //Width = (int) (0.8*Screen.PrimaryScreen.Bounds.Width);
+            //Height = (int) (0.8*Screen.PrimaryScreen.Bounds.Height);
+            WindowState = FormWindowState.Normal;            
 
             if (_inst != null)
                 EnsureInstanceClosed(); //close previous instance
