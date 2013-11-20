@@ -13,8 +13,8 @@
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"
     Topmost="True"
-    d:DesignWidth="657.233"
-    d:DesignHeight="574"
+    Width="1024"
+    Height="768"
     Closing="Window_Closing_1">
     <Grid>
         <WebBrowser x:Name="browser" />

@@ -11,6 +11,8 @@ namespace Discussions.view
             InitializeComponent();
 
             browser.Source = new Uri(Url, UriKind.Absolute);
+
+            ResizeMode = ResizeMode.NoResize;
         }
 
         private void btnZoom_Click(object sender, RoutedEventArgs e)

@@ -42,7 +42,7 @@
             this.webKitBrowser1.Location = new System.Drawing.Point(0, 108);
             this.webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
             this.webKitBrowser1.Name = "webKitBrowser1";
-            this.webKitBrowser1.Size = new System.Drawing.Size(752, 322);
+            this.webKitBrowser1.Size = new System.Drawing.Size(1008, 615);
             this.webKitBrowser1.TabIndex = 0;
             this.webKitBrowser1.Url = null;
             this.webKitBrowser1.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webKitBrowser1_Navigated);
@@ -55,7 +55,7 @@
             this.elementHost1.Location = new System.Drawing.Point(0, 0);
             this.elementHost1.Margin = new System.Windows.Forms.Padding(0);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(752, 108);
+            this.elementHost1.Size = new System.Drawing.Size(1008, 108);
             this.elementHost1.TabIndex = 1;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
@@ -64,10 +64,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(752, 436);
+            this.ClientSize = new System.Drawing.Size(1008, 729);
             this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.webKitBrowser1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "WebKitFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Web viewer";
