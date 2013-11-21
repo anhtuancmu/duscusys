@@ -22,6 +22,7 @@
                 <Custom:SurfaceTextBox x:Name="field" TextWrapping="Wrap"
                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
                                        FontWeight="Bold" FontSize="18.667"
+                                       AcceptsReturn="True"
                                        TextChanged="SurfaceTextBox_TextChanged"
                                        PreviewKeyDown="field_KeyDown"
                                        LostFocus="field_LostFocus"
