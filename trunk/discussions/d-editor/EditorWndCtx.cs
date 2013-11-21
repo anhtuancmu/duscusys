@@ -181,11 +181,11 @@ namespace DistributedEditor
 
                 _canv.MouseDown -= drawingCanv_MouseLeftButtonDown;
                 _canv.MouseMove -= drawingCanv_MouseMove;
-                _canv.MouseUp -= drawingCanv_MouseUp;
+                _canv.MouseUp   -= drawingCanv_MouseUp;
 
                 _canv.TouchDown -= drawingCanv_TouchDown;
                 _canv.TouchMove -= drawingCanv_TouchMove;
-                _canv.TouchUp -= drawingCanv_TouchUp;
+                _canv.TouchUp   -= drawingCanv_TouchUp;
                  
                 _keyboardWnd.TouchDown -= drawingWnd_TouchDown;
                 _keyboardWnd.TouchMove -= drawingWnd_TouchMove;
