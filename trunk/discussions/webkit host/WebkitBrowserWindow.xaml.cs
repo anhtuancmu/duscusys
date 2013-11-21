@@ -139,6 +139,8 @@ namespace Discussions.view
 
             SetListeners(false);
 
+            ExplanationModeMediator.Inst.LasersEnabled = false;
+
             if (_overlayWnd != null)
                 _overlayWnd.Close();
         }

@@ -110,8 +110,10 @@ namespace Discussions.view
             if (_laserPointerWndCtx != null)
             {
                 _laserPointerWndCtx.Dispose();
-                _laserPointerWndCtx = null;
+                _laserPointerWndCtx = null;                
             }
+
+            ExplanationModeMediator.Inst.LasersEnabled = false;
         }
 
         void SetListeners(bool doSet)
@@ -177,8 +179,8 @@ namespace Discussions.view
             updateZoomFactor(mat.M11);
         }
 
-        private void btnZoom_Click(object sender, RoutedEventArgs e)
-        {
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {            
             Close();
         }
 
