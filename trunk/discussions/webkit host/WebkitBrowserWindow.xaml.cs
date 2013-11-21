@@ -191,7 +191,7 @@ namespace Discussions.view
             if (_mediator.CurrentTopicId != 0)
             {
                 UISharedRTClient.Instance.clienRt.SendBrowserScrollGetPos(
-                    new BrowserScrollPositionRequest {topicId = (int) _mediator.CurrentTopicId}
+                    new BrowserScrollPositionRequest {topicId = (int)_mediator.CurrentTopicId}
                     );
             }
         }
@@ -200,7 +200,7 @@ namespace Discussions.view
         {
             if (ExplanationModeMediator.Inst.LasersEnabled && _overlayWnd == null)
             {
-                _overlayWnd = new BrowserOverlayWindow();                
+                _overlayWnd = new BrowserOverlayWindow {Window = this};
                 _overlayWnd.ToggleLaserPointer();
                 AlignLaserWindow();
                 _overlayWnd.Show();
@@ -237,6 +237,13 @@ namespace Discussions.view
             {
                 //can throw presentation source not attached during loading 
             }
+        }
+
+        public void ScrollBrowser(int delta)
+        {
+            Point newOffset = _webKitBrowser1.ScrollOffset;
+            newOffset.Offset(0, -delta);
+            ScrollBrowserTo(newOffset);      
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using Discussions.RTModel.Model;
+using Discussions.view;
 using DistributedEditor;
 
 namespace Discussions.webkit_host
@@ -14,6 +17,8 @@ namespace Discussions.webkit_host
         {
             InitializeComponent();
         }
+
+        public WebkitBrowserWindow Window { get; set;}
 
         private LaserPointerWndCtx _laserPointerWndCtx;
 
@@ -36,6 +41,13 @@ namespace Discussions.webkit_host
                 _laserPointerWndCtx.Dispose();
                 _laserPointerWndCtx = null;
             }
+        }
+
+        private void BrowserOverlayWindow_OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            Debug.WriteLine("BrowserOverlayWindow_OnMouseWheel");
+            if (Window != null)
+                Window.ScrollBrowser(e.Delta);
         }
     }
 

@@ -219,10 +219,12 @@
                     <RowDefinition Height="44*" />
                 </Grid.RowDefinitions>
                 <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap"
-                                       Text="{Binding RecentlyEnteredMediaUrl, UpdateSourceTrigger=PropertyChanged}"
+                                       Text="{Binding RecentlyEnteredMediaUrl}"
+                                       GotFocus="TxtAttachmentURL_OnGotFocus"
+                                       LostFocus="TxtAttachmentURL_OnLostFocus"
                                        d:LayoutOverrides="Height, HorizontalMargin"   
                                        TextChanged="TxtAttachmentURL_OnTextChanged"
-                                       KeyDown="txtAttachmentURL_KeyDown_1" Margin="1,1,1,0.999">
+                                       KeyDown="txtAttachmentURL_KeyDown_1">
                     <Custom:SurfaceTextBox.ContextMenu>
                         <view:CtxMenuWrapper/>
                     </Custom:SurfaceTextBox.ContextMenu>
@@ -325,7 +327,10 @@
                 </Grid.ColumnDefinitions>
                 <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"
                                        MaxWidth="600" TextWrapping="Wrap"
-                                       Text="{Binding RecentlyEnteredSource, UpdateSourceTrigger=PropertyChanged}">
+                                       GotFocus="TxtSource_OnGotFocus"    
+                                       LostFocus="TxtSource_OnLostFocus"
+                                       TextChanged="TxtSource_OnTextChanged"
+                                       Text="{Binding RecentlyEnteredSource, Mode=OneWay}">
                     <Custom:SurfaceTextBox.ContextMenu>
                         <view:CtxMenuWrapper/>
                     </Custom:SurfaceTextBox.ContextMenu>

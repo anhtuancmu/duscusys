@@ -12,6 +12,7 @@ using Discussions.DbModel;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
+using Discussions.util;
 using Discussions.webkit_host;
 using Microsoft.Surface.Presentation.Controls;
 
@@ -617,22 +618,34 @@ namespace Discussions.view
 
         private void btnAddSrc_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext == null)
+            AttachSource();
+        }
+
+        void AttachSource()
+        {
+            var ap = DataContext as ArgPoint;
+            if (ap == null)
                 return;
 
-            var ap = (ArgPoint) DataContext;
+            string url = txtSource.Text.Trim();
 
-            DaoUtils.AddSource(txtSource.Text, ap.Description);
-            ap.ChangesPending = true;
-            UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                StEvent.SourceAdded,
-                ap.Person.Id,
-                ap.Topic.Discussion.Id,
-                ap.Topic.Id,
-                DeviceType.Wpf);
+            if (ap.Description.Source.FirstOrDefault(s => s.Text == url) != null)
+                return;
 
-            UpdateOrderedSources();
-            BeginSrcNumberInjection();
+            if (Validators.UriOk(url))
+            {
+                DaoUtils.AddSource(txtSource.Text, ap.Description);
+                ap.ChangesPending = true;
+                UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                    StEvent.SourceAdded,
+                    ap.Person.Id,
+                    ap.Topic.Discussion.Id,
+                    ap.Topic.Id,
+                    DeviceType.Wpf);
+
+                UpdateOrderedSources();
+                BeginSrcNumberInjection();
+            }    
         }
 
         private void txtSource_KeyDown_1(object sender, KeyEventArgs e)
@@ -1037,6 +1050,40 @@ namespace Discussions.view
         private void TxtAttachmentURL_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             AttachMediaFromUrl();
+        }
+
+        private void TxtSource_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            txtSource.Text = "";
+        }
+
+        private void TxtSource_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var ap = DataContext as ArgPoint;
+            txtSource.Text = ap.RecentlyEnteredSource;
+        }
+
+        private void TxtAttachmentURL_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            txtAttachmentURL.Text = "";
+        }
+
+        private void TxtAttachmentURL_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var ap = DataContext as ArgPoint;
+            txtAttachmentURL.Text = ap.RecentlyEnteredMediaUrl;
+        }
+
+
+        private DateTime _recentSourceChange;
+        private async void TxtSource_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            _recentSourceChange = DateTime.Now;
+
+            await Utils.Delay(700);
+
+            if (DateTime.Now.Subtract(_recentSourceChange).TotalMilliseconds > 700)
+                AttachSource();
         }
     }
 }
