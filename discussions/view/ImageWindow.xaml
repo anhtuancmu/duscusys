@@ -50,7 +50,7 @@
         </StackPanel>
 
         <s:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
-                         Click="btnZoom_Click" Content="X" FontSize="48" Foreground="Black" MinWidth="137"
+                         Click="btnClose_Click" Content="X" FontSize="48" Foreground="Black" MinWidth="137"
                          MinHeight="107" BorderThickness="0" HorizontalContentAlignment="Center"
                          VerticalContentAlignment="Center" Background="#66000000" />
         <StackPanel Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Right"
