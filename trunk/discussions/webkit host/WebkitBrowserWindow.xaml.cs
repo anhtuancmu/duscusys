@@ -77,6 +77,9 @@ namespace Discussions.view
             _scrollStateChecker.Tick += _scrollStateChecker_Tick;
             _scrollStateChecker.Start();
 
+            _overlayWnd = new BrowserOverlayWindow { Window = this };                   
+            _overlayWnd.Show();
+
             SetListeners(true);
         }
 
@@ -186,6 +189,7 @@ namespace Discussions.view
         private void WebkitBrowserWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             ToggleLaserPointer();
+            AlignLaserWindow();
         }
 
         public void RequestScrollPosition()
@@ -200,23 +204,12 @@ namespace Discussions.view
 
         void ToggleLaserPointer()
         {
-            if (ExplanationModeMediator.Inst.LasersEnabled && _overlayWnd == null)
-            {
-                _overlayWnd = new BrowserOverlayWindow {Window = this};
-                _overlayWnd.ToggleLaserPointer();
-                AlignLaserWindow();
-                _overlayWnd.Show();
-            }
-            else if (!ExplanationModeMediator.Inst.LasersEnabled && _overlayWnd != null)
-            {
-                _overlayWnd.Close();
-                _overlayWnd = null;
-            }           
+            _overlayWnd.ToggleLocalLaserPointer();      
         }
 
         private void WebkitBrowserWindow_OnLocationChanged(object sender, EventArgs e)
         {
-            if (_overlayWnd == null || !ExplanationModeMediator.Inst.LasersEnabled)
+            if (_overlayWnd == null)
                 return;
 
             AlignLaserWindow();

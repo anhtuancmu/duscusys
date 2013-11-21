@@ -503,6 +503,7 @@
     <Compile Include="webkit host\WebkitBrowserWindow.xaml.cs">
       <DependentUpon>WebkitBrowserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="webkit host\WinAPI.cs" />
     <Compile Include="youtube\Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>
