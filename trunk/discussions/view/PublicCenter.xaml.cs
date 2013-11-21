@@ -21,6 +21,7 @@ using Discussions.webkit_host;
 using DistributedEditor;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
+using Size = System.Windows.Size;
 
 namespace Discussions.view
 {
@@ -716,10 +717,42 @@ namespace Discussions.view
             int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
             mainGrid.Children.Insert(indexOfLaserScene, _lbv);
 
-            Grid.SetRowSpan(_lbv, 2);
+            ResizeLargeBadgeView();
 
             _lbv.HorizontalAlignment = HorizontalAlignment.Center;
             _lbv.VerticalAlignment = VerticalAlignment.Center;
+        }
+
+        void ResizeLargeBadgeView()
+        {
+            if (_lbv == null)
+                return;
+
+             Size sz = GetLargeBadgeViewSize();
+            _lbv.Height = sz.Height;
+            _lbv.Width = sz.Width;
+        }
+
+        System.Windows.Size GetLargeBadgeViewSize()
+        {
+            double height = mainGrid.ActualHeight - 200;
+            if (height < 100)
+                height = 100;
+            if (height > 700)
+                height = 700;
+
+            double width = mainGrid.ActualWidth - 200;
+            if (width < 200)
+                width = 200;
+            if (width > 850)
+                width = 850;
+
+            return new System.Windows.Size(width, height);
+        }
+
+        private void PublicCenter_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ResizeLargeBadgeView();
         }
 
         private void HideLargeBadgeView()

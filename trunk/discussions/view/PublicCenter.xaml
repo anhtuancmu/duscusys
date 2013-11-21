@@ -14,6 +14,7 @@
     x:Class="Discussions.view.PublicCenter"
     Closing="Window_Closing"
     KeyDown="Window_KeyDown"   
+    SizeChanged="PublicCenter_OnSizeChanged"
     WindowStyle="SingleBorderWindow"
     Stylus.IsPressAndHoldEnabled="false" 
     Stylus.IsFlicksEnabled="false" 
