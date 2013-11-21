@@ -143,7 +143,7 @@ namespace Discussions.view
 
         void ToggleLaserPointer()
         {
-            if (ExplanationModeMediator.Inst.LasersEnabled && _laserPointerWndCtx == null)
+            if (_laserPointerWndCtx == null)
             {
                 _laserPointerWndCtx = new LaserPointerWndCtx(laserScene,
                     _topicId,
