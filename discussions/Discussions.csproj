@@ -187,6 +187,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Util\Validators.cs" />
     <Compile Include="view\SpeakerLogin.xaml.cs">
       <DependentUpon>SpeakerLogin.xaml</DependentUpon>
     </Compile>

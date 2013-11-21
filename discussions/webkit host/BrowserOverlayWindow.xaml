@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"           
         WindowStyle="None"
         Topmost="True"
+        MouseWheel="BrowserOverlayWindow_OnMouseWheel"
         Closing="BrowserOverlayWindow_OnClosing"
         AllowsTransparency="True"
         ShowInTaskbar="False"

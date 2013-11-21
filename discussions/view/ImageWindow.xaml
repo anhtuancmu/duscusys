@@ -37,15 +37,15 @@
 
         <Canvas x:Name="laserScene" RenderTransformOrigin="0.5 0.5" Background="#02C9C9C9" IsHitTestVisible="False"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" IsChecked="{Binding ExplanationModeEnabled}">
-
-                <Border Background="{StaticResource explanation}" Width="70" Height="70" />
-              
-            </s:SurfaceToggleButton>
 
             <s:SurfaceToggleButton x:Name="btnLaserPointer" 
         		    IsChecked="{Binding LasersEnabled}" Background="#02000000">
                 <Border Background="{StaticResource laserPointer}" Width="70" Height="70" />
+            </s:SurfaceToggleButton>
+            <s:SurfaceToggleButton x:Name="btnExplanationMode" Background="#02000000" IsChecked="{Binding ExplanationModeEnabled}">
+
+                <Border Background="{StaticResource explanation}" Width="70" Height="70" />
+
             </s:SurfaceToggleButton>
         </StackPanel>
 
