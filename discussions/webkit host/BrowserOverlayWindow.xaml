@@ -5,6 +5,7 @@
         Topmost="True"
         MouseWheel="BrowserOverlayWindow_OnMouseWheel"
         Closing="BrowserOverlayWindow_OnClosing"
+        SourceInitialized="BrowserOverlayWindow_OnSourceInitialized"
         AllowsTransparency="True"
         ShowInTaskbar="False"
         Title="BrowserOverlayWindow" Height="300" Width="300" Background="{x:Null}">
