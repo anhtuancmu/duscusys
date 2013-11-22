@@ -296,6 +296,25 @@ namespace Discussions.RTModel
                     _topicId);
             }
 
+            //possible deletion of a cluster caption
+            if (shape.ShapeCode() == VdShapeType.FreeForm || shape.ShapeCode() == VdShapeType.Text)
+            {
+                var clusterHost = _doc.GetShapes().FirstOrDefault(
+                    sh => sh.ShapeCode() == VdShapeType.Cluster &&
+                            sh.GetState().ints[0] == shape.Id() ||
+                            sh.GetState().ints[1] == shape.Id());
+
+                if (clusterHost != null)
+                {
+                    EventLogger.LogAndBroadcast(
+                        new DiscCtx(Discussions.ConfigManager.ConnStr),
+                        _room,
+                        StEvent.ClusterTitleRemoved,
+                        indirectOwner,
+                        _topicId);                   
+                }
+            }
+
             _pendingChanges = true;
         }
 
