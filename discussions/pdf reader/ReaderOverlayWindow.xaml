@@ -1,0 +1,21 @@
+﻿<Window x:Class="Discussions.pdf_reader.ReaderOverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://schemas.microsoft.com/surface/2008"
+        WindowStyle="None"
+        Topmost="True"    
+        SourceInitialized="ReaderOverlayWindow_OnSourceInitialized"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        Title="BrowserOverlayWindow" Height="300" Width="300" Background="{x:Null}">
+    <Grid>
+        <controls:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Content="X"
+                            Click="BtnZoom_OnClick"
+                            FontSize="48" Foreground="White"
+                            MinWidth="137" MinHeight="107" 
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="#66000000" Margin="1,1,18,1" />
+    </Grid>
+</Window>
