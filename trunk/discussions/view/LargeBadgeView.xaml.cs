@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;

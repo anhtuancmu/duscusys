@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Media;
+using Discussions.DbModel.model;
 using Discussions.model;
 using LoginEngine;
 
@@ -66,6 +65,15 @@ namespace Discussions.stats
                     break;
                 case StEvent.ClusterMoved:
                     evt = "moved cluster";
+                    break;
+                case StEvent.ClusterTitleAdded:
+                    evt = "cluster title added";
+                    break;
+                case StEvent.ClusterTitleRemoved:
+                    evt = "cluster title removed";
+                    break;
+                case StEvent.ClusterTitleEdited:
+                    evt = "cluster title edited"; 
                     break;
                 case StEvent.LinkCreated:
                     evt = "created link";
@@ -141,6 +149,9 @@ namespace Discussions.stats
                     break;
                 case StEvent.SourceOpened:
                     evt = "opened source";
+                    break;
+                case StEvent.LaserEnabled:
+                    evt = "laser enabled"; 
                     break;
                 default:
                     throw new NotSupportedException();

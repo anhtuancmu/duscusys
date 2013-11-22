@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Discussions.DbModel.model;
 using LiteLobby;
 using Photon.SocketServer;
 using Discussions.RTModel.Operations;

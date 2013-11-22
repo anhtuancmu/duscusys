@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 

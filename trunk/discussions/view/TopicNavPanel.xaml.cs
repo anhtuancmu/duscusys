@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Discussions.ctx;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Microsoft.Surface.Presentation.Controls;

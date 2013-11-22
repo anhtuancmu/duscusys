@@ -1,60 +1,65 @@
-﻿namespace Discussions.model
+﻿namespace Discussions.DbModel.model
 {
     public enum StEvent
     {
-        RecordingStarted, //done, 0
-        RecordingStopped, //done, 1
+        RecordingStarted = 0, 
+        RecordingStopped = 1, 
 
-        BadgeCreated, //done  2
-        BadgeEdited, //done  3
-        BadgeMoved, //done  4
-        BadgeZoomIn, //done  5
+        BadgeCreated = 2, 
+        BadgeEdited = 3, 
+        BadgeMoved = 4, 
+        BadgeZoomIn = 5, 
 
-        ClusterCreated, //done 6
-        ClusterDeleted, //done 7
-        ClusterIn, //done 8
-        ClusterOut, //done 9
-        ClusterMoved, //done 10 
+        ClusterCreated = 6, 
+        ClusterDeleted = 7, 
+        ClusterIn = 8, 
+        ClusterOut = 9, 
+        ClusterMoved = 10,
+        ClusterTitleAdded = 37,
+        ClusterTitleEdited = 38,
+        ClusterTitleRemoved = 39,  
 
-        LinkCreated, //done 11
-        LinkRemoved, //done 12
+        LinkCreated = 11, 
+        LinkRemoved = 12,
 
-        FreeDrawingCreated, //done, 13
-        FreeDrawingRemoved, //done, 14
-        FreeDrawingResize, //done, 15    
-        FreeDrawingMoved, //done, 16
+        FreeDrawingCreated = 13, 
+        FreeDrawingRemoved = 14,
+        FreeDrawingResize = 15,   
+        FreeDrawingMoved = 16,
 
-        SceneZoomedIn, //done 17
-        SceneZoomedOut, //done 18
+        SceneZoomedIn = 17, 
+        SceneZoomedOut = 18, 
 
-        ArgPointTopicChanged, //done 19
+        ArgPointTopicChanged = 19, 
 
-        SourceAdded, //done 20
-        SourceRemoved, //done 21
+        SourceAdded = 20, 
+        SourceRemoved = 21, 
 
-        ImageAdded, //done 22
-        ImageUrlAdded, //done 23
+        ImageAdded = 22, 
+        ImageUrlAdded = 23,
 
-        PdfAdded, //done 24
-        PdfUrlAdded, //done 25
+        PdfAdded = 24, 
+        PdfUrlAdded = 25, 
 
-        YoutubeAdded, //done 26
+        YoutubeAdded = 26, 
 
-        ScreenshotAdded, //done 27
+        ScreenshotAdded = 27, 
 
-        MediaRemoved, //done 28
+        MediaRemoved = 28, 
 
-        CommentAdded, //done 29
-        CommentRemoved, //done 30
+        CommentAdded = 29, 
+        CommentRemoved = 30,
 
-        ImageOpened, //done 31
-        VideoOpened, //done 32
-        ScreenshotOpened, //done 33
-        PdfOpened, //done 34
-        SourceOpened, //done 35
+        ImageOpened = 31,
+        VideoOpened = 32, 
+        ScreenshotOpened = 33, 
+        PdfOpened = 34,
+        SourceOpened = 35,
 
         //this event is only for internal use in WPF client.
         //such events are never sent to photon
-        LocalIgnorableEvent // 36
+        LocalIgnorableEvent = 36,
+
+        LaserEnabled = 40,  
     }
 }

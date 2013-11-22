@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using AbstractionLayer;
 using Discussions.ctx;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;

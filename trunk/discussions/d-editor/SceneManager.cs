@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using Discussions;
 using Discussions.ctx;
+using Discussions.DbModel.model;
 using Discussions.d_editor;
 using Discussions.model;
 using Discussions.rt;

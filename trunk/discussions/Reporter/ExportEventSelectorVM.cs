@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Reporter.Annotations;
 
@@ -43,6 +44,10 @@ namespace Reporter
         private bool _noSceneZoomOut;
         private bool _noScreenshotsAdded;
         private bool _noScreenshotsOpened;
+        private bool _noClusterTitlesAdded;
+        private bool _noClusterTitlesEdited;
+        private bool _noClusterTitlesRemoved;
+        private bool _noLaserEnabled;
 
         public ExportEventSelectorVM()
         {
@@ -235,6 +240,39 @@ namespace Reporter
             {
                 if (value.Equals(_noClusterOut)) return;
                 _noClusterOut = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool NoClusterTitlesAdded
+        {
+            get { return _noClusterTitlesAdded; }
+            set
+            {
+                if (value.Equals(_noClusterTitlesAdded)) return;
+                _noClusterTitlesAdded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool NoClusterTitlesEdited
+        {
+            get { return _noClusterTitlesEdited; }
+            set
+            {
+                if (value.Equals(_noClusterTitlesEdited)) return;
+                _noClusterTitlesEdited = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool NoClusterTitlesRemoved
+        {
+            get { return _noClusterTitlesRemoved; }
+            set
+            {
+                if (value.Equals(_noClusterTitlesRemoved)) return;
+                _noClusterTitlesRemoved = value;
                 OnPropertyChanged();
             }
         }
@@ -514,6 +552,17 @@ namespace Reporter
             }
         }
 
+        public bool NoLaserEnabled
+        {
+            get { return _noLaserEnabled; }
+            set
+            {
+                if (value.Equals(_noLaserEnabled)) return;
+                _noLaserEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool EventExported(StEvent eventCode)
         {
             switch (eventCode)
@@ -550,6 +599,15 @@ namespace Reporter
 
                 case StEvent.ClusterMoved:
                     return NoClusterMoved;
+
+                case StEvent.ClusterTitleAdded:
+                    return NoClusterTitlesAdded;
+
+                case StEvent.ClusterTitleEdited:
+                    return NoClusterTitlesEdited;
+
+                case StEvent.ClusterTitleRemoved:
+                    return NoClusterTitlesRemoved;
 
                 case StEvent.LinkCreated:
                     return NoLinksCreated;
@@ -628,6 +686,9 @@ namespace Reporter
 
                 case StEvent.LocalIgnorableEvent:
                     return true;
+
+                case StEvent.LaserEnabled:
+                    return NoLaserEnabled;
 
                 default:
                     throw new ArgumentOutOfRangeException("eventCode");

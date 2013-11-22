@@ -50,6 +50,9 @@ namespace Reporter
             sb.Append("TotalClusterIn;");
             sb.Append("TotalClusterOut;");
             sb.Append("TotalClusterMoved;");
+            sb.Append("TotalClusterTitlesAdded;");
+            sb.Append("TotalClusterTitlesEdited;");
+            sb.Append("TotalClusterTitlesRemoved;");
             sb.Append("TotalLinkCreated;");
             sb.Append("TotalLinkRemoved;");
             sb.Append("TotalFreeDrawingCreated;");
@@ -75,6 +78,7 @@ namespace Reporter
             sb.Append("TotalScreenshotOpened;");
             sb.Append("TotalPdfOpened;");
             sb.AppendLine("TotalSourceOpened;");
+            sb.AppendLine("TotalLaserEnabled;");
 
             //first line
             AddSessionTopicRow(sb, topicReport1, params1, eventTotals1);
@@ -144,6 +148,12 @@ namespace Reporter
             sb.Append(";");
             sb.Append(eventTotals1.TotalClusterMoved.ToString());
             sb.Append(";");
+            sb.Append(eventTotals1.TotalClusterTitlesAdded.ToString());
+            sb.Append(";");
+            sb.Append(eventTotals1.TotalClusterTitlesEdited.ToString());
+            sb.Append(";");
+            sb.Append(eventTotals1.TotalClusterTitlesRemoved.ToString());
+            sb.Append(";");
             sb.Append(eventTotals1.TotalLinkCreated.ToString());
             sb.Append(";");
             sb.Append(eventTotals1.TotalLinkRemoved.ToString());
@@ -192,7 +202,9 @@ namespace Reporter
             sb.Append(";");
             sb.Append(eventTotals1.TotalPdfOpened.ToString());
             sb.Append(";");
-            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString() + ";");
+            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString());
+            sb.Append(";");
+            sb.Append(eventTotals1.TotalLaserEnabled.ToString() + ";");
         }
     }
 }

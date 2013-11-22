@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.RTModel.Model;
 using Discussions.RTModel.Operations;
 using DistributedEditor;
@@ -152,7 +153,7 @@ namespace Discussions.RTModel
                     EventLogger.LogAndBroadcast(
                         new DiscCtx(Discussions.ConfigManager.ConnStr),
                         _room,
-                        model.StEvent.FreeDrawingCreated,
+                        StEvent.FreeDrawingCreated,
                         req.ownerId,
                         _topicId);
                     break;
@@ -241,7 +242,7 @@ namespace Discussions.RTModel
 
             EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                         _room,
-                                        model.StEvent.LinkRemoved,
+                                        StEvent.LinkRemoved,
                                         usrId,
                                         _topicId);
 
@@ -290,7 +291,7 @@ namespace Discussions.RTModel
                 EventLogger.LogAndBroadcast(
                     new DiscCtx(Discussions.ConfigManager.ConnStr),
                     _room,
-                    model.StEvent.FreeDrawingRemoved,
+                    StEvent.FreeDrawingRemoved,
                     shape.InitialOwner(),
                     _topicId);
             }
@@ -307,7 +308,7 @@ namespace Discussions.RTModel
             {
                 EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                             _room,
-                                            model.StEvent.ClusterDeleted,
+                                            StEvent.ClusterDeleted,
                                             -1, //owner unknown 
                                             _topicId);
             }
@@ -556,7 +557,7 @@ namespace Discussions.RTModel
 
             EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                         _room,
-                                        model.StEvent.LinkCreated,
+                                        StEvent.LinkCreated,
                                         req.ownerId,
                                         req.topicId);
 
@@ -582,7 +583,7 @@ namespace Discussions.RTModel
 
             EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                         _room,
-                                        model.StEvent.ClusterOut,
+                                        StEvent.ClusterOut,
                                         userId,
                                         _topicId);
             _pendingChanges = true;
@@ -603,7 +604,7 @@ namespace Discussions.RTModel
 
                 EventLogger.LogAndBroadcast(new DiscCtx(Discussions.ConfigManager.ConnStr),
                                             _room,
-                                            model.StEvent.ClusterIn,
+                                            StEvent.ClusterIn,
                                             req.ownerId,
                                             req.topicId);
             }

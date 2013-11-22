@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Discussions.DbModel.model;
 using EventGen.timeline;
 using Microsoft.Surface.Presentation.Controls;
 
@@ -21,7 +22,7 @@ namespace EventGen
 
         private void AddEvent_Click_1(object sender, RoutedEventArgs e)
         {
-            var ev = new TimelineEvent(Discussions.model.StEvent.BadgeEdited, 1, 1,
+            var ev = new TimelineEvent(StEvent.BadgeEdited, 1, 1,
                                        _timelineModel, TimeSpan.FromSeconds(4), 1, Discussions.model.DeviceType.Wpf);
             _timelineModel.AddEvent(ev);
         }
