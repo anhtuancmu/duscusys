@@ -168,11 +168,25 @@ namespace DistributedEditor
 
                 //send resized free form 
                 SendSyncState(_hostAwaitingCaption.CapMgr().FreeDraw);
+                
+                //cluster + title stats event
+                _rt.clienRt.SendStatsEvent(StEvent.ClusterTitleAdded,
+                                            _palette.GetOwnerId(),
+                                            _doc.DiscussionId,
+                                            _doc.TopicId,
+                                            DeviceType.Wpf);              
             }
             else if (caption is VdText)
             {
                 _hostAwaitingCaption.CapMgr().text = (VdText) caption;
                 SendSyncState(_hostAwaitingCaption.CapMgr().text);
+
+                //cluster + title stats event
+                _rt.clienRt.SendStatsEvent(StEvent.ClusterTitleAdded,
+                                            _palette.GetOwnerId(),
+                                            _doc.DiscussionId,
+                                            _doc.TopicId,
+                                            DeviceType.Wpf);     
             }
             else
                 throw new NotSupportedException();
