@@ -26,7 +26,6 @@ namespace Discussions.view
         private DispatcherTimer _scrollStateChecker;
 
         private BrowserOverlayWindow _overlayWnd;
-
         public WebkitBrowserWindow(string url, int? topicId)
         {
             InitializeComponent();

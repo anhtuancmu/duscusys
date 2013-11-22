@@ -8,32 +8,15 @@
     mc:Ignorable="d" x:Class="Discussions.pdf_reader.ReaderWindow"    
     xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     Title2="Pdf viewer"
+    SizeChanged="ReaderWindow_OnSizeChanged"
+    LocationChanged="ReaderWindow_OnLocationChanged"
     ResizeMode="CanResize"
     WindowStartupLocation="CenterScreen"
-    IsManipulationEnabled="True"
-    Topmost="True"
+    IsManipulationEnabled="True"   
     Closing="Window_Closing_1"
     d:DesignWidth="657.233"
     d:DesignHeight="574" Background="#FFCBCBCB" Icon="/Discussions;component/discusys iconv3.ico">
     <Grid>
-        <Popup PlacementTarget="{Binding ElementName=winFormsHost}"
-               x:Name="popup"
-               IsOpen="True"
-               AllowsTransparency="True"
-               Placement="Center"
-               Width="{Binding ElementName=winFormsHost, Path=ActualWidth}"
-               Height="{Binding ElementName=winFormsHost, Path=ActualHeight}" Margin="0">
-            <Grid>
-                <s:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                 Click="btnZoom_Click" Content="X"
-                                 FontSize="48" Foreground="White"
-                                 MinWidth="137" MinHeight="107" BorderThickness="0"
-                                 HorizontalContentAlignment="Center"
-                                 VerticalContentAlignment="Center"
-                                 Background="#66000000" Margin="1,1,20,1" />
-            </Grid>
-        </Popup>
-
         <WindowsFormsHost Name="winFormsHost">
             <WindowsFormsHost.RenderTransform>
                 <TransformGroup>
