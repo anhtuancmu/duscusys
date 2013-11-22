@@ -372,22 +372,6 @@ namespace Discussions.RTModel
 
             sh.ApplyState(state);
             
-            //record potential cluster + title stats event
-            if (sh.ShapeCode() == VdShapeType.Cluster)
-            {
-                //see VdCluster for format
-                if (state.ints[0] != -1 || state.ints[1] != -1)
-                {
-                    //cluster caption added 
-                    EventLogger.LogAndBroadcast(
-                        new DiscCtx(Discussions.ConfigManager.ConnStr),
-                        _room,
-                        StEvent.ClusterTitleAdded,
-                        state.initialOwner,
-                        _topicId);     
-                }               
-            }
-
             if (state.doBroadcast)
             {
                 _room.Broadcast(peer, operationRequest, sendParameters,
