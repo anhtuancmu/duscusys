@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Discussions.DbModel;
 using Discussions.model;
 
 namespace Reporter
@@ -147,7 +144,7 @@ namespace Reporter
                     TotalPdfAdded++;
                     break;
                 case StEvent.PdfUrlAdded:
-                    TotalPdfAdded++;
+                    TotalPdfUrlAdded++;
                     break;
                 case StEvent.YoutubeAdded:
                     TotalYoutubeAdded++;

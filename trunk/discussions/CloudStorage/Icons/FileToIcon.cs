@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Drawing;
 using System.Windows.Media;
@@ -11,7 +9,6 @@ using System.Windows.Interop;
 using System.Windows;
 using System.Runtime.InteropServices;
 using vbAccelerator.Components.ImageList;
-using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
 
@@ -20,8 +17,8 @@ namespace QuickZip.Tools
     [ValueConversion(typeof (string), typeof (ImageSource))]
     public class FileToIconConverter : IMultiValueConverter
     {
-        private static string imageFilter = ".jpg,.jpeg,.png,.gif";
-        private static string exeFilter = ".exe,.lnk";
+        private const string imageFilter = ".jpg,.jpeg,.png,.gif";
+        private const string exeFilter = ".exe,.lnk";
         private int defaultsize;
 
         public int DefaultSize

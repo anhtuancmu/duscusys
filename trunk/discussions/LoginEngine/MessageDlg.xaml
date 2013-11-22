@@ -32,11 +32,14 @@
             <RowDefinition MinHeight="70"/>
         </Grid.RowDefinitions>
 
-        <Rectangle Fill="{DynamicResource MainBgrndRctFill}" Height="5" VerticalAlignment="Top"/>        
-        
+        <Rectangle Fill="#FF2CA1CF" Height="5" VerticalAlignment="Top"/>
+
+        <Rectangle Fill="#FF2CA1CF" Height="1" VerticalAlignment="Bottom"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <TextBlock x:Name="message" Foreground="White" 
+                TextWrapping="Wrap" 
+                MaxWidth="800"
     			VerticalAlignment="Center" 
     			HorizontalAlignment="Center" 
     			FontSize="18"/>

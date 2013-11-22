@@ -1,0 +1,60 @@
+﻿<abstractionLayer:PortableWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        x:Class="Reporter.ExportEventSelector"
+        xmlns:abstractionLayer="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
+        xmlns:controls="http://schemas.microsoft.com/surface/2008"
+        WindowStartupLocation="CenterScreen"
+        Title2 ="What events to export?"
+        Height="643.15" Width="901">
+    <!--d:DataContext="{d:DesignInstance local:ExportEventSelectorVM}"-->
+
+    <Grid Background="#FF858585"> 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <WrapPanel Orientation="Vertical">
+            <controls:SurfaceCheckBox Content="arg.point topic changed" IsChecked="{Binding ArgPointTopicChanged}"/>
+            <controls:SurfaceCheckBox Content="no. badge created" IsChecked="{Binding NoBadgeCreated}"/>
+            <controls:SurfaceCheckBox Content="no. badge edited" IsChecked="{Binding NoBadgeEdited}"/>
+            <controls:SurfaceCheckBox Content="no. badge moved" IsChecked="{Binding NoBadgeMoved}"/>
+            <controls:SurfaceCheckBox Content="no. badge zoom in" IsChecked="{Binding NoBadgeZoomIn}"/>
+            <controls:SurfaceCheckBox Content="no. cluster created" IsChecked="{Binding NoClusterCreated}"/>
+            <controls:SurfaceCheckBox Content="no. cluster deleted" IsChecked="{Binding NoClusterDeleted}"/>
+            <controls:SurfaceCheckBox Content="no. cluster-in" IsChecked="{Binding NoClusterIn}"/>
+            <controls:SurfaceCheckBox Content="no. cluster moved" IsChecked="{Binding NoClusterMoved}"/>
+            <controls:SurfaceCheckBox Content="no. cluster-out" IsChecked="{Binding NoClusterOut}"/>
+            <controls:SurfaceCheckBox Content="no. comment added" IsChecked="{Binding NoCommentsAdded}"/>
+            <controls:SurfaceCheckBox Content="no. comment removed" IsChecked="{Binding NoCommentsRemoved}"/>
+            <controls:SurfaceCheckBox Content="no. free drawing created" IsChecked="{Binding NoFreeDrawingCreated}"/>
+            <controls:SurfaceCheckBox Content="no. free drawing moved" IsChecked="{Binding NoFreeDrawingMoved}"/>
+            <controls:SurfaceCheckBox Content="no. free drawing removed" IsChecked="{Binding NoFreeDrawingRemoved}"/>
+            <controls:SurfaceCheckBox Content="no. free drawing resize" IsChecked="{Binding NoFreeDrawingResize}"/>
+            <controls:SurfaceCheckBox Content="no. image added" IsChecked="{Binding NoImageAdded}"/>
+            <controls:SurfaceCheckBox Content="no. image opened" IsChecked="{Binding NoImageOpened}"/>
+            <controls:SurfaceCheckBox Content="no. image url added" IsChecked="{Binding NoImageUrlAdded}"/>
+            <controls:SurfaceCheckBox Content="no. link created" IsChecked="{Binding NoLinksCreated}"/>
+            <controls:SurfaceCheckBox Content="no. link removed" IsChecked="{Binding NoLinksRemoved}"/>
+            <controls:SurfaceCheckBox Content="no. media removed" IsChecked="{Binding NoMediaRemoved}"/>
+            <controls:SurfaceCheckBox Content="no. PDF added" IsChecked="{Binding NoPdfAdded}"/>
+            <controls:SurfaceCheckBox Content="no. PDF opened" IsChecked="{Binding NoPdfOpened}"/>
+            <controls:SurfaceCheckBox Content="no. PDF url added" IsChecked="{Binding NoPdfUrlAdded}"/>
+            <controls:SurfaceCheckBox Content="no. source added" IsChecked="{Binding NoSourcesAdded}"/>
+            <controls:SurfaceCheckBox Content="no. source opened" IsChecked="{Binding NoSourcesOpened}"/>
+            <controls:SurfaceCheckBox Content="no. source removed" IsChecked="{Binding NoSourcesRemoved}"/>
+            <controls:SurfaceCheckBox Content="no. video opened" IsChecked="{Binding NoVideoOpened}"/>
+            <controls:SurfaceCheckBox Content="no. video added" IsChecked="{Binding NoVideoAdded}"/>
+            <controls:SurfaceCheckBox Content="no. scene zoom in" IsChecked="{Binding NoSceneZoomIn}"/>
+            <controls:SurfaceCheckBox Content="no. scene zoom out" IsChecked="{Binding NoSceneZoomOut}"/>
+            <controls:SurfaceCheckBox Content="no. screenshot added" IsChecked="{Binding NoScreenshotsAdded}"/>
+            <controls:SurfaceCheckBox Content="no. screenshot opened" IsChecked="{Binding NoScreenshotsOpened}"/>            
+        </WrapPanel>
+
+        <StackPanel Grid.Column="1">
+            <controls:SurfaceButton x:Name="btnCheckAll" Content="Check all" Command="{Binding CheckAllCommand}" HorizontalAlignment="Left" Width="140"/>
+            <controls:SurfaceButton x:Name="btnUncheckAll" Content="Uncheck all" Command="{Binding UncheckAllCommand}" Margin="0,10,0,0" HorizontalAlignment="Left" Width="140"/>
+        </StackPanel>
+        <controls:SurfaceButton x:Name="btnOk" Content="Ok" Click="BtnOk_OnClick" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Right" Width="50"/>
+    </Grid>
+</abstractionLayer:PortableWindow>

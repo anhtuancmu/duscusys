@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using Discussions.DbModel;
 using Discussions.model;
 using Discussions.stats;
@@ -12,13 +8,15 @@ namespace Reporter
     public class CsvEventExporter
     {
         public static void Export(string reportPathName,
+                                  ExportEventSelectorVM eventsFilter,
                                   ReportParameters params1,
                                   ReportParameters params2)
         {
-            System.IO.File.WriteAllText(reportPathName, Export(params1, params2));
+            System.IO.File.WriteAllText(reportPathName, Export(eventsFilter, params1, params2));
         }
 
-        private static string Export(ReportParameters params1,
+        private static string Export(ExportEventSelectorVM eventsFilter,
+                                     ReportParameters params1,
                                      ReportParameters params2)
         {
             //write header
@@ -36,26 +34,29 @@ namespace Reporter
             sb.Append("DeviceType;");
             sb.AppendLine("DeviceTypeName");
 
-            var _ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
-            foreach (var ev in _ctx.StatsEvent)
+            var ctx = new DiscCtx(Discussions.ConfigManager.ConnStr);
+            foreach (var ev in ctx.StatsEvent)
             {
                 var addEvent = false;
 
-                if (ev.UserId == -1)
+                if(eventsFilter.EventExported((StEvent)ev.Event))
                 {
-                    addEvent = true;
-                }
-                else
-                {
-                    if (params1 != null && params1.requiredUsers.Contains(ev.UserId))
+                    if (ev.UserId == -1)
                     {
-                        if (params1.topic.Id == ev.TopicId || ev.TopicId == -1)
-                            addEvent = true;
+                        addEvent = true;
                     }
-                    if (params2 != null && params2.requiredUsers.Contains(ev.UserId))
+                    else
                     {
-                        if (params2.topic.Id == ev.TopicId || ev.TopicId == -1)
-                            addEvent = true;
+                        if (params1 != null && params1.requiredUsers.Contains(ev.UserId))
+                        {
+                            if (params1.topic.Id == ev.TopicId || ev.TopicId == -1)
+                                addEvent = true;
+                        }
+                        if (params2 != null && params2.requiredUsers.Contains(ev.UserId))
+                        {
+                            if (params2.topic.Id == ev.TopicId || ev.TopicId == -1)
+                                addEvent = true;
+                        }
                     }
                 }
 
