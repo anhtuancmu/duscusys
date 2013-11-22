@@ -11,10 +11,10 @@ namespace DistributedEditor
     //provides access to shape collection
     public class VdDocument : IDisposable
     {
-        private UISharedRTClient _rt = UISharedRTClient.Instance;
+        private readonly UISharedRTClient _rt = UISharedRTClient.Instance;
 
         //shape id to shape
-        private Dictionary<int, IVdShape> shapes = new Dictionary<int, IVdShape>();
+        private readonly Dictionary<int, IVdShape> shapes = new Dictionary<int, IVdShape>();
 
         //selection, copy clone
         private CursorMgr _volatileCtx = null;
@@ -29,14 +29,14 @@ namespace DistributedEditor
             }
         }
 
-        private Canvas _scene;
+        private readonly Canvas _scene;
 
         public Canvas Scene
         {
             get { return _scene; }
         }
 
-        private IPaletteOwner _palette;
+        private readonly IPaletteOwner _palette;
 
         public int OwnerId
         {
@@ -50,14 +50,14 @@ namespace DistributedEditor
             get { return _isLoaded; }
         }
 
-        private int _topicId;
+        private readonly int _topicId;
 
         public int TopicId
         {
             get { return _topicId; }
         }
 
-        private int _discId;
+        private readonly int _discId;
 
         public int DiscussionId
         {
