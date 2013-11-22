@@ -299,10 +299,9 @@ namespace Discussions.RTModel
             //possible deletion of a cluster caption
             if (shape.ShapeCode() == VdShapeType.FreeForm || shape.ShapeCode() == VdShapeType.Text)
             {
-                var clusterHost = _doc.GetShapes().FirstOrDefault(
-                    sh => sh.ShapeCode() == VdShapeType.Cluster &&
-                            sh.GetState().ints[0] == shape.Id() ||
-                            sh.GetState().ints[1] == shape.Id());
+                var clusterHost = _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Cluster)
+                    .FirstOrDefault(sh => sh.GetState().ints[0] == shape.Id() ||
+                                          sh.GetState().ints[1] == shape.Id());
 
                 if (clusterHost != null)
                 {
