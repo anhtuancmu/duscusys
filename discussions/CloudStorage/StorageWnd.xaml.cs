@@ -83,7 +83,7 @@ namespace CloudStorage
                     catch (Exception e)
                     {
                         downloadProgress.Visibility = Visibility.Collapsed;
-                        MessageDlg.Show("Authentication error. Please try to connect again: " + e.ToString(), "Error",
+                        MessageDlg.Show("Authentication error. Please try to connect again: \n" + e.ToString(), "Error",
                                         MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
@@ -147,7 +147,7 @@ namespace CloudStorage
                     _storage.Children(++_folderRequestId,
                                       _navState.CurrentFolderId,
                                       this.Dispatcher,
-                                      addEntry);
+                                      AddEntry);
                 });
 
             if (directCall)
@@ -156,7 +156,7 @@ namespace CloudStorage
                 new Task(worker).Start();
         }
 
-        private bool addEntry(int expected, FileEntry entry, int folderRequestId)
+        private bool AddEntry(int expected, FileEntry entry, int folderRequestId)
         {
             if (entry != null)
             {
@@ -241,7 +241,7 @@ namespace CloudStorage
             }
         }
 
-        private void fileRequestView(object sender, RoutedEventArgs e)
+        private void FileRequestView(object sender, RoutedEventArgs e)
         {
             var fec = e.OriginalSource as FileEntryControl;
             if (fec == null)
@@ -257,7 +257,7 @@ namespace CloudStorage
             OpenFileViewer(fe);
         }
 
-        private void custSelectionEvent(object sender, RoutedEventArgs e)
+        private void CustSelectionEvent(object sender, RoutedEventArgs e)
         {
             var fec = e.OriginalSource as FileEntryControl;
             if (fec == null)

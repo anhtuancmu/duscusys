@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 
@@ -25,7 +23,7 @@ namespace Reporter
             var sb = new StringBuilder();
             sb.AppendLine("<event totals>");
 
-            sb.Append("no. arg.point changed ");
+            sb.Append("no. arg.point topic changed ");
             sb.AppendLine(eTotals.TotalArgPointTopicChanged.ToString());
 
             sb.Append("no. badge created ");

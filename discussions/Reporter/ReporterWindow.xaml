@@ -24,7 +24,6 @@
         <local:ReportSummaryUC x:Name="reportHeader1" Grid.Row="1" Margin="0,0,0,4" />
         <local:ReportSummaryUC x:Name="reportHeader2" Grid.Row="1" Grid.Column="1" />
         <StackPanel Orientation="Horizontal">
-
             <s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh"
                              HorizontalAlignment="Left" VerticalAlignment="Top"
                              Height="50" Width="150" Margin="0" Background="#CC7DF7B4" />

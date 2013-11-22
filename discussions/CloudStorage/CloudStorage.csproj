@@ -146,45 +146,45 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\back.png" />
-    <Resource Include="Resources\next.png" />
+    <Resource Include="Assets\back.png" />
+    <Resource Include="Assets\next.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\drive_icon.png" />
-    <Resource Include="Resources\dropbox.png" />
+    <Resource Include="Assets\drive_icon.png" />
+    <Resource Include="Assets\dropbox.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\folder64.png" />
+    <Resource Include="Assets\folder64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\folder128.png" />
+    <Resource Include="Assets\folder128.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\letter.png" />
+    <Resource Include="Assets\letter.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\clock.png" />
+    <Resource Include="Assets\clock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\refresh.png" />
+    <Resource Include="Assets\refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\attachment.png" />
+    <Resource Include="Assets\attachment.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\nav_up.png" />
+    <Resource Include="Assets\nav_up.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\home.png" />
+    <Resource Include="Assets\home.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\enlarge2.png" />
+    <Resource Include="Assets\enlarge2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\accept-icon.png" />
+    <Resource Include="Assets\accept-icon.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AbstractionLayer\AbstractionLayer.csproj">
@@ -197,15 +197,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gdocExcel.png" />
-    <Resource Include="Resources\gdocPowerPoint.png" />
-    <Resource Include="Resources\gdocWord.png" />
+    <Resource Include="Assets\gdocExcel.png" />
+    <Resource Include="Assets\gdocPowerPoint.png" />
+    <Resource Include="Assets\gdocWord.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\notepad_list3.png" />
+    <Resource Include="Assets\notepad_list3.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\eye.png" />
+    <Resource Include="Assets\eye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

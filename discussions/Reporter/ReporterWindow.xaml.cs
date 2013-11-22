@@ -126,7 +126,7 @@ namespace Reporter
             var sb = new StringBuilder();
             sb.AppendLine("<user event totals>");
 
-            sb.Append("no. arg.point changed ");
+            sb.Append("no. arg.point topic changed ");
             sb.AppendLine(eTotals.TotalArgPointTopicChanged.ToString());
 
             sb.Append("no. badge created ");
@@ -524,18 +524,28 @@ namespace Reporter
 
         private void CsvExport(bool perEvent)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            ExportEventSelectorVM selectedEvents = null;
+            if (perEvent)
+            {
+                var selector = new ExportEventSelector();
+                selector.ShowDialog();
+                selectedEvents = selector.Result;
+            }
+
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".csv",
+                Filter = "CSV files (.csv)|*.csv",
+                CheckFileExists = false,
+                Title = "Report name and folder?"
+            };
 
             // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".csv";
-            dlg.Filter = "CSV files (.csv)|*.csv";
-            dlg.CheckFileExists = false;
-            dlg.Title = "Report name and folder?";
 
             // Display OpenFileDialog by calling ShowDialog method
             bool? result = dlg.ShowDialog();
 
-            if (result.HasValue && result.Value)
+            if (result.Value)
             {
                 var generated = false;
 
@@ -546,6 +556,7 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
+                                                selectedEvents,
                                                 reportHeader1.getReportParams(false),
                                                 null);
                     }
@@ -565,6 +576,7 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
+                                                selectedEvents,
                                                 reportHeader2.getReportParams(false),
                                                 null);
                     }
@@ -584,12 +596,13 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
+                                                selectedEvents,
                                                 reportHeader1.getReportParams(false),
                                                 reportHeader2.getReportParams(false));
                     }
                     else
                     {
-                        CsvExporter.Export(dlg.FileName,
+                        CsvExporter.Export(dlg.FileName,                                          
                                            _reportCollector1.TopicReports.First(),
                                            reportHeader1.getReportParams(false),
                                            _reportCollector1.EventTotals,

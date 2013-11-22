@@ -11,7 +11,7 @@
     Height="389" Width="931.5"
     Background="{DynamicResource WndBg}">
     <al:PortableWindow.Resources>
-        <ImageBrush x:Key="greenTick" ImageSource="Resources\accept-icon.png" Stretch="Uniform" />
+        <ImageBrush x:Key="greenTick" ImageSource="Assets\accept-icon.png" Stretch="Uniform" />
 
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="17" />
@@ -158,8 +158,8 @@
                           Background="{x:Null}"
                           ItemsPanel="{DynamicResource FilePanelTemplate}"
                           ItemContainerStyle="{DynamicResource SurfaceListFileEntryItemStyle}"
-                          local:FileEntryControl.RequestView="fileRequestView"
-                          local:FileEntryControl.CustSelection="custSelectionEvent">
+                          local:FileEntryControl.RequestView="FileRequestView"
+                          local:FileEntryControl.CustSelection="CustSelectionEvent">
             <s:SurfaceListBox.ItemTemplate>
                 <DataTemplate>
                     <local:FileEntryControl />
