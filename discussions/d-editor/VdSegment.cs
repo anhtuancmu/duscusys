@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Petzold.Media2D;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Shapes;
 using System.Windows.Input;
 using System.Windows.Media;
 using Discussions;
-using System.Windows.Media.Effects;
 using Discussions.RTModel.Model;
 
 namespace DistributedEditor

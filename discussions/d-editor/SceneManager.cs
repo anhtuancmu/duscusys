@@ -161,7 +161,7 @@ namespace DistributedEditor
 
             if (caption is VdFreeForm)
             {
-                _hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm) caption;
+                _hostAwaitingCaption.CapMgr().FreeDraw = (VdFreeForm)caption;                
 
                 //initial resize of free form
                 _hostAwaitingCaption.CapMgr().InitialResizeOfFreeForm();

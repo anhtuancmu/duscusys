@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Discussions.RTModel.Operations;
 using DistributedEditor;
 
@@ -15,7 +12,11 @@ namespace Discussions.RTModel.Model
         public double startX;
         public double startY;
         public bool takeCursor;
-        public int tag; // only for badges, DB Id of ArgPoint
+
+        /// <summary>
+        /// For badges, DB Id of ArgPoint.
+        /// </summary>
+        public int tag; 
         public int topicId;
 
         public static CreateShape Read(Dictionary<byte, object> par)

@@ -149,13 +149,13 @@ namespace Discussions.RTModel
                     _doc.AddShape(newSh);
                     break;
                 case VdShapeType.FreeForm:
-                    _doc.AddShape(newSh);
+                    _doc.AddShape(newSh);                    
                     EventLogger.LogAndBroadcast(
                         new DiscCtx(Discussions.ConfigManager.ConnStr),
                         _room,
                         StEvent.FreeDrawingCreated,
                         req.ownerId,
-                        _topicId);
+                        _topicId);                    
                     break;
                 default:
                     _doc.AddShapeAndLock(newSh);
@@ -371,6 +371,22 @@ namespace Discussions.RTModel
                 return;
 
             sh.ApplyState(state);
+            
+            //record potential cluster + title stats event
+            if (sh.ShapeCode() == VdShapeType.Cluster)
+            {
+                //see VdCluster for format
+                if (state.ints[0] != -1 || state.ints[1] != -1)
+                {
+                    //cluster caption added 
+                    EventLogger.LogAndBroadcast(
+                        new DiscCtx(Discussions.ConfigManager.ConnStr),
+                        _room,
+                        StEvent.ClusterTitleAdded,
+                        state.initialOwner,
+                        _topicId);     
+                }               
+            }
 
             if (state.doBroadcast)
             {
