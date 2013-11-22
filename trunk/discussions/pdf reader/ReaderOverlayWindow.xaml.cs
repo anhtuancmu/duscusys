@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Discussions.webkit_host;
 
 namespace Discussions.pdf_reader
 {
@@ -15,7 +14,7 @@ namespace Discussions.pdf_reader
   
         private void ReaderOverlayWindow_OnSourceInitialized(object sender, EventArgs e)
         {
-            WinAPI.SetHitTestVisible(this, visible: false);
+            //WinAPI.SetHitTestVisible(this, visible: false);
         }
 
         private void BtnZoom_OnClick(object sender, RoutedEventArgs e)

@@ -9,6 +9,7 @@
     Title2="Web viewer"
     LocationChanged="WebkitBrowserWindow_OnLocationChanged"
     ResizeMode="CanResize"
+    WindowState="Normal"
     Background="{StaticResource WndBg}"
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"

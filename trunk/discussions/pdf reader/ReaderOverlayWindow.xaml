@@ -7,7 +7,7 @@
         SourceInitialized="ReaderOverlayWindow_OnSourceInitialized"
         AllowsTransparency="True"
         ShowInTaskbar="False"
-        Title="BrowserOverlayWindow" Height="300" Width="300" Background="{x:Null}">
+        Title="BrowserOverlayWindow" Height="107" Width="137" Background="{x:Null}">
     <Grid>
         <controls:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
                             Content="X"
@@ -16,6 +16,6 @@
                             MinWidth="137" MinHeight="107" 
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            Background="#66000000" Margin="1,1,18,1" />
+                            Background="#66000000"/>
     </Grid>
 </Window>
