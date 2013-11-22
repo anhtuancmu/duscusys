@@ -651,7 +651,7 @@ namespace Discussions
                     //Process.Start(pdfPathName);
                     Utils.ReportMediaOpened(StEvent.PdfOpened, a);
                     var pdfReader = new ReaderWindow(pdfPathName);
-                    pdfReader.ShowDialog();
+                    pdfReader.Show();
                 }
                 catch (Exception e)
                 {
@@ -695,7 +695,7 @@ namespace Discussions
             if (ext == ".pdf")
             {
                 var pdfReader = new ReaderWindow(pathName);
-                pdfReader.ShowDialog();
+                pdfReader.Show();
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {

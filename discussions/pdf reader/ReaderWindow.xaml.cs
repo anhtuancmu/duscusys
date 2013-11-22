@@ -24,11 +24,6 @@ namespace Discussions.pdf_reader
             _overlayWnd.Show();
         }
 
-        private void btnZoom_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             pdfViewerUC.Dispose();
@@ -52,10 +47,8 @@ namespace Discussions.pdf_reader
                 Point topLeft = this.PointToScreen(new Point(0, 0));
                 Point bottomRight = this.PointToScreen(new Point(this.ActualWidth, this.ActualHeight));
 
-                _overlayWnd.Width = bottomRight.X  - topLeft.X;
-                _overlayWnd.Height = bottomRight.Y - topLeft.Y;
                 _overlayWnd.Top  = topLeft.Y;
-                _overlayWnd.Left = topLeft.X;
+                _overlayWnd.Left = bottomRight.X - _overlayWnd.ActualWidth - 30;
             }
             catch
             {
