@@ -148,7 +148,7 @@ namespace DistributedEditor
             if (_hostAwaitingCaption.CapMgr().FreeDraw != null)
                 _doc.BeginRemoveSingleShape(_hostAwaitingCaption.CapMgr().FreeDraw.Id());
             if (_hostAwaitingCaption.CapMgr().text != null)
-                _doc.BeginRemoveSingleShape(_hostAwaitingCaption.CapMgr().text.Id());
+                _doc.BeginRemoveSingleShape(_hostAwaitingCaption.CapMgr().text.Id());         
         }
 
         private void TryEndHostCaption(IVdShape caption, CaptionType type)

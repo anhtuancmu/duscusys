@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using Discussions.DbModel.model;
 using Discussions.d_editor;
+using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions;
