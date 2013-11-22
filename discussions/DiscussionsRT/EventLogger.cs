@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.RTModel.Model;
 using Discussions.RTModel.Operations;
@@ -29,12 +30,14 @@ namespace Discussions.RTModel
                 return false;
             }
 
-            var s = new StatsEvent();
-            s.DiscussionId = discussionId;
-            s.DiscussionName = disc.Subject;
-            s.TopicId = topicId;
-            s.TopicName = topic.Name;
-            s.UserId = userId;
+            var s = new StatsEvent
+            {
+                DiscussionId = discussionId,
+                DiscussionName = disc.Subject,
+                TopicId = topicId,
+                TopicName = topic.Name,
+                UserId = userId
+            };
             if (pers != null)
                 s.UserName = pers.Name;
             else

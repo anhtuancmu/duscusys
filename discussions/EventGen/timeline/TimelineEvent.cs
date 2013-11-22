@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.stats;
 using EventGen.timeline;

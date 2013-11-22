@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using CloudStorage;
 using CloudStorage.Model;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.DbModel;
 using System.Diagnostics;

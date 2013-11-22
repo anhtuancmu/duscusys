@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Discussions.DbModel.model;
 using ExitGames.Client.Photon;
 using Discussions.RTModel.Operations;
 using System.Collections;

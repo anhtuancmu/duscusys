@@ -9,6 +9,7 @@ using CloudStorage;
 using CloudStorage.Model;
 using Discussions.ctx;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
@@ -814,8 +815,8 @@ namespace Discussions.view
 
                         ap.ChangesPending = true;
 
-                        StEvent ev = StEvent.ArgPointTopicChanged;
-                        switch ((AttachmentFormat) attach.Format)
+                        var ev = StEvent.ArgPointTopicChanged;
+                        switch ((AttachmentFormat)attach.Format)
                         {
                             case AttachmentFormat.Bmp:
                             case AttachmentFormat.Jpg:

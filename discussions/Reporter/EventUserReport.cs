@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Discussions.DbModel;
-using Discussions.model;
+using Discussions.DbModel.model;
 
 namespace Reporter
 {
@@ -17,6 +17,9 @@ namespace Reporter
         public int TotalClusterIn;
         public int TotalClusterOut;
         public int TotalClusterMoved;
+        public int TotalClusterTitlesAdded;
+        public int TotalClusterTitlesEdited;
+        public int TotalClusterTitlesRemoved;
 
         public int TotalLinkCreated;
         public int TotalLinkRemoved;
@@ -55,10 +58,12 @@ namespace Reporter
         public int TotalPdfOpened;
         public int TotalSourceOpened;
 
+        public int TotalLaserEnabled;
+
         public int personId;
         public Person person;
 
-        private List<int> countedEventIds = new List<int>();
+        private readonly List<int> countedEventIds = new List<int>();
 
         public void CountEvent(StEvent ev, int eventId)
         {
@@ -99,6 +104,15 @@ namespace Reporter
                     break;
                 case StEvent.ClusterMoved:
                     TotalClusterMoved++;
+                    break;
+                case StEvent.ClusterTitleAdded:
+                    TotalClusterTitlesAdded++;
+                    break;
+                case StEvent.ClusterTitleEdited:
+                    TotalClusterTitlesEdited++;
+                    break;
+                case StEvent.ClusterTitleRemoved:
+                    TotalClusterTitlesRemoved++;
                     break;
                 case StEvent.LinkCreated:
                     TotalLinkCreated++;
@@ -174,6 +188,9 @@ namespace Reporter
                     break;
                 case StEvent.SourceOpened:
                     TotalSourceOpened++;
+                    break;
+                case StEvent.LaserEnabled:
+                    TotalLaserEnabled++;
                     break;
                 default:
                     throw new NotSupportedException();

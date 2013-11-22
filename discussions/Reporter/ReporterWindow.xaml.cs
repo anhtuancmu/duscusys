@@ -10,6 +10,7 @@ using System.Windows.Media;
 using AbstractionLayer;
 using Discussions;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
@@ -156,6 +157,15 @@ namespace Reporter
             sb.Append("no. cluster-out ");
             sb.AppendLine(eTotals.TotalClusterOut.ToString());
 
+            sb.Append("no. cluster titles added ");
+            sb.AppendLine(eTotals.TotalClusterTitlesAdded.ToString());
+
+            sb.Append("no. cluster titles edited ");
+            sb.AppendLine(eTotals.TotalClusterTitlesEdited.ToString());
+
+            sb.Append("no. cluster titles removed ");
+            sb.AppendLine(eTotals.TotalClusterTitlesRemoved.ToString());
+
             sb.Append("no. comment added ");
             sb.AppendLine(eTotals.TotalCommentAdded.ToString());
 
@@ -227,6 +237,9 @@ namespace Reporter
 
             sb.Append("no. screenshot opened ");
             sb.AppendLine(eTotals.TotalScreenshotOpened.ToString());
+
+            sb.Append("no. laser enabled ");
+            sb.AppendLine(eTotals.TotalLaserEnabled.ToString());
 
             return StatsUtils.WrapText(sb.ToString());
         }

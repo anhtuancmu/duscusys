@@ -92,7 +92,7 @@
                 <evenGenNs:EventButton x:Name="btnClusterOut" EventName="Cluster out[Q]" Margin="1"
                                        Click="btnClusterOut_Click_1" />
                 <evenGenNs:EventButton x:Name="btnClusterMoved" EventName="Cluster moved[W]" Margin="1"
-                                       Click="btnClusterMoved_Click_1" />
+                                       Click="btnClusterMoved_Click_1" />               
             </StackPanel>
 
             <StackPanel Margin="4" Orientation="Vertical" VerticalAlignment="Top">

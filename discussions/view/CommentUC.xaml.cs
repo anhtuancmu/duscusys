@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using Discussions.ctx;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.webkit_host;

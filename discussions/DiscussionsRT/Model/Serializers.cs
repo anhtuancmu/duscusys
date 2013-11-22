@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.RTModel.Operations;
 

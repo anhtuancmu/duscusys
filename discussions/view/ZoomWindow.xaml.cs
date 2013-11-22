@@ -1,6 +1,7 @@
 using System;
 using AbstractionLayer;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Microsoft.Surface;

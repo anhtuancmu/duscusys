@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Discussions.DbModel.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 
@@ -110,7 +111,7 @@ namespace DistributedEditor
                 {
                     if (ownedSh is VdBadge)
                     {
-                        _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.BadgeMoved,
+                        _rt.clienRt.SendStatsEvent(StEvent.BadgeMoved,
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
@@ -118,7 +119,7 @@ namespace DistributedEditor
                     }
                     else if (!supressClusterMoveEvent && ownedSh is VdCluster)
                     {
-                        _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.ClusterMoved,
+                        _rt.clienRt.SendStatsEvent(StEvent.ClusterMoved,
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
@@ -126,7 +127,7 @@ namespace DistributedEditor
                     }
                     else if (ownedSh is VdFreeForm)
                     {
-                        _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.FreeDrawingMoved,
+                        _rt.clienRt.SendStatsEvent(StEvent.FreeDrawingMoved,
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
@@ -138,7 +139,7 @@ namespace DistributedEditor
                 {
                     if (ownedSh is VdFreeForm)
                     {
-                        _rt.clienRt.SendStatsEvent(Discussions.model.StEvent.FreeDrawingResize,
+                        _rt.clienRt.SendStatsEvent(StEvent.FreeDrawingResize,
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
