@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Ink;
-using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using Discussions;
 using Discussions.RTModel.Model;
@@ -42,7 +37,7 @@ namespace DistributedEditor
         private System.Windows.Shapes.Rectangle tlMark;
         private System.Windows.Shapes.Rectangle trMark;
         private System.Windows.Shapes.Rectangle brMark;
-        private System.Windows.Shapes.Rectangle cMark;
+        private System.Windows.Shapes.Rectangle cMark;        
 
         public VdFreeForm(int shapeId, int owner) :
             base(owner, shapeId)

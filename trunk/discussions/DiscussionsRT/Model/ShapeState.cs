@@ -52,7 +52,8 @@ namespace Discussions.RTModel.Model
         public static Dictionary<byte, object> Write(VdShapeType shapeType, int initialOwner,
                                                      int shapeId, byte[] bytes,
                                                      int[] ints, double[] doubles,
-                                                     int topicId, bool doBroadcast)
+                                                     int topicId, 
+                                                     bool doBroadcast)
         {
             var res = new Dictionary<byte, object>();
             res.Add((byte) DiscussionParamKey.ShapeType, shapeType);
@@ -109,7 +110,7 @@ namespace Discussions.RTModel.Model
             annotation.Write(shapeId);
             annotation.Write(initialOwner);
             annotation.Write(topicId);
-            annotation.Write(true); //doBroadcast
+            annotation.Write(true); //doBroadcast            
         }
 
         public void Read(BinaryReader annotation)

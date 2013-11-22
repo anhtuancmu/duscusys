@@ -726,7 +726,7 @@ namespace DiscussionsClientRT
         public void SendSyncState(int shapeId, ShapeState st)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
-                return;
+                return;            
 
             peer.OpCustom((byte)DiscussionOpCode.StateSyncRequest,
                           st.ToDict(),
