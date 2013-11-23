@@ -262,6 +262,8 @@ namespace Discussions.view
             DataContext = c;
         }
 
+
+        private string _recentStatsEventSubmittedComment;
         public bool HandleCommentCommit()
         {
             var c = DataContext as Comment;
@@ -288,12 +290,16 @@ namespace Discussions.view
             if (placeholder != null)
                 RaisePlaceholderFocus(placeholder);
 
-            UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                StEvent.CommentAdded,
-                SessionInfo.Get().person.Id,
-                ap.Topic.Discussion.Id,
-                ap.Topic.Id,
-                DeviceType.Wpf);
+            if (c.Text != _recentStatsEventSubmittedComment)
+            {
+                UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                    StEvent.CommentAdded,
+                    SessionInfo.Get().person.Id,
+                    ap.Topic.Discussion.Id,
+                    ap.Topic.Id,
+                    DeviceType.Wpf);
+                _recentStatsEventSubmittedComment = c.Text;
+            }
 
             return res;
         }

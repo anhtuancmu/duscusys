@@ -32,6 +32,8 @@ namespace DistributedEditor
             }
         }
 
+        private string _textOnGotFocus;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(String info)
@@ -49,6 +51,14 @@ namespace DistributedEditor
         public delegate void OnChanged(VdText text);
 
         public OnChanged onChanged;
+
+        /// <summary>
+        /// Only fires on focus lost  
+        /// </summary>
+        /// <param name="text"></param>
+        public delegate void OnEdited(VdText text);
+
+        public OnEdited onEdited;
 
         public VdText(double x, double y, int owner, int shapeId, CleanupRequest cleanupRequest) :
             base(owner, shapeId)
@@ -106,6 +116,14 @@ namespace DistributedEditor
 
         public override void RemoveFocus()
         {
+            //if we have acquired focus and are now losing it
+            if (_isFocused && Text != _textOnGotFocus)
+            {
+                //caption title edited?
+                if (onEdited != null)
+                    onEdited(this);
+            }
+
             base.RemoveFocus();
 
             if (_txt == "")
@@ -119,6 +137,8 @@ namespace DistributedEditor
         public override void SetFocus()
         {
             base.SetFocus();
+
+            _textOnGotFocus = Text;
 
             _textEnterUC.SetFocus();
         }

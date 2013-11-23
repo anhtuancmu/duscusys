@@ -98,6 +98,11 @@ namespace Discussions.view
 
             InitializeComponent();
 
+            if (CurrentTopic != null)
+                ExplanationModeMediator.Inst.CurrentTopicId = CurrentTopic.Id;
+            else
+                ExplanationModeMediator.Inst.CurrentTopicId = null;
+
             topicNavPanel.topicChanged += topicSelectionChanged;
             topicNavPanel.discussion = SessionInfo.Get().discussion;
             topicNavPanel.topicAnimate += TopicAnimate;
@@ -169,7 +174,12 @@ namespace Discussions.view
             _laserPointerWndCtx = new LaserPointerWndCtx(laserScene, 
                                                          CurrentTopic.Id, 
                                                          LaserPointerTargetSurface.PublicBoard);
-            ExplanationModeMediator.Inst.LasersEnabled = false;            
+            ExplanationModeMediator.Inst.LasersEnabled = false;
+
+            if (CurrentTopic != null)
+                ExplanationModeMediator.Inst.CurrentTopicId = CurrentTopic.Id;
+            else
+                ExplanationModeMediator.Inst.CurrentTopicId = null;
 
             CleanupEditCtx();
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Discussions.Annotations;
+using Discussions.DbModel.model;
+using Discussions.model;
+using Discussions.rt;
 using Discussions.view;
 
 namespace Discussions
@@ -52,18 +55,16 @@ namespace Discussions
                 if (value.Equals(_lasersEnabled)) return;
                 _lasersEnabled = value;
                 OnPropertyChanged("LasersEnabled");
-            }
-        }
 
-        private bool _imageLasersEnabled;
-        public bool ImageLasersEnabled
-        {
-            get { return _imageLasersEnabled; }
-            set
-            {
-                if (value.Equals(_imageLasersEnabled)) return;
-                _imageLasersEnabled = value;
-                OnPropertyChanged("ImageLasersEnabled");
+                if (value)
+                {
+                    UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                        StEvent.LaserEnabled,
+                        SessionInfo.Get().person.Id,
+                        SessionInfo.Get().discussion.Id,
+                        CurrentTopicId != null ? (int) CurrentTopicId : -1,
+                        DeviceType.Wpf);
+                }
             }
         }
 
