@@ -522,6 +522,7 @@ namespace DistributedEditor
             {
                 case VdShapeType.Text:
                     ((VdText) sh).onChanged += onTextChanged;
+                    ((VdText)sh).onEdited += onTextEdited;
                     break;
                 case VdShapeType.Cluster:
                     ((ICaptionHost) sh).InitCaptions(CaptionCreationRequested);
@@ -606,6 +607,22 @@ namespace DistributedEditor
         private void onTextChanged(VdText text)
         {
             SendSyncState(text);
+        }
+
+        private void onTextEdited(VdText text)
+        {
+            var hostCluster = Doc.GetShapes()
+                .Where(sh => sh.ShapeCode() == VdShapeType.Cluster)
+                .FirstOrDefault(cl => cl.GetState(_doc.TopicId).ints[0] == text.Id());
+
+            if (hostCluster != null)
+            {
+                _rt.clienRt.SendStatsEvent(StEvent.ClusterTitleEdited,
+                                           _palette.GetOwnerId(),
+                                           _doc.DiscussionId,
+                                           _doc.TopicId,
+                                           DeviceType.Wpf);       
+            }
         }
 
         private void SendSyncState(IVdShape sh)
