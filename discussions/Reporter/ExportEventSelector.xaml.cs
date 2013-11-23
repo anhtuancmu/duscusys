@@ -8,21 +8,13 @@ namespace Reporter
     /// </summary>
     public partial class ExportEventSelector : PortableWindow
     {
-        private readonly ExportEventSelectorVM _model;
+        private ExportEventSelectorVM _model;
 
-        public ExportEventSelectorVM Result
-        {
-            get
-            {
-                return _model;
-            }
-        }
-
-        public ExportEventSelector()
+        public ExportEventSelector(ExportEventSelectorVM vm)
         {
             InitializeComponent();
 
-            DataContext = _model = new ExportEventSelectorVM();
+            DataContext = _model = vm;
         }
 
         private void BtnOk_OnClick(object sender, RoutedEventArgs e)
