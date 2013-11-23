@@ -23,6 +23,7 @@ namespace Reporter
     {
         private ReportCollector _reportCollector1 = null;
         private ReportCollector _reportCollector2 = null;
+        ExportEventSelectorVM _exportEventSelectorVM = new ExportEventSelectorVM();
 
         public ReporterWindow()
         {
@@ -537,12 +538,10 @@ namespace Reporter
 
         private void CsvExport(bool perEvent)
         {
-            ExportEventSelectorVM selectedEvents = null;
             if (perEvent)
             {
-                var selector = new ExportEventSelector();
+                var selector = new ExportEventSelector(_exportEventSelectorVM);
                 selector.ShowDialog();
-                selectedEvents = selector.Result;
             }
 
             var dlg = new Microsoft.Win32.OpenFileDialog
@@ -569,7 +568,7 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
-                                                selectedEvents,
+                                                _exportEventSelectorVM,
                                                 reportHeader1.getReportParams(false),
                                                 null);
                     }
@@ -589,7 +588,7 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
-                                                selectedEvents,
+                                                _exportEventSelectorVM,
                                                 reportHeader2.getReportParams(false),
                                                 null);
                     }
@@ -609,7 +608,7 @@ namespace Reporter
                     if (perEvent)
                     {
                         CsvEventExporter.Export(dlg.FileName,
-                                                selectedEvents,
+                                                _exportEventSelectorVM,
                                                 reportHeader1.getReportParams(false),
                                                 reportHeader2.getReportParams(false));
                     }
