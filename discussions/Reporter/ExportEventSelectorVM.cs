@@ -68,6 +68,9 @@ namespace Reporter
             NoClusterIn = false;
             NoClusterMoved = false;
             NoClusterOut = false;
+            NoClusterTitlesAdded = false;
+            NoClusterTitlesEdited = false;
+            NoClusterTitlesRemoved = false;
             NoCommentsAdded = false;
             NoCommentsRemoved = false;
             NoFreeDrawingCreated = false;
@@ -93,6 +96,7 @@ namespace Reporter
             NoSceneZoomOut = false;
             NoScreenshotsAdded = false;
             NoScreenshotsOpened = false;
+            NoLaserEnabled = false; 
         }
 
         private void CheckAll(int? i)
@@ -107,6 +111,9 @@ namespace Reporter
             NoClusterIn = true;
             NoClusterMoved = true;
             NoClusterOut = true;
+            NoClusterTitlesAdded = true;
+            NoClusterTitlesEdited = true;
+            NoClusterTitlesRemoved = true;
             NoCommentsAdded = true;
             NoCommentsRemoved = true;
             NoFreeDrawingCreated = true;
@@ -132,6 +139,7 @@ namespace Reporter
             NoSceneZoomOut = true;
             NoScreenshotsAdded = true;
             NoScreenshotsOpened = true;
+            NoLaserEnabled = true;
         }
 
         public bool ArgPointTopicChanged

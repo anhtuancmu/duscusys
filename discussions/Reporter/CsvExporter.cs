@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Discussions;
 
 namespace Reporter
 {
@@ -12,8 +14,15 @@ namespace Reporter
                                   TopicReport topicReport2, ReportParameters params2,
                                   EventTotalsReport eventTotals2)
         {
-            System.IO.File.WriteAllText(reportPathName, Export(topicReport1, params1, eventTotals1,
-                                                               topicReport2, params2, eventTotals2));
+            try
+            {
+                System.IO.File.WriteAllText(reportPathName, Export(topicReport1, params1, eventTotals1,
+                    topicReport2, params2, eventTotals2));
+            }
+            catch (IOException x)
+            {
+                MessageDlg.Show(x.ToString());
+            }
         }
 
         private static string Export(TopicReport topicReport1, ReportParameters params1,
@@ -77,7 +86,7 @@ namespace Reporter
             sb.Append("TotalVideoOpened;");
             sb.Append("TotalScreenshotOpened;");
             sb.Append("TotalPdfOpened;");
-            sb.AppendLine("TotalSourceOpened;");
+            sb.Append("TotalSourceOpened;");
             sb.AppendLine("TotalLaserEnabled;");
 
             //first line
@@ -202,7 +211,7 @@ namespace Reporter
             sb.Append(";");
             sb.Append(eventTotals1.TotalPdfOpened.ToString());
             sb.Append(";");
-            sb.AppendLine(eventTotals1.TotalSourceOpened.ToString());
+            sb.Append(eventTotals1.TotalSourceOpened.ToString());
             sb.Append(";");
             sb.Append(eventTotals1.TotalLaserEnabled.ToString() + ";");
         }
