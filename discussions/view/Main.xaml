@@ -304,18 +304,20 @@
         </Grid>
         <UniformGrid x:Name="buttonGrid" Rows="2" Columns="4"
                      VerticalAlignment="Center" Margin="0,0,0,96" Width="809" HorizontalAlignment="Center" Height="401">
+            <metro:TopicTile x:Name="btnDiscussionInfo" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnPrivate" Height="Auto" Margin="0,0,12.25,11" />
+            <metro:TopicTile x:Name="btnPublic" Height="Auto" Margin="0,0,12.25,11" />
+            <metro:TopicTile x:Name="btnLogOut" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
             <metro:TopicTile x:Name="btnModeratorBoard" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <metro:TopicTile x:Name="btnUserManager" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <metro:TopicTile x:Name="btnSeatManager" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <metro:TopicTile x:Name="btnSessionManager" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            
             <metro:TopicTile x:Name="btnSessionViewer" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <metro:TopicTile x:Name="btnDiscussionInfo" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <metro:TopicTile x:Name="btnPrivate" Height="Auto" Margin="0,0,12.25,11" />
-            <metro:TopicTile x:Name="btnPublic" Height="Auto" Margin="0,0,12.25,11" />
-            <metro:TopicTile x:Name="btnMeg" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <metro:TopicTile x:Name="btnReporter" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <metro:TopicTile x:Name="btnResults" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <metro:TopicTile x:Name="btnLogOut" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnReporter" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <metro:TopicTile x:Name="btnMeg" HorizontalAlignment="Left" VerticalAlignment="Top" />
         </UniformGrid>
 
         <Button Style="{DynamicResource CloseButtonStyle}" Width="11.195" Content="Button" x:Name="CloseButton"

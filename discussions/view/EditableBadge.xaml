@@ -158,6 +158,7 @@
             <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="750"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    TextWrapping="Wrap"
+                                   SelectsAllOnFocus="False"
                                    VerticalAlignment="Center"                                     
                                    d:LayoutOverrides="HorizontalMargin"
                                    Margin="1,0" FontSize="37.333">
@@ -169,6 +170,7 @@
             <Label Content="Details" d:LayoutOverrides="Margin" />
 
             <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="750"
+                                   SelectsAllOnFocus="False"
                                    KeyDown="plainDescription_KeyDown_1"
                                    TextWrapping="Wrap" AcceptsReturn="True"
                                    Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">                

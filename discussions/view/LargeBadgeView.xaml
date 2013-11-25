@@ -10,6 +10,7 @@
     mc:Ignorable="d"
     d:DesignHeight="1133"
     d:DesignWidth="841"
+    SizeChanged="LargeBadgeView_OnSizeChanged"
     Width="900"
     Height="686"
     KeyDown="LargeBadgeView_OnKeyDown"
@@ -108,7 +109,7 @@
             <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="1" 
                                         ScrollChanged="ScrollViewer_OnScrollChanged"
                                         VerticalScrollBarVisibility="Visible">
-                <StackPanel MaxWidth="820">
+                <StackPanel x:Name="textArea"  MaxWidth="820">
                     <TextBlock x:Name="txtPoint"
                                TextAlignment="Center"
                                Text="{Binding Point}"     

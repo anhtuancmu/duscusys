@@ -23,14 +23,14 @@ namespace Reporter
     {
         private ReportCollector _reportCollector1 = null;
         private ReportCollector _reportCollector2 = null;
-        ExportEventSelectorVM _exportEventSelectorVM = new ExportEventSelectorVM();
+        readonly ExportEventSelectorVM _exportEventSelectorVM = new ExportEventSelectorVM();
 
         public ReporterWindow()
         {
             InitializeComponent();
 
             var discCtx = new DiscCtx(Discussions.ConfigManager.ConnStr);
-            var loginInfo = testLoginStub(discCtx);
+            var loginInfo = testLoginStub(discCtx);            
 
             if (loginInfo == null)
             {

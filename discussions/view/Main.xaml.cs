@@ -20,7 +20,7 @@ namespace Discussions.view
     {
         private readonly UISharedRTClient sharedClient = UISharedRTClient.Instance;
 
-        private readonly DiscWindows discWindows = DiscWindows.Get();
+        private readonly DiscWindows _discWindows = DiscWindows.Get();
 
         private ObservableCollection<Person> _usersStatus = new ObservableCollection<Person>();
 
@@ -129,7 +129,7 @@ namespace Discussions.view
             SessionInfo.Get().discussion = login.discussion;
             SessionInfo.Get().setPerson(login.person);
 
-            discWindows.mainWnd = this;
+            _discWindows.mainWnd = this;
 
             avatar.DataContext = login.person;
 
@@ -146,7 +146,7 @@ namespace Discussions.view
 
             SetListeners(sharedClient, false);
 
-            discWindows.CloseAndDispose();
+            _discWindows.CloseAndDispose();
 
             SessionInfo.Reset();
             PublicBoardCtx.DropContext();
@@ -206,22 +206,22 @@ namespace Discussions.view
 
         private void startDashboard()
         {
-            if (discWindows.moderDashboard != null)
+            if (_discWindows.moderDashboard != null)
                 return;
 
-            discWindows.moderDashboard = new Dashboard(sharedClient,
+            _discWindows.moderDashboard = new Dashboard(sharedClient,
                                                        () =>
                                                            {
-                                                               discWindows.moderDashboard = null;
+                                                               _discWindows.moderDashboard = null;
                                                                ValidateButtons(SessionInfo.Get());
                                                            });
 
-            discWindows.moderDashboard.Show();
+            _discWindows.moderDashboard.Show();
         }
 
         private void StartResultViewer()
         {
-            if (discWindows.resViewer != null)
+            if (_discWindows.resViewer != null)
                 return;
 
             HtmlReportBrowsing.startResultViewer();
@@ -276,11 +276,11 @@ namespace Discussions.view
 
         private void startUserManager()
         {
-            if (discWindows.persMgr != null)
+            if (_discWindows.persMgr != null)
                 return;
 
-            discWindows.persMgr = new PersonManagerWnd(sharedClient, () => { discWindows.persMgr = null; });
-            discWindows.persMgr.Show();
+            _discWindows.persMgr = new PersonManagerWnd(sharedClient, () => { _discWindows.persMgr = null; });
+            _discWindows.persMgr.Show();
         }
 
         private void startLogOut()
@@ -403,9 +403,9 @@ namespace Discussions.view
             btnSessionManager.BtnTitle = "Session manager";
             btnSessionViewer.BtnTitle = "Session/user viewer";
             btnDiscussionInfo.BtnTitle = "About this discussion";
-            btnReporter.BtnTitle = "Reports";
+            btnReporter.BtnTitle = "Log result";
             btnMeg.BtnTitle = "MEG";
-            btnResults.BtnTitle = "View results"; 
+            btnResults.BtnTitle = "Report"; 
         }
 
         private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
