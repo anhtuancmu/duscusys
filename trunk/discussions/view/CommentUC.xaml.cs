@@ -306,7 +306,14 @@ namespace Discussions.view
 
         private void TxtBxText_OnGotFocus(object sender, RoutedEventArgs e)
         {
-            txtBxText.CaretIndex = txtBxText.Text.Length;
+            //if (txtBxText.Text == DaoUtils.NEW_COMMENT)
+            //{
+            //    txtBxText.SelectAll();
+            //}
+        }
+
+        private void TxtBxText_OnSelectionChanged(object sender, RoutedEventArgs e)
+        {            
         }
     }
 }
