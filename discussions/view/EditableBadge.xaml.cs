@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using CloudStorage;
 using CloudStorage.Model;
 using Discussions.ctx;
@@ -14,7 +15,6 @@ using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.util;
-using Discussions.webkit_host;
 using Microsoft.Surface.Presentation.Controls;
 
 namespace Discussions.view
@@ -69,6 +69,8 @@ namespace Discussions.view
             }
         }
 
+        private readonly DispatcherTimer _selectAllTimer;
+
         public EditableBadge()
         {
             InitializeComponent();
@@ -83,7 +85,12 @@ namespace Discussions.view
             lstBxAttachments.DataContext = this;
 
             srcMover = new SourceMover(srcRepositionPopup);
-            mediaMover = new MediaMover(mediaRepositionPopup);            
+            mediaMover = new MediaMover(mediaRepositionPopup);
+
+            _selectAllTimer = new DispatcherTimer();
+            _selectAllTimer.Tick += _selectAllTimer_Tick;
+            _selectAllTimer.Interval = TimeSpan.FromMilliseconds(500);
+            _selectAllTimer.Start();
         }
 
         public SurfaceScrollViewer MainScroller
@@ -1085,6 +1092,18 @@ namespace Discussions.view
 
             if (DateTime.Now.Subtract(_recentSourceChange).TotalMilliseconds > 700)
                 AttachSource();
+        }
+
+        void _selectAllTimer_Tick(object sender, EventArgs e)
+        {
+            if(txtPoint.Text == DaoUtils.NEW_POINT_NAME)
+            {
+                txtPoint.SelectAll();
+            }
+            if (plainDescription.Text == DaoUtils.NEW_DESCRIPTION)
+            {
+                plainDescription.SelectAll();
+            }
         }
     }
 }

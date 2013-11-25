@@ -132,7 +132,7 @@ namespace Discussions
             pt.RecentlyEnteredMediaUrl = "Paste link to media and return";
             DaoUtils.EnsurePtDescriptionExists(pt);
 
-            pt.Description.Text = "Description";
+            pt.Description.Text = NEW_DESCRIPTION;
             pt.Topic = PrivateCenterCtx.Get().Topic.FirstOrDefault(t0 => t0.Id == t.Id);
             int selfId = SessionInfo.Get().person.Id;
             var pers = PrivateCenterCtx.Get().Person.FirstOrDefault(p0 => p0.Id == selfId);
@@ -372,6 +372,7 @@ namespace Discussions
 
         public const string NEW_COMMENT = "New feedback";
         public const string NEW_POINT_NAME = "Your point here";
+        public const string NEW_DESCRIPTION = "Description";
 
         public static MediaData CreateMediaData(byte[] data)
         {
