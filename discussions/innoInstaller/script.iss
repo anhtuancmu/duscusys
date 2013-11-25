@@ -143,53 +143,53 @@ Source: ..\bin\x86\Debug\WebKitBrowser.dll.manifest; DestDir: {app}; Flags: igno
 Source: ..\bin\x86\Debug\WebKitBrowserTest.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\WPFToolkit.Extended.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\EventGen\bin\Debug\AbstractionLayer.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\AbstractionLayer.pdb; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\DbModel.dll; DestDir: {app};        Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\DbModel.pdb; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\DiscussionsClientRT.exe; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\DiscussionsClientRT.pdb; DestDir: {app};  Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\DiscussionsRT.dll; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\DiscussionsRT.pdb; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EntityFramework.dll; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EntityFramework.SqlServer.dll; DestDir: {app};   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EntityFramework.SqlServer.xml; DestDir: {app}        ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EntityFramework.xml; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EventGen.exe; DestDir: {app}       ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EventGen.exe.config; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\EventGen.pdb; DestDir: {app}     ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\ExitGames.Logging.Log4Net.dll; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\ExitGames.Logging.Log4Net.pdb; DestDir: {app}    ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\ExitGames.Logging.Log4Net.xml; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\ExitGamesLibs.dll; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\ExitGamesLibs.pdb; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\ExitGamesLibs.xml; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\itextsharp.dll; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Lite.dll; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Lite.pdb; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\LiteLobby.dll; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\LiteLobby.pdb; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\log4net.dll; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\LoginEngine.dll; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\LoginEngine.pdb; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.dll; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.xml; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Photon.SocketServer.dll; DestDir: {app}    ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Photon.SocketServer.pdb; DestDir: {app}    ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Photon.SocketServer.xml; DestDir: {app}    ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Photon3DotNet.dll; DestDir: {app}    ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Photon3DotNet.pdb; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Photon3DotNet.xml; DestDir: {app}  ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\PhotonHostRuntimeInterfaces.dll; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Reporter.exe; DestDir: {app}   ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\Reporter.pdb; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\System.Runtime.dll; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\System.Runtime.xml; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\System.Threading.Tasks.dll; DestDir: {app} ;   Flags: ignoreversion
-Source: ..\EventGen\bin\Debug\System.Threading.Tasks.xml; DestDir: {app};   Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\AbstractionLayer.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\DbModel.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\DbModel.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\DiscussionsClientRT.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\DiscussionsClientRT.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\DiscussionsRT.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\DiscussionsRT.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EntityFramework.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EntityFramework.SqlServer.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EntityFramework.SqlServer.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EntityFramework.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EventGen.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EventGen.exe.config; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\EventGen.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\ExitGames.Logging.Log4Net.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\ExitGames.Logging.Log4Net.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\ExitGames.Logging.Log4Net.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\ExitGamesLibs.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\ExitGamesLibs.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\ExitGamesLibs.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\itextsharp.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Lite.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Lite.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\LiteLobby.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\LiteLobby.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\log4net.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\LoginEngine.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\LoginEngine.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Microsoft.Threading.Tasks.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Photon.SocketServer.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Photon.SocketServer.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Photon.SocketServer.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Photon3DotNet.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Photon3DotNet.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Photon3DotNet.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\PhotonHostRuntimeInterfaces.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Reporter.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\Reporter.pdb; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\System.Runtime.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\System.Runtime.xml; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\System.Threading.Tasks.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\EventGen\bin\Debug\System.Threading.Tasks.xml; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
@@ -223,8 +223,12 @@ begin
 end;
 
 [Registry]
-Root: HKLM; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: PhotonServer; ValueData: 10.32.194.179:5055
-Root: HKLM; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa;password=sa"""
+Root: HKLM64; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: PhotonServer; ValueData: 10.32.194.179:5055; Flags: uninsdeletekey; Tasks: ; Languages:  ;Check:IsWin64
+Root: HKLM64; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa;password=sa"""; Flags: uninsdeletekey; Tasks: ; Languages:        ;Check:IsWin64
+Root: HKLM32; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa;password=sa"""; Flags: uninsdeletekey; Tasks: ; Languages: 
+Root: HKLM32; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: PhotonServer; ValueData: 10.32.194.179:5055; Flags: uninsdeletekey; Tasks: ; Languages: 
+
+
 [Dirs]
 Name: {app}\WebKit.resources
 Name: {app}\WebKit.resources\certificates
