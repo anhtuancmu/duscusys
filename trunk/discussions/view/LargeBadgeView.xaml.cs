@@ -248,14 +248,6 @@ namespace Discussions.view
 
         private void UserControl_Initialized_1(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(
-                new Action(setMaxWidthOfDescription),
-                System.Windows.Threading.DispatcherPriority.Background);
-        }
-
-        private void setMaxWidthOfDescription()
-        {
-            plainDescription.MaxWidth = this.ActualWidth - 10;
         }
 
         private bool _editingMode = false;
@@ -692,5 +684,15 @@ namespace Discussions.view
             }
         }     
         #endregion
+
+        private void SetMaxWidthOfDescription()
+        {
+            textArea.MaxWidth = this.ActualWidth - 60;
+        }
+
+        private void LargeBadgeView_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetMaxWidthOfDescription();
+        }
     }
 }
