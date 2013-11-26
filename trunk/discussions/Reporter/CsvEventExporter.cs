@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 using Discussions.model;
@@ -10,15 +12,13 @@ namespace Reporter
     {
         public static void Export(string reportPathName,
                                   ExportEventSelectorVM eventsFilter,
-                                  ReportParameters params1,
-                                  ReportParameters params2)
+                                  List<ReportParameters> reportParams)
         {
-            System.IO.File.WriteAllText(reportPathName, Export(eventsFilter, params1, params2));
+            System.IO.File.WriteAllText(reportPathName, Export(eventsFilter, reportParams));
         }
 
-        private static string Export(ExportEventSelectorVM eventsFilter,
-                                     ReportParameters params1,
-                                     ReportParameters params2)
+        private static string Export(ExportEventSelectorVM eventsFilter, 
+                                     List<ReportParameters> reportParams)
         {
             //write header
             var sb = new StringBuilder();
@@ -40,24 +40,20 @@ namespace Reporter
             {
                 var addEvent = false;
 
+                if (ev.Id == 2)
+                {
+                    int i = 0;
+                }
+
                 if(eventsFilter.EventExported((StEvent)ev.Event))
                 {
                     if (ev.UserId == -1)
                     {
                         addEvent = true;
                     }
-                    else
+                    else if (EventPassesFilter(ev, reportParams))
                     {
-                        if (params1 != null && params1.requiredUsers.Contains(ev.UserId))
-                        {
-                            if (params1.topic.Id == ev.TopicId || ev.TopicId == -1)
-                                addEvent = true;
-                        }
-                        if (params2 != null && params2.requiredUsers.Contains(ev.UserId))
-                        {
-                            if (params2.topic.Id == ev.TopicId || ev.TopicId == -1)
-                                addEvent = true;
-                        }
+                        addEvent = true;
                     }
                 }
 
@@ -68,9 +64,22 @@ namespace Reporter
             return sb.ToString();
         }
 
+        static bool EventPassesFilter(StatsEvent ev, List<ReportParameters> reportParams)
+        {
+            bool userTest = reportParams.Any(p => p.requiredUsers.Contains(ev.UserId));
+
+            if (!userTest)
+                return false;
+
+            if (ev.TopicId == -1)
+                return true;
+
+            return reportParams.Any(p => p.topic.Id == ev.TopicId);
+        }
+
         private static void AddEventRow(StringBuilder sb, StatsEvent ev)
         {
-            var eventView = new EventViewModel((StEvent) ev.Event, ev.UserId, ev.Time, (DeviceType) ev.DeviceType);
+            var eventView = new EventViewModel((StEvent) ev.Event, ev.UserId, ev.Time, (DeviceType)ev.DeviceType);
 
             sb.Append(ev.Id);
             sb.Append(";");

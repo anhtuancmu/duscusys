@@ -8,9 +8,9 @@ namespace Reporter
     {
         public List<int> requiredUsers;
         public IEnumerable<int> sessionTopicUsers;
-        public Session session;
-        public Topic topic;
-        public Discussion discussion;
+        public Session session { get; set; }
+        public Topic topic { get; set; }
+        public Discussion discussion { get; set; }
 
         public ReportParameters(List<int> requiredUsers, Session session, Topic topic, Discussion discussion)
         {

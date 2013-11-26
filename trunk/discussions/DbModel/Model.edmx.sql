@@ -6,13 +6,6 @@
 -- Generated from EDMX file: C:\Users\insenle3\Documents\Visual Studio 2013\Projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
 
-SET QUOTED_IDENTIFIER OFF;
-GO
-USE [TestDb];
-GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
-
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------

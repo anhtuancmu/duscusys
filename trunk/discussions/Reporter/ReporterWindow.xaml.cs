@@ -533,23 +533,17 @@ namespace Reporter
 
         private void btnSpss_Click(object sender, RoutedEventArgs e)
         {
-            CsvExport(true);
+            GenerateAndExportSeriesOfReportsSPSS();
         }
 
-        private void CsvExport(bool perEvent)
+        private void ExcelExport()
         {
-            if (perEvent)
-            {
-                var selector = new ExportEventSelector(_exportEventSelectorVM);
-                selector.ShowDialog();
-            }
-
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 DefaultExt = ".csv",
                 Filter = "CSV files (.csv)|*.csv",
                 CheckFileExists = false,
-                Title = "Report name and folder?"
+                Title = "Report pathname?"
             };
 
             // Set filter for file extension and default file extension
@@ -564,64 +558,31 @@ namespace Reporter
                 if (_reportCollector1 != null && _reportCollector2 == null)
                 {
                     generated = true;
-
-                    if (perEvent)
-                    {
-                        CsvEventExporter.Export(dlg.FileName,
-                                                _exportEventSelectorVM,
-                                                reportHeader1.getReportParams(false),
-                                                null);
-                    }
-                    else
-                    {
-                        CsvExporter.Export(dlg.FileName,
-                                           _reportCollector1.TopicReports.First(),
-                                           reportHeader1.getReportParams(false),
-                                           _reportCollector1.EventTotals,
-                                           null, null, null);
-                    }
+                    CsvExporter.Export(dlg.FileName,
+                                        _reportCollector1.TopicReports.First(),
+                                        reportHeader1.getReportParams(false),
+                                        _reportCollector1.EventTotals,
+                                        null, null, null);
                 }
                 else if (_reportCollector1 == null && _reportCollector2 != null)
                 {
                     generated = true;
-
-                    if (perEvent)
-                    {
-                        CsvEventExporter.Export(dlg.FileName,
-                                                _exportEventSelectorVM,
-                                                reportHeader2.getReportParams(false),
-                                                null);
-                    }
-                    else
-                    {
-                        CsvExporter.Export(dlg.FileName,
-                                           _reportCollector2.TopicReports.First(),
-                                           reportHeader2.getReportParams(false),
-                                           _reportCollector2.EventTotals,
-                                           null, null, null);
-                    }
+                    CsvExporter.Export(dlg.FileName,
+                                        _reportCollector2.TopicReports.First(),
+                                        reportHeader2.getReportParams(false),
+                                        _reportCollector2.EventTotals,
+                                        null, null, null);
                 }
                 else if (_reportCollector1 != null && _reportCollector2 != null)
                 {
                     generated = true;
-
-                    if (perEvent)
-                    {
-                        CsvEventExporter.Export(dlg.FileName,
-                                                _exportEventSelectorVM,
-                                                reportHeader1.getReportParams(false),
-                                                reportHeader2.getReportParams(false));
-                    }
-                    else
-                    {
-                        CsvExporter.Export(dlg.FileName,                                          
-                                           _reportCollector1.TopicReports.First(),
-                                           reportHeader1.getReportParams(false),
-                                           _reportCollector1.EventTotals,
-                                           _reportCollector2.TopicReports.First(),
-                                           reportHeader2.getReportParams(false),
-                                           _reportCollector2.EventTotals);
-                    }
+                    CsvExporter.Export(dlg.FileName,                                          
+                                        _reportCollector1.TopicReports.First(),
+                                        reportHeader1.getReportParams(false),
+                                        _reportCollector1.EventTotals,
+                                        _reportCollector2.TopicReports.First(),
+                                        reportHeader2.getReportParams(false),
+                                        _reportCollector2.EventTotals);
                 }
                 var dirName = System.IO.Path.GetDirectoryName(dlg.FileName);
                 if (generated)
@@ -629,9 +590,48 @@ namespace Reporter
                     {
                         Process.Start("explorer.exe", dirName);
                     }
-                    catch (Exception)
+                    catch
                     {
                     }
+            }
+        }
+        void GenerateAndExportSeriesOfReportsSPSS()
+        {
+            var sessionTopicDlg = new NewSessionTopicDlg();
+            sessionTopicDlg.ShowDialog();
+
+            var selector = new ExportEventSelector(_exportEventSelectorVM);
+            selector.ShowDialog();
+
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".csv",
+                Filter = "CSV files (.csv)|*.csv",
+                CheckFileExists = false,
+                Title = "Report pathname?"
+            };
+
+            // Set filter for file extension and default file extension
+
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+
+            if (result.Value)
+            {
+                CsvEventExporter.Export(dlg.FileName,
+                    _exportEventSelectorVM,
+                    sessionTopicDlg.Model.SelectedReportTargets
+                    );
+
+                var dirName = System.IO.Path.GetDirectoryName(dlg.FileName);
+
+                try
+                {
+                    Process.Start("explorer.exe", dirName);
+                }
+                catch 
+                {
+                }
             }
         }
 
@@ -724,7 +724,7 @@ namespace Reporter
 
         private void btnExcel_Click_1(object sender, RoutedEventArgs e)
         {
-            CsvExport(false);
+            ExcelExport();
         }
     }
 }
