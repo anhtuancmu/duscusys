@@ -25,8 +25,8 @@
         <local:ReportSummaryUC x:Name="reportHeader2" Grid.Row="1" Grid.Column="1" />
         <StackPanel Orientation="Horizontal">
             <s:SurfaceButton x:Name="btnRun" Click="btnRun_Click_1" Content="Refresh"
-                             HorizontalAlignment="Left" VerticalAlignment="Top"
-                             Height="50" Width="150" Margin="0" Background="#CC7DF7B4" />
+                             HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" 
+                             Height="50" Width="80" Background="#CC7DF7B4" />
             <s:SurfaceButton x:Name="btnSpss" Content="SPSS" VerticalAlignment="Top" Height="50" Click="btnSpss_Click"
                              Margin="0" />
             <s:SurfaceButton x:Name="btnExcel" Content="Excel" VerticalAlignment="Top" Height="50"

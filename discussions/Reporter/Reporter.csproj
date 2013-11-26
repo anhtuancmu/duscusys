@@ -104,6 +104,7 @@
     <Compile Include="MiniUserUC.xaml.cs">
       <DependentUpon>MiniUserUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewSessionTopicDialogVM.cs" />
     <Compile Include="pdf\PdfAssembler.cs" />
     <Compile Include="pdf\PdfTools.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewSessionTopicDlg.xaml.cs">
+      <DependentUpon>NewSessionTopicDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="SessionTopicDlg.xaml.cs">
       <DependentUpon>SessionTopicDlg.xaml</DependentUpon>
@@ -150,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SampleData\SampleDataSource\SampleDataSource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NewSessionTopicDlg.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

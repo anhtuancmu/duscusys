@@ -399,7 +399,7 @@ namespace Discussions.view
             btnPublic.BtnTitle = "Public dashboard";
             // btnResults.BtnTitle = "Results";
             btnSeatManager.BtnTitle = "Seat manager";
-            btnLogOut.BtnTitle = "Move out";
+            btnLogOut.BtnTitle = "Log out";
             btnSessionManager.BtnTitle = "Session manager";
             btnSessionViewer.BtnTitle = "Session/user viewer";
             btnDiscussionInfo.BtnTitle = "About this discussion";

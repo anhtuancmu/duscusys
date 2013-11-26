@@ -148,8 +148,7 @@ namespace Reporter
 
         public static TextBlock WrapText(string txt)
         {
-            var res = new TextBlock();
-            res.Text = txt;
+            var res = new TextBlock {Text = txt};
             return res;
         }
     }
