@@ -94,8 +94,8 @@ namespace Discussions
         public static string FormatNumUnreadComments(int numUnread) 
         {
             if (numUnread > 0)
-                return string.Format("Feedback  +{0}", numUnread);
-            return "Feedback";
+                return string.Format("Comments  +{0}", numUnread);
+            return "Comments";
         }
 
         //all the changes will be cached locally without refreshing/redropping the context         
