@@ -129,7 +129,7 @@ namespace Discussions
             ArgPoint pt = new ArgPoint();
             pt.Point = "Your point here";
             pt.RecentlyEnteredSource = "Your source here";
-            pt.RecentlyEnteredMediaUrl = "Paste link to media and return";
+            pt.RecentlyEnteredMediaUrl = "Your media link here";
             DaoUtils.EnsurePtDescriptionExists(pt);
 
             pt.Description.Text = NEW_DESCRIPTION;
