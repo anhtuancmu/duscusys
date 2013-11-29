@@ -370,7 +370,7 @@ namespace Discussions
             return changed;
         }
 
-        public const string NEW_COMMENT = "New feedback";
+        public const string NEW_COMMENT = "New comment";
         public const string NEW_POINT_NAME = "Your point here";
         public const string NEW_DESCRIPTION = "Description";
 

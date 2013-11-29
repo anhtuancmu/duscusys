@@ -127,7 +127,7 @@
                         <Label Content="DELETE" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
-                <Custom:SurfaceButton x:Name="btnCopy" Click="btnCopy_Click_1" Background="{x:Null}"
+                <Custom:SurfaceButton x:Name="btnCopy" Visibility="Collapsed" Click="btnCopy_Click_1" Background="{x:Null}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" Padding="2">
                     <StackPanel Orientation="Horizontal">
                         <Border CornerRadius="30"

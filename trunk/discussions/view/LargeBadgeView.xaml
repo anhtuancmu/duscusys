@@ -154,7 +154,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <Label x:Name="lblComments" Content="Feedback" HorizontalAlignment="Left"
+                        <Label x:Name="lblComments" Content="Comment" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
                                Foreground="Black" d:LayoutOverrides="HorizontalMargin" />
                         <ItemsControl x:Name="lstBxComments1"
@@ -164,7 +164,7 @@
                                       BorderThickness="0"
                                       HorizontalContentAlignment="Stretch" />
                         <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click"
-                                              Content="Feedback" Margin="0" VerticalAlignment="Center"
+                                              Content="Comment" Margin="0" VerticalAlignment="Center"
                                               Width="101" DockPanel.Dock="Right"
                                               HorizontalAlignment="Right" Height="35" MinHeight="12" />
                     </StackPanel>

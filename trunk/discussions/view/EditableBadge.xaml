@@ -236,13 +236,13 @@
                     <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1"
                                           Content="Screenshot"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
-                    <Custom:SurfaceButton x:Name="btnGoogle" Click="btnGoogle_Click_1" Content="Web"
+                    <Custom:SurfaceButton x:Name="btnGoogle" Visibility="Collapsed" Click="btnGoogle_Click_1" Content="Web"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
-                    <Custom:SurfaceButton x:Name="btnDropbox" Click="chooseDropboxFiles" Content="Cloud"
+                    <Custom:SurfaceButton x:Name="btnDropbox" Visibility="Collapsed" Click="chooseDropboxFiles" Content="Cloud"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
                     <!--<Custom:SurfaceButton x:Name="btnGDrive" Click="chooseGDriveFiles" Content="Google Drive"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />-->
-                    <Custom:SurfaceButton x:Name="btnChooseFile" Click="chooseImgClick" Content="File"
+                    <Custom:SurfaceButton x:Name="btnChooseFile" Visibility="Collapsed" Click="chooseImgClick" Content="File"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
                     <!--<Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />-->
@@ -343,7 +343,7 @@
                                       Grid.Column="1" />
             </Grid>
 
-            <Label Name="lblComments" Content="Feedback" d:LayoutOverrides="Margin" />
+            <Label Name="lblComments" Content="Comments" d:LayoutOverrides="Margin" />
 
             <!--PreviewMouseDown="lstBxComments_PreviewMouseDown_1"
 				PreviewMouseUp="lstBxComments_PreviewMouseUp_1"  
@@ -356,7 +356,7 @@
                           ItemTemplate="{StaticResource CommentItemTemplate}"
                           MouseLeave="lstBxComments_MouseLeave"
                           BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch" />
-            <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Feedback"
+            <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Comment"
                                   HorizontalAlignment="Right" Click="btnComment_Click" />
             <Separator/>
 
