@@ -173,13 +173,13 @@
                                    SelectsAllOnFocus="False"                                  
                                    KeyDown="plainDescription_KeyDown_1"
                                    TextWrapping="Wrap" AcceptsReturn="True"
-                                   Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">                
+                                   Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">
                 <Custom:SurfaceTextBox.ContextMenu>
                     <view:CtxMenuWrapper/>
                 </Custom:SurfaceTextBox.ContextMenu>
             </Custom:SurfaceTextBox>
 
-                <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
                 <Label Content="Media" d:LayoutOverrides="Margin" VerticalAlignment="Center" />
                 <Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
@@ -230,9 +230,9 @@
                     <Custom:SurfaceTextBox.ContextMenu>
                         <view:CtxMenuWrapper/>
                     </Custom:SurfaceTextBox.ContextMenu>
-                 </Custom:SurfaceTextBox>
+                </Custom:SurfaceTextBox>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
                     <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1"
                                           Content="Screenshot"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
@@ -323,12 +323,16 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <Grid d:LayoutOverrides="Width">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"
-                                       MaxWidth="600" TextWrapping="Wrap"
+                                       HorizontalAlignment="Stretch"
+                                       MaxWidth="750" TextWrapping="Wrap"
                                        GotFocus="TxtSource_OnGotFocus"    
                                        LostFocus="TxtSource_OnLostFocus"
                                        TextChanged="TxtSource_OnTextChanged"
@@ -336,11 +340,12 @@
                     <Custom:SurfaceTextBox.ContextMenu>
                         <view:CtxMenuWrapper/>
                     </Custom:SurfaceTextBox.ContextMenu>
-                 </Custom:SurfaceTextBox>
+                </Custom:SurfaceTextBox>
 
-                    <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
-                                      Content="Add source" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                      Grid.Column="1" />
+                <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
+                                      Grid.Row="1"
+                                      Content="Add source" 
+                                      HorizontalAlignment="Right"/>
             </Grid>
 
             <Label Name="lblComments" Content="Comments" d:LayoutOverrides="Margin" />
