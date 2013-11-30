@@ -1105,5 +1105,10 @@ namespace Discussions.view
                 plainDescription.SelectAll();
             }
         }
+
+        private void BtnAttachMedia_OnClick(object sender, RoutedEventArgs e)
+        {
+            AttachMediaFromUrl();
+        }
     }
 }
