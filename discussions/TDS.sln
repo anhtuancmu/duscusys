@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badass", "..\Badass\Badass.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer.Input", "..\AbstractionLayer.Input\AbstractionLayer.Input.csproj", "{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadassTests", "..\BadassTests\BadassTests.csproj", "{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -312,6 +314,18 @@ Global
 		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|x64.ActiveCfg = Release|Any CPU
 		{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Release|x64.ActiveCfg = Release|Any CPU
+		{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
