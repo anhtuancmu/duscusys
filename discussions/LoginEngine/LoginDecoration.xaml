@@ -21,7 +21,7 @@
                 </Rectangle.Fill>
             </Rectangle>
             <Label x:Name="tohoku" HorizontalAlignment="Right" VerticalAlignment="Center"
-                   Content="TOHOKU UNIVERSITY DISCUSSION SUPPORT SYSTEM" FontSize="26.667" />
+                   Content="DISCUSSION SUPPORT SYSTEM                            " FontSize="26.667" />
         </StackPanel>
         <Label x:Name="lblWelcome" HorizontalAlignment="Left" Margin="32.5,0,0,0" Content="Welcome"
                VerticalAlignment="Top" FontSize="48" />
