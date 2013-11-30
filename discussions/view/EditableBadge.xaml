@@ -155,7 +155,7 @@
             </StackPanel>
 
             <Label Content="Point" d:LayoutOverrides="Margin"/>
-            <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="750"
+            <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="700"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    TextWrapping="Wrap"                                 
                                    SelectsAllOnFocus="False"
@@ -169,7 +169,7 @@
 
             <Label Content="Details" d:LayoutOverrides="Margin" />
 
-            <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="750"
+            <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="700"
                                    SelectsAllOnFocus="False"                                  
                                    KeyDown="plainDescription_KeyDown_1"
                                    TextWrapping="Wrap" AcceptsReturn="True"
@@ -220,7 +220,7 @@
                     <RowDefinition Height="91*" />
                     <RowDefinition Height="44*" />
                 </Grid.RowDefinitions>
-                <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="750" TextWrapping="Wrap"
+                <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="700" TextWrapping="Wrap"
                                        Text="{Binding RecentlyEnteredMediaUrl}"
                                        GotFocus="TxtAttachmentURL_OnGotFocus"
                                        LostFocus="TxtAttachmentURL_OnLostFocus"
@@ -336,7 +336,7 @@
                 </Grid.ColumnDefinitions>
                 <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"
                                        HorizontalAlignment="Stretch"
-                                       MaxWidth="750" TextWrapping="Wrap"
+                                       MaxWidth="700" TextWrapping="Wrap"
                                        GotFocus="TxtSource_OnGotFocus"    
                                        LostFocus="TxtSource_OnLostFocus"
                                        TextChanged="TxtSource_OnTextChanged"
