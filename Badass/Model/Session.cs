@@ -23,8 +23,8 @@ namespace Badass.Model
         {
             foreach (var subcodeId in EventsIds)
             {
-                var subcode = WorkingSession.LoadedProject.GetSubcode(subcodeId);
-                AddSubcode(subcode);
+              //  var subcode = WorkingSession.LoadedProject.GetSubcode(subcodeId);
+               // AddSubcode(subcode);
             }
         }
 

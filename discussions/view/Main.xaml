@@ -416,7 +416,7 @@
                 </DataTemplate>
             </s:SurfaceListBox.ItemTemplate>
         </s:SurfaceListBox>
-        <Label x:Name="lblSessionInfo" Content="Tohoku University  Discussion Support System" VerticalAlignment="Top"
+        <Label x:Name="lblSessionInfo" Content="Discussion Support System" VerticalAlignment="Top"
                FontSize="22.667" HorizontalContentAlignment="Center" HorizontalAlignment="Center"
                Foreground="#FFFFFF6F" Margin="0,43,0,0" Background="#00000000" />
     </Grid>

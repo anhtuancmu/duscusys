@@ -54,7 +54,7 @@ namespace Discussions
         private void Assemble()
         {
             //headers
-            document.Add(makeHeader("TOHOKU UNIVERSITY DISCUSSION SUPPORT SYSTEM"));
+            document.Add(makeHeader("DISCUSSION SUPPORT SYSTEM"));
             document.Add(makeHeader("Discussion report"));
 
             InsertLine();

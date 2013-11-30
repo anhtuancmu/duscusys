@@ -45,7 +45,7 @@ namespace Badass.Model
                 code.FixupReferences();
 
             //checked subcodes in events 
-            foreach (var session in Sessions)   
+           // foreach (var session in Sessions)   
         }
 
         public static Project Load(string pathName)
