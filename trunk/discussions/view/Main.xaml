@@ -361,7 +361,7 @@
 
         <Label Content="Version" HorizontalAlignment="Right" x:Name="lblVersion" VerticalAlignment="Bottom"
                Foreground="White" FontSize="18.667" />
-        <Label Content="Tohoku University  Discussion Support System" VerticalAlignment="Top" FontSize="26.667"
+        <Label Content="Discussion Support System" VerticalAlignment="Top" FontSize="26.667"
                HorizontalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" />
         <Label x:Name="lblWelcome" Content="Welcome" HorizontalAlignment="Right" VerticalAlignment="Top"
                Margin="0,62,0,0" Foreground="White" FontSize="18.667" Visibility="Collapsed" />
