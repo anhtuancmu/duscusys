@@ -44,22 +44,22 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitG
 		AttachLaunchAction = No
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer", "..\AbstractionLayer\AbstractionLayer.csproj", "{619BBF6B-A5CB-4245-9096-FAAE447A4DC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer", "AbstractionLayer\AbstractionLayer.csproj", "{619BBF6B-A5CB-4245-9096-FAAE447A4DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdsSvc", "..\TdsSvc\TdsSvc.csproj", "{077D1A18-86BA-4F00-B344-1ED401D2FADF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdsSvc", "TdsSvc\TdsSvc.csproj", "{077D1A18-86BA-4F00-B344-1ED401D2FADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionsTests", "..\DiscussionsTests\DiscussionsTests.csproj", "{947A3060-EA30-4EE0-B6A5-07B862CD54BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscussionsTests", "DiscussionsTests\DiscussionsTests.csproj", "{947A3060-EA30-4EE0-B6A5-07B862CD54BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelObjectCache", "..\ViewModelObjectCache\ViewModelObjectCache.csproj", "{99E8317B-E226-4DB9-9B14-10330C923B3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelObjectCache", "ViewModelObjectCache\ViewModelObjectCache.csproj", "{99E8317B-E226-4DB9-9B14-10330C923B3E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{077D1A18-86BA-4F00-B344-1ED401D2FADF} = {077D1A18-86BA-4F00-B344-1ED401D2FADF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badass", "..\Badass\Badass.csproj", "{F99E3EB0-C9F9-4668-953C-8416EBCCFE7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badass", "Badass\Badass.csproj", "{F99E3EB0-C9F9-4668-953C-8416EBCCFE7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer.Input", "..\AbstractionLayer.Input\AbstractionLayer.Input.csproj", "{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionLayer.Input", "AbstractionLayer.Input\AbstractionLayer.Input.csproj", "{9B6BFEE2-7CF5-46FE-96EE-FC2A7729BF2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadassTests", "..\BadassTests\BadassTests.csproj", "{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadassTests", "BadassTests\BadassTests.csproj", "{D17008F5-DCC9-4AB8-9EEC-90A1760A0C14}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="e63dfb7d-b83c-45ae-a4c0-b7171e1ddeaf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:30982/TdsService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TdsService.wsdl" MetadataType="Wsdl" ID="f459c115-68cd-4e65-b6de-d09cac85c7d2" SourceId="1" SourceUrl="http://localhost:30982/TdsService.svc?wsdl" />
+    <MetadataFile FileName="TdsService.disco" MetadataType="Disco" ID="91fbdc1c-8f65-45fa-a762-e80eb85e40aa" SourceId="1" SourceUrl="http://localhost:30982/TdsService.svc?disco" />
+    <MetadataFile FileName="TdsService.xsd" MetadataType="Schema" ID="131970dd-8327-49c2-a081-820776ce0cbd" SourceId="1" SourceUrl="http://localhost:30982/TdsService.svc?xsd=xsd3" />
+    <MetadataFile FileName="TdsService1.xsd" MetadataType="Schema" ID="bfb57529-3750-4214-abb5-d667b00e84d3" SourceId="1" SourceUrl="http://localhost:30982/TdsService.svc?xsd=xsd2" />
+    <MetadataFile FileName="TdsService2.xsd" MetadataType="Schema" ID="3caca313-caf0-48a7-b24d-e9bde74f3abd" SourceId="1" SourceUrl="http://localhost:30982/TdsService.svc?xsd=xsd1" />
+    <MetadataFile FileName="TdsService3.xsd" MetadataType="Schema" ID="51334698-050a-4420-8dfe-d9c58ead3c8b" SourceId="1" SourceUrl="http://localhost:30982/TdsService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -913,11 +913,11 @@
     <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AbstractionLayer.Input\AbstractionLayer.Input.csproj">
+    <ProjectReference Include="AbstractionLayer.Input\AbstractionLayer.Input.csproj">
       <Project>{9b6bfee2-7cf5-46fe-96ee-fc2a7729bf2a}</Project>
       <Name>AbstractionLayer.Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AbstractionLayer\AbstractionLayer.csproj">
+    <ProjectReference Include="AbstractionLayer\AbstractionLayer.csproj">
       <Project>{619bbf6b-a5cb-4245-9096-faae447a4dc5}</Project>
       <Name>AbstractionLayer</Name>
     </ProjectReference>
