@@ -232,7 +232,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AbstractionLayer\AbstractionLayer.csproj">
+    <ProjectReference Include="..\AbstractionLayer\AbstractionLayer.csproj">
       <Project>{619bbf6b-a5cb-4245-9096-faae447a4dc5}</Project>
       <Name>AbstractionLayer</Name>
     </ProjectReference>
