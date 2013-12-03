@@ -211,7 +211,8 @@ namespace Discussions.view
 
             DataContext = ap2;
 
-            scrollViewer.ScrollToBottom();           
+            scrollViewer.ScrollToBottom();
+            _commentDismissalRecognizer.CheckScrollState();
         }
 
         void FocusCommentTextBox(Comment comment)
@@ -271,14 +272,7 @@ namespace Discussions.view
         {
             SetStyle();
 
-            if (DataContext == null)
-            {
-                Opacity = 0;
-            }
-            else
-            {
-                Opacity = 1;
-            }
+            Opacity = DataContext == null ? 0 : 1;
 
             //Drawing.HandleRecontext();
 
@@ -707,6 +701,7 @@ namespace Discussions.view
             if (e.Key == Key.Enter)
             {
                 scrollViewer.ScrollToBottom();
+                _commentDismissalRecognizer.CheckScrollState();
             }
         }
 

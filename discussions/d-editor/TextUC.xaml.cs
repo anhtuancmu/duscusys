@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace DistributedEditor
@@ -134,9 +126,10 @@ namespace DistributedEditor
 
         public void RemoveFocus()
         {
-            Keyboard.ClearFocus();
+            //Keyboard.ClearFocus();
             txtLabel.Visibility = Visibility.Visible;
             field.Visibility = Visibility.Collapsed;
+            field.IsReadOnly = true;
             handle.BorderBrush = Brushes.Transparent;
         }
 
@@ -144,9 +137,10 @@ namespace DistributedEditor
         {
             txtLabel.Visibility = Visibility.Collapsed;
             field.Visibility = Visibility.Visible;
+            field.IsReadOnly = false;
             handle.BorderBrush = new SolidColorBrush((Color) FindResource("TextToolOverlay"));
-            this.Dispatcher.BeginInvoke(new Action(() => { Keyboard.Focus(field); }),
-                                        System.Windows.Threading.DispatcherPriority.Background);
+            this.Dispatcher.BeginInvoke(new Action(() => Keyboard.Focus(field)),
+                                        DispatcherPriority.Background);
         }
 
         private void handleMouseDown(object sender, MouseButtonEventArgs e)

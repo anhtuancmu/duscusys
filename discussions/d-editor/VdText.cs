@@ -14,7 +14,7 @@ namespace DistributedEditor
     {
         public const double MIN_SIZE = 30;
 
-        private Canvas scene;
+        private Canvas _scene;
         private TextUC _textEnterUC;
 
         private string _txt = "Text here";
@@ -46,7 +46,7 @@ namespace DistributedEditor
 
         public delegate void CleanupRequest(int id);
 
-        private CleanupRequest _cleanupRequest;
+        private readonly CleanupRequest _cleanupRequest;
 
         public delegate void OnChanged(VdText text);
 
@@ -156,7 +156,7 @@ namespace DistributedEditor
 
         public void AttachToCanvas(Canvas c)
         {
-            scene = c;
+            _scene = c;
 
             if (c.Children.Contains(_textEnterUC))
                 return;
@@ -355,7 +355,7 @@ namespace DistributedEditor
                     return 0;
             }
 
-            var Org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), scene);
+            var Org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), _scene);
 
             var w = _textEnterUC.txtLabel.ActualWidth;
             var h = _textEnterUC.txtLabel.ActualHeight;
@@ -381,10 +381,10 @@ namespace DistributedEditor
 
         public override Rect ReportingBoundsProvider()
         {
-            var org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), scene);
+            var org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), _scene);
             var w = _textEnterUC.txtLabel.ActualWidth;
             var h = _textEnterUC.txtLabel.ActualHeight;
-            var bottomRight = _textEnterUC.txtLabel.TranslatePoint(new Point(w, h), scene);
+            var bottomRight = _textEnterUC.txtLabel.TranslatePoint(new Point(w, h), _scene);
 
             return new Rect(org, bottomRight);
         }
