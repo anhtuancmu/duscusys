@@ -7,6 +7,7 @@ using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.DbModel;
 using System.Windows.Media;
+using Discussions.rt;
 using Discussions.stats;
 using System.Linq;
 using Discussions.view;
@@ -299,56 +300,56 @@ namespace Discussions
 
         private const string NewComment = NEW_COMMENT;
 
-        static void RemovePlaceholders(ArgPoint ap)
-        {
-            if (ap == null)
-                return;
+        //static void RemovePlaceholders(ArgPoint ap)
+        //{
+        //    if (ap == null)
+        //        return;
 
-            var placeholderComment =
-                   ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
-            if (placeholderComment != null)
-                placeholderComment.ArgPoint.Comment.Remove(placeholderComment);
-        }
+        //    var placeholderComment =
+        //           ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
+        //    if (placeholderComment != null)
+        //        placeholderComment.ArgPoint.Comment.Remove(placeholderComment);
+        //}
 
-        public static bool IsPlaceholder(Comment c)
-        {
-            return (c.Text == NewComment || string.IsNullOrWhiteSpace(c.Text));
-        }
+        //public static bool IsPlaceholder(Comment c)
+        //{
+        //    return (c.Text == NewComment || string.IsNullOrWhiteSpace(c.Text));
+        //}
 
-        public static Comment EnsureCommentPlaceholderExists(ArgPoint ap)
-        {
-            if (ap == null)
-                return null;
+        //public static Comment EnsureCommentPlaceholderExists(ArgPoint ap)
+        //{
+        //    if (ap == null)
+        //        return null;
             
-            RemovePlaceholders(ap);
+        //    RemovePlaceholders(ap);
 
-            bool needNewPlaceholder = false;
-            if (ap.Comment.Count == 0)
-            {
-                needNewPlaceholder = true;
-            }
-            else
-            {
-                var placeholderComment =
-                    ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
-                needNewPlaceholder = (placeholderComment == null);
-                //if (placeholderComment != null)
-                //{
-                //    placeholderComment.Person = null;
-                //    placeholderComment.Text = DaoUtils.NEW_COMMENT; //in case of comment was whitespace  
-                //}
-            }
+        //    bool needNewPlaceholder = false;
+        //    if (ap.Comment.Count == 0)
+        //    {
+        //        needNewPlaceholder = true;
+        //    }
+        //    else
+        //    {
+        //        var placeholderComment =
+        //            ap.Comment.FirstOrDefault(c0 => c0.Text == NewComment || string.IsNullOrWhiteSpace(c0.Text));
+        //        needNewPlaceholder = (placeholderComment == null);
+        //        //if (placeholderComment != null)
+        //        //{
+        //        //    placeholderComment.Person = null;
+        //        //    placeholderComment.Text = DaoUtils.NEW_COMMENT; //in case of comment was whitespace  
+        //        //}
+        //    }
 
-            if (needNewPlaceholder)
-            {
-                var c = new Comment();
-                c.Text = NewComment;
-                ap.Comment.Add(c);
-                return c;
-            }
+        //    if (needNewPlaceholder)
+        //    {
+        //        var c = new Comment();
+        //        c.Text = NewComment;
+        //        ap.Comment.Add(c);
+        //        return c;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         //returns true if changes owner 
         public static bool InjectAuthorOfComment(Comment c, Person commentAuthor)
@@ -411,8 +412,7 @@ namespace Discussions
 
             foreach (var src in ap.Description.Source)
             {
-                var newSrc = new Source();
-                newSrc.Text = src.Text;
+                var newSrc = new Source {Text = src.Text};
                 pointCopy.Description.Source.Add(newSrc);
             }
 
@@ -632,5 +632,36 @@ namespace Discussions
             return c.ReadEntry.All(re => re.Person.Id != selfId);            
         }
         #endregion
+
+
+        private static string _recentStatsEventSubmittedComment;
+        public static bool HandleCommentCommit(string comment, ArgPoint ap)
+        {
+            if (string.IsNullOrWhiteSpace(comment) || NEW_COMMENT==comment)
+                return false;
+
+            ap.ChangesPending = true;
+
+            var c = new Comment {Text = comment};
+
+            //inject author
+            var commentAuthor = SessionInfo.Get().getPerson(ap);
+            var res = InjectAuthorOfComment(c, commentAuthor);
+
+            ap.Comment.Add(c);
+
+            if (c.Text != _recentStatsEventSubmittedComment)
+            {
+                UISharedRTClient.Instance.clienRt.SendStatsEvent(
+                    StEvent.CommentAdded,
+                    SessionInfo.Get().person.Id,
+                    ap.Topic.Discussion.Id,
+                    ap.Topic.Id,
+                    DeviceType.Wpf);
+                _recentStatsEventSubmittedComment = c.Text;
+            }
+
+            return res;
+        }
     }
 }
