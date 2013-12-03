@@ -12,16 +12,16 @@ namespace Discussions.ctx
     {
         private static StatsTrackingDbCtx ctx = null;
 
-        public static UISharedRTClient sharedClient = null;
+        public static UISharedRTClient SharedClient = null;
 
         public static StatsTrackingDbCtx Get()
         {
             if (ctx == null)
             {
-                if (sharedClient == null)
+                if (SharedClient == null)
                     throw new Exception();
 
-                ctx = new StatsTrackingDbCtx(Discussions.ConfigManager.ConnStr, sharedClient);
+                ctx = new StatsTrackingDbCtx(Discussions.ConfigManager.ConnStr, SharedClient);
             }
 
             return ctx;
@@ -51,7 +51,7 @@ namespace Discussions.ctx
                             .ToArray();
 
                     if ((ex.StateEntries.Any() && addedConflictedComments.Length == 0) ||
-                        (addedConflictedComments.Length > 0 && DaoUtils.IsPlaceholder(addedConflictedComments[0]))
+                        (addedConflictedComments.Length > 0)
                         )
                     {
                         //if placeholder comment is in the conflict
@@ -76,8 +76,6 @@ namespace Discussions.ctx
                                 Get().AddToComment(comment);
                             }
                         }
-                        if (conflictedArgPoint != null)
-                            DaoUtils.EnsureCommentPlaceholderExists(conflictedArgPoint);
                     }
                 }
             } while (saveFailed && ++nAttempts < 6);
