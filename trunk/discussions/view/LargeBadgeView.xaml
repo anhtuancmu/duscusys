@@ -77,9 +77,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                <TextBlock Name="txtCommentSeenBy" Margin="0,0,50,20" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555"/>                
-                
-                <Custom:SurfaceButton x:Name="btnSave"  Click="btnSave_Click"
+
+                <Custom:SurfaceButton x:Name="btnSave"  Click="btnSave_Click" Visibility="Collapsed"
         			 Height="75" Width="75" Background="{x:Null}" Margin="0">
                     <Border Background="{StaticResource save}" Width="60" Height="60" />
                 </Custom:SurfaceButton>
@@ -139,12 +138,12 @@
 
                     <StackPanel x:Name="stackSources" Orientation="Vertical">
                         <Label Content="Sources" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Background="#00000000" Foreground="Black" d:LayoutOverrides="Margin" />
+                               Background="#00000000" Foreground="Black"/>
                         <ItemsControl x:Name="lstBxSources"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding Sources}"
                                       HorizontalContentAlignment="Stretch"
-                                      BorderThickness="0" d:LayoutOverrides="Height">
+                                      BorderThickness="0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <view:SourceUC PermitsEdit="False" />
@@ -156,20 +155,32 @@
                     <StackPanel Orientation="Vertical">
                         <Label x:Name="lblComments" Content="Comment" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
-                               Foreground="Black" d:LayoutOverrides="HorizontalMargin" />
+                               Foreground="Black"/>
                         <ItemsControl x:Name="lstBxComments1"
                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                                       ItemsSource="{Binding Comment}"
                                       ItemTemplate="{StaticResource CommentItemTemplate}"
                                       BorderThickness="0"
-                                      HorizontalContentAlignment="Stretch" />
-                        <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click"
-                                              Content="Comment" Margin="0" VerticalAlignment="Center"
-                                              Width="101" DockPanel.Dock="Right"
-                                              HorizontalAlignment="Right" Height="35" MinHeight="12" />
+                                      HorizontalContentAlignment="Stretch"/>
                     </StackPanel>
                 </StackPanel>
             </Custom:SurfaceScrollViewer>
+            <Grid VerticalAlignment="Bottom" Grid.Row="2" Margin="60,0,40,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="156"/>
+                </Grid.ColumnDefinitions>
+                <Custom:SurfaceTextBox x:Name="txtNewComment" KeyDown="TxtNewComment_OnKeyDown"/>
+                <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click"                                           
+            		Content="Comment" VerticalAlignment="Center"
+            		Width="101"
+            		HorizontalAlignment="Right" MinHeight="12" Grid.Column="1" />
+                <TextBlock x:Name="txtCommentSeenBy" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

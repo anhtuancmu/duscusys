@@ -139,7 +139,7 @@ namespace Discussions.view
             Opacity = 0;
         }
 
-        public void HandleRecontext()
+        void HandleRecontext()
         {
             var ap = DataContext as ArgPoint;
 
@@ -180,15 +180,6 @@ namespace Discussions.view
 
             if (ap != null)
                 DaoUtils.RemoveDuplicateComments(ap);
-
-            //if there are no comments, add placeholder
-            var ap1 = DataContext as ArgPoint;
-            if (ap1 != null)
-            {
-                var commentAuthor = SessionInfo.Get().getPerson(DataContext);
-                DaoUtils.EnsureCommentPlaceholderExists(DataContext as ArgPoint);
-            }
-
 
             if (CommentDismissalRecognizer != null)
             {

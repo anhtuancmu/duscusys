@@ -149,25 +149,24 @@
         <Border CornerRadius="12" x:Name="mask" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="White"/>
 
         <StackPanel Grid.Column="1" x:Name="root" Background="LightGray">
-            <StackPanel x:Name="stkHeader" Orientation="Horizontal" d:LayoutOverrides="HorizontalMargin">
+            <StackPanel x:Name="stkHeader" Orientation="Horizontal">
                 <Label Content="BY:  " />
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             </StackPanel>
 
-            <Label Content="Point" d:LayoutOverrides="Margin"/>
+            <Label Content="Point"/>
             <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="700"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    TextWrapping="Wrap"                                 
                                    SelectsAllOnFocus="False"
                                    VerticalAlignment="Center"                                     
-                                   d:LayoutOverrides="HorizontalMargin"
                                    Margin="1,0" FontSize="37.333">
                 <Custom:SurfaceTextBox.ContextMenu>
                     <view:CtxMenuWrapper/>
                 </Custom:SurfaceTextBox.ContextMenu>
             </Custom:SurfaceTextBox>
 
-            <Label Content="Details" d:LayoutOverrides="Margin" />
+            <Label Content="Details"/>
 
             <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="700"
                                    SelectsAllOnFocus="False"                                  
@@ -180,7 +179,7 @@
             </Custom:SurfaceTextBox>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="Media" d:LayoutOverrides="Margin" VerticalAlignment="Center" />
+                <Label Content="Media" VerticalAlignment="Center" />
                 <Label Content="Tips: Paste Images,Youtube and PDF url  and press enter" FontSize="18.667"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
@@ -215,7 +214,7 @@
             		</ItemsPanelTemplate>
             	</Custom:SurfaceListBox.ItemsPanel>
             </Custom:SurfaceListBox>-->
-            <Grid d:LayoutOverrides="Margin" Margin="0">
+            <Grid Margin="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="91*" />
                     <RowDefinition Height="44*" />
@@ -224,7 +223,6 @@
                                        Text="{Binding RecentlyEnteredMediaUrl}"
                                        GotFocus="TxtAttachmentURL_OnGotFocus"
                                        LostFocus="TxtAttachmentURL_OnLostFocus"
-                                       d:LayoutOverrides="Height, HorizontalMargin"   
                                        TextChanged="TxtAttachmentURL_OnTextChanged"
                                        KeyDown="txtAttachmentURL_KeyDown_1">
                     <Custom:SurfaceTextBox.ContextMenu>
@@ -253,7 +251,7 @@
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,1,0,0">
-                <Label Content="Web sources" d:LayoutOverrides="Margin" />
+                <Label Content="Web sources"/>
                 <Label Content="Tips : Paste web url and press enter" FontSize="18.667" VerticalAlignment="Center"
                        Margin="0,8,0,0" />
             </StackPanel>
@@ -352,7 +350,7 @@
                                       HorizontalAlignment="Right"/>
             </Grid>
 
-            <Label Name="lblComments" Content="Comments" d:LayoutOverrides="Margin" />
+            <Label Name="lblComments" Content="Comments"/>
 
             <!--PreviewMouseDown="lstBxComments_PreviewMouseDown_1"
 				PreviewMouseUp="lstBxComments_PreviewMouseUp_1"  
@@ -365,7 +363,9 @@
                           ItemTemplate="{StaticResource CommentItemTemplate}"
                           MouseLeave="lstBxComments_MouseLeave"
                           BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch" />
+                        
             <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Comment"
+                                  Visibility="Collapsed"
                                   HorizontalAlignment="Right" Click="btnComment_Click" />
             <Separator/>
 
