@@ -20,6 +20,19 @@ namespace Discussions.view
     {
         /***************************************************************************/
 
+        public delegate void CommentRemovedEventHandler(Comment c);
+
+        public event CommentRemovedEventHandler CommentRemoved;
+
+        private void RaiseCommentRemoved(Comment c)
+        {
+            if (CommentRemoved != null)
+                CommentRemoved(c);
+        }
+
+
+        /***************************************************************************/
+
         public delegate void CommentEditingEventHandler(bool editing);
 
         public event CommentEditingEventHandler CommentEditLockChanged;
@@ -215,7 +228,8 @@ namespace Discussions.view
             c.ArgPoint = null;
             c.Person = null;
             ap.ChangesPending = true;
-            RaiseCommentEditLockChanged(false);
+            //RaiseCommentEditLockChanged(false);
+            RaiseCommentRemoved(c);
 
             try
             {

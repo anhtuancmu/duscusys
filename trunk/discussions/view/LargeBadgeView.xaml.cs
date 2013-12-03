@@ -178,10 +178,11 @@ namespace Discussions.view
                 return;
 
             //save edited comment
-            string editedCommentText = null;
-            var editedComment = ap.Comment.FirstOrDefault(c => c.Person == null && c.Text != DaoUtils.NEW_COMMENT);
-            if (editedComment != null)
-                editedCommentText = editedComment.Text;
+            //string editedCommentText = null;
+            //var editedComment = ap.Comment.FirstOrDefault(c => c.Person == null && 
+            //                                                   c.Text != DaoUtils.NEW_COMMENT);
+            //if (editedComment != null)
+            //    editedCommentText = editedComment.Text;
 
             //using db ctx here from login engine, not to spoil others
             DbCtx.DropContext();
@@ -192,26 +193,25 @@ namespace Discussions.view
             DataContext = null;
            
             //restore edited comment 
-            if (!string.IsNullOrWhiteSpace(editedCommentText))
-            {
-                var placeholder = ap2.Comment.FirstOrDefault(c => c.Person == null);
-                if (placeholder != null)
-                {
-                    placeholder.Text = editedCommentText;
-                    placeholder.Person = null;
+            //if (!string.IsNullOrWhiteSpace(editedCommentText))
+            //{
+            //    var placeholder = ap2.Comment.FirstOrDefault(c => c.Person == null);
+            //    if (placeholder != null)
+            //    {
+            //        placeholder.Text = editedCommentText;
+            //        placeholder.Person = null;
 
-                    ////restore focus
-                    Dispatcher.BeginInvoke(
-                        DispatcherPriority.Background,
-                        (Action) (() =>
-                        {
-                            FocusCommentTextBox(placeholder);
-                        })
-                        );
-                }
-            }
+            //        ////restore focus
+            //        Dispatcher.BeginInvoke(
+            //            DispatcherPriority.Background,
+            //            (Action) (() => FocusCommentTextBox(placeholder))
+            //            );
+            //    }
+            //}
 
             DataContext = ap2;
+
+            scrollViewer.ScrollToBottom();           
         }
 
         void FocusCommentTextBox(Comment comment)
@@ -513,11 +513,11 @@ namespace Discussions.view
             btnSave_Click(null, null);
         }
 
-        private void onCommentEditabilityChanged(bool edited)
-        {
-            _isEditingComment = edited;
-            SaveProcedure();
-        }
+        //private void onCommentEditabilityChanged(bool edited)
+        //{
+        //    _isEditingComment = edited;
+        //    SaveProcedure();
+        //}
 
         private void placeholderFocus(Comment comment)
         {
@@ -708,6 +708,11 @@ namespace Discussions.view
             {
                 scrollViewer.ScrollToBottom();
             }
+        }
+
+        private void CommentUC_OnCommentRemovedEvent(Comment c)
+        {
+            SaveProcedure();
         }
     }
 }

@@ -22,9 +22,9 @@
         <local:ARGBColorBrushConvertor x:Key="colorConv" />
 
         <DataTemplate x:Key="CommentItemTemplate">
-            <view:CommentUC
-                             CommentEditLockChanged="onCommentEditabilityChanged"
-                             possibilityToClose="possibilityToClose"
+            <view:CommentUC  
+                CommentRemoved="CommentUC_OnCommentRemovedEvent"
+                possibilityToClose="possibilityToClose"
                              placeholderFocus="placeholderFocus" />
         </DataTemplate>
 
@@ -151,7 +151,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-
+                    
                     <StackPanel Orientation="Vertical">
                         <Label x:Name="lblComments" Content="Comment" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
