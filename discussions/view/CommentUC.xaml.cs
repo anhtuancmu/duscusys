@@ -10,7 +10,6 @@ using Discussions.DbModel;
 using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
-using Discussions.webkit_host;
 
 namespace Discussions.view
 {
@@ -114,7 +113,7 @@ namespace Discussions.view
 
         private void txtBxText_LostFocus(object sender, RoutedEventArgs e)
         {
-            RequestFinishEditing();
+            //RequestFinishEditing();
 
             RaiseCommentEditLockChanged(false);
         }
@@ -215,6 +214,7 @@ namespace Discussions.view
             var ap = c.ArgPoint;
             c.ArgPoint = null;
             c.Person = null;
+            ap.ChangesPending = true;
             RaiseCommentEditLockChanged(false);
 
             try
@@ -228,8 +228,6 @@ namespace Discussions.view
                 //doesn't exist in content 
             }
 
-            DaoUtils.EnsureCommentPlaceholderExists(ap);
-
             ap.ChangesPending = true;
             UISharedRTClient.Instance.clienRt.SendStatsEvent(
                 StEvent.CommentRemoved,
@@ -239,18 +237,18 @@ namespace Discussions.view
                 DeviceType.Wpf);
         }
 
-        public void RequestFinishEditing()
-        {
-            checkRemovability(DataContext as Comment);
-            checkReadonly(DataContext as Comment);
-            if (HandleCommentCommit())
-                Recontext();
-        }
+        //public void RequestFinishEditing()
+        //{
+        //    checkRemovability(DataContext as Comment);
+        //    checkReadonly(DataContext as Comment);
+        //    if (HandleCommentCommit())
+        //        Recontext();
+        //}
 
         private void txtBxText_KeyDown_1(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-                RequestFinishEditing();
+            //if (e.Key == Key.Enter)
+            //    RequestFinishEditing();
         }
 
         private void Recontext()
@@ -262,47 +260,6 @@ namespace Discussions.view
             DataContext = c;
         }
 
-
-        private string _recentStatsEventSubmittedComment;
-        public bool HandleCommentCommit()
-        {
-            var c = DataContext as Comment;
-            if (c == null)
-                return false;
-
-            var ap = c.ArgPoint;
-            if (ap == null)
-                return false;
-
-            if (c.Text == DaoUtils.NEW_COMMENT || string.IsNullOrWhiteSpace(c.Text))
-                return false;
-
-            RaisePossibilityToClose();
-
-            ap.ChangesPending = true;
-
-            //inject author
-            var commentAuthor = SessionInfo.Get().getPerson(ap);
-            var res = DaoUtils.InjectAuthorOfComment(c, commentAuthor);
-
-            //ensure placeholder           
-            var placeholder = DaoUtils.EnsureCommentPlaceholderExists(ap);
-            if (placeholder != null)
-                RaisePlaceholderFocus(placeholder);
-
-            if (c.Text != _recentStatsEventSubmittedComment)
-            {
-                UISharedRTClient.Instance.clienRt.SendStatsEvent(
-                    StEvent.CommentAdded,
-                    SessionInfo.Get().person.Id,
-                    ap.Topic.Discussion.Id,
-                    ap.Topic.Id,
-                    DeviceType.Wpf);
-                _recentStatsEventSubmittedComment = c.Text;
-            }
-
-            return res;
-        }
 
         private void TxtBxText_OnGotFocus(object sender, RoutedEventArgs e)
         {

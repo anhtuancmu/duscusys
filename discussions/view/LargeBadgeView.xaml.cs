@@ -129,6 +129,8 @@ namespace Discussions.view
 
             _commentDismissalRecognizer = new CommentDismissalRecognizer(scrollViewer, OnDismiss);
 
+            txtNewComment.Text = DaoUtils.NEW_COMMENT;
+
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
 
@@ -514,6 +516,7 @@ namespace Discussions.view
         private void onCommentEditabilityChanged(bool edited)
         {
             _isEditingComment = edited;
+            SaveProcedure();
         }
 
         private void placeholderFocus(Comment comment)
@@ -544,7 +547,7 @@ namespace Discussions.view
             BusyWndSingleton.Show("Saving argument, please wait...");
             try
             {
-                saveProcedure();
+                SaveProcedure();
             }
             finally
             {
@@ -552,23 +555,27 @@ namespace Discussions.view
             }
         }
 
-        private void saveProcedure()
+        private string _lastCommentSubmitted;
+        private DateTime _lastSave;
+        void SaveProcedure()
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
                 return;
 
+            if (DateTime.Now.Subtract(_lastSave).TotalMilliseconds < 100)
+                return;
+
+            _lastSave = DateTime.Now;
+
             //finalize edited comment
-            var editedComment = ap.Comment.FirstOrDefault(c => c.Person == null && c.Text != DaoUtils.NEW_COMMENT);
-            if (editedComment != null)
+            if (!string.IsNullOrWhiteSpace(txtNewComment.Text) && 
+                DaoUtils.NEW_COMMENT != txtNewComment.Text && 
+                txtNewComment.Text!=_lastCommentSubmitted)
             {
-                var cnt = lstBxComments1.ItemContainerGenerator.ContainerFromItem(editedComment);
-                if (cnt != null)
-                {
-                    var cmntUC = GuiHelpers.GetChildObject<CommentUC>(cnt);
-                    if (cmntUC != null)
-                        cmntUC.RequestFinishEditing();
-                }
+                DaoUtils.HandleCommentCommit(txtNewComment.Text, ap);
+                _lastCommentSubmitted = txtNewComment.Text;
+                txtNewComment.Text = DaoUtils.NEW_COMMENT;
             }
 
             if (!ap.ChangesPending)
@@ -625,7 +632,7 @@ namespace Discussions.view
             }
         }
 
-        #region comment notificatinos
+        #region comment notifications
 
         readonly CommentDismissalRecognizer _commentDismissalRecognizer;
 
@@ -693,6 +700,14 @@ namespace Discussions.view
         private void LargeBadgeView_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             SetMaxWidthOfDescription();
+        }
+
+        private void TxtNewComment_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                scrollViewer.ScrollToBottom();
+            }
         }
     }
 }
