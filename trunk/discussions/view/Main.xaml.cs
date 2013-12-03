@@ -54,7 +54,7 @@ namespace Discussions.view
             if (SessionInfo.Get().ScreenshotMode)
             {
                 var discId = SessionInfo.Get().screenDiscId;
-                PrivateCenterCtx.SharedClient = sharedClient;
+                PrivateCenterCtx.sharedClient = sharedClient;
                 PublicBoardCtx.sharedClient = sharedClient;
                 SessionInfo.Get().discussion = PrivateCenterCtx.Get().Discussion.FirstOrDefault(d => d.Id == discId);
                 SessionInfo.Get().setPerson(PrivateCenterCtx.Get().Person.FirstOrDefault(p => p.Name == "moderator"));
@@ -95,7 +95,7 @@ namespace Discussions.view
 
             DataContext = this;
 
-            PrivateCenterCtx.SharedClient = sharedClient;
+            PrivateCenterCtx.sharedClient = sharedClient;
             PublicBoardCtx.sharedClient = sharedClient;
 
             avatar.pointDown = AvatarPointDown;

@@ -12,16 +12,16 @@ namespace Discussions.ctx
     {
         private static StatsTrackingDbCtx ctx = null;
 
-        public static UISharedRTClient SharedClient = null;
+        public static UISharedRTClient sharedClient = null;
 
         public static StatsTrackingDbCtx Get()
         {
             if (ctx == null)
             {
-                if (SharedClient == null)
+                if (sharedClient == null)
                     throw new Exception();
 
-                ctx = new StatsTrackingDbCtx(Discussions.ConfigManager.ConnStr, SharedClient);
+                ctx = new StatsTrackingDbCtx(Discussions.ConfigManager.ConnStr, sharedClient);
             }
 
             return ctx;
