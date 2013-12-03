@@ -6,7 +6,8 @@
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
     x:Class="DistributedEditor.TextUC"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="300" LostFocus="UserControl_LostFocus">
+    d:DesignHeight="300" d:DesignWidth="300" 
+    LostFocus="UserControl_LostFocus">
     <UserControl.Resources>
         <Color x:Key="TextToolOverlay">#33535353</Color>
     </UserControl.Resources>
@@ -22,9 +23,10 @@
                 <Custom:SurfaceTextBox x:Name="field" TextWrapping="Wrap"
                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
                                        FontWeight="Bold" FontSize="18.667"
-                                       AcceptsReturn="True"
+                                       AcceptsReturn="True"                                       
                                        TextChanged="SurfaceTextBox_TextChanged"
                                        PreviewKeyDown="field_KeyDown"
+                                       IsReadOnly="True"
                                        LostFocus="field_LostFocus"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
