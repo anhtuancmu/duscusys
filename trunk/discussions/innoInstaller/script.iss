@@ -36,9 +36,6 @@ Source: ..\bin\x86\Debug\AbstractionLayer.Input.exe; DestDir: {app}; Flags: igno
 Source: ..\bin\x86\Debug\AbstractionLayer.Input.pdb; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\AbstractionLayer.pdb; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\AxInterop.AcroPDFLib.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Blake.NUI.WPF.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Blake.NUI.WPF.Surface.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\x86\Debug\Blake.NUI.WPF.SurfaceToolkit.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CFLite.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CloudStorage.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\bin\x86\Debug\CloudStorage.pdb; DestDir: {app}; Flags: ignoreversion
