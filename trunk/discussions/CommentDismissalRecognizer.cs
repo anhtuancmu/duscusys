@@ -9,7 +9,7 @@ namespace Discussions
 {
     public class CommentDismissalRecognizer
     {
-        private const int ReadingTime = 1;//s
+        private const double ReadingTime = 1.5;//s
 
         DispatcherTimer _commentReader;
 
@@ -59,6 +59,9 @@ namespace Discussions
         static bool IsTheBadgeAtBottom(SurfaceScrollViewer scroller)
         {
             var maxVOffset = scroller.ExtentHeight - scroller.ViewportHeight;
+            if (maxVOffset < 0)
+                return true;
+
             const int threshold = 10;
             return Math.Abs(scroller.VerticalOffset - maxVOffset) < threshold;
         }

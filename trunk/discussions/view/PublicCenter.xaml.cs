@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +17,6 @@ using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
-using Discussions.webkit_host;
 using DistributedEditor;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
@@ -142,6 +140,16 @@ namespace Discussions.view
             if (e.PropertyName == "LasersEnabled")
             {
                 ToggleLaserPointer();
+            
+                if (ExplanationModeMediator.Inst.LasersEnabled)
+                {
+                    ResetZoomAndPanning();
+                    blockWorkingAreaTransforms = true;
+                }
+                else
+                {
+                    blockWorkingAreaTransforms = false;
+                } 
             }
         }
 
@@ -980,17 +988,23 @@ namespace Discussions.view
    
         public void ToggleLaserPointer()
         {
-            if (ExplanationModeMediator.Inst.LasersEnabled && _laserPointerWndCtx == null)
+            var expl = ExplanationModeMediator.Inst;
+
+            bool enableLasers = expl.LasersEnabled &&
+                                !expl.WebkitOpen &&
+                                !expl.ImageViewerOpen;
+
+            if (enableLasers && _laserPointerWndCtx == null)
             {
                 _laserPointerWndCtx = new LaserPointerWndCtx(scene, CurrentTopic.Id,
                     LaserPointerTargetSurface.PublicBoard);
             }
 
-            if (_laserPointerWndCtx!=null)
-                _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
+            if (_laserPointerWndCtx != null)
+                _laserPointerWndCtx.LocalLazerEnabled = enableLasers;
 
             if (editCtx != null)
-                editCtx.SetListeners(!ExplanationModeMediator.Inst.LasersEnabled);
+                editCtx.SetListeners(!enableLasers);
         }
 
         #endregion

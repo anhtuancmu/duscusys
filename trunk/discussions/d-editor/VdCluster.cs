@@ -16,8 +16,6 @@ namespace DistributedEditor
 {
     public class VdCluster : VdBaseShape, IVdShape, LinkableHost, ICaptionHost
     {
-        private const int UNDEFINED_CLUSTER = -1;
-
         //used to show border being drawn
         private Polygon drawingBorder;
         private Polygon convexHull;
@@ -117,17 +115,21 @@ namespace DistributedEditor
             //hull.Effect = ShapeUtils.ShadowProvider();
             convexHull.Tag = this;
 
-            drawingBorder = new System.Windows.Shapes.Polygon();
-            drawingBorder.Stroke = new SolidColorBrush(c);
-            drawingBorder.StrokeThickness = ShapeUtils.LINE_WIDTH;
-            drawingBorder.Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
-            drawingBorder.Tag = this;
+            drawingBorder = new System.Windows.Shapes.Polygon
+            {
+                Stroke = new SolidColorBrush(c),
+                StrokeThickness = ShapeUtils.LINE_WIDTH,
+                Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0)),
+                Tag = this
+            };
 
-            bezierBorder = new System.Windows.Shapes.Path();
-            bezierBorder.Stroke = new SolidColorBrush(c);
-            bezierBorder.StrokeThickness = ShapeUtils.LINE_WIDTH;
-            bezierBorder.Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
-            bezierBorder.Tag = this;
+            bezierBorder = new System.Windows.Shapes.Path
+            {
+                Stroke = new SolidColorBrush(c),
+                StrokeThickness = ShapeUtils.LINE_WIDTH,
+                Fill = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0)),
+                Tag = this
+            };
         }
 
         public UIElement UnderlyingControl()
@@ -696,7 +698,7 @@ namespace DistributedEditor
         {
             var bounds = boundsProvider();
             var res = bounds.Location;
-            res.Offset(0, -70);
+            res.Offset(100, -60);
             return res;
         }
 

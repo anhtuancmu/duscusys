@@ -165,7 +165,7 @@
                     </StackPanel>
                 </StackPanel>
             </Custom:SurfaceScrollViewer>
-            <Grid VerticalAlignment="Bottom" Grid.Row="2" Margin="60,0,40,0">
+            <Grid VerticalAlignment="Bottom" Grid.Row="2" Margin="60,20,40,0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
@@ -174,11 +174,14 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="156"/>
                 </Grid.ColumnDefinitions>
-                <Custom:SurfaceTextBox x:Name="txtNewComment" KeyDown="TxtNewComment_OnKeyDown"/>
+                <Custom:SurfaceTextBox x:Name="txtNewComment" KeyDown="TxtNewComment_OnKeyDown" 
+                                       GotFocus="TxtNewComment_OnGotFocus"
+                                       LostFocus="TxtNewComment_OnLostFocus"
+                                       />
                 <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click"                                           
             		Content="Comment" VerticalAlignment="Center"
             		Width="101"
-            		HorizontalAlignment="Right" MinHeight="12" Grid.Column="1" />
+            		HorizontalAlignment="Center" MinHeight="12" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <TextBlock x:Name="txtCommentSeenBy" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right"/>
             </Grid>
         </Grid>

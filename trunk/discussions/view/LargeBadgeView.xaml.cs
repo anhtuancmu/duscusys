@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 using Discussions.model;
@@ -129,7 +128,7 @@ namespace Discussions.view
 
             _commentDismissalRecognizer = new CommentDismissalRecognizer(scrollViewer, OnDismiss);
 
-            txtNewComment.Text = DaoUtils.NEW_COMMENT;
+            txtNewComment.Text = DaoUtils.NEW_COMMENT;      
 
             lstBxSources.DataContext = this;
             lstBxAttachments.DataContext = this;
@@ -165,7 +164,7 @@ namespace Discussions.view
                 _sharedClient.clienRt.onCommentRead -= OnCommentRead;
         }
 
-        private void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change)
+        private void ArgPointChanged(int ArgPointId, int topicId, PointChangedType change, int personId)
         {
             var ap = DataContext as ArgPoint;
             if (ap == null)
@@ -212,7 +211,6 @@ namespace Discussions.view
             DataContext = ap2;
 
             scrollViewer.ScrollToBottom();
-            _commentDismissalRecognizer.CheckScrollState();
         }
 
         void FocusCommentTextBox(Comment comment)
@@ -278,10 +276,11 @@ namespace Discussions.view
 
             var ap = DataContext as ArgPoint;
             _commentDismissalRecognizer.Reset(ap);
+
             UpdateLocalReadCounts(DbCtx.Get(), ap);
             new CommentNotificationDeferral(Dispatcher, DbCtx.Get(), lstBxComments1);
             UpdateRemoteReadCounts(DbCtx.Get(), ap);
-           
+          
             if (DataContext == null)
                 EditingMode = false;
             else
@@ -569,7 +568,8 @@ namespace Discussions.view
             {
                 DaoUtils.HandleCommentCommit(txtNewComment.Text, ap);
                 _lastCommentSubmitted = txtNewComment.Text;
-                txtNewComment.Text = DaoUtils.NEW_COMMENT;
+                //txtNewComment.Text = DaoUtils.NEW_COMMENT;
+                txtNewComment.Text = "";
             }
 
             if (!ap.ChangesPending)
@@ -594,7 +594,7 @@ namespace Discussions.view
                                                      ap.Topic.Id,
                                                      DeviceType.Wpf);
 
-                _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id);
+                _sharedClient.clienRt.SendArgPointChanged(ap.Id, ap.Topic.Id, SessionInfo.Get().person.Id);
             }
         }
 
@@ -701,13 +701,24 @@ namespace Discussions.view
             if (e.Key == Key.Enter)
             {
                 scrollViewer.ScrollToBottom();
-                _commentDismissalRecognizer.CheckScrollState();
             }
         }
 
         private void CommentUC_OnCommentRemovedEvent(Comment c)
         {
             SaveProcedure();
+        }
+
+        private void TxtNewComment_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtNewComment.Text == DaoUtils.NEW_COMMENT)
+                txtNewComment.Text = "";
+        }
+
+        private void TxtNewComment_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNewComment.Text))
+                txtNewComment.Text = DaoUtils.NEW_COMMENT;
         }
     }
 }

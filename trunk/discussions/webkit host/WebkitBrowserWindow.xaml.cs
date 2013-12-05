@@ -69,6 +69,8 @@ namespace Discussions.view
             if (_mediator.ExplanationModeEnabled)
                 RequestScrollPosition();
 
+            _mediator.WebkitOpen = true;
+
             _scrollStateChecker = new DispatcherTimer(DispatcherPriority.Background)
             {
                 Interval = new TimeSpan(200)
@@ -142,6 +144,8 @@ namespace Discussions.view
             SetListeners(false);
 
             ExplanationModeMediator.Inst.LasersEnabled = false;
+
+            _mediator.WebkitOpen = false;
 
             if (_overlayWnd != null)
                 _overlayWnd.Close();

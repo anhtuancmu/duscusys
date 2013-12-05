@@ -35,6 +35,16 @@ namespace Discussions
             get; set;
         }
 
+        public bool WebkitOpen { get; set; }
+
+        public bool ImageViewerOpen
+        {
+            get
+            {
+                return _openedViewers.Any();
+            }
+        }
+
         public bool ExplanationModeEnabled
         {
             get { return _explanationModeEnabled; }

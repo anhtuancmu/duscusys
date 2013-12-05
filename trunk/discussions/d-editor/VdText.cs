@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 using Discussions;
 using Discussions.RTModel.Model;
 using System.IO;
@@ -13,6 +16,11 @@ namespace DistributedEditor
     public class VdText : VdBaseShape, IVdShape, INotifyPropertyChanged
     {
         public const double MIN_SIZE = 30;
+
+        private System.Windows.Shapes.Rectangle blMark;
+        private System.Windows.Shapes.Rectangle tlMark;
+        private System.Windows.Shapes.Rectangle trMark;
+        private System.Windows.Shapes.Rectangle brMark;
 
         private Canvas _scene;
         private TextUC _textEnterUC;
@@ -83,25 +91,66 @@ namespace DistributedEditor
             _textEnterUC.handle.Tag = this;
             _textEnterUC.textChanged += TextChanged;
             _textEnterUC.MouseWheel += MouseWheel;
+
+            blMark = ShapeUtils.MakeMarker();
+            blMark.Tag = this;
+
+            tlMark = ShapeUtils.MakeMarker();
+            tlMark.Tag = this;
+
+            trMark = ShapeUtils.MakeMarker();
+            trMark.Tag = this;
+
+            brMark = ShapeUtils.MakeMarker();
+            brMark.Tag = this;
         }
 
         private void TextChanged(string text)
         {
             _txt = text;
-            serializeText = true;
+            _serializeText = true;
+            SetBounds();
             onChanged(this);
+        }
+
+        private void HideMarkers()
+        {
+            blMark.Visibility = Visibility.Hidden;
+            tlMark.Visibility = Visibility.Hidden;
+            trMark.Visibility = Visibility.Hidden;
+            brMark.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowMarkers()
+        {
+            blMark.Visibility = Visibility.Visible;
+            tlMark.Visibility = Visibility.Visible;
+            trMark.Visibility = Visibility.Visible;
+            brMark.Visibility = Visibility.Visible;
         }
 
         public void Hide()
         {
-            _cursorView.Visibility = Visibility.Hidden;
+            _cursorView.Visibility  = Visibility.Hidden;
             _textEnterUC.Visibility = Visibility.Hidden;
+            HideMarkers();
         }
 
         public void Show()
         {
-            _cursorView.Visibility = Visibility.Visible;
+            _cursorView.Visibility  = Visibility.Visible;
             _textEnterUC.Visibility = Visibility.Visible;
+            ShowMarkers();
+        }
+
+        private void SetMarkers()
+        {
+            Rect bounds = GetFieldBounds();
+
+            ShapeUtils.SetMarker(blMark, bounds.Left, bounds.Bottom);
+            ShapeUtils.SetMarker(tlMark, bounds.Left, bounds.Top);
+            ShapeUtils.SetMarker(trMark, bounds.Right, bounds.Top);
+            ShapeUtils.SetMarker(brMark, bounds.Right, bounds.Bottom);
         }
 
         public bool IsVisible()
@@ -131,6 +180,8 @@ namespace DistributedEditor
                 _cleanupRequest(Id());
             }
 
+            HideMarkers();
+
             _textEnterUC.RemoveFocus();
         }
 
@@ -141,6 +192,15 @@ namespace DistributedEditor
             _textOnGotFocus = Text;
 
             _textEnterUC.SetFocus();
+
+            //text field has just been shown, no sizes of field yet
+            _scene.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+            (Action)(() =>
+            {
+                if (!_isFocused) return;
+                SetMarkers();
+                ShowMarkers();
+            }));
         }
 
         public ShapeZ ShapeZLevel()
@@ -152,6 +212,10 @@ namespace DistributedEditor
         {
             Canvas.SetZIndex(_textEnterUC, z);
             Canvas.SetZIndex(_cursorView, z + 1);
+            Canvas.SetZIndex(blMark, z + 2);
+            Canvas.SetZIndex(tlMark, z + 3);
+            Canvas.SetZIndex(trMark, z + 4);
+            Canvas.SetZIndex(brMark, z + 5);
         }
 
         public void AttachToCanvas(Canvas c)
@@ -163,6 +227,14 @@ namespace DistributedEditor
 
             c.Children.Add(_textEnterUC);
             c.Children.Add(_cursorView);
+            
+            if (!c.Children.Contains(blMark))
+            {
+                c.Children.Add(blMark);
+                c.Children.Add(tlMark);
+                c.Children.Add(trMark);
+                c.Children.Add(brMark);                
+            }
 
             SetBounds();
         }
@@ -171,11 +243,18 @@ namespace DistributedEditor
         {
             c.Children.Remove(_textEnterUC);
             c.Children.Remove(_cursorView);
+
+            c.Children.Remove(blMark);
+            c.Children.Remove(tlMark);
+            c.Children.Remove(trMark);
+            c.Children.Remove(brMark);
         }
 
         private void SetBounds()
         {
             updateUserCursor();
+
+            SetMarkers();
         }
 
         private void updateUserCursor()
@@ -197,7 +276,7 @@ namespace DistributedEditor
         }
 
         //by default, text is not serialized. only enabled after text change event
-        private bool serializeText = false;
+        private bool _serializeText = false;
 
         public ShapeState GetState(int topicId)
         {
@@ -206,9 +285,9 @@ namespace DistributedEditor
             byte[] textBytes = null;
 
             //encode string
-            if (serializeText)
+            if (_serializeText)
             {
-                serializeText = false;
+                _serializeText = false;
                 using (var s = new MemoryStream())
                 {
                     using (var bw = new BinaryWriter(s))
@@ -246,17 +325,20 @@ namespace DistributedEditor
                 }
             }
 
-            Matrix m = new Matrix();
-            m.M11 = st.doubles[2];
-            m.M12 = st.doubles[3];
-            m.M21 = st.doubles[4];
-            m.M22 = st.doubles[5];
-            m.OffsetX = st.doubles[6];
-            m.OffsetY = st.doubles[7];
+            var m = new Matrix
+            {
+                M11 = st.doubles[2],
+                M12 = st.doubles[3],
+                M21 = st.doubles[4],
+                M22 = st.doubles[5],
+                OffsetX = st.doubles[6],
+                OffsetY = st.doubles[7]
+            };
 
             _textEnterUC.RenderTransform = new MatrixTransform(m);
 
-            updateUserCursor();
+            _scene.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                                          (Action)SetBounds);
         }
 
         public override void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
@@ -272,7 +354,7 @@ namespace DistributedEditor
 
             e.Handled = true;
 
-            updateUserCursor();
+            SetBounds();
         }
 
         private void MouseWheel(object sender, MouseWheelEventArgs e)
@@ -284,6 +366,31 @@ namespace DistributedEditor
 
         public void StartManip(Point p, object sender)
         {
+            activeMarker = null;
+            if (sender == blMark)
+            {
+                activeMarker = sender as Rectangle;
+                activeMarker.CaptureMouse();
+            }
+            else if (sender == tlMark)
+            {
+                activeMarker = sender as Rectangle;
+                activeMarker.CaptureMouse();
+            }
+            else if (sender == trMark)
+            {
+                activeMarker = sender as Rectangle;
+                activeMarker.CaptureMouse();
+            }
+            else if (sender == brMark)
+            {
+                activeMarker = sender as Rectangle;
+                activeMarker.CaptureMouse();
+            }
+            else
+            {
+            }
+
             CurrentPoint.X = p.X;
             CurrentPoint.Y = p.Y;
             SetFocus();
@@ -294,15 +401,55 @@ namespace DistributedEditor
             if (base.TouchManip)
                 return PointApplyResult.None;
 
+            if (activeMarker == blMark)
+            {
+                return _applyCurrentPoint(p, ShapeUtils.RectSide.BottomLeft);
+            }
+            else if (activeMarker == tlMark)
+            {
+                return _applyCurrentPoint(p, ShapeUtils.RectSide.TopLeft);
+            }
+            else if (activeMarker == trMark)
+            {
+                return _applyCurrentPoint(p, ShapeUtils.RectSide.TopRight);
+            }
+            else if (activeMarker == brMark)
+            {
+                return _applyCurrentPoint(p, ShapeUtils.RectSide.BottomRight);
+            }
+            else
+            {
+                return _applyCurrentPoint(p, ShapeUtils.RectSide.None);
+            }
+        }
+
+        PointApplyResult _applyCurrentPoint(Point p, ShapeUtils.RectSide side)
+        {
+            var res = PointApplyResult.None;
+
             double dx = p.X - CurrentPoint.X;
             double dy = p.Y - CurrentPoint.Y;
-            HandleMove(dx, dy);
+
+            if (activeMarker == null)
+            {
+                HandleMove(dx, dy);
+                if (dx != 0.0 || dy != 0.0)
+                    res = PointApplyResult.Move;
+            }
+            else
+            {
+                HandleResize(dx, dy, side);
+                if (dx != 0.0 || dy != 0.0)
+                    res = PointApplyResult.Resize;
+            }
+            SetBounds();
             CurrentPoint.X = p.X;
             CurrentPoint.Y = p.Y;
-            updateUserCursor();
 
-            return PointApplyResult.None;
+            return res;
         }
+
+
 
         //for cluster only
         public void SetPosForCluster(double x, double y)
@@ -323,26 +470,117 @@ namespace DistributedEditor
                                       new Vector(1, 1));
         }
 
+        private void HandleResize(double deltaX, double deltaY, ShapeUtils.RectSide side)
+        {
+            Rect bounds = GetShapeBounds();
+            Rect boundsBefore = bounds;
+            try
+            {
+                switch (side)
+                {
+                    case ShapeUtils.RectSide.TopLeft:
+                        bounds.X += deltaX;
+                        bounds.Y += deltaY;
+                        bounds.Width  -= deltaX;
+                        bounds.Height -= deltaY;
+                        break;
+                    case ShapeUtils.RectSide.TopRight:
+                        bounds.Width += deltaX;
+
+                        bounds.Y += deltaY;
+                        bounds.Height -= deltaY;
+                        break;
+                    case ShapeUtils.RectSide.BottomLeft:
+                        bounds.X += deltaX;
+                        bounds.Width -= deltaX;
+
+                        bounds.Height += deltaY;
+                        break;
+                    case ShapeUtils.RectSide.BottomRight:
+                        bounds.Width  += deltaX;
+                        bounds.Height += deltaY;
+                        break;
+                    case ShapeUtils.RectSide.TwoSided:
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            if (bounds.Width > MIN_SIZE && bounds.Height > MIN_SIZE)
+            {
+                var manipOrg = _textEnterUC.RenderTransform.Transform(
+                    new Point(0,0)
+                );
+
+                double xScale = bounds.Width/boundsBefore.Width;
+                double yScale = bounds.Height/boundsBefore.Height;
+                double scaleCoeff = Math.Max(xScale, yScale);
+                var scale = new Vector(yScale,
+                                       yScale);
+
+                var translate = new Vector(bounds.X - boundsBefore.X,
+                                           bounds.Y - boundsBefore.Y);
+
+                ShapeUtils.ApplyTransform(_textEnterUC,
+                                          new Vector(manipOrg.X, manipOrg.Y),
+                                          translate,
+                                          0,
+                                          scale);
+
+                SetBounds();
+            }
+        }
+
         public Point GetOrigin()
         {
             if (_textEnterUC.RenderTransform == null)
                 return new Point(0, 0);
-            else
-                return new Point(_textEnterUC.RenderTransform.Value.OffsetX,
-                                 _textEnterUC.RenderTransform.Value.OffsetY);
+
+            return new Point(_textEnterUC.RenderTransform.Value.OffsetX,
+                             _textEnterUC.RenderTransform.Value.OffsetY);
+        }
+
+        public Rect GetFieldBounds()
+        {
+            Point org = _textEnterUC.field.TranslatePoint(new Point(0, 0), _scene);
+
+            var w = _textEnterUC.GetFieldActualWidth();
+            var h = _textEnterUC.GetFieldActualHeight();
+            var bottomRight = _textEnterUC.field.TranslatePoint(new Point(w, h), _scene);
+
+            return new Rect(org, bottomRight);
+        }
+
+        public Rect GetShapeBounds()
+        {
+            Point org = _textEnterUC.TranslatePoint(new Point(0, 0), _scene);
+
+            var w = _textEnterUC.ActualWidth;
+            var h = _textEnterUC.ActualHeight;
+            var bottomRight = _textEnterUC.TranslatePoint(new Point(w, h), _scene);
+
+            return new Rect(org, bottomRight);
         }
 
         private void HandleScale(double scale)
         {
             var manipOrg = _textEnterUC.RenderTransform.Transform(new Point(0, 0));
-            ShapeUtils.ApplyTransform(_textEnterUC, new Vector(manipOrg.X, manipOrg.Y),
-                                      new Vector(0, 0), 0, new Vector(scale, scale));
+            ShapeUtils.ApplyTransform(_textEnterUC, 
+                                      new Vector(manipOrg.X, manipOrg.Y),
+                                      new Vector(0, 0), 
+                                      0, 
+                                      new Vector(scale, scale));
         }
 
         public void ScaleInPlace(bool plus)
         {
             var s = ShapeUtils.scaleFactor(plus);
             HandleScale(s);
+
+            _scene.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                                          (Action)SetBounds);          
         }
 
         public double distToFigure(Point from)
@@ -381,12 +619,7 @@ namespace DistributedEditor
 
         public override Rect ReportingBoundsProvider()
         {
-            var org = _textEnterUC.txtLabel.TranslatePoint(new Point(0, 0), _scene);
-            var w = _textEnterUC.txtLabel.ActualWidth;
-            var h = _textEnterUC.txtLabel.ActualHeight;
-            var bottomRight = _textEnterUC.txtLabel.TranslatePoint(new Point(w, h), _scene);
-
-            return new Rect(org, bottomRight);
+            return GetFieldBounds();            
         }
 
         public void MoveBy(double dx, double dy)

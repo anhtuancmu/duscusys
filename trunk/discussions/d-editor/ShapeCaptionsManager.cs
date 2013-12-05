@@ -42,7 +42,7 @@ namespace DistributedEditor
 
         public delegate void CaptionCreationRequested(CaptionType type, ICaptionHost hostShape);
 
-        private CaptionCreationRequested _captionCreationRequested;
+        private readonly CaptionCreationRequested _captionCreationRequested;
 
         public ShapeCaptionsManager(ICaptionHost host, CaptionCreationRequested captionCreationRequested)
         {
@@ -56,7 +56,7 @@ namespace DistributedEditor
 
             btnType = new ClusterButton();
             btnType.btn.Click += __bntType;
-            btnType.SetBrush((System.Windows.Media.Brush) Application.Current.TryFindResource("typeBrush"));
+            btnType.SetBrush((System.Windows.Media.Brush)Application.Current.TryFindResource("keyboard"));
         }
 
         private void __bntDraw(object sender, RoutedEventArgs e)
@@ -145,12 +145,12 @@ namespace DistributedEditor
             if (_freeDraw != null)
             {
                 var capOrg = _hostShape.capOrgProvider();
-                var fdWidth = 200;
+                var fdWidth  = 200;
                 var fdHeight = 100;
                 _freeDraw.SetWH(fdWidth, fdHeight);
 
-                var fdX = capOrg.X - fdWidth*0.5;
-                var fdY = capOrg.Y - fdHeight*0.5;
+                var fdX = capOrg.X;
+                var fdY = capOrg.Y - fdHeight*0.4;
                 _freeDraw.SetPosForCluster(fdX, fdY);
             }
         }
