@@ -20,7 +20,7 @@
                 </RadialGradientBrush>
             </Border.Background>
         </Border>-->
-        <Path x:Name="laserArrow" Data="M0,0 L-1,-1 L0,4 L1,-1z" StrokeThickness="0" Stretch="Uniform" Fill="Red" RenderTransformOrigin="0.5,0.5">
+        <Path x:Name="laserArrow" Data="M0,0 L-2,-1 L0,4 L2,-1z" StrokeThickness="0" Stretch="Uniform" Fill="Red" RenderTransformOrigin="0.5,0.5">
             <Path.Effect>
                 <DropShadowEffect BlurRadius="20" Direction="140" ShadowDepth="3"/>
             </Path.Effect>
@@ -29,13 +29,13 @@
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform Angle="-202.62"/>
-                    <TranslateTransform Y="-40"/>
+                    <TranslateTransform Y="0"/>
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
 
         <Canvas>
-            <Border x:Name="userLines" Canvas.Top="30" BorderThickness="0,5" BorderBrush="#FFF92626" Padding="2">
+            <Border x:Name="userLines" Canvas.Top="70" BorderThickness="0,5" BorderBrush="#FFF92626" Padding="2">
                 <Border Background="#7F000000" CornerRadius="5">
                     <TextBlock x:Name="txtName" Text="Alice" FontSize="30" Foreground="White"/>
                 </Border>

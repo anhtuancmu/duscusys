@@ -41,7 +41,7 @@ namespace Discussions.view
 
             _onCaptured = onCaptured;
 
-            ShowPreMessage();
+           // ShowPreMessage();
         }
 
         static void ShowPreMessage()

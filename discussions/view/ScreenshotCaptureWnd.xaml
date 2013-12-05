@@ -32,7 +32,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Label x:Name="lblHelp" Visibility="Hidden" Content="Draw capture area" HorizontalAlignment="Center"
-               VerticalAlignment="Top" FontSize="32" Grid.ColumnSpan="3" />
+               VerticalAlignment="Center" FontSize="42" Grid.ColumnSpan="3" />
 
         <Custom:SurfaceButton x:Name="btnStartDrawing"
                               Content="Select"

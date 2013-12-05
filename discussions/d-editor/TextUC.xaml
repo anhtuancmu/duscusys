@@ -12,7 +12,7 @@
         <Color x:Key="TextToolOverlay">#33535353</Color>
     </UserControl.Resources>
     <StackPanel>
-        <Border x:Name="handle" BorderThickness="10" CornerRadius="4"
+        <Border x:Name="handle" BorderThickness="20" CornerRadius="4"
                 TouchDown="handleTouchDown"
                 MouseDown="handleMouseDown"
                 HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.995">
@@ -22,7 +22,7 @@
             <StackPanel>
                 <Custom:SurfaceTextBox x:Name="field" TextWrapping="Wrap"
                                        Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-                                       FontWeight="Bold" FontSize="18.667"
+                                       FontWeight="Bold" FontSize="30"
                                        AcceptsReturn="True"                                       
                                        TextChanged="SurfaceTextBox_TextChanged"
                                        PreviewKeyDown="field_KeyDown"
@@ -32,7 +32,7 @@
                                        VerticalAlignment="Center"
                                        FontFamily="Arial Black" />
                 <TextBlock x:Name="txtLabel" IsHitTestVisible="False"
-                           FontFamily="Arial Black" FontSize="18.667"
+                           FontFamily="Arial Black" FontSize="30"
                            HorizontalAlignment="Center"
                            FontWeight="Bold"
                            Text="{Binding ElementName=field, Path=Text}"

@@ -181,8 +181,8 @@ namespace DistributedEditor
                 _hostAwaitingCaption.CapMgr().text = (VdText)caption;
 
                 //increase caption font
-                for(int i = 0; i<6; ++i)
-                    _hostAwaitingCaption.CapMgr().text.ScaleInPlace(true);
+                //for(int i = 0; i<6; ++i)
+                //    _hostAwaitingCaption.CapMgr().text.ScaleInPlace(true);
 
                 SendSyncState(_hostAwaitingCaption.CapMgr().text);
 
