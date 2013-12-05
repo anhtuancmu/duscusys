@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.IO;
@@ -12,7 +10,7 @@ using System.Windows.Media.Effects;
 
 namespace DistributedEditor
 {
-    public class ShapeUtils
+    public static class ShapeUtils
     {
         public const double SZ = 10;
         public const double LINE_WIDTH = 4;

@@ -160,10 +160,10 @@ namespace DistributedEditor
             else
                 _ptrCanvas.TouchMove -= ptrWnd_TouchMove;
 
-            if (doSet)
-                _ptrCanvas.TouchUp += ptrCanv_TouchUp;
-            else
-                _ptrCanvas.TouchUp -= ptrCanv_TouchUp;
+            //if (doSet)
+            //    _ptrCanvas.TouchUp += ptrCanv_TouchUp;
+            //else
+            //    _ptrCanvas.TouchUp -= ptrCanv_TouchUp;
 
             if (doSet)
                 _ptrCanvas.MouseMove += ptrCanvasOnMouseMove;

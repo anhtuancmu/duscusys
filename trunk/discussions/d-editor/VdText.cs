@@ -611,7 +611,7 @@ namespace DistributedEditor
             double dMin = ShapeUtils.Min(d1, d2, d3);
             dMin = ShapeUtils.Min(dMin, d4, d5);
 
-            if (dMin > 170)
+            if (dMin > 270)
                 dMin = double.MaxValue;
 
             return dMin;
