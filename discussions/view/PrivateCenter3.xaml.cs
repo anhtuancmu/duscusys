@@ -162,6 +162,7 @@ namespace Discussions.view
 
             if (t == null)
             {
+                theBadge.RemoveFocusFromInputControls();
                 theBadge.DataContext = null;
                 return;
             }
@@ -175,10 +176,14 @@ namespace Discussions.view
             if (OwnArgPoints.Count > 0)
             {
                 lstPoints.SelectedItem = OwnArgPoints.First();
+                theBadge.RemoveFocusFromInputControls();
                 theBadge.DataContext = OwnArgPoints.First().Ap;
             }
             else
+            {
+                theBadge.RemoveFocusFromInputControls();
                 theBadge.DataContext = null;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -235,10 +240,13 @@ namespace Discussions.view
                     select ap;
 
             foreach (var ap in q)
-                ArgPointsOfOtherUser.Add(new ArgPointExt(ap)); 
+                ArgPointsOfOtherUser.Add(new ArgPointExt(ap));
 
             if (_otherUserSelectedManually && ArgPointsOfOtherUser.Count > 0)
+            {
+                theBadge.RemoveFocusFromInputControls();
                 theBadge.DataContext = ArgPointsOfOtherUser.First().Ap;
+            }
 
             UpdateLocalUnreadCountsOfOtherUser(TimingCtx.GetFresh());
         }
@@ -271,6 +279,7 @@ namespace Discussions.view
         private void lstTopics_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             OwnArgPoints.Clear();
+            theBadge.RemoveFocusFromInputControls();
             theBadge.DataContext = null;
             Topic st = lstTopics.SelectedItem as Topic;
 
@@ -294,7 +303,10 @@ namespace Discussions.view
             OwnArgPoints.Clear();
             TopicsOfDiscussion.Clear();
             if (!initializing)
+            {
+                theBadge.RemoveFocusFromInputControls();
                 theBadge.DataContext = null;
+            }
 
             var dis = selectedDiscussion();
             if (dis == null)
@@ -343,6 +355,7 @@ namespace Discussions.view
                 return;
 
             theBadge.EditingMode = ap.Ap.Person.Id == SessionInfo.Get().person.Id;
+            theBadge.RemoveFocusFromInputControls();
             theBadge.DataContext = ap.Ap;
         }
 
@@ -377,6 +390,7 @@ namespace Discussions.view
                 var np = DaoUtils.NewPoint(lstTopics.SelectedItem as Topic, orderNumber);
                 if (np != null)
                 {
+                    theBadge.RemoveFocusFromInputControls();
                     theBadge.DataContext = np;
                     t.ArgPoint.Add(np);
                 }
@@ -492,14 +506,17 @@ namespace Discussions.view
 
             //first notify about deleted point!
             if (deletedPt != null)
-                _sharedClient.clienRt.SendArgPointDeleted(deletedPt.Id, TopicOfDeletedPointId);
+                _sharedClient.clienRt.SendArgPointDeleted(deletedPt.Id, TopicOfDeletedPointId, 
+                                                          SessionInfo.Get().person.Id);
 
             //notify about changes
             foreach (var createdPt in created)
-                _sharedClient.clienRt.SendArgPointCreated(createdPt.Id, createdPt.Topic.Id);
+                _sharedClient.clienRt.SendArgPointCreated(createdPt.Id, createdPt.Topic.Id,
+                                                          SessionInfo.Get().person.Id);
 
             foreach (var editedPt in edited)
-                _sharedClient.clienRt.SendArgPointChanged(editedPt.Id, editedPt.Topic.Id);
+                _sharedClient.clienRt.SendArgPointChanged(editedPt.Id, editedPt.Topic.Id,
+                                                          SessionInfo.Get().person.Id);
         }
 
         //returns lists of IDs of those of own points, which have been changed (added, removed, edited)
@@ -771,7 +788,7 @@ namespace Discussions.view
             }
         }
 
-        private void ArgPointChanged(int argPointId, int topicId, PointChangedType change)
+        private void ArgPointChanged(int argPointId, int topicId, PointChangedType change, int personId)
         {           
             if (change == PointChangedType.Modified)
             {
@@ -780,10 +797,13 @@ namespace Discussions.view
 
                //only show notification that there are new comments, not more. user will need to click Refresh
                var currTopic = lstTopics.SelectedItem as Topic;
-               if (currTopic != null && topicId == currTopic.Id)
+                if (currTopic == null)
+                    return;
+
+               if (topicId == currTopic.Id && personId!=SessionInfo.Get().person.Id)
                {
                   TimingCtx.Drop();
-                  if (DaoUtils.NumCommentsUnreadBy(TimingCtx.GetFresh(), argPointId).Total() > 0)
+                  //if (DaoUtils.NumCommentsUnreadBy(TimingCtx.GetFresh(), argPointId).Total() > 0)
                       thereAreNewComments.Visibility = Visibility.Visible;                   
                }
             }

@@ -139,6 +139,12 @@ namespace Discussions.view
             Opacity = 0;
         }
 
+        public void RemoveFocusFromInputControls()
+        {
+            //remove focus from other controls
+            focusInterceptor.Focus();
+        }
+
         void HandleRecontext()
         {
             var ap = DataContext as ArgPoint;
@@ -1100,6 +1106,30 @@ namespace Discussions.view
         private void BtnAttachMedia_OnClick(object sender, RoutedEventArgs e)
         {
             AttachMediaFromUrl();
+        }
+
+        private void TxtPoint_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtPoint.Text == DaoUtils.NEW_POINT_NAME)
+                txtPoint.Text = "";
+        }
+
+        private void TxtPoint_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPoint.Text))
+                txtPoint.Text = DaoUtils.NEW_POINT_NAME;
+        }
+
+        private void PlainDescription_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (plainDescription.Text == DaoUtils.NEW_DESCRIPTION)
+                plainDescription.Text = "";
+        }
+
+        private void PlainDescription_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(plainDescription.Text))
+                plainDescription.Text = DaoUtils.NEW_DESCRIPTION;
         }
     }
 }

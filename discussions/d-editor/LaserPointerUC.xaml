@@ -6,10 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300"
              d:DesignWidth="300"
-             Width="30"
-             Height="30">
+             Width="60"
+             Height="60">
     <Grid>
-        <Border Width="30" Height="30">
+        <!--<Border Width="30" Height="30">
             <Border.Background>
                 <RadialGradientBrush>
                     <GradientStop Offset="0.836" Color="#00000000"/>
@@ -19,12 +19,25 @@
                     <GradientStop Color="#FF424242" Offset="0.772"/>
                 </RadialGradientBrush>
             </Border.Background>
-        </Border>
+        </Border>-->
+        <Path x:Name="laserArrow" Data="M0,0 L-1,-1 L0,4 L1,-1z" StrokeThickness="0" Stretch="Uniform" Fill="Red" RenderTransformOrigin="0.5,0.5">
+            <Path.Effect>
+                <DropShadowEffect BlurRadius="20" Direction="140" ShadowDepth="3"/>
+            </Path.Effect>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-202.62"/>
+                    <TranslateTransform Y="-40"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+
         <Canvas>
             <Border x:Name="userLines" Canvas.Top="30" BorderThickness="0,5" BorderBrush="#FFF92626" Padding="2">
                 <Border Background="#7F000000" CornerRadius="5">
-                    <TextBlock x:Name="txtName" Text="Alice"       			    
-        			    FontSize="30" Foreground="White"/>
+                    <TextBlock x:Name="txtName" Text="Alice" FontSize="30" Foreground="White"/>
                 </Border>
             </Border>
         </Canvas>

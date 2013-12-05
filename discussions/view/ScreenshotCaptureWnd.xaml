@@ -6,7 +6,7 @@
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" x:Class="Discussions.view.ScreenshotCaptureWnd"
+    mc:Ignorable="d" x:Class="Discussions.view.ScreenshotCaptureWnd"   
     Background="{x:Null}"
     WindowStartupLocation="CenterScreen"      
     WindowState="Maximized"
@@ -35,7 +35,7 @@
                VerticalAlignment="Top" FontSize="32" Grid.ColumnSpan="3" />
 
         <Custom:SurfaceButton x:Name="btnStartDrawing"
-                              Content="Next"
+                              Content="Select"
                               Foreground="White"
                               FontSize="30"
                               Background="#FF70DEFF"

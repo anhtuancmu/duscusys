@@ -157,6 +157,8 @@
             <Label Content="Point"/>
             <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="700"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
+                                   GotFocus="TxtPoint_OnGotFocus"
+                                   LostFocus="TxtPoint_OnLostFocus"
                                    TextWrapping="Wrap"                                 
                                    SelectsAllOnFocus="False"
                                    VerticalAlignment="Center"                                     
@@ -171,6 +173,8 @@
             <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="700"
                                    SelectsAllOnFocus="False"                                  
                                    KeyDown="plainDescription_KeyDown_1"
+                                   GotFocus="PlainDescription_OnGotFocus"
+                                   LostFocus="PlainDescription_OnLostFocus"
                                    TextWrapping="Wrap" AcceptsReturn="True"
                                    Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">
                 <Custom:SurfaceTextBox.ContextMenu>
@@ -348,6 +352,8 @@
                                       Grid.Row="1"
                                       Content="Add source" 
                                       HorizontalAlignment="Right"/>
+
+                <Custom:SurfaceTextBox x:Name="focusInterceptor" Width="1" MinWidth="1" MinHeight="1" Height="1" VerticalAlignment="Bottom"/>
             </Grid>
 
             <Label Name="lblComments" Content="Comments"/>
@@ -374,5 +380,6 @@
                        Margin="0,0,50,0"/>
         </StackPanel>
         <Rectangle x:Name="lblColor" Fill="#FFF4F4F5" HorizontalAlignment="Left" Width="10" />
+
     </Grid>
 </UserControl>

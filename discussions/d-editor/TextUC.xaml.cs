@@ -150,5 +150,15 @@ namespace DistributedEditor
         private void handleTouchDown(object sender, TouchEventArgs e)
         {
         }
+
+        public double GetFieldActualWidth()
+        {
+            return field.ActualWidth;
+        }
+
+        public double GetFieldActualHeight()
+        {
+            return field.ActualHeight;
+        }
     }
 }

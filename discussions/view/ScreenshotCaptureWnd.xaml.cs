@@ -19,7 +19,7 @@ namespace Discussions.view
             SelectingCaptureArea
         }
 
-        private CaptureState state = CaptureState.SelectingWindow;
+        private CaptureState _state = CaptureState.SelectingWindow;
 
         private Bitmap _screenshot;
 
@@ -40,6 +40,13 @@ namespace Discussions.view
             HideOwnWindows();
 
             _onCaptured = onCaptured;
+
+            ShowPreMessage();
+        }
+
+        static void ShowPreMessage()
+        {
+            MessageDlg.Show("Select windows screen to capture screenshot");
         }
 
         private void startDrawing(System.Windows.Point topLeft)
@@ -91,17 +98,17 @@ namespace Discussions.view
                 _onCaptured(_screenshot);
         }
 
-        private Action<Bitmap> _onCaptured = null;
+        private readonly Action<Bitmap> _onCaptured = null;
 
         private void PointDown(System.Windows.Point pointDown)
         {
-            switch (state)
+            switch (_state)
             {
                 case CaptureState.SelectingWindow:
                     break;
                 case CaptureState.SelectedWindow:
                     startDrawing(pointDown);
-                    state = CaptureState.SelectingCaptureArea;
+                    _state = CaptureState.SelectingCaptureArea;
                     break;
                 case CaptureState.SelectingCaptureArea:
                     break;
@@ -112,7 +119,7 @@ namespace Discussions.view
 
         private void PointUp()
         {
-            switch (state)
+            switch (_state)
             {
                 case CaptureState.SelectingWindow:
                     break;
@@ -158,7 +165,7 @@ namespace Discussions.view
 
         private void Window_TouchMove_1(object sender, TouchEventArgs e)
         {
-            if (state == CaptureState.SelectingCaptureArea)
+            if (_state == CaptureState.SelectingCaptureArea)
                 onDrawing(e.GetTouchPoint(canv).Position);
         }
 
@@ -176,7 +183,7 @@ namespace Discussions.view
 
         private void Window_MouseMove_1(object sender, MouseEventArgs e)
         {
-            if (state == CaptureState.SelectingCaptureArea)
+            if (_state == CaptureState.SelectingCaptureArea)
                 onDrawing(e.GetPosition(canv));
         }
 
@@ -187,9 +194,9 @@ namespace Discussions.view
 
         private void btnStartDrawing_Click_1(object sender, RoutedEventArgs e)
         {
-            if (state == CaptureState.SelectingWindow)
+            if (_state == CaptureState.SelectingWindow)
             {
-                state = CaptureState.SelectedWindow;
+                _state = CaptureState.SelectedWindow;
                 this.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xFF, 0x5D, 0x5D, 0x5D));
                 MaxHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
                 this.WindowState = WindowState.Maximized;

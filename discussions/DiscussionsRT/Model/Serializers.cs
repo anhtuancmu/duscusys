@@ -155,31 +155,40 @@ namespace Discussions.RTModel.Model
 
         public static UserCursor ReadUserCursor(Dictionary<byte, object> dict)
         {
-            UserCursor res = new UserCursor((string) dict[(byte) DiscussionParamKey.UserCursorName]);
-            res.State = (CursorInputState) dict[(byte) DiscussionParamKey.UserCursorState];
-            res.usrId = (int) dict[(byte) DiscussionParamKey.UserCursorUsrId];
-            res.x = (double) dict[(byte) DiscussionParamKey.UserCursorX];
-            res.y = (double) dict[(byte) DiscussionParamKey.UserCursorY];
+            var res = new UserCursor((string) dict[(byte) DiscussionParamKey.UserCursorName])
+            {
+                State = (CursorInputState) dict[(byte) DiscussionParamKey.UserCursorState],
+                usrId = (int) dict[(byte) DiscussionParamKey.UserCursorUsrId],
+                x = (double) dict[(byte) DiscussionParamKey.UserCursorX],
+                y = (double) dict[(byte) DiscussionParamKey.UserCursorY]
+            };
             return res;
         }
 
         public static Dictionary<byte, object> WriteChangedArgPoint(int ArgPointId, int topicId,
-                                                                    PointChangedType pointChangeType)
+                                                                    PointChangedType pointChangeType,
+                                                                    int personId)
         {
             var res = new Dictionary<byte, object>();
             res[(byte) DiscussionParamKey.PointChangeType] = pointChangeType;
             res[(byte) DiscussionParamKey.ArgPointId] = ArgPointId;
             res[(byte) DiscussionParamKey.ChangedTopicId] = topicId;
+            res[(byte) DiscussionParamKey.PersonId] = personId;
             return res;
         }
 
         //editingUserId is optional, can be absent not used now
-        public static int ReadChangedArgPoint(Dictionary<byte, object> dict, out PointChangedType pointChangeType,
-                                              out int topicId)
+        public static int ReadChangedArgPoint(Dictionary<byte, object> dict, 
+                                              out PointChangedType pointChangeType,
+                                              out int topicId, 
+                                              out int personId)
         {
             pointChangeType = (PointChangedType) dict[(byte) DiscussionParamKey.PointChangeType];
             topicId = (int) dict[(byte) DiscussionParamKey.ChangedTopicId];
-            return (int) dict[(byte) DiscussionParamKey.ArgPointId];
+            personId = -1;
+            if (dict.ContainsKey((byte)DiscussionParamKey.PersonId))
+                personId = (int)dict[(byte)DiscussionParamKey.PersonId];
+            return (int)dict[(byte) DiscussionParamKey.ArgPointId];
         }
 
         public static void ReadStatEventParams(Dictionary<byte, object> par, out StEvent e, out int userId,

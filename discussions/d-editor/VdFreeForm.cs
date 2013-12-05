@@ -301,7 +301,7 @@ namespace DistributedEditor
             double newWidth = _bounds.Width;
             double newHeight = _bounds.Height;
 
-            newWidth *= scaleX;
+            newWidth  *= scaleX;
             newHeight *= scaleY;
 
             if (newWidth < MIN_SIZE && newHeight < MIN_SIZE)
@@ -351,7 +351,7 @@ namespace DistributedEditor
                     case ShapeUtils.RectSide.TwoSided:
                         double cx = (bounds.Left + bounds.Right)/2;
                         double cy = (bounds.Top + bounds.Bottom)/2;
-                        bounds.Width += deltaX/2;
+                        bounds.Width  += deltaX/2;
                         bounds.Height += deltaY/2;
                         bounds.X = cx - bounds.Width/2;
                         bounds.Y = cy - bounds.Height/2;

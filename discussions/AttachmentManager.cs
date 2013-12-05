@@ -666,7 +666,7 @@ namespace Discussions
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
 
-                ImageWindow wnd = new ImageWindow(a.Id, a.ArgPoint.Topic.Id);
+                var wnd = new ImageWindow(a.Id,  a.ArgPoint!=null ? a.ArgPoint.Topic.Id : -1);
                 wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
                 wnd.Show();
             }
