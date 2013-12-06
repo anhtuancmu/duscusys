@@ -63,7 +63,7 @@
                 <RowDefinition Height="Auto" MinHeight="32.61" />
                 <RowDefinition Height="377*" />
             </Grid.RowDefinitions>
-            <Label x:Name="Arguments" Content="My Points" d:LayoutOverrides="Margin" Foreground="Black" />
+            <Label x:Name="Arguments" Content="My Points/自分のポイント" d:LayoutOverrides="Margin" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstPoints"
                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -103,7 +103,7 @@
                     </DataTemplate>
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>
-            <Label Content="Other User's Points" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
+            <Label Content="Other User's Points/他者のポイント" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
                    Height="32.61" Width="184.173" d:LayoutOverrides="Margin" Foreground="Black" />
         </Grid>
         <StackPanel Grid.Column="2" d:LayoutOverrides="Margin">
@@ -115,7 +115,7 @@
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource addBrush}" />
-                        <Label Content="CREATE" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Label Content="CREATE/作成" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnRemovePoint" Click="btnRemovePoint_Click"
@@ -124,7 +124,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Border CornerRadius="30"
                                 BorderThickness="3" Background="{DynamicResource minusBrush}" Height="40" Width="40" />
-                        <Label Content="DELETE" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Label Content="DELETE/削除" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnCopy" Visibility="Collapsed" Click="btnCopy_Click_1" Background="{x:Null}"
@@ -145,7 +145,7 @@
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource infoBrush}" />
-                        <Label Content="INFO" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Label Content="INFO/報告" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnRefresh1" 
@@ -161,7 +161,7 @@
                                 BorderThickness="3" Background="{DynamicResource refreshIcon}" />
                          <Ellipse Name="thereAreNewComments" Fill="#FFFDB903" Width="10" Height="10" 
                                      Visibility="Collapsed"/>
-                         <Label Content="REFRESH" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                         <Label Content="REFRESH/更新" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
             </StackPanel>
@@ -207,7 +207,7 @@
                 <RowDefinition Height="Auto" MinHeight="32.61" />
                 <RowDefinition Height="189*" />
             </Grid.RowDefinitions>
-            <Label Content="Topics" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <Label Content="Topics/トピック" HorizontalAlignment="Left" VerticalAlignment="Top"
                    d:LayoutOverrides="VerticalAlignment, Margin" RenderTransformOrigin="0.482,-0.632" Height="32.61"
                    Width="58.043" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstTopics"
@@ -222,7 +222,7 @@
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>
 
-            <Label Content="Other users" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Margin="0"
+            <Label Content="Other users/他者" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Margin="0"
                    Height="32.61" d:LayoutOverrides="Margin" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstOtherUsers" ItemsSource="{Binding OtherUsers}"
                                    SelectionChanged="lstUsers_SelectionChanged" Grid.Row="3" Margin="0,2,0,0"
