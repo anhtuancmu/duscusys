@@ -860,6 +860,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Resource Include="Assets\trash.png" />
     <EmbeddedResource Include="pdf reader\PdfWinFrmControl.resx">
       <DependentUpon>PdfWinFrmControl.cs</DependentUpon>
@@ -885,6 +888,7 @@
     <Resource Include="Assets\discusys iconv3.ico" />
     <Content Include="Assets\meiryo.ttf" />
     <None Include="Reporter.pdf\ReportInit.csx" />
+    <None Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="VectorEditor\streaming.dgml" />
   </ItemGroup>
   <ItemGroup>
