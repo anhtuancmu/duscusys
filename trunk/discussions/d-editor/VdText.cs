@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
@@ -619,7 +618,7 @@ namespace DistributedEditor
 
         public override Rect ReportingBoundsProvider()
         {
-            return GetFieldBounds();            
+            return GetShapeBounds();            
         }
 
         public void MoveBy(double dx, double dy)

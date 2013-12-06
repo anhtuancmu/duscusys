@@ -198,6 +198,9 @@
       <DependentUpon>ReaderOverlayWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\Validators.cs" />
+    <Compile Include="view\ScreenshotTipWnd.xaml.cs">
+      <DependentUpon>ScreenshotTipWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="view\SpeakerLogin.xaml.cs">
       <DependentUpon>SpeakerLogin.xaml</DependentUpon>
     </Compile>
@@ -532,6 +535,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pdf reader\ReaderOverlayWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="view\ScreenshotTipWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

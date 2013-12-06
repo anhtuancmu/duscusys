@@ -12,9 +12,9 @@ namespace DiscSvc
 {
     public class AttachmentMediaStreamProvider : IDataServiceStreamProvider, IDisposable
     {
-        private DiscCtx context;
-        private Attachment cachedEntity;
-        private MemoryStream mediaStream;
+        private readonly DiscCtx context;
+        private Attachment _cachedEntity;
+        private MemoryStream _mediaStream;
 
         public AttachmentMediaStreamProvider(DiscCtx context)
         {
@@ -158,9 +158,9 @@ namespace DiscSvc
             }
 
             //handle POST and PUT
-            cachedEntity = attach;
-            mediaStream = new MemoryStream();
-            return mediaStream;
+            _cachedEntity = attach;
+            _mediaStream = new MemoryStream();
+            return _mediaStream;
         }
 
         public string ResolveType(string entitySetName, DataServiceOperationContext operationContext)
@@ -189,17 +189,17 @@ namespace DiscSvc
 
         public void Dispose()
         {
-            if (cachedEntity != null && mediaStream != null)
+            if (_cachedEntity != null && _mediaStream != null)
             {
                 // Get the new entity from the Entity Framework object state manager.
-                ObjectStateEntry entry = this.context.ObjectStateManager.GetObjectStateEntry(cachedEntity);
+                ObjectStateEntry entry = this.context.ObjectStateManager.GetObjectStateEntry(_cachedEntity);
 
                 if (entry.State == EntityState.Unchanged)
                 {
                     {
                         var ctx = new DiscCtx(ConfigManager.ConnStr);
-                        ctx.Attach(cachedEntity);
-                        cachedEntity.MediaData.Data = mediaStream.ToArray();
+                        ctx.Attach(_cachedEntity);
+                        _cachedEntity.MediaData.Data = _mediaStream.ToArray();
                         ctx.SaveChanges();
                     }
                 }
@@ -207,16 +207,16 @@ namespace DiscSvc
                 {
                     // A problem must have occurred when saving the entity to the database, 
                     // so we should delete the entity
-                    var mediaData = cachedEntity.MediaData;
-                    cachedEntity.MediaData = null;
+                    var mediaData = _cachedEntity.MediaData;
+                    _cachedEntity.MediaData = null;
                     var ctx = new DiscCtx(ConfigManager.ConnStr);
                     if (mediaData != null)
                     {
                         ctx.Attach(mediaData);
                         ctx.DeleteObject(mediaData);
                     }
-                    ctx.Attach(cachedEntity);
-                    ctx.DeleteObject(cachedEntity);
+                    ctx.Attach(_cachedEntity);
+                    ctx.DeleteObject(_cachedEntity);
 
                     throw new DataServiceException("An error occurred. The media resource could not be saved.");
                 }

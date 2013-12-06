@@ -20,7 +20,7 @@ namespace DiscSvc.Reporting
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+    #line 1 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class SourcesReport : SourcesReportBase
     {
@@ -47,7 +47,7 @@ namespace DiscSvc.Reporting
 	    <div style=""text-align: left; padding-left:40px"">
 			");
             
-            #line 23 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+            #line 23 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
    var i = 1;
 		         foreach(var s in ReportParams.Discussion.Background.Source.OrderBy(s=>s.OrderNumber))
 					EmitSourceCell(s, i++);
@@ -59,7 +59,7 @@ namespace DiscSvc.Reporting
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 32 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 32 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
  
    void EmitSourceCell(Source s, int i)
     {
@@ -71,56 +71,56 @@ namespace DiscSvc.Reporting
         #line default
         #line hidden
         
-        #line 38 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 38 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write("\t\t<div style=\"padding-top:40px\">\r\n\t\t   ");
 
         
         #line default
         #line hidden
         
-        #line 40 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 40 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(i));
 
         
         #line default
         #line hidden
         
-        #line 40 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 40 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write(". <a href=\"");
 
         
         #line default
         #line hidden
         
-        #line 40 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 40 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(s.Text));
 
         
         #line default
         #line hidden
         
-        #line 40 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 40 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write("\">");
 
         
         #line default
         #line hidden
         
-        #line 40 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 40 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(s.Text));
 
         
         #line default
         #line hidden
         
-        #line 40 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 40 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 this.Write("</a>\r\n\t\t</div> \r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 42 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\SourcesReport.tt"
+        #line 42 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\SourcesReport.tt"
 
     }
 
