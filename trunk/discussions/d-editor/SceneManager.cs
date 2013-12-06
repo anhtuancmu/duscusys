@@ -315,7 +315,7 @@ namespace DistributedEditor
             var end = DocTools.RequestLinkable(sh);
             if (end == null)
             {
-                MessageDlg.Show("Can only link badges and clusters",
+                MessageDlg.Show("Can only link points and groups",
                                 "Tip",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
