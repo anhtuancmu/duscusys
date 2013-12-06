@@ -402,7 +402,7 @@ namespace Discussions.view
             btnLogOut.BtnTitle = "Log out/ログアウト";
             btnSessionManager.BtnTitle = "Session manager";
             btnSessionViewer.BtnTitle = "Session/user viewer";
-            btnDiscussionInfo.BtnTitle = "About this discussion/紺議論について";
+            btnDiscussionInfo.BtnTitle = "About this discussion/議論について";
             btnReporter.BtnTitle = "Log result";
             btnMeg.BtnTitle = "MEG";
             btnResults.BtnTitle = "Report/レポート"; 
