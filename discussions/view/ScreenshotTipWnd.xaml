@@ -1,26 +1,20 @@
 ﻿<al:PortableWindow
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:al="clr-namespace:AbstractionLayer;assembly=AbstractionLayer"
     xmlns:Custom="http://schemas.microsoft.com/surface/2008"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" x:Class="Discussions.view.ScreenshotCaptureWnd"   
+    mc:Ignorable="d" x:Class="Discussions.view.ScreenshotTipWnd"   
+    Background="{x:Null}"
     WindowStartupLocation="CenterScreen"      
     WindowState="Maximized"
     SizeToContent="Manual"
-    KeyDown="ScreenshotCaptureWnd_OnKeyDown"
     Title2="Screenshot Capture"
-    TouchDown="Window_TouchDown_1"
-    TouchMove="Window_TouchMove_1"
-    TouchUp="Window_TouchUp_1"
-    MouseDown="Window_MouseDown_1"
-    MouseMove="Window_MouseMove_1"
-    MouseUp="Window_MouseUp_1"
     Topmost="True"
     AllowsTransparency="True"
     WindowStyle="None" 
-    Background="#42000000"
     ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
@@ -32,10 +26,8 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-
-        <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot" FontSize="42"
-                Grid.ColumnSpan="3" Foreground="#FF00FF46"
-                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="lblHelp" Visibility="Hidden" Content="Draw capture area" HorizontalAlignment="Center"
+               VerticalAlignment="Center" FontSize="42" Grid.ColumnSpan="3" />
 
         <Custom:SurfaceButton x:Name="btnStartDrawing"
                               Content="Select"

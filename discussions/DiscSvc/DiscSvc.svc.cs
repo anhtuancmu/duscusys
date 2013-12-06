@@ -22,7 +22,7 @@ namespace DiscSvc
                                           EntitySetRights.ReadSingle |
                                           EntitySetRights.AllWrite);
             // config.SetServiceOperationAccessRule("MyServiceOperation", ServiceOperationRights.All);
-            config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
+            //config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
         }
 
         public object GetService(Type serviceType)
@@ -33,6 +33,15 @@ namespace DiscSvc
                 return new AttachmentMediaStreamProvider(this.CurrentDataSource);
             }
             return null;
+        }
+
+        protected override DiscCtx CreateDataSource()
+        {
+            var ctx = base.CreateDataSource();
+
+            // Disable proxy object creation.
+            //ctx.Configuration.ProxyCreationEnabled = false;
+            return ctx;
         }
     }
 }

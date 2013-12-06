@@ -20,7 +20,7 @@ namespace DiscSvc.Reporting
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+    #line 1 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class MediaReport : MediaReportBase
     {
@@ -47,7 +47,7 @@ namespace DiscSvc.Reporting
 		<div style=""background-color:#ffbb76"">
 			");
             
-            #line 23 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+            #line 23 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
  EmitMediaTable(ReportParams.Discussion.Attachment); 
             
             #line default
@@ -56,7 +56,7 @@ namespace DiscSvc.Reporting
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 29 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 29 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
  
     void EmitMediaCell(Attachment a, int i)
 	{
@@ -68,56 +68,56 @@ namespace DiscSvc.Reporting
         #line default
         #line hidden
         
-        #line 35 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 35 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write("\t\t<div style=\"padding-top:40px\">\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 37 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 37 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(Helpers.GetPastableHtml(a, BaseUrl)));
 
         
         #line default
         #line hidden
         
-        #line 37 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 37 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write("\t\r\n\t\t\t\r\n\t\t    <p> ");
 
         
         #line default
         #line hidden
         
-        #line 39 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 39 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(i));
 
         
         #line default
         #line hidden
         
-        #line 39 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 39 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(". ");
 
         
         #line default
         #line hidden
         
-        #line 39 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 39 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(this.ToStringHelper.ToStringWithCulture(a.Link));
 
         
         #line default
         #line hidden
         
-        #line 39 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 39 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write("</p>\t\r\n\t\t</div> \r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 41 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 41 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 
 	}
  
@@ -132,14 +132,14 @@ this.Write("</p>\t\r\n\t\t</div> \r\n\t\t");
         #line default
         #line hidden
         
-        #line 50 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 50 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write("\r\n\t    <div style=\"text-align: center\">\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 53 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 53 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
    var i = 1; 
 		          foreach(var m in media.OrderBy(m=>m.OrderNumber))
 					 EmitMediaCell(m, i++);
@@ -148,14 +148,14 @@ this.Write("\r\n\t    <div style=\"text-align: center\">\r\n\t\t\t");
         #line default
         #line hidden
         
-        #line 56 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 56 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 this.Write(" \r\n\t\t</div>\r\n\t\t");
 
         
         #line default
         #line hidden
         
-        #line 58 "C:\Users\CyberArena\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc\Reporting\MediaReport.tt"
+        #line 58 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc\Reporting\MediaReport.tt"
 
 	}
 
