@@ -395,17 +395,17 @@ namespace Discussions.view
         {
             btnModeratorBoard.BtnTitle = "Moderator dashboard";
             btnUserManager.BtnTitle = "User manager";
-            btnPrivate.BtnTitle = "Private dashboard";
-            btnPublic.BtnTitle = "Public dashboard";
+            btnPrivate.BtnTitle = "Private dashboard/個人用システム";
+            btnPublic.BtnTitle = "Public dashboard/共用システム";
             // btnResults.BtnTitle = "Results";
             btnSeatManager.BtnTitle = "Seat manager";
-            btnLogOut.BtnTitle = "Log out";
+            btnLogOut.BtnTitle = "Log out/ログアウト";
             btnSessionManager.BtnTitle = "Session manager";
             btnSessionViewer.BtnTitle = "Session/user viewer";
-            btnDiscussionInfo.BtnTitle = "About this discussion";
+            btnDiscussionInfo.BtnTitle = "About this discussion/紺議論について";
             btnReporter.BtnTitle = "Log result";
             btnMeg.BtnTitle = "MEG";
-            btnResults.BtnTitle = "Report"; 
+            btnResults.BtnTitle = "Report/レポート"; 
         }
 
         private void MainWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
