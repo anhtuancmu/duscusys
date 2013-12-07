@@ -117,11 +117,11 @@
                     <TextBlock x:Name="plainDescription"
                                TextAlignment="Justify"
                                TextWrapping="Wrap"
-                               Text="{Binding Description.Text}"/>
+                               Text="{Binding Description.Text}" FontSize="28"/>
                     <StackPanel x:Name="media">
                         <Separator />
                         <Label Content="Media/画像資料" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Background="#00000000" Foreground="Black" />
+                               Background="#00000000" Foreground="Black" FontSize="26" />
                         <ItemsControl x:Name="lstBxAttachments"
                                       IsManipulationEnabled="False"
                                       ItemsSource="{Binding Attachments}"
@@ -138,7 +138,7 @@
 
                     <StackPanel x:Name="stackSources" Orientation="Vertical">
                         <Label Content="Web /URLのリンク" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Background="#00000000" Foreground="Black"/>
+                               Background="#00000000" Foreground="Black" FontSize="26"/>
                         <ItemsControl x:Name="lstBxSources"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding Sources}"
@@ -155,7 +155,7 @@
                     <StackPanel Orientation="Vertical">
                         <Label x:Name="lblComments" Content="Comment/コメント" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
-                               Foreground="Black"/>
+                               Foreground="Black" FontSize="26"/>
                         <ItemsControl x:Name="lstBxComments1"
                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                                       ItemsSource="{Binding Comment}"
