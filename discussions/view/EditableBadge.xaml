@@ -154,7 +154,7 @@
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             </StackPanel>
 
-            <Label Content="Point/ポイント"/>
+            <Label Content="Title/タイトル"/>
             <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="700"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    GotFocus="TxtPoint_OnGotFocus"
@@ -183,7 +183,7 @@
             </Custom:SurfaceTextBox>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="Media Sources/メディア資料" VerticalAlignment="Center" />
+                <Label Content="Media Sources/画像資料の添付" VerticalAlignment="Center" />
                 <Label Content="Tips: Paste Images and PDF url and press enter" FontSize="18.667"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
@@ -255,7 +255,7 @@
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,1,0,0">
-                <Label Content="Web sources/ウエブ資料"/>
+                <Label Content="Web Sources/URLの添付"/>
                 <Label Content="Tips : Paste web url and press enter" FontSize="18.667" VerticalAlignment="Center"
                        Margin="0,8,0,0" />
             </StackPanel>

@@ -63,7 +63,7 @@
                 <RowDefinition Height="Auto" MinHeight="32.61" />
                 <RowDefinition Height="377*" />
             </Grid.RowDefinitions>
-            <Label x:Name="Arguments" Content="My Points/自分のポイント" d:LayoutOverrides="Margin" Foreground="Black" />
+            <Label x:Name="Arguments" Content="My Points/自分の付箋" d:LayoutOverrides="Margin" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstPoints"
                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -103,8 +103,8 @@
                     </DataTemplate>
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>
-            <Label Content="Other User's Points/他者のポイント" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
-                   Height="33" Width="268" d:LayoutOverrides="Margin" Foreground="Black" />
+            <Label Content="Other User's Points/他ユーザーの付箋" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
+                   Height="33" Width="298" d:LayoutOverrides="Margin" Foreground="Black" />
         </Grid>
         <StackPanel Grid.Column="2" d:LayoutOverrides="Margin">
             <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center">
@@ -145,7 +145,7 @@
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource infoBrush}" />
-                        <Label Content="INFO/報告" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Label Content="TOPIC INFO/トピック詳細" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnRefresh1" 
@@ -222,7 +222,7 @@
                 </Custom:SurfaceListBox.ItemTemplate>
             </Custom:SurfaceListBox>
 
-            <Label Content="Other users/他者" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Margin="0"
+            <Label Content="Other users/他のユーザー" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Margin="0"
                    Height="32.61" d:LayoutOverrides="Margin" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstOtherUsers" ItemsSource="{Binding OtherUsers}"
                                    SelectionChanged="lstUsers_SelectionChanged" Grid.Row="3" Margin="0,2,0,0"

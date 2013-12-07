@@ -219,7 +219,7 @@ namespace DistributedEditor
             var sh = _doc.VolatileCtx.LocalFocus;
             if (sh == null)
             {
-                MessageDlg.Show("Please select shape to remove",
+                MessageDlg.Show("Please select shape to remove/削除対象が選択されていません",
                                 "No shape selected",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -228,7 +228,7 @@ namespace DistributedEditor
 
             if (!editingPermission(sh))
             {
-                MessageDlg.Show("Cannot remove shape under user cursor",
+                MessageDlg.Show("Cannot remove shape under user cursor/他のユーザーが操作中の付箋は削除できません",
                                 "No permission",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
@@ -250,7 +250,7 @@ namespace DistributedEditor
             foreach (var s in ownShapes)
                 if (!editingPermission(s))
                 {
-                    MessageDlg.Show("To delete your shapes, wait until all your shapes are free of user cursors",
+                    MessageDlg.Show("To delete your shapes, wait until all your shapes are free of user cursors/他のユーザーが操作中の付箋は削除できません",
                                     "No permission",
                                     MessageBoxButton.OK,
                                     MessageBoxImage.Error);
@@ -315,7 +315,7 @@ namespace DistributedEditor
             var end = DocTools.RequestLinkable(sh);
             if (end == null)
             {
-                MessageDlg.Show("Can only link points and groups",
+                MessageDlg.Show("Can only link points and groups/付箋とグループ以外はリンクできません",
                                 "Tip",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information);
@@ -332,7 +332,7 @@ namespace DistributedEditor
             {
                 _palette.ResetTool();
                 _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
-                MessageDlg.Show("Cannot link object with itself",
+                MessageDlg.Show("Cannot link points with itself/同じ付箋・グループをリンクする事はできません",
                                 "Error",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
