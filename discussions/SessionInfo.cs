@@ -1,4 +1,4 @@
-﻿using System.Data.Entity.Core.Objects;
+﻿using System.Data.Objects;
 using System.Linq;
 using Discussions.ctx;
 using Discussions.DbModel;

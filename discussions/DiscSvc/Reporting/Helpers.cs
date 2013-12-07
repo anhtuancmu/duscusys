@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Discussions;
 using Discussions.DbModel;
-using Discussions.model;
+using Discussions.DbModel.model;
 
 namespace DiscSvc.Reporting
 {

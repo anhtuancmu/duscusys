@@ -23,7 +23,7 @@ namespace EventGen
         private void AddEvent_Click_1(object sender, RoutedEventArgs e)
         {
             var ev = new TimelineEvent(StEvent.BadgeEdited, 1, 1,
-                                       _timelineModel, TimeSpan.FromSeconds(4), 1, Discussions.model.DeviceType.Wpf);
+                                       _timelineModel, TimeSpan.FromSeconds(4), 1, DeviceType.Wpf);
             _timelineModel.AddEvent(ev);
         }
 

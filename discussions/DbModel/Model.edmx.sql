@@ -1,10 +1,17 @@
 
 -- --------------------------------------------------
--- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/16/2013 17:28:54
--- Generated from EDMX file: C:\Users\insenle3\Documents\Visual Studio 2013\Projects\TDS\discussions\DbModel\Model.edmx
+-- Date Created: 01/17/2013 11:39:59
+-- Generated from EDMX file: C:\projects\TDS\discussions\DbModel\Model.edmx
 -- --------------------------------------------------
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [disc3];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -15,6 +22,9 @@ IF OBJECT_ID(N'[dbo].[FK_TopicArgPoint]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_DiscussionTopic]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Topic] DROP CONSTRAINT [FK_DiscussionTopic];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ArgPointComment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Comment] DROP CONSTRAINT [FK_ArgPointComment];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ArgPointAttachment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Attachment] DROP CONSTRAINT [FK_ArgPointAttachment];
@@ -71,13 +81,10 @@ IF OBJECT_ID(N'[dbo].[FK_AttachmentMediaData]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[MediaDataSet] DROP CONSTRAINT [FK_AttachmentMediaData];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CommentCommentPersonReadEntry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CommentPersonReadEntry] DROP CONSTRAINT [FK_CommentCommentPersonReadEntry];
+    ALTER TABLE [dbo].[CommentPersonReadEntrySet] DROP CONSTRAINT [FK_CommentCommentPersonReadEntry];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PersonCommentPersonReadEntry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CommentPersonReadEntry] DROP CONSTRAINT [FK_PersonCommentPersonReadEntry];
-GO
-IF OBJECT_ID(N'[dbo].[FK_CommentArgPoint]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Comment] DROP CONSTRAINT [FK_CommentArgPoint];
+    ALTER TABLE [dbo].[CommentPersonReadEntrySet] DROP CONSTRAINT [FK_PersonCommentPersonReadEntry];
 GO
 
 -- --------------------------------------------------
@@ -126,8 +133,8 @@ GO
 IF OBJECT_ID(N'[dbo].[MediaDataSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MediaDataSet];
 GO
-IF OBJECT_ID(N'[dbo].[CommentPersonReadEntry]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[CommentPersonReadEntry];
+IF OBJECT_ID(N'[dbo].[CommentPersonReadEntrySet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CommentPersonReadEntrySet];
 GO
 IF OBJECT_ID(N'[dbo].[TopicPerson]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TopicPerson];
@@ -406,7 +413,7 @@ GO
 -- Creating primary key on [Topic_Id], [Person_Id] in table 'TopicPerson'
 ALTER TABLE [dbo].[TopicPerson]
 ADD CONSTRAINT [PK_TopicPerson]
-    PRIMARY KEY CLUSTERED ([Topic_Id], [Person_Id] ASC);
+    PRIMARY KEY NONCLUSTERED ([Topic_Id], [Person_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -439,6 +446,20 @@ ADD CONSTRAINT [FK_DiscussionTopic]
 CREATE INDEX [IX_FK_DiscussionTopic]
 ON [dbo].[Topic]
     ([Discussion_Id]);
+GO
+
+-- Creating foreign key on [ArgPoint_Id] in table 'Comment'
+ALTER TABLE [dbo].[Comment]
+ADD CONSTRAINT [FK_ArgPointComment]
+    FOREIGN KEY ([ArgPoint_Id])
+    REFERENCES [dbo].[ArgPoint]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ArgPointComment'
+CREATE INDEX [IX_FK_ArgPointComment]
+ON [dbo].[Comment]
+    ([ArgPoint_Id]);
 GO
 
 -- Creating foreign key on [ArgPoint_Id] in table 'Attachment'
@@ -714,20 +735,6 @@ ADD CONSTRAINT [FK_PersonCommentPersonReadEntry]
 CREATE INDEX [IX_FK_PersonCommentPersonReadEntry]
 ON [dbo].[CommentPersonReadEntry]
     ([Person_Id]);
-GO
-
--- Creating foreign key on [ArgPoint_Id] in table 'Comment'
-ALTER TABLE [dbo].[Comment]
-ADD CONSTRAINT [FK_CommentArgPoint]
-    FOREIGN KEY ([ArgPoint_Id])
-    REFERENCES [dbo].[ArgPoint]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CommentArgPoint'
-CREATE INDEX [IX_FK_CommentArgPoint]
-ON [dbo].[Comment]
-    ([ArgPoint_Id]);
 GO
 
 -- --------------------------------------------------

@@ -1,8 +1,7 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
+﻿using System.Data;
+using System.Data.Objects;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.rt;
 
 namespace Discussions.stats

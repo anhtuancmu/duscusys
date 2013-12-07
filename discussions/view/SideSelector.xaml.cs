@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Discussions.DbModel.model;
 using Discussions.model;
 
 namespace Discussions.view

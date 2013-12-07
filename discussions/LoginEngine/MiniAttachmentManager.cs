@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Net;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Discussions.model;
+using Discussions.DbModel.model;
 using Discussions.DbModel;
 using System.Diagnostics;
 

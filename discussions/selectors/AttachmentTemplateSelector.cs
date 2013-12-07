@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Discussions.DbModel.model;
 using Discussions.model;
 using System.Windows.Controls;
 using Discussions.DbModel;

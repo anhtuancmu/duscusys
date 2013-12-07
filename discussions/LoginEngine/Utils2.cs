@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using Discussions.DbModel;
-using Discussions.model;
 using System.Windows.Input;
 using System.IO;
 using System.Reflection;

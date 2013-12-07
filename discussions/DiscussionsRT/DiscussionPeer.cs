@@ -10,7 +10,6 @@ using Lite.Caching;
 using Discussions.DbModel;
 using Discussions.RTModel.Model;
 using Discussions.RTModel.Caching;
-using Discussions.model;
 using System.IO;
 
 namespace Discussions.RTModel

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Media;
 using Discussions.DbModel.model;
-using Discussions.model;
 using LoginEngine;
 
 namespace Discussions.stats

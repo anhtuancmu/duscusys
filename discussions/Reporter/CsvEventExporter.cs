@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.stats;
 
 namespace Reporter

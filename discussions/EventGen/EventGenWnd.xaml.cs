@@ -18,7 +18,6 @@ using System.Windows.Threading;
 using Discussions;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.rt;
 using Discussions.stats;
 using EventGen.timeline;

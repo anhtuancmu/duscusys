@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.stats;
 using EventGen.timeline;
 

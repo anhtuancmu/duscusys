@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Discussions;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.RTModel.Model;
 using Discussions.view;

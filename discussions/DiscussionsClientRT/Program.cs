@@ -1,5 +1,5 @@
 ﻿using System;
-using Discussions.model;
+using Discussions.DbModel.model;
 
 namespace DiscussionsClientRT
 {

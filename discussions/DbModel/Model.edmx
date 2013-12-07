@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="db.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="db.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="dbStoreContainer">
     <EntitySet Name="Person" EntityType="db.Store.Person" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Discussion" EntityType="db.Store.Discussion" store:Type="Tables" Schema="dbo" />
@@ -30,6 +30,10 @@
     <AssociationSet Name="DiscussionTopic" Association="db.Store.DiscussionTopic">
       <End Role="Discussion" EntitySet="Discussion" />
       <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+    <AssociationSet Name="ArgPointComment" Association="db.Store.ArgPointComment">
+      <End Role="ArgPoint" EntitySet="ArgPoint" />
+      <End Role="Comment" EntitySet="Comment" />
     </AssociationSet>
     <AssociationSet Name="ArgPointAttachment" Association="db.Store.ArgPointAttachment">
       <End Role="ArgPoint" EntitySet="ArgPoint" />
@@ -110,10 +114,6 @@
     <AssociationSet Name="PersonCommentPersonReadEntry" Association="db.Store.PersonCommentPersonReadEntry">
       <End Role="Person" EntitySet="Person" />
       <End Role="CommentPersonReadEntry" EntitySet="CommentPersonReadEntry" />
-    </AssociationSet>
-    <AssociationSet Name="CommentArgPoint" Association="db.Store.CommentArgPoint">
-      <End Role="Comment" EntitySet="Comment" />
-      <End Role="ArgPoint" EntitySet="ArgPoint" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Person">
@@ -310,6 +310,18 @@
       </Principal>
       <Dependent Role="Topic">
         <PropertyRef Name="Discussion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ArgPointComment">
+    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
+    <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ArgPoint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ArgPoint_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -529,18 +541,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CommentArgPoint">
-    <End Role="Comment" Type="db.Store.Comment" Multiplicity="*" />
-    <End Role="ArgPoint" Type="db.Store.ArgPoint" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ArgPoint">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Comment">
-        <PropertyRef Name="ArgPoint_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TopicPerson_Topic">
     <End Role="Topic" Type="db.Store.Topic" Multiplicity="1" />
     <End Role="TopicPerson" Type="db.Store.TopicPerson" Multiplicity="*" />
@@ -568,8 +568,11 @@
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="db" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-        <EntityContainer Name="DiscCtx" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+              xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="db"
+              Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="DiscCtx" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Person" EntityType="db.Person" />
           <EntitySet Name="Discussion" EntityType="db.Discussion" />
           <EntitySet Name="ArgPoint" EntityType="db.ArgPoint" />
@@ -583,6 +586,10 @@
             <End Role="Topic" EntitySet="Topic" />
           </AssociationSet>
           <EntitySet Name="Comment" EntityType="db.Comment" />
+          <AssociationSet Name="ArgPointComment" Association="db.ArgPointComment">
+            <End Role="ArgPoint" EntitySet="ArgPoint" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
           <EntitySet Name="Attachment" EntityType="db.Attachment" />
           <AssociationSet Name="ArgPointAttachment" Association="db.ArgPointAttachment">
             <End Role="ArgPoint" EntitySet="ArgPoint" />
@@ -669,27 +676,28 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="CommentPersonReadEntry" EntitySet="CommentPersonReadEntry" />
           </AssociationSet>
-          <AssociationSet Name="CommentArgPoint" Association="db.CommentArgPoint">
-            <End Role="Comment" EntitySet="Comment" />
-            <End Role="ArgPoint" EntitySet="ArgPoint" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Type="String" Name="Email" Nullable="false" annotation:StoreGeneratedPattern="None" FixedLength="true" MaxLength="255" Unicode="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Email" Nullable="false" annotation:StoreGeneratedPattern="None"
+                    FixedLength="true" MaxLength="255" Unicode="true" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Topic" Relationship="db.TopicPerson" FromRole="Person" ToRole="Topic" />
           <NavigationProperty Name="ArgPoint" Relationship="db.PersonArgPoint" FromRole="Person" ToRole="ArgPoint" />
           <NavigationProperty Name="Comment" Relationship="db.PersonComment" FromRole="Person" ToRole="Comment" />
-          <NavigationProperty Name="Attachment" Relationship="db.PersonAttachment" FromRole="Person" ToRole="Attachment" />
+          <NavigationProperty Name="Attachment" Relationship="db.PersonAttachment" FromRole="Person"
+                              ToRole="Attachment" />
           <Property Type="Int32" Name="Color" Nullable="false" />
-          <NavigationProperty Name="GeneralSide" Relationship="db.PersonGeneralSide" FromRole="Person" ToRole="GeneralSide" />
-          <NavigationProperty Name="Screenshot" Relationship="db.PersonScreenshot" FromRole="Person" ToRole="Screenshot" />
+          <NavigationProperty Name="GeneralSide" Relationship="db.PersonGeneralSide" FromRole="Person"
+                              ToRole="GeneralSide" />
+          <NavigationProperty Name="Screenshot" Relationship="db.PersonScreenshot" FromRole="Person"
+                              ToRole="Screenshot" />
           <Property Type="Boolean" Name="Online" Nullable="false" />
-          <NavigationProperty Name="AvatarAttachment" Relationship="db.PersonAttachment1" FromRole="Person" ToRole="Attachment" />
+          <NavigationProperty Name="AvatarAttachment" Relationship="db.PersonAttachment1" FromRole="Person"
+                              ToRole="Attachment" />
           <NavigationProperty Name="Seat" Relationship="db.PersonSeat" FromRole="Person" ToRole="Seat" />
           <Property Name="SeatId" Nullable="true" Type="Int32" />
           <Property Type="Int32" Name="OnlineDevType" Nullable="false" />
@@ -701,37 +709,42 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Topic" Relationship="db.DiscussionTopic" FromRole="Discussion" ToRole="Topic" />
           <Property Type="String" Name="Subject" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Attachment" Relationship="db.DiscussionAttachment" FromRole="Discussion" ToRole="Attachment" />
-          <NavigationProperty Name="GeneralSide" Relationship="db.DiscussionGeneralSide" FromRole="Discussion" ToRole="GeneralSide" />
-          <NavigationProperty Name="Background" Relationship="db.DiscussionRichText" FromRole="Discussion" ToRole="RichText" />
+          <NavigationProperty Name="Attachment" Relationship="db.DiscussionAttachment" FromRole="Discussion"
+                              ToRole="Attachment" />
+          <NavigationProperty Name="GeneralSide" Relationship="db.DiscussionGeneralSide" FromRole="Discussion"
+                              ToRole="GeneralSide" />
+          <NavigationProperty Name="Background" Relationship="db.DiscussionRichText" FromRole="Discussion"
+                              ToRole="RichText" />
           <Property Type="String" Name="HtmlBackground" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="ArgPoint">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Point" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Topic" Relationship="db.TopicArgPoint" FromRole="ArgPoint" ToRole="Topic" />
+          <NavigationProperty Name="Comment" Relationship="db.ArgPointComment" FromRole="ArgPoint" ToRole="Comment" />
           <Property Type="Int32" Name="SideCode" Nullable="false" />
-          <NavigationProperty Name="Attachment" Relationship="db.ArgPointAttachment" FromRole="ArgPoint" ToRole="Attachment" />
+          <NavigationProperty Name="Attachment" Relationship="db.ArgPointAttachment" FromRole="ArgPoint"
+                              ToRole="Attachment" />
           <NavigationProperty Name="Person" Relationship="db.PersonArgPoint" FromRole="ArgPoint" ToRole="Person" />
-          <NavigationProperty Name="Description" Relationship="db.ArgPointRichText" FromRole="ArgPoint" ToRole="RichText" />
+          <NavigationProperty Name="Description" Relationship="db.ArgPointRichText" FromRole="ArgPoint"
+                              ToRole="RichText" />
           <Property Type="Boolean" Name="SharedToPublic" Nullable="false" />
           <Property Type="String" Name="RecentlyEnteredSource" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="String" Name="RecentlyEnteredMediaUrl" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Boolean" Name="ChangesPending" Nullable="false" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
-          <NavigationProperty Name="Comment" Relationship="db.CommentArgPoint" FromRole="ArgPoint" ToRole="Comment" />
         </EntityType>
         <EntityType Name="Topic">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ArgPoint" Relationship="db.TopicArgPoint" FromRole="Topic" ToRole="ArgPoint" />
           <NavigationProperty Name="Discussion" Relationship="db.DiscussionTopic" FromRole="Topic" ToRole="Discussion" />
@@ -755,31 +768,40 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="None" />
-          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" ConcurrencyMode="Fixed" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointComment" FromRole="Comment" ToRole="ArgPoint" />
           <NavigationProperty Name="Person" Relationship="db.PersonComment" FromRole="Comment" ToRole="Person" />
           <NavigationProperty Name="ReadEntry" Relationship="db.CommentCommentPersonReadEntry" FromRole="Comment" ToRole="CommentPersonReadEntry" />
-          <NavigationProperty Name="ArgPoint" Relationship="db.CommentArgPoint" FromRole="Comment" ToRole="ArgPoint" />
-          <Property Name="ArgPoint_Id" Type="Int32" Nullable="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" ConcurrencyMode="Fixed" />
         </EntityType>
-        <EntityType Name="Attachment" m:HasStream="true" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Association Name="ArgPointComment">
+          <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1">
+          </End>
+          <End Type="db.Comment" Role="Comment" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Attachment" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+                    m:HasStream="true">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointAttachment" FromRole="Attachment" ToRole="ArgPoint" />
+          <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointAttachment" FromRole="Attachment"
+                              ToRole="ArgPoint" />
           <Property Type="Int32" Name="Format" Nullable="false" />
           <Property Type="String" Name="VideoThumbURL" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="String" Name="VideoEmbedURL" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="String" Name="VideoLinkURL" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Person" Relationship="db.PersonAttachment" FromRole="Attachment" ToRole="Person" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAttachment" FromRole="Attachment" ToRole="Discussion" />
-          <NavigationProperty Name="PersonWithAvatar" Relationship="db.PersonAttachment1" FromRole="Attachment" ToRole="Person" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAttachment" FromRole="Attachment"
+                              ToRole="Discussion" />
+          <NavigationProperty Name="PersonWithAvatar" Relationship="db.PersonAttachment1" FromRole="Attachment"
+                              ToRole="Person" />
           <Property Type="String" Name="Link" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Binary" Name="Thumb" Nullable="true" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="MediaData" Relationship="db.AttachmentMediaData" FromRole="Attachment" ToRole="MediaData" />
+          <NavigationProperty Name="MediaData" Relationship="db.AttachmentMediaData" FromRole="Attachment"
+                              ToRole="MediaData" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
         </EntityType>
         <Association Name="ArgPointAttachment">
@@ -810,9 +832,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Person" Relationship="db.PersonGeneralSide" FromRole="GeneralSide" ToRole="Person" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionGeneralSide" FromRole="GeneralSide" ToRole="Discussion" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionGeneralSide" FromRole="GeneralSide"
+                              ToRole="Discussion" />
           <Property Type="Int32" Name="Side" Nullable="false" />
         </EntityType>
         <Association Name="PersonGeneralSide">
@@ -827,7 +850,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="RichText" Relationship="db.RichTextSource" FromRole="Source" ToRole="RichText" />
           <Property Type="Int32" Name="OrderNumber" Nullable="false" />
@@ -836,10 +859,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Text" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Source" Relationship="db.RichTextSource" FromRole="RichText" ToRole="Source" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionRichText" FromRole="RichText" ToRole="Discussion" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionRichText" FromRole="RichText"
+                              ToRole="Discussion" />
           <NavigationProperty Name="ArgPoint" Relationship="db.ArgPointRichText" FromRole="RichText" ToRole="ArgPoint" />
         </EntityType>
         <Association Name="RichTextSource">
@@ -858,11 +882,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Person" Relationship="db.PersonScreenshot" FromRole="Screenshot" ToRole="Person" />
           <Property Type="Binary" Name="Bg" Nullable="true" MaxLength="Max" FixedLength="false" />
           <Property Type="Binary" Name="VectGraphics" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAnnotation" FromRole="Annotation" ToRole="Discussion" />
+          <NavigationProperty Name="Discussion" Relationship="db.DiscussionAnnotation" FromRole="Annotation"
+                              ToRole="Discussion" />
           <Property Type="Binary" Name="Thumb" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Type="Int32" Name="CanvWidth" Nullable="false" />
           <Property Type="Int32" Name="CanvHeight" Nullable="false" />
@@ -884,7 +909,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="Event" Nullable="false" />
           <Property Type="Int32" Name="DiscussionId" Nullable="false" />
           <Property Type="String" Name="DiscussionName" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
@@ -899,7 +924,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="DateTime" Name="EstimatedDateTime" Nullable="false" Precision="3" />
           <Property Type="Int32" Name="EstimatedTimeSlot" Nullable="false" />
@@ -910,7 +935,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="Color" Nullable="false" />
           <Property Type="String" Name="SeatName" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Person" Relationship="db.PersonSeat" FromRole="Seat" ToRole="Person" />
@@ -943,9 +968,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Binary" Name="Data" Nullable="true" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Attachment" Relationship="db.AttachmentMediaData" FromRole="MediaData" ToRole="Attachment" />
+          <NavigationProperty Name="Attachment" Relationship="db.AttachmentMediaData" FromRole="MediaData"
+                              ToRole="Attachment" />
         </EntityType>
         <Association Name="AttachmentMediaData">
           <End Type="db.Attachment" Role="Attachment" Multiplicity="0..1" />
@@ -955,7 +981,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Comment" Relationship="db.CommentCommentPersonReadEntry" FromRole="CommentPersonReadEntry" ToRole="Comment" />
           <NavigationProperty Name="Person" Relationship="db.PersonCommentPersonReadEntry" FromRole="CommentPersonReadEntry" ToRole="Person" />
         </EntityType>
@@ -967,23 +993,11 @@
           <End Type="db.Person" Role="Person" Multiplicity="0..1" />
           <End Type="db.CommentPersonReadEntry" Role="CommentPersonReadEntry" Multiplicity="*" />
         </Association>
-        <Association Name="CommentArgPoint">
-          <End Type="db.Comment" Role="Comment" Multiplicity="*" />
-          <End Type="db.ArgPoint" Role="ArgPoint" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ArgPoint">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="ArgPoint_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="dbStoreContainer" CdmEntityContainer="DiscCtx">
     <EntitySetMapping Name="Person">
       <EntityTypeMapping TypeName="IsTypeOf(db.Person)">
@@ -1038,7 +1052,6 @@
         <MappingFragment StoreEntitySet="Comment">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Text" ColumnName="Text" />
-          <ScalarProperty Name="ArgPoint_Id" ColumnName="ArgPoint_Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1164,6 +1177,15 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="Discussion_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ArgPointComment" TypeName="db.ArgPointComment" StoreEntitySet="Comment">
+      <EndProperty Name="ArgPoint">
+        <ScalarProperty Name="Id" ColumnName="ArgPoint_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ArgPoint_Id" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="ArgPointAttachment" TypeName="db.ArgPointAttachment" StoreEntitySet="Attachment">
       <EndProperty Name="ArgPoint">
@@ -1321,108 +1343,113 @@
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <edmx:Designer>
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <edmx:Connection>
-      <edmx:DesignerInfoPropertySet>
-        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
-      </edmx:DesignerInfoPropertySet>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
     </edmx:Connection>
     <edmx:Options>
-      <edmx:DesignerInfoPropertySet>
-        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <edmx:DesignerProperty Name="EnablePluralization" Value="False" />
-        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
-        <edmx:DesignerProperty Name="UseLegacyProvider" Value="True" />
-        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
-      </edmx:DesignerInfoPropertySet>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="data_model" ZoomLevel="100">
-        <edmx:EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
-        <edmx:EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125" Height="2.1725878906249996" IsExpanded="true" />
-        <edmx:EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />
-        <edmx:EntityTypeShape EntityType="db.Topic" Width="1.5" PointX="5.125" PointY="7.125" Height="1.9802864583333326" IsExpanded="true" />
-        <edmx:AssociationConnector Association="db.TopicArgPoint" ManuallyRouted="false">
-          <edmx:ConnectorPoint PointX="6.75" PointY="5.9179996744791659" />
-          <edmx:ConnectorPoint PointX="7.385416666666667" PointY="5.917999674479165" />
-          <edmx:ConnectorPoint PointX="7.552083333333333" PointY="5.9179996744791659" />
-          <edmx:ConnectorPoint PointX="8.875" PointY="5.9179996744791659" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.DiscussionTopic">
-          <edmx:ConnectorPoint PointX="4" PointY="5.9901432291666659" />
-          <edmx:ConnectorPoint PointX="5.25" PointY="5.9901432291666659" />
-        </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="db.Comment" Width="2" PointX="9" PointY="2.625" Height="1.59568359375" />
-        <edmx:EntityTypeShape EntityType="db.Attachment" Width="1.5" PointX="11.5" PointY="7.25" Height="2.7494921874999996" />
-        <edmx:AssociationConnector Association="db.ArgPointAttachment">
-          <edmx:ConnectorPoint PointX="10.625" PointY="5.9804996744791659" />
-          <edmx:ConnectorPoint PointX="11.5" PointY="5.9804996744791659" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.TopicPerson">
-          <edmx:ConnectorPoint PointX="5.9062475" PointY="5" />
-          <edmx:ConnectorPoint PointX="5.9062475" PointY="2.3038692728678387" />
-          <edmx:ConnectorPoint PointX="6.625" PointY="2.3038692728678387" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.PersonArgPoint">
-          <edmx:ConnectorPoint PointX="8.125" PointY="3.3795475260416667" />
-          <edmx:ConnectorPoint PointX="8.875" PointY="3.3795475260416667" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.PersonComment">
-          <edmx:ConnectorPoint PointX="8.125" PointY="1.3939925130208333" />
-          <edmx:ConnectorPoint PointX="9.375" PointY="1.3939925130208333" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.PersonAttachment">
-          <edmx:ConnectorPoint PointX="7.46875" PointY="3.6340950520833331" />
-          <edmx:ConnectorPoint PointX="7.46875" PointY="7.6665682552083325" />
-          <edmx:ConnectorPoint PointX="9.6666666666666661" PointY="7.6665682552083316" />
-          <edmx:ConnectorPoint PointX="9.8333333333333339" PointY="7.6665682552083325" />
-          <edmx:ConnectorPoint PointX="11.5" PointY="7.6665682552083325" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.DiscussionAttachment" ManuallyRouted="false">
-        </edmx:AssociationConnector>
-        <edmx:EntityTypeShape Height="1.7879850260416665" EntityType="db.GeneralSide" PointX="3.125" PointY="3" Width="1.5" IsExpanded="true" />
-        <edmx:AssociationConnector Association="db.PersonGeneralSide">
-          <edmx:ConnectorPoint PointX="6.625" PointY="1.5269346364339191" />
-          <edmx:ConnectorPoint PointX="4.75" PointY="1.5269346364339191" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.DiscussionGeneralSide">
-          <edmx:ConnectorPoint PointX="3.625" PointY="5" />
-          <edmx:ConnectorPoint PointX="3.625" PointY="2.6629850260416665" />
-        </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="db.Source" Width="1.5" PointX="5.25" PointY="13.25" Height="1.5956835937499996" />
-        <edmx:EntityTypeShape EntityType="db.RichText" Width="1.5" PointX="5.375" PointY="10.625" Height="1.4033821614583335" />
-        <edmx:AssociationConnector Association="db.RichTextSource">
-          <edmx:ConnectorPoint PointX="1.625" PointY="10.480286458333334" />
-          <edmx:ConnectorPoint PointX="1.625" PointY="11.5" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.DiscussionRichText" ManuallyRouted="false">
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.ArgPointRichText">
-          <edmx:ConnectorPoint PointX="9.75" PointY="6.8359993489583326" />
-          <edmx:ConnectorPoint PointX="9.75" PointY="9.4901432291666659" />
-          <edmx:ConnectorPoint PointX="2.375" PointY="9.4901432291666659" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="db.PersonAttachment1" ManuallyRouted="true">
-          <edmx:ConnectorPoint PointX="7.7656275" PointY="7.105205078125" />
-          <edmx:ConnectorPoint PointX="7.7656275" PointY="10.497465908203127" />
-          <edmx:ConnectorPoint PointX="9.4166666666666661" PointY="10.497465908203127" />
-          <edmx:ConnectorPoint PointX="9.5833333333333339" PointY="10.497465908203127" />
-          <edmx:ConnectorPoint PointX="11.5" PointY="10.497465908203127" />
-        </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="db.StatsEvent" Width="1.5" PointX="11.25" PointY="0.5" />
-        <edmx:EntityTypeShape EntityType="db.Session" Width="1.875" PointX="3.75" PointY="0.5" />
-        <edmx:EntityTypeShape EntityType="db.Seat" Width="1.5" PointX="8.5" PointY="0.5" />
-        <edmx:AssociationConnector Association="db.PersonSeat" />
-        <edmx:AssociationConnector Association="db.PersonSession" ManuallyRouted="false">
-        </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="db.MediaData" Width="1.5" PointX="13.625" PointY="8.125" />
-        <edmx:AssociationConnector Association="db.AttachmentMediaData" />
-        <edmx:EntityTypeShape EntityType="db.CommentPersonReadEntry" Width="2.25" PointX="11.875" PointY="4.125" />
-        <edmx:AssociationConnector Association="db.CommentCommentPersonReadEntry" />
-        <edmx:AssociationConnector Association="db.PersonCommentPersonReadEntry" />
-        <edmx:AssociationConnector Association="db.CommentArgPoint" />
-      </edmx:Diagram>
+      <Diagram Name="data_model" ZoomLevel="100">
+        <EntityTypeShape EntityType="db.Person" Width="1.5" PointX="6.5" PointY="2.625" Height="3.1340950520833331" />
+        <EntityTypeShape EntityType="db.Discussion" Width="1.5" PointX="2.375" PointY="7.125"
+                         Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="db.ArgPoint" Width="2" PointX="8.5" PointY="6.5" Height="3.7109993489583326" />
+        <EntityTypeShape EntityType="db.Topic" Width="1.5" PointX="5.125" PointY="7.125" Height="1.9802864583333326"
+                         IsExpanded="true" />
+        <AssociationConnector Association="db.TopicArgPoint" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="5.9179996744791659" />
+          <ConnectorPoint PointX="7.385416666666667" PointY="5.917999674479165" />
+          <ConnectorPoint PointX="7.552083333333333" PointY="5.9179996744791659" />
+          <ConnectorPoint PointX="8.875" PointY="5.9179996744791659" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.DiscussionTopic">
+          <ConnectorPoint PointX="4" PointY="5.9901432291666659" />
+          <ConnectorPoint PointX="5.25" PointY="5.9901432291666659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="db.Comment" Width="2" PointX="9" PointY="2.625" Height="1.59568359375" />
+        <AssociationConnector Association="db.ArgPointComment">
+          <ConnectorPoint PointX="10" PointY="3.125" />
+          <ConnectorPoint PointX="10" PointY="2.2879850260416665" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="db.Attachment" Width="1.5" PointX="11.5" PointY="7.25" Height="2.7494921874999996" />
+        <AssociationConnector Association="db.ArgPointAttachment">
+          <ConnectorPoint PointX="10.625" PointY="5.9804996744791659" />
+          <ConnectorPoint PointX="11.5" PointY="5.9804996744791659" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.TopicPerson">
+          <ConnectorPoint PointX="5.9062475" PointY="5" />
+          <ConnectorPoint PointX="5.9062475" PointY="2.3038692728678387" />
+          <ConnectorPoint PointX="6.625" PointY="2.3038692728678387" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.PersonArgPoint">
+          <ConnectorPoint PointX="8.125" PointY="3.3795475260416667" />
+          <ConnectorPoint PointX="8.875" PointY="3.3795475260416667" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.PersonComment">
+          <ConnectorPoint PointX="8.125" PointY="1.3939925130208333" />
+          <ConnectorPoint PointX="9.375" PointY="1.3939925130208333" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.PersonAttachment">
+          <ConnectorPoint PointX="7.46875" PointY="3.6340950520833331" />
+          <ConnectorPoint PointX="7.46875" PointY="7.6665682552083325" />
+          <ConnectorPoint PointX="9.6666666666666661" PointY="7.6665682552083316" />
+          <ConnectorPoint PointX="9.8333333333333339" PointY="7.6665682552083325" />
+          <ConnectorPoint PointX="11.5" PointY="7.6665682552083325" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.DiscussionAttachment" ManuallyRouted="false">
+        </AssociationConnector>
+        <EntityTypeShape Height="1.7879850260416665" EntityType="db.GeneralSide" PointX="3.125" PointY="3" Width="1.5"
+                         IsExpanded="true" />
+        <AssociationConnector Association="db.PersonGeneralSide">
+          <ConnectorPoint PointX="6.625" PointY="1.5269346364339191" />
+          <ConnectorPoint PointX="4.75" PointY="1.5269346364339191" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.DiscussionGeneralSide">
+          <ConnectorPoint PointX="3.625" PointY="5" />
+          <ConnectorPoint PointX="3.625" PointY="2.6629850260416665" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="db.Source" Width="1.5" PointX="5.25" PointY="13.25" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="db.RichText" Width="1.5" PointX="5.375" PointY="10.625"
+                         Height="1.4033821614583335" />
+        <AssociationConnector Association="db.RichTextSource">
+          <ConnectorPoint PointX="1.625" PointY="10.480286458333334" />
+          <ConnectorPoint PointX="1.625" PointY="11.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.DiscussionRichText" ManuallyRouted="false">
+        </AssociationConnector>
+        <AssociationConnector Association="db.ArgPointRichText">
+          <ConnectorPoint PointX="9.75" PointY="6.8359993489583326" />
+          <ConnectorPoint PointX="9.75" PointY="9.4901432291666659" />
+          <ConnectorPoint PointX="2.375" PointY="9.4901432291666659" />
+        </AssociationConnector>
+        <AssociationConnector Association="db.PersonAttachment1" ManuallyRouted="true">
+          <ConnectorPoint PointX="8" PointY="5.8724488037109381" />
+          <ConnectorPoint PointX="9.6666666666666661" PointY="5.8724488037109372" />
+          <ConnectorPoint PointX="9.8333333333333339" PointY="5.8724488037109381" />
+          <ConnectorPoint PointX="12.8749975" PointY="5.8724488037109381" />
+          <ConnectorPoint PointX="12.8749975" PointY="7.25" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="db.StatsEvent" Width="1.5" PointX="11.25" PointY="0.5" />
+        <EntityTypeShape EntityType="db.Session" Width="1.875" PointX="3.75" PointY="0.5" />
+        <EntityTypeShape EntityType="db.Seat" Width="1.5" PointX="8.5" PointY="0.5" />
+        <AssociationConnector Association="db.PersonSeat" />
+        <AssociationConnector Association="db.PersonSession" ManuallyRouted="false">
+        </AssociationConnector>
+        <EntityTypeShape EntityType="db.MediaData" Width="1.5" PointX="13.625" PointY="8.125" />
+        <AssociationConnector Association="db.AttachmentMediaData" />
+        <EntityTypeShape EntityType="db.CommentPersonReadEntry" Width="2.25" PointX="11.875" PointY="4.125" />
+        <AssociationConnector Association="db.CommentCommentPersonReadEntry" />
+        <AssociationConnector Association="db.PersonCommentPersonReadEntry" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
