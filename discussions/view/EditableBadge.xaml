@@ -184,7 +184,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Media Sources/画像資料の添付" VerticalAlignment="Center" />
-                <Label Content="Tips: Paste Images and PDF url and press enter" FontSize="18.667"
+                <Label Content="Tips: Paste Images url and press enter" FontSize="18.667"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
 
