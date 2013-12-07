@@ -185,6 +185,7 @@ namespace Discussions.view
             ParseTextAndBuildHyperlinkedText(c);
         }
 
+
         void ParseTextAndBuildHyperlinkedText(Comment c)
         {
             lblText.Inlines.Clear();
