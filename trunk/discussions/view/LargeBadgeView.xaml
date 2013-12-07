@@ -153,7 +153,7 @@
                     </StackPanel>
                     
                     <StackPanel Orientation="Vertical">
-                        <Label x:Name="lblComments" Content="Comment/コメント" HontalAlignment="Left"
+                        <Label x:Name="lblComments" Content="Comment/コメント" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
                                Foreground="Black"/>
                         <ItemsControl x:Name="lstBxComments1"
