@@ -33,7 +33,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットをキャプチャするウィンドウズ画面を選択します。" FontSize="42"
+        <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットをキャプチャするウィンドウズ画面を選択してください。" FontSize="24"
                 Grid.ColumnSpan="3" Foreground="#FF00FF46"
                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
