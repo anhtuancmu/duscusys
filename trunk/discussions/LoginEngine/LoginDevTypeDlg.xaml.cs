@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using AbstractionLayer;
 using Discussions.DbModel;
-using Discussions.model;
+using Discussions.DbModel.model;
 
 namespace Discussions
 {

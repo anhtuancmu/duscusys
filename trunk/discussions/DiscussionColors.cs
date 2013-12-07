@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
+using Discussions.DbModel.model;
 using Discussions.model;
 using iTextSharp.text;
 
@@ -18,15 +19,15 @@ namespace Discussions
 
         public static BaseColor GetSideColor(int sideCode)
         {
-            switch ((model.SideCode) sideCode)
+            switch ((SideCode) sideCode)
             {
-                case model.SideCode.Pros:
+                case SideCode.Pros:
                     return new BaseColor(0x8D, 0xEF, 0xBD);
 
-                case model.SideCode.Cons:
+                case SideCode.Cons:
                     return new BaseColor(0xF8, 0x96, 0xDA);
 
-                case model.SideCode.Neutral:
+                case SideCode.Neutral:
                     return new BaseColor(220, 220, 220);
 
                 default:

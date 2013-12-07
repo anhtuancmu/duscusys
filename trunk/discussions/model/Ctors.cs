@@ -5,6 +5,7 @@ using System.Text;
 using Discussions.ctx;
 using Discussions.DbModel;
 using System.Drawing;
+using Discussions.DbModel.model;
 
 namespace Discussions.model
 {

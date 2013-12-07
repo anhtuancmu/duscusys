@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Discussions.DbModel;
-using Discussions.model;
+using Discussions.DbModel.model;
 
 namespace Discussions
 {

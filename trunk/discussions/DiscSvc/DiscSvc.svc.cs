@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Services;
-using System.Data.Services.Common;
 using System.Data.Services.Providers;
 using Discussions.DbModel;
 

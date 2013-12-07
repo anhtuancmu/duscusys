@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
+using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +10,7 @@ using System.Windows.Input;
 using AbstractionLayer;
 using Discussions.ctx;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;

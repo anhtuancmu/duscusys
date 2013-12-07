@@ -115,7 +115,7 @@ namespace DistributedEditor
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
-                                                   Discussions.model.DeviceType.Wpf);
+                                                   DeviceType.Wpf);
                     }
                     else if (!supressClusterMoveEvent && ownedSh is VdCluster)
                     {
@@ -123,7 +123,7 @@ namespace DistributedEditor
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
-                                                   Discussions.model.DeviceType.Wpf);
+                                                   DeviceType.Wpf);
                     }
                     else if (ownedSh is VdFreeForm)
                     {
@@ -131,7 +131,7 @@ namespace DistributedEditor
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
-                                                   Discussions.model.DeviceType.Wpf);
+                                                   DeviceType.Wpf);
                     }
                 }
 
@@ -143,7 +143,7 @@ namespace DistributedEditor
                                                    ownedSh.GetCursor().OwnerId,
                                                    _doc.DiscussionId,
                                                    _doc.TopicId,
-                                                   Discussions.model.DeviceType.Wpf);
+                                                   DeviceType.Wpf);
                     }
                 }
 

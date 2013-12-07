@@ -8,7 +8,6 @@ using System.Collections;
 using ExitGames.Client.Photon.Lite;
 using Discussions.RTModel.Model;
 using Lite.Operations;
-using Discussions.model;
 using DistributedEditor;
 
 namespace DiscussionsClientRT

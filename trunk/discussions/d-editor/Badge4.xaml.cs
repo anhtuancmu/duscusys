@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Discussions.DbModel;
+using Discussions.DbModel.model;
 using Discussions.model;
 
 namespace Discussions

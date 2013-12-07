@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using System.Collections.ObjectModel;

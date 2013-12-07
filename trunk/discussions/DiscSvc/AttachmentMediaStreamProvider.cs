@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
+using System.Data;
+using System.Data.Objects;
 using System.Data.Services;
 using System.Data.Services.Providers;
 using System.IO;
 using Discussions;
 using Discussions.DbModel;
-using Discussions.model;
+using Discussions.DbModel.model;
 
 namespace DiscSvc
 {

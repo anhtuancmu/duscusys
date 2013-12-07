@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
+using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using Discussions.DbModel;
 using Discussions.rt;
@@ -39,7 +39,7 @@ namespace Discussions.ctx
                 { 
                     Get().SaveChanges();
                 }
-                catch (System.Data.Entity.Core.OptimisticConcurrencyException ex)        
+                catch (OptimisticConcurrencyException ex)        
                 {           
                     saveFailed = true;            
 

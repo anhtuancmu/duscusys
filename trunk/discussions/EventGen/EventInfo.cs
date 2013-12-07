@@ -1,6 +1,5 @@
 ﻿using System;
 using Discussions.DbModel.model;
-using Discussions.model;
 
 namespace EventGen
 {

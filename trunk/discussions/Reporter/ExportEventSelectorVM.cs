@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Reporter.Annotations;
 
 namespace Reporter

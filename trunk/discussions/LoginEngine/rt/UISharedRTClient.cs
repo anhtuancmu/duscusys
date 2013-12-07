@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Threading;
 using System.Windows;
-using Discussions.model;
+using Discussions.DbModel.model;
 using DiscussionsClientRT;
 
 namespace Discussions.rt

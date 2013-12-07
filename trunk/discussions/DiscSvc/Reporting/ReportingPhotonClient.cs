@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discussions;
 using Discussions.DbModel;
-using Discussions.model;
+using Discussions.DbModel.model;
 using DiscussionsClientRT;
 using LoginEngine;
 using System.Linq;

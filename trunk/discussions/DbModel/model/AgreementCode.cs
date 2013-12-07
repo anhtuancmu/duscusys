@@ -1,4 +1,4 @@
-﻿namespace Discussions.model
+﻿namespace Discussions.DbModel.model
 {
     public enum AgreementCode
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Text;
 using Discussions.ctx;
 using Discussions.DbModel.model;

@@ -2,7 +2,6 @@
 using System.Linq;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.RTModel.Model;
 using Discussions.RTModel.Operations;
 
