@@ -133,7 +133,8 @@ namespace Discussions.view
         {
             if (e.PropertyName == "ExplanationModeEnabled")
             {
-                CheckSendImgStateRequest();
+                if(ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                    CheckSendImgStateRequest();
             }
             else if (e.PropertyName == "LasersEnabled")
             {

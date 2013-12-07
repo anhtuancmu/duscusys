@@ -80,5 +80,7 @@
         ImageViewerManipulatedEvent = 32,
         
         BrowserScrollChangedEvent = 33,
+
+        PdfScrollChangedEvent = 34
     }
 }

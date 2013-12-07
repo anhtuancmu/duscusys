@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using Discussions.RTModel.Model;
@@ -30,7 +29,7 @@ namespace Discussions.webkit_host
                     ExplanationModeMediator.Inst.CurrentTopicId != null ?
                     ExplanationModeMediator.Inst.CurrentTopicId.Value : -1,
                     LaserPointerTargetSurface.WebBrowser
-                    );
+                );
 
             _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
 
@@ -51,7 +50,6 @@ namespace Discussions.webkit_host
 
         private void BrowserOverlayWindow_OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            Debug.WriteLine("BrowserOverlayWindow_OnMouseWheel");
             if (Window != null)
                 Window.ScrollBrowser(e.Delta);
         }

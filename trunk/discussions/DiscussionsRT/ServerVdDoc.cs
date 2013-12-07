@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows;
 using Discussions.RTModel.Model;
 using DistributedEditor;
 
@@ -24,10 +23,9 @@ namespace Discussions.RTModel
         private readonly Dictionary<int, ImageViewerMatrix> _attachmentIdToViewer =
                 new Dictionary<int, ImageViewerMatrix>();
 
-        public BrowserScrollPosition BrowserScrollbarPosition
-        {
-            get; set;
-        }
+        public BrowserScrollPosition BrowserScrollbarPosition{ get; set; }
+
+        public PdfScrollPosition PdfScrollPosition { get; set; }
 
         public byte[] inkData;
 

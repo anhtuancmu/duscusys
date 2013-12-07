@@ -7,6 +7,12 @@ namespace Discussions.pdf_reader
         public PdfWinFrmControl()
         {
             InitializeComponent();
+            this.axAcroPDF2.RegionChanged += axAcroPDF2_RegionChanged;
+        }
+
+        void axAcroPDF2_RegionChanged(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         public string PdfPathName

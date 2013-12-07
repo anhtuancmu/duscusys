@@ -169,6 +169,15 @@ namespace Discussions.RTModel
                     var browserScrollReq = BrowserScrollPositionRequest.Read(operationRequest.Parameters);
                     VectEditor(browserScrollReq.topicId).HandleBrowserScrollRequested(peer, operationRequest, sendParameters);                    
                     break;
+                case (byte)DiscussionOpCode.PdfScrollChanged:
+                    var pdfScroll = PdfScrollPosition.Read(operationRequest.Parameters);
+                    VectEditor(pdfScroll.topicId).HandlePdfScrollSubmitted(peer, pdfScroll, operationRequest, sendParameters);
+                    break;
+                case (byte)DiscussionOpCode.GetPdfScrollPos:
+                    var pdfScrollReq = PdfScrollPositionRequest.Read(operationRequest.Parameters);
+                    VectEditor(pdfScrollReq.topicId).HandlePdfScrollRequested(peer, operationRequest, sendParameters);
+                    break;
+
                 default:
                     base.ExecuteOperation(peer, operationRequest, sendParameters);
                     break;

@@ -7,7 +7,8 @@ namespace Discussions.RTModel.Model
     {
         SourceView,
         ImageView,
-        YoutubeView
+        YoutubeView,
+        PdfView,
     }
 
     public struct ExplanationModeSyncMsg
