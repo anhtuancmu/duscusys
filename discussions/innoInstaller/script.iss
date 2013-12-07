@@ -59,10 +59,6 @@ Source: "..\bin\x86\Debug\DiscussionsRT.dll"; DestDir: "{app}"; Flags: ignorever
 Source: "..\bin\x86\Debug\DiscussionsRT.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\x86\Debug\DotNetOpenAuth.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\x86\Debug\DropNet.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\x86\Debug\EntityFramework.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\x86\Debug\EntityFramework.SqlServer.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\x86\Debug\EntityFramework.SqlServer.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\x86\Debug\EntityFramework.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\x86\Debug\ExitGames.Logging.Log4Net.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\x86\Debug\ExitGames.Logging.Log4Net.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\x86\Debug\ExitGames.Logging.Log4Net.xml"; DestDir: "{app}"; Flags: ignoreversion
@@ -147,10 +143,6 @@ Source: "..\EventGen\bin\Debug\DiscussionsClientRT.exe"; DestDir: "{app}"; Flags
 Source: "..\EventGen\bin\Debug\DiscussionsClientRT.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\DiscussionsRT.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\DiscussionsRT.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\EventGen\bin\Debug\EntityFramework.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\EventGen\bin\Debug\EntityFramework.SqlServer.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\EventGen\bin\Debug\EntityFramework.SqlServer.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\EventGen\bin\Debug\EntityFramework.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\EventGen.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\EventGen.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\EventGen.pdb"; DestDir: "{app}"; Flags: ignoreversion
