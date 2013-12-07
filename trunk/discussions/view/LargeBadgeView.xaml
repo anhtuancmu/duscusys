@@ -137,7 +137,7 @@
                     </StackPanel>
 
                     <StackPanel x:Name="stackSources" Orientation="Vertical">
-                        <Label Content="Web /URLの資料" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        <Label Content="Web /URLのリンク" HorizontalAlignment="Left" VerticalAlignment="Top"
                                Background="#00000000" Foreground="Black"/>
                         <ItemsControl x:Name="lstBxSources"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
