@@ -127,8 +127,8 @@ namespace Discussions
 
             //create new point 
             ArgPoint pt = new ArgPoint();
-            pt.Point = "Your point here";
-            pt.RecentlyEnteredSource = "Your source here";
+            pt.Point = "Your title here";
+            pt.RecentlyEnteredSource = "Your　web url link here";
             pt.RecentlyEnteredMediaUrl = "Your media link here";
             DaoUtils.EnsurePtDescriptionExists(pt);
 
@@ -371,7 +371,7 @@ namespace Discussions
         }
 
         public const string NEW_COMMENT = "New comment";
-        public const string NEW_POINT_NAME = "Your point here";
+        public const string NEW_POINT_NAME = "Your title here";
         public const string NEW_DESCRIPTION = "Description";
 
         public static MediaData CreateMediaData(byte[] data)
