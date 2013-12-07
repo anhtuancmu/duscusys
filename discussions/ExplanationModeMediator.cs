@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using AbstractionLayer;
 using Discussions.Annotations;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.rt;
 using Discussions.view;
 
@@ -26,7 +26,7 @@ namespace Discussions
 
         private class ViewerRecord
         {
-            public ImageWindow wnd;
+            public PortableWindow wnd;
             public int attachId;
         }
 
@@ -36,6 +36,7 @@ namespace Discussions
         }
 
         public bool WebkitOpen { get; set; }
+        public bool PdfOpen { get; set; }
 
         public bool ImageViewerOpen
         {
@@ -89,7 +90,7 @@ namespace Discussions
         private bool _explanationModeEnabled;
 
         //called every time a window is closed by any initiator
-        public void OnWndClosed(ImageWindow wnd)
+        public void OnWndClosed(PortableWindow wnd)
         {
             var viewRec = _openedViewers.FirstOrDefault(vr => vr.wnd == wnd);
             if (viewRec != null)
@@ -101,7 +102,7 @@ namespace Discussions
         }
 
         //called every time a window is opened by any initiator
-        public void OnWndOpened(ImageWindow w, int attId)
+        public void OnWndOpened(PortableWindow w, int attId)
         {
             if (attId < 0)
                 return;

@@ -782,7 +782,7 @@ namespace Discussions.view
 
             _storageWnd = new StorageWnd();
             _storageWnd.Show();
-            _storageWnd.webViewCallback += onWebViewerRequest;
+            _storageWnd.webViewCallback  += onWebViewerRequest;
             _storageWnd.fileViewCallback += onCloudViewerRequest;
             _storageWnd.Closed += onStorageWndClosed;
             _storageWnd.LoginAndEnumFiles(storageType);
@@ -857,7 +857,7 @@ namespace Discussions.view
 
         private void onCloudViewerRequest(string pathName)
         {
-            AttachmentManager.RunViewer(pathName);
+            AttachmentManager.RunViewer(pathName, -1, null);
         }
 
         private void chooseDropboxFiles(object sender, RoutedEventArgs e)

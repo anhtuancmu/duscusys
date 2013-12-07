@@ -7,15 +7,23 @@
         SourceInitialized="ReaderOverlayWindow_OnSourceInitialized"
         AllowsTransparency="True"
         ShowInTaskbar="False"
-        Title="BrowserOverlayWindow" Height="107" Width="137" Background="{x:Null}">
-    <Grid>
-        <controls:SurfaceButton x:Name="btnZoom" HorizontalAlignment="Right" VerticalAlignment="Top"
-                            Content="X"
-                            Click="BtnZoom_OnClick"
-                            FontSize="48" Foreground="White"
-                            MinWidth="137" MinHeight="107" 
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Background="#66000000"/>
+        Closing="ReaderOverlayWindow_OnClosing"
+        MouseWheel="ReaderOverlayWindow_OnMouseWheel"
+        Title="BrowserOverlayWindow" 
+        Height="768"
+        Width="500"
+        Background="{x:Null}">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+    
+        <Canvas x:Name="laserScene" 
+                RenderTransformOrigin="0.5 0.5" 
+                Background="#01FF0000" 
+                IsHitTestVisible="False" 
+                Margin="0,107,0,0"
+                Grid.Row="1"/>
     </Grid>
 </Window>

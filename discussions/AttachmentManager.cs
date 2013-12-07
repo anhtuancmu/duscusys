@@ -640,7 +640,7 @@ namespace Discussions
             if (a == null)
                 return;
 
-            if (a.Format == (int) AttachmentFormat.Pdf && a.MediaData != null)
+            if (a.Format == (int)AttachmentFormat.Pdf && a.MediaData != null)
             {
                 string pdfPathName = Utils.RandomFilePath(".pdf");
                 try
@@ -651,7 +651,7 @@ namespace Discussions
                     }
                     //Process.Start(pdfPathName);
                     Utils.ReportMediaOpened(StEvent.PdfOpened, a);
-                    var pdfReader = new ReaderWindow(pdfPathName);
+                    var pdfReader = new ReaderWindow(pdfPathName, a.Id, a.ArgPoint != null ? (int?)a.ArgPoint.Topic.Id : null);
                     pdfReader.Show();
                 }
                 catch (Exception e)
@@ -690,12 +690,12 @@ namespace Discussions
             }
         }
 
-        public static void RunViewer(string pathName)
+        public static void RunViewer(string pathName, int attachmentId, int? topicId)
         {
             var ext = Path.GetExtension(pathName).ToLower();
             if (ext == ".pdf")
             {
-                var pdfReader = new ReaderWindow(pathName);
+                var pdfReader = new ReaderWindow(pathName, attachmentId, topicId);
                 pdfReader.Show();
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")

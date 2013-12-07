@@ -752,6 +752,30 @@ namespace Discussions.RTModel
             }
         }
 
+        public void HandlePdfScrollSubmitted(LitePeer peer,
+                                              PdfScrollPosition req,
+                                              OperationRequest operationRequest,
+                                              SendParameters sendParameters)
+        {
+            _doc.PdfScrollPosition = req;
+            _room.Broadcast(peer,
+                            req.ToDict(),
+                            sendParameters,
+                            (byte)DiscussionEventCode.PdfScrollChangedEvent);
+        }
+
+        public void HandlePdfScrollRequested(LitePeer peer,
+                                            OperationRequest operationRequest,
+                                            SendParameters sendParameters)
+        {
+            if (_doc.PdfScrollPosition != null)
+            {
+                _room.PublishEventToSingle(peer,
+                        _doc.PdfScrollPosition.ToDict(),
+                        sendParameters,
+                        (byte)DiscussionEventCode.PdfScrollChangedEvent);
+            }
+        }
 
         #region reporting
 

@@ -76,6 +76,8 @@
     <Compile Include="EventLogger.cs" />
     <Compile Include="IServerVdShape.cs" />
     <Compile Include="Model\ActProps.cs" />
+    <Compile Include="Model\PdfScrollPositionRequest.cs" />
+    <Compile Include="Model\PdfScrollPosition.cs" />
     <Compile Include="Model\BrowserScrollPositionRequest.cs" />
     <Compile Include="Model\ClusterBadgeMessage.cs" />
     <Compile Include="Model\ClusterCreateMessage.cs" />

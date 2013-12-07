@@ -8,6 +8,7 @@ namespace Discussions.RTModel.Model
         PublicBoard,
         WebBrowser,
         ImageViewer,
+        PdfReader
     }
 
     public class LaserPointer

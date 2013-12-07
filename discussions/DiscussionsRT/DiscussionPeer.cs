@@ -79,7 +79,9 @@ namespace Discussions.RTModel
                 case DiscussionOpCode.ImageViewerManipulateRequest:
                 case DiscussionOpCode.ImageViewerStateRequest:
                 case DiscussionOpCode.BrowserScrollChanged:
-                case DiscussionOpCode.GetBrowserScrollPos:                  
+                case DiscussionOpCode.GetBrowserScrollPos:
+                case DiscussionOpCode.PdfScrollChanged:
+                case DiscussionOpCode.GetPdfScrollPos:  
                     HandleGameOperation(operationRequest, sendParameters);
                     break;
                 case DiscussionOpCode.NotifyLeaveUser:

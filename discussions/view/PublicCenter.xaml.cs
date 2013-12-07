@@ -15,6 +15,7 @@ using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 using Discussions.model;
+using Discussions.pdf_reader;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using DistributedEditor;
@@ -848,6 +849,11 @@ namespace Discussions.view
                         if (attach != null && !ExplanationModeMediator.Inst.IsViewerOpened(attach.Id))
                             AttachmentManager.RunViewer(attach);
                         break;
+                    case SyncMsgType.PdfView:
+                        attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
+                        if (attach != null && !ExplanationModeMediator.Inst.IsViewerOpened(attach.Id))
+                            AttachmentManager.RunViewer(attach);
+                        break;
                     default:
                         throw new NotImplementedException();
                 }
@@ -864,6 +870,9 @@ namespace Discussions.view
                         break;
                     case SyncMsgType.YoutubeView:
                         WebkitBrowserWindow.EnsureInstanceClosed();
+                        break;
+                    case SyncMsgType.PdfView:
+                        ReaderWindow.EnsureInstanceClosed();
                         break;
                     default:
                         throw new NotImplementedException();

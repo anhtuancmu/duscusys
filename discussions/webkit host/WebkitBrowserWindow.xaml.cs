@@ -25,7 +25,7 @@ namespace Discussions.view
 
         private DispatcherTimer _scrollStateChecker;
 
-        private BrowserOverlayWindow _overlayWnd;
+        private readonly BrowserOverlayWindow _overlayWnd;
         public WebkitBrowserWindow(string url, int? topicId)
         {
             InitializeComponent();
@@ -103,6 +103,11 @@ namespace Discussions.view
             if (e.PropertyName == "LasersEnabled")
             {
                 ToggleLaserPointer();
+            }
+            else if (e.PropertyName == "ExplanationModeEnabled")
+            {
+                if (_mediator.ExplanationModeEnabled)
+                    RequestScrollPosition();
             }
         }
 

@@ -74,6 +74,9 @@ namespace DiscussionsClientRT
 
         public BrowserScrollEvent onBrowserScroll;
 
+        public delegate void PdfScrollEvent(PdfScrollPosition scroll);
+
+        public PdfScrollEvent onPdfScroll;
 
         #region vector editor
 
@@ -404,6 +407,10 @@ namespace DiscussionsClientRT
                     if (onBrowserScroll != null)
                         onBrowserScroll(BrowserScrollPosition.Read(eventData.Parameters));
                     break;
+                case (byte)DiscussionEventCode.PdfScrollChangedEvent:
+                    if (onPdfScroll != null)
+                        onPdfScroll(PdfScrollPosition.Read(eventData.Parameters));
+                    break;                    
                 default:
                     Console.WriteLine("Unhandled event " + eventData.Code);
                     break;
@@ -928,6 +935,28 @@ namespace DiscussionsClientRT
                 return;
 
             peer.OpCustom((byte)DiscussionOpCode.GetBrowserScrollPos,
+                          req.ToDict(),
+                          true);
+        }
+
+        public void SendPdfScrolled(int ownerId, int y, int topicId)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            var req = new PdfScrollPosition {ownerId = ownerId, topicId = topicId, Y = y};
+            peer.OpCustom((byte)DiscussionOpCode.PdfScrollChanged,
+                          req.ToDict(),
+                          true);
+        }
+
+        public void SendPdfScrollGetPos(int topicId)
+        {
+            if (peer == null || peer.PeerState != PeerStateValue.Connected)
+                return;
+
+            var req = new PdfScrollPositionRequest {topicId = topicId};            
+            peer.OpCustom((byte)DiscussionOpCode.GetPdfScrollPos,
                           req.ToDict(),
                           true);
         }
