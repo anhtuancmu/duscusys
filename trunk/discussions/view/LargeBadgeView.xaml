@@ -60,7 +60,7 @@
         </Style>
 
         <Style TargetType="{x:Type Custom:SurfaceTextBox}" BasedOn="{StaticResource {x:Type Custom:SurfaceTextBox}}">
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="28" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
@@ -179,7 +179,7 @@
                                        LostFocus="TxtNewComment_OnLostFocus"
                                        />
                 <Custom:SurfaceButton x:Name="btnComment" Click="btnComment_Click"                                           
-            		Content="Comment" VerticalAlignment="Center"
+            		Content="コメント" VerticalAlignment="Center" FontSize="26"
             		Width="101"
             		HorizontalAlignment="Center" MinHeight="12" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <TextBlock x:Name="txtCommentSeenBy" VerticalAlignment="Bottom" FontSize="18" Foreground="#FF555555" 

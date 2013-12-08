@@ -395,14 +395,14 @@ namespace Discussions.view
         {
             btnModeratorBoard.BtnTitle = "Moderator dashboard";
             btnUserManager.BtnTitle = "User manager";
-            btnPrivate.BtnTitle = "Private dashboard/個人用システム";
-            btnPublic.BtnTitle = "Public dashboard/共用システム";
+            btnPrivate.BtnTitle = "Private dashboard/個人用ダッシュボード";
+            btnPublic.BtnTitle = "Public dashboard/共用ダッシュボード";
             // btnResults.BtnTitle = "Results";
             btnSeatManager.BtnTitle = "Seat manager";
-            btnLogOut.BtnTitle = "Log out/ログアウト";
+            btnLogOut.BtnTitle = "Log Out/ログアウト";
             btnSessionManager.BtnTitle = "Session manager";
             btnSessionViewer.BtnTitle = "Session/user viewer";
-            btnDiscussionInfo.BtnTitle = "About this discussion/議論について";
+            btnDiscussionInfo.BtnTitle = "Discussion details/議題の詳細";
             btnReporter.BtnTitle = "Log result";
             btnMeg.BtnTitle = "MEG";
             btnResults.BtnTitle = "Report/レポート"; 
