@@ -92,6 +92,9 @@ namespace DistributedEditor
 
                 //set drawing attributes of current palette owner                
                 var da = _ink.DefaultDrawingAttributes.Clone();
+                da.Width = 4;
+                da.Height = 4;
+                _inkPalette.OnDrawingStarted();
                 da.Color = DaoUtils.UserIdToColor(_palette.GetOwnerId());
                 _ink.DefaultDrawingAttributes = da;
             }
