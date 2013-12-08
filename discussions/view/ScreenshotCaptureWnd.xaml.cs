@@ -198,7 +198,7 @@ namespace Discussions.view
             {
                 _state = CaptureState.SelectedWindow;
                 helpBg.Background = null;
-                helpBg.VerticalAlignment = VerticalAlignment.Top;
+               // helpBg.VerticalAlignment = VerticalAlignment.Top;
                 lblHelp.Content = "Draw capture area";
 
                 this.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(78, 0, 0, 0));
