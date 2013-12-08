@@ -199,7 +199,7 @@ namespace Discussions.view
                 _state = CaptureState.SelectedWindow;
                 helpBg.Background = null;
                // helpBg.VerticalAlignment = VerticalAlignment.Top;
-                lblHelp.Content = "Draw capture area";
+                lblHelp.Content = "Draw Screenshot Capture Area/スクリーンショットを撮る領域を指定して下さい";
 
                 this.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(78, 0, 0, 0));
                 MaxHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
