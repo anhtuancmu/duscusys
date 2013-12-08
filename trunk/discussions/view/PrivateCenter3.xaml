@@ -145,7 +145,7 @@
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource infoBrush}" />
-                        <Label Content="Detail/議題の詳細" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Label Content="DETAIL/議題の詳細" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnRefresh1" 
