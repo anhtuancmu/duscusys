@@ -34,13 +34,13 @@
         </Grid.ColumnDefinitions>
 
         <Border x:Name="helpBg"  Background="#6F000000" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットをキャプチャするウィンドウズ画面を選択してください。" FontSize="24"
+            <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットを撮る画面を開き、選択を押して下さい" FontSize="24"
                    Foreground="White"
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
 
         <Custom:SurfaceButton x:Name="btnStartDrawing"
-                              Content="Select"
+                              Content="選択"
                               Foreground="White"
                               FontSize="30"
                               Background="#FF70DEFF"
@@ -48,7 +48,7 @@
                               Grid.Row="1" Grid.Column="1" d:LayoutOverrides="Margin" VerticalAlignment="Top"
                               Height="51.903" />
         <Custom:SurfaceButton x:Name="btnCancel"
-                              Content="Cancel"
+                              Content="キャンセル"
                               Foreground="White"
                               FontSize="30"
                               Background="#FF70DEFF"
