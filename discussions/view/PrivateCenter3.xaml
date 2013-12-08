@@ -159,9 +159,9 @@
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource refreshIcon}" />
-                        <Ellipse Name="thereAreNewComments" Fill="#FFFDB903" Width="10" Height="10" 
-                                     Visibility="Collapsed"/>
                         <Label Content="REFRESH/更新" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Ellipse Name="thereAreNewComments" Fill="#FFFDB903" Width="20" Height="20" 
+                                     Visibility="Collapsed"/>
                     </StackPanel>
                 </Custom:SurfaceButton>
             </StackPanel>
