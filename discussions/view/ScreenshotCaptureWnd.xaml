@@ -9,6 +9,7 @@
     WindowStartupLocation="CenterScreen"      
     WindowState="Maximized"
     SizeToContent="Manual"
+    Background="{x:Null}"
     KeyDown="ScreenshotCaptureWnd_OnKeyDown"
     Title2="Screenshot Capture"
     TouchDown="Window_TouchDown_1"
@@ -20,7 +21,6 @@
     Topmost="True"
     AllowsTransparency="True"
     WindowStyle="None" 
-    Background="#42000000"
     ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
@@ -33,9 +33,11 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットをキャプチャするウィンドウズ画面を選択してください。" FontSize="24"
-                Grid.ColumnSpan="3" Foreground="#FF00FF46"
-                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Border x:Name="helpBg"  Background="#6F000000" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットをキャプチャするウィンドウズ画面を選択してください。" FontSize="24"
+                   Foreground="White"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
 
         <Custom:SurfaceButton x:Name="btnStartDrawing"
                               Content="Select"
