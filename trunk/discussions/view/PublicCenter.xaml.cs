@@ -513,6 +513,10 @@ namespace Discussions.view
                         editCtx.PasteSelected();
                     Keyboard.Focus(this);
                 }
+                else if (e.Key == Key.R)
+                {
+                    CreateEditCtx();
+                }
             }
             else if (e.Key == Key.Left)
             {
