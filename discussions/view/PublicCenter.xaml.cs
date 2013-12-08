@@ -517,6 +517,10 @@ namespace Discussions.view
                 {
                     CreateEditCtx();
                 }
+                else if (e.Key == Key.H)
+                {
+                    btnHome_Click_1(null, null);
+                }
             }
             else if (e.Key == Key.Left)
             {
