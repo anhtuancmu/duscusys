@@ -539,7 +539,7 @@
                 <Border Background="{StaticResource book}" Width="52" Height="52" />
             </s:SurfaceButton>
             <s:SurfaceButton x:Name="btnRefresh1" Click="btnRefresh_Click" Background="#02000000"
-                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Collapsed"
                              d:LayoutOverrides="Width">
                 <Border CornerRadius="30"
                         Width="52"
