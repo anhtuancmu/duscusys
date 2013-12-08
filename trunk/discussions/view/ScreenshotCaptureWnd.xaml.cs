@@ -224,6 +224,10 @@ namespace Discussions.view
         {
             if (e.Key == Key.Escape)
                 btnCancel_Click_1(sender, e);
+            else if (e.Key == Key.Enter)
+                btnStartDrawing_Click_1(null, null);
+
+
         }
     }
 }
