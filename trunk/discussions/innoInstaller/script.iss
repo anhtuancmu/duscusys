@@ -179,278 +179,278 @@ Source: "..\EventGen\bin\Debug\System.Runtime.dll"; DestDir: "{app}"; Flags: ign
 Source: "..\EventGen\bin\Debug\System.Runtime.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\System.Threading.Tasks.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\EventGen\bin\Debug\System.Threading.Tasks.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\CFLite.resources\CFCharacterSetBitmaps.bitmap"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\CFLite.resources\CFUniCharPropertyDatabase.data"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\CFLite.resources\CFUnicodeData-L.mapping"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\CFLite.resources\Info.plist"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\JavaScriptCore.resources\Info.plist"; DestDir: "{app}\JavaScriptCore.resources"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\Info.plist"; DestDir: "{app}\WebKit.resources"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\certificates\cacert.pem"; DestDir: "{app}\WebKit.resources\certificates"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\en.lproj\Localizable.strings"; DestDir: "{app}\WebKit.resources\en.lproj"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\en.lproj\localizedStrings.js"; DestDir: "{app}\WebKit.resources\en.lproj"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\AbstractTimelinePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ApplicationCacheItemsView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\AuditCategories.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\AuditLauncherView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\AuditResultView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\AuditRules.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\audits.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\AuditsPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\BottomUpProfileDataGridTree.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\BreakpointManager.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\BreakpointsSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Callback.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\CallStackSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ChangesView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Checkbox.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Color.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ConsolePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ConsoleView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ContextMenu.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\CookieItemsView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\CSSCompletions.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\CSSStyleModel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Database.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DatabaseQueryView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DatabaseTableView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DataGrid.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DOMAgent.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DOMStorage.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DOMStorageItemsView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\DOMSyntaxHighlighter.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Drawer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ElementsPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ElementsTreeOutline.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\EventListenersSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\FontView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\HAREntry.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\helpScreen.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\HelpScreen.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ImageView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\InjectedFakeWorker.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\InjectedScript.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\InjectedScriptAccess.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\inspector.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\inspector.html"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\inspector.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\InspectorBackendStub.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\InspectorFrontendHostStub.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\inspectorSyntaxHighlight.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\KeyboardShortcut.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\MetricsSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Object.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ObjectPropertiesSection.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ObjectProxy.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Panel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\PanelEnablerView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Placard.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\popover.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Popover.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ProfileDataGridTree.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ProfilesPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ProfileView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\PropertiesSection.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\PropertiesSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Resource.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ResourceCategory.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ResourcesPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ResourceView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ScopeChainSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Script.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ScriptsPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ScriptView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Section.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Settings.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\ShortcutsHelp.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SidebarTreeElement.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceCSSTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceCSSTokenizer.re2js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceFrame.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceHTMLTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceHTMLTokenizer.re2js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceJavaScriptTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceJavaScriptTokenizer.re2js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SourceView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\StatusBarButton.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\StoragePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\StylesSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\SummaryBar.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TabbedPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TestController.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TextEditorHighlighter.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TextEditorModel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TextPrompt.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\textViewer.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TextViewer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TimelineAgent.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TimelineGrid.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TimelineOverviewPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TimelinePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\TopDownProfileDataGridTree.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\treeoutline.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\utilities.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\View.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\WatchExpressionsSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\WebKit.qrc"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\WelcomeView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\WorkersSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\applicationCache.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\auditsIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\back.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\breakpointBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\breakpointConditionalBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\breakpointConditionalCounterBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\breakpointCounterBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\breakpointsActivateButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\breakpointsDeactivateButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\checker.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\clearConsoleButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\closeButtons.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\consoleButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\consoleIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\cookie.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\database.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\databaseTable.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\debuggerContinue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\debuggerPause.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\debuggerStepInto.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\debuggerStepOut.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\debuggerStepOver.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallDown.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallDownBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallDownWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRight.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightDown.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightDownBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightDownWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\dockButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\elementsIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\enableOutlineButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\enableSolidButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\errorIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\errorMediumIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\errorRedDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\excludeButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\focusButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\forward.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\gearButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\glossyHeader.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\glossyHeaderPressed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\glossyHeaderSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\glossyHeaderSelectedPressed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\goArrow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\graphLabelCalloutLeft.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\graphLabelCalloutRight.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\grayConnectorPoint.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\largerResourcesButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\localStorage.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\nodeSearchButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\paneBottomGrow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\paneBottomGrowActive.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\paneGrowHandleLine.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\paneSettingsButtons.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\pauseOnExceptionButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\percentButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\popoverArrows.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\popoverBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\profileGroupIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\profileIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\profilesIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\profileSmallIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\profilesSilhouette.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\programCounterBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\radioDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\recordButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\recordToggledButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\reloadButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourceCSSIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourceDocumentIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourceDocumentIconSmall.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourceJSIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourcePlainIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourcePlainIconSmall.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourcesIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourcesSilhouette.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourcesSizeGraphIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\resourcesTimeGraphIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\scriptsIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\scriptsSilhouette.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\searchSmallBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\searchSmallBrightBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\searchSmallGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\searchSmallWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\segment.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\segmentEnd.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\segmentHover.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\segmentHoverEnd.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\segmentSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\segmentSelectedEnd.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\sessionStorage.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\spinner.gif"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\splitviewDimple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\splitviewDividerBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarBottomBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarButtons.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarMenuButton.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarMenuButtonSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarResizerHorizontal.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\statusbarResizerVertical.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\storageIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\successGreenDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\thumbActiveHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\thumbActiveVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\thumbHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\thumbHoverHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\thumbHoverVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\Thumbs.db"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\thumbVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarGreen.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarOrange.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarPurple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarRed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineBarYellow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineCheckmarks.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineDots.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillGreen.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillOrange.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillPurple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillRed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineHollowPillYellow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelineIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillGreen.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillOrange.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillPurple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillRed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\timelinePillYellow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\toolbarItemSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\trackHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\trackVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\treeDownTriangleBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\treeDownTriangleWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\treeRightTriangleBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\treeRightTriangleWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\treeUpTriangleBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\treeUpTriangleWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\undockButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\userInputIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\userInputPreviousIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\userInputResultIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\warningIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\warningMediumIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\warningOrangeDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\warningsErrors.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\webkit\WebKit.resources\inspector\Images\whiteConnectorPoint.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\CFLite.resources\CFCharacterSetBitmaps.bitmap"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
+Source: "..\webkit\CFLite.resources\CFUniCharPropertyDatabase.data"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
+Source: "..\webkit\CFLite.resources\CFUnicodeData-L.mapping"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
+Source: "..\webkit\CFLite.resources\Info.plist"; DestDir: "{app}\CFLite.resources"; Flags: ignoreversion
+Source: "..\webkit\JavaScriptCore.resources\Info.plist"; DestDir: "{app}\JavaScriptCore.resources"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\Info.plist"; DestDir: "{app}\WebKit.resources"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\certificates\cacert.pem"; DestDir: "{app}\WebKit.resources\certificates"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\en.lproj\Localizable.strings"; DestDir: "{app}\WebKit.resources\en.lproj"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\en.lproj\localizedStrings.js"; DestDir: "{app}\WebKit.resources\en.lproj"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\AbstractTimelinePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ApplicationCacheItemsView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\AuditCategories.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\AuditLauncherView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\AuditResultView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\AuditRules.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\audits.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\AuditsPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\BottomUpProfileDataGridTree.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\BreakpointManager.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\BreakpointsSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Callback.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\CallStackSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ChangesView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Checkbox.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Color.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ConsolePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ConsoleView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ContextMenu.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\CookieItemsView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\CSSCompletions.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\CSSStyleModel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Database.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DatabaseQueryView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DatabaseTableView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DataGrid.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DOMAgent.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DOMStorage.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DOMStorageItemsView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\DOMSyntaxHighlighter.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Drawer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ElementsPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ElementsTreeOutline.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\EventListenersSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\FontView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\HAREntry.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\helpScreen.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\HelpScreen.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ImageView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\InjectedFakeWorker.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\InjectedScript.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\InjectedScriptAccess.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\inspector.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\inspector.html"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\inspector.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\InspectorBackendStub.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\InspectorFrontendHostStub.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\inspectorSyntaxHighlight.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\KeyboardShortcut.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\MetricsSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Object.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ObjectPropertiesSection.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ObjectProxy.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Panel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\PanelEnablerView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Placard.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\popover.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Popover.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ProfileDataGridTree.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ProfilesPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ProfileView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\PropertiesSection.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\PropertiesSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Resource.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ResourceCategory.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ResourcesPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ResourceView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ScopeChainSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Script.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ScriptsPanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ScriptView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Section.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Settings.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\ShortcutsHelp.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SidebarTreeElement.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceCSSTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceCSSTokenizer.re2js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceFrame.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceHTMLTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceHTMLTokenizer.re2js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceJavaScriptTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceJavaScriptTokenizer.re2js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceTokenizer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SourceView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\StatusBarButton.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\StoragePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\StylesSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\SummaryBar.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TabbedPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TestController.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TextEditorHighlighter.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TextEditorModel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TextPrompt.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\textViewer.css"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TextViewer.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TimelineAgent.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TimelineGrid.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TimelineOverviewPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TimelinePanel.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\TopDownProfileDataGridTree.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\treeoutline.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\utilities.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\View.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\WatchExpressionsSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\WebKit.qrc"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\WelcomeView.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\WorkersSidebarPane.js"; DestDir: "{app}\WebKit.resources\inspector"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\applicationCache.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\auditsIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\back.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\breakpointBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\breakpointConditionalBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\breakpointConditionalCounterBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\breakpointCounterBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\breakpointsActivateButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\breakpointsDeactivateButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\checker.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\clearConsoleButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\closeButtons.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\consoleButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\consoleIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\cookie.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\database.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\databaseTable.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\debuggerContinue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\debuggerPause.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\debuggerStepInto.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\debuggerStepOut.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\debuggerStepOver.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallDown.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallDownBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallDownWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRight.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightDown.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightDownBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightDownWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\disclosureTriangleSmallRightWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\dockButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\elementsIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\enableOutlineButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\enableSolidButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\errorIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\errorMediumIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\errorRedDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\excludeButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\focusButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\forward.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\gearButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\glossyHeader.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\glossyHeaderPressed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\glossyHeaderSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\glossyHeaderSelectedPressed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\goArrow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\graphLabelCalloutLeft.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\graphLabelCalloutRight.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\grayConnectorPoint.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\largerResourcesButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\localStorage.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\nodeSearchButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\paneBottomGrow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\paneBottomGrowActive.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\paneGrowHandleLine.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\paneSettingsButtons.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\pauseOnExceptionButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\percentButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\popoverArrows.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\popoverBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\profileGroupIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\profileIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\profilesIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\profileSmallIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\profilesSilhouette.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\programCounterBorder.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\radioDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\recordButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\recordToggledButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\reloadButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourceCSSIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourceDocumentIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourceDocumentIconSmall.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourceJSIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourcePlainIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourcePlainIconSmall.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourcesIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourcesSilhouette.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourcesSizeGraphIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\resourcesTimeGraphIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\scriptsIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\scriptsSilhouette.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\searchSmallBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\searchSmallBrightBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\searchSmallGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\searchSmallWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\segment.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\segmentEnd.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\segmentHover.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\segmentHoverEnd.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\segmentSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\segmentSelectedEnd.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\sessionStorage.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\spinner.gif"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\splitviewDimple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\splitviewDividerBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarBottomBackground.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarButtons.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarMenuButton.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarMenuButtonSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarResizerHorizontal.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\statusbarResizerVertical.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\storageIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\successGreenDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\thumbActiveHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\thumbActiveVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\thumbHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\thumbHoverHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\thumbHoverVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\Thumbs.db"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\thumbVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarGreen.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarOrange.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarPurple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarRed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarYellow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineCheckmarks.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineDots.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillGreen.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillOrange.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillPurple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillRed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineHollowPillYellow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelineIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillGreen.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillOrange.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillPurple.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillRed.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\timelinePillYellow.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\toolbarItemSelected.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\trackHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\trackVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\treeDownTriangleBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\treeDownTriangleWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\treeRightTriangleBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\treeRightTriangleWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\treeUpTriangleBlack.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\treeUpTriangleWhite.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\undockButtonGlyph.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\userInputIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\userInputPreviousIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\userInputResultIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\warningIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\warningMediumIcon.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\warningOrangeDot.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\warningsErrors.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
+Source: "..\webkit\WebKit.resources\inspector\Images\whiteConnectorPoint.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
 
 [Icons]
 Name: {group}\{#MyAppName}(regular mode); Filename: {app}\{#MyAppExeName}
