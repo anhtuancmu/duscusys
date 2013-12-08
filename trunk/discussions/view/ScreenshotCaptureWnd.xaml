@@ -33,7 +33,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Border x:Name="helpBg"  Background="#6F000000" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
+        <Border x:Name="helpBg"  Background="#6F000000" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
             <Label x:Name="lblHelp" Content="Select windows screen to capture screenshot/スクリーンショットを撮る画面を開き、選択を押して下さい" FontSize="24"
                    Foreground="White"
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
