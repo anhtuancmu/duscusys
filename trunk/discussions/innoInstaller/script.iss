@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Discussion system"
-#define MyAppVersion "1.0"
+#define MyAppVersion "16.1"
 #define MyAppPublisher "Tohoku University"
 #define MyAppExeName "Discussions.exe"
 
@@ -407,7 +407,6 @@ Source: "..\webkit\WebKit.resources\inspector\Images\thumbActiveVert.png"; DestD
 Source: "..\webkit\WebKit.resources\inspector\Images\thumbHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
 Source: "..\webkit\WebKit.resources\inspector\Images\thumbHoverHoriz.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
 Source: "..\webkit\WebKit.resources\inspector\Images\thumbHoverVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
-Source: "..\webkit\WebKit.resources\inspector\Images\Thumbs.db"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
 Source: "..\webkit\WebKit.resources\inspector\Images\thumbVert.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
 Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarBlue.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
 Source: "..\webkit\WebKit.resources\inspector\Images\timelineBarGray.png"; DestDir: "{app}\WebKit.resources\inspector\Images"; Flags: ignoreversion
