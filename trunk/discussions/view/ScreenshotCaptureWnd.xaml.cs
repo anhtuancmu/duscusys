@@ -197,13 +197,13 @@ namespace Discussions.view
             if (_state == CaptureState.SelectingWindow)
             {
                 _state = CaptureState.SelectedWindow;
-               // this.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xFF, 0x5D, 0x5D, 0x5D));
+                helpBg.Background = null;
+                helpBg.VerticalAlignment = VerticalAlignment.Top;
+
+                this.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(78, 0, 0, 0));
                 MaxHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
                 this.WindowState = WindowState.Maximized;
-                lblHelp.VerticalAlignment = VerticalAlignment.Top;
-               // this.Opacity = 0.6;
-
-                lblHelp.Visibility = Visibility.Visible;
+              
                 btnStartDrawing.Visibility = Visibility.Hidden;
                 btnCancel.Visibility = Visibility.Collapsed;
 
