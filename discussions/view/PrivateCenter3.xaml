@@ -145,7 +145,7 @@
                                 Width="40"
                                 Height="40"
                                 BorderThickness="3" Background="{DynamicResource infoBrush}" />
-                        <Label Content="TOPIC INFO/トピック詳細" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
+                        <Label Content="Detail/議題の詳細" Foreground="Black" VerticalAlignment="Center" FontSize="14.667" />
                     </StackPanel>
                 </Custom:SurfaceButton>
                 <Custom:SurfaceButton x:Name="btnRefresh1" 
@@ -207,7 +207,7 @@
                 <RowDefinition Height="Auto" MinHeight="32.61" />
                 <RowDefinition Height="189*" />
             </Grid.RowDefinitions>
-            <Label Content="Topics/トピック" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <Label Content="Topics/議題" HorizontalAlignment="Left" VerticalAlignment="Top"
                    d:LayoutOverrides="VerticalAlignment, Margin" RenderTransformOrigin="0.482,-0.632" Height="33"
                    Width="112" Foreground="Black" />
             <Custom:SurfaceListBox x:Name="lstTopics"

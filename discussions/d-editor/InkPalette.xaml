@@ -35,20 +35,20 @@
                                            Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Padding="3,6" MinHeight="0" MinWidth="0" Width="150">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <Border Background="{StaticResource pen}" Height="40" Width="40" />
-                            <TextBlock Text="Draw" d:LayoutOverrides="Width" FontSize="30" />
+                            <TextBlock Text="画く" d:LayoutOverrides="Width" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
                     <s:SurfaceToggleButton x:Name="radErase" Background="#02000000" Click="rad_Click"
                                            Tag="{x:Static s:SurfaceInkEditingMode.EraseByStroke}" Padding="3" Width="150">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <Border Background="{StaticResource trash}" Height="40" Width="40" />
-                            <TextBlock Text="Erase" FontSize="30" />
+                            <TextBlock Text="削除" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Label Content="Size" FontSize="21.333" FontFamily="Segoe UI" />
+                    <Label Content="サイズ" FontSize="21.333" FontFamily="Segoe UI" />
                     <StackPanel Orientation="Horizontal">
                         <s:SurfaceRadioButton Style="{DynamicResource StrokeThicknessRadioButtonStyle}"
                                               IsChecked="True" Content="RadioButton" x:Name="b_8" FontSize="4"
@@ -69,7 +69,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="Finish drawing"
+                <s:SurfaceButton Click="btnFinishDrawing_Click_1" Content="完了"
                                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.RowSpan="2" Padding="6" Margin="2,2,2,12" />
             </Grid>
         </Border>

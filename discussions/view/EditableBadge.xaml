@@ -184,7 +184,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Media Sources/画像資料の添付" VerticalAlignment="Center" />
-                <Label Content="Tips: Paste Images url and press enter" FontSize="18.667"
+                <Label Content="ヒント: 画像URLを入力しエンターキーを押して下さい" FontSize="18"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
 
@@ -236,11 +236,11 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">                                        
                     <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1"
-                                          Content="Screenshot"
+                                          Content="スクリーンショット"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
 
                     <Custom:SurfaceButton x:Name="btnAttachMedia" Click="BtnAttachMedia_OnClick"
-                                          Content="Add media"
+                                          Content="画像の追加"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
                     <Custom:SurfaceButton x:Name="btnGoogle" Visibility="Collapsed" Click="btnGoogle_Click_1" Content="Web"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
@@ -256,7 +256,7 @@
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,1,0,0">
                 <Label Content="Web Sources/URLの添付"/>
-                <Label Content="Tips : Paste web url and press enter" FontSize="18.667" VerticalAlignment="Center"
+                <Label Content="ヒント: URLを入力しエンターキーを押して下さい" FontSize="18" VerticalAlignment="Center"
                        Margin="0,8,0,0" />
             </StackPanel>
 
@@ -350,7 +350,7 @@
 
                 <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
                                       Grid.Row="1"
-                                      Content="Add source" 
+                                      Content="URLの追加" 
                                       HorizontalAlignment="Right"/>
 
                 <Custom:SurfaceTextBox x:Name="focusInterceptor" Width="1" MinWidth="1" MinHeight="1" Height="1" VerticalAlignment="Bottom"/>

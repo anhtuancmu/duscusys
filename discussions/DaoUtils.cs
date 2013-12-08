@@ -127,9 +127,9 @@ namespace Discussions
 
             //create new point 
             ArgPoint pt = new ArgPoint();
-            pt.Point = "Your title here";
-            pt.RecentlyEnteredSource = "Your　web url link here";
-            pt.RecentlyEnteredMediaUrl = "Your media link here";
+            pt.Point = "Your title here/タイトル";
+            pt.RecentlyEnteredSource = "Your web url link here/URLリンク";
+            pt.RecentlyEnteredMediaUrl = "Your media link here/画像URLリンク";
             DaoUtils.EnsurePtDescriptionExists(pt);
 
             pt.Description.Text = NEW_DESCRIPTION;
@@ -370,9 +370,9 @@ namespace Discussions
             return changed;
         }
 
-        public const string NEW_COMMENT = "New comment";
-        public const string NEW_POINT_NAME = "Your title here";
-        public const string NEW_DESCRIPTION = "Description";
+        public const string NEW_COMMENT = "New comment/新しいコメント";
+        public const string NEW_POINT_NAME = "Your title here/タイトル";
+        public const string NEW_DESCRIPTION = "Description/内容";
 
         public static MediaData CreateMediaData(byte[] data)
         {
