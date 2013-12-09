@@ -184,7 +184,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Media/画像資料の添付" VerticalAlignment="Center" />
-                <Label Content="ヒント: 画像URLを入力しエンターキーを押して下さい" FontSize="16"
+                <Label Content="ヒント: 画像URLを貼り付けしエンターキーを押して下さい" FontSize="16"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
 
@@ -256,7 +256,7 @@
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,1,0,0">
                 <Label Content="Web Source/URLの添付"/>
-                <Label Content="ヒント: URLを入力しエンターキーを押して下さい" FontSize="16" VerticalAlignment="Center"
+                <Label Content="ヒント: URLを貼り付けしエンターキーを押して下さい" FontSize="16" VerticalAlignment="Center"
                        Margin="0,8,0,0" />
             </StackPanel>
 

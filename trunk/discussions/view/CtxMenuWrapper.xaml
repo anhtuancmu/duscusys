@@ -8,17 +8,17 @@
              Opened="CtxMenuWrapper_OnOpened">
     
     <MenuItem 
-            Header="Cut"        
+            Header="切り取り(T)"        
             Name="Cut"
             Click="Cut_OnClick"/>
 
     <MenuItem 
-            Header="Copy"        
+            Header="コピー(C)"        
             Name="Copy"
             Click="Copy_OnClick"/>
 
     <MenuItem 
-            Header="Paste"        
+            Header="貼り付け(V）"        
             Name="Paste"
             Click="Paste_OnClick"/>
 

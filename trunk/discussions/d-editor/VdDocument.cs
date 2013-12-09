@@ -348,7 +348,7 @@ namespace DistributedEditor
 
             if (end1.HasAdjacent(end2))
             {
-                MessageDlg.Show("Already linked",
+                MessageDlg.Show("Already linked/リンク済み",
                                 "Info");
                 return -1;
             }
