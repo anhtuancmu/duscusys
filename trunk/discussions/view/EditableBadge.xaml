@@ -183,8 +183,8 @@
             </Custom:SurfaceTextBox>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="Media Sources/画像資料の添付" VerticalAlignment="Center" />
-                <Label Content="ヒント: 画像URLを入力しエンターキーを押して下さい" FontSize="18"
+                <Label Content="Media/画像資料の添付" VerticalAlignment="Center" />
+                <Label Content="ヒント: 画像URLを入力しエンターキーを押して下さい" FontSize="16"
                        VerticalAlignment="Center" Margin="0,8,0,0" />
             </StackPanel>
 
@@ -255,8 +255,8 @@
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,1,0,0">
-                <Label Content="Web Sources/URLの添付"/>
-                <Label Content="ヒント: URLを入力しエンターキーを押して下さい" FontSize="18" VerticalAlignment="Center"
+                <Label Content="Web Source/URLの添付"/>
+                <Label Content="ヒント: URLを入力しエンターキーを押して下さい" FontSize="16" VerticalAlignment="Center"
                        Margin="0,8,0,0" />
             </StackPanel>
 
