@@ -797,6 +797,7 @@ namespace Discussions.view
 
             var browser = new WebkitBrowserWindow(Uri, ap.Topic.Id);
             browser.Show();
+            browser.Activate();
         }
 
         private void onStorageWndClosed(object sender, EventArgs e)
@@ -1000,6 +1001,7 @@ namespace Discussions.view
             var ap = DataContext as ArgPoint;
             var browser = new WebkitBrowserWindow("http://google.com", ap.Topic.Id);
             browser.Show();
+            browser.Activate();
         }
 
         #region comment notificatinos

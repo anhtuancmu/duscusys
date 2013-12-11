@@ -2,7 +2,6 @@ using System;
 using System.Windows;
 using System.Windows.Threading;
 using AbstractionLayer;
-using Discussions.DbModel;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.webkit_host;
@@ -27,8 +26,6 @@ namespace Discussions.view
         private DispatcherTimer _scrollStateChecker;
 
         private readonly BrowserOverlayWindow _overlayWnd;
-
-        private DispatcherTimer _dispTimer;
 
         public WebkitBrowserWindow(string url, int? topicId)
         {
@@ -58,11 +55,6 @@ namespace Discussions.view
 
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
-
-            _dispTimer = new DispatcherTimer();
-            _dispTimer.Tick += _dispTimer_Tick;
-            _dispTimer.Interval = TimeSpan.FromMilliseconds(70);
-            _dispTimer.Start();
 
             DiscWindows.Get().HideOwnWindows();
 
@@ -162,9 +154,6 @@ namespace Discussions.view
                 userRequestedClosing();
 
             DiscWindows.Get().ShowOwnWindows();
-
-            _dispTimer.Stop();
-            _dispTimer.Tick -= _dispTimer_Tick;
 
             SetListeners(false);
 

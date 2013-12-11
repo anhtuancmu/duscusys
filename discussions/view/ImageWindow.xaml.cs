@@ -70,8 +70,6 @@ namespace Discussions.view
 
         private LaserPointerWndCtx _laserPointerWndCtx;
 
-        private DispatcherTimer _dispTimer;
-
         public ImageWindow(int attachId, int topicId)
         {
             _attachId = attachId;
@@ -88,10 +86,7 @@ namespace Discussions.view
             Width = 1024;
             Height = 768;
 
-            _dispTimer = new DispatcherTimer();
-            _dispTimer.Tick += _dispTimer_Tick;
-            _dispTimer.Interval = TimeSpan.FromMilliseconds(70);
-            _dispTimer.Start();
+            DiscWindows.Get().HideOwnWindows();
 
             ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
 
@@ -110,15 +105,9 @@ namespace Discussions.view
             CheckSendImgStateRequest();
         }
 
-        void _dispTimer_Tick(object sender, EventArgs e)
-        {
-            UISharedRTClient.Instance.OnRtServiceTick(sender, e);
-        }
-
         private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            _dispTimer.Stop();
-            _dispTimer.Tick -= _dispTimer_Tick;
+            DiscWindows.Get().ShowOwnWindows();
 
             SetListeners(false);
 

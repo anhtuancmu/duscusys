@@ -219,6 +219,7 @@ namespace Discussions.view
             var c = DataContext as Comment;
             var browser = new WebkitBrowserWindow(link.NavigateUri.ToString(), c != null ? c.ArgPoint.Topic.Id : (int?)null);
             browser.Show();
+            browser.Activate();
             e.Handled = true;
         }
 

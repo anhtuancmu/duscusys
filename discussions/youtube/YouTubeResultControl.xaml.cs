@@ -76,6 +76,7 @@ namespace Discussions.YouViewer
             var browser = new WebkitBrowserWindow(e.Info.EmbedUrl, 
                                         attachment!=null ? attachment.ArgPoint.Topic.Id : (int?)null);
             browser.Show();
+            browser.Activate();
         }
 
         private void OnBrowserClosed(object sender, EventArgs e)
