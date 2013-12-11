@@ -14,7 +14,6 @@ using AbstractionLayer;
 using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.pdf_reader;
 using Discussions.rt;
 using Discussions.RTModel.Model;
@@ -844,13 +843,13 @@ namespace Discussions.view
                     case SyncMsgType.SourceView:
                         var src = PublicBoardCtx.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
                         var browser = new WebkitBrowserWindow(src.Text, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
-                        browser.ShowDialog();
+                        browser.Show();
                         break;
                     case SyncMsgType.YoutubeView:
                         var attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         var embedUrl = AttachmentToVideoConvertor.AttachToYtInfo(attach).EmbedUrl;
                         browser = new WebkitBrowserWindow(embedUrl, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
-                        browser.ShowDialog();
+                        browser.Show();
                         break;
                     case SyncMsgType.ImageView:
                         attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);

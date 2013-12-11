@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Discussions.ctx;
 using Discussions.DbModel;
-using Discussions.webkit_host;
 
 namespace Discussions.view
 {
@@ -362,7 +361,7 @@ namespace Discussions.view
                 if (d.HtmlBackground != null)
                 {
                     var browser = new WebkitBrowserWindow(getDiscussionBackgroundUrl(d), 0);//0 TopicId for background
-                    browser.ShowDialog();
+                    browser.Show();
                 }
             }
         }
