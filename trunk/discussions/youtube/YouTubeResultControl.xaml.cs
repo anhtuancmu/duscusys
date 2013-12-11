@@ -4,9 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.view;
-using Discussions.webkit_host;
 
 namespace Discussions.YouViewer
 {
@@ -77,7 +75,7 @@ namespace Discussions.YouViewer
             var attachment = DataContext as Attachment;
             var browser = new WebkitBrowserWindow(e.Info.EmbedUrl, 
                                         attachment!=null ? attachment.ArgPoint.Topic.Id : (int?)null);
-            browser.ShowDialog();
+            browser.Show();
         }
 
         private void OnBrowserClosed(object sender, EventArgs e)

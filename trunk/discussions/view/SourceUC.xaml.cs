@@ -4,8 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
-using Discussions.webkit_host;
 
 namespace Discussions.view
 {
@@ -170,7 +168,7 @@ namespace Discussions.view
                     RaiseEvent(new RoutedEventArgs(SourceViewEvent));
 
                     var browser = new WebkitBrowserWindow(src.Text, src.RichText.ArgPoint.Topic.Id);
-                    browser.ShowDialog();
+                    browser.Show();
                 }
             }
             catch (Exception e)

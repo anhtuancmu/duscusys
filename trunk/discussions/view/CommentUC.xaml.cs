@@ -8,7 +8,6 @@ using System.Windows.Input;
 using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.model;
 using Discussions.rt;
 
 namespace Discussions.view
@@ -219,7 +218,7 @@ namespace Discussions.view
             var link = (Hyperlink)sender;
             var c = DataContext as Comment;
             var browser = new WebkitBrowserWindow(link.NavigateUri.ToString(), c != null ? c.ArgPoint.Topic.Id : (int?)null);
-            browser.ShowDialog();
+            browser.Show();
             e.Handled = true;
         }
 
