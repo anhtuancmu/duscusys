@@ -13,7 +13,6 @@
     Closed="ImageWindow_OnClosed"
     Background="{StaticResource WndBg}"    
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
     Closing="ImageWindow_OnClosing"
     Loaded="ImageWindow_OnLoaded"
     d:DesignWidth="657.233"

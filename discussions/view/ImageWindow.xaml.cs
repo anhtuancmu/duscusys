@@ -76,6 +76,17 @@ namespace Discussions.view
             _topicId = topicId;
             InitializeComponent();
 
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+                Width = 1024;
+                Height = 768;
+            }
+
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
             btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
 
