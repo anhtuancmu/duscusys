@@ -35,7 +35,7 @@
                                            Tag="{x:Static s:SurfaceInkEditingMode.Ink}" Padding="3,6" MinHeight="0" MinWidth="0" Width="150">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <Border Background="{StaticResource pen}" Height="40" Width="40" />
-                            <TextBlock Text="画く" d:LayoutOverrides="Width" FontSize="30" />
+                            <TextBlock Text="描く" d:LayoutOverrides="Width" FontSize="30" />
                         </StackPanel>
                     </s:SurfaceToggleButton>
                     <s:SurfaceToggleButton x:Name="radErase" Background="#02000000" Click="rad_Click"
