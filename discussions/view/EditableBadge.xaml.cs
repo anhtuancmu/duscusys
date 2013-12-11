@@ -998,7 +998,7 @@ namespace Discussions.view
         {
             var ap = DataContext as ArgPoint;
             var browser = new WebkitBrowserWindow("http://google.com", ap.Topic.Id);
-            browser.Show();
+            browser.ShowDialog();
         }
 
         #region comment notificatinos
