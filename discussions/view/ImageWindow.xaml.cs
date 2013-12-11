@@ -83,10 +83,11 @@ namespace Discussions.view
 
             //Width = 0.8 * System.Windows.SystemParameters.PrimaryScreenWidth;
             //Height = 0.8 * System.Windows.SystemParameters.PrimaryScreenHeight;
-            Width = 1024;
-            Height = 768;
+            //Width = 1024;
+            //Height = 768;
 
-            DiscWindows.Get().HideOwnWindows();
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                DiscWindows.Get().HidePublic();
 
             ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
 
@@ -107,7 +108,7 @@ namespace Discussions.view
 
         private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            DiscWindows.Get().ShowOwnWindows();
+            DiscWindows.Get().ShowPublic();
 
             SetListeners(false);
 

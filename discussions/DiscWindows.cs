@@ -93,6 +93,18 @@ namespace Discussions
             }
         }
 
+        public void HidePublic()
+        {
+            if (DiscWindows.Get().discDashboard != null)
+                DiscWindows.Get().discDashboard.Hide();
+        }
+
+        public void ShowPublic()
+        {
+            if (DiscWindows.Get().discDashboard != null)
+                DiscWindows.Get().discDashboard.Show();
+        }
+
         public void HideOwnWindows()
         {
             DiscWindows.Get().mainWnd.Hide();
@@ -102,8 +114,6 @@ namespace Discussions
                 DiscWindows.Get().moderDashboard.Hide();
             if (DiscWindows.Get().htmlBackgroundWnd != null)
                 DiscWindows.Get().htmlBackgroundWnd.Hide();
-            if (DiscWindows.Get().discDashboard != null)
-                DiscWindows.Get().discDashboard.Hide();
         }
 
         public void ShowOwnWindows()
@@ -115,8 +125,6 @@ namespace Discussions
                 DiscWindows.Get().moderDashboard.Show();
             if (DiscWindows.Get().htmlBackgroundWnd != null)
                 DiscWindows.Get().htmlBackgroundWnd.Show();
-            if (DiscWindows.Get().discDashboard != null)
-                DiscWindows.Get().discDashboard.Show();
         }
     }
 }
