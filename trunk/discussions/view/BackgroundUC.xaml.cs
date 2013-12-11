@@ -362,7 +362,7 @@ namespace Discussions.view
                 if (d.HtmlBackground != null)
                 {
                     var browser = new WebkitBrowserWindow(getDiscussionBackgroundUrl(d), 0);//0 TopicId for background
-                    browser.Show();
+                    browser.ShowDialog();
                 }
             }
         }
