@@ -10,7 +10,6 @@
     SizeChanged="WebkitBrowserWindow_OnSizeChanged"
     LocationChanged="WebkitBrowserWindow_OnLocationChanged"
     ResizeMode="CanResize"
-    WindowState="Maximized"
     Background="{StaticResource WndBg}"
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"

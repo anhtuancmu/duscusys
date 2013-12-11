@@ -35,6 +35,17 @@ namespace Discussions.view
 
             ExplanationModeMediator.Inst.WebkitOpen = true;
 
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+                Width = 1024;
+                Height = 768;
+            }
+
             // 
             // _webKitBrowser1
             // 
