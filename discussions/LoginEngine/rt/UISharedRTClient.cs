@@ -51,7 +51,7 @@ namespace Discussions.rt
             rtTimer.Start();
         }
 
-        private void OnRtServiceTick(object sender, EventArgs e)
+        public void OnRtServiceTick(object sender, EventArgs e)
         {
             if (rtTickHandler != null)
                 rtTickHandler();

@@ -168,7 +168,7 @@ namespace Discussions.view
                     RaiseEvent(new RoutedEventArgs(SourceViewEvent));
 
                     var browser = new WebkitBrowserWindow(src.Text, src.RichText.ArgPoint.Topic.Id);
-                    browser.Show();
+                    browser.ShowDialog();
                 }
             }
             catch (Exception e)

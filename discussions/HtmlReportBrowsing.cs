@@ -39,7 +39,7 @@ namespace Discussions
                         SessionInfo.Get().person.Session.Id);
                     //System.Diagnostics.Process.Start(reportUrl);
                     var browser = new WebkitBrowserWindow(reportUrl, tsd.topic.Id);
-                    browser.Show();
+                    browser.ShowDialog();
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace Discussions
                 topicId,
                 SessionInfo.Get().person.Session.Id);
             var browser = new WebkitBrowserWindow(reportUrl, topicId);
-            browser.Show();
+            browser.ShowDialog();
         }
     }
 }
