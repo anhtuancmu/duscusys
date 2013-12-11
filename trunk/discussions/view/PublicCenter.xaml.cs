@@ -844,12 +844,14 @@ namespace Discussions.view
                         var src = PublicBoardCtx.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
                         var browser = new WebkitBrowserWindow(src.Text, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
                         browser.Show();
+                        browser.Activate();
                         break;
                     case SyncMsgType.YoutubeView:
                         var attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         var embedUrl = AttachmentToVideoConvertor.AttachToYtInfo(attach).EmbedUrl;
                         browser = new WebkitBrowserWindow(embedUrl, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
                         browser.Show();
+                        browser.Activate();
                         break;
                     case SyncMsgType.ImageView:
                         attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
