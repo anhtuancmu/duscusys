@@ -46,7 +46,6 @@ namespace Discussions.view
             _webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
             _webKitBrowser1.Name = "_webKitBrowser1";
             _webKitBrowser1.TabIndex = 0;
-            _webKitBrowser1.MaximumSize = new System.Drawing.Size(1016-6, 630-6);
             webkitHost.Child = _webKitBrowser1;
             _webKitBrowser1.ResumeLayout();
 
@@ -56,7 +55,8 @@ namespace Discussions.view
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
 
-            DiscWindows.Get().HideOwnWindows();
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                DiscWindows.Get().HidePublic();
 
             ResizeMode = ResizeMode.NoResize;
 
@@ -153,7 +153,7 @@ namespace Discussions.view
             if (userRequestedClosing != null)
                 userRequestedClosing();
 
-            DiscWindows.Get().ShowOwnWindows();
+            DiscWindows.Get().ShowPublic();
 
             SetListeners(false);
 
@@ -256,6 +256,11 @@ namespace Discussions.view
             Point newOffset = _webKitBrowser1.ScrollOffset;
             newOffset.Offset(0, -delta);
             ScrollBrowserTo(newOffset);      
+        }
+
+        private void WebkitBrowserWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _webKitBrowser1.MaximumSize = new System.Drawing.Size((int)e.NewSize.Width-15, (int)e.NewSize.Height);
         }
     }
 }

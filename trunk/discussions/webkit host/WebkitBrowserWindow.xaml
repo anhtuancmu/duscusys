@@ -7,14 +7,13 @@
     xmlns:webkitHost="clr-namespace:Discussions.webkit_host"    
     mc:Ignorable="d" x:Class="Discussions.view.WebkitBrowserWindow"    
     Title2="Web viewer"
+    SizeChanged="WebkitBrowserWindow_OnSizeChanged"
     LocationChanged="WebkitBrowserWindow_OnLocationChanged"
     ResizeMode="CanResize"
-    WindowState="Normal"
+    WindowState="Maximized"
     Background="{StaticResource WndBg}"
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"
-    Width="1024"
-    Height="768"
     Loaded="WebkitBrowserWindow_OnLoaded"   
     Closing="Window_Closing_1">
     <Grid x:Name="layoutRoot">
