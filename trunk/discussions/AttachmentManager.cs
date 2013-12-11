@@ -668,7 +668,7 @@ namespace Discussions
 
                 var wnd = new ImageWindow(a.Id,  a.ArgPoint!=null ? a.ArgPoint.Topic.Id : -1);
                 wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
-                wnd.ShowDialog();
+                wnd.Show();
             }
             else
             {
@@ -703,7 +703,7 @@ namespace Discussions
                 var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT);
                 var bi = new BitmapImage(new Uri(pathName));
                 wnd.img.Source = bi;
-                wnd.ShowDialog();
+                wnd.Show();
             }
             else
             {
