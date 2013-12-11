@@ -37,7 +37,7 @@ namespace Discussions.view
         {
             InitializeComponent();
 
-            HideOwnWindows();
+            DiscWindows.Get().HideOwnWindows();
 
             _onCaptured = onCaptured;
 
@@ -127,34 +127,12 @@ namespace Discussions.view
                     break;
                 case CaptureState.SelectingCaptureArea:
                     stopDrawing();
-                    ShowOwnWindows();
+                    DiscWindows.Get().ShowOwnWindows();
                     Close();
                     break;
                 default:
                     throw new NotSupportedException();
             }
-        }
-
-        private void HideOwnWindows()
-        {
-            DiscWindows.Get().mainWnd.Hide();
-            if (DiscWindows.Get().privateDiscBoard != null)
-                DiscWindows.Get().privateDiscBoard.Hide();
-            if (DiscWindows.Get().moderDashboard != null)
-                DiscWindows.Get().moderDashboard.Hide();
-            if (DiscWindows.Get().htmlBackgroundWnd != null)
-                DiscWindows.Get().htmlBackgroundWnd.Hide();
-        }
-
-        private void ShowOwnWindows()
-        {
-            DiscWindows.Get().mainWnd.Show();
-            if (DiscWindows.Get().privateDiscBoard != null)
-                DiscWindows.Get().privateDiscBoard.Show();
-            if (DiscWindows.Get().moderDashboard != null)
-                DiscWindows.Get().moderDashboard.Show();
-            if (DiscWindows.Get().htmlBackgroundWnd != null)
-                DiscWindows.Get().htmlBackgroundWnd.Show();
         }
 
         //touch
@@ -216,7 +194,7 @@ namespace Discussions.view
 
         private void btnCancel_Click_1(object sender, RoutedEventArgs e)
         {
-            ShowOwnWindows();
+            DiscWindows.Get().ShowOwnWindows();
             Close();
         }
 
