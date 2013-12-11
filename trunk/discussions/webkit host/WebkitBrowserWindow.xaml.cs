@@ -26,6 +26,9 @@ namespace Discussions.view
         private DispatcherTimer _scrollStateChecker;
 
         private readonly BrowserOverlayWindow _overlayWnd;
+
+        private DispatcherTimer _dispTimer;
+
         public WebkitBrowserWindow(string url, int? topicId)
         {
             InitializeComponent();
@@ -55,6 +58,11 @@ namespace Discussions.view
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
 
+            _dispTimer = new DispatcherTimer();
+            _dispTimer.Tick += _dispTimer_Tick;
+            _dispTimer.Interval = TimeSpan.FromMilliseconds(70);
+            _dispTimer.Start();
+
             ResizeMode = ResizeMode.NoResize;
 
             if (_inst != null)
@@ -82,6 +90,10 @@ namespace Discussions.view
             _overlayWnd.Show();
 
             SetListeners(true);
+        }
+        void _dispTimer_Tick(object sender, EventArgs e)
+        {
+            UISharedRTClient.Instance.OnRtServiceTick(sender, e);
         }
 
         public void SetListeners(bool doSet)
@@ -145,6 +157,9 @@ namespace Discussions.view
             //if this is local initiative, close             
             if (userRequestedClosing != null)
                 userRequestedClosing();
+
+            _dispTimer.Stop();
+            _dispTimer.Tick -= _dispTimer_Tick;
 
             SetListeners(false);
 
