@@ -213,10 +213,14 @@ namespace Discussions.view
 
         void hyperLink_Click(object sender, RoutedEventArgs e)
         {
-            var link = (Hyperlink) sender;
+            if (ExplanationModeMediator.Inst.WebkitOpen)
+                return;
+
+            var link = (Hyperlink)sender;
             var c = DataContext as Comment;
             var browser = new WebkitBrowserWindow(link.NavigateUri.ToString(), c != null ? c.ArgPoint.Topic.Id : (int?)null);
             browser.Show();
+            e.Handled = true;
         }
 
         public void btnRemoveComment_Click(object sender, RoutedEventArgs e)

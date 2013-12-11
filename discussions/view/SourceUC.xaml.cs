@@ -144,6 +144,7 @@ namespace Discussions.view
             RaiseEvent(new RoutedEventArgs(SourceRemovedEvent));
         }
 
+        private DateTime _recentTouchDown;
         private void Hyperlink_TouchDown_1(object sender, TouchEventArgs e)
         {
             Launch();
@@ -151,6 +152,9 @@ namespace Discussions.view
 
         private void Launch()
         {
+            if (ExplanationModeMediator.Inst.WebkitOpen)
+                return;
+
             try
             {
                 var src = DataContext as Source;
