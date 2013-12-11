@@ -33,7 +33,7 @@ namespace Discussions.view
 
             _url = url;
 
-            _mediator.WebkitOpen = true;
+            ExplanationModeMediator.Inst.WebkitOpen = true;
 
             // 
             // _webKitBrowser1
@@ -85,10 +85,6 @@ namespace Discussions.view
             _overlayWnd.Show();
 
             SetListeners(true);
-        }
-        void _dispTimer_Tick(object sender, EventArgs e)
-        {
-            UISharedRTClient.Instance.OnRtServiceTick(sender, e);
         }
 
         public void SetListeners(bool doSet)
@@ -159,7 +155,7 @@ namespace Discussions.view
 
             ExplanationModeMediator.Inst.LasersEnabled = false;
 
-            _mediator.WebkitOpen = false;
+            ExplanationModeMediator.Inst.WebkitOpen = false;
 
             if (_overlayWnd != null)
                 _overlayWnd.Close();
