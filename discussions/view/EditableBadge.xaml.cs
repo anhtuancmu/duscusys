@@ -602,6 +602,7 @@ namespace Discussions.view
 
             var mediaData = at.MediaData;
             at.MediaData = null;
+            ap.RecentlyEnteredMediaUrl = "";
             if (mediaData != null)
                 PrivateCenterCtx.Get().DeleteObject(mediaData);
             PrivateCenterCtx.Get().DeleteObject(at);
