@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using Discussions.view;
 
 namespace Discussions
@@ -95,6 +91,32 @@ namespace Discussions
                 htmlBackgroundWnd.Close();
                 htmlBackgroundWnd = null;
             }
+        }
+
+        public void HideOwnWindows()
+        {
+            DiscWindows.Get().mainWnd.Hide();
+            if (DiscWindows.Get().privateDiscBoard != null)
+                DiscWindows.Get().privateDiscBoard.Hide();
+            if (DiscWindows.Get().moderDashboard != null)
+                DiscWindows.Get().moderDashboard.Hide();
+            if (DiscWindows.Get().htmlBackgroundWnd != null)
+                DiscWindows.Get().htmlBackgroundWnd.Hide();
+            if (DiscWindows.Get().discDashboard != null)
+                DiscWindows.Get().discDashboard.Hide();
+        }
+
+        public void ShowOwnWindows()
+        {
+            DiscWindows.Get().mainWnd.Show();
+            if (DiscWindows.Get().privateDiscBoard != null)
+                DiscWindows.Get().privateDiscBoard.Show();
+            if (DiscWindows.Get().moderDashboard != null)
+                DiscWindows.Get().moderDashboard.Show();
+            if (DiscWindows.Get().htmlBackgroundWnd != null)
+                DiscWindows.Get().htmlBackgroundWnd.Show();
+            if (DiscWindows.Get().discDashboard != null)
+                DiscWindows.Get().discDashboard.Show();
         }
     }
 }

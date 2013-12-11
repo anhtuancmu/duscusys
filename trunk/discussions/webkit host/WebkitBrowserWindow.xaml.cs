@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Threading;
 using AbstractionLayer;
+using Discussions.DbModel;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.webkit_host;
@@ -62,6 +63,8 @@ namespace Discussions.view
             _dispTimer.Tick += _dispTimer_Tick;
             _dispTimer.Interval = TimeSpan.FromMilliseconds(70);
             _dispTimer.Start();
+
+            DiscWindows.Get().HideOwnWindows();
 
             ResizeMode = ResizeMode.NoResize;
 
@@ -157,6 +160,8 @@ namespace Discussions.view
             //if this is local initiative, close             
             if (userRequestedClosing != null)
                 userRequestedClosing();
+
+            DiscWindows.Get().ShowOwnWindows();
 
             _dispTimer.Stop();
             _dispTimer.Tick -= _dispTimer_Tick;

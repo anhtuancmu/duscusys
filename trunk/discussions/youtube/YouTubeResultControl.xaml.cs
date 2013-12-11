@@ -75,7 +75,7 @@ namespace Discussions.YouViewer
             var attachment = DataContext as Attachment;
             var browser = new WebkitBrowserWindow(e.Info.EmbedUrl, 
                                         attachment!=null ? attachment.ArgPoint.Topic.Id : (int?)null);
-            browser.ShowDialog();
+            browser.Show();
         }
 
         private void OnBrowserClosed(object sender, EventArgs e)
