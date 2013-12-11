@@ -33,6 +33,8 @@ namespace Discussions.view
 
             _url = url;
 
+            _mediator.WebkitOpen = true;
+
             // 
             // _webKitBrowser1
             // 
@@ -71,8 +73,6 @@ namespace Discussions.view
            
             if (_mediator.ExplanationModeEnabled)
                 RequestScrollPosition();
-
-            _mediator.WebkitOpen = true;
 
             _scrollStateChecker = new DispatcherTimer(DispatcherPriority.Background)
             {
