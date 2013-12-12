@@ -765,8 +765,8 @@ namespace Discussions.view
             double height = mainGrid.ActualHeight - 200;
             if (height < 100)
                 height = 100;
-            if (height > 700)
-                height = 700;
+            if (height > 800)
+                height = 800;
 
             double width = mainGrid.ActualWidth - 200;
             if (width < 200)
