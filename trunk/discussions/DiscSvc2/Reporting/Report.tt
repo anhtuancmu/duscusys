@@ -48,11 +48,11 @@
 			<a href="bgpage?id=<#= QueryParams.DiscussionId #>" target="_blank">Background</a><br>
 			<a href="<#= MediaUrl #>" target="_blank">Media of discussion background</a><br>
 			<a href="<#= SourcesUrl #>" target="_blank">Sources of discussion background</a><br>
-			<a href="#finalBoard">Final Public Dashboard</a><br>
+			<a href="#finalBoard">Final discussion screenshot</a><br>
 			<a href="#summary">Summary information</a><br>
-			<!--<a href="#argPoints">Argument points</a><br>-->
-			<a href="#clustInfo">Cluster information</a><br>
-	        <a href="#unclusteredArgs">Single Points</a><br>
+			<!--<a href="#argPoints">User points</a><br>-->
+			<a href="#clustInfo">Group information</a><br>
+	        <a href="#unclusteredArgs">Single points</a><br>
     		<a href="#linkInfo">Link information</a><br>
 		</div>
 
@@ -106,7 +106,7 @@
 		<!------------------------------------------------------------------------------------->
 
 		<h3>
-			<a id="finalBoard">Final Public Dashboard</a>
+			<a id="finalBoard">Final Discussion Screenshot</a>
 		</h3>
 		
 		<div class="finalScreenshot">
@@ -121,7 +121,7 @@
 
 		<table>
 			<tr>
-			   <td>Arg.points</td>
+			   <td>User points</td>
 			   <td><#=ComplexReport.TotalArgPointReport.numPoints#></td>
 			</tr>
 			<tr>
@@ -129,11 +129,11 @@
 			   <td><#=ComplexReport.TotalArgPointReport.numMediaAttachments#></td>
 			</tr>
 			<tr>
-			   <td>Sources (total events) </td>
+			   <td>Sources</td>
 			   <td><#=ComplexReport.EventTotals.TotalSourceAdded#></td>
 			</tr>
 			<tr>
-			   <td>Clusters</td>
+			   <td>Groups</td>
 			   <td><#=ComplexReport.ClusterReports.Count#></td>
 			</tr>
 			<tr>
@@ -149,7 +149,7 @@
 		 <!------------------------------------------------------------------------------------->
 
 	 	 <h3 style="page-break-before: always;">
-			<a id="clustInfo">Cluster information</a>
+			<a id="clustInfo">Group information</a>
 		 </h3>
 		
 		 <#ClusterInformation(ComplexReport);#>
