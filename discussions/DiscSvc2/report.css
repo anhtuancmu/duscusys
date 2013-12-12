@@ -1,0 +1,115 @@
+﻿* {
+    margin:0; 
+    padding:0;
+}
+
+body {
+    font-family :'Segoe UI Light','Segoe UI','Meiryo UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
+    font-size: 1.3em;
+}
+
+h1 {
+    font-family :'Segoe UI Light','Segoe UI','Meiryo UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
+    font-size: 3.5em;
+    text-align: center;
+}
+
+h2 {
+     font-family :'Segoe UI Light','Segoe UI','Meiryo UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
+    font-size: 2.5em;
+    text-align: center;
+}
+
+h3 {
+    font-family :'Segoe UI Light','Segoe UI','Meiryo UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
+    font-size: 2.0em;
+    padding-top: 40px;
+    text-align: center;
+    color: #0699d3;
+}
+
+h4 {
+    color: #0699d3;
+    font-size: 1.5em;
+}
+
+img {
+    max-width:800px;
+}
+
+td {
+    width: 50%;
+}
+
+.blueSpan {    
+    background-color: #0699d3;
+    color: white;
+    padding-top: 100px;
+}
+
+table {
+    border: solid 0.5px transparent;
+    width: 100%;
+}
+
+table td {
+    padding:15px;
+    border: solid 0.5px white;
+    background-color: #d1d1d1;   
+}
+
+.centered {
+   text-align:center;
+}
+
+.finalScreenshot{
+    text-align:center;
+    background-color: #d1d1d1;
+}
+
+.argPoint {
+    border-left: solid 20px;
+    margin-bottom: 40px;
+    background-color: #d1d1d1;
+}
+
+.cluster {
+    border-left: solid 20px;
+    margin-bottom: 40px;
+    background-color: #d1d1d1;    
+}
+
+.link {
+    border-left: solid 20px;
+    margin-bottom: 40px;
+    background-color: #d1d1d1;    
+}
+
+.boldCaption {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.toc {
+   padding-left:40px;
+}
+
+.siteBtn1 {
+  background-color: #7B4F9D;
+  border: 1px solid #7B4F9D;
+  color: #fff;
+  font: 30px 'Segoe UI Light','Segoe UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
+  /*font-weight: lighter;*/
+  text-align: center;
+  height: 80px;
+  min-width: 250px;
+}
+.siteBtn1:hover {
+    background-color: #8d5eaf;
+    border: 1px solid #8d5eaf;
+    cursor: pointer; 
+}
+.siteBtn1:active {
+    background-color: #8d5eaf;
+    border: 1px solid #8d5eaf;
+}

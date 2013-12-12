@@ -42,8 +42,8 @@ namespace Discussions.view
             //else
             {
                 WindowState = WindowState.Normal;
-                Width = 1024;
-                Height = 768;
+                Width = 1440;
+                Height = 900;
             }
 
             // 
@@ -68,8 +68,8 @@ namespace Discussions.view
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
 
-            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
-                DiscWindows.Get().HidePublic();
+            //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+            //    DiscWindows.Get().HidePublic();
 
             ResizeMode = ResizeMode.NoResize;
 

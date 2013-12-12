@@ -665,11 +665,14 @@ namespace Discussions
                     Utils.ReportMediaOpened(StEvent.ScreenshotOpened, a);
                 else
                     Utils.ReportMediaOpened(StEvent.ImageOpened, a);
-
-                var wnd = new ImageWindow(a.Id,  a.ArgPoint!=null ? a.ArgPoint.Topic.Id : -1);
-                wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
-                wnd.Show();
-                wnd.Activate();
+               
+                if (a.MediaData.Data != null)
+                {
+                    var wnd = new ImageWindow(a.Id,  a.ArgPoint!=null ? a.ArgPoint.Topic.Id : -1);
+                    wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
+                    wnd.Show();
+                    wnd.Activate();
+                }
             }
             else
             {

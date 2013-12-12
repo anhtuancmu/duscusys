@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:Discussions"
     xmlns:localDE="clr-namespace:DistributedEditor"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:converters="clr-namespace:Discussions.Converters"
     x:Class="Discussions.Badge4"
     ClipToBounds="False"
     mc:Ignorable="d"
@@ -16,6 +17,9 @@
     FontSize="8">
     <UserControl.Resources>
         <local:SummaryTextConvertor x:Key="txtSummaryConv" />
+
+        <converters:AddPeriodConverter x:Key="addPeriodConverter"/>
+        
         <Style TargetType="{x:Type s:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
 
         <Style TargetType="Label">
@@ -75,9 +79,10 @@
                 </Canvas>
 
                 <Border Background="#721D1D1D" CornerRadius="3">
-                    <TextBlock x:Name="lblPerson" FontFamily="Segoe UI" FontWeight="Bold" FontSize="12">
-                        <Run Text="{Binding Person.Name}" />
-                    </TextBlock>
+                    <TextBlock FontSize="11" FontWeight="Bold" Margin="2,0,0,0">
+                        <Run Text="{Binding OrderNumber, Converter={StaticResource addPeriodConverter}}"/>
+                        <Run Text="{Binding Person.Name}" />                       
+                    </TextBlock> 
                 </Border>
 
                 <DockPanel Panel.ZIndex="100" HorizontalAlignment="Stretch"
@@ -120,8 +125,5 @@
                 </TextBlock>
             </Grid>
         </Label>
-
-        <TextBlock Background="#721D1D1D" Grid.Row="1" Text="{Binding OrderNumber}"
-                   HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11" />
     </Grid>
 </UserControl>
