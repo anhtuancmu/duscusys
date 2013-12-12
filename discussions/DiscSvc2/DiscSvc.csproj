@@ -15,7 +15,7 @@
     <AssemblyName>DiscSvc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Reporting\EmailHandler.cs" />
     <Compile Include="Reporting\Helpers.cs" />
+    <Compile Include="Reporting\ImageUtilities.cs" />
     <Compile Include="Reporting\LinkObject.cs" />
     <Compile Include="Reporting\MediaReport.cs">
       <DependentUpon>MediaReport.tt</DependentUpon>
@@ -211,7 +212,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2075</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2075/</IISUrl>
+          <IISUrl>http://localhost/DiscSvc</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
