@@ -173,6 +173,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\AddPeriodConverter.cs" />
     <Compile Include="d-editor\TypeTitleButton.xaml.cs">
       <DependentUpon>TypeTitleButton.xaml</DependentUpon>
     </Compile>

@@ -81,11 +81,11 @@ namespace Discussions.view
             //    WindowState = WindowState.Maximized;
             //}
             //else
-            {
+            //{
                 WindowState = WindowState.Normal;
-                Width = 1024;
-                Height = 768;
-            }
+                Width = 1440;
+                Height = 900;
+            //}
 
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
             btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
@@ -97,8 +97,8 @@ namespace Discussions.view
             //Width = 1024;
             //Height = 768;
 
-            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
-                DiscWindows.Get().HidePublic();
+            //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+            //    DiscWindows.Get().HidePublic();
 
             ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
 

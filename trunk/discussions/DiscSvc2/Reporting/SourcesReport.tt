@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Discussions.DbModel" #>
+<#@ import namespace="Discussions.RTModel.Model" #>
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+	    <meta charset='utf-8'> 
+        <title>Topic report</title>		
+	    <link href="report.css" rel="stylesheet" type="text/css" />
+    </head>
+	
+    <body> 
+		<h3>
+			<a id="sources">Sources of discussion background</a>
+		</h3>
+
+	    <div style="text-align: left; padding-left:40px">
+			<#   var i = 1;
+		         foreach(var s in ReportParams.Discussion.Background.Source.OrderBy(s=>s.OrderNumber))
+					EmitSourceCell(s, i++);
+			#> 
+		</div>
+	</body>
+</html>
+	
+
+<#+ 
+   void EmitSourceCell(Source s, int i)
+    {
+		if(s==null)
+			return;
+
+		#>
+		<div style="padding-top:40px">
+		   <#=i#>. <a href="<#=s.Text#>"><#=s.Text#></a>
+		</div> 
+		<#+
+    }
+#>

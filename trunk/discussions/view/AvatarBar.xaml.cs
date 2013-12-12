@@ -74,7 +74,7 @@ namespace Discussions.view
             //fresh each time!
             var discCtx = new DiscCtx(Discussions.ConfigManager.ConnStr);
             foreach (var p in discCtx.Person)
-                if (p.Online)
+                if (p.Online && !p.Name.StartsWith(DaoUtils.MODER_SUBNAME))
                     UsersStatus.Add(p);
         }
 
