@@ -202,7 +202,7 @@ namespace Discussions.view
             OtherUsers.Clear();
 
             var q = from p in PrivateCenterCtx.Get().Person
-                    where p.Topic.Any(t0 => t0.Discussion.Id == discussionId) &&
+                    where p.Topic.Any(t0 => t0.Discussion.Id == discussionId) && !p.Name.StartsWith(DaoUtils.MODER_SUBNAME) &&
                           p.Id != ownId
                     select p;
 
