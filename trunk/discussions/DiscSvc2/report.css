@@ -65,6 +65,7 @@ table td {
 .finalScreenshot{
     text-align:center;
     background-color: #d1d1d1;
+    max-width:800px;
 }
 
 .argPoint {

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Web;
 using Discussions.DbModel;
@@ -51,7 +54,35 @@ namespace DiscSvc.Reporting
               
                 File.WriteAllBytes(physPathName, kv.Value);
                 _screenshotFiles.Add(kv.Key, imgInfo);
+
+                //resample screenshot of final scene
+                if (kv.Key == -1)
+                {
+                    ResampleScreenshotOfFinalScene(imgInfo);
+                }
             }
+        }
+
+        static void ResampleScreenshotOfFinalScene(ImgInfo imgInfo)
+        {
+            var screenshotStream = new FileStream(imgInfo.PhysPath, FileMode.Open);
+            var bmp = new Bitmap(screenshotStream);
+            screenshotStream.Close();
+
+            int newWidth;
+            int newHeight;
+            if (bmp.Width > 2024)
+            {
+                newWidth = 2024;
+                newHeight = newWidth * bmp.Height / bmp.Width;
+            }
+            else
+            {
+                newWidth  = bmp.Width;
+                newHeight = bmp.Height;
+            }
+            var resized = ImageUtilities.ResizeImage(bmp, newWidth, newHeight);
+            resized.Save(imgInfo.PhysPath, ImageFormat.Png);
         }
 
         public void Dispose()

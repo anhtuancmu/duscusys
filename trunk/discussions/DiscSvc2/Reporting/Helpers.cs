@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Discussions;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 

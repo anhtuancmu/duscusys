@@ -546,7 +546,7 @@ this.Write("</a>\r\n\t\t</div> \r\n\t\t");
         #line 258 "C:\Users\Will\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc2\Reporting\Report.tt"
 
     }
-
+	
 	void EmitCommentOrArgPointLine(Person p, string Text, DiscLink link)
     {
 		
@@ -555,7 +555,8 @@ this.Write("</a>\r\n\t\t</div> \r\n\t\t");
         #line hidden
         
         #line 263 "C:\Users\Will\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc2\Reporting\Report.tt"
-this.Write("\t\t<tr>\r\n\t\t\t<td style=\"padding:15px; border:0px; border-left:solid 20px ");
+this.Write("\t\t<tr>\r\n\t\t\t<td style=\"padding:15px; width:20%; border:0px; border-left:solid 20px" +
+        " ");
 
         
         #line default
@@ -583,7 +584,7 @@ this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
         #line hidden
         
         #line 265 "C:\Users\Will\Documents\Visual Studio 2013\Projects\TDS\discussions\DiscSvc2\Reporting\Report.tt"
-this.Write("</td>\r\n\t\t\t<td style=\"border:0px\">");
+this.Write("</td>\r\n\t\t\t<td style=\"border:0px; \">");
 
         
         #line default
