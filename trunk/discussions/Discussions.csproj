@@ -173,6 +173,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="bots\AttachmentBot.cs" />
+    <Compile Include="bots\SourceBot.cs" />
     <Compile Include="Converters\AddPeriodConverter.cs" />
     <Compile Include="d-editor\TypeTitleButton.xaml.cs">
       <DependentUpon>TypeTitleButton.xaml</DependentUpon>

@@ -633,6 +633,7 @@
                              Margin="1,5,1,1">
                 <Border Background="{StaticResource private}" Width="70" Height="70" Padding="0" Margin="0,0,0,2" />
             </s:SurfaceButton>
+            <s:SurfaceButton x:Name="btnRunBot" Content="Run bot" Click="BtnRunBot_OnClick"/>
         </StackPanel>
 
         <Label x:Name="lblDiscussion" Content="{Binding discussion.Subject}" HorizontalAlignment="Left"

@@ -30,7 +30,13 @@ namespace DistributedEditor
 
         public int Color
         {
-            get { return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == OwnerId).Color; }
+            get
+            {
+                if (OwnerId == 0)
+                    return 255;
+                
+                return DbCtx.Get().Person.FirstOrDefault(p0 => p0.Id == OwnerId).Color;
+            }
         }
     }
 }
