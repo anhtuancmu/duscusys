@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,6 +24,8 @@ namespace Discussions.view
         private readonly MultiClickRecognizer _mediaDoubleClick;
 
         private UISharedRTClient _sharedClient;
+
+        private Random _rnd;
 
         //large badge view was open, explanation mode was enabled, another client closed badge, but badge
         //on current client wasn't closed as a comment was being edited on local client. this flag remembers 
@@ -123,6 +126,8 @@ namespace Discussions.view
             //  RichTextBoxFormatBarManagerStatic.SetFormatBar(rtb, fmtBar);
 
             //  Drawing.dataContextHandled += DrawingDataContextHandled; 
+
+            _rnd = new Random();
 
             _mediaDoubleClick = new MultiClickRecognizer(badgeDoubleTap, null);
 
@@ -598,6 +603,44 @@ namespace Discussions.view
             }
         }
 
+        async Task BotRunAsync()
+        {
+            while (true)
+            {
+                BotGenerateCommentChange();
+                await Utils.Delay(300);
+            }
+        }
+
+        void BotGenerateCommentChange()
+        {
+            var ap = (ArgPoint)DataContext;
+            if (ap.Comment.Count>10 || _rnd.Next(100) < 50)
+                BotRemoveComment();    
+            else
+                BotCreateBotComment();
+        }
+
+        void BotCreateBotComment()
+        {
+            txtNewComment.Text = "Bot comment" + _rnd.Next();
+            SaveProcedure();
+        }
+
+        void BotRemoveComment()
+        {
+            var ap = (ArgPoint) DataContext;
+            int commentIdxToRemove = _rnd.Next(ap.Comment.Count);
+            DependencyObject container = lstBxComments1
+                .ItemContainerGenerator.ContainerFromIndex(commentIdxToRemove);
+            if (container == null)
+                return;
+
+            CommentUC commentUc = Utils.FindChild<CommentUC>(container);
+            if (commentUc!=null)
+                commentUc.btnRemoveComment_Click(null, null);
+        }
+
         private void stkHeader_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
         {
             if (e.OriginalSource is Image)
@@ -719,6 +762,11 @@ namespace Discussions.view
         {
             if (string.IsNullOrWhiteSpace(txtNewComment.Text))
                 txtNewComment.Text = DaoUtils.NEW_COMMENT;
+        }
+
+        private async void BtnRunBot_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BotRunAsync();
         }
     }
 }

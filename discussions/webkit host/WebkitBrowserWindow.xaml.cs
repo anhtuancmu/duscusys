@@ -15,7 +15,7 @@ namespace Discussions.view
 
         private string _url;
 
-        private readonly WebKit.WebKitBrowser _webKitBrowser1;
+        private WebKit.WebKitBrowser _webKitBrowser1;
 
         public delegate void UserRequestedClosing();
 
@@ -23,7 +23,7 @@ namespace Discussions.view
 
         private readonly ExplanationModeMediator _mediator;
 
-        private DispatcherTimer _scrollStateChecker;
+        private readonly DispatcherTimer _scrollStateChecker;
 
         private readonly BrowserOverlayWindow _overlayWnd;
 
@@ -45,7 +45,7 @@ namespace Discussions.view
                 Width = 1440;
                 Height = 900;
             }
-
+        
             // 
             // _webKitBrowser1
             // 
@@ -159,6 +159,15 @@ namespace Discussions.view
             //if this is local initiative, close             
             if (userRequestedClosing != null)
                 userRequestedClosing();
+
+            _scrollStateChecker.Stop();
+            _scrollStateChecker.Tick -= _scrollStateChecker_Tick;
+
+            browserBar.Browser = null;
+            browserBar.Window = null;
+
+            _webKitBrowser1.Dispose();
+            _webKitBrowser1 = null;
 
             DiscWindows.Get().ShowPublic();
 

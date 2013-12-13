@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using AbstractionLayer;
+using Discussions.bots;
 using Discussions.ctx;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
@@ -65,6 +66,8 @@ namespace Discussions.view
             }
         }
 
+        private SourceBot _srcBot;
+        private AttachmentBot _attachmentBot;
 
         private UISharedRTClient _sharedClient;
 
@@ -1026,5 +1029,18 @@ namespace Discussions.view
         }
 
         #endregion
+
+        private void BtnRunBot_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(_srcBot==null)
+                _srcBot = new SourceBot();
+
+            _srcBot.RunAsync().GetAwaiter().OnCompleted(()=>{});
+
+            if(_attachmentBot==null)
+                _attachmentBot = new AttachmentBot();
+
+            _attachmentBot.RunAsync().GetAwaiter().OnCompleted(() => { });
+        }
     }
 }
