@@ -10,6 +10,7 @@
     x:Class="Discussions.Badge4"
     ClipToBounds="False"
     mc:Ignorable="d"
+    Unloaded="Badge4_OnUnloaded"
     DataContextChanged="UserControl_DataContextChanged"
     Width="112"
     Height="75" 

@@ -736,13 +736,11 @@ namespace Discussions.view
 
         private void ShowLargeBadgeView(ArgPoint ap)
         {
-            if (_lbv != null)
-                return;
-
             scene.IsHitTestVisible = false;
             blockWorkingAreaTransforms = true;
 
-            _lbv = new LargeBadgeView();
+            if (_lbv==null)
+                _lbv = new LargeBadgeView();
             var ArgPointId = ap.Id;
             DbCtx.DropContext();//it can become stale while modal view was closed.
             _lbv.DataContext = DbCtx.Get().ArgPoint.FirstOrDefault(p0 => p0.Id == ArgPointId);
@@ -799,7 +797,6 @@ namespace Discussions.view
             blockWorkingAreaTransforms = false;
 
             mainGrid.Children.Remove(_lbv);
-            _lbv = null;
         }
 
         #endregion

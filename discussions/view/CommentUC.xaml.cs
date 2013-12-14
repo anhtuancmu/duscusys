@@ -93,11 +93,11 @@ namespace Discussions.view
 
         /***************************************************************************/
 
-        readonly Regex _hyperlinkSplitter =
+        static readonly Regex HyperlinkSplitter =
               new Regex(@"((\s|^)http://\S+?(\s|$))",
               RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private readonly Regex _hyperlinkValidator =
+        static readonly Regex HyperlinkValidator =
             new Regex(
                 @"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$");
 
@@ -191,11 +191,11 @@ namespace Discussions.view
             if (c == null || c.Text==null)
                 return;
 
-            var runs = _hyperlinkSplitter.Split(c.Text);
+            var runs = HyperlinkSplitter.Split(c.Text);
             foreach (var run in runs)
             {
                 var trimmed = run.Trim();
-                if (_hyperlinkValidator.IsMatch(trimmed))
+                if (HyperlinkValidator.IsMatch(trimmed))
                 {
                     var hyperLink = new Hyperlink {NavigateUri = new Uri(trimmed)};
                     hyperLink.Inlines.Add(new Run(run));

@@ -615,6 +615,9 @@ namespace Discussions
             if (commentId == 0)
                 return false;
 
+            if (SessionInfo.Get().person == null)
+                return false;
+
             var selfId = SessionInfo.Get().person.Id;
 
             var c = ctx.Comment.FirstOrDefault(c0 => c0.Id == commentId);

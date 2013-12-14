@@ -70,6 +70,14 @@ namespace Discussions.view
 
         private LaserPointerWndCtx _laserPointerWndCtx;
 
+        //private static ImageWindow _inst;
+        //public static ImageWindow Instance(int attachId, int topicId, bool localRequest)
+        //{
+        //    if(_inst==null)
+        //        _inst = new ImageWindow(attachId, topicId, localRequest);
+        //    return _inst;
+        //}
+
         public ImageWindow(int attachId, int topicId, bool localRequest)
         {
             _attachId = attachId;
@@ -103,7 +111,7 @@ namespace Discussions.view
             //    DiscWindows.Get().HidePublic();
 
             //we cannot use HorizontalAlignment==Center, so center the image via RenderTransform
-            Dispatcher.BeginInvoke((Action)(() =>
+            var op = Dispatcher.BeginInvoke((Action)(() =>
                 {
                     var mt = (MatrixTransform)img.RenderTransform;
                     var matrix = mt.Matrix;
@@ -116,6 +124,8 @@ namespace Discussions.view
 
             CheckSendImgStateRequest();
         }
+
+
 
         private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
         {
