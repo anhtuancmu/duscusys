@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="ObservableCollectionSorterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReencoderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Discussions.csproj">

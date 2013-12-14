@@ -66,8 +66,7 @@ namespace Discussions.view
             }
         }
 
-        private SourceBot _srcBot;
-        private AttachmentBot _attachmentBot;
+        private BotsViewModel _botsViewModel;
 
         private UISharedRTClient _sharedClient;
 
@@ -89,7 +88,8 @@ namespace Discussions.view
 
         public PublicCenter(UISharedRTClient sharedClient,
                             Main.OnDiscFrmClosing closing,
-                            int screenshotTopicId, int screenshotDiscussionId)
+                            int screenshotTopicId, 
+                            int screenshotDiscussionId)
         {
             this._discussion = SessionInfo.Get().discussion;
             _sharedClient = sharedClient;
@@ -112,6 +112,11 @@ namespace Discussions.view
             btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
 
             localAccount.DataContext = SessionInfo.Get().person;
+
+            _botsViewModel = new BotsViewModel(this);
+            btnEnlargeOpenCommentClose.DataContext = _botsViewModel;
+            btnEnlargeOpenAttachmentClose.DataContext = _botsViewModel;
+            btnEnlargeOpenSourceClose.DataContext = _botsViewModel;
 
             avaBar.Init(_sharedClient);
             avaBar.paletteOwnerChanged += PaletteOwnerChanged;
@@ -1030,17 +1035,41 @@ namespace Discussions.view
 
         #endregion
 
+        #region bots
         private void BtnRunBot_OnClick(object sender, RoutedEventArgs e)
         {
-            if(_srcBot==null)
-                _srcBot = new SourceBot();
+            //if(_srcBot==null)
+            //    _srcBot = new SourceBot();
 
-            _srcBot.RunAsync().GetAwaiter().OnCompleted(()=>{});
+            //_srcBot.RunAsync().GetAwaiter().OnCompleted(()=>{});
 
-            if(_attachmentBot==null)
-                _attachmentBot = new AttachmentBot();
+            //if(_attachmentBot==null)
+            //    _attachmentBot = new AttachmentBot();
 
-            _attachmentBot.RunAsync().GetAwaiter().OnCompleted(() => { });
+            //_attachmentBot.RunAsync().GetAwaiter().OnCompleted(() => { });
         }
+
+        public Badge4 GetRandomBadge()
+        {
+            if (editCtx == null)
+                return null;
+
+            var badgeShapes = editCtx.SceneMgr.Doc.GetShapes().
+                    Where(sh => sh.ShapeCode() == VdShapeType.Badge).
+                    Cast<VdBadge>().
+                    ToArray();
+            
+            if (!badgeShapes.Any())
+                return null;
+
+            var rnd = new Random();
+            return badgeShapes[rnd.Next(badgeShapes.Count())].Badge;
+        }
+
+        public LargeBadgeView GetLargeView()
+        {
+            return _lbv;
+        }
+        #endregion
     }
 }

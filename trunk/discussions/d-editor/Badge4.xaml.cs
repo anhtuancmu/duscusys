@@ -111,7 +111,7 @@ namespace Discussions
             mediaDoubleClick.Click(sender, e);
         }
 
-        private void badgeDoubleTap(object sender, InputEventArgs e)
+        public void badgeDoubleTap(object sender, InputEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(RequestLargeViewEvent));
             if(e!=null)
