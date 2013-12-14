@@ -151,6 +151,8 @@ namespace Discussions.view
         {
             SetListeners(false);
 
+            _stopBot = true;
+
             RaiseEvent(new RoutedEventArgs(RequestSmallViewEvent));
             //if (CloseRequest != null)
             //    CloseRequest();
@@ -603,20 +605,23 @@ namespace Discussions.view
             }
         }
 
+        private bool _stopBot;
         async Task BotRunAsync()
         {
             while (true)
             {
+                if (_stopBot)
+                    break;
                 BotGenerateCommentChange();
-                await Utils.Delay(300);
+                await Utils.Delay(200);
             }
         }
 
         void BotGenerateCommentChange()
         {
             var ap = (ArgPoint)DataContext;
-            if (ap.Comment.Count>10 || _rnd.Next(100) < 50)
-                BotRemoveComment();    
+            if (ap.Comment.Count > 10 || _rnd.Next(100) < 50)
+                BotRemoveComment();
             else
                 BotCreateBotComment();
         }
