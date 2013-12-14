@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 
 namespace Discussions.webkit_host
@@ -16,6 +15,7 @@ namespace Discussions.webkit_host
         public static string GetUrlContent(string url)
         {
             var webClient = new WebClient();
+            webClient.Encoding = Encoding.GetEncoding("SHIFT_JIS");
             return webClient.DownloadString(url);
         }
     }

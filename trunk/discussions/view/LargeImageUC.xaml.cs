@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Discussions.DbModel;
@@ -31,17 +32,25 @@ namespace Discussions.view
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            mediaDoubleClick.Click(sender, e);
+            if (mediaDoubleClick != null)
+                mediaDoubleClick.Click(sender, e);
         }
 
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
-            mediaDoubleClick.Click(sender, e);
+            if (mediaDoubleClick!=null)
+                mediaDoubleClick.Click(sender, e);
         }
 
         private void MediaDoubleClick(object sender, InputEventArgs e)
         {
             AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment, true);
+        }
+
+        private void LargeImageUC_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            mediaDoubleClick.Dispose();
+            mediaDoubleClick = null;
         }
     }
 }

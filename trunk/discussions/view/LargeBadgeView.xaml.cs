@@ -21,7 +21,7 @@ namespace Discussions.view
     /// </summary>
     public partial class LargeBadgeView : UserControl
     {
-        private readonly MultiClickRecognizer _mediaDoubleClick;
+        private MultiClickRecognizer _mediaDoubleClick;
 
         private UISharedRTClient _sharedClient;
 

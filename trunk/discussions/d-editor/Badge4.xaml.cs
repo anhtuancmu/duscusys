@@ -131,5 +131,10 @@ namespace Discussions
             else
                 usrCursor.Visibility = Visibility.Hidden;
         }
+
+        private void Badge4_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            mediaDoubleClick.Dispose();
+        }
     }
 }

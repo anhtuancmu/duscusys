@@ -663,10 +663,14 @@ namespace Discussions
                
                 if (a.MediaData.Data != null)
                 {
-                    var wnd = new ImageWindow(a.Id, a.ArgPoint != null ? a.ArgPoint.Topic.Id : -1, localRequest);
-                    wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
-                    wnd.Show();
-                    wnd.Activate();
+                    if (!ExplanationModeMediator.Inst.ImageViewerOpen)
+                    {
+                        var wnd = new ImageWindow(a.Id, a.ArgPoint != null ? a.ArgPoint.Topic.Id : -1,
+                            localRequest);
+                        wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
+                        wnd.Show();
+                        wnd.Activate();
+                    }
                 }
             }
             else
@@ -699,11 +703,14 @@ namespace Discussions
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {
-                var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT, localRequest);
-                var bi = new BitmapImage(new Uri(pathName));
-                wnd.img.Source = bi;
-                wnd.Show();
-                wnd.Activate();
+                if (!ExplanationModeMediator.Inst.ImageViewerOpen)
+                {
+                    var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT, localRequest);
+                    var bi = new BitmapImage(new Uri(pathName));
+                    wnd.img.Source = bi;
+                    wnd.Show();
+                    wnd.Activate();
+                }
             }
             else
             {

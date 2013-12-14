@@ -7,6 +7,7 @@
              xmlns:yt="clr-namespace:Discussions.YouViewer"
              xmlns:Custom="http://schemas.microsoft.com/surface/2008"
              mc:Ignorable="d"
+             Unloaded="LargeImageUC_OnUnloaded"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <local:AttachToImageConvertor x:Key="attachImgConverter" />

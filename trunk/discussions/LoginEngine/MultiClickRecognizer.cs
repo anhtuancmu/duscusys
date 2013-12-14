@@ -4,7 +4,7 @@ using System.Windows.Threading;
 
 namespace Discussions
 {
-    public class MultiClickRecognizer
+    public class MultiClickRecognizer : IDisposable
     {
         private DispatcherTimer aTimer = new DispatcherTimer();
 
@@ -57,6 +57,17 @@ namespace Discussions
                 if (_onTripleClick != null)
                     _onTripleClick(sender, e);
             }
+        }
+
+        public void Dispose()
+        {
+            aTimer.Stop();
+            aTimer.Tick -= OnTimer;
+            aTimer = null;
+
+            _onDoubleClick = null;
+            _onTripleClick = null;
+            _onSingleClick = null;
         }
     }
 }

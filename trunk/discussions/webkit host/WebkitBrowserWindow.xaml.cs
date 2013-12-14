@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using System.util;
 using System.Windows;
 using System.Windows.Threading;
 using AbstractionLayer;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.webkit_host;
+using WebKit.DOM;
 using Point = System.Drawing.Point;
 
 namespace Discussions.view
@@ -62,15 +62,17 @@ namespace Discussions.view
             _webKitBrowser1.TabIndex = 0;
             webkitHost.Child = _webKitBrowser1;
             _webKitBrowser1.ResumeLayout();
+         
 
             browserBar.Browser = _webKitBrowser1;
             browserBar.Window = this;
 
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
+           // _webKitBrowser1.Navigate(@"file:///C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\bin\x86\Debug\qwe.html");
             //string str = Reencoder.GetUrlContent("http://www.shinmai.co.jp/olympic/jouhou/shochi.htm");
             //var reencoded = Reencoder.ShiftJisToUtf8(str);
-            //_webKitBrowser1.Document.TextContent = reencoded;
+            //_webKitBrowser1.Document.CreateTextNode(reencoded);// aTextContent = reencoded;
 
             //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
             //    DiscWindows.Get().HidePublic();
@@ -288,13 +290,13 @@ namespace Discussions.view
             for (int i = 0; i < 100; ++i)
             {
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
-                await Utils.Delay(1);
+               // await Utils.Delay(1);
             }
             await Utils.Delay(100);
             for (int i = 0; i < 100; ++i)
             {
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
-                await Utils.Delay(1);
+               // await Utils.Delay(1);
             }
         }
     }
