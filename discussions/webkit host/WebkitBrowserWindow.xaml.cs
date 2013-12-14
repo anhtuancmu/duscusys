@@ -50,7 +50,6 @@ namespace Discussions.view
             // _webKitBrowser1
             // 
             _webKitBrowser1 = new WebKit.WebKitBrowser();
-            _webKitBrowser1.SuspendLayout();
             _webKitBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                                                                               | System.Windows.Forms.AnchorStyles.Left)
                                                                               | System.Windows.Forms.AnchorStyles.Right)));

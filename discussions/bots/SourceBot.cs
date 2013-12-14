@@ -7,20 +7,24 @@ using Discussions.RTModel.Model;
 
 namespace Discussions.bots
 {
-    public class SourceBot
+    public class SourceBot : IDisposable
     {
         private readonly Topic _topic;
         private readonly Random _rnd;
+        private bool _enabled;
 
         public SourceBot()
         {
             _topic = SessionInfo.Get().discussion.Topic.First();
             _rnd = new Random();
+
+            _enabled = true;
+            RunAsync().GetAwaiter().OnCompleted(()=>{});
         }
 
-        public async Task RunAsync()
+        async Task RunAsync()
         {
-            while (true)
+            while (_enabled)
             {
                 await SendOpenExplanationAsync();
             }
@@ -41,6 +45,11 @@ namespace Discussions.bots
                 UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
                     SyncMsgType.SourceView, src.Id, false);
             }
+        }
+
+        public void Dispose()
+        {
+            _enabled = false;
         }
     }
 }

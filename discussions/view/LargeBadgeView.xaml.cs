@@ -147,6 +147,11 @@ namespace Discussions.view
             SetListeners(true);
         }
 
+        public void Close()
+        {
+            badgeDoubleTap(null, null);
+        }
+
         private void badgeDoubleTap(object sender, InputEventArgs e)
         {
             SetListeners(false);
@@ -617,7 +622,7 @@ namespace Discussions.view
             }
         }
 
-        void BotGenerateCommentChange()
+        public void BotGenerateCommentChange()
         {
             var ap = (ArgPoint)DataContext;
             if (ap.Comment.Count > 10 || _rnd.Next(100) < 50)
@@ -626,13 +631,13 @@ namespace Discussions.view
                 BotCreateBotComment();
         }
 
-        void BotCreateBotComment()
+        public void BotCreateBotComment()
         {
             txtNewComment.Text = "Bot comment" + _rnd.Next();
             SaveProcedure();
         }
 
-        void BotRemoveComment()
+        public void BotRemoveComment()
         {
             var ap = (ArgPoint) DataContext;
             int commentIdxToRemove = _rnd.Next(ap.Comment.Count);
@@ -641,7 +646,7 @@ namespace Discussions.view
             if (container == null)
                 return;
 
-            CommentUC commentUc = Utils.FindChild<CommentUC>(container);
+            var commentUc = Utils.FindChild<CommentUC>(container);
             if (commentUc!=null)
                 commentUc.btnRemoveComment_Click(null, null);
         }
