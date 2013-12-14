@@ -70,11 +70,13 @@ namespace Discussions.view
 
         private LaserPointerWndCtx _laserPointerWndCtx;
 
-        public ImageWindow(int attachId, int topicId)
+        public ImageWindow(int attachId, int topicId, bool localRequest)
         {
             _attachId = attachId;
             _topicId = topicId;
             InitializeComponent();
+
+            ExplanationModeMediator.Inst.OnWndOpened(this, attachId, localRequest);
 
             //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
             //{
@@ -100,8 +102,6 @@ namespace Discussions.view
             //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
             //    DiscWindows.Get().HidePublic();
 
-            ExplanationModeMediator.Inst.OnWndOpened(this, attachId);
-
             //we cannot use HorizontalAlignment==Center, so center the image via RenderTransform
             Dispatcher.BeginInvoke((Action)(() =>
                 {
@@ -119,6 +119,8 @@ namespace Discussions.view
 
         private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
         {
+            ExplanationModeMediator.Inst.OnWndClosed(this);
+
             DiscWindows.Get().ShowPublic();
 
             SetListeners(false);
@@ -326,7 +328,7 @@ namespace Discussions.view
 
         private void ImageWindow_OnClosed(object sender, EventArgs e)
         {
-            ExplanationModeMediator.Inst.OnWndClosed(this);
+         
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Discussions.DbModel;
-using Discussions.rt;
-using Discussions.RTModel.Model;
 using Discussions.view;
 
 namespace Discussions.bots
@@ -30,32 +26,14 @@ namespace Discussions.bots
                 LargeBadgeView lbv = OpenRandomBadge();
                 if (lbv != null)
                 {
-                    await OpenSourceAsync((ArgPoint)lbv.DataContext, _rnd);
-
+                    await OpenRandomSourceAsync(lbv);
+                   
                     await Utils.Delay(_rnd.Next(1000));
                    
                     lbv.Close();
                 }
                
                 await Utils.Delay(_rnd.Next(1000));
-            }
-        }
-
-        static async Task OpenSourceAsync(ArgPoint ap, Random rnd)
-        {
-            if (!ap.Attachment.Any())
-                return;
-
-            var src = ap.Description.Source.FirstOrDefault();
-            if (src != null)
-            {
-                UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
-                    SyncMsgType.SourceView, src.Id, true);
-
-                await Utils.Delay(rnd.Next(1000));
-
-                UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
-                    SyncMsgType.SourceView, src.Id, false);
             }
         }
 
@@ -68,6 +46,21 @@ namespace Discussions.bots
             badgeToOpen.badgeDoubleTap(null, null);
 
             return _publicCenter.GetLargeView();
+        }
+
+        async Task OpenRandomSourceAsync(LargeBadgeView lbv)
+        {
+            var browser = await lbv.LaunchRandomSource(_rnd);
+            if (browser == null)
+                return;
+
+            await Utils.Delay(_rnd.Next(1000));
+
+            await browser.BotScrollDownAsync();
+
+            await Utils.Delay(500 + _rnd.Next(800));
+
+            browser.Close();
         }
 
         public void Dispose()

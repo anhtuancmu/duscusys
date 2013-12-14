@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using System.util;
 using System.Windows;
 using System.Windows.Threading;
 using AbstractionLayer;
@@ -66,6 +68,9 @@ namespace Discussions.view
 
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
+            //string str = Reencoder.GetUrlContent("http://www.shinmai.co.jp/olympic/jouhou/shochi.htm");
+            //var reencoded = Reencoder.ShiftJisToUtf8(str);
+            //_webKitBrowser1.Document.TextContent = reencoded;
 
             //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
             //    DiscWindows.Get().HidePublic();
@@ -276,6 +281,21 @@ namespace Discussions.view
         private void WebkitBrowserWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             _webKitBrowser1.MaximumSize = new System.Drawing.Size((int)e.NewSize.Width-15, (int)e.NewSize.Height);
+        }
+
+        public async Task BotScrollDownAsync()
+        {
+            for (int i = 0; i < 100; ++i)
+            {
+                _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
+                await Utils.Delay(1);
+            }
+            await Utils.Delay(100);
+            for (int i = 0; i < 100; ++i)
+            {
+                _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
+                await Utils.Delay(1);
+            }
         }
     }
 }

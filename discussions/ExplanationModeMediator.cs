@@ -6,7 +6,6 @@ using AbstractionLayer;
 using Discussions.Annotations;
 using Discussions.DbModel.model;
 using Discussions.rt;
-using Discussions.view;
 
 namespace Discussions
 {
@@ -86,7 +85,7 @@ namespace Discussions
         public Action<int> CloseReq;
 
         //called when window is opened by any initiator 
-        public Action<int> OpenReq;
+        public Action<int, bool> OpenReq;
         private bool _explanationModeEnabled;
 
         //called every time a window is closed by any initiator
@@ -102,7 +101,7 @@ namespace Discussions
         }
 
         //called every time a window is opened by any initiator
-        public void OnWndOpened(PortableWindow w, int attId)
+        public void OnWndOpened(PortableWindow w, int attId, bool localRequest)
         {
             if (attId < 0)
                 return;
@@ -112,7 +111,7 @@ namespace Discussions
             {
                 _openedViewers.Add(new ViewerRecord {attachId = attId, wnd = w});
                 if (OpenReq != null)
-                    OpenReq(attId);
+                    OpenReq(attId, localRequest);
             }
         }
 

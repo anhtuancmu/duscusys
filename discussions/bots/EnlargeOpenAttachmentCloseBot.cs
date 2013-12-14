@@ -31,9 +31,11 @@ namespace Discussions.bots
                 LargeBadgeView lbv = OpenRandomBadge();
                 if (lbv != null)
                 {
+                    await Utils.Delay(500);
+                    
                     await OpenAttachmentAsync((ArgPoint)lbv.DataContext, _rnd);
 
-                    await Utils.Delay(_rnd.Next(1000));
+                    await Utils.Delay(1000 + _rnd.Next(1000));
                    
                     lbv.Close();
                 }
@@ -92,7 +94,7 @@ namespace Discussions.bots
             UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
                 syncMsgType, attachment.Id, true);
 
-            await Utils.Delay(rnd.Next(1000));
+            await Utils.Delay(500+rnd.Next(400));
 
             UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
                 syncMsgType, attachment.Id, false);

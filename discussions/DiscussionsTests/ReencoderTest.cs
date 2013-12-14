@@ -12,6 +12,5 @@ namespace DiscussionsTests
             string str = Reencoder.GetUrlContent("http://www.shinmai.co.jp/olympic/jouhou/shochi.htm");
             var reencoded = Reencoder.ShiftJisToUtf8(str);
         }
-     
     }
 }

@@ -25,6 +25,7 @@ namespace Discussions.bots
             while (_enabled)
             {
                 LargeBadgeView lbv = OpenRandomBadge();
+                await Utils.Delay(100);
                 if (lbv != null)
                 {
                     var numCommentActivities = _rnd.Next(5) + 1;
@@ -33,8 +34,9 @@ namespace Discussions.bots
                         if (!_enabled)
                             return;
                         lbv.BotGenerateCommentChange();
-                        await Utils.Delay(_rnd.Next(1000));
+                        await Utils.Delay(_rnd.Next(500));
                     }
+                    await Utils.Delay(400);
                     lbv.Close();
                 }
                

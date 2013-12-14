@@ -41,7 +41,7 @@ namespace Discussions.view
 
         private void MediaDoubleClick(object sender, InputEventArgs e)
         {
-            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment);
+            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment, true);
         }
     }
 }
