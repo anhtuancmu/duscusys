@@ -778,5 +778,23 @@ namespace Discussions.view
         {
             await BotRunAsync();
         }
+
+        public async Task<WebkitBrowserWindow> LaunchRandomSource(Random rnd)
+        {
+            var ap = ((ArgPoint)DataContext);
+            if (ap.Description.Source.Count > 0)
+            {
+                int i = rnd.Next(ap.Description.Source.Count);
+                await Utils.Delay(100);
+                DependencyObject container = lstBxSources.ItemContainerGenerator
+                                                         .ContainerFromIndex(i);
+                var src = Utils.FindChild<SourceUC>(container);
+                if (src != null)
+                {
+                    return src.Launch();
+                }
+            }
+            return null;
+        }
     }
 }

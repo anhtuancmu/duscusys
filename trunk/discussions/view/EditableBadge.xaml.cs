@@ -271,7 +271,7 @@ namespace Discussions.view
 
         private void MediaDoubleClick(object sender, InputEventArgs e)
         {
-            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment);
+            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment, true);
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -859,7 +859,7 @@ namespace Discussions.view
 
         private void onCloudViewerRequest(string pathName)
         {
-            AttachmentManager.RunViewer(pathName, -1, null);
+            AttachmentManager.RunViewer(pathName, -1, null, true);
         }
 
         private void chooseDropboxFiles(object sender, RoutedEventArgs e)

@@ -630,7 +630,7 @@ namespace Discussions
             return Path.Combine(GetAppDir(), "Assets");
         }
 
-        public static void RunViewer(Attachment a)
+        public static void RunViewer(Attachment a, bool localRequest)
         {
             if (a == null)
                 return;
@@ -646,7 +646,7 @@ namespace Discussions
                     }
                     //Process.Start(pdfPathName);
                     Utils.ReportMediaOpened(StEvent.PdfOpened, a);
-                    var pdfReader = new ReaderWindow(pdfPathName, a.Id, a.ArgPoint != null ? (int?)a.ArgPoint.Topic.Id : null);
+                    var pdfReader = new ReaderWindow(pdfPathName, a.Id, a.ArgPoint != null ? (int?)a.ArgPoint.Topic.Id : null, localRequest);
                     pdfReader.Show();
                 }
                 catch (Exception e)
@@ -663,7 +663,7 @@ namespace Discussions
                
                 if (a.MediaData.Data != null)
                 {
-                    var wnd = new ImageWindow(a.Id,  a.ArgPoint!=null ? a.ArgPoint.Topic.Id : -1);
+                    var wnd = new ImageWindow(a.Id, a.ArgPoint != null ? a.ArgPoint.Topic.Id : -1, localRequest);
                     wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
                     wnd.Show();
                     wnd.Activate();
@@ -689,17 +689,17 @@ namespace Discussions
             }
         }
 
-        public static void RunViewer(string pathName, int attachmentId, int? topicId)
+        public static void RunViewer(string pathName, int attachmentId, int? topicId, bool localRequest)
         {
             var ext = Path.GetExtension(pathName).ToLower();
             if (ext == ".pdf")
             {
-                var pdfReader = new ReaderWindow(pathName, attachmentId, topicId);
+                var pdfReader = new ReaderWindow(pathName, attachmentId, topicId, localRequest);
                 pdfReader.Show();
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
             {
-                var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT);
+                var wnd = new ImageWindow(ImageWindow.NO_ATTACHMENT, ImageWindow.NO_ATTACHMENT, localRequest);
                 var bi = new BitmapImage(new Uri(pathName));
                 wnd.img.Source = bi;
                 wnd.Show();

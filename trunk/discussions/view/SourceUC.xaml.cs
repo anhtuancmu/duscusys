@@ -148,10 +148,10 @@ namespace Discussions.view
             Launch();
         }
 
-        private void Launch()
+        public WebkitBrowserWindow Launch()
         {
             if (ExplanationModeMediator.Inst.WebkitOpen)
-                return;
+                return null;
 
             try
             {
@@ -170,12 +170,14 @@ namespace Discussions.view
                     var browser = new WebkitBrowserWindow(src.Text, src.RichText.ArgPoint.Topic.Id);
                     browser.Show();
                     browser.Activate();
+                    return browser;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
+            return null;
         }
 
         private void Hyperlink_Click_1(object sender, RoutedEventArgs e)

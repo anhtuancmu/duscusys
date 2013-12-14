@@ -833,9 +833,10 @@ namespace Discussions.view
             UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, attachId, false);
         }
 
-        private void onImgViewerOpened(int attachId)
+        private void onImgViewerOpened(int attachId, bool localRequest)
         {
-            UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, attachId, true);
+            if (localRequest)
+                UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(SyncMsgType.ImageView, attachId, true);
         }
 
         //message from remote client
@@ -864,12 +865,12 @@ namespace Discussions.view
                     case SyncMsgType.ImageView:
                         attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         if (attach != null && !ExplanationModeMediator.Inst.IsViewerOpened(attach.Id))
-                            AttachmentManager.RunViewer(attach);
+                            AttachmentManager.RunViewer(attach, false);
                         break;
                     case SyncMsgType.PdfView:
                         attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         if (attach != null && !ExplanationModeMediator.Inst.IsViewerOpened(attach.Id))
-                            AttachmentManager.RunViewer(attach);
+                            AttachmentManager.RunViewer(attach, false);
                         break;
                     default:
                         throw new NotImplementedException();

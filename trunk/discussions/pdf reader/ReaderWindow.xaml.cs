@@ -18,7 +18,7 @@ namespace Discussions.pdf_reader
 
         private static ReaderWindow _inst;
 
-        public ReaderWindow(string pdfPathName, int attachmentId, int? topicId)
+        public ReaderWindow(string pdfPathName, int attachmentId, int? topicId, bool localRequest)
         {
             InitializeComponent();
 
@@ -41,7 +41,7 @@ namespace Discussions.pdf_reader
             _mediator = ExplanationModeMediator.Inst;
             _mediator.PdfOpen = true;
 
-            ExplanationModeMediator.Inst.OnWndOpened(this, attachmentId);
+            ExplanationModeMediator.Inst.OnWndOpened(this, attachmentId, localRequest);
 
             if (topicId != null)
                 _mediator.CurrentTopicId = topicId;
