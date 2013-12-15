@@ -104,7 +104,7 @@
                     <Border Background="{StaticResource decrease2}" Width="60" Height="60" />
                 </Custom:SurfaceButton>
                 
-                <Custom:SurfaceButton x:Name="btnRunBot" Content="Run bot" Click="BtnRunBot_OnClick"/>
+                <!--<Custom:SurfaceButton x:Name="btnRunBot" Content="Run bot" Click="BtnRunBot_OnClick"/>-->
             </StackPanel>
 
             <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="1" 
