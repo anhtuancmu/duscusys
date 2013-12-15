@@ -161,6 +161,8 @@ namespace Discussions.view
             RaiseEvent(new RoutedEventArgs(RequestSmallViewEvent));
             //if (CloseRequest != null)
             //    CloseRequest();
+
+            DataContext = null;
         }
 
         private void SetListeners(bool doSet)

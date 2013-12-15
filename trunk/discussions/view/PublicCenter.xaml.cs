@@ -748,7 +748,8 @@ namespace Discussions.view
 
             //mainGrid.Children.Add(_lbv);
             int indexOfLaserScene = mainGrid.Children.IndexOf(laserScene);
-            mainGrid.Children.Insert(indexOfLaserScene, _lbv);
+            if (!mainGrid.Children.Contains(_lbv))
+                mainGrid.Children.Insert(indexOfLaserScene, _lbv);
 
             ResizeLargeBadgeView();
 

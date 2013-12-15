@@ -135,6 +135,8 @@ namespace Discussions.view
 
             SetListeners(false);
 
+            img.Source = null;
+
             if (_laserPointerWndCtx != null)
             {
                 _laserPointerWndCtx.Dispose();
