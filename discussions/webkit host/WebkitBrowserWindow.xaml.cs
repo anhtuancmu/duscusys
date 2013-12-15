@@ -6,7 +6,6 @@ using AbstractionLayer;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.webkit_host;
-using WebKit.DOM;
 using Point = System.Drawing.Point;
 
 namespace Discussions.view
@@ -27,7 +26,7 @@ namespace Discussions.view
 
         private readonly DispatcherTimer _scrollStateChecker;
 
-        private readonly BrowserOverlayWindow _overlayWnd;
+        private BrowserOverlayWindow _overlayWnd;
 
         public WebkitBrowserWindow(string url, int? topicId)
         {
@@ -184,7 +183,10 @@ namespace Discussions.view
             ExplanationModeMediator.Inst.WebkitOpen = false;
 
             if (_overlayWnd != null)
+            {
                 _overlayWnd.Close();
+                _overlayWnd = null;
+            }
         }
 
         public void ScrollBrowserTo(Point offset)

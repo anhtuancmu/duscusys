@@ -126,6 +126,7 @@ namespace Discussions
             var prevInstOfAttach = _openedViewers.FirstOrDefault(vr => vr.attachId == attachmentId);
             if (prevInstOfAttach != null)
             {
+                _openedViewers.Remove(prevInstOfAttach);
                 prevInstOfAttach.wnd.Close();
             }
         }
