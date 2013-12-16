@@ -18,7 +18,7 @@ namespace Discussions.bots
 
             RunAsync().GetAwaiter().OnCompleted(()=>{});
         }
-
+        
         async Task RunAsync()
         {
             while (_enabled)
@@ -28,12 +28,12 @@ namespace Discussions.bots
                 {
                     await OpenRandomSourceAsync(lbv);
                    
-                    await Utils.Delay(_rnd.Next(200));
+                    await Utils.Delay(_rnd.Next(1200));
                    
                     lbv.Close();
                 }
                
-                await Utils.Delay(_rnd.Next(200));
+                await Utils.Delay(_rnd.Next(1200));
             }
         }
 
@@ -54,11 +54,11 @@ namespace Discussions.bots
             if (browser == null)
                 return;
 
-            await Utils.Delay(_rnd.Next(100));
+            await Utils.Delay(_rnd.Next(1000));
 
             await browser.BotScrollDownAsync();
 
-            await Utils.Delay(100 + _rnd.Next(800));
+            await Utils.Delay(1000 + _rnd.Next(1800));
 
             browser.Close();
         }
