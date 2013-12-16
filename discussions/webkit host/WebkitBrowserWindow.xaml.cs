@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Threading;
 using AbstractionLayer;
@@ -10,10 +12,8 @@ using Point = System.Drawing.Point;
 
 namespace Discussions.view
 {
-    public partial class WebkitBrowserWindow : PortableWindow
+    public partial class WebkitBrowserWindow : PortableWindow, ICachedWindow
     {
-        private static WebkitBrowserWindow _inst;
-
         private string _url;
 
         private WebKit.WebKitBrowser _webKitBrowser1;
@@ -22,16 +22,30 @@ namespace Discussions.view
 
         public static UserRequestedClosing userRequestedClosing = null;
 
-        private readonly ExplanationModeMediator _mediator;
+        private ExplanationModeMediator _mediator;
 
-        private readonly DispatcherTimer _scrollStateChecker;
+        private DispatcherTimer _scrollStateChecker;
 
         private BrowserOverlayWindow _overlayWnd;
 
-        public WebkitBrowserWindow(string url, int? topicId)
+        private static WebkitBrowserWindow _inst;
+        public static WebkitBrowserWindow Instance(string url, int? topicId)
+        {
+            if (_inst == null)
+                _inst = new WebkitBrowserWindow();
+
+            _inst.Init(url, topicId);
+
+            return _inst;
+        }
+
+        WebkitBrowserWindow()
         {
             InitializeComponent();
+        }
 
+        void Init(string url, int? topicId)
+        {
             _url = url;
 
             ExplanationModeMediator.Inst.WebkitOpen = true;
@@ -43,65 +57,106 @@ namespace Discussions.view
             //else
             {
                 WindowState = WindowState.Normal;
-                Width = 1440;
-                Height = 900;
+                Width = 1280;
+                Height = 768;
             }
-        
+
             // 
             // _webKitBrowser1
             // 
-            _webKitBrowser1 = new WebKit.WebKitBrowser();
-            _webKitBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                              | System.Windows.Forms.AnchorStyles.Left)
-                                                                              | System.Windows.Forms.AnchorStyles.Right)));
-            _webKitBrowser1.BackColor = System.Drawing.Color.White;
-            _webKitBrowser1.Location = new System.Drawing.Point(0, 0);
-            _webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
-            _webKitBrowser1.Name = "_webKitBrowser1";
-            _webKitBrowser1.TabIndex = 0;
-            webkitHost.Child = _webKitBrowser1;
-            _webKitBrowser1.ResumeLayout();
-         
+            if (_webKitBrowser1 == null)
+            {
+                _webKitBrowser1 = new WebKit.WebKitBrowser();
+                _webKitBrowser1.Anchor =
+                    ((System.Windows.Forms.AnchorStyles)
+                        ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                           | System.Windows.Forms.AnchorStyles.Left)
+                          | System.Windows.Forms.AnchorStyles.Right)));
+                _webKitBrowser1.BackColor = System.Drawing.Color.White;
+                _webKitBrowser1.Location = new System.Drawing.Point(0, 0);
+                _webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
+                _webKitBrowser1.Name = "_webKitBrowser1";
+                _webKitBrowser1.TabIndex = 0;
+                webkitHost.Child = _webKitBrowser1;
+                _webKitBrowser1.ResumeLayout();
+
+            }
 
             browserBar.Browser = _webKitBrowser1;
             browserBar.Window = this;
 
             browserBar.addressBar.Text = _url;
             _webKitBrowser1.Navigate(_url);
-           // _webKitBrowser1.Navigate(@"file:///C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\bin\x86\Debug\qwe.html");
+            // _webKitBrowser1.Navigate(@"file:///C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\bin\x86\Debug\qwe.html");
             //string str = Reencoder.GetUrlContent("http://www.shinmai.co.jp/olympic/jouhou/shochi.htm");
             //var reencoded = Reencoder.ShiftJisToUtf8(str);
             //_webKitBrowser1.Document.CreateTextNode(reencoded);// aTextContent = reencoded;
 
-            //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
-            //    DiscWindows.Get().HidePublic();
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                DiscWindows.Get().HidePublic();
 
             ResizeMode = ResizeMode.NoResize;
 
-            if (_inst != null)
-                EnsureInstanceClosed(); //close previous instance
+            //if (_inst != null)
+            //    EnsureInstanceDeinited(); //close previous instance
             _inst = this;
 
             _mediator = ExplanationModeMediator.Inst;
 
             if (topicId != null)
                 _mediator.CurrentTopicId = topicId;
-           
+
             if (_mediator.ExplanationModeEnabled)
                 RequestScrollPosition();
 
-            _scrollStateChecker = new DispatcherTimer(DispatcherPriority.Background)
+            if (_scrollStateChecker==null)
             {
-                Interval = new TimeSpan(200)
-            };
+                _scrollStateChecker = new DispatcherTimer(DispatcherPriority.Background)
+                {
+                    Interval = new TimeSpan(200)
+                };
+            }
             _scrollStateChecker.Tick += _scrollStateChecker_Tick;
             _scrollStateChecker.Start();
 
-            _overlayWnd = new BrowserOverlayWindow { Window = this };                   
+            if (_overlayWnd==null)
+                _overlayWnd = new BrowserOverlayWindow { Window = this };
             _overlayWnd.Show();
 
             SetListeners(true);
         }
+
+        public void Deinit()
+        {
+            //if this is local initiative, close             
+            if (userRequestedClosing != null)
+                userRequestedClosing();
+
+            _scrollStateChecker.Stop();
+            _scrollStateChecker.Tick -= _scrollStateChecker_Tick;
+
+            //browserBar.Browser = null;
+            //browserBar.Window = null;
+
+            //_webKitBrowser1.Dispose();
+            //_webKitBrowser1 = null;
+
+            DiscWindows.Get().ShowPublic();
+
+            SetListeners(false);
+
+            ExplanationModeMediator.Inst.LasersEnabled = false;
+
+            ExplanationModeMediator.Inst.WebkitOpen = false;
+
+            if (_overlayWnd != null)
+            {
+                _overlayWnd.Hide();
+            }
+
+            Hide();
+        }
+
 
         public void SetListeners(bool doSet)
         {
@@ -143,50 +198,20 @@ namespace Discussions.view
                 }
             }
         }
-        public static void EnsureInstanceClosed()
+        public static void EnsureInstanceDeinited()
         {
             if (_inst == null)
                 return; //already closed 
 
             try
             {
-                _inst.Close();
+                _inst.Deinit();
             }
             catch
             {
             }
 
             _inst = null;
-        }
-
-        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //if this is local initiative, close             
-            if (userRequestedClosing != null)
-                userRequestedClosing();
-
-            _scrollStateChecker.Stop();
-            _scrollStateChecker.Tick -= _scrollStateChecker_Tick;
-
-            browserBar.Browser = null;
-            browserBar.Window = null;
-
-            _webKitBrowser1.Dispose();
-            _webKitBrowser1 = null;
-
-            DiscWindows.Get().ShowPublic();
-
-            SetListeners(false);
-
-            ExplanationModeMediator.Inst.LasersEnabled = false;
-
-            ExplanationModeMediator.Inst.WebkitOpen = false;
-
-            if (_overlayWnd != null)
-            {
-                _overlayWnd.Close();
-                _overlayWnd = null;
-            }
         }
 
         public void ScrollBrowserTo(Point offset)
@@ -300,6 +325,12 @@ namespace Discussions.view
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
                // await Utils.Delay(1);
             }
+        }
+
+        private void WebkitBrowserWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Deinit();
         }
     }
 }

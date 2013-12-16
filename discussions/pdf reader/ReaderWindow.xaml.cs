@@ -8,20 +8,32 @@ using Discussions.RTModel.Model;
 
 namespace Discussions.pdf_reader
 {
-    public partial class ReaderWindow : PortableWindow
+    public partial class ReaderWindow : PortableWindow, ICachedWindow
     {
-        private readonly ReaderOverlayWindow _overlayWnd;
+        private ReaderOverlayWindow _overlayWnd;
 
-        private readonly ExplanationModeMediator _mediator;
+        private ExplanationModeMediator _mediator;
 
         private bool _skipNextScrollPosChange;
 
         private static ReaderWindow _inst;
+        public static ReaderWindow Instance(string pdfPathName, int attachmentId, int? topicId, bool localRequest)
+        {
+            if (_inst == null)
+                _inst = new ReaderWindow();
 
-        public ReaderWindow(string pdfPathName, int attachmentId, int? topicId, bool localRequest)
+            _inst.Init(pdfPathName, attachmentId, topicId, localRequest);
+
+            return _inst;
+        }
+
+        ReaderWindow()
         {
             InitializeComponent();
+        }
 
+        void Init(string pdfPathName, int attachmentId, int? topicId, bool localRequest)
+        {
             _inst = this;
 
             DataContext = this;
@@ -45,15 +57,29 @@ namespace Discussions.pdf_reader
 
             if (topicId != null)
                 _mediator.CurrentTopicId = topicId;
-          
+
             if (_mediator.ExplanationModeEnabled)
                 RequestScrollPosition();
 
             SetListeners(true);
 
-            _overlayWnd = new ReaderOverlayWindow {Window = this};
+            if (_overlayWnd==null)
+                _overlayWnd = new ReaderOverlayWindow { Window = this };
             _overlayWnd.Show();
         }
+
+        public void Deinit()
+        {
+            SetListeners(false);
+            _mediator.PdfOpen = false;
+            _mediator.LasersEnabled = false;
+            //pdfViewerUC.Dispose();
+            //pdfViewerUC = null;
+            ExplanationModeMediator.Inst.OnWndClosed(this);
+            _overlayWnd.Hide();
+            Hide();
+        }
+
         public static void EnsureInstanceClosed()
         {
             if (_inst == null)
@@ -124,12 +150,8 @@ namespace Discussions.pdf_reader
 
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _inst = null;
-            SetListeners(false);
-            _mediator.PdfOpen = false;
-            _mediator.LasersEnabled = false;
-            pdfViewerUC.Dispose();
-            _overlayWnd.Close();
+            e.Cancel = true;
+            Deinit();
         }
 
         private void ReaderWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -191,14 +213,9 @@ namespace Discussions.pdf_reader
             _skipNextScrollPosChange = false;
         }
 
-        private void ReaderWindow_OnClosed(object sender, EventArgs e)
-        {
-            ExplanationModeMediator.Inst.OnWndClosed(this);
-        }
-
         private void BtnZoom_OnClick(object sender, RoutedEventArgs e)
         {
-            Close();
+            Deinit();
         }
 
         private void ReaderWindow_OnLoaded(object sender, RoutedEventArgs e)

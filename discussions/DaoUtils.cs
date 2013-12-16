@@ -494,19 +494,23 @@ namespace Discussions
         #region comment notifications
 
         //we use separate context from one used by private board, not to interfere with it
-        public static IEnumerable<NewCommentsFrom> NumCommentsUnreadBy(DiscCtx ctx, int ArgPointId)
+        public static List<NewCommentsFrom> NumCommentsUnreadBy(DiscCtx ctx, int argPointId)
         {
             var res = new List<NewCommentsFrom>();
 
             //new point that hasn't been saved
-            if (ArgPointId == 0)
+            if (argPointId == 0)
                 return res;
 
             var selfId = SessionInfo.Get().person.Id;
 
-            var ap = ctx.ArgPoint.FirstOrDefault(ap0 => ap0.Id == ArgPointId);
+            var ap = ctx.ArgPoint.FirstOrDefault(ap0 => ap0.Id == argPointId);
+            if (ap == null)
+                return new List<NewCommentsFrom>();
 
-            foreach (var c in ap.Comment)
+            Comment[] comments = ap.Comment.ToArray();
+
+            foreach (var c in comments)
             {
                 if (c.Person == null)
                     continue;
@@ -516,7 +520,7 @@ namespace Discussions
                     continue;
 
                 //if self is not in number of those who read the comment
-                if (!c.ReadEntry.Any(re => re.Person.Id == selfId))
+                if (c.ReadEntry.All(re => re.Person.Id != selfId))
                 {
                     var bin = res.Find(ncf => ncf.Person.Id == c.Person.Id);
                     if (bin == null)

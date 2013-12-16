@@ -28,12 +28,12 @@ namespace Discussions.bots
                 {
                     await OpenRandomSourceAsync(lbv);
                    
-                    await Utils.Delay(_rnd.Next(1200));
+                    await Utils.Delay(100+_rnd.Next(200));
                    
                     lbv.Close();
                 }
                
-                await Utils.Delay(_rnd.Next(1200));
+                await Utils.Delay(200+_rnd.Next(200));
             }
         }
 

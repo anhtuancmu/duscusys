@@ -15,7 +15,6 @@
     IsManipulationEnabled="True" 
     Loaded="ReaderWindow_OnLoaded"
     Closing="Window_Closing_1"
-    Closed="ReaderWindow_OnClosed"
     d:DesignWidth="657.233"
     d:DesignHeight="574" 
     Background="#FFCBCBCB" Icon="/Discussions;component/discusys iconv3.ico">

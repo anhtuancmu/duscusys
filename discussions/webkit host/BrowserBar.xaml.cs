@@ -54,7 +54,7 @@ namespace Discussions.webkit_host
 
         private void BtnClose_OnClick(object sender, RoutedEventArgs e)
         {
-            Window.Close();
+            Window.Deinit();
         }
     }
 }

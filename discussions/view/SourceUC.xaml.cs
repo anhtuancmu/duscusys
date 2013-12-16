@@ -167,7 +167,7 @@ namespace Discussions.view
 
                     RaiseEvent(new RoutedEventArgs(SourceViewEvent));
 
-                    var browser = new WebkitBrowserWindow(src.Text, src.RichText.ArgPoint.Topic.Id);
+                    var browser = WebkitBrowserWindow.Instance(src.Text, src.RichText.ArgPoint.Topic.Id);
                     browser.Show();
                     browser.Activate();
                     return browser;

@@ -701,7 +701,7 @@ namespace Discussions.view
             txtCommentSeenBy.Text = DaoUtils.RecentCommentReadBy(ctx, ap.Id);
         }
 
-        private void SetNumUnreadComments(IEnumerable<NewCommentsFrom> newCommentBins)
+        private void SetNumUnreadComments(List<NewCommentsFrom> newCommentBins)
         {
             notifications.ItemsSource = newCommentBins;
             lblComments.Content = CommentDismissalRecognizer.FormatNumUnreadComments(newCommentBins.Total());

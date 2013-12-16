@@ -31,11 +31,12 @@ namespace Discussions.bots
                 LargeBadgeView lbv = OpenRandomBadge();
                 if (lbv != null)
                 {
-                    await Utils.Delay(1000);
-                    
+                    await Utils.Delay(200);
+
                     await OpenAttachmentAsync((ArgPoint)lbv.DataContext, _rnd);
 
-                    await Utils.Delay(1000 + _rnd.Next(1500));
+                    await Utils.Delay(300 + _rnd.Next(500));
+
 
                     lbv.Close();
                 }

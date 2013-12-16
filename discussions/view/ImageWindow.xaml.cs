@@ -11,11 +11,11 @@ using DistributedEditor;
 
 namespace Discussions.view
 {
-    public partial class ImageWindow : PortableWindow
+    public partial class ImageWindow : PortableWindow, ICachedWindow
     {
         public const int NO_ATTACHMENT = -1;
-        private readonly int _attachId;
-        private readonly int _topicId;
+        private int _attachId;
+        private int _topicId;
         private const double MIN_ZOOM = 0.5;
         private const double MAX_ZOOM = 5;
 
@@ -70,19 +70,26 @@ namespace Discussions.view
 
         private LaserPointerWndCtx _laserPointerWndCtx;
 
-        //private static ImageWindow _inst;
-        //public static ImageWindow Instance(int attachId, int topicId, bool localRequest)
-        //{
-        //    if(_inst==null)
-        //        _inst = new ImageWindow(attachId, topicId, localRequest);
-        //    return _inst;
-        //}
+        private static ImageWindow _inst;
+        public static ImageWindow Instance(int attachId, int topicId, bool localRequest)
+        {
+            if (_inst == null)
+                _inst = new ImageWindow();
 
-        public ImageWindow(int attachId, int topicId, bool localRequest)
+            _inst.Init(attachId, topicId, localRequest);
+
+            return _inst;
+        }
+
+        ImageWindow()
+        {
+            InitializeComponent();
+        }
+
+        void Init(int attachId, int topicId, bool localRequest)
         {
             _attachId = attachId;
             _topicId = topicId;
-            InitializeComponent();
 
             ExplanationModeMediator.Inst.OnWndOpened(this, attachId, localRequest);
 
@@ -92,9 +99,9 @@ namespace Discussions.view
             //}
             //else
             //{
-                WindowState = WindowState.Normal;
-                Width = 1440;
-                Height = 900;
+            WindowState = WindowState.Normal;
+            Width = 1280;
+            Height = 768;
             //}
 
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
@@ -107,17 +114,17 @@ namespace Discussions.view
             //Width = 1024;
             //Height = 768;
 
-            //if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
-            //    DiscWindows.Get().HidePublic();
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                DiscWindows.Get().HidePublic();
 
             //we cannot use HorizontalAlignment==Center, so center the image via RenderTransform
             var op = Dispatcher.BeginInvoke((Action)(() =>
-                {
-                    var mt = (MatrixTransform)img.RenderTransform;
-                    var matrix = mt.Matrix;
-                    matrix.Translate(0.5 * (this.ActualWidth - img.ActualWidth), 0);
-                    mt.Matrix = matrix;
-                }),
+            {
+                var mt = (MatrixTransform)img.RenderTransform;
+                var matrix = mt.Matrix;
+                matrix.Translate(0.5 * (this.ActualWidth - img.ActualWidth), 0);
+                mt.Matrix = matrix;
+            }),
                 DispatcherPriority.Background);
 
             SetListeners(true);
@@ -125,9 +132,7 @@ namespace Discussions.view
             CheckSendImgStateRequest();
         }
 
-
-
-        private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
+        public void Deinit()
         {
             ExplanationModeMediator.Inst.OnWndClosed(this);
 
@@ -140,10 +145,12 @@ namespace Discussions.view
             if (_laserPointerWndCtx != null)
             {
                 _laserPointerWndCtx.Dispose();
-                _laserPointerWndCtx = null;                
+                _laserPointerWndCtx = null;
             }
 
             ExplanationModeMediator.Inst.LasersEnabled = false;
+
+            Hide();
         }
 
         void SetListeners(bool doSet)
@@ -212,7 +219,8 @@ namespace Discussions.view
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {            
-            Close();
+            Deinit();
+            Hide();
         }
 
         protected override void OnManipulationStarting(ManipulationStartingEventArgs e)
@@ -338,9 +346,10 @@ namespace Discussions.view
             ToggleLaserPointer();
         }
 
-        private void ImageWindow_OnClosed(object sender, EventArgs e)
+        private void ImageWindow_OnClosing(object sender, CancelEventArgs e)
         {
-         
+            e.Cancel = true;
+            Deinit();
         }
     }
 }

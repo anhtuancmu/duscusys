@@ -795,7 +795,7 @@ namespace Discussions.view
             if (ap == null)
                 return;
 
-            var browser = new WebkitBrowserWindow(Uri, ap.Topic.Id);
+            var browser = WebkitBrowserWindow.Instance(Uri, ap.Topic.Id);
             browser.Show();
             browser.Activate();
         }
@@ -999,7 +999,7 @@ namespace Discussions.view
         private void btnGoogle_Click_1(object sender, RoutedEventArgs e)
         {
             var ap = DataContext as ArgPoint;
-            var browser = new WebkitBrowserWindow("http://google.com", ap.Topic.Id);
+            var browser = WebkitBrowserWindow.Instance("http://google.com", ap.Topic.Id);
             browser.Show();
             browser.Activate();
         }

@@ -34,9 +34,11 @@ namespace Discussions.bots
                         if (!_enabled)
                             return;
                         lbv.BotGenerateCommentChange();
-                        await Utils.Delay(1500+_rnd.Next(1500));
+                        await Utils.Delay(200+_rnd.Next(500));
                     }
-                    await Utils.Delay(1500);
+
+                    await Utils.Delay(200);
+
                     lbv.Close();
                 }
                

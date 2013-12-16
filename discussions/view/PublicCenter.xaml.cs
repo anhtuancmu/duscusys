@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel.Dispatcher;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ using Discussions.RTModel.Model;
 using DistributedEditor;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
+using Org.BouncyCastle.Asn1.Cms;
 using Size = System.Windows.Size;
 
 namespace Discussions.view
@@ -141,6 +143,11 @@ namespace Discussions.view
             //                0.5, 
             //                0.5);
             //SetWorkingAreaTransform(scaleTr, false, false, false, false);  
+        }
+
+        void ctxDropper_Tick(object sender, EventArgs e)
+        {
+            PublicBoardCtx.DropContext();
         }
 
         void Inst_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -849,14 +856,14 @@ namespace Discussions.view
                 {
                     case SyncMsgType.SourceView:
                         var src = PublicBoardCtx.Get().Source.FirstOrDefault(s0 => s0.Id == sm.viewObjectId);
-                        var browser = new WebkitBrowserWindow(src.Text, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
+                        var browser = WebkitBrowserWindow.Instance(src.Text, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
                         browser.Show();
                         browser.Activate();
                         break;
                     case SyncMsgType.YoutubeView:
                         var attach = PublicBoardCtx.Get().Attachment.FirstOrDefault(a0 => a0.Id == sm.viewObjectId);
                         var embedUrl = AttachmentToVideoConvertor.AttachToYtInfo(attach).EmbedUrl;
-                        browser = new WebkitBrowserWindow(embedUrl, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
+                        browser = WebkitBrowserWindow.Instance(embedUrl, CurrentTopic != null ? CurrentTopic.Id : (int?)null);
                         browser.Show();
                         browser.Activate();
                         break;
@@ -879,13 +886,13 @@ namespace Discussions.view
                 switch (sm.syncMsgType)
                 {
                     case SyncMsgType.SourceView:
-                        WebkitBrowserWindow.EnsureInstanceClosed();
+                        WebkitBrowserWindow.EnsureInstanceDeinited();
                         break;
                     case SyncMsgType.ImageView:
                         ExplanationModeMediator.Inst.EnsureInstanceClosed(sm.viewObjectId);
                         break;
                     case SyncMsgType.YoutubeView:
-                        WebkitBrowserWindow.EnsureInstanceClosed();
+                        WebkitBrowserWindow.EnsureInstanceDeinited();
                         break;
                     case SyncMsgType.PdfView:
                         ReaderWindow.EnsureInstanceClosed();

@@ -9,7 +9,7 @@ using Discussions.rt;
 
 namespace Discussions
 {
-    public class ExplanationModeMediator : INotifyPropertyChanged
+    public sealed class ExplanationModeMediator : INotifyPropertyChanged
     {
         private static ExplanationModeMediator _inst = null;
 
@@ -25,7 +25,7 @@ namespace Discussions
 
         private class ViewerRecord
         {
-            public PortableWindow wnd;
+            public ICachedWindow wnd;
             public int attachId;
         }
 
@@ -101,7 +101,7 @@ namespace Discussions
         }
 
         //called every time a window is opened by any initiator
-        public void OnWndOpened(PortableWindow w, int attId, bool localRequest)
+        public void OnWndOpened(ICachedWindow w, int attId, bool localRequest)
         {
             if (attId < 0)
                 return;
@@ -127,14 +127,14 @@ namespace Discussions
             if (prevInstOfAttach != null)
             {
                 _openedViewers.Remove(prevInstOfAttach);
-                prevInstOfAttach.wnd.Close();
+                prevInstOfAttach.wnd.Deinit();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
