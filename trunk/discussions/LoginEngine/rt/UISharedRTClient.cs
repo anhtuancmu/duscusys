@@ -28,6 +28,8 @@ namespace Discussions.rt
 
         private DispatcherTimer rtTimer;
 
+        private DateTime _recentServiceTick; 
+
         public void start(LoginResult login, string DbServer, DeviceType devType)
         {
             int discId;
@@ -53,6 +55,10 @@ namespace Discussions.rt
 
         public void OnRtServiceTick(object sender, EventArgs e)
         {
+            if (DateTime.Now.Subtract(_recentServiceTick).TotalMilliseconds < 30)
+                return;
+            _recentServiceTick = DateTime.Now;
+
             if (rtTickHandler != null)
                 rtTickHandler();
 
@@ -63,7 +69,10 @@ namespace Discussions.rt
             }
             catch (Exception e1)
             {
-                MessageBox.Show(e1.StackTrace, "Photon error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e1.StackTrace, 
+                                "Photon error", 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Error);
                 Application.Current.Shutdown();
             }
         }

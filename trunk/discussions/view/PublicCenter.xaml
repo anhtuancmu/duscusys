@@ -633,15 +633,16 @@
                              Margin="1,5,1,1">
                 <Border Background="{StaticResource private}" Width="70" Height="70" Padding="0" Margin="0,0,0,2" />
             </s:SurfaceButton>
-            <!--<CheckBox x:Name="btnEnlargeOpenCommentClose" Content="Open enlarge, comment activity, close enlarge"                                   
-                                   IsChecked="{Binding EnlargeOpenCommentsCloseBotEnabled}"
-                                   />
-            <CheckBox x:Name="btnEnlargeOpenAttachmentClose" Content="Open enlarge, attachment, close enlarge"                                   
+            <CheckBox x:Name="btnEnlargeOpenCommentClose" Content="Open enlarge, comment activity, close enlarge"/>                   
+
+            <CheckBox x:Name="btnEnlargeOpenAttachmentClose" Content="Open enlarge, attachment, close enlarge"    
+                                
                                    IsChecked="{Binding EnlargeOpenAttachmentCloseBotEnabled}"
                                    />
-            <CheckBox x:Name="btnEnlargeOpenSourceClose" Content="Open enlarge, source, close enlarge"                                   
+            <CheckBox x:Name="btnEnlargeOpenSourceClose" Content="Open enlarge, source, close enlarge"  
+                                  
                                    IsChecked="{Binding EnlargeOpenSourceCloseBotEnabled}"
-                                   />-->
+                                   />
         </StackPanel>
 
         <Label x:Name="lblDiscussion" Content="{Binding discussion.Subject}" HorizontalAlignment="Left"

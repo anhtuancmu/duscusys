@@ -13,8 +13,8 @@
     Background="{StaticResource WndBg}"
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True"
-    Loaded="WebkitBrowserWindow_OnLoaded"   
-    Closing="Window_Closing_1">
+    Closing="WebkitBrowserWindow_OnClosing"
+    Loaded="WebkitBrowserWindow_OnLoaded">
     <Grid x:Name="layoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

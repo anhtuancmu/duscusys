@@ -183,6 +183,7 @@
     <Compile Include="d-editor\TypeTitleButton.xaml.cs">
       <DependentUpon>TypeTitleButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ICachedWindow.cs" />
     <Compile Include="pdf reader\ReaderOverlayWindow.xaml.cs">
       <DependentUpon>ReaderOverlayWindow.xaml</DependentUpon>
     </Compile>

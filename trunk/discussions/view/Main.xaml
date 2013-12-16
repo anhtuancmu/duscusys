@@ -19,6 +19,7 @@
     Initialized="MainWindow_Initialized"
     Loaded="MainWindow_Loaded"
     SizeChanged="Main_OnSizeChanged"
+    Closed="Main_OnClosed"
     Closing="Window_Closing" Background="{x:Null}" Icon="/Assets/discusys iconv3.ico">
 
     <al:PortableWindow.Resources>

@@ -73,7 +73,7 @@ namespace Discussions.YouViewer
             RaiseEvent(new RoutedEventArgs(SourceUC.SourceViewEvent));
 
             var attachment = DataContext as Attachment;
-            var browser = new WebkitBrowserWindow(e.Info.EmbedUrl, 
+            var browser = WebkitBrowserWindow.Instance(e.Info.EmbedUrl, 
                                         attachment!=null ? attachment.ArgPoint.Topic.Id : (int?)null);
             browser.Show();
             browser.Activate();

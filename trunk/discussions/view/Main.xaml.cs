@@ -528,5 +528,10 @@ namespace Discussions.view
         {
             ExtrasGrid.Width = e.NewSize.Width;
         }
+
+        private void Main_OnClosed(object sender, EventArgs e)
+        {
+             Application.Current.Shutdown();  
+        }
     }
 }
