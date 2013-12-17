@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -56,10 +55,10 @@ namespace DiscSvc.Reporting
                 _screenshotFiles.Add(kv.Key, imgInfo);
 
                 //resample screenshot of final scene
-                if (kv.Key == -1)
-                {
-                    ResampleScreenshotOfFinalScene(imgInfo);
-                }
+                //if (kv.Key == -1)
+                //{
+                //    ResampleScreenshotOfFinalScene(imgInfo);
+                //}
             }
         }
 

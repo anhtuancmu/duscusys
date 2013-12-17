@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
-using Discussions.rt;
 using Discussions.RTModel.Model;
 using System.Collections.ObjectModel;
 
@@ -11,10 +10,10 @@ namespace Reporter
 {
     public class ReportCollector
     {
-        private DiscussionsClientRT.ClientRT _clientRT;
+        private readonly DiscussionsClientRT.ClientRT _clientRT;
 
-        private DiscCtx _ctx;
-        private List<Topic> topics;
+        private readonly DiscCtx _ctx;
+        private readonly List<Topic> topics;
 
         private int _nProcessedTopics = 0;
         private int _clusterReportsGenerated = 0;
@@ -50,9 +49,9 @@ namespace Reporter
 
         public delegate void TopicReportReady(TopicReport topicReport);
 
-        private TopicReportReady _topicReportReady;
+        private readonly TopicReportReady _topicReportReady;
 
-        private TopicReport _allTopicsReport;
+        private readonly TopicReport _allTopicsReport;
 
         private ObservableCollection<TopicReport> _topicReports = new ObservableCollection<TopicReport>();
 
@@ -86,16 +85,16 @@ namespace Reporter
             set { _statsEvents = value; }
         }
 
-        private Dictionary<int, EventUserReport> perUserEventReport = new Dictionary<int, EventUserReport>();
+        private readonly Dictionary<int, EventUserReport> _perUserEventReport = new Dictionary<int, EventUserReport>();
 
         public IEnumerable<EventUserReport> PerUserEventReport
         {
-            get { return perUserEventReport.Values; }
+            get { return _perUserEventReport.Values; }
         }
 
         public Dictionary<int, EventUserReport> PerUserEventReportDict
         {
-            get { return perUserEventReport; }
+            get { return _perUserEventReport; }
         }
 
         //user id to arg point reports of the user, grouped by topic
@@ -110,14 +109,14 @@ namespace Reporter
         public ArgPointReport TotalArgPointReport = new ArgPointReport();
         public ArgArgPointReport AvgArgPointReport = new ArgArgPointReport();
 
-        private ReportParameters _reportParams;
+        private readonly ReportParameters _reportParams;
 
         public ReportParameters ReportParams
         {
             get { return _reportParams; }
         }
 
-        private EventTotalsReport _eventTotals = new EventTotalsReport();
+        private readonly EventTotalsReport _eventTotals = new EventTotalsReport();
 
         public EventTotalsReport EventTotals
         {
@@ -126,7 +125,7 @@ namespace Reporter
 
         public delegate void ReportReady(ReportCollector sender, object args);
 
-        private ReportReady _reportGenerated;
+        private readonly ReportReady _reportGenerated;
 
         public object _param = null;
 
@@ -633,13 +632,13 @@ namespace Reporter
                 //count per user stats 
                 if (e.UserId != -1)
                 {
-                    if (perUserEventReport.ContainsKey(e.UserId))
-                        perUserEventReport[e.UserId].CountEvent((StEvent) e.Event, e.Id);
+                    if (_perUserEventReport.ContainsKey(e.UserId))
+                        _perUserEventReport[e.UserId].CountEvent((StEvent) e.Event, e.Id);
                     else
                     {
                         var report = new EventUserReport();
                         report.personId = e.UserId;
-                        perUserEventReport.Add(e.UserId, report);
+                        _perUserEventReport.Add(e.UserId, report);
                         report.CountEvent((StEvent) e.Event, e.Id);
                     }
                 }
