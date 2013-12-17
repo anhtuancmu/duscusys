@@ -28,12 +28,12 @@ namespace Discussions.bots
                 {
                     await OpenRandomSourceAsync(lbv);
                    
-                    await Utils.Delay(100+_rnd.Next(200));
+                    await Utils.DelayAsync(100+_rnd.Next(200));
                    
                     lbv.Close();
                 }
                
-                await Utils.Delay(200+_rnd.Next(200));
+                await Utils.DelayAsync(200+_rnd.Next(200));
             }
         }
 
@@ -50,15 +50,15 @@ namespace Discussions.bots
 
         async Task OpenRandomSourceAsync(LargeBadgeView lbv)
         {
-            var browser = await lbv.LaunchRandomSource(_rnd);
+            var browser = await lbv.BotLaunchRandomSource(_rnd);
             if (browser == null)
                 return;
 
-            await Utils.Delay(_rnd.Next(1000));
+            await Utils.DelayAsync(_rnd.Next(1000));
 
-            await browser.BotScrollDownAsync();
+            await browser.BotScrollRandomAsync(_rnd);
 
-            await Utils.Delay(1000 + _rnd.Next(1800));
+            await Utils.DelayAsync(1000 + _rnd.Next(1800));
 
             browser.Close();
         }

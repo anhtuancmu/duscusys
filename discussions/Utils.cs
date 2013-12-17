@@ -293,7 +293,7 @@ namespace Discussions
             return iCol;
         }
 
-        public static Task Delay(int ms)
+        public static Task DelayAsync(int ms)
         {
             var tcs = new TaskCompletionSource<object>();
             var timer = new System.Timers.Timer(ms) {AutoReset = false};

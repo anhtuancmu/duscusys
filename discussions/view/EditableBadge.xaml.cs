@@ -1088,7 +1088,7 @@ namespace Discussions.view
         {
             _recentSourceChange = DateTime.Now;
 
-            await Utils.Delay(700);
+            await Utils.DelayAsync(700);
 
             if (DateTime.Now.Subtract(_recentSourceChange).TotalMilliseconds > 700)
                 AttachSource();

@@ -252,7 +252,20 @@ namespace DistributedEditor
             CheckSendLaserPointerMoved();
 
             _recentMove = DateTime.Now;
-            e.Handled = true;
+
+            try
+            {
+                e.Handled = true;
+            }
+            catch
+            {
+                //will throw when simulated by a bot
+            }
+        }
+
+        public void BotHandleMove(Point p)
+        {
+            HandleMove(p, new MouseEventArgs(Mouse.PrimaryDevice, 0));
         }
 
         #region handlers 

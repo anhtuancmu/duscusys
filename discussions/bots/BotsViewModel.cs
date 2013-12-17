@@ -9,10 +9,12 @@ namespace Discussions.bots
         private EnlargeOpenCommentsCloseBot _enlargeOpenCommentsCloseBot;
         private EnlargeOpenAttachmentCloseBot _enlargeOpenAttachmentCloseBot;
         private EnlargeOpenSourceCloseBot _enlargeOpenSourceCloseBot;
+        private SuperBot _superBot;
 
         private bool _enlargeOpenCommentsCloseBotEnabled;
         private bool _enlargeOpenAttachmentCloseBotEnabled;
         private bool _enlargeOpenSourceCloseBotEnabled;
+        private bool _superBotEnabled;
 
         public BotsViewModel(PublicCenter publicCenter)
         {
@@ -86,6 +88,29 @@ namespace Discussions.bots
                 }
 
                 _enlargeOpenSourceCloseBotEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SuperBotEnabled
+        {
+            get { return _superBotEnabled; }
+            set
+            {
+                if (value == _superBotEnabled)
+                    return;
+
+                if (value && _superBot == null)
+                {
+                    _superBot = new SuperBot(_publicCenter);
+                }
+                else if (!value && _superBot != null)
+                {
+                    _superBot.Dispose();
+                    _superBot = null;
+                }
+
+                _superBotEnabled = value;
                 OnPropertyChanged();
             }
         }

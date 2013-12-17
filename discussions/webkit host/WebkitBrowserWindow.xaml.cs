@@ -312,19 +312,26 @@ namespace Discussions.view
             _webKitBrowser1.MaximumSize = new System.Drawing.Size((int)e.NewSize.Width-15, (int)e.NewSize.Height);
         }
 
-        public async Task BotScrollDownAsync()
+        public async Task BotScrollRandomAsync(Random rnd)
         {
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i < 100 + rnd.Next(400); ++i)
             {
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
-               // await Utils.Delay(1);
             }
-            await Utils.Delay(100);
-            for (int i = 0; i < 100; ++i)
+            await Utils.DelayAsync(100);
+            for (int i = 0; i < 100+rnd.Next(400); ++i)
             {
-                _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
-               // await Utils.Delay(1);
+                _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y - 7);
             }
+            for (int i = 0; i < 200+rnd.Next(200); ++i)
+            {
+                _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 4);
+            }
+        }
+
+        public async Task BotLaserActivityAsync()
+        {
+            await _overlayWnd.BotLaserActivityAsync();
         }
 
         private void WebkitBrowserWindow_OnClosing(object sender, CancelEventArgs e)

@@ -16,10 +16,15 @@ namespace Discussions.view
 
         private void Hyperlink_Click_1(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(linkTarget.Text);
+            BotLaunch();
         }
 
         private void Hyperlink_TouchDown_1(object sender, TouchEventArgs e)
+        {
+            BotLaunch();
+        }
+
+        public void BotLaunch()
         {
             System.Diagnostics.Process.Start(linkTarget.Text);
         }

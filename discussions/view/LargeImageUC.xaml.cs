@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Discussions.DbModel;
@@ -11,13 +10,13 @@ namespace Discussions.view
     /// </summary>
     public partial class LargeImageUC : UserControl
     {
-        private MultiClickRecognizer mediaDoubleClick;
+        private MultiClickRecognizer _mediaDoubleClick;
 
         public LargeImageUC()
         {
             InitializeComponent();
 
-            mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
+            _mediaDoubleClick = new MultiClickRecognizer(MediaDoubleClick, null);
         }
 
         //private void Hyperlink_Click_1(object sender, RoutedEventArgs e)
@@ -32,25 +31,30 @@ namespace Discussions.view
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (mediaDoubleClick != null)
-                mediaDoubleClick.Click(sender, e);
+            if (_mediaDoubleClick != null)
+                _mediaDoubleClick.Click(sender, e);
         }
 
         private void Image_TouchDown(object sender, TouchEventArgs e)
         {
-            if (mediaDoubleClick!=null)
-                mediaDoubleClick.Click(sender, e);
+            if (_mediaDoubleClick!=null)
+                _mediaDoubleClick.Click(sender, e);
         }
 
         private void MediaDoubleClick(object sender, InputEventArgs e)
         {
-            AttachmentManager.RunViewer(((FrameworkElement) sender).DataContext as Attachment, true);
+            BotLaunch();
         }
 
         private void LargeImageUC_OnUnloaded(object sender, RoutedEventArgs e)
         {
-            mediaDoubleClick.Dispose();
-            mediaDoubleClick = null;
+            _mediaDoubleClick.Dispose();
+            _mediaDoubleClick = null;
+        }
+
+        public object BotLaunch()
+        {
+            return AttachmentManager.RunViewer(DataContext as Attachment, true);
         }
     }
 }
