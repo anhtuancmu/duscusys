@@ -27,7 +27,7 @@ namespace Discussions.webkit_host
             _dispTimer.Start();
         }
 
-        private DispatcherTimer _dispTimer;
+        private readonly DispatcherTimer _dispTimer;
 
         public WebkitBrowserWindow Window { get; set;}
 
@@ -83,7 +83,9 @@ namespace Discussions.webkit_host
 
         public async Task BotLaserActivityAsync()
         {
-            _laserPointerWndCtx.LocalLazerEnabled = true;
+            await Utils.DelayAsync(10);
+            _laserPointerWndCtx.LocalLazerEnabled = true;    
+            _laserPointerWndCtx.BotHandleAttach(new Point(600, 600));   
             await Utils.DelayAsync(500);
             await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
             await Utils.DelayAsync(500);

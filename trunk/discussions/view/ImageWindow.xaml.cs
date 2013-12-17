@@ -386,9 +386,11 @@ namespace Discussions.view
 
                 BotPan(pos);
 
-                await Utils.DelayAsync(2);
+                await Utils.DelayAsync(10);
             }
 
+            _laserPointerWndCtx.BotHandleAttach(new Point(600, 600));
+            await Utils.DelayAsync(10);
             await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
 
             await Utils.DelayAsync(200);

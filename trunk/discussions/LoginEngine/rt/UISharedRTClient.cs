@@ -49,13 +49,13 @@ namespace Discussions.rt
 
             rtTimer = new DispatcherTimer();
             rtTimer.Tick += OnRtServiceTick;
-            rtTimer.Interval = TimeSpan.FromMilliseconds(15);
+            rtTimer.Interval = TimeSpan.FromMilliseconds(5);
             rtTimer.Start();
         }
 
         public void OnRtServiceTick(object sender, EventArgs e)
         {
-            if (DateTime.Now.Subtract(_recentServiceTick).TotalMilliseconds < 30)
+            if (DateTime.Now.Subtract(_recentServiceTick).TotalMilliseconds < 5)
                 return;
             _recentServiceTick = DateTime.Now;
 
