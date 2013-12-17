@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Threading;
 using AbstractionLayer;
@@ -317,15 +316,18 @@ namespace Discussions.view
             for (int i = 0; i < 100 + rnd.Next(400); ++i)
             {
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 7);
+                await Utils.DelayAsync(5);
             }
             await Utils.DelayAsync(100);
             for (int i = 0; i < 100+rnd.Next(400); ++i)
             {
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y - 7);
+                await Utils.DelayAsync(5);
             }
             for (int i = 0; i < 200+rnd.Next(200); ++i)
             {
                 _webKitBrowser1.ScrollOffset = new Point(0, _webKitBrowser1.ScrollOffset.Y + 4);
+                await Utils.DelayAsync(5);
             }
         }
 

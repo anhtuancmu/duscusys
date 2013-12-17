@@ -151,9 +151,9 @@ namespace DistributedEditor
             _listenersSet = doSet;
 
             if (doSet)
-                _ptrCanvas.TouchDown += ptrCanv_TouchDown;
+                _ptrCanvas.PreviewTouchDown += ptrCanv_TouchDown;
             else
-                _ptrCanvas.TouchDown -= ptrCanv_TouchDown;
+                _ptrCanvas.PreviewTouchDown -= ptrCanv_TouchDown;
 
             if (doSet)
                 _ptrCanvas.TouchMove += ptrWnd_TouchMove;
@@ -236,7 +236,14 @@ namespace DistributedEditor
             _rt.clienRt.SendAttachLaserPointer(LocalLaserPointer);
 
             _recentAttach = DateTime.Now;
-            e.Handled = true;
+
+            try
+            {
+                e.Handled = true;
+            }
+            catch
+            {               
+            }
         }
 
         void HandleMove(Point p, InputEventArgs e)
@@ -266,6 +273,11 @@ namespace DistributedEditor
         public void BotHandleMove(Point p)
         {
             HandleMove(p, new MouseEventArgs(Mouse.PrimaryDevice, 0));
+        }
+
+        public void BotHandleAttach(Point p)
+        {
+            HandleAttach(p, new MouseEventArgs(Mouse.PrimaryDevice, 0));
         }
 
         #region handlers 

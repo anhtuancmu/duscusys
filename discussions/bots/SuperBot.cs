@@ -87,7 +87,7 @@ namespace Discussions.bots
             if (browser == null)
                 return;
 
-            await Utils.DelayAsync(_rnd.Next(1000));
+            await Utils.DelayAsync(1000);
 
             await browser.BotScrollRandomAsync(_rnd);
 
