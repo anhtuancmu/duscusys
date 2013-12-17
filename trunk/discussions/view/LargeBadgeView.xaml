@@ -73,10 +73,11 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right">
 
                 <Custom:SurfaceButton x:Name="btnSave"  Click="btnSave_Click" Visibility="Collapsed"
         			 Height="75" Width="75" Background="{x:Null}" Margin="0">
@@ -85,12 +86,20 @@
             </StackPanel>
             <StackPanel x:Name="stkHeader" Orientation="Horizontal"
                         PreviewMouseDown="stkHeader_PreviewMouseDown_1"
-                        PreviewTouchDown="stkHeader_PreviewTouchDown_1" Background="#02000000">
+                        PreviewTouchDown="stkHeader_PreviewTouchDown_1" 
+                        Margin="0,0,80,0"
+                        Background="#02000000">
                 <Label Content="BY:  " HorizontalAlignment="Left" />
                 <Label x:Name="lblPerson" Content="{Binding Person.Name}" />
             </StackPanel>
+            <TextBlock x:Name="txtPoint"
+            	TextAlignment="Center"
+            	Text="{Binding Point}"     
+            	TextWrapping="Wrap"
+                Grid.Row="1"
+            	FontSize="48" Margin="0,0,80,20" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.RowSpan="2">
                 <ItemsControl x:Name="notifications" Margin="0,0,50,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -106,15 +115,10 @@
                 <Custom:SurfaceButton x:Name="btnRunBot" Content="Run bot"  Visibility="Collapsed" Click="BtnRunBot_OnClick"/>
             </StackPanel>
 
-            <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="1" 
+            <Custom:SurfaceScrollViewer x:Name="scrollViewer" Grid.Row="2" 
                                         ScrollChanged="ScrollViewer_OnScrollChanged"
                                         VerticalScrollBarVisibility="Visible">
                 <StackPanel x:Name="textArea"  MaxWidth="820">
-                    <TextBlock x:Name="txtPoint"
-                               TextAlignment="Center"
-                               Text="{Binding Point}"     
-                               TextWrapping="Wrap" VerticalAlignment="Center"
-                               d:LayoutOverrides="Width" FontSize="48" />
                     <TextBlock x:Name="plainDescription"
                                TextAlignment="Justify"
                                TextWrapping="Wrap"
@@ -152,7 +156,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                    
+
                     <StackPanel Orientation="Vertical">
                         <Label x:Name="lblComments" Content="Comment/コメント" HorizontalAlignment="Left"
                                VerticalAlignment="Top" Background="#00000000"
@@ -166,7 +170,7 @@
                     </StackPanel>
                 </StackPanel>
             </Custom:SurfaceScrollViewer>
-            <Grid VerticalAlignment="Bottom" Grid.Row="2" Margin="60,20,40,0">
+            <Grid VerticalAlignment="Bottom" Grid.Row="3" Margin="60,0,40,0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>

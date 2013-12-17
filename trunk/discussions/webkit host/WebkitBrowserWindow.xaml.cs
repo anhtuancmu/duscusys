@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Threading;
 using AbstractionLayer;
 using Discussions.rt;
@@ -76,9 +77,9 @@ namespace Discussions.view
                 _webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
                 _webKitBrowser1.Name = "_webKitBrowser1";
                 _webKitBrowser1.TabIndex = 0;
+                _webKitBrowser1.Navigated += _webKitBrowser1_Navigated;
                 webkitHost.Child = _webKitBrowser1;
                 _webKitBrowser1.ResumeLayout();
-
             }
 
             browserBar.Browser = _webKitBrowser1;
@@ -125,6 +126,11 @@ namespace Discussions.view
             SetListeners(true);
         }
 
+        void _webKitBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            _webKitBrowser1.Visible = true;
+        }
+
         public void Deinit()
         {
             //if this is local initiative, close             
@@ -139,6 +145,7 @@ namespace Discussions.view
 
             //_webKitBrowser1.Dispose();
             //_webKitBrowser1 = null;
+            _webKitBrowser1.Visible = false;
 
             DiscWindows.Get().ShowPublic();
 
