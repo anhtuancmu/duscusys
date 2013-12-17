@@ -79,7 +79,7 @@ namespace Discussions.bots
             UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
                 syncMsgType, attachment.Id, true);
 
-            await Utils.Delay(_rnd.Next(1000));
+            await Utils.DelayAsync(_rnd.Next(1000));
 
             UISharedRTClient.Instance.clienRt.SendExplanationModeSyncRequest(
                 syncMsgType, attachment.Id, false);

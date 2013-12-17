@@ -10,6 +10,7 @@ using System.Windows.Media;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 using Discussions.model;
+using Discussions.pdf_reader;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using LoginEngine;
@@ -612,47 +613,6 @@ namespace Discussions.view
             }
         }
 
-        private bool _stopBot;
-        async Task BotRunAsync()
-        {
-            while (true)
-            {
-                if (_stopBot)
-                    break;
-                BotGenerateCommentChange();
-                await Utils.Delay(200);
-            }
-        }
-
-        public void BotGenerateCommentChange()
-        {
-            var ap = (ArgPoint)DataContext;
-            if (ap.Comment.Count > 10 || _rnd.Next(100) < 50)
-                BotRemoveComment();
-            else
-                BotCreateBotComment();
-        }
-
-        public void BotCreateBotComment()
-        {
-            txtNewComment.Text = "Bot comment" + _rnd.Next();
-            SaveProcedure();
-        }
-
-        public void BotRemoveComment()
-        {
-            var ap = (ArgPoint) DataContext;
-            int commentIdxToRemove = _rnd.Next(ap.Comment.Count);
-            DependencyObject container = lstBxComments1
-                .ItemContainerGenerator.ContainerFromIndex(commentIdxToRemove);
-            if (container == null)
-                return;
-
-            var commentUc = Utils.FindChild<CommentUC>(container);
-            if (commentUc!=null)
-                commentUc.btnRemoveComment_Click(null, null);
-        }
-
         private void stkHeader_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
         {
             if (e.OriginalSource is Image)
@@ -781,13 +741,45 @@ namespace Discussions.view
             await BotRunAsync();
         }
 
-        public async Task<WebkitBrowserWindow> LaunchRandomSource(Random rnd)
+        public async Task<Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>> 
+            BotLaunchRandomAttachmentAsync(Random rnd)
+        {
+            var ap = ((ArgPoint)DataContext);
+            if (ap.Attachment.Count < 0)
+                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(null, null, null);
+
+            int i = rnd.Next(ap.Attachment.Count);
+            await Utils.DelayAsync(100);
+            DependencyObject container = lstBxAttachments.ItemContainerGenerator
+                                                        .ContainerFromIndex(i);
+
+            var imageUc = Utils.FindChild<LargeImageUC>(container);
+            if (imageUc != null)
+            {
+                var resultWnd = imageUc.BotLaunch();
+                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(
+                    null, 
+                    resultWnd as ImageWindow,
+                    resultWnd as ReaderWindow);
+            }
+
+            var videoUc = Utils.FindChild<LargeVideoUC>(container);
+            if (videoUc != null)
+            {
+                videoUc.BotLaunch();
+                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(null, null, null);
+            }
+
+            return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(null, null, null);
+        }
+
+        public async Task<WebkitBrowserWindow> BotLaunchRandomSource(Random rnd)
         {
             var ap = ((ArgPoint)DataContext);
             if (ap.Description.Source.Count > 0)
             {
                 int i = rnd.Next(ap.Description.Source.Count);
-                await Utils.Delay(100);
+                await Utils.DelayAsync(100);
                 DependencyObject container = lstBxSources.ItemContainerGenerator
                                                          .ContainerFromIndex(i);
                 var src = Utils.FindChild<SourceUC>(container);
@@ -797,6 +789,47 @@ namespace Discussions.view
                 }
             }
             return null;
+        }
+
+        private bool _stopBot;
+        async Task BotRunAsync()
+        {
+            while (true)
+            {
+                if (_stopBot)
+                    break;
+                BotGenerateCommentChange();
+                await Utils.DelayAsync(200);
+            }
+        }
+
+        public void BotGenerateCommentChange()
+        {
+            var ap = (ArgPoint)DataContext;
+            if (ap.Comment.Count > 10 || _rnd.Next(100) < 50)
+                BotRemoveComment();
+            else
+                BotCreateBotComment();
+        }
+
+        public void BotCreateBotComment()
+        {
+            txtNewComment.Text = "Bot comment" + _rnd.Next();
+            SaveProcedure();
+        }
+
+        public void BotRemoveComment()
+        {
+            var ap = (ArgPoint)DataContext;
+            int commentIdxToRemove = _rnd.Next(ap.Comment.Count);
+            DependencyObject container = lstBxComments1
+                .ItemContainerGenerator.ContainerFromIndex(commentIdxToRemove);
+            if (container == null)
+                return;
+
+            var commentUc = Utils.FindChild<CommentUC>(container);
+            if (commentUc != null)
+                commentUc.btnRemoveComment_Click(null, null);
         }
     }
 }

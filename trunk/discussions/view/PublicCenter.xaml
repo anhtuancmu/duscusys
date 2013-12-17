@@ -643,6 +643,11 @@
                                   
                                    IsChecked="{Binding EnlargeOpenSourceCloseBotEnabled}"
                                    />
+
+            <CheckBox x:Name="btnSuperBotEnabled" Content="Super bot"  
+                                  
+                                   IsChecked="{Binding SuperBotEnabled}"
+                                   />
         </StackPanel>
 
         <Label x:Name="lblDiscussion" Content="{Binding discussion.Subject}" HorizontalAlignment="Left"

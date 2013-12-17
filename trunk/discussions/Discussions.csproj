@@ -175,10 +175,12 @@
     </ApplicationDefinition>
     <Compile Include="bots\AttachmentBot.cs" />
     <Compile Include="bots\BotsViewModel.cs" />
+    <Compile Include="bots\BotUtils.cs" />
     <Compile Include="bots\EnlargeOpenSourceCloseBot.cs" />
     <Compile Include="bots\EnlargeOpenCommentsCloseBot.cs" />
     <Compile Include="bots\EnlargeOpenAttachmentCloseBot.cs" />
     <Compile Include="bots\SourceBot.cs" />
+    <Compile Include="bots\SuperBot.cs" />
     <Compile Include="Converters\AddPeriodConverter.cs" />
     <Compile Include="d-editor\TypeTitleButton.xaml.cs">
       <DependentUpon>TypeTitleButton.xaml</DependentUpon>

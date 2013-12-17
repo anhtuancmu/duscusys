@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using AbstractionLayer;
+using Discussions.bots;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using DistributedEditor;
@@ -29,12 +31,12 @@ namespace Discussions.view
                 if (value != _zoomFactor)
                 {
                     _zoomFactor = value;
-                    zoomBySlider(_zoomFactor);
+                    ZoomBySlider(_zoomFactor);
                 }
             }
         }
 
-        private void zoomBySlider(double finalFactor)
+        private void ZoomBySlider(double finalFactor)
         {
             var matrix = GetTransform();
 
@@ -117,6 +119,8 @@ namespace Discussions.view
             if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
                 DiscWindows.Get().HidePublic();
 
+            SetTransform(Matrix.Identity);
+
             //we cannot use HorizontalAlignment==Center, so center the image via RenderTransform
             var op = Dispatcher.BeginInvoke((Action)(() =>
             {
@@ -142,11 +146,11 @@ namespace Discussions.view
 
             img.Source = null;
 
-            if (_laserPointerWndCtx != null)
-            {
-                _laserPointerWndCtx.Dispose();
-                _laserPointerWndCtx = null;
-            }
+            //if (_laserPointerWndCtx != null)
+            //{
+            //    _laserPointerWndCtx.Dispose();
+            //    _laserPointerWndCtx = null;
+            //}
 
             ExplanationModeMediator.Inst.LasersEnabled = false;
 
@@ -233,8 +237,8 @@ namespace Discussions.view
 
         protected override void OnManipulationDelta(ManipulationDeltaEventArgs args)
         {
-            UIElement element = args.Source as UIElement;
-            MatrixTransform xform = element.RenderTransform as MatrixTransform;
+            var element = args.Source as UIElement;
+            var xform = element.RenderTransform as MatrixTransform;
             Matrix matrix = xform.Matrix;
             ManipulationDelta delta = args.DeltaManipulation;
 
@@ -272,28 +276,37 @@ namespace Discussions.view
             if ((System.Windows.Forms.Control.ModifierKeys & System.Windows.Forms.Keys.Shift) !=
                 System.Windows.Forms.Keys.None)
             {
-                var matrix = GetTransform();
-
-                if (_prevX > 0 && _prevY > 0)
-                {
-                    matrix.Translate(mousePos.X - _prevX, mousePos.Y - _prevY);
-                }
-
-                SetTransform(matrix);
-
-                CheckSendMatrixBackground();
+               Pan(mousePos);
             }
-
+           
             _prevX = mousePos.X;
             _prevY = mousePos.Y;
         }
 
-        private void Window_MouseWheel_1(object sender, MouseWheelEventArgs e)
+        void Pan(Point pos)
         {
             var matrix = GetTransform();
 
+            if (_prevX > 0 && _prevY > 0)
+            {
+                matrix.Translate(pos.X - _prevX, pos.Y - _prevY);
+            }
+
+            SetTransform(matrix);
+
+            CheckSendMatrixBackground();
+        }
+
+        private void Window_MouseWheel_1(object sender, MouseWheelEventArgs e)
+        {
             Point mousePos = e.GetPosition(this);
             double factor = e.Delta > 0 ? 1.1 : 0.9;
+            ZoomInOut(mousePos, factor);
+        }
+
+        void ZoomInOut(Point center, double factor)
+        {
+            var matrix = GetTransform();
 
             var finalFact = matrix.M11 * factor;
             if (finalFact > MAX_ZOOM || finalFact < MIN_ZOOM)
@@ -301,8 +314,8 @@ namespace Discussions.view
 
             matrix.ScaleAt(factor,
                            factor,
-                           mousePos.X,
-                           mousePos.Y);
+                           center.X,
+                           center.Y);
 
             updateZoomFactor(matrix.M11);
 
@@ -310,6 +323,7 @@ namespace Discussions.view
 
             CheckSendMatrixBackground();
         }
+
 
         void CheckSendMatrixBackground()
         {
@@ -350,6 +364,57 @@ namespace Discussions.view
         {
             e.Cancel = true;
             Deinit();
+        }
+
+        public async Task BotManipulationsAsync()
+        {
+            Point wndCenter = this.PointToScreen(new Point(ActualWidth / 2, ActualHeight / 2));
+           
+            for (int i = 0; i < 30; ++i)
+            {
+                ZoomInOut(wndCenter, 0.9);
+                await Utils.DelayAsync(10);
+            }
+            
+            for (int phi = 0; phi < 360; phi+=5)
+            {
+                const double r = 200;
+                var pos = new Point(
+                    wndCenter.X + r * Math.Cos(Math.PI * phi / 180),
+                    wndCenter.Y + r * Math.Sin(Math.PI * phi / 180)
+                );
+
+                BotPan(pos);
+
+                await Utils.DelayAsync(2);
+            }
+
+            await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
+
+            await Utils.DelayAsync(200);
+            for (int i = 0; i < 15; ++i)
+            {
+                ZoomInOut(wndCenter, 1.1);
+                await Utils.DelayAsync(10);
+            }
+        }
+
+        private void BotPan(Point pos)
+        {
+             Pan(pos);
+
+            _prevX = pos.X;
+            _prevY = pos.Y;
+        }
+
+        public void BotEnableLaser()
+        {
+            _laserPointerWndCtx.LocalLazerEnabled = true;
+        }
+
+        public void BotDisableLaser()
+        {
+            _laserPointerWndCtx.LocalLazerEnabled = false;
         }
     }
 }

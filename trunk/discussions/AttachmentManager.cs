@@ -604,7 +604,7 @@ namespace Discussions
 
         private static byte[] ImageToBytes(BitmapSource img, BitmapEncoder enc)
         {
-            MemoryStream memStream = new MemoryStream();
+            var memStream = new MemoryStream();
             enc.Frames.Add(BitmapFrame.Create(img));
             enc.Save(memStream);
             return memStream.GetBuffer();
@@ -630,10 +630,10 @@ namespace Discussions
             return Path.Combine(GetAppDir(), "Assets");
         }
 
-        public static void RunViewer(Attachment a, bool localRequest)
+        public static object RunViewer(Attachment a, bool localRequest)
         {
             if (a == null)
-                return;
+                return null;
 
             if (a.Format == (int)AttachmentFormat.Pdf && a.MediaData != null)
             {
@@ -648,6 +648,7 @@ namespace Discussions
                     Utils.ReportMediaOpened(StEvent.PdfOpened, a);
                     var pdfReader = ReaderWindow.Instance(pdfPathName, a.Id, a.ArgPoint != null ? (int?)a.ArgPoint.Topic.Id : null, localRequest);
                     pdfReader.Show();
+                    return pdfReader;
                 }
                 catch
                 {
@@ -668,6 +669,7 @@ namespace Discussions
                         wnd.img.Source = LoadImageFromBlob(a.MediaData.Data);
                         wnd.Show();
                         wnd.Activate();
+                        return wnd;
                     }
                 }
             }
@@ -689,6 +691,8 @@ namespace Discussions
                     MessageDlg.Show(e.ToString(), "Error");
                 }
             }
+
+            return null;
         }
 
         public static void RunViewer(string pathName, int attachmentId, int? topicId, bool localRequest)

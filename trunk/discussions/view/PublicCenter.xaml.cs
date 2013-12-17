@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.ServiceModel.Dispatcher;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +21,6 @@ using Discussions.RTModel.Model;
 using DistributedEditor;
 using LoginEngine;
 using Microsoft.Surface.Presentation.Controls.TouchVisualizations;
-using Org.BouncyCastle.Asn1.Cms;
 using Size = System.Windows.Size;
 
 namespace Discussions.view
@@ -43,8 +41,8 @@ namespace Discussions.view
         }
 
         //only used for final screenshot 
-        private int _topicId = -1;
-        private int _discussionId = -1;
+        private readonly int _topicId = -1;
+        private readonly int _discussionId = -1;
 
         private const double MIN_ZOOM = 0.5;
         private const double MAX_ZOOM = 5;
@@ -70,9 +68,9 @@ namespace Discussions.view
 
         private BotsViewModel _botsViewModel;
 
-        private UISharedRTClient _sharedClient;
+        private readonly UISharedRTClient _sharedClient;
 
-        private ZoomSeriesAnalyser _zoomSeries;
+        private readonly ZoomSeriesAnalyser _zoomSeries;
 
         private EditorWndCtx editCtx;
         public EditorWndCtx Ctx
@@ -84,7 +82,7 @@ namespace Discussions.view
 
         private bool _shapesVisibile = false;
 
-        private Main.OnDiscFrmClosing _closing;
+        private readonly Main.OnDiscFrmClosing _closing;
 
         private DispatcherTimer stopWatchTimer = null;
 
@@ -118,6 +116,7 @@ namespace Discussions.view
             _botsViewModel = new BotsViewModel(this);
             btnEnlargeOpenCommentClose.DataContext = _botsViewModel;
             btnEnlargeOpenAttachmentClose.DataContext = _botsViewModel;
+            btnSuperBotEnabled.DataContext = _botsViewModel;
             btnEnlargeOpenSourceClose.DataContext = _botsViewModel;
 
             avaBar.Init(_sharedClient);
@@ -939,7 +938,7 @@ namespace Discussions.view
             _sharedClient.clienRt.loadingDoneEvent -= shapeLoadingDone;
 
             //even though all d-editor objects are loaded, their visuals on canvas are created asynchronously
-            await Utils.Delay(3000);
+            await Utils.DelayAsync(3000);
 
             //add main screen
             var dpi = 200;
@@ -964,7 +963,7 @@ namespace Discussions.view
             const int margin = 20;
             scene.Background = null;
             scene.InvalidateVisual();
-            await Utils.Delay(50);
+            await Utils.DelayAsync(50);
 
             var screen = Screenshot.Take(scene,
                                         new System.Windows.Size(maxWidth + margin, maxHeight + margin),

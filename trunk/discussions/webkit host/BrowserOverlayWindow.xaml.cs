@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Discussions.bots;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions.view;
@@ -77,6 +79,14 @@ namespace Discussions.webkit_host
                 WinAPI.SetHitTestVisible(this, visible:true);
             else
                 WinAPI.SetHitTestVisible(this, visible: false);
+        }
+
+        public async Task BotLaserActivityAsync()
+        {
+            _laserPointerWndCtx.LocalLazerEnabled = true;
+            await Utils.DelayAsync(500);
+            await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
+            await Utils.DelayAsync(500);
         }
     }
 
