@@ -39,7 +39,7 @@ namespace Discussions.RTModel
             using (var dbCtx = new DiscCtx(Discussions.ConfigManager.ConnStr))
             {
                 var topic = dbCtx.Topic.FirstOrDefault(t0 => t0.Id == topicId);
-                if (topic.Annotation != null)
+                if (topic!=null && topic.Annotation != null)
                 {
                     var str = new MemoryStream();
                     str.Write(topic.Annotation, 0, topic.Annotation.Count());

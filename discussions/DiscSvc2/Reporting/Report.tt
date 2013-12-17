@@ -38,7 +38,7 @@
          </div>
 		    
 	    <!------------------------------------------------------------------------------------->
-	    <h3>
+	    <h3 style="page-break-before: always;">
 			Contents
 	    </h3>
 
@@ -105,7 +105,7 @@
 
 		<!------------------------------------------------------------------------------------->
 
-		<h3>
+		<h3 style="page-break-before: always;">
 			<a id="finalBoard">Final Discussion Screenshot</a>
 		</h3>
 		
@@ -115,7 +115,7 @@
 
 		<!------------------------------------------------------------------------------------->
 
-		<h3>
+		<h3 style="page-break-before: always;">
 			<a id="summary" style="page-break-before: always;">Summary information</a>
 		</h3>
 
@@ -130,7 +130,7 @@
 			</tr>
 			<tr>
 			   <td>Sources</td>
-			   <td><#=ComplexReport.EventTotals.TotalSourceAdded#></td>
+			   <td><#=ComplexReport.TotalArgPointReport.numSources#></td>
 			</tr>
 			<tr>
 			   <td>Groups</td>
@@ -381,8 +381,13 @@
     {
         if (hardReport.ClusterReports.Count > 0)
         {
-            foreach (var clusterReport in hardReport.ClusterReports)            
-                ClusterTable(clusterReport, Screenshots[clusterReport.clusterShId].url);                           
+            foreach (var clusterReport in hardReport.ClusterReports)    
+			{    
+			    if(Screenshots.ContainsKey(clusterReport.clusterShId))    
+					ClusterTable(clusterReport, Screenshots[clusterReport.clusterShId].url);
+				else    
+					Debug.WriteLine(clusterReport.clusterShId);  
+	        }                     
         }
         else
         {

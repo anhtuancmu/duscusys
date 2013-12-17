@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System.Configuration;
+using System.Timers;
 using System.Web;
 using Discussions;
 using Discussions.DbModel;
@@ -51,15 +52,16 @@ namespace DiscSvc.Reporting
             var complexReportTask = reportingTasks.Item2;
 
             //compute and set report parameters 
-            var report = new Report
-                {
-                    QueryParams = queryParams,
-                    ReportParams = reportParams,
-                    Participants = Helpers.ParticipantsTuples(reportParams.Topic, reportParams.Session),
-                    ComplexReport  = await complexReportTask,
-                    ReportUrl = context.Request.Url.ToString(),
-                    BaseUrl = Helpers.BaseUrl(context.Request)
-                };
+            Report report = null;
+            report = new Report
+            {
+                QueryParams = queryParams,
+                ReportParams = reportParams,
+                Participants = Helpers.ParticipantsTuples(reportParams.Topic, reportParams.Session),
+                ComplexReport = await complexReportTask,
+                ReportUrl = context.Request.Url.ToString(),
+                BaseUrl = Helpers.BaseUrl(context.Request)
+            };
 
             var screenshotTask = reportingTasks.Item1;
             report.ReceiveScreenshots(await screenshotTask, context);
