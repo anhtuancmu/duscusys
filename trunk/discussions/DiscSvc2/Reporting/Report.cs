@@ -193,7 +193,7 @@ namespace DiscSvc.Reporting
             
             #line default
             #line hidden
-            this.Write(@""" alt=""Final public dashboard"" style=""width:100%;"">
+            this.Write(@""" alt=""Final public dashboard"" style=""width:100%; max-width:2000px;"">
 		</div>
 
 		<!------------------------------------------------------------------------------------->
@@ -928,7 +928,7 @@ this.Write(this.ToStringHelper.ToStringWithCulture(image));
         #line hidden
         
         #line 358 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc2\Reporting\Report.tt"
-this.Write(" style=\"max-width:1024px\"> \t\t\r\n\t\t\t</div>\r\n\r\n\t\t\t<table>\r\n\t\t\t <tbody>\r\n\t\t\t\t");
+this.Write(" style=\"max-width:800px\"> \t\t\r\n\t\t\t</div>\r\n\r\n\t\t\t<table>\r\n\t\t\t <tbody>\r\n\t\t\t\t");
 
         
         #line default
