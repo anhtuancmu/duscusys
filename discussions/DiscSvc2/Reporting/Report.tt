@@ -110,7 +110,7 @@
 		</h3>
 		
 		<div class="finalScreenshot">
-			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" style="width:100%;">
+			<img src="<#=Screenshots[-1].url#>" alt="Final public dashboard" style="width:100%; max-width:2000px;">
 		</div>
 
 		<!------------------------------------------------------------------------------------->
@@ -355,7 +355,7 @@
 			</div>
 		
 			<div style="text-align: center; padding-top:40px">
-				<img src=<#=image#> style="max-width:1024px"> 		
+				<img src=<#=image#> style="max-width:800px"> 		
 			</div>
 
 			<table>

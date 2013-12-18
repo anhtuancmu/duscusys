@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Timers;
+﻿using System.Timers;
 using System.Web;
 using Discussions;
 using Discussions.DbModel;
