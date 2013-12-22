@@ -130,11 +130,6 @@
     <Compile Include="Reporting\QueryParams.cs" />
     <Compile Include="Reporting\Toc.cs" />
     <Compile Include="Reporting\TocHandler.cs" />
-    <Compile Include="Reporting\Toc1.cs">
-      <DependentUpon>Toc.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Reporting\Report.cs">
       <DependentUpon>Report.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -173,10 +168,6 @@
     </Content>
     <Content Include="DiscBgHandler.ashx" />
     <Content Include="packages.config" />
-    <Content Include="Reporting\Toc.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>Toc1.cs</LastGenOutput>
-    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

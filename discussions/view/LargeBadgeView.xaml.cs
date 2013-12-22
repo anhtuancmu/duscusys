@@ -741,12 +741,12 @@ namespace Discussions.view
             await BotRunAsync();
         }
 
-        public async Task<Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>> 
+        public async Task<Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow2>> 
             BotLaunchRandomAttachmentAsync(Random rnd)
         {
             var ap = ((ArgPoint)DataContext);
             if (ap.Attachment.Count < 0)
-                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(null, null, null);
+                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow2>(null, null, null);
 
             int i = rnd.Next(ap.Attachment.Count);
             await Utils.DelayAsync(100);
@@ -757,20 +757,20 @@ namespace Discussions.view
             if (imageUc != null)
             {
                 var resultWnd = imageUc.BotLaunch();
-                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(
+                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow2>(
                     null, 
                     resultWnd as ImageWindow,
-                    resultWnd as ReaderWindow);
+                    resultWnd as ReaderWindow2);
             }
 
             var videoUc = Utils.FindChild<LargeVideoUC>(container);
             if (videoUc != null)
             {
                 videoUc.BotLaunch();
-                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(null, null, null);
+                return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow2>(null, null, null);
             }
 
-            return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow>(null, null, null);
+            return new Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow2>(null, null, null);
         }
 
         public async Task<WebkitBrowserWindow> BotLaunchRandomSource(Random rnd)

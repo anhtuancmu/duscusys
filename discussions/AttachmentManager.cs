@@ -646,7 +646,7 @@ namespace Discussions
                     }
                     //Process.Start(pdfPathName);
                     Utils.ReportMediaOpened(StEvent.PdfOpened, a);
-                    var pdfReader = ReaderWindow.Instance(pdfPathName, a.Id, a.ArgPoint != null ? (int?)a.ArgPoint.Topic.Id : null, localRequest);
+                    var pdfReader = ReaderWindow2.Instance(pdfPathName, a.Id, a.ArgPoint != null ? (int?)a.ArgPoint.Topic.Id : null, localRequest);
                     pdfReader.Show();
                     return pdfReader;
                 }
@@ -700,7 +700,7 @@ namespace Discussions
             var ext = Path.GetExtension(pathName).ToLower();
             if (ext == ".pdf")
             {
-                var pdfReader = ReaderWindow.Instance(pathName, attachmentId, topicId, localRequest);
+                var pdfReader = ReaderWindow2.Instance(pathName, attachmentId, topicId, localRequest);
                 pdfReader.Show();
             }
             else if (ext == ".jpg" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")

@@ -83,9 +83,8 @@ namespace Discussions.webkit_host
 
         public async Task BotLaserActivityAsync()
         {
-            await Utils.DelayAsync(10); 
-            _laserPointerWndCtx.LocalLazerEnabled = true;    
-            _laserPointerWndCtx.BotHandleAttach(new Point(600, 600));   
+            await Utils.DelayAsync(10);
+            ExplanationModeMediator.Inst.LasersEnabled = true; 
             await Utils.DelayAsync(500);
             await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
             await Utils.DelayAsync(500);

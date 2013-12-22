@@ -64,7 +64,7 @@
  
 		<table>
 			<tr>
-				<td>Discussion</td>
+				<td style="width:50%">Discussion</td>
 				<td><#= ReportParams.Discussion.Subject #></td>
 			</tr>
 			<tr>
@@ -121,7 +121,7 @@
 
 		<table>
 			<tr>
-			   <td>User points</td>
+			   <td style="width:50%">User points</td>
 			   <td><#=ComplexReport.TotalArgPointReport.numPoints#></td>
 			</tr>
 			<tr>

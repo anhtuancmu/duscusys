@@ -10,7 +10,7 @@ namespace Discussions.pdf_reader
 {
     public partial class ReaderWindow : PortableWindow, ICachedWindow
     {
-        private ReaderOverlayWindow _overlayWnd;
+        //private ReaderOverlayWindow _overlayWnd;
 
         private ExplanationModeMediator _mediator;
 
@@ -63,9 +63,9 @@ namespace Discussions.pdf_reader
 
             SetListeners(true);
 
-            if (_overlayWnd==null)
-                _overlayWnd = new ReaderOverlayWindow { Window = this };
-            _overlayWnd.Show();
+            //if (_overlayWnd==null)
+            //    _overlayWnd = new ReaderOverlayWindow { Window = this };
+            //_overlayWnd.Show();
         }
 
         public void Deinit()
@@ -76,7 +76,7 @@ namespace Discussions.pdf_reader
             //pdfViewerUC.Dispose();
             //pdfViewerUC = null;
             ExplanationModeMediator.Inst.OnWndClosed(this);
-            _overlayWnd.Hide();
+            //_overlayWnd.Hide();
             Hide();
         }
 
@@ -111,13 +111,13 @@ namespace Discussions.pdf_reader
 
         private void OnPdfScroll(PdfScrollPosition scroll)
         {
-            if (_mediator.CurrentTopicId != null &&
-                _mediator.CurrentTopicId == scroll.topicId &&
-                _mediator.ExplanationModeEnabled)
-            {
-                ScrollTo(scroll.Y);
-                _skipNextScrollPosChange = true;
-            }
+            //if (_mediator.CurrentTopicId != null &&
+            //    _mediator.CurrentTopicId == scroll.topicId &&
+            //    _mediator.ExplanationModeEnabled)
+            //{
+            //    ScrollTo(scroll.Y);
+            //    _skipNextScrollPosChange = true;
+            //}
         }
 
         void Inst_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -145,7 +145,7 @@ namespace Discussions.pdf_reader
 
         void ToggleLaserPointer()
         {
-            _overlayWnd.ToggleLocalLaserPointer();
+            //_overlayWnd.ToggleLocalLaserPointer();
         }
 
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
@@ -171,10 +171,10 @@ namespace Discussions.pdf_reader
                 Point topLeft = this.PointToScreen(new Point(0, 0));
                 Point bottomRight = this.PointToScreen(new Point(this.Width, this.Height));
 
-                _overlayWnd.Top  = topLeft.Y;
-                _overlayWnd.Width = this.Width - 15;
-                _overlayWnd.Height = this.Height - 30;
-                _overlayWnd.Left = bottomRight.X - this.Width;
+                //_overlayWnd.Top  = topLeft.Y;
+                //_overlayWnd.Width = this.Width - 15;
+                //_overlayWnd.Height = this.Height - 30;
+                //_overlayWnd.Left = bottomRight.X - this.Width;
             }
             catch
             {
@@ -194,23 +194,23 @@ namespace Discussions.pdf_reader
 
         private void PdfViewerUC_OnScroll(object sender, ScrollEventArgs e)
         {
-            if (!_skipNextScrollPosChange)
-            {
-                if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
-                {
-                    var pers = SessionInfo.Get().person;
-                    if (pers != null)
-                    {
-                        var lastSentScrollState = e.NewValue;
-                        UISharedRTClient.Instance.clienRt.SendPdfScrolled(
-                            pers.Id, 
-                            lastSentScrollState, 
-                            (int)_mediator.CurrentTopicId);
-                    }
-                }
-            }
+            //if (!_skipNextScrollPosChange)
+            //{
+            //    if (_mediator.CurrentTopicId != null && _mediator.ExplanationModeEnabled)
+            //    {
+            //        var pers = SessionInfo.Get().person;
+            //        if (pers != null)
+            //        {
+            //            var lastSentScrollState = e.NewValue;
+            //            UISharedRTClient.Instance.clienRt.SendPdfScrolled(
+            //                pers.Id, 
+            //                lastSentScrollState, 
+            //                (int)_mediator.CurrentTopicId);
+            //        }
+            //    }
+            //}
 
-            _skipNextScrollPosChange = false;
+            //_skipNextScrollPosChange = false;
         }
 
         private void BtnZoom_OnClick(object sender, RoutedEventArgs e)

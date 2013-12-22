@@ -114,7 +114,7 @@ namespace DiscSvc.Reporting
  
 		<table>
 			<tr>
-				<td>Discussion</td>
+				<td style=""width:50%"">Discussion</td>
 				<td>");
             
             #line 68 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc2\Reporting\Report.tt"
@@ -204,7 +204,7 @@ namespace DiscSvc.Reporting
 
 		<table>
 			<tr>
-			   <td>User points</td>
+			   <td style=""width:50%"">User points</td>
 			   <td>");
             
             #line 125 "C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\DiscSvc2\Reporting\Report.tt"

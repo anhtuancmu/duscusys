@@ -189,6 +189,10 @@
     <Compile Include="pdf reader\ReaderOverlayWindow.xaml.cs">
       <DependentUpon>ReaderOverlayWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pdf reader\ReaderWindow2.xaml.cs">
+      <DependentUpon>ReaderWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ErrMessages.cs" />
     <Compile Include="Util\Validators.cs" />
     <Compile Include="view\ScreenshotTipWnd.xaml.cs">
       <DependentUpon>ScreenshotTipWnd.xaml</DependentUpon>
@@ -528,6 +532,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pdf reader\ReaderOverlayWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="pdf reader\ReaderWindow2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -926,6 +934,7 @@
   <ItemGroup>
     <Folder Include="docs\" />
     <Folder Include="Fonts\" />
+    <Folder Include="References\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
@@ -956,6 +965,10 @@
     <ProjectReference Include="LoginEngine\LoginEngine.csproj">
       <Project>{7d884ba2-c982-4c9b-9f12-648cd0e04a3f}</Project>
       <Name>LoginEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="MoonPdfLib\MoonPdfLib.csproj">
+      <Project>{e5c5a57c-e464-4402-ad62-d6119ea92a8d}</Project>
+      <Name>MoonPdfLib</Name>
     </ProjectReference>
     <ProjectReference Include="Reporter\Reporter.csproj">
       <Project>{5204d876-80f1-48cf-b1e9-36bb44e55640}</Project>

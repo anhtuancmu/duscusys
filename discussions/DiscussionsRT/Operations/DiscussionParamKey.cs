@@ -87,5 +87,6 @@
         OffsetXKey = 69,
         OffsetYKey = 70,
         AttachmentId = 71,
+        Zoom = 72
     }
 }

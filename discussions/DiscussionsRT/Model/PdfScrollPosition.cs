@@ -6,7 +6,9 @@ namespace Discussions.RTModel.Model
     public class PdfScrollPosition
     {
         public int ownerId;
-        public int Y;        
+        public double X;
+        public double Y;
+        public float Zoom; 
         public int topicId;
 
         public static PdfScrollPosition Read(Dictionary<byte, object> par)
@@ -14,20 +16,26 @@ namespace Discussions.RTModel.Model
             var res = new PdfScrollPosition
             {
                 ownerId = (int) par[(byte) DiscussionParamKey.ShapeOwnerId],
-                Y = (int)par[(byte) DiscussionParamKey.OffsetYKey],
+                X = (double)par[(byte)DiscussionParamKey.OffsetXKey],
+                Y = (double)par[(byte)DiscussionParamKey.OffsetYKey],
+                Zoom = (float)par[(byte)DiscussionParamKey.Zoom],
                 topicId = (int) par[(byte) DiscussionParamKey.ChangedTopicId]
             };
             return res;
         }
 
         public static Dictionary<byte, object> Write(int ownerId,
-                                                     int Y,                                                     
+                                                     double X,
+                                                     double Y,
+                                                     float Zoom,                                         
                                                      int topicId)
         {
             var res = new Dictionary<byte, object>
             {
                 {(byte) DiscussionParamKey.ShapeOwnerId, ownerId},
+                {(byte) DiscussionParamKey.OffsetXKey, X},
                 {(byte) DiscussionParamKey.OffsetYKey, Y},
+                {(byte) DiscussionParamKey.Zoom, Zoom},
                 {(byte) DiscussionParamKey.ChangedTopicId, topicId}
             };
             return res;
@@ -35,7 +43,7 @@ namespace Discussions.RTModel.Model
 
         public Dictionary<byte, object> ToDict()
         {
-            return Write(ownerId, Y, topicId);
+            return Write(ownerId, X, Y, Zoom, topicId);
         }
     }
 }

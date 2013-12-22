@@ -894,7 +894,7 @@ namespace Discussions.view
                         WebkitBrowserWindow.EnsureInstanceDeinited();
                         break;
                     case SyncMsgType.PdfView:
-                        ReaderWindow.EnsureInstanceClosed();
+                        ReaderWindow2.EnsureInstanceClosed();
                         break;
                     default:
                         throw new NotImplementedException();
