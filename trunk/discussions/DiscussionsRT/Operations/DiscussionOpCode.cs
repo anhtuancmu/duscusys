@@ -120,6 +120,6 @@
         //pdf scroll bar sync
         PdfScrollChanged = 50,
 
-        GetPdfScrollPos = 48
+        GetPdfScrollPos = 49
     }
 }

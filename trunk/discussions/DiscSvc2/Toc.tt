@@ -1,0 +1,75 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ template debug="true" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Discussions.DbModel" #>
+<#@ import namespace="Discussions.RTModel.Model" #>
+<#@ import namespace="System.Diagnostics" #>
+ 
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+	    <meta charset='utf-8'> 
+        <title>Topic report</title>		
+	    <link href="report.css" rel="stylesheet" type="text/css" />
+    </head>
+	
+    <body> 
+        
+		 <div class="blueSpan">
+			<h2>Discussion Report Viewer</h2>
+			<br>
+			<br>
+         </div>
+		 
+		<!------------------------------------------------------------------------------------->
+		<# 
+			EmitTocTable(TocRows);
+		#>
+    </form>
+    </body>
+</html>
+
+<#+
+
+    void EmitTocTable(List<TocTableRow> tocRows)
+	{
+	    #>
+	    <table>
+		
+		<tr>
+			<td>Session</td>
+			<td>Date</td>
+		    <td>Discussion</td>
+		    <td>Participants</td>
+		    <td>Topic</td>
+		    <td>Report</td>
+		 </tr>
+				
+		<#+
+
+		foreach(var tocRow in tocRows)
+			EmitTocRow(tocRow);
+        #>
+
+	    </table>
+		<#+
+	}
+
+	void EmitTocRow(TocTableRow tocRow)
+	{
+		#>
+		<tr>
+			<td><#= tocRow.Session #></td>
+			<td><#= tocRow.Date #></td>
+			<td><#= tocRow.Discussion #></td>
+			<td><#= tocRow.Participants #></td>
+	        <td><#= tocRow.Topic #></td>
+		    <td><a target="_blank" href="<#= tocRow.Report #>"><#= tocRow.Report #></a></td>
+		</tr>
+		<#+
+	}
+#>

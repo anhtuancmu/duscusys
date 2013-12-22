@@ -85,7 +85,10 @@ namespace Discussions.pdf_reader
             _viewStateTimer.Interval = TimeSpan.FromMilliseconds(100);
             _viewStateTimer.Tick += _viewStateTimer_Tick;
             if (_mediator.ExplanationModeEnabled)
+            {
                 Utils.DelayAsync(100).GetAwaiter().OnCompleted(RequestScrollPosition);
+                Utils.DelayAsync(150).GetAwaiter().OnCompleted(() => _viewStateTimer.Start());
+            }
 
             if (topicId != null)
                 _mediator.CurrentTopicId = topicId;
@@ -179,11 +182,6 @@ namespace Discussions.pdf_reader
                 _recentSyncedZoom = scroll.Zoom;
 
                 SetView(scroll.X, scroll.Y, scroll.Zoom);
-
-                //if (!_viewStateTimer.IsEnabled)
-                //{
-                //    Utils.DelayAsync(1800).GetAwaiter().OnCompleted(() => _viewStateTimer.Start());
-                //}
             }
         }
 
@@ -202,9 +200,9 @@ namespace Discussions.pdf_reader
 
         void SetView(double x, double y, float zoom)
         {
+            moonPdfPanel.Zoom(zoom);//resets scroll
             moonPdfPanel.ScrollViewer.ScrollToVerticalOffset(y);
-            moonPdfPanel.ScrollViewer.ScrollToHorizontalOffset(x);
-            moonPdfPanel.Zoom(zoom);
+            moonPdfPanel.ScrollViewer.ScrollToHorizontalOffset(x); 
         }
 
         private void Window_Closing_1(object sender, CancelEventArgs e)
