@@ -17,6 +17,8 @@ namespace Discussions.bots
             _rnd = new Random();
             _enabled = true;
 
+            ExplanationModeMediator.Inst.ExplanationModeEnabled = true;
+
             RunAsync().GetAwaiter().OnCompleted(() => { });
         }
 
@@ -30,7 +32,7 @@ namespace Discussions.bots
                     await Utils.DelayAsync(1000);
 
                     if(_rnd.Next(10)<5)
-                        await WorhWithAttachmentAsync(lbv, _rnd);
+                        await WorkWithAttachmentAsync(lbv, _rnd);
                     else
                         await OpenRandomSourceAsync(lbv);
 
@@ -43,9 +45,9 @@ namespace Discussions.bots
             }
         }
 
-        static async Task WorhWithAttachmentAsync(LargeBadgeView lbv, Random rnd)
+        static async Task WorkWithAttachmentAsync(LargeBadgeView lbv, Random rnd)
         {
-            Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow> result =
+            Tuple<WebkitBrowserWindow, ImageWindow, ReaderWindow2> result =
                 await lbv.BotLaunchRandomAttachmentAsync(rnd);
 
             WebkitBrowserWindow browserWindow = result.Item1;
@@ -59,23 +61,34 @@ namespace Discussions.bots
             ImageWindow imgWindow = result.Item2;
             if (imgWindow != null)
             {
-                imgWindow.BotEnableLaser();
-                await Utils.DelayAsync(100);
+                await Utils.DelayAsync(300);
+
+                ExplanationModeMediator.Inst.LasersEnabled = true;
+
                 await imgWindow.BotManipulationsAsync();
-               
+
                 await Utils.DelayAsync(400);
 
-                imgWindow.BotDisableLaser();
+                ExplanationModeMediator.Inst.LasersEnabled = false;
                 await Utils.DelayAsync(1000);
 
                 imgWindow.Deinit();
                 return;
             }
 
-            ReaderWindow pdf = result.Item3;
+            ReaderWindow2 pdf = result.Item3;
             if (pdf != null)
             {
                 await Utils.DelayAsync(1000);
+
+                await pdf.BotScrollAsync(rnd);
+
+                await Utils.DelayAsync(600);
+
+                await pdf.BotLaserActivityAsync();
+                
+                await Utils.DelayAsync(400);
+
                 pdf.Deinit();
                 return;
             }

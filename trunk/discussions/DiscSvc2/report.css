@@ -41,10 +41,6 @@ img {
     max-width:800px;
 }
 
-td {
-    width: 50%;
-}
-
 .blueSpan {    
     background-color: #0699d3;
     color: white;
@@ -59,7 +55,8 @@ table {
 table td {
     padding:15px;
     border: solid 0.5px white;
-    background-color: #d1d1d1;   
+    background-color: #d1d1d1;
+    /*width: 50%;*/   
 }
 
 .centered {

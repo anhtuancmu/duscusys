@@ -15,7 +15,7 @@ namespace Discussions.pdf_reader
             InitializeComponent();
         }
 
-        public ReaderWindow Window { get; set;}
+        public ReaderWindow2 Window { get; set; }
 
         private LaserPointerWndCtx _laserPointerWndCtx;
 
@@ -55,8 +55,6 @@ namespace Discussions.pdf_reader
 
         private void ReaderOverlayWindow_OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (Window != null)
-                Window.ScrollBy(e.Delta);
         }
     }
 }

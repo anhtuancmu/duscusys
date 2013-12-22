@@ -423,8 +423,11 @@ namespace Discussions.view
             AttachMediaFromUrl();
         }
 
-        private void AttachMediaFromUrl()
+        private DateTime _recentMediaChange;
+        private async void AttachMediaFromUrl()
         {
+            _recentMediaChange = DateTime.Now;
+
             string url = txtAttachmentURL.Text.Trim();
 
             if (url == "")
@@ -437,9 +440,7 @@ namespace Discussions.view
             if (ap.Attachment.Any(at => at.Link == url))
                 return;
 
-            ap.RecentlyEnteredMediaUrl = txtAttachmentURL.Text;
-
-            Attachment a = new Attachment();
+            var a = new Attachment();
             var imgSrc = AttachmentManager.ProcessAttachCmd(ap, txtAttachmentURL.Text, ref a);
             if (imgSrc != null)
             {
@@ -454,6 +455,21 @@ namespace Discussions.view
                     DeviceType.Wpf);
                 UpdateOrderedMedia();
                 BeginAttachmentNumberInjection();
+
+                ap.RecentlyEnteredMediaUrl = url;
+            }
+            else 
+            {
+                await Utils.DelayAsync(700);
+
+                if (DateTime.Now.Subtract(_recentMediaChange).TotalMilliseconds > 700)
+                {
+                    if (!string.IsNullOrWhiteSpace(url) &&
+                        url != ap.RecentlyEnteredMediaUrl)
+                    {
+                        ErrMessages.InvalidUrl();
+                    }
+                }
             }
         }
 
@@ -464,13 +480,13 @@ namespace Discussions.view
             if (ap == null)
                 return;
 
-            InpDialog dlg = new InpDialog();
+            var dlg = new InpDialog();
             dlg.ShowDialog();
             string URL = dlg.Answer;
             if (URL == null)
                 return;
 
-            Attachment a = new Attachment();
+            var a = new Attachment();
             var imgSrc = AttachmentManager.ProcessAttachCmd(ap, URL, ref a);
             if (imgSrc != null)
             {
@@ -651,7 +667,12 @@ namespace Discussions.view
 
                 UpdateOrderedSources();
                 BeginSrcNumberInjection();
-            }    
+            }
+            else if (!string.IsNullOrWhiteSpace(txtSource.Text) && 
+                     txtSource.Text != ap.RecentlyEnteredSource)
+            {
+                ErrMessages.InvalidUrl();
+            }
         }
 
         private void txtSource_KeyDown_1(object sender, KeyEventArgs e)

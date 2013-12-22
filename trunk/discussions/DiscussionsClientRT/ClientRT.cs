@@ -939,12 +939,12 @@ namespace DiscussionsClientRT
                           true);
         }
 
-        public void SendPdfScrolled(int ownerId, int y, int topicId)
+        public void SendPdfScrolled(int ownerId, double x, double y, float zoom, int topicId)
         {
             if (peer == null || peer.PeerState != PeerStateValue.Connected)
                 return;
 
-            var req = new PdfScrollPosition {ownerId = ownerId, topicId = topicId, Y = y};
+            var req = new PdfScrollPosition {ownerId = ownerId, topicId = topicId, X = x, Y = y, Zoom = zoom};
             peer.OpCustom((byte)DiscussionOpCode.PdfScrollChanged,
                           req.ToDict(),
                           true);

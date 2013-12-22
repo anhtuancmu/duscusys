@@ -389,8 +389,8 @@ namespace Discussions.view
                 await Utils.DelayAsync(10);
             }
 
-            _laserPointerWndCtx.BotHandleAttach(new Point(600, 600));
-            await Utils.DelayAsync(10);
+            ExplanationModeMediator.Inst.LasersEnabled = true;
+            await Utils.DelayAsync(50);
             await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
 
             await Utils.DelayAsync(200);
@@ -407,16 +407,6 @@ namespace Discussions.view
 
             _prevX = pos.X;
             _prevY = pos.Y;
-        }
-
-        public void BotEnableLaser()
-        {
-            _laserPointerWndCtx.LocalLazerEnabled = true;
-        }
-
-        public void BotDisableLaser()
-        {
-            _laserPointerWndCtx.LocalLazerEnabled = false;
         }
     }
 }
