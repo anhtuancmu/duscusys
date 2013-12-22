@@ -142,8 +142,8 @@ namespace MoonPdfLib
 			
 			this.CreateNewItemsSource();
 
-			this.scrollViewer.ScrollToHorizontalOffset( (xOffset / zoom) * zoomFactor);
-			this.scrollViewer.ScrollToVerticalOffset( (yOffset / zoom) * zoomFactor);
+            this.scrollViewer.ScrollToHorizontalOffset((xOffset / zoom) * zoomFactor);
+            this.scrollViewer.ScrollToVerticalOffset((yOffset / zoom) * zoomFactor);
 		}
 		#endregion
 
