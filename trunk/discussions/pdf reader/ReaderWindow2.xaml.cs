@@ -8,7 +8,6 @@ using Discussions.bots;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using DistributedEditor;
-using Point = System.Drawing.Point;
 
 namespace Discussions.pdf_reader
 {
@@ -85,15 +84,8 @@ namespace Discussions.pdf_reader
             _viewStateTimer = new DispatcherTimer();
             _viewStateTimer.Interval = TimeSpan.FromMilliseconds(100);
             _viewStateTimer.Tick += _viewStateTimer_Tick;
-            Utils.DelayAsync(100).GetAwaiter().OnCompleted(
-                async () => {
-                     if (_mediator.ExplanationModeEnabled)
-                        RequestScrollPosition();
-
-                     await Utils.DelayAsync(250);
-
-                    _viewStateTimer.Start();
-                });
+            if (_mediator.ExplanationModeEnabled)
+                Utils.DelayAsync(100).GetAwaiter().OnCompleted(RequestScrollPosition);
 
             if (topicId != null)
                 _mediator.CurrentTopicId = topicId;
@@ -114,10 +106,14 @@ namespace Discussions.pdf_reader
                 _viewStateTimer = null;
             }
 
+            _recentSyncedScrollX = 0;
+            _recentSyncedScrollY = 0;
+            _recentSyncedZoom = 0;
+
             ExplanationModeMediator.Inst.OnWndClosed(this);
             Hide();
         }
-
+        
         public static void EnsureInstanceClosed()
         {
             if (_inst == null)
@@ -183,6 +179,11 @@ namespace Discussions.pdf_reader
                 _recentSyncedZoom = scroll.Zoom;
 
                 SetView(scroll.X, scroll.Y, scroll.Zoom);
+
+                //if (!_viewStateTimer.IsEnabled)
+                //{
+                //    Utils.DelayAsync(1800).GetAwaiter().OnCompleted(() => _viewStateTimer.Start());
+                //}
             }
         }
 

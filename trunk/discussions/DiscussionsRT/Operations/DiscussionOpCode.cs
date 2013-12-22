@@ -118,7 +118,7 @@
         GetBrowserScrollPos = 46, 
 
         //pdf scroll bar sync
-        PdfScrollChanged = 47,
+        PdfScrollChanged = 50,
 
         GetPdfScrollPos = 48
     }
