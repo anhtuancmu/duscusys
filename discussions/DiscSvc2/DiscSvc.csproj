@@ -128,7 +128,11 @@
     <Compile Include="Reporting\PartialReport.cs" />
     <Compile Include="Reporting\PartialReportMedia.cs" />
     <Compile Include="Reporting\QueryParams.cs" />
-    <Compile Include="Reporting\Toc.cs" />
+    <Compile Include="Reporting\Toc1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Toc.tt</DependentUpon>
+    </Compile>
     <Compile Include="Reporting\TocHandler.cs" />
     <Compile Include="Reporting\Report.cs">
       <DependentUpon>Report.tt</DependentUpon>
@@ -149,6 +153,7 @@
     <Compile Include="Reporting\TocTableRow.cs" />
     <Compile Include="Reporting\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\PartialToc.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -168,6 +173,14 @@
     </Content>
     <Content Include="DiscBgHandler.ashx" />
     <Content Include="packages.config" />
+    <Content Include="Toc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Toc.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reporting\Toc.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Toc1.cs</LastGenOutput>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
