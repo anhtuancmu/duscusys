@@ -102,9 +102,9 @@ namespace Discussions.pdf_reader
 
         public void Deinit()
         {
-            SetListeners(false);
             _mediator.PdfOpen = false;
             _mediator.LasersEnabled = false;
+            SetListeners(false);
 
             if (_viewStateTimer != null)
             {
