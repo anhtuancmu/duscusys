@@ -114,10 +114,10 @@ namespace Discussions.view
             localAccount.DataContext = SessionInfo.Get().person;
 
             _botsViewModel = new BotsViewModel(this);
-            btnEnlargeOpenCommentClose.DataContext = _botsViewModel;
-            btnEnlargeOpenAttachmentClose.DataContext = _botsViewModel;
-            btnSuperBotEnabled.DataContext = _botsViewModel;
-            btnEnlargeOpenSourceClose.DataContext = _botsViewModel;
+            //btnEnlargeOpenCommentClose.DataContext = _botsViewModel;
+            //btnEnlargeOpenAttachmentClose.DataContext = _botsViewModel;
+            //btnSuperBotEnabled.DataContext = _botsViewModel;
+            //btnEnlargeOpenSourceClose.DataContext = _botsViewModel;
 
             avaBar.Init(_sharedClient);
             avaBar.paletteOwnerChanged += PaletteOwnerChanged;
