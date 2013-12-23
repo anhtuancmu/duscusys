@@ -17,6 +17,7 @@ using Discussions.view;
 using Discussions.YouViewer;
 using System.Runtime.InteropServices;
 using Discussions.pdf_reader;
+using MoonPdfLib.MuPdf;
 
 namespace Discussions
 {
@@ -456,19 +457,13 @@ namespace Discussions
         private static Attachment AttachAsBlob(string filter, AttachmentFormat format, bool autoInferenceOfFormat,
                                                ArgPoint Point)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.Filter = filter;
-            openFileDialog1.RestoreDirectory = true;
+            var openFileDialog1 = new OpenFileDialog {Filter = filter, RestoreDirectory = true};
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string attachmentName = Path.GetFileName(openFileDialog1.FileName);
 
-                Attachment a = new Attachment();
-                a.Name = attachmentName;
-                a.Title = attachmentName;
-                a.Link = openFileDialog1.FileName;
+                var a = new Attachment {Name = attachmentName, Title = attachmentName, Link = openFileDialog1.FileName};
 
                 if (autoInferenceOfFormat)
                     format = GetImgFmt(openFileDialog1.FileName);
@@ -726,62 +721,17 @@ namespace Discussions
             }
         }
 
-        //returns bytes stream of image or null
         public static byte[] TryCreatePdfThumb(string pdfPathName)
         {
-            Acrobat.CAcroPDDoc doc = null;
-            Acrobat.CAcroPDPage page = null;
-
-            try
+            var src = new FileSource(pdfPathName);
+            using (var ms = new MemoryStream())
             {
-                // instanciate adobe acrobat
-                doc = (Acrobat.CAcroPDDoc) new Acrobat.AcroPDDocClass();
-
-                if (doc.Open(pdfPathName))
+                using (Bitmap bmp = MuPdfWrapper.ExtractPage(src, 0))
                 {
-                    if (doc.GetNumPages() > 0)
-                    {
-                        // get reference to page
-                        // pages use a zero based index so 0 = page1
-                        page = (Acrobat.CAcroPDPage) doc.AcquirePage(0);
-
-                        // get dimensions of page and create rect to indicate full size
-                        Acrobat.AcroPoint pt = (Acrobat.AcroPoint) page.GetSize();
-                        Acrobat.CAcroRect rect = new Acrobat.AcroRectClass();
-                        rect.Top = 0;
-                        rect.Left = 0;
-                        rect.right = pt.x;
-                        rect.bottom = pt.y;
-
-                        // copy current page to clipboard as image                        
-                        page.CopyToClipboard(rect, 0, 0, 100);
-
-                        // get image from clipboard as bitmap
-                        IDataObject data = Clipboard.GetDataObject();
-                        var bmp = (System.Drawing.Bitmap) data.GetData(DataFormats.Bitmap);
-                        var thumb = bmp.GetThumbnailImage(pt.x/3, pt.y/3, null, IntPtr.Zero);
-                        var ms = new MemoryStream();
-                        thumb.Save(ms, ImageFormat.Jpeg);
-                        return ms.ToArray();
-                    }
+                    bmp.Save(ms, ImageFormat.Jpeg);
                 }
+                return ms.ToArray();
             }
-            catch (Exception)
-            {
-                // MessageBox.Show(e.StackTrace);
-                //Console.WriteLine(e);
-
-                // if we get here and doc is null then we were unable to instanciate Acrobat
-                //if (doc == null) 
-                //    MessageBox.Show("Acrobat is not installed. Adobe Acrobat is required.");
-            }
-            finally
-            {
-                if (page != null) Marshal.ReleaseComObject(page);
-                if (doc != null) Marshal.ReleaseComObject(doc);
-            }
-
-            return null;
         }
     }
 }
