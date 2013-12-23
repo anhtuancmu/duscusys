@@ -14,10 +14,12 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ItemsControl Name="itemsControl" UseLayoutRounding="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <ItemsControl Name="itemsControl" UseLayoutRounding="True"
+                   ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                   ScrollViewer.VerticalScrollBarVisibility="Auto">
         <ItemsControl.Template>
             <ControlTemplate TargetType="{x:Type ItemsControl}">
-                <ScrollViewer CanContentScroll="True" FocusVisualStyle="{x:Null}">
+                <ScrollViewer CanContentScroll="True" FocusVisualStyle="{x:Null}" PanningMode="Both">
                     <ItemsPresenter />
                 </ScrollViewer>
             </ControlTemplate>

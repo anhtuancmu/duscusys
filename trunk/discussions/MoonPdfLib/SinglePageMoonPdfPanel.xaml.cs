@@ -181,12 +181,12 @@ namespace MoonPdfLib
 			ZoomInternal( this.CurrentZoom - this.parent.ZoomStep);
 		}
 
-		public void Zoom(double zoomFactor)
+        public void Zoom(double zoomFactor, bool preventScrolling)
 		{
 			this.ZoomInternal(zoomFactor);
 		}
 
-		private void ZoomInternal(double zoomFactor)
+        private void ZoomInternal(double zoomFactor)
 		{
 			if (zoomFactor > this.parent.MaxZoomFactor)
 				zoomFactor = this.parent.MaxZoomFactor;

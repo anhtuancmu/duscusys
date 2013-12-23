@@ -16,22 +16,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 !*/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MoonPdfLib.MuPdf;
 using MoonPdfLib.Helper;
 using System.Windows.Threading;
-using System.ComponentModel;
 
 namespace MoonPdfLib
 {
@@ -44,11 +37,17 @@ namespace MoonPdfLib
         public event EventHandler<PasswordRequiredEventArgs> PasswordRequired;
         public event EventHandler OnZoomChanged;
 
-		private ZoomType zoomType = ZoomType.Fixed;
+		private ZoomType zoomType = ZoomType.FitToWidth;
 		private IMoonPdfPanel innerPanel;
 		private MoonPdfPanelInputHandler inputHandler;
 		private PageRowBound[] pageRowBounds;
 		private DispatcherTimer resizeTimer;
+
+	    private double zoomOnManipulatedStarted;
+        private double zoomXOnManipulatedStarted;
+        private double zoomYOnManipulatedStarted;
+	    private double verticalOffsetOnManipulationStarted;
+	    private double horizontalOffsetOnManipulationStarted;
 
 		#region Dependency properties
 		public static readonly DependencyProperty PageMarginProperty = DependencyProperty.Register("PageMargin", typeof(Thickness),
@@ -124,7 +123,7 @@ namespace MoonPdfLib
 		public ZoomType ZoomType
 		{
 			get { return this.zoomType; }
-			private set
+			set
 			{
 				if (this.zoomType != value)
 				{
@@ -168,6 +167,11 @@ namespace MoonPdfLib
 			resizeTimer.Stop();
 			resizeTimer.Start();
 		}
+
+	    public void MouseWheel(object sender, MouseWheelEventArgs e)
+	    {
+            this.inputHandler.MouseWheel(sender, e);
+	    }
 
 		void resizeTimer_Tick(object sender, EventArgs e)
 		{
@@ -291,9 +295,9 @@ namespace MoonPdfLib
 			this.ZoomType = ZoomType.Fixed;
 		}
 
-		public void Zoom(double zoomFactor)
+		public void Zoom(double zoomFactor, bool preventScrolling)
 		{
-            this.innerPanel.Zoom(zoomFactor);
+            this.innerPanel.Zoom(zoomFactor, preventScrolling);
 			this.ZoomType = ZoomType.Fixed;
 		}
 
@@ -427,7 +431,7 @@ namespace MoonPdfLib
 				Action reloadAction = () =>
 					{
                         this.LoadPdf(this.CurrentSource, this.CurrentPassword);
-						this.innerPanel.Zoom(zoom);
+						this.innerPanel.Zoom(zoom, false);
 						this.innerPanel.GotoPage(currentPage);
 					};
 
@@ -483,6 +487,45 @@ namespace MoonPdfLib
                 }
 			}
 		}
+
+	    private void MoonPdfPanel_OnManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+	    {
+	        double newZoom = e.CumulativeManipulation.Scale.Length/Math.Sqrt(2)*zoomOnManipulatedStarted;
+	        double zoomX = e.CumulativeManipulation.Scale.X * zoomOnManipulatedStarted;
+            double zoomY = e.CumulativeManipulation.Scale.Y * zoomOnManipulatedStarted;
+
+	        double xRatio = e.ManipulationOrigin.X/this.ActualWidth;
+            double yRatio = e.ManipulationOrigin.Y/this.ActualHeight;
+
+            // this.innerPanel.Zoom(zoom, true);
+            Debug.WriteLine(e.ManipulationOrigin.X + " " + e.ManipulationOrigin.Y);
+
+	        var sh = this.innerPanel.ScrollViewer.ScrollableHeight;
+            var yOffset = this.innerPanel.ScrollViewer.VerticalOffset;
+			var xOffset = this.innerPanel.ScrollViewer.HorizontalOffset;
+			var zoom = this.CurrentZoom;
+
+            //(xOffset/zoom)*newZoom
+            double x = horizontalOffsetOnManipulationStarted + e.CumulativeManipulation.Translation.X;
+            double y = verticalOffsetOnManipulationStarted   - e.CumulativeManipulation.Translation.Y;
+            this.innerPanel.Zoom(newZoom, false);
+
+            //this.innerPanel.ScrollViewer.ScrollToHorizontalOffset(newZoom * xOffset / zoom);
+            //this.innerPanel.ScrollViewer.ScrollToVerticalOffset(newZoom * yOffset / zoom);
+      
+	        e.Handled = true;
+	    }
+
+	    private void MoonPdfPanel_OnManipulationStarting(object sender, ManipulationStartingEventArgs e)
+	    {
+            e.Mode = ManipulationModes.Scale | ManipulationModes.Translate;
+
+	        zoomOnManipulatedStarted = this.innerPanel.CurrentZoom;
+	        horizontalOffsetOnManipulationStarted = this.innerPanel.ScrollViewer.HorizontalOffset;
+            verticalOffsetOnManipulationStarted = this.innerPanel.ScrollViewer.VerticalOffset;
+
+	        e.Handled = true;
+	    }
 	}
 
     public class PasswordRequiredEventArgs : EventArgs
