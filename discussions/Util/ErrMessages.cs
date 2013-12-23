@@ -4,7 +4,7 @@
     {
         public static void InvalidUrl()
         {
-            MessageDlg.Show("That doesn't appear to be a valid URL.");
+            MessageDlg.Show("That doesn't appear to be a valid URL./このURLは有効ではありません");
         }
     }
 }
