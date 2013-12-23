@@ -5,6 +5,7 @@ using System.Windows.Media.Animation;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 using Discussions.view;
+using Discussions.youtube;
 
 namespace Discussions.YouViewer
 {
