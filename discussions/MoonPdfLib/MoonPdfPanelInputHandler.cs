@@ -86,6 +86,11 @@ namespace MoonPdfLib
             return false;
         }
 
+	    public void MouseWheel(object sender, MouseWheelEventArgs e)
+	    {
+	        source_PreviewMouseWheel(sender, e);
+	    }
+
 		void source_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			var ctrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);

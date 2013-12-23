@@ -11,6 +11,7 @@
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     IsManipulationEnabled="True" 
+    MouseWheel="ReaderWindow2_OnMouseWheel"
     Loaded="ReaderWindow_OnLoaded"
     Closing="Window_Closing_1"
     d:DesignWidth="657.233"

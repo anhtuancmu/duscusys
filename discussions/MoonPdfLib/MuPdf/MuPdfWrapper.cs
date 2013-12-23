@@ -19,13 +19,9 @@ using MoonPdfLib.Helper;
  * 2013 - Modified and extended version of W. Jordan's code (see AUTHORS file)
  */
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace MoonPdfLib.MuPdf
 {

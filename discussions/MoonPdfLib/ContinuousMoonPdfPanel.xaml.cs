@@ -16,9 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 !*/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using MoonPdfLib.MuPdf;
 using MoonPdfLib.Virtualizing;
 using MoonPdfLib.Helper;
@@ -32,6 +34,7 @@ namespace MoonPdfLib
 		private CustomVirtualizingPanel virtualPanel;
 		private PdfImageProvider imageProvider;
 		private VirtualizingCollection<IEnumerable<PdfImage>> virtualizingPdfPages;
+        private double zoomOnManipulatedStarted;
         public EventHandler OnZoomChanged { get; set; }			
 	
 		public ContinuousMoonPdfPanel(MoonPdfPanel parent)
@@ -95,32 +98,32 @@ namespace MoonPdfLib
 			var scrollBarWidth = this.scrollViewer.ComputedVerticalScrollBarVisibility == System.Windows.Visibility.Visible ? SystemParameters.VerticalScrollBarWidth : 0;
 			scrollBarWidth += 2; // Magic number, sorry :)
 
-			ZoomInternal((this.ActualWidth - scrollBarWidth) / this.parent.PageRowBounds.Max(f => f.SizeIncludingOffset.Width));
+			ZoomInternal((this.ActualWidth - scrollBarWidth) / this.parent.PageRowBounds.Max(f => f.SizeIncludingOffset.Width), false);
 		}
 
 		public void ZoomToHeight()
 		{
 			var scrollBarHeight = this.scrollViewer.ComputedHorizontalScrollBarVisibility == System.Windows.Visibility.Visible ? SystemParameters.HorizontalScrollBarHeight : 0;
 
-			ZoomInternal((this.ActualHeight - scrollBarHeight) / this.parent.PageRowBounds.Max(f => f.SizeIncludingOffset.Height));
+			ZoomInternal((this.ActualHeight - scrollBarHeight) / this.parent.PageRowBounds.Max(f => f.SizeIncludingOffset.Height), false);
 		}
 
 		public void ZoomIn()
 		{
-			ZoomInternal(this.CurrentZoom + this.parent.ZoomStep);
+            ZoomInternal(this.CurrentZoom + this.parent.ZoomStep, false);
 		}
 
 		public void ZoomOut()
 		{
-			ZoomInternal(this.CurrentZoom - this.parent.ZoomStep);
+			ZoomInternal(this.CurrentZoom - this.parent.ZoomStep, false);
 		}
 
-		public void Zoom(double zoomFactor)
+		public void Zoom(double zoomFactor,  bool preventScrolling)
 		{
-			this.ZoomInternal(zoomFactor);
+            this.ZoomInternal(zoomFactor, preventScrolling);
 		}
 
-		private void ZoomInternal(double zoomFactor)
+        private void ZoomInternal(double zoomFactor, bool preventScrolling)
 		{
 			if (zoomFactor > this.parent.MaxZoomFactor)
 				zoomFactor = this.parent.MaxZoomFactor;
@@ -142,11 +145,14 @@ namespace MoonPdfLib
 			
 			this.CreateNewItemsSource();
 
-            this.scrollViewer.ScrollToHorizontalOffset((xOffset / zoom) * zoomFactor);
-            this.scrollViewer.ScrollToVerticalOffset((yOffset / zoom) * zoomFactor);
+            if (!preventScrolling)
+            {
+                this.scrollViewer.ScrollToHorizontalOffset((xOffset/zoom)*zoomFactor);
+                this.scrollViewer.ScrollToVerticalOffset((yOffset/zoom)*zoomFactor);
+            }
 		}
 		#endregion
-
+       
 		public void GotoPreviousPage()
 		{
 			if (this.scrollViewer == null)

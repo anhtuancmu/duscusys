@@ -2,12 +2,14 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using AbstractionLayer;
 using Discussions.bots;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using DistributedEditor;
+using MoonPdfLib;
 
 namespace Discussions.pdf_reader
 {
@@ -52,7 +54,7 @@ namespace Discussions.pdf_reader
         private bool _moonPdfLoaded;
         private void MoonPdfPanel_OnLoaded(object sender, RoutedEventArgs e)
         {
-            _moonPdfLoaded = true;
+            _moonPdfLoaded = true;          
         }
 
         void Init(string pdfPathName, int attachmentId, int? topicId, bool localRequest)
@@ -79,6 +81,8 @@ namespace Discussions.pdf_reader
             else
                 Utils.DelayAsync(100).GetAwaiter().OnCompleted(
                     () => _inst.moonPdfPanel.OpenFile(pdfPathName));
+
+            moonPdfPanel.ZoomType = ZoomType.FitToWidth;
 
             //wait the doc to load before starting sync.
             _viewStateTimer = new DispatcherTimer();
@@ -200,7 +204,7 @@ namespace Discussions.pdf_reader
 
         void SetView(double x, double y, float zoom)
         {
-            moonPdfPanel.Zoom(zoom);//resets scroll
+            moonPdfPanel.Zoom(zoom, false);//resets scroll
             moonPdfPanel.ScrollViewer.ScrollToVerticalOffset(y);
             moonPdfPanel.ScrollViewer.ScrollToHorizontalOffset(x); 
         }
@@ -258,6 +262,15 @@ namespace Discussions.pdf_reader
             await Utils.DelayAsync(500);
             await BotUtils.LaserMovementAsync(_laserPointerWndCtx);
             await Utils.DelayAsync(500);
+        }
+
+        private void ReaderWindow2_OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var ctrlDown = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
+            if (ctrlDown)
+                moonPdfPanel.MouseWheel(sender, e);
+            else
+                moonPdfPanel.ScrollViewer.ScrollToVerticalOffset(moonPdfPanel.ScrollViewer.VerticalOffset - e.Delta);
         }
     }
 }
