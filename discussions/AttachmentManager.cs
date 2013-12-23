@@ -14,6 +14,7 @@ using Discussions.DbModel.model;
 using Discussions.DbModel;
 using System.Diagnostics;
 using Discussions.view;
+using Discussions.youtube;
 using Discussions.YouViewer;
 using System.Runtime.InteropServices;
 using Discussions.pdf_reader;
@@ -88,7 +89,7 @@ namespace Discussions
         public static AttachCmd DeriveCmdFromUrl(string Url)
         {
             Url = Url.ToLower();
-            if (Url.StartsWith("http://www.youtube.com"))
+            if (Url.Contains("youtube.com"))
                 return AttachCmd.ATTACH_YOUTUBE;
             else if (Url.EndsWith(".pdf"))
                 return AttachCmd.ATTACH_PDF_FROM_URL;

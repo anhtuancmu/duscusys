@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using Discussions.rt;
 using Discussions.model;
+using Discussions.youtube;
 
 namespace Discussions.YouViewer
 {

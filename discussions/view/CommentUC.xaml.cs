@@ -85,7 +85,7 @@ namespace Discussions.view
         private static void OnPermitsEditChanged(DependencyObject source,
                                                  DependencyPropertyChangedEventArgs e)
         {
-            CommentUC control = source as CommentUC;
+            var control = source as CommentUC;
             bool permits = (bool) e.NewValue;
             if (!permits)
                 control.btnRemoveComment.Visibility = Visibility.Hidden;

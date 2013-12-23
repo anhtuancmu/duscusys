@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
+using Discussions.youtube;
 using Discussions.YouViewer;
 using Discussions.DbModel;
 
