@@ -74,6 +74,9 @@ namespace Discussions.pdf_reader
             _mediator = ExplanationModeMediator.Inst;
             _mediator.PdfOpen = true;
 
+            if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                DiscWindows.Get().HidePublic();
+
             ExplanationModeMediator.Inst.OnWndOpened(this, attachmentId, localRequest);
 
             if (_moonPdfLoaded)
@@ -105,6 +108,8 @@ namespace Discussions.pdf_reader
             _mediator.PdfOpen = false;
             _mediator.LasersEnabled = false;
             SetListeners(false);
+
+            DiscWindows.Get().ShowPublic();
 
             if (_viewStateTimer != null)
             {
