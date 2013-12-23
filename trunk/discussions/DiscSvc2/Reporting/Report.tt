@@ -229,7 +229,7 @@
 		<div style="padding-top:40px">
 			<#= Helpers.GetPastableHtml(a, BaseUrl) #>	
 			
-			<p> <#= i#>. <#= a.Link#></p>	
+			<p> <#=Helpers.GetAttachmentLink(a, BaseUrl, i)#> </p>	
 		</div> 
 		<#+
 	}

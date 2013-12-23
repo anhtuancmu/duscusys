@@ -26,7 +26,9 @@ namespace Discussions.YouViewer
     {
         #region Data
 
-        private const string SEARCH = "http://gdata.youtube.com/feeds/api/videos?q={0}&alt=rss&&max-results=20&v=1";
+        //private const string SEARCH = "http://gdata.youtube.com/feeds/api/videos?q={0}&alt=rss&&max-results=20&v=1";
+        private const string SEARCH = "https://gdata.youtube.com/feeds/api/videos/{0}?v=2";
+        
 
         #endregion
 
