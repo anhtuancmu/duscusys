@@ -118,7 +118,7 @@ namespace Discussions.YouViewer
             try
             {
                 string embedUrl = link.Substring(0, link.IndexOf("&")).Replace("watch?v=", "embed/");
-                return embedUrl;
+                return embedUrl + "?autoplay=1";
             }
             catch
             {
