@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-//1. create group
+﻿//1. create group
 //2. delete group
 //3. move group
 //4. drag badge into group

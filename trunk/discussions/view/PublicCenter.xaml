@@ -639,12 +639,17 @@
                                   
                                    IsChecked="{Binding SuperBotEnabled}"
                                    />-->
+
+            <CheckBox x:Name="btnDEditorBotEnabled" Content="DEditor bot"  
+                                  
+                                   IsChecked="{Binding DEditorBotEnabled}"
+                                   /> 
         </StackPanel>
 
         <Label x:Name="lblDiscussion" Content="{Binding discussion.Subject}" HorizontalAlignment="Left"
                d:LayoutOverrides="HorizontalMargin" VerticalAlignment="Center" FontSize="21.333" Margin="20,-317,0,363"
                Height="10" Width="10" />
-        <Canvas x:Name="drawTools" ClipToBounds="False" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Canvas x:Name="drawTools" ClipToBounds="False" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
         <view:TopicNavPanel x:Name="topicNavPanel" VerticalAlignment="Top" Height="150"
                              d:LayoutOverrides="Width, Margin" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">

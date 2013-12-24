@@ -16,12 +16,17 @@ namespace Discussions.RTModel
     //there is one vector processor per topic
     public class VectProcessor
     {
+        const double BoardWidth  = 1500;
+        const double BoardHeight = 750;
+        const double BadgeShapeWidth = 112;
+        const double BadgeShapeHeight = 75;
+        const double BadgeVGap = 112;
+        const double BadgeHGap = 75;
+
         private readonly DiscussionRoom _room;
         private readonly int _topicId;
 
         private ServerVdDoc _doc;
-
-        private readonly Random _coordsRnd = new Random();
 
         private ClusterTopology _topology;
 
@@ -186,13 +191,18 @@ namespace Discussions.RTModel
             _doc.AddShape(badgeSh);
             _topology.CreateBadge(badgeSh.Id());
 
+            //get position
+            double x;
+            double y;
+            GetBadgeSmartLocation(ap.Person.Id, out x, out y);
+
             //set initial badge state 
             var st = new ShapeState(VdShapeType.Badge,
                                     ap.Person.Id,
                                     badgeSh.Id(),
                                     null,
                                     null,
-                                    new double[] {100 + _coordsRnd.Next(400), 100 + _coordsRnd.Next(400)},
+                                    new double[] {x, y},
                                     _topicId);
             badgeSh.ApplyState(st);
 
@@ -209,6 +219,87 @@ namespace Discussions.RTModel
                             BroadcastTo.RoomAll);
 
             _pendingChanges = true;
+        }
+
+        /// <summary>
+        /// When called, the new badge shape is already created
+        /// </summary>
+        void GetBadgeSmartLocation(int ownerId, out double x, out double y)
+        {
+            IServerVdShape[] badges = _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge).ToArray();
+            int[] ownerIds = badges.Select(b => b.InitialOwner()).Distinct().ToArray();
+            IServerVdShape[] ownerBadges = badges.Where(b => b.InitialOwner() == ownerId).ToArray();
+
+            double clusterLeft;
+            double clusterTop;
+
+            const double TopMargin = 80;
+            const double LeftMargin = 140;
+            const double RightMargin = 140;
+            const double BottomMargin = 80;
+
+            if (ownerBadges.Length <= 1)
+            {
+                //this is the first owner's cluster
+                switch (ownerIds.Length)
+                {
+                    case 1:
+                        clusterLeft = BoardWidth /2;
+                        clusterTop  = BoardHeight/2;
+                        break;
+                    case 2:
+                        clusterLeft = LeftMargin;
+                        clusterTop = 0.5*BoardHeight;
+                        break;
+                    case 3:
+                        clusterLeft = BoardWidth - RightMargin;
+                        clusterTop = 0.5*BoardHeight;
+                        break;
+                    case 4:
+                        //top left
+                        clusterLeft = LeftMargin;
+                        clusterTop = TopMargin;
+                        break;
+                    case 5:
+                        //top right
+                        clusterLeft = BoardWidth - RightMargin;
+                        clusterTop = TopMargin;
+                        break;
+                    case 6:
+                        //bottom left
+                        clusterLeft = LeftMargin;
+                        clusterTop = BoardHeight - BottomMargin;
+                        break;
+                    case 7:
+                        //bottom right 
+                        clusterLeft = BoardWidth - RightMargin;
+                        clusterTop = BoardHeight - BottomMargin;
+                        break;
+                    default:
+                        var rnd = new Random();
+                        clusterLeft = BoardWidth *rnd.NextDouble();
+                        clusterTop  = BoardHeight*rnd.NextDouble();
+                        break;
+                }
+            }
+            else
+            {
+                //the owner has previous badges, 
+                //extract the firt badge that marks top left of its cluster
+                clusterLeft = ownerBadges[0].GetState().doubles[0];
+                clusterTop = ownerBadges[0].GetState().doubles[1];
+            }
+
+            int indexOfTheBadge = ownerBadges.Length - 1;
+
+            const int maxCols = 3;
+
+            int row = indexOfTheBadge / maxCols;
+            int col = indexOfTheBadge - row * maxCols;
+
+            var rnd2 = new Random();
+            x = clusterLeft + col * (BadgeShapeWidth + rnd2.NextDouble() * BadgeHGap);
+            y = clusterTop  + row * (BadgeShapeHeight + rnd2.NextDouble() * BadgeVGap);
         }
 
         public void HandleDeleteShapes(LitePeer peer,

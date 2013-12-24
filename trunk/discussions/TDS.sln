@@ -31,9 +31,9 @@ EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "PhotonSocketServer", "ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe", "{47F6D757-C129-4D75-8A7E-8384952580D6}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe
+		Executable = C:\Users\User\Documents\Visual Studio 2013\Projects\TDS4\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64\PhotonSocketServer.exe
 		RemoteMachine = CYBERARENA-PC
-		StartingDirectory = C:\Users\User\Documents\Visual Studio 2013\Projects\tds3\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64
+		StartingDirectory = C:\Users\User\Documents\Visual Studio 2013\Projects\TDS4\discussions\ExitGames-Photon-Server-SDK_v3-0-24-3243-RC9\deploy\bin_Win64
 		Arguments = /debug Instance1
 		Environment = Default
 		LaunchingEngine = fb0d4648-f776-4980-95f8-bb7f36ebc1ee

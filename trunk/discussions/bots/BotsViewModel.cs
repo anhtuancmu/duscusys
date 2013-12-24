@@ -9,12 +9,14 @@ namespace Discussions.bots
         private EnlargeOpenCommentsCloseBot _enlargeOpenCommentsCloseBot;
         private EnlargeOpenAttachmentCloseBot _enlargeOpenAttachmentCloseBot;
         private EnlargeOpenSourceCloseBot _enlargeOpenSourceCloseBot;
+        private DEditorBot _dEditorBot;
         private SuperBot _superBot;
 
         private bool _enlargeOpenCommentsCloseBotEnabled;
         private bool _enlargeOpenAttachmentCloseBotEnabled;
         private bool _enlargeOpenSourceCloseBotEnabled;
         private bool _superBotEnabled;
+        private bool _dEditorBotEnabled;
 
         public BotsViewModel(PublicCenter publicCenter)
         {
@@ -40,7 +42,7 @@ namespace Discussions.bots
                     _enlargeOpenCommentsCloseBot.Dispose();
                     _enlargeOpenCommentsCloseBot = null;
                 }
-
+             
                 _enlargeOpenCommentsCloseBotEnabled = value;
                 OnPropertyChanged();
             }
@@ -111,6 +113,29 @@ namespace Discussions.bots
                 }
 
                 _superBotEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DEditorBotEnabled
+        {
+            get { return _dEditorBotEnabled; }
+            set
+            {
+                if (value == _dEditorBotEnabled)
+                    return;
+
+                if (value && _dEditorBot == null && _publicCenter.Ctx!=null)
+                {
+                    _dEditorBot = new DEditorBot(_publicCenter.Ctx.SceneMgr);
+                }
+                else if (!value && _dEditorBot != null)
+                {
+                    _dEditorBot.Dispose();
+                    _dEditorBot = null;
+                }
+
+                _dEditorBotEnabled = value;
                 OnPropertyChanged();
             }
         }
