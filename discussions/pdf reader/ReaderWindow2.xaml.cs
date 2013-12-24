@@ -198,6 +198,7 @@ namespace Discussions.pdf_reader
         {
             if (e.PropertyName == "ExplanationModeEnabled")
             {
+                _viewStateTimer.Start();
                 if (_mediator.ExplanationModeEnabled)
                     RequestScrollPosition();
             }

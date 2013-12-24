@@ -10,7 +10,6 @@ using Discussions;
 using Discussions.ctx;
 using Discussions.DbModel.model;
 using Discussions.d_editor;
-using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 
@@ -22,6 +21,11 @@ namespace DistributedEditor
     {
         private readonly Canvas _scene;
         private readonly Palette _palette;
+
+        public Palette Palette
+        {
+            get { return _palette; }
+        }
 
         private readonly DistributedInkCanvas _ink;
         private readonly InkPalette _inkPalette;
@@ -217,10 +221,10 @@ namespace DistributedEditor
 
         //we are removing locally focused shape (not cursored by others), if any. 
         //the shape either must have our cursor or be cursor-free 
-        public void RemoveShape(int owner)
+        public void RemoveShape(int owner, bool supressErrMessages = false)
         {
             var sh = _doc.VolatileCtx.LocalFocus;
-            if (sh == null)
+            if (sh == null && !supressErrMessages)
             {
                 MessageDlg.Show("Please select shape to remove/削除対象が選択されていません",
                                 "No shape selected",
@@ -229,7 +233,7 @@ namespace DistributedEditor
                 return;
             }
 
-            if (!editingPermission(sh))
+            if (!editingPermission(sh) && !supressErrMessages)
             {
                 MessageDlg.Show("Cannot remove shape under user cursor/他のユーザーが操作中の付箋は削除できません",
                                 "No permission",
@@ -382,29 +386,7 @@ namespace DistributedEditor
                     if (underContact == null)
                         return false;
 
-                    var shapeFree = underContact.GetCursor() == null;
-                    var shapeLockedByUs = false;
-                    if (!shapeFree)
-                        shapeLockedByUs = underContact.GetCursor().OwnerId == _palette.GetOwnerId();
-
-                    //this shape free and we don't have cursors
-                    if (shapeFree && _doc.VolatileCtx.LocalCursor == null)
-                    {
-                        //shape free, try lock it and schedule cursor approval continuation                        
-                        {
-                            _cursorApproval.resizeNode = resizeNode;
-                            _cursorApproval.pos = pos;
-                            _cursorApproval.td = touchDev;
-                            _modeMgr.Mode = ShapeInputMode.CursorApprovalExpected;
-                        }
-
-                        //take new local cursor
-                        _doc.VolatileCtx.BeginTakeShapeWithLocalCursor(underContact.Id());
-                    }
-                    else if (shapeLockedByUs)
-                    {
-                        CaptureAndStartManip(underContact, pos, resizeNode, touchDev);
-                    }
+                    LockIfPossible(underContact, resizeNode, pos, touchDev);
                     return true;
                 case ShapeInputMode.Manipulating:
                     return true;
@@ -414,6 +396,34 @@ namespace DistributedEditor
                     throw new NotSupportedException();
             }
         }
+
+        public void LockIfPossible(IVdShape shape, Shape resizeNode, Point pos, TouchDevice touchDev)
+        {
+            var shapeFree = shape.GetCursor() == null;
+            var shapeLockedByUs = false;
+            if (!shapeFree)
+                shapeLockedByUs = shape.GetCursor().OwnerId == _palette.GetOwnerId();
+
+            //this shape free and we don't have cursors
+            if (shapeFree && _doc.VolatileCtx.LocalCursor == null)
+            {
+                //shape free, try lock it and schedule cursor approval continuation                        
+                {
+                    _cursorApproval.resizeNode = resizeNode;
+                    _cursorApproval.pos = pos;
+                    _cursorApproval.td = touchDev;
+                    _modeMgr.Mode = ShapeInputMode.CursorApprovalExpected;
+                }
+
+                //take new local cursor
+                _doc.VolatileCtx.BeginTakeShapeWithLocalCursor(shape.Id());
+            }
+            else if (shapeLockedByUs)
+            {
+                CaptureAndStartManip(shape, pos, resizeNode, touchDev);
+            }
+        }
+
 
         private void CaptureAndStartManip(IVdShape sh, Point pt, object sender, TouchDevice td)
         {
@@ -633,7 +643,7 @@ namespace DistributedEditor
             }
         }
 
-        private void SendSyncState(IVdShape sh)
+        public void SendSyncState(IVdShape sh)
         {
             _rt.clienRt.SendSyncState(sh.Id(), sh.GetState(_doc.TopicId));
         }

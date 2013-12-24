@@ -274,6 +274,11 @@ namespace DistributedEditor
             return VdShapeType.Text;
         }
 
+        public void BotEnableTextSerialization()
+        {
+            _serializeText = true;
+        }
+
         //by default, text is not serialized. only enabled after text change event
         private bool _serializeText = false;
 

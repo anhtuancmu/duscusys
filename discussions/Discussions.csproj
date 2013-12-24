@@ -176,6 +176,7 @@
     <Compile Include="bots\AttachmentBot.cs" />
     <Compile Include="bots\BotsViewModel.cs" />
     <Compile Include="bots\BotUtils.cs" />
+    <Compile Include="bots\DEditorBot.cs" />
     <Compile Include="bots\EnlargeOpenSourceCloseBot.cs" />
     <Compile Include="bots\EnlargeOpenCommentsCloseBot.cs" />
     <Compile Include="bots\EnlargeOpenAttachmentCloseBot.cs" />

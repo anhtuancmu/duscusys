@@ -110,6 +110,7 @@ namespace Discussions.view
 
             btnExplanationMode.DataContext = ExplanationModeMediator.Inst;
             btnLaserPointer.DataContext = ExplanationModeMediator.Inst;
+         
 
             localAccount.DataContext = SessionInfo.Get().person;
 
@@ -118,6 +119,7 @@ namespace Discussions.view
             //btnEnlargeOpenAttachmentClose.DataContext = _botsViewModel;
             //btnSuperBotEnabled.DataContext = _botsViewModel;
             //btnEnlargeOpenSourceClose.DataContext = _botsViewModel;
+            btnDEditorBotEnabled.DataContext = _botsViewModel;
 
             avaBar.Init(_sharedClient);
             avaBar.paletteOwnerChanged += PaletteOwnerChanged;
