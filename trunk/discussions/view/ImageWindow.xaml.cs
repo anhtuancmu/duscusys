@@ -142,6 +142,8 @@ namespace Discussions.view
 
             DiscWindows.Get().ShowPublic();
 
+            ExplanationModeMediator.Inst.LasersEnabled = false;
+
             SetListeners(false);
 
             img.Source = null;
@@ -151,8 +153,6 @@ namespace Discussions.view
             //    _laserPointerWndCtx.Dispose();
             //    _laserPointerWndCtx = null;
             //}
-
-            ExplanationModeMediator.Inst.LasersEnabled = false;
 
             Hide();
         }
@@ -174,7 +174,7 @@ namespace Discussions.view
         {
             if (e.PropertyName == "ExplanationModeEnabled")
             {
-                if(ExplanationModeMediator.Inst.ExplanationModeEnabled)
+                if (ExplanationModeMediator.Inst.ExplanationModeEnabled)
                     CheckSendImgStateRequest();
             }
             else if (e.PropertyName == "LasersEnabled")
@@ -192,7 +192,7 @@ namespace Discussions.view
                     LaserPointerTargetSurface.ImageViewer);
             }
 
-            if(_laserPointerWndCtx!=null)
+            if (_laserPointerWndCtx != null)
                 _laserPointerWndCtx.LocalLazerEnabled = ExplanationModeMediator.Inst.LasersEnabled;
         }
 
@@ -222,7 +222,7 @@ namespace Discussions.view
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             Deinit();
             Hide();
         }
@@ -276,9 +276,9 @@ namespace Discussions.view
             if ((System.Windows.Forms.Control.ModifierKeys & System.Windows.Forms.Keys.Shift) !=
                 System.Windows.Forms.Keys.None)
             {
-               Pan(mousePos);
+                Pan(mousePos);
             }
-           
+
             _prevX = mousePos.X;
             _prevY = mousePos.Y;
         }
@@ -369,14 +369,14 @@ namespace Discussions.view
         public async Task BotManipulationsAsync()
         {
             Point wndCenter = this.PointToScreen(new Point(ActualWidth / 2, ActualHeight / 2));
-           
+
             for (int i = 0; i < 30; ++i)
             {
                 ZoomInOut(wndCenter, 0.9);
                 await Utils.DelayAsync(10);
             }
-            
-            for (int phi = 0; phi < 360; phi+=5)
+
+            for (int phi = 0; phi < 360; phi += 5)
             {
                 const double r = 200;
                 var pos = new Point(
@@ -403,7 +403,7 @@ namespace Discussions.view
 
         private void BotPan(Point pos)
         {
-             Pan(pos);
+            Pan(pos);
 
             _prevX = pos.X;
             _prevY = pos.Y;
