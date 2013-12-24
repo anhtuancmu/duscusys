@@ -4,13 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Discussions"
-             xmlns:yt="clr-namespace:Discussions.YouViewer"
-             xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+             xmlns:custom="http://schemas.microsoft.com/surface/2008"
              mc:Ignorable="d"
              Unloaded="LargeImageUC_OnUnloaded"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <local:AttachToImageConvertor x:Key="attachImgConverter" />
+    <UserControl.Resources> 
         <local:MediaTypeIconConverter x:Key="mediaTypeIconConv" />
     </UserControl.Resources>
     <Grid>

@@ -1,26 +1,26 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Data;
 using Discussions.DbModel;
-using System.Windows;
 
-namespace Discussions
+namespace Discussions.Converters
 {
-    public class AttachmentToVisibilityConverter : IValueConverter
+    public class SourceToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var attach = value as Attachment;
-            if (attach == null)
+            var src = value as Source;
+            if (src == null)
                 return Visibility.Hidden;
 
             var currentPers = SessionInfo.Get().person;
             if (currentPers == null)
                 return Visibility.Hidden;
 
-            if (attach.Person == null)
+            if (src.RichText.ArgPoint.Person == null)
                 return Visibility.Hidden;
 
-            if (attach.Person.Id == currentPers.Id)
+            if (src.RichText.ArgPoint.Person.Id == currentPers.Id)
                 return Visibility.Visible;
 
             return Visibility.Hidden;

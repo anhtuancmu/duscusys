@@ -182,6 +182,7 @@
     <Compile Include="bots\SourceBot.cs" />
     <Compile Include="bots\SuperBot.cs" />
     <Compile Include="Converters\AddPeriodConverter.cs" />
+    <Compile Include="Converters\SourceToVisibilityConverter.cs" />
     <Compile Include="d-editor\TypeTitleButton.xaml.cs">
       <DependentUpon>TypeTitleButton.xaml</DependentUpon>
     </Compile>

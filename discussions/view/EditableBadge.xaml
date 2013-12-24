@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Discussions"
     xmlns:yt="clr-namespace:Discussions.YouViewer"
-    xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+    xmlns:custom="http://schemas.microsoft.com/surface/2008"
     xmlns:view="clr-namespace:Discussions.view"
     x:Class="Discussions.view.EditableBadge"
     mc:Ignorable="d"
@@ -45,11 +45,11 @@
                        VerticalAlignment="Top" HorizontalAlignment="Left" />
 
                 <StackPanel Grid.Column="1" Grid.RowSpan="2">
-                    <Custom:SurfaceButton Foreground="DarkRed" VerticalAlignment="Top"
+                    <custom:SurfaceButton Foreground="DarkRed" VerticalAlignment="Top"
                                           FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                                           Visibility="{Binding Converter={StaticResource owner2Visibility}}"
                                           Content="X" Background="{x:Null}" Click="removeMedia_Click" />
-                    <Custom:SurfaceButton x:Name="btnReposition"
+                    <custom:SurfaceButton x:Name="btnReposition"
                                           Background="{x:Null}"
                                           FontSize="26.667"
                                           FontFamily="Segoe UI Symbol"
@@ -81,13 +81,13 @@
                 <Label Name="number" Content="1" FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
                 <StackPanel Grid.Column="1" Grid.RowSpan="2">
-                    <Custom:SurfaceButton VerticalAlignment="Top" Content="X"
+                    <custom:SurfaceButton VerticalAlignment="Top" Content="X"
                                           FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                                           Foreground="DarkRed"
                                           Background="{x:Null}"
                                           Visibility="{Binding Converter={StaticResource owner2Visibility}}"
                                           Click="removeMedia_Click" />
-                    <Custom:SurfaceButton x:Name="btnReposition"
+                    <custom:SurfaceButton x:Name="btnReposition"
                                           Background="{x:Null}"
                                           FontSize="26.667"
                                           FontFamily="Segoe UI Symbol"
@@ -105,7 +105,7 @@
             VideoTemplate="{StaticResource VideoAttachmentTemplate}"
             x:Key="attachmentTemplateSelector" />
 
-        <Style TargetType="{x:Type Custom:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
+        <Style TargetType="{x:Type custom:SurfaceButton}" BasedOn="{StaticResource roundButtonStyle}" />
 
         <Style TargetType="{x:Type Label}">
             <Setter Property="FontSize" Value="30" />
@@ -125,7 +125,7 @@
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
 
-        <Style TargetType="{x:Type Custom:SurfaceTextBox}" BasedOn="{StaticResource {x:Type Custom:SurfaceTextBox}}">
+        <Style TargetType="{x:Type custom:SurfaceTextBox}" BasedOn="{StaticResource {x:Type custom:SurfaceTextBox}}">
             <Setter Property="FontSize" Value="30" />
             <Setter Property="FontFamily" Value="Segoe UI Light" />
         </Style>
@@ -155,7 +155,7 @@
             </StackPanel>
 
             <Label Content="Title/タイトル"/>
-            <Custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="700"
+            <custom:SurfaceTextBox x:Name="txtPoint" MaxWidth="700"
                                    Text="{Binding Point, UpdateSourceTrigger=PropertyChanged}"
                                    GotFocus="TxtPoint_OnGotFocus"
                                    LostFocus="TxtPoint_OnLostFocus"
@@ -163,24 +163,24 @@
                                    SelectsAllOnFocus="False"
                                    VerticalAlignment="Center"                                     
                                    Margin="1,0" FontSize="37.333">
-                <Custom:SurfaceTextBox.ContextMenu>
+                <custom:SurfaceTextBox.ContextMenu>
                     <view:CtxMenuWrapper/>
-                </Custom:SurfaceTextBox.ContextMenu>
-            </Custom:SurfaceTextBox>
+                </custom:SurfaceTextBox.ContextMenu>
+            </custom:SurfaceTextBox>
 
             <Label Content="Details/内容"/>
 
-            <Custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="700"
+            <custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="700"
                                    SelectsAllOnFocus="False"                                  
                                    KeyDown="plainDescription_KeyDown_1"
                                    GotFocus="PlainDescription_OnGotFocus"
                                    LostFocus="PlainDescription_OnLostFocus"
                                    TextWrapping="Wrap" AcceptsReturn="True"
                                    Text="{Binding Description.Text, UpdateSourceTrigger=PropertyChanged}">
-                <Custom:SurfaceTextBox.ContextMenu>
+                <custom:SurfaceTextBox.ContextMenu>
                     <view:CtxMenuWrapper/>
-                </Custom:SurfaceTextBox.ContextMenu>
-            </Custom:SurfaceTextBox>
+                </custom:SurfaceTextBox.ContextMenu>
+            </custom:SurfaceTextBox>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Media/画像資料の添付" VerticalAlignment="Center" />
@@ -223,32 +223,32 @@
                     <RowDefinition Height="91*" />
                     <RowDefinition Height="44*" />
                 </Grid.RowDefinitions>
-                <Custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="700" TextWrapping="Wrap"
+                <custom:SurfaceTextBox x:Name="txtAttachmentURL" MaxWidth="700" TextWrapping="Wrap"
                                        Text="{Binding RecentlyEnteredMediaUrl}"
                                        GotFocus="TxtAttachmentURL_OnGotFocus"
                                        LostFocus="TxtAttachmentURL_OnLostFocus"
                                        TextChanged="TxtAttachmentURL_OnTextChanged"
                                        KeyDown="txtAttachmentURL_KeyDown_1">
-                    <Custom:SurfaceTextBox.ContextMenu>
+                    <custom:SurfaceTextBox.ContextMenu>
                         <view:CtxMenuWrapper/>
-                    </Custom:SurfaceTextBox.ContextMenu>
-                </Custom:SurfaceTextBox>
+                    </custom:SurfaceTextBox.ContextMenu>
+                </custom:SurfaceTextBox>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">                                        
-                    <Custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1"
+                    <custom:SurfaceButton x:Name="btnAttachScreenshot" Click="btnAttachScreenshot_Click_1"
                                           Content="スクリーンショット"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
 
-                    <Custom:SurfaceButton x:Name="btnAttachMedia" Click="BtnAttachMedia_OnClick"
+                    <custom:SurfaceButton x:Name="btnAttachMedia" Click="BtnAttachMedia_OnClick"
                                           Content="画像の追加"
                                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
-                    <Custom:SurfaceButton x:Name="btnGoogle" Visibility="Collapsed" Click="btnGoogle_Click_1" Content="Web"
+                    <custom:SurfaceButton x:Name="btnGoogle" Visibility="Collapsed" Click="btnGoogle_Click_1" Content="Web"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
-                    <Custom:SurfaceButton x:Name="btnDropbox" Visibility="Collapsed" Click="chooseDropboxFiles" Content="Cloud"
+                    <custom:SurfaceButton x:Name="btnDropbox" Visibility="Collapsed" Click="chooseDropboxFiles" Content="Cloud"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
                     <!--<Custom:SurfaceButton x:Name="btnGDrive" Click="chooseGDriveFiles" Content="Google Drive"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />-->
-                    <Custom:SurfaceButton x:Name="btnChooseFile" Visibility="Collapsed" Click="chooseImgClick" Content="File"
+                    <custom:SurfaceButton x:Name="btnChooseFile" Visibility="Collapsed" Click="chooseImgClick" Content="File"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />
                     <!--<Custom:SurfaceButton x:Name="btnAttachFromUrl" Content="URL" Click="btnAttachFromUrl_Click_1"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,2" />-->
@@ -262,7 +262,7 @@
 
             <Popup Name="srcRepositionPopup" FocusManager.IsFocusScope="True" Placement="MousePoint" StaysOpen="False">
                 <StackPanel Orientation="Horizontal" Background="LightSlateGray">
-                    <Custom:SurfaceButton x:Name="btnSrcUp"
+                    <custom:SurfaceButton x:Name="btnSrcUp"
                                           FontSize="70"
                                           FontFamily="Segoe UI Symbol"
                                           Content="&#x2191;"
@@ -271,7 +271,7 @@
                                           HorizontalAlignment="Center"
                                           Click="btnSrcUp_Click_1"
                                           Background="{x:Null}" />
-                    <Custom:SurfaceButton x:Name="btnSrcDown"
+                    <custom:SurfaceButton x:Name="btnSrcDown"
                                           FontFamily="Segoe UI Symbol"
                                           Content="&#x2193;"
                                           FontSize="70"
@@ -280,38 +280,37 @@
                                           HorizontalAlignment="Center"
                                           Click="btnSrcDown_Click_1"
                                           Background="{x:Null}" />
-                    <Custom:SurfaceButton x:Name="btnClosePopup" Foreground="DarkRed" Content=" X"
+                    <custom:SurfaceButton x:Name="btnClosePopup" Foreground="DarkRed" Content=" X"
                                           FontWeight="Bold" FontFamily="Segoe360" FontSize="70"
                                           VerticalAlignment="Center" HorizontalAlignment="Center"
                                           Click="btnClosePopup_Click_1" Background="{x:Null}" />
                 </StackPanel>
             </Popup>
-
-            <Popup Name="mediaRepositionPopup" FocusManager.IsFocusScope="True" Placement="MousePoint"
+            <Popup x:Name="mediaRepositionPopup" FocusManager.IsFocusScope="True" Placement="MousePoint"
                    StaysOpen="False">
                 <StackPanel Orientation="Horizontal" Background="LightSlateGray">
-                    <Custom:SurfaceButton x:Name="btnMediaUp"
-                                          FontSize="70"
-                                          FontFamily="Segoe UI Symbol"
-                                          Content="&#x2190;"
-                                          Foreground="Black"
-                                          VerticalAlignment="Center"
-                                          HorizontalAlignment="Center"
-                                          Click="btnMediaUp_Click_1"
-                                          Background="{x:Null}" />
-                    <Custom:SurfaceButton x:Name="btnMediaDown"
-                                          FontFamily="Segoe UI Symbol"
-                                          Content="&#x2192;"
-                                          FontSize="70"
-                                          Foreground="Black"
-                                          VerticalAlignment="Center"
-                                          HorizontalAlignment="Center"
-                                          Click="btnMediaDown_Click_1"
-                                          Background="{x:Null}" />
-                    <Custom:SurfaceButton x:Name="btnCloseMediaRepositionPopup" Foreground="DarkRed" Content=" X"
-                                          FontWeight="Bold" FontFamily="Segoe360" FontSize="70"
-                                          VerticalAlignment="Center" HorizontalAlignment="Center"
-                                          Click="btnCloseMediaRepositionPopup_Click_1" Background="{x:Null}" />
+                    <custom:SurfaceButton x:Name="btnMediaUp"
+            			FontSize="70"
+            			FontFamily="Segoe UI Symbol"
+            			Content="←"
+            			Foreground="Black"
+            			VerticalAlignment="Center"
+            			HorizontalAlignment="Center"
+            			Click="btnMediaUp_Click_1"
+            			Background="{x:Null}" />
+                    <custom:SurfaceButton x:Name="btnMediaDown"
+            			FontFamily="Segoe UI Symbol"
+            			Content="→"
+            			FontSize="70"
+            			Foreground="Black"
+            			VerticalAlignment="Center"
+            			HorizontalAlignment="Center"
+            			Click="btnMediaDown_Click_1"
+            			Background="{x:Null}" />
+                    <custom:SurfaceButton x:Name="btnCloseMediaRepositionPopup" Foreground="DarkRed" Content=" X"
+            			FontWeight="Bold" FontFamily="Segoe360" FontSize="70"
+            			VerticalAlignment="Center" HorizontalAlignment="Center"
+            			Click="btnCloseMediaRepositionPopup_Click_1" Background="{x:Null}" />
                 </StackPanel>
             </Popup>
 
@@ -336,24 +335,24 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"
+                <custom:SurfaceTextBox x:Name="txtSource" KeyDown="txtSource_KeyDown_1"
                                        HorizontalAlignment="Stretch"
                                        MaxWidth="700" TextWrapping="Wrap"
                                        GotFocus="TxtSource_OnGotFocus"    
                                        LostFocus="TxtSource_OnLostFocus"
                                        TextChanged="TxtSource_OnTextChanged"
                                        Text="{Binding RecentlyEnteredSource, Mode=OneWay}">
-                    <Custom:SurfaceTextBox.ContextMenu>
+                    <custom:SurfaceTextBox.ContextMenu>
                         <view:CtxMenuWrapper/>
-                    </Custom:SurfaceTextBox.ContextMenu>
-                </Custom:SurfaceTextBox>
+                    </custom:SurfaceTextBox.ContextMenu>
+                </custom:SurfaceTextBox>
 
-                <Custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
+                <custom:SurfaceButton x:Name="btnAddSrc" Click="btnAddSrc_Click"
                                       Grid.Row="1"
                                       Content="URLの追加" 
                                       HorizontalAlignment="Right"/>
 
-                <Custom:SurfaceTextBox x:Name="focusInterceptor" Width="1" MinWidth="1" MinHeight="1" Height="1" VerticalAlignment="Bottom"/>
+                <custom:SurfaceTextBox x:Name="focusInterceptor" Width="1" MinWidth="1" MinHeight="1" Height="1" VerticalAlignment="Bottom"/>
             </Grid>
 
             <Label Name="lblComments" Content="Comments/コメント"/>
@@ -370,7 +369,7 @@
                           MouseLeave="lstBxComments_MouseLeave"
                           BorderThickness="0" Margin="0,0,0,8" HorizontalContentAlignment="Stretch" />
                         
-            <Custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Comment"
+            <custom:SurfaceButton x:Name="btnComment" Focusable="True" Content="Comment"
                                   Visibility="Collapsed"
                                   HorizontalAlignment="Right" Click="btnComment_Click" />
             <Separator/>
