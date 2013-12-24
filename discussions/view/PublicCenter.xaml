@@ -641,7 +641,7 @@
                                    />-->
 
             <CheckBox x:Name="btnDEditorBotEnabled" Content="DEditor bot"  
-                                  
+                                   Visibility="Collapsed"
                                    IsChecked="{Binding DEditorBotEnabled}"
                                    /> 
         </StackPanel>
