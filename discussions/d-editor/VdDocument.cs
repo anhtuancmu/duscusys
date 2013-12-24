@@ -315,7 +315,7 @@ namespace DistributedEditor
                         res = new VdCluster(owner, shapeId, this, onClusterUncluster, OnClusterCleanup);
                         break;
                     case VdShapeType.Text:
-                        res = new VdText(startX, startY, owner, shapeId, OnTextCleanup);
+                        res = new VdText(startX, startY, owner, shapeId);
                         break;
                     default:
                         res = DocTools.MakeShape(shapeType, owner, shapeId, startX, startY, tag);
@@ -426,11 +426,6 @@ namespace DistributedEditor
             }
         }
 
-        private void OnTextCleanup(int id)
-        {
-            BeginRemoveSingleShape(id);
-        }
-
         private void OnClusterCleanup(int id)
         {
             //remove cluster itself
@@ -499,7 +494,7 @@ namespace DistributedEditor
             {
                 sh.Show();
             }
-            DocTools.UnfocusAll(GetShapes());
+            //DocTools.UnfocusAll(GetShapes());
             _shapeVisibility = true;
         }
 
