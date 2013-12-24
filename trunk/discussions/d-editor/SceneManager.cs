@@ -521,8 +521,10 @@ namespace DistributedEditor
                     _modeMgr.Mode = ShapeInputMode.Manipulating;
                     CaptureAndStartManip(mgr.LocalCursor, _cursorApproval.pos, _cursorApproval.resizeNode,
                                          _cursorApproval.td);
-                    if (mgr.LocalCursor!=null)
+                    if (mgr.LocalCursor != null)
+                    {
                         mgr.LocalCursor.SetFocus();
+                    }
                     break;
             }
         }

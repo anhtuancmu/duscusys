@@ -70,7 +70,7 @@ namespace DistributedEditor
 
         private void field_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete)
+            if (e.Key == Key.Delete && field.SelectedText==field.Text)
             {
                 RoutedEventArgs newEventArgs = new RoutedEventArgs(VdTextDeleteEvent, _vdText);
                 RaiseEvent(newEventArgs);

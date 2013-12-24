@@ -40,7 +40,7 @@ namespace DistributedEditor
             //btnSegment.IsChecked = false;
             btnCluster.IsChecked = false;
             //btnArrow.IsChecked   = false;
-          //btnText.IsChecked = false;
+            btnText.IsChecked = false;
             btnClusterLink.IsChecked = false;
             btnClusterLink2.IsChecked = false;
             btnFreeForm.IsChecked = false;
