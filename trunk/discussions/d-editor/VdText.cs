@@ -51,13 +51,19 @@ namespace DistributedEditor
             }
         }
 
-        public delegate void CleanupRequest(int id);
+        public delegate void CleanupRequest(int id, VdText text);
 
-        private readonly CleanupRequest _cleanupRequest;
+        public CleanupRequest onCleanupRequest;
 
         public delegate void OnChanged(VdText text);
 
         public OnChanged onChanged;
+
+        public delegate void OnFocusLost(VdText text);
+
+        public OnFocusLost onFocusLost;
+
+
 
         /// <summary>
         /// Only fires on focus lost  
@@ -67,12 +73,10 @@ namespace DistributedEditor
 
         public OnEdited onEdited;
 
-        public VdText(double x, double y, int owner, int shapeId, CleanupRequest cleanupRequest) :
+        public VdText(double x, double y, int owner, int shapeId) :
             base(owner, shapeId)
         {
             initText(DaoUtils.UserIdToColor(owner));
-
-            _cleanupRequest = cleanupRequest;
 
             HandleMove(x, y);
 
@@ -164,6 +168,11 @@ namespace DistributedEditor
 
         public override void RemoveFocus()
         {
+            if (_txt == "" && !_isFocused && onCleanupRequest != null)
+            {
+                onCleanupRequest(Id(), this);
+            }
+            
             //if we have acquired focus and are now losing it
             if (_isFocused && Text != _textOnGotFocus)
             {
@@ -172,12 +181,10 @@ namespace DistributedEditor
                     onEdited(this);
             }
 
+            if (onFocusLost != null)
+                onFocusLost(this);
+                
             base.RemoveFocus();
-
-            if (_txt == "")
-            {
-                _cleanupRequest(Id());
-            }
 
             HideMarkers();
 

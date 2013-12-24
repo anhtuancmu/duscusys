@@ -458,6 +458,14 @@ namespace DistributedEditor
 
         public void InpDeviceUp(Point pos)
         {
+            StopManipulation(_doc.VolatileCtx.LocalCursor, false);
+        }   
+
+        public void StopManipulation(IVdShape sh, bool stopEvenForText)
+        {
+            if (sh is VdText && !stopEvenForText)
+                return;
+
             if (_modeMgr.Mode == ShapeInputMode.Manipulating)
             {
                 _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
@@ -466,12 +474,11 @@ namespace DistributedEditor
             {
                 _modeMgr.Mode = ShapeInputMode.ManipulationExpected;
             }
-          
-            var lc = _doc.VolatileCtx.LocalCursor;
-            if (lc != null)
+
+            if (sh != null)
             {
                 //cluster created event ?
-                var clust = lc as VdCluster;
+                var clust = sh as VdCluster;
 
                 //if this finish manip completes initial cluster drawing, don't generate move event
                 var supressClusterMoveEvent = false;
@@ -486,7 +493,7 @@ namespace DistributedEditor
                                                DeviceType.Wpf);
                 }
 
-                ReleaseCaptureAndFinishManip(lc);
+                ReleaseCaptureAndFinishManip(sh);
                 _doc.VolatileCtx.BeginFreeCursor(supressClusterMoveEvent);
             }
             else
@@ -539,8 +546,11 @@ namespace DistributedEditor
             switch (shapeType)
             {
                 case VdShapeType.Text:
-                    ((VdText) sh).onChanged += onTextChanged;
-                    ((VdText)sh).onEdited += onTextEdited;
+                    ((VdText) sh).onChanged += OnTextChanged;
+                    ((VdText)sh).onEdited += OnTextEdited;
+                    ((VdText)sh).onFocusLost += OnTextFocusLost;
+                    ((VdText) sh).onCleanupRequest += OnTextCleanup;
+                    
                     break;
                 case VdShapeType.Cluster:
                     ((ICaptionHost) sh).InitCaptions(CaptionCreationRequested);
@@ -622,12 +632,12 @@ namespace DistributedEditor
             }
         }
 
-        private void onTextChanged(VdText text)
+        private void OnTextChanged(VdText text)
         {
             SendSyncState(text);
         }
 
-        private void onTextEdited(VdText text)
+        private void OnTextEdited(VdText text)
         {
             var hostCluster = Doc.GetShapes()
                 .Where(sh => sh.ShapeCode() == VdShapeType.Cluster)
@@ -641,6 +651,16 @@ namespace DistributedEditor
                                            _doc.TopicId,
                                            DeviceType.Wpf);       
             }
+        }
+        void OnTextCleanup(int id, VdText text)
+        {
+            if (text.InitialOwner()==_palette.GetOwnerId())
+                Doc.BeginRemoveSingleShape(id);
+        }
+
+        void OnTextFocusLost(VdText text)
+        {
+            StopManipulation(text, stopEvenForText:true);
         }
 
         public void SendSyncState(IVdShape sh)
