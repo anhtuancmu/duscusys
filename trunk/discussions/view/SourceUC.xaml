@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Custom="http://schemas.microsoft.com/surface/2008"
+             xmlns:discussions="clr-namespace:Discussions"
+             xmlns:converters="clr-namespace:Discussions.Converters"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:SourceToVisibilityConverter x:Key="owner2Visibility" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -30,6 +36,7 @@
                                   HorizontalAlignment="Center"
                                   Click="btnReposition_Click_1" />
             <Custom:SurfaceButton x:Name="btnRemoveComment" Foreground="DarkRed" Content=" X"
+                                  Visibility="{Binding Converter={StaticResource owner2Visibility}}"
                                   FontWeight="Bold" FontFamily="Segoe360" FontSize="26.667"
                                   VerticalAlignment="Center" HorizontalAlignment="Center"
                                   Click="btnRemove_Click" Background="{x:Null}" />
