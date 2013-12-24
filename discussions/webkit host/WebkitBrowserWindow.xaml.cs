@@ -66,17 +66,14 @@ namespace Discussions.view
             // 
             if (_webKitBrowser1 == null)
             {
-                _webKitBrowser1 = new WebKit.WebKitBrowser();
-                _webKitBrowser1.Anchor =
-                    ((System.Windows.Forms.AnchorStyles)
-                        ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                           | System.Windows.Forms.AnchorStyles.Left)
-                          | System.Windows.Forms.AnchorStyles.Right)));
-                _webKitBrowser1.BackColor = System.Drawing.Color.White;
-                _webKitBrowser1.Location = new System.Drawing.Point(0, 0);
-                _webKitBrowser1.Margin = new System.Windows.Forms.Padding(0);
-                _webKitBrowser1.Name = "_webKitBrowser1";
-                _webKitBrowser1.TabIndex = 0;
+                _webKitBrowser1 = new WebKit.WebKitBrowser
+                {
+                    BackColor = System.Drawing.Color.White,
+                    Location = new System.Drawing.Point(0, 0),
+                    Margin = new System.Windows.Forms.Padding(0),
+                    Name = "_webKitBrowser1",
+                    TabIndex = 0
+                };
                 _webKitBrowser1.Navigated += _webKitBrowser1_Navigated;
                 webkitHost.Child = _webKitBrowser1;
                 _webKitBrowser1.ResumeLayout();
