@@ -404,7 +404,7 @@
         <DropShadowEffect Color="#FF494949" BlurRadius="20" />
     </UserControl.Effect>
     <Border x:Name="bdr" BorderThickness="4" Background="#FF747474" CornerRadius="5">
-        <UniformGrid Rows="5" Columns="1">
+        <UniformGrid Rows="6" Columns="1">
             <Custom:SurfaceToggleButton x:Name="btnFreeForm" Background="{x:Null}" Width="60" Height="60"
                                         Click="btnFreeForm_Click">
                 <Path Stroke="Black" StrokeThickness="4"
@@ -473,13 +473,13 @@
                         StrokeThickness="2" Canvas.Top="-25.75" Canvas.Left="-28" />
                 </Canvas>
             </Custom:SurfaceToggleButton>           
-            <!--<Custom:SurfaceToggleButton x:Name="btnText" Background="{x:Null}" Width="60" Height="60"
+            <Custom:SurfaceToggleButton x:Name="btnText" Background="{x:Null}" Width="60" Height="60"
                                         Click="btnText_Click">
                 <Canvas>
                     <TextBlock Text="T" FontSize="36" Foreground="Black" HorizontalAlignment="Center"
                                Canvas.Top="-24" FontFamily="Segoe UI" FontWeight="Bold" Canvas.Left="-10" />
                 </Canvas>
-            </Custom:SurfaceToggleButton>-->
+            </Custom:SurfaceToggleButton>
             <!--
             <Custom:SurfaceToggleButton x:Name="btnSegment" Background="{x:Null}" Width="60" Height="60" Click="btnSegment_Click">
 				<Line

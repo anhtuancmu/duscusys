@@ -494,7 +494,7 @@ namespace DistributedEditor
             {
                 sh.Show();
             }
-            //DocTools.UnfocusAll(GetShapes());
+            DocTools.UnfocusAll(GetShapes());
             _shapeVisibility = true;
         }
 
