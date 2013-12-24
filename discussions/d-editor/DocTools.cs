@@ -55,7 +55,7 @@ namespace DistributedEditor
 
         public static void UnfocusAll(IEnumerable<IVdShape> shapes)
         {
-            foreach (var v in shapes)
+            foreach (var v in shapes.ToArray())
                 v.RemoveFocus();
         }
 
