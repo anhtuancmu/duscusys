@@ -4,12 +4,12 @@
    
 }
 
-@media print{@page {size: landscape}}
+/*@media print{@page {size: landscape}}*/
 
 body {
     font-family :'Segoe UI Light','Segoe UI','Meiryo UI','Tahoma Light','Arial Light','Helvetica','sans-serif';
     font-size: 1.3em;
-    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    /*filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
 }
 
 h1 {

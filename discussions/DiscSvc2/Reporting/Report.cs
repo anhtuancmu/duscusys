@@ -198,8 +198,8 @@ namespace DiscSvc.Reporting
 
 		<!------------------------------------------------------------------------------------->
 
-		<h3 style=""page-break-before: always;"">
-			<a id=""summary"" style=""page-break-before: always;"">Summary information</a>
+		<h3>
+			<a id=""summary"">Summary information</a>
 		</h3>
 
 		<table>
