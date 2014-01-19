@@ -37,10 +37,18 @@ namespace Discussions
                         SessionInfo.Get().discussion.Id,
                         tsd.topic.Id,
                         SessionInfo.Get().person.Session.Id);
-                    //System.Diagnostics.Process.Start(reportUrl);
-                    var browser = WebkitBrowserWindow.Instance(reportUrl, tsd.topic.Id);
-                    browser.Show();
-                    browser.Activate();
+
+                    try
+                    {
+                        System.Diagnostics.Process.Start("chrome", reportUrl);
+                    }
+                    catch 
+                    {
+                        System.Diagnostics.Process.Start(reportUrl);                    
+                    }
+                    //var browser = WebkitBrowserWindow.Instance(reportUrl, tsd.topic.Id);
+                    //browser.Show();
+                    //browser.Activate();
                 }
                 else
                 {

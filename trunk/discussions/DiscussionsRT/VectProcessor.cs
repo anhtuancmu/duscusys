@@ -20,8 +20,8 @@ namespace Discussions.RTModel
         const double BoardHeight = 750;
         const double BadgeShapeWidth = 112;
         const double BadgeShapeHeight = 75;
-        const double BadgeVGap = 112;
-        const double BadgeHGap = 75;
+        private const double BadgeVGap = 100;
+        const double BadgeHGap = 70;
 
         private readonly DiscussionRoom _room;
         private readonly int _topicId;
@@ -298,8 +298,13 @@ namespace Discussions.RTModel
             int col = indexOfTheBadge - row * maxCols;
 
             var rnd2 = new Random();
-            x = clusterLeft + col * (BadgeShapeWidth + rnd2.NextDouble() * BadgeHGap);
-            y = clusterTop  + row * (BadgeShapeHeight + rnd2.NextDouble() * BadgeVGap);
+            double xRnd, yRnd;
+
+            xRnd = clusterLeft + col * (BadgeShapeWidth  + rnd2.NextDouble() * BadgeHGap);
+            yRnd = clusterTop  + row * (BadgeShapeHeight + rnd2.NextDouble() * BadgeVGap);
+            
+            x = xRnd;
+            y = yRnd;
         }
 
         public void HandleDeleteShapes(LitePeer peer,
