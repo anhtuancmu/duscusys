@@ -389,6 +389,8 @@ namespace DistributedEditor
                     LockIfPossible(underContact, resizeNode, pos, touchDev);
                     return true;
                 case ShapeInputMode.Manipulating:
+                    DocTools.UnfocusAll(_doc.GetShapes().Where(sh => !sh.IsManipulated()));
+                    StopManipulation(_doc.VolatileCtx.LocalCursor, true);
                     return true;
                 case ShapeInputMode.CursorApprovalExpected:
                     return true;
@@ -429,7 +431,7 @@ namespace DistributedEditor
         {
             sh.StartManip(pt, sender);
             sh.UnderlyingControl().CaptureMouse();
-            if (td != null)
+            if (td!=null)
                 sh.UnderlyingControl().CaptureTouch(td);
             Console.WriteLine("Scene Mgr : CaptureAndStartManip");
         }

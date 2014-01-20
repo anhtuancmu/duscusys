@@ -1,11 +1,5 @@
 ﻿using Discussions.view;
-using Discussions.webkit_host;
 using Reporter.pdf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Discussions
 {
     class HtmlReportBrowsing
@@ -91,9 +85,18 @@ namespace Discussions
                 SessionInfo.Get().discussion.Id,
                 topicId,
                 SessionInfo.Get().person.Session.Id);
-            var browser = WebkitBrowserWindow.Instance(reportUrl, topicId);
-            browser.Show();
-            browser.Activate();
+
+            try
+            {
+                System.Diagnostics.Process.Start("chrome", reportUrl);
+            }
+            catch
+            {
+                System.Diagnostics.Process.Start(reportUrl);
+            }
+            //var browser = WebkitBrowserWindow.Instance(reportUrl, topicId);
+            //browser.Show();
+            //browser.Activate();
         }
     }
 }
