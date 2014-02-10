@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Discussions.RTModel
 {
@@ -14,8 +13,7 @@ namespace Discussions.RTModel
             var client1 = @"C:\Program Files (x86)\Discussion system\Discussions.exe";
             if (File.Exists(client1))
                 return client1;
-            else
-                return @"C:\Program Files\Discussion system\Discussions.exe";
+            return @"C:\Program Files\Discussion system\Discussions.exe";
         }
 
         private string TempDir()
@@ -36,9 +34,9 @@ namespace Discussions.RTModel
             var metaInfoPath1 = RandomFilePath(".txt");
             var parameters = string.Format("{0} {1} \"{2}\"", topicId, discId, metaInfoPath1);
 
-            var psi = new ProcessStartInfo(ClientLocation(), parameters);
-            psi.UseShellExecute = false;
+            var psi = new ProcessStartInfo(ClientLocation(), parameters) {UseShellExecute = false};
             var pro = Process.Start(psi);
+
             pro.WaitForExit();
             return metaInfoPath1;
         }

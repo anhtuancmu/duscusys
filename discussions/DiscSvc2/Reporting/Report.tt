@@ -448,8 +448,13 @@
     {
         if (hardReport.LinkReports.Count > 0)
         {
-            foreach (var linkReport in hardReport.LinkReports)            
-                LinkTable(hardReport, linkReport, Screenshots[linkReport.linkShId].url);                           
+            foreach (var linkReport in hardReport.LinkReports)  
+			{
+			    if(Screenshots.ContainsKey(linkReport.linkShId)) 
+				{
+					LinkTable(hardReport, linkReport, Screenshots[linkReport.linkShId].url);  
+				}    
+			}                         
         }
         else
         {
