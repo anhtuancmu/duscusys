@@ -7,6 +7,11 @@ namespace DiscSvc.Reporting
 {
     public class ReportingHandler : IHttpHandler
     {
+        ReportingPhotonClient _screenshotClient;
+        Report _report;
+        Timer _cleanupTimer;
+        DiscCtx _ctx;
+
         /// <summary>
         /// You will need to configure this handler in the Web.config file of your 
         /// web and register it with IIS before being able to use it. For more information
@@ -21,7 +26,7 @@ namespace DiscSvc.Reporting
             get { return true; }
         }
 
-        public async void ProcessRequest(HttpContext context)
+        public void ProcessRequest(HttpContext context)
         {
             //validate query parameters
             QueryParams queryParams;
@@ -36,47 +41,68 @@ namespace DiscSvc.Reporting
             }
 
             //convert query parameters to entities            
-            var ctx = new DiscCtx(ConfigManager.ConnStr);
-            var reportParams = queryParams.Materialize(ctx);
+            _ctx = new DiscCtx(ConfigManager.ConnStr);
+            var reportParams = queryParams.Materialize(_ctx);
             if (reportParams == null)
             {
                 context.Response.StatusCode = 400;
                 return;
             }
 
-            var screenshotClient = new ReportingPhotonClient();
-            var reportingTasks = screenshotClient.StartReportingActivities(reportParams.Topic,
-                                                                           reportParams.Discussion,
-                                                                           reportParams.Session);
-            var complexReportTask = reportingTasks.Item2;
+            _screenshotClient = new ReportingPhotonClient();
+            var reportingTasks = _screenshotClient.StartReportingActivities(
+                reportParams.Topic,
+                reportParams.Discussion,
+                reportParams.Session,
+                _ctx);
+
+            //blocking wait
+            //var r1 = reportingTasks.ScreenshotsTask.Result;  
+            //var r2 = reportingTasks.ReportTask.Result;  
 
             //compute and set report parameters 
-            Report report = null;
-            report = new Report
+            _report = new Report
             {
                 QueryParams = queryParams,
                 ReportParams = reportParams,
                 Participants = Helpers.ParticipantsTuples(reportParams.Topic, reportParams.Session),
-                ComplexReport = await complexReportTask,
+                ComplexReport = reportingTasks.ReportTask.Result,
                 ReportUrl = context.Request.Url.ToString(),
                 BaseUrl = Helpers.BaseUrl(context.Request)
             };
 
-            var screenshotTask = reportingTasks.Item1;
-            report.ReceiveScreenshots(await screenshotTask, context);
+            _report.ReceiveScreenshots(reportingTasks.ScreenshotsTask.Result, context);
 
-            var cleanupTimer = new Timer(10*60*1000); //10 minutes
-            cleanupTimer.Elapsed += (sender, args) =>
-                {
-                    cleanupTimer.Dispose();
-                    report.Dispose();
-                    screenshotClient.Dispose();
-                };   
-           cleanupTimer.Start();
+            _cleanupTimer = new Timer(5 * 60 * 1000); //5 minutes
+            _cleanupTimer.Elapsed += CleanupTimerOnElapsed;
+            _cleanupTimer.Start();
 
-           context.Response.Write(report.TransformText());
+            context.Response.Write(_report.TransformText());
+        }
+        #endregion
+        private void CleanupTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            _cleanupTimer.Elapsed -= CleanupTimerOnElapsed;
+            if (_report != null)
+            {
+                _report.Dispose();
+                _report = null;
+            }
+            if (_screenshotClient != null)
+            {
+                _screenshotClient.Dispose();
+                _screenshotClient = null;
+            }
+            if (_ctx != null)
+            {
+                _ctx.Dispose();
+                _ctx = null;
+            }
+
+            _cleanupTimer.Dispose();
+            _cleanupTimer = null;
         }
 
-        #endregion
+      
     }
 }

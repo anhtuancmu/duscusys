@@ -5,12 +5,17 @@ using Discussions;
 using Discussions.DbModel;
 using Discussions.DbModel.model;
 using DiscussionsClientRT;
-using LoginEngine;
 using System.Linq;
 using Reporter;
 
 namespace DiscSvc.Reporting
 {
+    public struct ReportingActivitiesTasks
+    {
+        public Task<Dictionary<int, byte[]>> ScreenshotsTask;
+        public Task<ReportCollector> ReportTask;
+    }
+
     public class ReportingPhotonClient : IDisposable
     {
         private Topic _topic;
@@ -23,20 +28,20 @@ namespace DiscSvc.Reporting
 
         private bool _servicingPhotonClient = true;
 
-        public Tuple<Task<Dictionary<int, byte[]>>, Task<ReportCollector>> 
-                StartReportingActivities(Topic topic, Discussion disc, Session session)
+        public ReportingActivitiesTasks StartReportingActivities(Topic topic, Discussion disc, 
+                                                                 Session session, DiscCtx ctx)
         {
             _topic = topic;
             _disc = disc;
             _session = session;
-            
-            var moder = DbCtx.Get().Person.Single(p => p.Name.StartsWith("moder"));
+
+            var moder = ctx.Person.Single(p => p.Name.StartsWith("moder"));
             _clienRt = new ClientRT(disc.Id,
                                      ConfigManager.ServiceServer,                 
                                      moder.Name,
                                      moder.Id,
                                      DeviceType.Wpf);
-
+            
             _clienRt.onJoin += OnJoined;
 
             _hardReportTCS = new TaskCompletionSource<ReportCollector>();
@@ -47,19 +52,20 @@ namespace DiscSvc.Reporting
                     while (_servicingPhotonClient)
                     {
                         _clienRt.Service();
-                        await Utils.Delay(80);                        
+                        await Utils.Delay(40);                        
                     }
-                }, 
-                TaskCreationOptions.LongRunning);
-         
-            return new Tuple<Task<Dictionary<int, byte[]>>, 
-                            Task<ReportCollector>>( _remoteScreenshotTCS.Task,  _hardReportTCS.Task);
+                });
+
+            return new ReportingActivitiesTasks
+            {
+                ReportTask = _hardReportTCS.Task,
+                ScreenshotsTask = _remoteScreenshotTCS.Task
+            };
         }
         
         private void OnJoined()
         {
             _clienRt.onJoin -= OnJoined;
-
 
             _clienRt.onScreenshotResponse += onScreenshotResponse;
             _clienRt.SendScreenshotRequest(_topic.Id, _disc.Id);
@@ -67,7 +73,7 @@ namespace DiscSvc.Reporting
             var reportParameters = new Reporter.ReportParameters(
                                 _session.Person.Select(p => p.Id).Distinct().ToList(),
                                 _session, _topic, _disc);
-            new ReportCollector(null, reportGenerated, reportParameters, null, _clienRt);
+            new ReportCollector(null, onReportGenerated, reportParameters, null, _clienRt);
         }
 
         private void onScreenshotResponse(Dictionary<int, byte[]> resp)
@@ -78,7 +84,7 @@ namespace DiscSvc.Reporting
             _remoteScreenshotTCS = null;
         }
 
-        public void reportGenerated(ReportCollector sender, object args)
+        public void onReportGenerated(ReportCollector sender, object args)
         {
             _hardReportTCS.SetResult(sender);
             _hardReportTCS = null;
@@ -87,7 +93,7 @@ namespace DiscSvc.Reporting
         public void Dispose()
         {
             _servicingPhotonClient = false;       
-           
+
             if (_clienRt != null)
             {
                 _clienRt.SendLiveRequest();

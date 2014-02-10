@@ -1107,8 +1107,13 @@ this.Write("\t\t\t</table>\r\n\t\t</div> \r\n\t\t");
     {
         if (hardReport.LinkReports.Count > 0)
         {
-            foreach (var linkReport in hardReport.LinkReports)            
-                LinkTable(hardReport, linkReport, Screenshots[linkReport.linkShId].url);                           
+            foreach (var linkReport in hardReport.LinkReports)  
+			{
+			    if(Screenshots.ContainsKey(linkReport.linkShId)) 
+				{
+					LinkTable(hardReport, linkReport, Screenshots[linkReport.linkShId].url);  
+				}    
+			}                         
         }
         else
         {
@@ -1117,14 +1122,14 @@ this.Write("\t\t\t</table>\r\n\t\t</div> \r\n\t\t");
         #line default
         #line hidden
         
-        #line 456 "C:\Users\User\Documents\Visual Studio 2013\Projects\TDS4\discussions\DiscSvc2\Reporting\Report.tt"
+        #line 461 "C:\Users\User\Documents\Visual Studio 2013\Projects\TDS4\discussions\DiscSvc2\Reporting\Report.tt"
 this.Write("             {No links}\r\n\t\t\t");
 
         
         #line default
         #line hidden
         
-        #line 458 "C:\Users\User\Documents\Visual Studio 2013\Projects\TDS4\discussions\DiscSvc2\Reporting\Report.tt"
+        #line 463 "C:\Users\User\Documents\Visual Studio 2013\Projects\TDS4\discussions\DiscSvc2\Reporting\Report.tt"
 
         }
     }

@@ -281,6 +281,7 @@ namespace Discussions.RTModel
 
             //launch client and make screens
             var metaInfoPathName = handler.RunClientAndWait(param.topicId, param.discussionId);
+       
             var screenDict = handler.MetaInfoToDict(metaInfoPathName);
             File.Delete(metaInfoPathName);
 
