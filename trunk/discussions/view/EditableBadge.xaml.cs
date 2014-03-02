@@ -1078,7 +1078,11 @@ namespace Discussions.view
 
         private void TxtAttachmentURL_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            AttachMediaFromUrl();
+            var ap = DataContext as ArgPoint;
+            if (ap != null && txtAttachmentURL.Text != ap.RecentlyEnteredMediaUrl)
+            {
+                AttachMediaFromUrl();
+            }
         }
 
         private void TxtSource_OnGotFocus(object sender, RoutedEventArgs e)

@@ -563,7 +563,6 @@ namespace Discussions.view
             }
         }
 
-        private string _lastCommentSubmitted;
         private DateTime _lastSave;
         void SaveProcedure()
         {
@@ -576,15 +575,18 @@ namespace Discussions.view
 
             _lastSave = DateTime.Now;
 
+            var lastComment = ap.Comment.LastOrDefault();
+
             //finalize edited comment
             if (!string.IsNullOrWhiteSpace(txtNewComment.Text) && 
-                DaoUtils.NEW_COMMENT != txtNewComment.Text && 
-                txtNewComment.Text!=_lastCommentSubmitted)
+                DaoUtils.NEW_COMMENT != txtNewComment.Text)
             {
-                DaoUtils.HandleCommentCommit(txtNewComment.Text, ap);
-                _lastCommentSubmitted = txtNewComment.Text;
-                //txtNewComment.Text = DaoUtils.NEW_COMMENT;
-                txtNewComment.Text = "";
+                if (lastComment==null || (lastComment != null && txtNewComment.Text != lastComment.Text))
+                {
+                    DaoUtils.HandleCommentCommit(txtNewComment.Text, ap);
+                    //txtNewComment.Text = DaoUtils.NEW_COMMENT;
+                    txtNewComment.Text = "";
+                }
             }
 
             if (!ap.ChangesPending)

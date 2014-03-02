@@ -171,7 +171,7 @@
             <Label Content="Details/内容"/>
 
             <custom:SurfaceTextBox x:Name="plainDescription" MinHeight="135" MaxWidth="700"
-                                   SelectsAllOnFocus="False"                                  
+                                   SelectsAllOnFocus="False" 
                                    KeyDown="plainDescription_KeyDown_1"
                                    GotFocus="PlainDescription_OnGotFocus"
                                    LostFocus="PlainDescription_OnLostFocus"
