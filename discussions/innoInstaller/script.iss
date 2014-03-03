@@ -493,7 +493,7 @@ end;
 
 [Registry]
 Root: HKLM64; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: PhotonServer; ValueData: 10.32.194.179:5055; Flags: uninsdeletekey; Tasks: ; Languages: ; Check: IsWin64
-Root: HKLM64; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa1;password=sa"""; Flags: uninsdeletekey; Tasks: ; Languages: ; Check: IsWin64
-Root: HKLM32; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa1;password=sa"""; Flags: uninsdeletekey; Tasks: ; Languages: 
+Root: HKLM64; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa;password=sa"""; Flags: uninsdeletekey; Tasks: ; Languages: ; Check: IsWin64
+Root: HKLM32; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: DbConnStr; ValueData: "metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string=""Data Source=tcp:10.32.194.179,8080;Initial Catalog=disc;user id=sa;password=sa"""; Flags: uninsdeletekey; Tasks: ; Languages: 
 Root: HKLM32; SubKey: SOFTWARE\Tohoku University\Discusystem; ValueType: string; ValueName: PhotonServer; ValueData: 10.32.194.179:5055; Flags: uninsdeletekey; Tasks: ; Languages: 
 
