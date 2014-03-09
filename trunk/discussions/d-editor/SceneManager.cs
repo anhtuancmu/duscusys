@@ -143,6 +143,21 @@ namespace DistributedEditor
             }
         }
 
+        public void CancelLastLink()
+        {
+            if (_linkCreation.LastCreatedLink!=null)
+            {
+                var link = _linkCreation.LastCreatedLink;
+                if (link.GetCursor() == null && _doc.VolatileCtx.LocalCursor == null)
+                {
+                    _doc.VolatileCtx.BeginTakeShapeWithLocalCursor(link.Id());
+                    _doc.BeginRemoveSingleShape(link.Id());
+                }
+
+                _linkCreation.LastCreatedLink = null;
+            }
+        }
+
         private void BeginHostCaption(ICaptionHost host, CaptionType type)
         {
             _hostAwaitingCaption = host;
@@ -567,6 +582,7 @@ namespace DistributedEditor
                     {
                         SendSyncState(sh);
                         _linkCreation.linkId = -1;
+                        _linkCreation.LastCreatedLink = (VdClusterLink)sh;
                     }
                     break;
             }
@@ -755,7 +771,8 @@ namespace DistributedEditor
         private void ReloadBadgeContexts()
         {
             BadgesCtx.DropContext();
-            DocTools.ToggleBadgeContexts(BadgesCtx.Get(), _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
+            DocTools.ToggleBadgeContexts(BadgesCtx.Get(), 
+                                        _doc.GetShapes().Where(sh => sh.ShapeCode() == VdShapeType.Badge));
         }
 
         private void argPointChanged(int ArgPointId, int topicId, PointChangedType change, int personId)

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Discussions.DbModel.model;
 using Discussions.d_editor;
-using Discussions.model;
 using Discussions.rt;
 using Discussions.RTModel.Model;
 using Discussions;
@@ -16,7 +14,7 @@ namespace DistributedEditor
         private readonly UISharedRTClient _rt = UISharedRTClient.Instance;
 
         //shape id to shape
-        private readonly Dictionary<int, IVdShape> shapes = new Dictionary<int, IVdShape>();
+        private readonly Dictionary<int, IVdShape> _shapes = new Dictionary<int, IVdShape>();
 
         //selection, copy clone
         private CursorMgr _volatileCtx = null;
@@ -141,20 +139,20 @@ namespace DistributedEditor
 
         public IVdShape IdToShape(int id)
         {
-            if (shapes.ContainsKey(id))
-                return shapes[id];
+            if (_shapes.ContainsKey(id))
+                return _shapes[id];
             else
                 return null;
         }
 
         public IEnumerable<IVdShape> GetShapes()
         {
-            return shapes.Values;
+            return _shapes.Values;
         }
 
         public bool Contains(IVdShape sh)
         {
-            return shapes.ContainsKey(sh.Id());
+            return _shapes.ContainsKey(sh.Id());
         }
 
         #region adding/removing shapes 
@@ -184,10 +182,10 @@ namespace DistributedEditor
         //player for single shape deletion
         private void PlayRemoveSingleShape(int shapeId, int indirectOwner)
         {
-            if (!shapes.ContainsKey(shapeId))
+            if (!_shapes.ContainsKey(shapeId))
                 return;
-            var sh = shapes[shapeId];
-            shapes.Remove(sh.Id());
+            var sh = _shapes[shapeId];
+            _shapes.Remove(sh.Id());
             sh.DetachFromCanvas(_scene);
 
             switch (sh.ShapeCode())
@@ -263,7 +261,7 @@ namespace DistributedEditor
         private void Add(IVdShape shape)
         {
             shape.AttachToCanvas(_scene);
-            shapes.Add(shape.Id(), shape);
+            _shapes.Add(shape.Id(), shape);
         }
 
         public IVdShape BeginCreateShape(VdShapeType shapeType,
@@ -302,7 +300,7 @@ namespace DistributedEditor
                                         // for badge creation events, it's false, as badges are created in private board 
                                         int tag)
         {
-            if (!shapes.ContainsKey(shapeId))
+            if (!_shapes.ContainsKey(shapeId))
             {
                 //update id generator
                 if (shapeType != VdShapeType.Badge)
@@ -335,7 +333,7 @@ namespace DistributedEditor
             }
             else
             {
-                return shapes[shapeId];
+                return _shapes[shapeId];
             }
         }
 
@@ -343,8 +341,8 @@ namespace DistributedEditor
                                    int end2Id,
                                    LinkHeadType linkHead)
         {
-            var end1 = ((LinkableHost) shapes[end1Id]).GetLinkable();
-            var end2 = ((LinkableHost) shapes[end2Id]).GetLinkable();
+            var end1 = ((LinkableHost) _shapes[end1Id]).GetLinkable();
+            var end2 = ((LinkableHost) _shapes[end2Id]).GetLinkable();
 
             if (end1.HasAdjacent(end2))
             {
@@ -389,8 +387,8 @@ namespace DistributedEditor
             if (ev.topicId != TopicId)
                 return;
 
-            PlayLinkCreate(((LinkableHost) shapes[ev.end1Id]).GetLinkable(),
-                           ((LinkableHost) shapes[ev.end2Id]).GetLinkable(),
+            PlayLinkCreate(((LinkableHost) _shapes[ev.end1Id]).GetLinkable(),
+                           ((LinkableHost) _shapes[ev.end2Id]).GetLinkable(),
                            ev.shapeId,
                            ev.ownerId,
                            ev.takeCursor,
@@ -447,8 +445,8 @@ namespace DistributedEditor
 
         private void PlayClusterBadge(int clusterId, int clusterableId, bool playImmidiately, int callToken)
         {
-            var cluster = (VdCluster) shapes[clusterId];
-            var badge = ((VdBadge) shapes[clusterableId]).GetClusterable();
+            var cluster = (VdCluster) _shapes[clusterId];
+            var badge = ((VdBadge) _shapes[clusterableId]).GetClusterable();
             cluster.GetCluster().Add(badge);
 
             cluster.PlayBuildSmoothCurve();
@@ -465,8 +463,8 @@ namespace DistributedEditor
 
         private void PlayUnclusterBadge(int clusterId, int clusterableId, bool playImmidiately, int callToken)
         {
-            var cluster = (VdCluster) shapes[clusterId];
-            var badge = ((VdBadge) shapes[clusterableId]).GetClusterable();
+            var cluster = (VdCluster) _shapes[clusterId];
+            var badge = ((VdBadge) _shapes[clusterableId]).GetClusterable();
             cluster.GetCluster().Remove(badge);
 
             if (playImmidiately)
@@ -484,7 +482,7 @@ namespace DistributedEditor
             if (Scene == null)
                 return;
 
-            foreach (IVdShape sh in shapes.Values)
+            foreach (IVdShape sh in _shapes.Values)
                 sh.DetachFromCanvas(Scene);
         }
 

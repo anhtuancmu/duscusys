@@ -21,6 +21,7 @@
     Topmost="False"
     Title2="Public discussion dashboard"
     ClipToBounds="False"
+    MouseRightButtonUp="PublicCenter_OnMouseRightButtonUp"
     Background="{StaticResource WndBg}"
     d:DesignWidth="1128" d:DesignHeight="718"
     Loaded="frmLoaded"

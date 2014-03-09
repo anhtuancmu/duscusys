@@ -101,7 +101,7 @@ namespace DistributedEditor
             _palette.ResetOvers();
         }        
 
-        public void ShapesVisility(bool visible)
+        public void ShapesVisibility(bool visible)
         {
             if (visible)
             {
@@ -170,6 +170,7 @@ namespace DistributedEditor
                 _keyboardWnd.TouchDown += drawingWnd_TouchDown;
                 _keyboardWnd.TouchMove += drawingWnd_TouchMove;
                 _keyboardWnd.TouchUp += drawingWnd_TouchUp;
+                _keyboardWnd.KeyDown += _keyboardWnd_KeyDown;
 
                 _canv.MouseWheel += drawingCanv_Wheel;
             }
@@ -190,8 +191,17 @@ namespace DistributedEditor
                 _keyboardWnd.TouchDown -= drawingWnd_TouchDown;
                 _keyboardWnd.TouchMove -= drawingWnd_TouchMove;
                 _keyboardWnd.TouchUp   -= drawingWnd_TouchUp;
+                _keyboardWnd.KeyDown -= _keyboardWnd_KeyDown;
 
                 _canv.MouseWheel -= drawingCanv_Wheel;
+            }
+        }
+
+        void _keyboardWnd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Z)
+            {
+                mgr.CancelLastLink();
             }
         }
 
