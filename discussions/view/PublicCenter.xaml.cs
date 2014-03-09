@@ -473,11 +473,11 @@ namespace Discussions.view
 
             if (shVisible)
             {
-                editCtx.ShapesVisility(true);
+                editCtx.ShapesVisibility(true);
             }
             else
             {
-                editCtx.ShapesVisility(false);
+                editCtx.ShapesVisibility(false);
             }
             //modeInfoTip.Visibility = shVisible ? Visibility.Visible : Visibility.Hidden;
             this._shapesVisibile = shVisible; //save to preserve selected option between topics 
@@ -1078,5 +1078,10 @@ namespace Discussions.view
             return _lbv;
         }
         #endregion
+
+        private void PublicCenter_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ExplanationModeMediator.Inst.LasersEnabled = !ExplanationModeMediator.Inst.LasersEnabled;
+        }
     }
 }

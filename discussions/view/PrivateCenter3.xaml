@@ -9,6 +9,7 @@
     xmlns:vectorEditor="clr-namespace:Discussions.VectorEditor"
     xmlns:view="clr-namespace:Discussions.view"
     x:Class="Discussions.view.PrivateCenter3"
+    KeyDown="PrivateCenter3_OnKeyDown"
     WindowStartupLocation="CenterScreen" 
     WindowState="Maximized"    
     mc:Ignorable="d"

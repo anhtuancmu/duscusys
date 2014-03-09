@@ -868,5 +868,12 @@ namespace Discussions.view
         }
         #endregion
 
+        private void PrivateCenter3_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5)
+            {
+                btnRefresh_Click(null, null);
+            }
+        }
     }
 }
